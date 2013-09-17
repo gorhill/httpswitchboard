@@ -1,6 +1,6 @@
 #Script HQ
 
-An Chromium browser extension which let you white- or black-list requests
+A Chromium browser extension which let you white- or black-list requests
 originating from within a web page according to their type and/or destination
 as per domain name.
 
