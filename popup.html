@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <style>
+        body {
+            font: 12px sans;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        td {
+            padding: 2px;
+            border: 1px dotted #aaa;
+            white-space:nowrap;
+            background-color: #eee;
+            text-align: center;
+            cursor: default;
+        }
+        td.filter-button {
+            background-color: white;
+            cursor: pointer;
+        }
+        td:first-child {
+            text-align: right;
+        }
+        ul {
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            margin: 0 1em;
+            padding: 0.25em 0 0 0;
+            white-space: nowrap;
+        }
+        div.filter {
+            margin: 2px 0px;
+            border: 0;
+            padding: 0;
+        }
+        div.level1 {
+            margin-left: 2px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        div.level2 {
+            margin-left: 20px;
+            white-space: nowrap;
+        }
+        td.filter-allowed {
+            color: white;
+            background-color: green;
+        }
+        td.filter-disallowed {
+            color: white;
+            background-color: red;
+        }
+        td.filter-allowed-indirect {
+            background-color: #cfc;
+        }
+        td.filter-disallowed-indirect {
+            background-color: #fcc;
+        }
+        .top {
+            font-weight: bold;
+        }
+        .dim {
+            color: #aaa;
+        }
+    </style>
+    <title>Hello World!</title>
+    </head>
+    <body>
+    <div id="filters"></div>
+    <script src="js/jquery-2.min.js"></script>
+    <script src="popup.js"></script>
+    </body>
+</html>
