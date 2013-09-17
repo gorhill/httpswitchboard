@@ -7,7 +7,7 @@ as per domain name.
 Available on Chrome web store (<a href="https://chrome.google.com/webstore/detail/scripthq/mghdpehejfekicfjcdbfofhcmnjhgaag">ScriptHQ</a>),
 or you can copy the content of this github to:
 
-{chromium folder on your machine}/Default/Extensions/mghdpehejfekicfjcdbfofhcmnjhgaag
+    {chromium folder on your machine}/Default/Extensions/mghdpehejfekicfjcdbfofhcmnjhgaag
 
 ![ScriptHQ](img/snapshot1.png)
 
