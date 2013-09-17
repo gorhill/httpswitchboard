@@ -1,31 +1,9 @@
-/*******************************************************************************
-
-    scripthq - a Chromium browser extension to black/white list requests.
-    Copyright (C) 2013  Raymond Hill
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see {http://www.gnu.org/licenses/}.
-
-    Home: https://github.com/gorhill/scripthq
-*/
-
 {
     "manifest_version": 2,
 
     "name": "ScriptHQ",
-    "version": "0.1",
-    // "default_locale": "en",        // TODO: look into supporting other languages
-    "description": "Put a leash on your browser (rather than the other way around)",
+    "version": "0.1.1",
+    "description": "Point & click to forbid/allow whole/parts of stuff web pages in your browser want to send/receive to/from the net (script/frame/..)",
 
     "browser_action": {
         "default_icon": {
@@ -43,14 +21,14 @@
 
     "homepage_url": "https://github.com/gorhill/scripthq",
 
-    "minimum_chrome_version": "28.0", // TODO: check with older versions
+    "minimum_chrome_version": "28.0",
 
     "permissions": [
-        "storage",                    // to persist white/black lists
-        "tabs",                       // to query top domain string
-        "webNavigation",              // to be notified when tab is loaded with new content
-        "webRequest",                 // to intercept and examine requests
-        "webRequestBlocking",         // to be able to cancel requests
-        "<all_urls>"                  // to make extension work with all web sites
+        "storage",
+        "tabs",
+        "webNavigation",
+        "webRequest",
+        "webRequestBlocking",
+        "<all_urls>"
     ]
 }

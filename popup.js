@@ -206,15 +206,15 @@
         // special case: root toggle only between two states
         if ( type === '*' && domain === '*' ) {
             if ( currentClass === 'filter-allowed' ) {
-                nobloat.blacklist(type, domain);
+                nobloat.disallow(type, domain);
             } else {
-                nobloat.whitelist(type, domain);
+                nobloat.allow(type, domain);
             }
         } else {
             if ( currentClass === 'filter-allowed-indirect' || currentClass === 'filter-disallowed-indirect' ) {
-                nobloat.whitelist(type, domain);
+                nobloat.allow(type, domain);
             } else if ( button.hasClass('filter-allowed') ) {
-                nobloat.blacklist(type, domain);
+                nobloat.disallow(type, domain);
             } else {
                 nobloat.graylist(type, domain);
             }

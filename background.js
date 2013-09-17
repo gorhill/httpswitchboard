@@ -71,7 +71,7 @@ var NoBloat = {
     },
 
     // whitelist something
-    whitelist: function(type, domain) {
+    allow: function(type, domain) {
         var key = type + "/" + domain;
         var whitelisted = !this.whitelist[key]
         var unblacklisted = this.blacklist[key];
@@ -88,7 +88,7 @@ var NoBloat = {
     },
 
     // blacklist something
-    blacklist: function(type, domain) {
+    disallow: function(type, domain) {
         var key = type + "/" + domain;
         var unwhitelisted = this.whitelist[key]
         var blacklisted = !this.blacklist[key];
