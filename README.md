@@ -18,15 +18,15 @@ or you can copy the content of this git to:
 ScriptHQ let you easily white- or black-list net requests which originate from
  within a web page according to:
 
-* domain names
-** in full or part
-* type of requests
-** images
-** objects
-** scripts
-** XMR, abbreviation for XMLHttpRequest
-** sub-frames
-** others
+- domain names
+  * in full or part
+- type of requests
+  * images
+  * objects
+  * scripts
+  * XMR (abbreviation for XMLHttpRequest)
+  * sub-frames
+  * others
 
 The goal of this extension is to make allowing or blocking of web sites,
 wholly of partly, as straightforward as possible, so as to not discourage
