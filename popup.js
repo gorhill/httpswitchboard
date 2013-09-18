@@ -212,9 +212,9 @@
             }
         } else {
             if ( currentClass === 'filter-allowed-indirect' || currentClass === 'filter-disallowed-indirect' ) {
-                nobloat.allow(type, domain);
-            } else if ( button.hasClass('filter-allowed') ) {
                 nobloat.disallow(type, domain);
+            } else if ( currentClass === 'filter-disallowed' ) {
+                nobloat.allow(type, domain);
             } else {
                 nobloat.graylist(type, domain);
             }

@@ -1,4 +1,4 @@
-#Script HQ
+#HTTP Switchboard for Chromium
 
 A Chromium browser extension which let you white- or black-list requests
 originating from within a web page according to their type and/or destination
@@ -6,16 +6,16 @@ as per domain name.
 
 ##Installation
 
-Available on Chrome web store (<a href="https://chrome.google.com/webstore/detail/scripthq/mghdpehejfekicfjcdbfofhcmnjhgaag">ScriptHQ</a>),
+Available on Chrome web store (<a href="https://chrome.google.com/webstore/detail/httpswitchboard/mghdpehejfekicfjcdbfofhcmnjhgaag">HTTP Switchboard</a>),
 or you can copy the content of this git to:
 
     {chromium folder on your machine}/Default/Extensions/mghdpehejfekicfjcdbfofhcmnjhgaag
 
 ##Documentation
 
-![ScriptHQ](img/snapshot1.png)
+![HTTP Switchboard](img/snapshot1.png)
 
-ScriptHQ let you easily white- or black-list net requests which originate from
+HTTP Switchboard let you easily white- or black-list net requests which originate from
  within a web page according to:
 
 - domain names
@@ -75,4 +75,4 @@ it until I am satisfied that it can be tagged as version 1.0.
 
 ##License
 
-<a href="https://github.com/gorhill/scripthq/blob/master/LICENSE.txt">GPLv3</a>.
+<a href="https://github.com/gorhill/httpswitchboard/blob/master/LICENSE.txt">GPLv3</a>.

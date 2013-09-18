@@ -1,16 +1,16 @@
 {
     "manifest_version": 2,
 
-    "name": "ScriptHQ",
-    "version": "0.1.1",
-    "description": "Point & click to forbid/allow whole/parts of stuff web pages in your browser want to send/receive to/from the net (script/frame/..)",
+    "name": "HTTP Switchboard",
+    "version": "0.1.2",
+    "description": "Point & click to forbid/allow any class of requests made by your browser. Use it to block scripts, iframes, ads, facebook, etc.",
 
     "browser_action": {
         "default_icon": {
             "19": "img/scripthq19.png",
             "38": "img/scripthq38.png"
         },
-        "default_title": "Script HQ",
+        "default_title": "HTTP Switchboard",
         "default_popup": "popup.html"
     },
 
@@ -19,7 +19,7 @@
         "scripts": ["background.js"]
     },
 
-    "homepage_url": "https://github.com/gorhill/scripthq",
+    "homepage_url": "https://github.com/gorhill/httpswitchboard",
 
     "minimum_chrome_version": "28.0",
 
