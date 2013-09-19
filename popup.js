@@ -163,7 +163,7 @@ console.log('newClass = %s', newClass);
             '<td',
             ' class="filter-button ', getCurrentClass('*', '*'), '"',
             ' data-filter-type="*" data-filter-domain="*"',
-            '>'
+            '>&nbsp;'
             );
 
         // type of requests

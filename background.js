@@ -20,14 +20,14 @@
 */
 
 var HTTPSwitchboard = {
-    version: '0.1.3',
+    version: '0.1.4',
 
     // unicode for hourglass: &#x231B;
     // for later use
     birth: new Date(),
 
     // list of remote blacklist locations
-    remoteBlacklistLocations: {
+    remoteBlacklists: {
         'http://pgl.yoyo.org/as/serverlist.php?mimetype=plaintext': {},
         'http://www.malwaredomainlist.com/hostslist/hosts.txt': {}
         },
@@ -264,7 +264,7 @@ var HTTPSwitchboard = {
     save: function() {
         var bin = {
             name: 'httpswitchboard',
-            version: self.version,
+            version: this.version,
             // version < 0.1.3
             // whitelist: this.whitelistUser,
             // blacklist: this.blacklistUser
@@ -273,7 +273,7 @@ var HTTPSwitchboard = {
             blacklist: Object.keys(this.blacklistUser).join('\n'),
         };
         chrome.storage.sync.set(bin, function() {
-            console.log('saved white and black lists (%d bytes)', bin.blacklist.length + bin.whitelist.length);
+            console.log('saved user white and black lists (%d bytes)', bin.blacklist.length + bin.whitelist.length);
         });
     },
 
@@ -285,7 +285,7 @@ var HTTPSwitchboard = {
 
     loadUserLists: function() {
         var self = this;
-        chrome.storage.sync.get(function(bin) {
+        chrome.storage.sync.get({ version: '0.1.4', whitelist: '', blacklist: ''}, function(bin) {
             console.log('loaded user white and black lists');
             if ( bin.whitelist ) {
                 if ( bin.version.localeCompare(self.version) < '0.1.3' ) {
@@ -308,73 +308,88 @@ var HTTPSwitchboard = {
 
     loadRemoteBlacklists: function() {
         var self = this;
+        // v <= 0.1.3
+        chrome.storage.local.remove(Object.keys(self.remoteBlacklists));
+        chrome.storage.local.remove('remoteBlacklistLocations');
 
-        // load stored remote location list of names
-        chrome.storage.local.get({ 'remoteBlacklistLocations': {} }, function(localData) {
-            // purge stored remote blacklist which are not part of current default list
-            for ( var location in localData.remoteBlacklistLocations ) {
-                if ( !localData.hasOwnProperty(location) ) {
+        // get remote blacklist data
+        chrome.storage.local.get({ 'remoteBlacklists': self.remoteBlacklists }, function(store) {
+            for ( var location in store.remoteBlacklists ) {
+                if ( !store.remoteBlacklists.hasOwnProperty(location) ) {
                     continue;
                 }
-                if ( !self.remoteBlacklistLocations[location] ) {
-                    chrome.storage.local.remove(location);
+                if ( !self.remoteBlacklists[location] ) {
+                    chrome.runtime.sendMessage({
+                        command: 'localRemoveRemoteBlacklist',
+                        location: location
+                    });
+                } else if ( store.remoteBlacklists[location].length ) {
+                    chrome.runtime.sendMessage({
+                        command: 'mergeRemoteBlacklist',
+                        location: location,
+                        content: store.remoteBlacklists[location]
+                    });
+                } else {
+                    chrome.runtime.sendMessage({
+                        command: 'queryRemoteBlacklist',
+                        location: location
+                    });
                 }
             }
         });
+    },
 
-        // save up to date list of remote location names
-        chrome.storage.local.set({ 'remoteBlacklistLocations': self.remoteBlacklistLocations });
-
-        var remoteLoad = function(location) {
-            $.get(location, function(remoteData) {
-                if ( !remoteData || remoteData === '' ) {
-                    console.log('failed to load third party blacklist "%s" from remote location', location);
-                    return;
-                }
-                console.log('loaded third party blacklist "%s" from remote location', location);
-                // send message to ourself to simplify async handling
-                chrome.runtime.sendMessage({
-                    command: 'parseRemoteBlacklist',
-                    location: location,
-                    content: remoteData
-                });
-            });
-        };
-
-        // load locally or remotely remote blacklists
-        chrome.storage.local.get(self.remoteBlacklistLocations, function(localData) {
-            // console.log('loadRemoteBlacklists() > chrome.storage.local.get(%o): %o', self.remoteBlacklistLocations, localData);
-            for ( var k in localData ) {
-                if ( !localData.hasOwnProperty(k) ) {
-                    continue;
-                }
-                if ( localData[k].length ) {
-                    console.log('loaded third party blacklist "%s" (%d bytes) from local storage', k, localData[k].length);
-                    // send message to ourself to simplify async handling
-                    chrome.runtime.sendMessage({
-                        command: 'mergeRemoteBlacklist',
-                        location: k,
-                        content: localData[k]
-                    });
-                } else {
-                    remoteLoad(k);
-                }
+    queryRemoteBlacklist: function(location) {
+        console.log('HTTPSwitchboard.queryRemoteBlacklist(): "%s"', location);
+        $.get(location, function(remoteData) {
+            if ( !remoteData || remoteData === '' ) {
+                console.log('failed to load third party blacklist "%s" from remote location', location);
+                return;
             }
+            console.log('queried third party blacklist "%s" from remote location', location);
+            chrome.runtime.sendMessage({
+                command: 'parseRemoteBlacklist',
+                location: location,
+                content: remoteData
+            });
         });
     },
 
     parseRemoteBlacklist: function(location, content) {
+        console.log('HTTPSwitchboard.parseRemoteBlacklist(): "%s"', location);
         content = this.normalizeRemoteContent('*/', content, '');
         // save locally in order to load efficiently in the future
-        // TODO: expiration date
-        var bin = {};
-        bin[location] = content;
-        chrome.storage.local.set(bin);
+        chrome.runtime.sendMessage({
+            command: 'localSaveRemoteBlacklist',
+            location: location,
+            content: content
+        });
         // convert and merge content into internal representation
-        this.mergeRemoteBlacklist(content);
+        chrome.runtime.sendMessage({
+            command: 'mergeRemoteBlacklist',
+            location: location,
+            content: content
+        });
+    },
+
+    localSaveRemoteBlacklist: function(location, content) {
+        console.log('HTTPSwitchboard.localSaveRemoteBlacklist(): "%s"', location);
+        // TODO: expiration date
+        chrome.storage.local.get({ 'remoteBlacklists': {} }, function(store) {
+            store.remoteBlacklists[location] = content;
+            chrome.storage.local.set(store);
+        });
+    },
+
+    localRemoveRemoteBlacklist: function(location) {
+        chrome.storage.local.get({ 'remoteBlacklists': {} }, function(store) {
+            delete store.remoteBlacklists[location];
+            chrome.storage.local.set(store);
+        });
     },
 
     mergeRemoteBlacklist: function(content) {
+        console.log('HTTPSwitchboard.mergeRemoteBlacklist(): "%s..."', content.slice(0, 40));
         var list = {};
         this.populateListFromString(list, content);
         this.populateListFromList(this.remoteBlacklist, list);
@@ -414,7 +429,9 @@ var HTTPSwitchboard = {
      // merge a list into another list
     populateListFromList: function(des, src) {
         for ( var k in src ) {
-            des[k] = src[k];
+            if ( src.hasOwnProperty(k) ) {
+                des[k] = src[k];
+            }
         }
     },
 
@@ -435,14 +452,29 @@ var HTTPSwitchboard = {
 chrome.runtime.onMessage.addListener(function(request, sender, callback) {
     switch ( request.command ) {
 
+    // merge into effective blacklist
+    case 'mergeRemoteBlacklist':
+        HTTPSwitchboard.mergeRemoteBlacklist(request.content);
+        break;
+
     // parse remote blacklist
     case 'parseRemoteBlacklist':
         HTTPSwitchboard.parseRemoteBlacklist(request.location, request.content);
         break;
 
-    // merge into effective blacklist
-    case 'mergeRemoteBlacklist':
-        HTTPSwitchboard.mergeRemoteBlacklist(request.content);
+    // query remoe blacklist
+    case 'queryRemoteBlacklist':
+        HTTPSwitchboard.queryRemoteBlacklist(request.location);
+        break;
+
+    // local save parsed remote blacklist
+    case 'localSaveRemoteBlacklist':
+        HTTPSwitchboard.localSaveRemoteBlacklist(request.location, request.content);
+        break;
+
+    // local removal of remote blacklist
+    case 'localRemoveRemoteBlacklist':
+        HTTPSwitchboard.localRemoveRemoteBlacklist(request.location);
         break;
 
     default:
