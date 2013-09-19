@@ -1,6 +1,6 @@
 /*******************************************************************************
 
-    scripthq - a Chromium browser extension to black/white list requests.
+    httpswitchboard - a Chromium browser extension to black/white list requests.
     Copyright (C) 2013  Raymond Hill
 
     This program is free software: you can redistribute it and/or modify
@@ -16,23 +16,34 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see {http://www.gnu.org/licenses/}.
 
-    Home: https://github.com/gorhill/scripthq
+    Home: https://github.com/gorhill/httpswitchboard
 */
 
-var NoBloat = {
-    // for later, I had something in mind but I forgot..
+var HTTPSwitchboard = {
+    version: '0.1.3',
+
+    // unicode for hourglass: &#x231B;
+    // for later use
     birth: new Date(),
+
+    // list of remote blacklist locations
+    remoteBlacklistLocations: {
+        'http://pgl.yoyo.org/as/serverlist.php?mimetype=plaintext': {},
+        'http://www.malwaredomainlist.com/hostslist/hosts.txt': {}
+        },
 
     // map[tabid] => map[url] => map[type]
     requests: {},
 
-    // these two lists must be persisted
     // map["{type}/{domain}"]true
-    whitelist: {
-    },
-    // map[type/domain]true
-    blacklist: {
-        '*/*': true
+    // effective lists
+    whitelist: { },
+    blacklist: { '*/*': true },
+    // user lists
+    whitelistUser: {},
+    blacklistUser: {},
+    // current entries from remote blacklists
+    remoteBlacklist: {
     },
 
     // to easily parse urls
@@ -77,9 +88,12 @@ var NoBloat = {
         var unblacklisted = this.blacklist[key];
         if ( whitelisted ) {
             this.whitelist[key] = true;
+            this.whitelistUser[key] = true;
         }
         if ( unblacklisted ) {
             delete this.blacklist[key];
+            // TODO: handle case where user override third-party blacklists
+            delete this.blacklistUser[key];
         }
         console.log('whitelisting %s from %s', type, domain);
         if ( whitelisted || unblacklisted ) {
@@ -94,9 +108,11 @@ var NoBloat = {
         var blacklisted = !this.blacklist[key];
         if ( unwhitelisted ) {
             delete this.whitelist[key];
+            delete this.whitelistUser[key];
         }
         if ( blacklisted ) {
             this.blacklist[key] = true;
+            this.blacklistUser[key] = true;
         }
         console.log('blacklisting %s from %s', type, domain);
         if ( unwhitelisted || blacklisted ) {
@@ -115,9 +131,11 @@ var NoBloat = {
         var unblacklisted = this.blacklist[key];
         if ( unwhitelisted ) {
             delete this.whitelist[key];
+            delete this.whitelistUser[key];
         }
         if ( unblacklisted ) {
             delete this.blacklist[key];
+            delete this.blacklistUser[key];
         }
         console.log('graylisting %s from %s', type, domain);
         if ( unwhitelisted || unblacklisted ) {
@@ -245,31 +263,145 @@ var NoBloat = {
     // save white/blacklist
     save: function() {
         var bin = {
-            name: "scripthq",
-            version: "0.1",
-            whitelist: this.whitelist,
-            blacklist: this.blacklist
+            name: 'httpswitchboard',
+            version: self.version,
+            // version < 0.1.3
+            // whitelist: this.whitelistUser,
+            // blacklist: this.blacklistUser
+            // version == 0.1.3
+            whitelist: Object.keys(this.whitelistUser).join('\n'),
+            blacklist: Object.keys(this.blacklistUser).join('\n'),
         };
         chrome.storage.sync.set(bin, function() {
-            console.log('saved white and black lists');
+            console.log('saved white and black lists (%d bytes)', bin.blacklist.length + bin.whitelist.length);
         });
     },
 
     // load white/blacklist
     load: function() {
+        this.loadUserLists();
+        this.loadRemoteBlacklists();
+    },
+
+    loadUserLists: function() {
         var self = this;
         chrome.storage.sync.get(function(bin) {
+            console.log('loaded user white and black lists');
             if ( bin.whitelist ) {
-                self.whitelist = bin.whitelist;
+                if ( bin.version.localeCompare(self.version) < '0.1.3' ) {
+                    self.whitelistUser = bin.whitelist;
+                } else {
+                    self.populateListFromString(self.whitelistUser, '', bin.whitelist, '');
+                }
+                self.populateListFromList(self.whitelist, self.whitelistUser);
             }
             if ( bin.blacklist ) {
-                self.blacklist = bin.blacklist;
+                if ( bin.version.localeCompare(self.version) < '0.1.3' ) {
+                    self.blacklistUser = bin.blacklist;
+                } else {
+                    self.populateListFromString(self.blacklistUser, '', bin.blacklist, '');
+                }
+                self.populateListFromList(self.blacklist, self.blacklistUser);
             }
-            console.log('loaded white and black lists');
         });
     },
 
-    // parse a url and return only interesting parts
+    loadRemoteBlacklists: function() {
+        var self = this;
+
+        // load stored remote location list of names
+        chrome.storage.local.get({ 'remoteBlacklistLocations': {} }, function(localData) {
+            // purge stored remote blacklist which are not part of current default list
+            for ( var location in localData.remoteBlacklistLocations ) {
+                if ( !localData.hasOwnProperty(location) ) {
+                    continue;
+                }
+                if ( !self.remoteBlacklistLocations[location] ) {
+                    chrome.storage.local.remove(location);
+                }
+            }
+        });
+
+        // save up to date list of remote location names
+        chrome.storage.local.set({ 'remoteBlacklistLocations': self.remoteBlacklistLocations });
+
+        var remoteLoad = function(location) {
+            $.get(location, function(remoteData) {
+                if ( !remoteData || remoteData === '' ) {
+                    console.log('failed to load third party blacklist "%s" from remote location', location);
+                    return;
+                }
+                console.log('loaded third party blacklist "%s" from remote location', location);
+                // save locally in order to load efficiently in the future
+                // TODO: expiration date
+                var bin = {};
+                bin[location] = remoteData;
+                chrome.storage.local.set(bin);
+                // send message to ourself to simplify async handling
+                chrome.runtime.sendMessage({
+                    command: 'remoteBlacklistLoaded',
+                    location: location,
+                    content: remoteData
+                });
+            });
+        };
+
+        // load locally or remotely remote blacklists
+        chrome.storage.local.get(self.remoteBlacklistLocations, function(localData) {
+            // console.log('loadRemoteBlacklists() > chrome.storage.local.get(%o): %o', self.remoteBlacklistLocations, localData);
+            for ( var k in localData ) {
+                if ( !localData.hasOwnProperty(k) ) {
+                    continue;
+                }
+                if ( localData[k].length ) {
+                    console.log('loaded third party blacklist "%s" (%d bytes) from local storage', k, localData[k].length);
+                    // send message to ourself to simplify async handling
+                    chrome.runtime.sendMessage({
+                        command: 'remoteBlacklistLoaded',
+                        location: k,
+                        content: localData[k]
+                    });
+                } else {
+                    remoteLoad(k);
+                }
+            }
+        });
+    },
+
+    mergeRemoteBlacklist: function(location, content) {
+        var list = {};
+        this.populateListFromString(list, '*/', content, '');
+        this.populateListFromList(this.remoteBlacklist, list);
+        this.populateListFromList(this.blacklist, list);
+    },
+
+    // parse and merge a string into a list
+    populateListFromString: function(des, prefix, s, suffix) {
+        var keys = s.split("\n");
+        var i = keys.length;
+        var k;
+        while ( i-- ) {
+            k = keys[i];
+            j = k.indexOf('#');
+            if ( j >= 0 ) {
+                k = k.slice(0, j);
+            }
+            k = k.trim();
+            if ( k.length === 0 ) {
+                continue;
+            }
+            des[prefix + k + suffix] = true;
+        }
+    },
+
+     // merge a list into another list
+    populateListFromList: function(des, src) {
+        for ( var k in src ) {
+            des[k] = src[k];
+        }
+    },
+
+   // parse a url and return only interesting parts
     getUrlParts: function(url) {
         var parts = { domain: "", subdomain: "" };
         // Ref.: https://gist.github.com/jlong/2428561
@@ -282,22 +414,38 @@ var NoBloat = {
     }
 };
 
+// to simplify handling of async stuff
+chrome.runtime.onMessage.addListener(function(request, sender, callback) {
+    switch ( request.command ) {
+
+    // parse and activate remote blacklist
+    case 'remoteBlacklistLoaded':
+        HTTPSwitchboard.mergeRemoteBlacklist(request.location, request.content);
+        break;
+
+    default:
+        break;
+    }
+
+    callback();
+});
+
 // intercept and filter web requests according to white and black lists
 function webRequestHandler(details) {
     if ( details.tabId < 0 ) {
         return {"cancel": false};
     }
     // log request attempt
-    NoBloat.record(details);
+    HTTPSwitchboard.record(details);
 
     // see if whitelisted
-    var urlParts = NoBloat.getUrlParts(details.url);
-    if ( NoBloat.whitelisted(details.type, urlParts.domain) ) {
+    var urlParts = HTTPSwitchboard.getUrlParts(details.url);
+    if ( HTTPSwitchboard.whitelisted(details.type, urlParts.domain) ) {
         console.log('allowing %s from %s', details.type, urlParts.domain);
         return { "cancel": false };
     }
     // default is to blacklist
-    console.log('disallowing %s from %s', details.type, urlParts.domain);
+    console.log('blocking %s from %s', details.type, urlParts.domain);
     return {"cancel": true};
 }
 
@@ -317,13 +465,15 @@ chrome.webRequest.onBeforeRequest.addListener(
         ]
     },
     ["blocking"]
-    );
+);
+
+
 
 // reset tab data
 chrome.webNavigation.onBeforeNavigate.addListener(function(details) {
     if ( details.frameId === 0 ) {
         console.log("resetting data for tab %d", details.tabId);
-        delete NoBloat.requests[details.tabId];
+        delete HTTPSwitchboard.requests[details.tabId];
     }
 });
 
@@ -348,4 +498,4 @@ chrome.extension.onConnect.addListener(function(port) {
     });
 });
 
-NoBloat.load();
+HTTPSwitchboard.load();

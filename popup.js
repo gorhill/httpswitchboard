@@ -1,6 +1,6 @@
 /*******************************************************************************
 
-    scripthq - a Chromium browser extension to black/white list requests.
+    httpswitchboard - a Chromium browser extension to black/white list requests.
     Copyright (C) 2013  Raymond Hill
 
     This program is free software: you can redistribute it and/or modify
@@ -16,15 +16,16 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see {http://www.gnu.org/licenses/}.
 
-    Home: https://github.com/gorhill/scripthq
+    Home: https://github.com/gorhill/httpswitchboard
 */
 
 (function(){
     // tell the extension what we are doing
     var port = chrome.extension.connect();
+    var nobloat = chrome.extension.getBackgroundPage().HTTPSwitchboard;
 
     // make internal tree representation of white/black lists
-    var makeTrees = function(nobloat, tab) {
+    var makeTrees = function(tab) {
         var tree = {
             domains: {},
             types: {}
@@ -71,7 +72,7 @@
     // disallowed (direct implied)
     // allowed-inherited
     // disallowed-inherited
-    var getPermissionClass = function(nobloat, type, domain) {
+    var getCurrentClass = function(domain, type) {
         var result = nobloat.evaluate(type, domain);
         if ( result === nobloat.DISALLOWED_DIRECT ) {
             return 'filter-disallowed';
@@ -88,6 +89,41 @@
         return 'filter-disallowed';
     };
 
+    // compute next class from current class
+    var getNextClass = function(currentClass, domain, type) {
+        // special case: root toggle only between two states
+        if ( type === '*' && domain === '*' ) {
+            if ( currentClass === 'filter-allowed' ) {
+                return 'filter-disallowed';
+            }
+            return 'filter-allowed';
+        }
+        if ( currentClass === 'filter-allowed-indirect' || currentClass === 'filter-disallowed-indirect' ) {
+            return 'filter-disallowed';
+        }
+        if ( currentClass === 'filter-disallowed' ) {
+            return 'filter-allowed';
+        }
+        // if ( currentClass === 'filter-allowed' )
+        return '';
+    };
+
+    // update visual of all filter buttons
+    var updateFilterButtons = function() {
+        $('.filter-button').each(function() {
+            var button = $(this);
+            var type = button.data('filterType');
+            var domain = button.data('filterDomain');
+            var newClass = getCurrentClass(domain, type);
+console.log('newClass = %s', newClass);
+            if ( newClass === '' || !button.hasClass(newClass) ) {
+                button.removeClass('filter-allowed filter-disallowed filter-allowed-indirect filter-disallowed-indirect');
+                button.addClass(newClass);
+                port.postMessage({});
+            }
+        });
+    };
+
     // pretty names
     var typeNames = {
         "image": "images",
@@ -100,11 +136,10 @@
 
     // build menu according to white and black lists
     var makeMenu = function(tabs) {
-        var nobloat = chrome.extension.getBackgroundPage().NoBloat;
         var chromeTab = tabs[0];
         var tab = nobloat.requests[chromeTab.id];
         var topUrlParts = nobloat.getUrlParts(chromeTab.url);
-        var trees = makeTrees(nobloat, tab);
+        var trees = makeTrees(tab);
 
         var html = [];
 
@@ -126,7 +161,7 @@
         html.push(
             '<tr>',
             '<td',
-            ' class="filter-button ', getPermissionClass(nobloat, '*', '*'), '"',
+            ' class="filter-button ', getCurrentClass('*', '*'), '"',
             ' data-filter-type="*" data-filter-domain="*"',
             '>'
             );
@@ -136,7 +171,7 @@
             typeKey = typeKeys[iType];
             html.push(
             '<td',
-            ' class="filter-button ', getPermissionClass(nobloat, typeKey, '*'), '"',
+            ' class="filter-button ', getCurrentClass('*', typeKey), '"',
             ' data-filter-type="', typeKey, '"',
             ' data-filter-domain="*"',
             '>',
@@ -150,7 +185,7 @@
             html.push(
                 '<tr>',
                 '<td',
-                ' class="filter-button ', getPermissionClass(nobloat, '*', domainKey), '"',
+                ' class="filter-button ', getCurrentClass(domainKey, '*'), '"',
                 ' data-filter-type="*"',
                 ' data-filter-domain="', domainKey, '"',
                 '>',
@@ -164,7 +199,7 @@
                 if ( domains && domains[domainKey] ) {
                     html.push(
                         '<td',
-                        ' class="filter-button ', getPermissionClass(nobloat, typeKey, domainKey), '"',
+                        ' class="filter-button ', getCurrentClass(domainKey, typeKey), '"',
                         ' data-filter-type="', typeKey, '"',
                         ' data-filter-domain="', domainKey, '"',
                         '>',
@@ -181,50 +216,63 @@
         $('#filters').html(html.join(''));
     };
 
-    // update visual of all filter buttons
-    var updateFilterButtons = function(nobloat) {
-        $('.filter-button').each(function() {
-            var button = $(this);
-            var type = button.data('filterType');
-            var domain = button.data('filterDomain');
-            var newClass = getPermissionClass(nobloat, type, domain);
-            if ( newClass === '' || !button.hasClass(newClass) ) {
-                button.removeClass('filter-allowed filter-disallowed filter-allowed-indirect filter-disallowed-indirect');
-                button.addClass(newClass);
-                port.postMessage({});
-            }
-        });
-    };
-
     // handle user interaction with filters
-    var handleFilter = function() {
-        var nobloat = chrome.extension.getBackgroundPage().NoBloat;
-        var button = $(this);
+    var handleFilter = function(button) {
         var type = button.data('filterType');
         var domain = button.data('filterDomain');
-        var currentClass = getPermissionClass(nobloat, type, domain);
-        // special case: root toggle only between two states
-        if ( type === '*' && domain === '*' ) {
-            if ( currentClass === 'filter-allowed' ) {
-                nobloat.disallow(type, domain);
-            } else {
-                nobloat.allow(type, domain);
-            }
+        var currentClass = getCurrentClass(domain, type);
+        var nextClass = getNextClass(currentClass, domain, type);
+        if ( nextClass === 'filter-disallowed' ) {
+            nobloat.disallow(type, domain);
+        } else if ( nextClass === 'filter-allowed' ) {
+            nobloat.allow(type, domain);
         } else {
-            if ( currentClass === 'filter-allowed-indirect' || currentClass === 'filter-disallowed-indirect' ) {
-                nobloat.disallow(type, domain);
-            } else if ( currentClass === 'filter-disallowed' ) {
-                nobloat.allow(type, domain);
-            } else {
-                nobloat.graylist(type, domain);
-            }
+            nobloat.graylist(type, domain);
         }
-        updateFilterButtons(nobloat);
+        updateFilterButtons();
+        handleFilterMessage(button);
+    };
+
+    // handle user mouse over filter buttons
+    var handleFilterMessage = function(button) {
+        var type = button.data('filterType');
+        var domain = button.data('filterDomain');
+        var currentClass = getCurrentClass(domain, type);
+        var nextClass = getNextClass(currentClass, domain, type);
+        var html = ['Click to '];
+        if ( nextClass === 'filter-disallowed' ) {
+            html.push('<span class="filter-disallowed">blacklist</span> ');
+        } else if ( nextClass === 'filter-allowed' ) {
+            html.push('<span class="filter-allowed">whitelist</span> ');
+        } else {
+            html.push('graylist ');
+        }
+        html.push(
+            '<strong>',
+            type === '*' ? 'everything' : typeNames[type],
+            '</strong>',
+            ' from ',
+            '<strong>',
+            domain === '*' ? 'everywhere' : domain,
+            '</strong>.'
+            );
+        $('#message').html(html.join(''));
     };
 
     // make menu only when popup html is fully loaded
     document.addEventListener('DOMContentLoaded', function () {
         chrome.tabs.query({currentWindow: true, active: true}, makeMenu);
-        $('#filters').delegate('.filter-button', 'click', handleFilter);
+        // to handle filter button
+        $('#filters').delegate('.filter-button', 'click', function() {
+            handleFilter($(this));
+        });
+        // to display useful message
+        $('#filters').delegate('.filter-button', 'mouseenter', function() {
+            handleFilterMessage($(this));
+        });
+        // to blank message
+        $('#filters').delegate('.filter-button', 'mouseout', function() {
+            $('#message').html('&nbsp;');
+        });
     });
 })();
