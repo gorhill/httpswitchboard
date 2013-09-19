@@ -291,7 +291,7 @@ var HTTPSwitchboard = {
                 if ( bin.version.localeCompare(self.version) < '0.1.3' ) {
                     self.whitelistUser = bin.whitelist;
                 } else {
-                    self.populateListFromString(self.whitelistUser, '', bin.whitelist, '');
+                    self.populateListFromString(self.whitelistUser, bin.whitelist);
                 }
                 self.populateListFromList(self.whitelist, self.whitelistUser);
             }
@@ -299,7 +299,7 @@ var HTTPSwitchboard = {
                 if ( bin.version.localeCompare(self.version) < '0.1.3' ) {
                     self.blacklistUser = bin.blacklist;
                 } else {
-                    self.populateListFromString(self.blacklistUser, '', bin.blacklist, '');
+                    self.populateListFromString(self.blacklistUser, bin.blacklist);
                 }
                 self.populateListFromList(self.blacklist, self.blacklistUser);
             }
@@ -332,14 +332,9 @@ var HTTPSwitchboard = {
                     return;
                 }
                 console.log('loaded third party blacklist "%s" from remote location', location);
-                // save locally in order to load efficiently in the future
-                // TODO: expiration date
-                var bin = {};
-                bin[location] = remoteData;
-                chrome.storage.local.set(bin);
                 // send message to ourself to simplify async handling
                 chrome.runtime.sendMessage({
-                    command: 'remoteBlacklistLoaded',
+                    command: 'parseRemoteBlacklist',
                     location: location,
                     content: remoteData
                 });
@@ -357,7 +352,7 @@ var HTTPSwitchboard = {
                     console.log('loaded third party blacklist "%s" (%d bytes) from local storage', k, localData[k].length);
                     // send message to ourself to simplify async handling
                     chrome.runtime.sendMessage({
-                        command: 'remoteBlacklistLoaded',
+                        command: 'mergeRemoteBlacklist',
                         location: k,
                         content: localData[k]
                     });
@@ -368,15 +363,26 @@ var HTTPSwitchboard = {
         });
     },
 
-    mergeRemoteBlacklist: function(location, content) {
+    parseRemoteBlacklist: function(location, content) {
+        content = this.normalizeRemoteContent('*/', content, '');
+        // save locally in order to load efficiently in the future
+        // TODO: expiration date
+        var bin = {};
+        bin[location] = content;
+        chrome.storage.local.set(bin);
+        // convert and merge content into internal representation
+        this.mergeRemoteBlacklist(content);
+    },
+
+    mergeRemoteBlacklist: function(content) {
         var list = {};
-        this.populateListFromString(list, '*/', content, '');
+        this.populateListFromString(list, content);
         this.populateListFromList(this.remoteBlacklist, list);
         this.populateListFromList(this.blacklist, list);
     },
 
-    // parse and merge a string into a list
-    populateListFromString: function(des, prefix, s, suffix) {
+    normalizeRemoteContent: function(prefix, s, suffix) {
+        var normal = [];
         var keys = s.split("\n");
         var i = keys.length;
         var k;
@@ -386,11 +392,22 @@ var HTTPSwitchboard = {
             if ( j >= 0 ) {
                 k = k.slice(0, j);
             }
+            k = k.replace('127.0.0.1', '');
             k = k.trim();
             if ( k.length === 0 ) {
                 continue;
             }
-            des[prefix + k + suffix] = true;
+            normal.push(prefix + k + suffix);
+        }
+        return normal.join('\n');
+    },
+
+    // parse and merge normalized content into a list
+    populateListFromString: function(des, s) {
+        var keys = s.split("\n");
+        var i = keys.length;
+        while ( i-- ) {
+            des[keys[i]] = true;
         }
     },
 
@@ -418,9 +435,14 @@ var HTTPSwitchboard = {
 chrome.runtime.onMessage.addListener(function(request, sender, callback) {
     switch ( request.command ) {
 
-    // parse and activate remote blacklist
-    case 'remoteBlacklistLoaded':
-        HTTPSwitchboard.mergeRemoteBlacklist(request.location, request.content);
+    // parse remote blacklist
+    case 'parseRemoteBlacklist':
+        HTTPSwitchboard.parseRemoteBlacklist(request.location, request.content);
+        break;
+
+    // merge into effective blacklist
+    case 'mergeRemoteBlacklist':
+        HTTPSwitchboard.mergeRemoteBlacklist(request.content);
         break;
 
     default:
