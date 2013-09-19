@@ -13,7 +13,7 @@ or you can copy the content of this git to:
 
 ##Documentation
 
-![HTTP Switchboard](img/snapshot1.png)
+![HTTP Switchboard](img/screenshot1.png)
 
 HTTP Switchboard let you easily white- or black-list net requests which originate from
  within a web page according to:
