@@ -4,12 +4,12 @@
     <link href='css/fonts.css' rel='stylesheet' type='text/css'>
     <style>
         body {
-            font: 13px 'Source Sans Pro', sans-serif;
+            font: 13px httpsb,sans-serif;
         }
         table {
         }
         td {
-            margin: 4px;
+            margin: 0px;
             border: 1px dotted #aaa;
             white-space:nowrap;
             background-color: #eee;
@@ -22,36 +22,24 @@
         td:first-child {
             text-align: right;
         }
-        div.filter {
-            margin: 2px 0px;
-            border: 0;
-            padding: 0;
-        }
-        div.level1 {
-            margin-left: 2px;
-            font-size: 14px;
-            white-space: nowrap;
-        }
-        div.level2 {
-            margin-left: 20px;
-            white-space: nowrap;
+        .filter-allowed,
+        .filter-disallowed,
+        .filter-allowed-indirect,
+        .filter-disallowed-indirect {
+            padding: 0px 2px 2px 2px;
         }
         .filter-allowed {
-            padding: 2px 4px 3px 4px;
             color: white;
             background-color: green;
         }
         .filter-disallowed {
-            padding: 2px 4px 3px 4px;
             color: white;
             background-color: red;
         }
         .filter-allowed-indirect {
-            padding: 2px 4px 3px 4px;
             background-color: #cfc;
         }
         .filter-disallowed-indirect {
-            padding: 2px 4px 3px 4px;
             background-color: #fcc;
         }
         .top {
@@ -69,7 +57,7 @@
         <span style="color:gray">So&nbsp;far,&nbsp;no&nbsp;HTTP&nbsp;traffic&nbsp;seen on this page.</span>
     </p>
 
-    <script src="js/jquery-2.min.js"></script>
-    <script src="popup.js"></script>
+    <script src="js/lib/jquery-2.min.js"></script>
+    <script src="js/popup.js"></script>
     </body>
 </html>
