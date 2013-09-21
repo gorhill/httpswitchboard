@@ -29,7 +29,8 @@ var HTTPSB = {
     // list of remote blacklist locations
     remoteBlacklists: {
         'http://pgl.yoyo.org/as/serverlist.php?mimetype=plaintext': {},
-        'http://www.malwaredomainlist.com/hostslist/hosts.txt': {}
+        'http://www.malwaredomainlist.com/hostslist/hosts.txt': {},
+        'http://dns-bh.sagadc.org/immortal_domains.txt': {}
         },
 
     // map[tabid] => map[url] => map[type]
