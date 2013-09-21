@@ -362,19 +362,24 @@ chrome.webRequest.onBeforeRequest.addListener(
 // TODO: For subframe though, we might need to do it at web request time.
 //       Need to investigate using trace, doc does not say everything.
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-    if ( changeInfo.status === 'complete' ) {
-        console.debug('tabs.onUpdated > injecting code to check for at least one <script> tag');
-        chrome.tabs.executeScript(
-            tabId,
-            {
-                code: '!!document.querySelector("script");',
-                runAt: 'document_idle'
-            },
-            function(r) {
-                if ( r ) {
-                    record(tabId, 'script', tab.url);
-                }
-            }
-        );
+    if ( changeInfo.status !== 'complete' ) {
+        return;
     }
+    var urlParts = getUrlParts(tab.url);
+    if ( urlParts.protocol.search('http') !== 0 ) {
+        return;
+    }
+    console.debug('tabs.onUpdated > injecting code to check for at least one <script> tag');
+    chrome.tabs.executeScript(
+        tabId,
+        {
+            code: '!!document.querySelector("script");',
+            runAt: 'document_idle'
+        },
+        function(r) {
+            if ( r ) {
+                record(tabId, 'script', tab.url);
+            }
+        }
+    );
 })
