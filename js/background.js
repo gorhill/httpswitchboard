@@ -34,7 +34,7 @@ var HTTPSB = {
         },
 
     // map[tabid] => map[url] => map[type]
-    requests: {},
+    tabs: {},
 
     // map["{type}/{domain}"]true
     // effective lists

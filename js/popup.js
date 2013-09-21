@@ -142,7 +142,7 @@
     // build menu according to white and black lists
     var makeMenu = function(tabs) {
         var chromeTab = tabs[0];
-        var tab = httpsb.requests[chromeTab.id];
+        var tab = httpsb.tabs[chromeTab.id];
         var topUrlParts = background.getUrlParts(chromeTab.url);
         var trees = makeTrees(tab);
 

@@ -25,14 +25,18 @@
 
 // hooks to let popup let us know whether page must be reloaded
 chrome.extension.onConnect.addListener(function(port) {
-    var mustReload = false;
-    port.onMessage.addListener(function() {
-        mustReload = true;
-    });
+    port.onMessage.addListener(function(){});
     port.onDisconnect.addListener(function() {
-        if ( mustReload ) {
-            chrome.tabs.reload();
-        }
+        chrome.tabs.query({ status: 'complete' }, function(chromeTabs){
+            var tabId;
+            for ( var i = 0; i < chromeTabs.length; i++ ) {
+                tabId = chromeTabs[i].id;
+                if ( tabExists(tabId) && tabStateChanged(tabId) ) {
+                    console.log('reloaded content of tab id %d', tabId);
+                    chrome.tabs.reload(tabId);
+                }
+            }
+        });
     });
 });
 

@@ -21,10 +21,12 @@
 
 /******************************************************************************/
 
-// parse a url and return only interesting parts
-
 // to easily parse urls
 var urlParser = document.createElement('a');
+
+/******************************************************************************/
+
+// parse a url and return only interesting parts
 
 function getUrlParts(url) {
     var parts = { protocol: "", domain: ""};
@@ -32,10 +34,19 @@ function getUrlParts(url) {
     urlParser.href = url;
     parts.protocol = urlParser.protocol;
     // TODO: create user settings for this (`-8`)
-    var matches = this.urlParser.hostname.split('.').slice(-8);
+    var matches = urlParser.hostname.split('.').slice(-8);
     if ( matches.length ) {
         parts.domain = matches.join('.');
     }
     return parts;
+}
+
+/******************************************************************************/
+
+// extract domain from url
+
+function getUrlDomain(url) {
+    urlParser.href = url;
+    return urlParser.hostname;
 }
 

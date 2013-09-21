@@ -25,7 +25,7 @@
 // TODO: should be async maybe ?
 function updateBadge(tabId) {
     var httpsb = HTTPSB;
-    var count = httpsb.requests[tabId] ? Object.keys(httpsb.requests[tabId].urls).length : 0;
+    var count = httpsb.tabs[tabId] ? Object.keys(httpsb.tabs[tabId].urls).length : 0;
     chrome.browserAction.setBadgeText({ tabId: tabId, text: String(count) });
     chrome.browserAction.setBadgeBackgroundColor({ tabId: tabId, color: '#000' });
 }
@@ -233,28 +233,6 @@ function whitelisted(type, domain) {
 
 /******************************************************************************/
 
-// log a request
-function record(tabId, type, url) {
-    var httpsb = HTTPSB;
-
-    // console.debug("record() > %o: %s @ %s", details, details.type, details.url);
-    var tab = httpsb.requests[tabId];
-    if ( !tab ) {
-        tab = { urls: {} };
-        httpsb.requests[tabId] = tab;
-    }
-    var taburls = tab.urls;
-    if ( !taburls[url] ) {
-        taburls[url] = { types: {} };
-    }
-    taburls[url].types[type] = true;
-
-    // TODO: async... ?
-    updateBadge(tabId);
-}
-
-/******************************************************************************/
-
 // intercept and filter web requests according to white and black lists
 function webRequestHandler(details) {
     var tabId = details.tabId;
@@ -287,10 +265,25 @@ function webRequestHandler(details) {
         return { "cancel": false };
     }
 
-    // if root frame, we need to reset potentially existing entry in db
-    if ( isRootFrame ) {
+    // create an entry for the tab if it doesn't exist
+    if ( HTTPSB.tabs[tabId] === undefined ) {
+        HTTPSB.tabs[tabId] = {
+            pageUrl: '',
+            urls: {},
+            state: {}
+        };
+    }
+    var tab = HTTPSB.tabs[tabId];
+
+    // TODO: garbage collect orphan tabs (as it appears tab ids are not
+    // reused bu the browser
+
+   // if root frame, we need to reset potentially existing entry in db
+   if ( isRootFrame ) {
         console.debug("webRequestHandler > reset tab %d", tabId);
-        delete HTTPSB.requests[tabId];
+        tab.pageUrl = '';
+        tab.urls = {};
+        tab.state = {};
     }
 
     // log request attempt
@@ -318,6 +311,11 @@ function webRequestHandler(details) {
 
     // blacklisted
     console.debug('webRequestHandler > blocking %s from %s', type, domain);
+
+    // remember this blacklisting, used to create a snapshot of the state
+    // of the tab, which is useful for smart reload of the page (reload the
+    // page only when state efectively change)
+    addTabState(tabId, type, domain)
 
     // if it's a frame, redirect to frame.html
     if ( isMainFrame || type === 'sub_frame' ) {
@@ -361,6 +359,7 @@ chrome.webRequest.onBeforeRequest.addListener(
 // time since the url hasn't been set in the tab.
 // TODO: For subframe though, we might need to do it at web request time.
 //       Need to investigate using trace, doc does not say everything.
+
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     if ( changeInfo.status !== 'complete' ) {
         return;
@@ -378,7 +377,11 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
         },
         function(r) {
             if ( r ) {
+                var domain = getUrlDomain(tab.url);
                 record(tabId, 'script', tab.url);
+                if ( blacklisted('script', domain) ) {
+                    addTabState(tabId, 'script', domain);
+                }
             }
         }
     );
