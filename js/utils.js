@@ -27,10 +27,11 @@
 var urlParser = document.createElement('a');
 
 function getUrlParts(url) {
-    var parts = { domain: "", subdomain: "" };
+    var parts = { protocol: "", domain: ""};
     // Ref.: https://gist.github.com/jlong/2428561
-    this.urlParser.href = url;
-    // TODO: create user settings for this
+    urlParser.href = url;
+    parts.protocol = urlParser.protocol;
+    // TODO: create user settings for this (`-8`)
     var matches = this.urlParser.hostname.split('.').slice(-8);
     if ( matches.length ) {
         parts.domain = matches.join('.');

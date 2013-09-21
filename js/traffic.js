@@ -234,9 +234,8 @@ function whitelisted(type, domain) {
 /******************************************************************************/
 
 // log a request
-function record(details) {
+function record(tabId, type, url) {
     var httpsb = HTTPSB;
-    var tabId = details.tabId;
 
     // console.debug("record() > %o: %s @ %s", details, details.type, details.url);
     var tab = httpsb.requests[tabId];
@@ -244,12 +243,11 @@ function record(details) {
         tab = { urls: {} };
         httpsb.requests[tabId] = tab;
     }
-    var url = details.url;
     var taburls = tab.urls;
     if ( !taburls[url] ) {
         taburls[url] = { types: {} };
     }
-    taburls[url].types[details.type] = true;
+    taburls[url].types[type] = true;
 
     // TODO: async... ?
     updateBadge(tabId);
@@ -267,56 +265,74 @@ function webRequestHandler(details) {
         return { "cancel": false };
     }
 
+    var type = details.type;
+    var url = details.url;
+    var isMainFrame = type === 'main_frame';
+    var isRootFrame = isMainFrame && details.parentFrameId < 0;
+
     // don't block extensions, especially myself...
-   if ( details.url.search(/^chrome-extension:\/\/.*$/) === 0 ) {
+   if ( url.search(/^chrome-extension:\/\/.*$/) === 0 ) {
         // special case (that's my solution for now):
         // if it is HTTP Switchboard's frame.html, verify that
         // the page that was blacklisted is still blacklisted, and if not,
         // redirect to the previously blacklisted page.
         // TODO: is there a bette rway to do this? Works well though...
         // chrome-extension://bgdnahgfnkneapahgkejhjcenmopifdi/frame.html?domain={domain}&url={url}
-        var matches = details.url.match(/^chrome-extension:\/\/[a-z]+\/frame\.html\?domain=(.+)&url=(.+)$/);
-        if ( matches && details.parentFrameId === -1 && whitelisted('main_frame', matches[1]) ) {
-            return { "redirectUrl": decodeURIComponent(matches[2]) };
+        if ( isRootFrame ) {
+            var matches = url.match(/^chrome-extension:\/\/[a-z]+\/frame\.html\?domain=(.+)&url=(.+)$/);
+            if ( matches && whitelisted('main_frame', matches[1]) ) {
+                return { "redirectUrl": decodeURIComponent(matches[2]) };
+            }
         }
         return { "cancel": false };
     }
 
-    var type = details.type;
-
-    // if main frame and no parent, this is a top frame being loaded,
-    // and we need to reset potentially existing entry in db
-    if ( type === 'main_frame' && details.parentFrameId === -1 ) {
+    // if root frame, we need to reset potentially existing entry in db
+    if ( isRootFrame ) {
         console.debug("webRequestHandler > reset tab %d", tabId);
         delete HTTPSB.requests[tabId];
     }
 
     // log request attempt
-    record(details);
+    record(tabId, type, url);
 
-    // see if whitelisted
-    var urlParts = getUrlParts(details.url);
+    var urlParts = getUrlParts(url);
     var domain = urlParts.domain;
 
+    // whitelisted?
     if ( whitelisted(type, domain) ) {
         console.debug('webRequestHandler > allowing %s from %s', type, domain);
+        // if it is a root frame and scripts are blacklisted for the
+        // domain, disable scripts for this domain.
+        // TODO: not only root frame...
+        if ( isMainFrame ) {
+            chrome.contentSettings.javascript.set({
+                primaryPattern: '*://' + domain + '/*',
+                setting: blacklisted('script', domain) ? 'block' : 'allow'
+            });
+            // when the tab is updated, we will check if page has at least one
+            // script tag.
+        }
         return { "cancel": false };
     }
-    // default is to blacklist
+
+    // blacklisted
     console.debug('webRequestHandler > blocking %s from %s', type, domain);
 
     // if it's a frame, redirect to frame.html
-    if ( type === 'main_frame' || type === 'sub_frame' ) {
+    if ( isMainFrame || type === 'sub_frame' ) {
         var q = chrome.runtime.getURL('frame.html') + '?';
         q += 'domain=' + encodeURIComponent(domain);
         q += '&';
-        q += 'url=' + encodeURIComponent(details.url);
-        console.debug('webRequestHandler > redirecting %s to %s', details.url, q);
+        q += 'url=' + encodeURIComponent(url);
+        console.debug('webRequestHandler > redirecting %s to %s', url, q);
         return { "redirectUrl": q };
     }
 
     return { "cancel": true };
 }
+
+/******************************************************************************/
 
 // hook to intercept web requests
 chrome.webRequest.onBeforeRequest.addListener(
@@ -338,3 +354,27 @@ chrome.webRequest.onBeforeRequest.addListener(
     [ "blocking" ]
 );
 
+/******************************************************************************/
+
+// Check if page has at least one script tab. We must do that here instead of
+// at web request intercept time, because we can't inject code at web request
+// time since the url hasn't been set in the tab.
+// TODO: For subframe though, we might need to do it at web request time.
+//       Need to investigate using trace, doc does not say everything.
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+    if ( changeInfo.status === 'complete' ) {
+        console.debug('tabs.onUpdated > injecting code to check for at least one <script> tag');
+        chrome.tabs.executeScript(
+            tabId,
+            {
+                code: '!!document.querySelector("script");',
+                runAt: 'document_idle'
+            },
+            function(r) {
+                if ( r ) {
+                    record(tabId, 'script', tab.url);
+                }
+            }
+        );
+    }
+})
