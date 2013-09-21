@@ -239,29 +239,33 @@
     };
 
     // handle user mouse over filter buttons
+
+    var mouseOverPrompts = {
+        '+**': 'Click to <span class="filter-allowed">allow</span> all graylisted types and domains',
+        '-**': 'Click to <span class="filter-disallowed">block</span> all graylisted types and domains',
+        '+?*': 'Click to <span class="filter-allowed">allow</span> <strong>{{what}}</strong> from <strong>everywhere</strong> except blacklisted domains',
+        '+*?': 'Click to <span class="filter-allowed">allow</span> <strong>everything</strong> from <strong>{{where}}</strong>',
+        '+??': 'Click to <span class="filter-allowed">allow</span> <strong>{{what}}</strong> from <strong>{{where}}</strong>',
+        '-?*': 'Click to <span class="filter-disallowed">block</span> <strong>{{what}}</strong> from <strong>everywhere</strong> except whitelisted domains',
+        '-*?': 'Click to <span class="filter-disallowed">block</span> <strong>everything</strong> from <strong>{{where}}</strong>',
+        '-??': 'Click to <span class="filter-disallowed">block</span> <strong>{{what}}</strong> from <strong>{{where}}</strong>',
+        '.?*': 'Click to graylist <strong>{{what}}</strong> from <strong>everywhere</strong>',
+        '.*?': 'Click to graylist <strong>everything</strong> from <strong>{{where}}</strong>',
+        '.??': 'Click to graylist <strong>{{what}}</strong> from <strong>{{where}}</strong>'
+    };
+
     var handleFilterMessage = function(button) {
         var type = button.data('filterType');
         var domain = button.data('filterDomain');
         var currentClass = getCurrentClass(domain, type);
         var nextClass = getNextClass(currentClass, domain, type);
-        var html = ['Click to '];
-        if ( nextClass === 'filter-disallowed' ) {
-            html.push('<span class="filter-disallowed">blacklist</span> ');
-        } else if ( nextClass === 'filter-allowed' ) {
-            html.push('<span class="filter-allowed">whitelist</span> ');
-        } else {
-            html.push('graylist ');
-        }
-        html.push(
-            '<strong>',
-            type === '*' ? 'everything' : typeNames[type],
-            '</strong>',
-            ' from ',
-            '<strong>',
-            domain === '*' ? 'everywhere' : domain,
-            '</strong>.'
-            );
-        $('#message').html(html.join(''));
+        var action = nextClass === 'filter-allowed' ? '+' : (nextClass === 'filter-disallowed' ? '-' : '.');
+        var what = type === '*' ? '*' : '?';
+        var where = domain === '*' ? '*' : '?';
+        var prompt = mouseOverPrompts[action + what + where];
+        prompt = prompt.replace('{{what}}', typeNames[type]);
+        prompt = prompt.replace('{{where}}', domain);
+        $('#message').html(prompt);
     };
 
     // make menu only when popup html is fully loaded

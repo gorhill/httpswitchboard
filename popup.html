@@ -1,63 +1,73 @@
 <!DOCTYPE html>
 <html>
-    <head>
-    <link href='css/fonts.css' rel='stylesheet' type='text/css'>
-    <style>
-        body {
-            font: 13px httpsb,sans-serif;
-        }
-        table {
-        }
-        td {
-            margin: 0px;
-            border: 1px dotted #aaa;
-            white-space:nowrap;
-            background-color: #eee;
-            text-align: center;
-            cursor: default;
-        }
-        td.filter-button {
-            cursor: pointer;
-        }
-        td:first-child {
-            text-align: right;
-        }
-        .filter-allowed,
-        .filter-disallowed,
-        .filter-allowed-indirect,
-        .filter-disallowed-indirect {
-            padding: 0px 2px 2px 2px;
-        }
-        .filter-allowed {
-            color: white;
-            background-color: green;
-        }
-        .filter-disallowed {
-            color: white;
-            background-color: red;
-        }
-        .filter-allowed-indirect {
-            background-color: #cfc;
-        }
-        .filter-disallowed-indirect {
-            background-color: #fcc;
-        }
-        .top {
-            font-weight: bold;
-        }
-        .dim {
-            color: #aaa;
-        }
-    </style>
-    <title>Hello World!</title>
-    </head>
-    <body>
-    <p id="message" style="">&nbsp</p>
-    <p id="filters">
-        <span style="color:gray">So&nbsp;far,&nbsp;no&nbsp;HTTP&nbsp;traffic&nbsp;seen on this page.</span>
-    </p>
 
-    <script src="js/lib/jquery-2.min.js"></script>
-    <script src="js/popup.js"></script>
-    </body>
+<head>
+<link href='css/fonts.css' rel='stylesheet' type='text/css'>
+<style>
+    body {
+        font: 13px httpsb,sans-serif;
+    }
+    table {
+    }
+    td {
+        margin: 0px;
+        border: 1px dotted #aaa;
+        white-space:nowrap;
+        background-color: #eee;
+        text-align: center;
+        cursor: default;
+    }
+    td.filter-button {
+        cursor: pointer;
+    }
+    td:first-child {
+        text-align: right;
+    }
+    tr:first-child td.filter-button {
+        min-width: 2.5em;
+    }
+    .filter-allowed,
+    .filter-disallowed,
+    .filter-allowed-indirect,
+    .filter-disallowed-indirect {
+        padding: 0px 2px 2px 2px;
+    }
+    .filter-allowed {
+        color: white;
+        background-color: green;
+    }
+    .filter-disallowed {
+        color: white;
+        background-color: red;
+    }
+    .filter-allowed-indirect {
+        background-color: #cfc;
+    }
+    .filter-disallowed-indirect {
+        background-color: #fcc;
+    }
+    .top {
+        font-weight: bold;
+    }
+    .dim {
+        color: #aaa;
+    }
+    #message {
+        white-space: nowrap;
+        font-size: 14px;
+    }
+</style>
+<title>HTTP Switchboard</title>
+</head>
+
+<body>
+<p id="message" style="">&nbsp</p>
+<p id="filters">
+    <span style="color:gray">So&nbsp;far,&nbsp;no&nbsp;HTTP&nbsp;traffic&nbsp;seen on this page.</span>
+</p>
+
+<script src="js/lib/jquery-2.min.js"></script>
+<script src="js/popup.js"></script>
+</body>
+
 </html>
