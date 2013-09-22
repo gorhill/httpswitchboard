@@ -50,3 +50,12 @@ function getUrlDomain(url) {
     return urlParser.hostname;
 }
 
+/******************************************************************************/
+
+// extract domain from url
+
+function getUrlProtocol(url) {
+    urlParser.href = url;
+    return urlParser.protocol;
+}
+

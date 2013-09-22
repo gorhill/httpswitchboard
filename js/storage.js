@@ -35,7 +35,7 @@ function save() {
         blacklist: Object.keys(httpsb.blacklistUser).join('\n'),
     };
     chrome.storage.sync.set(bin, function() {
-        console.log('saved user white and black lists (%d bytes)', bin.blacklist.length + bin.whitelist.length);
+        console.log('HTTP Switchboard > saved user white and black lists (%d bytes)', bin.blacklist.length + bin.whitelist.length);
     });
 }
 
@@ -45,7 +45,7 @@ function loadUserLists() {
     var httpsb = HTTPSB;
 
     chrome.storage.sync.get({ version: '0.1.4', whitelist: '', blacklist: ''}, function(store) {
-        console.debug('loadUserLists > loaded user white and black lists');
+        console.log('HTTP Switchboard > loadUserLists > loaded user white and black lists');
 
         if ( store.whitelist ) {
             if ( store.version.localeCompare(httpsb.version) < '0.1.3' ) {
@@ -54,7 +54,7 @@ function loadUserLists() {
                 populateListFromString(httpsb.whitelistUser, store.whitelist);
             }
         } else {
-            console.debug('loadUserLists > using default whitelist');
+            console.log('HTTP Switchboard > loadUserLists > using default whitelist');
             populateListFromString(httpsb.whitelistUser, 'image/*\nmain_frame/*');
         }
         populateListFromList(httpsb.whitelist, httpsb.whitelistUser);
@@ -131,13 +131,13 @@ function normalizeRemoteContent(prefix, s, suffix) {
 /******************************************************************************/
 
 function queryRemoteBlacklist(location) {
-    console.log('queryRemoteBlacklist > "%s"', location);
+    console.log('HTTP Switchboard > queryRemoteBlacklist > "%s"', location);
     $.get(location, function(remoteData) {
         if ( !remoteData || remoteData === '' ) {
-            console.log('failed to load third party blacklist "%s" from remote location', location);
+            console.log('HTTP Switchboard > failed to load third party blacklist "%s" from remote location', location);
             return;
         }
-        console.log('queried third party blacklist "%s" from remote location', location);
+        console.log('HTTP Switchboard > queried third party blacklist "%s" from remote location', location);
         chrome.runtime.sendMessage({
             command: 'parseRemoteBlacklist',
             location: location,
@@ -149,7 +149,7 @@ function queryRemoteBlacklist(location) {
 /******************************************************************************/
 
 function parseRemoteBlacklist(location, content) {
-    console.debug('parseRemoteBlacklist > "%s"', location);
+    console.log('HTTP Switchboard > parseRemoteBlacklist > "%s"', location);
     content = normalizeRemoteContent('*/', content, '');
     // save locally in order to load efficiently in the future
     chrome.runtime.sendMessage({
@@ -168,7 +168,7 @@ function parseRemoteBlacklist(location, content) {
 /******************************************************************************/
 
 function localSaveRemoteBlacklist(location, content) {
-    console.debug('localSaveRemoteBlacklist > "%s"', location);
+    console.log('HTTP Switchboard > localSaveRemoteBlacklist > "%s"', location);
     // TODO: expiration date
     chrome.storage.local.get({ 'remoteBlacklists': {} }, function(store) {
         store.remoteBlacklists[location] = content;
@@ -189,7 +189,7 @@ function localRemoveRemoteBlacklist(location) {
 
 function mergeRemoteBlacklist(content) {
     var httpsb = HTTPSB;
-    console.log('mergeRemoteBlacklist > "%s..."', content.slice(0, 40));
+    console.log('HTTP Switchboard > mergeRemoteBlacklist > "%s..."', content.slice(0, 40));
     var list = {};
     populateListFromString(list, content);
     populateListFromList(httpsb.remoteBlacklist, list);

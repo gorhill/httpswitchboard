@@ -20,11 +20,12 @@
 */
 
 var HTTPSB = {
-    version: '0.1.5',
+    version: '0.1.7',
 
+    // memo:
     // unicode for hourglass: &#x231B;
-    // for later use
-    birth: new Date(),
+
+    gcPeriod: 30 * 60 * 1000, // 30 minutes...
 
     // list of remote blacklist locations
     remoteBlacklists: {
@@ -33,7 +34,12 @@ var HTTPSB = {
         'http://dns-bh.sagadc.org/immortal_domains.txt': {}
         },
 
-    // map[tabid] => map[url] => map[type]
+    // urls stats are kept on the back burner while waiting to be reactivated
+    // in a tab or another.
+    urls: {},
+
+    // tabs are used to redirect stats collection to a specific url stats
+    // structure.
     tabs: {},
 
     // map["{type}/{domain}"]true

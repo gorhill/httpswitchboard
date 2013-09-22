@@ -24,6 +24,7 @@
     var port = chrome.extension.connect();
     var background = chrome.extension.getBackgroundPage();
     var httpsb = background.HTTPSB;
+    var pageUrl = '';
 
     // make internal tree representation of white/black lists
     var makeTrees = function(tab) {
@@ -146,6 +147,12 @@
         var topUrlParts = background.getUrlParts(chromeTab.url);
         var trees = makeTrees(tab);
 
+        pageUrl = tab.pageUrl.slice(0,64);
+        if ( tab.pageUrl.length > 64 ) {
+            pageUrl += '...';
+        }
+        $('#message').html(pageUrl);
+
         var html = [];
 
         html.push('<table>');
@@ -153,8 +160,8 @@
         // few top sites with most requests
         var domainKeys = Object.keys(trees.domains);
         domainKeys.sort(function(a,b) {
-            a = a.split('.').reverse().join('.');
-            b = b.split('.').reverse().join('.');
+            a = a.split('').reverse().join('');
+            b = b.split('').reverse().join('');
             return a.localeCompare(b);
         });
         var domainKey, typeKey;
@@ -281,7 +288,7 @@
         });
         // to blank message
         $('#filters').delegate('.filter-button', 'mouseout', function() {
-            $('#message').html('&nbsp;');
+            $('#message').html(pageUrl);
         });
     });
 })();

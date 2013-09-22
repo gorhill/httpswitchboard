@@ -21,13 +21,25 @@
 
 /******************************************************************************/
 
-// update visual of extension icon
-// TODO: should be async maybe ?
+// Update visual of extension icon.
+// A time out is used to coalesce adjacents requests to update badge.
 function updateBadge(tabId) {
     var httpsb = HTTPSB;
-    var count = httpsb.tabs[tabId] ? Object.keys(httpsb.tabs[tabId].urls).length : 0;
-    chrome.browserAction.setBadgeText({ tabId: tabId, text: String(count) });
-    chrome.browserAction.setBadgeBackgroundColor({ tabId: tabId, color: '#000' });
+    if ( httpsb.tabs[tabId].updateBadgeTimer ) {
+            clearTimeout(httpsb.tabs[tabId].updateBadgeTimer);
+    }
+    httpsb.tabs[tabId].updateBadgeTimer = setTimeout(function() {
+        httpsb.tabs[tabId].updateBadgeTimer = null;
+        // Chromium tab may not exist, like when prerendering a web page for
+        // example.
+        chrome.tabs.get(tabId, function(tab) {
+            if ( tab ) {
+                var count = httpsb.tabs[tabId] ? Object.keys(httpsb.tabs[tabId].urls).length : 0;
+                chrome.browserAction.setBadgeText({ tabId: tabId, text: String(count) });
+                chrome.browserAction.setBadgeBackgroundColor({ tabId: tabId, color: '#000' });
+            }
+        });
+    }, 100);
 }
 
 /******************************************************************************/
@@ -48,7 +60,7 @@ function allow(type, domain) {
         // TODO: handle case where user override third-party blacklists
         delete httpsb.blacklistUser[key];
     }
-    console.debug('whitelisting %s from %s', type, domain);
+    console.log('HTTP Switchboard > whitelisting %s from %s', type, domain);
     if ( whitelisted || unblacklisted ) {
         save();
     }
@@ -71,7 +83,7 @@ function disallow(type, domain) {
         httpsb.blacklist[key] = true;
         httpsb.blacklistUser[key] = true;
     }
-    console.debug('blacklisting %s from %s', type, domain);
+    console.log('HTTP Switchboard > blacklisting %s from %s', type, domain);
     if ( unwhitelisted || blacklisted ) {
         save();
     }
@@ -98,7 +110,7 @@ function graylist(type, domain) {
         delete httpsb.blacklist[key];
         delete httpsb.blacklistUser[key];
     }
-    console.debug('graylisting %s from %s', type, domain);
+    console.log('HTTP Switchboard > graylisting %s from %s', type, domain);
     if ( unwhitelisted || unblacklisted ) {
         save();
     }
@@ -233,8 +245,19 @@ function whitelisted(type, domain) {
 
 /******************************************************************************/
 
-// intercept and filter web requests according to white and black lists
+// Intercept and filter web requests according to white and black lists.
+
 function webRequestHandler(details) {
+/*
+    console.debug('tab=%d parent=%d frame=%d type=%s, url=%s',
+        details.tabId,
+        details.parentFrameId,
+        details.frameId,
+        details.type,
+        details.url.slice(0,30),
+        details.url.slice(0,30)
+        );
+*/
     var tabId = details.tabId;
 
     // ignore traffic outside tabs
@@ -265,56 +288,78 @@ function webRequestHandler(details) {
         return { "cancel": false };
     }
 
+    var httpsb = HTTPSB;
+
+    // create a url stats store
+    if ( isRootFrame && httpsb.urls[url] === undefined ) {
+        httpsb.urls[url] = {
+            requests: {},
+            state: {},
+            lastTouched: 0
+            };
+    }
+
     // create an entry for the tab if it doesn't exist
-    if ( HTTPSB.tabs[tabId] === undefined ) {
-        HTTPSB.tabs[tabId] = {
+    if ( httpsb.tabs[tabId] === undefined ) {
+        httpsb.tabs[tabId] = {
             pageUrl: '',
             urls: {},
             state: {}
-        };
+            };
     }
-    var tab = HTTPSB.tabs[tabId];
+    var tab = httpsb.tabs[tabId];
 
-    // TODO: garbage collect orphan tabs (as it appears tab ids are not
-    // reused bu the browser
+    // TODO: more straightforward switching mechanism between tab and url
 
-   // if root frame, we need to reset potentially existing entry in db
-   if ( isRootFrame ) {
-        console.debug("webRequestHandler > reset tab %d", tabId);
-        tab.pageUrl = '';
-        tab.urls = {};
-        tab.state = {};
+    // if root frame, create a path between tab and url stats store
+    if ( isRootFrame ) {
+        // console.debug('redirecting tab id %d to "%s"', tabId, url);
+        tab.pageUrl = url,
+        tab.urls = httpsb.urls[url].requests,
+        tab.state = httpsb.urls[url].state;
     }
+    httpsb.urls[tab.pageUrl].lastTouched = Date.now();
+
+    // TODO: garbage collect orphan tabs (unless tab ids are reused by the
+    // browser?)
 
     // log request attempt
     record(tabId, type, url);
 
-    var urlParts = getUrlParts(url);
-    var domain = urlParts.domain;
+    var domain = getUrlDomain(url);
 
     // whitelisted?
     if ( whitelisted(type, domain) ) {
-        console.debug('webRequestHandler > allowing %s from %s', type, domain);
+        // console.debug('webRequestHandler > allowing ' + type + ' from ' + domain);
         // if it is a root frame and scripts are blacklisted for the
         // domain, disable scripts for this domain.
         // TODO: not only root frame...
         if ( isMainFrame ) {
+            // A bug in Chromium prevent <noscript> tags from being properly
+            // rendered the first time. A forced refresh causes these
+            // to be properly rendered.
+            // https://code.google.com/p/chromium/issues/detail?id=232410
+            var blacklistScript = blacklisted('script', domain);
             chrome.contentSettings.javascript.set({
                 primaryPattern: '*://' + domain + '/*',
-                setting: blacklisted('script', domain) ? 'block' : 'allow'
+                setting: blacklistScript ? 'block' : 'allow'
             });
+            // console.debug('Blacklisting scripts for *://%s/* is %o', domain, blacklistScript);
+
             // when the tab is updated, we will check if page has at least one
-            // script tag.
+            // script tag, this takes care of inline scripting, which doesn't
+            // generate 'script' type web requests.
         }
         return { "cancel": false };
     }
 
     // blacklisted
-    console.debug('webRequestHandler > blocking %s from %s', type, domain);
+    // console.debug('webRequestHandler > blocking %s from %s', type, domain);
 
     // remember this blacklisting, used to create a snapshot of the state
     // of the tab, which is useful for smart reload of the page (reload the
     // page only when state efectively change)
+    // TODO: makes more sense to care about whitelisted items
     addTabState(tabId, type, domain)
 
     // if it's a frame, redirect to frame.html
@@ -323,7 +368,7 @@ function webRequestHandler(details) {
         q += 'domain=' + encodeURIComponent(domain);
         q += '&';
         q += 'url=' + encodeURIComponent(url);
-        console.debug('webRequestHandler > redirecting %s to %s', url, q);
+        // console.debug('webRequestHandler > redirecting %s to %s', url, q);
         return { "redirectUrl": q };
     }
 
@@ -361,18 +406,24 @@ chrome.webRequest.onBeforeRequest.addListener(
 //       Need to investigate using trace, doc does not say everything.
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+    // console.debug('tab %d updated: "%s"', tabId, tab.url);
     if ( changeInfo.status !== 'complete' ) {
         return;
     }
-    var urlParts = getUrlParts(tab.url);
-    if ( urlParts.protocol.search('http') !== 0 ) {
+    // console.debug('tabs.onUpdated > tabId=%d changeInfo=%o tab=%o', tabId, changeInfo, tab);
+    if ( getUrlProtocol(tab.url).search('http') !== 0 ) {
         return;
     }
-    console.debug('tabs.onUpdated > injecting code to check for at least one <script> tag');
+    // Chrome webstore can't be injected with foreign code (I can see why),
+    // following is to avoid error message.
+    if ( tab.url.search(/^https?:\/\/chrome\.google\.com\/webstore\//) === 0 ) {
+        return;
+    }
+    // console.debug('tabs.onUpdated > injecting code to check for at least one <script> tag');
     chrome.tabs.executeScript(
         tabId,
         {
-            code: '!!document.querySelector("script");',
+            file: 'js/inject.js',
             runAt: 'document_idle'
         },
         function(r) {

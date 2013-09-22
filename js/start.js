@@ -31,9 +31,8 @@ chrome.extension.onConnect.addListener(function(port) {
             var tabId;
             for ( var i = 0; i < chromeTabs.length; i++ ) {
                 tabId = chromeTabs[i].id;
-                if ( tabExists(tabId) && tabStateChanged(tabId) ) {
-                    console.log('reloaded content of tab id %d', tabId);
-                    chrome.tabs.reload(tabId);
+                if ( tabExists(tabId) ) {
+                    smartReloadTab(tabId);
                 }
             }
         });
@@ -80,5 +79,37 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
 
 /******************************************************************************/
 
-// load user settings
+// Load user settings
+
 load();
+
+/******************************************************************************/
+
+// Garbage collect stale url stats entries
+
+(function(){
+    var httpsb = HTTPSB;
+    var gcFunc = function() {
+        chrome.tabs.query({ 'url': '<all_urls>' }, function(tabs){
+            var url;
+            for ( var i = 0; i < tabs.length; i++ ) {
+                url = tabs[i].url;
+                if ( httpsb.urls[url] ) {
+                    httpsb.urls[url].lastTouched = Date.now();
+                }
+            }
+            var interval;
+            for ( url in httpsb.urls ) {
+                interval = Date.now() - httpsb.urls[url].lastTouched;
+                if ( interval < httpsb.gcPeriod ) {
+                    // console.debug('GC > last touched %d ms ago, can\'t dispose of "%s"', interval, url);
+                    continue;
+                }
+                // console.debug('GC > disposed of "%s"', url);
+                delete httpsb.urls[url];
+            }
+        });
+    };
+
+    setInterval(gcFunc, httpsb.gcPeriod / 2);
+})();
