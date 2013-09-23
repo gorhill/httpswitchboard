@@ -1,6 +1,6 @@
 #HTTP Switchboard for Chromium
 
-See [Change log](wiki/Change-log) for latest changes.
+See [Change log](httpswitchboard/wiki/Change-log) for latest changes.
 
 A Chromium browser extension which let you white- or blacklist requests
 originating from within a web page according to their type and/or destination
