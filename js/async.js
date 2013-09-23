@@ -36,7 +36,19 @@ function updateBadge(tabId) {
         chrome.tabs.get(tabId, function(tab) {
             if ( tab ) {
                 var count = httpsb.tabs[tabId] ? Object.keys(httpsb.tabs[tabId].urls).length : 0;
-                chrome.browserAction.setBadgeText({ tabId: tabId, text: String(count) });
+                var countStr = String(count);
+                if ( count >= 1000 ) {
+                    if ( count < 10000 ) {
+                        countStr = countStr.slice(0,1) + '.' + countStr.slice(1,-2) + 'K';
+                    } else if ( count < 1000000 ) {
+                        countStr = countStr.slice(0,-3) + 'K';
+                    } else if ( count < 10000000 ) {
+                        countStr = countStr.slice(0,1) + '.' + countStr.slice(1,-5) + 'M';
+                    } else {
+                        countStr = countStr.slice(0,-6) + 'M';
+                    }
+                }
+                chrome.browserAction.setBadgeText({ tabId: tabId, text: countStr });
                 chrome.browserAction.setBadgeBackgroundColor({ tabId: tabId, color: '#000' });
             }
         });
@@ -56,7 +68,7 @@ function permissionsChanged() {
     }
     permissionsChangedTimer = setTimeout(function() {
         permissionsChangedTimer = null;
-        chrome.runtime.sendMessage({ 'command': 'permissions changed' });
+        chrome.runtime.sendMessage({ 'what': 'permissionsChanged' });
     }, 200);
 }
 
@@ -73,7 +85,49 @@ function urlStatsChanged() {
     }
     urlStatsChangedTimer = setTimeout(function() {
         urlStatsChangedTimer = null;
-        chrome.runtime.sendMessage({ 'command': 'urlstats changed' });
+        chrome.runtime.sendMessage({ 'what': 'urlStatsChanged' });
     }, 200);
 }
+
+/******************************************************************************/
+
+// Handling stuff asynchronously simplifies code
+
+chrome.runtime.onMessage.addListener(function(request, sender, callback) {
+    if ( request && request.what ) {
+        switch ( request.what ) {
+
+        case 'mergeRemoteBlacklist':
+            mergeRemoteBlacklist(request.content);
+            break;
+
+        case 'parseRemoteBlacklist':
+            parseRemoteBlacklist(request.location, request.content);
+            break;
+
+        case 'queryRemoteBlacklist':
+            queryRemoteBlacklist(request.location);
+            break;
+
+        case 'localSaveRemoteBlacklist':
+            localSaveRemoteBlacklist(request.location, request.content);
+            break;
+
+        case 'localRemoveRemoteBlacklist':
+            localRemoveRemoteBlacklist(request.location);
+            break;
+
+        case 'startWebRequestHandler':
+            startWebRequestHandler(request.from);
+            break;
+
+        default:
+            break;
+        }
+    }
+
+    if ( callback ) {
+        callback();
+    }
+});
 

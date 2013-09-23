@@ -23,6 +23,82 @@
 
 /******************************************************************************/
 
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+    // Can this happen?
+    if ( !tab.url || !tab.url.length ) {
+        return;
+    }
+    // console.debug('tabs.onUpdated > tabId=%d changeInfo=%o tab=%o', tabId, changeInfo, tab);
+    if ( getUrlProtocol(tab.url).search('http') !== 0 ) {
+        return;
+    }
+    // Ensure we have a url stats store and that the tab is bound to it.
+    bindTabToUrlstatsStore(tab.id, tab.url);
+
+    // Following code is for script injection, which makes sense only if
+    // web page in tab is completely loaded.
+    if ( changeInfo.status !== 'complete' ) {
+        return;
+    }
+    // Chrome webstore can't be injected with foreign code (I can see why),
+    // following is to avoid error message.
+    if ( tab.url.search(/^https?:\/\/chrome\.google\.com\/webstore\//) === 0 ) {
+        return;
+    }
+    // Check if page has at least one script tab. We must do that here instead
+    // of at web request intercept time, because we can't inject code at web
+    // request time since the url hasn't been set in the tab.
+    // TODO: For subframe though, we might need to do it at web request time.
+    //       Need to investigate using trace, doc does not say everything.
+    // console.debug('tabs.onUpdated > injecting code to check for at least one <script> tag');
+    chrome.tabs.executeScript(
+        tabId,
+        {
+            file: 'js/inject.js',
+            runAt: 'document_idle'
+        },
+        function(r) {
+            if ( r ) {
+                var domain = getUrlDomain(tab.url);
+                record(tabId, 'script', tab.url);
+                if ( blacklisted('script', domain) ) {
+                    addTabState(tabId, 'script', domain);
+                }
+            }
+        }
+    );
+})
+
+/******************************************************************************/
+
+// Load user settings
+
+load();
+
+/******************************************************************************/
+
+// Initialize internal state with maybe already existing tabs
+
+(function(){
+    chrome.tabs.query({ url: '<all_urls>' }, function(tabs) {
+        var i = tabs.length;
+        // console.debug('HTTP Switchboard > preparing to bind %d tabs', i);
+        var tab;
+        while ( i-- ) {
+            tab = tabs[i];
+            bindTabToUrlstatsStore(tab.id, tab.url);
+        }
+        // Tabs are now bound to url stats stores, therefore it is now safe
+        // to handle net traffic.
+        chrome.runtime.sendMessage({
+            'what': 'startWebRequestHandler',
+            'from': 'tabsBound'
+            });
+    });
+})();
+
+/******************************************************************************/
+
 // hooks to let popup let us know whether page must be reloaded
 
 chrome.extension.onConnect.addListener(function(port) {
@@ -39,50 +115,6 @@ chrome.extension.onConnect.addListener(function(port) {
         });
     });
 });
-
-/******************************************************************************/
-
-// to simplify handling of async stuff
-chrome.runtime.onMessage.addListener(function(request, sender, callback) {
-    switch ( request.command ) {
-
-    // merge into effective blacklist
-    case 'mergeRemoteBlacklist':
-        mergeRemoteBlacklist(request.content);
-        break;
-
-    // parse remote blacklist
-    case 'parseRemoteBlacklist':
-        parseRemoteBlacklist(request.location, request.content);
-        break;
-
-    // query remoe blacklist
-    case 'queryRemoteBlacklist':
-        queryRemoteBlacklist(request.location);
-        break;
-
-    // local save parsed remote blacklist
-    case 'localSaveRemoteBlacklist':
-        localSaveRemoteBlacklist(request.location, request.content);
-        break;
-
-    // local removal of remote blacklist
-    case 'localRemoveRemoteBlacklist':
-        localRemoveRemoteBlacklist(request.location);
-        break;
-
-    default:
-        break;
-    }
-
-    callback();
-});
-
-/******************************************************************************/
-
-// Load user settings
-
-load();
 
 /******************************************************************************/
 
@@ -114,3 +146,4 @@ load();
 
     setInterval(gcFunc, httpsb.gcPeriod / 2);
 })();
+

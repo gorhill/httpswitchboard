@@ -21,6 +21,59 @@
 
 /******************************************************************************/
 
+// Check if a URL stats store exists
+
+function urlstatsStoreExists(url) {
+    return !!HTTPSB.urls[url];
+}
+
+/******************************************************************************/
+
+// Create a new URL stats store (if not already present)
+
+function createUrlstatsStore(url) {
+    // do not create stats store for urls which are of no interest
+    if ( url.search(/^https?:\/\//) !== 0 ) {
+        return undefined;
+    }
+    var httpsb = HTTPSB;
+    if ( httpsb.urls[url] === undefined ) {
+        httpsb.urls[url] = {
+            requests: {},
+            state: {},
+            lastTouched: Date.now()
+            };
+    }
+    return httpsb.urls[url];
+}
+
+/******************************************************************************/
+
+// Create an entry for the tab if it doesn't exist
+
+function bindTabToUrlstatsStore(tabId, url) {
+    var urlstats = createUrlstatsStore(url);
+    if ( !urlstats ) {
+        return undefined;
+    }
+    // console.debug('bindTabToUrlstatsStore > dispatching traffic in tab id %d to url stats store "%s"', tabId, url);
+    var httpsb = HTTPSB;
+    if ( httpsb.tabs[tabId] === undefined ) {
+        httpsb.tabs[tabId] = {
+            pageUrl: '',
+            urls: {},
+            state: {}
+            };
+    }
+    var tab = httpsb.tabs[tabId];
+    tab.pageUrl = url,
+    tab.urls = urlstats.requests,
+    tab.state = urlstats.state;
+    return tab;
+}
+
+/******************************************************************************/
+
 // log a request
 function record(tabId, type, url) {
     // console.debug("record() > %o: %s @ %s", details, details.type, details.url);
@@ -47,12 +100,8 @@ function smartReloadTab(tabId) {
     var tab = httpsb.tabs[tabId];
     if ( getStateHash(newState) != getStateHash(httpsb.tabs[tabId].state) ) {
         // console.debug('reloaded content of tab id %d', tabId);
-        // console.debug('old="%s"\nnew="%s"', getStateHash(httpsb.tabs[tabId].state, getStateHash(newState)));
+        // console.debug('old="%s"\nnew="%s"', getStateHash(httpsb.tabs[tabId].state), getStateHash(newState));
         var domain = getUrlDomain(tab.pageUrl);
-        chrome.contentSettings.javascript.set({
-            primaryPattern: '*://' + domain + '/*',
-            setting: blacklisted('script', domain) ? 'block' : 'allow'
-        });
         httpsb.urls[tab.pageUrl].state = newState;
         chrome.tabs.reload(tabId);
     }
@@ -88,6 +137,9 @@ function addTabState(tabId, type, domain) {
 
 function getStateHash(state) {
     var keys = Object.keys(state);
+    if ( !keys.length ) {
+        return '';
+    }
     keys.sort();
     return keys.join();
 }

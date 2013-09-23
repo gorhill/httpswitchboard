@@ -306,7 +306,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     // to know when to rebuild the matrix
     chrome.runtime.onMessage.addListener(function(request, sender, callback) {
-        if ( request.command === 'urlstats changed' ) {
+        if ( request.what === 'urlStatsChanged' ) {
             makeMenu();
         }
     });

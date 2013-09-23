@@ -20,7 +20,7 @@
 */
 
 var HTTPSB = {
-    version: '0.1.8',
+    version: '0.1.9',
 
     // memo:
     // unicode for hourglass: &#x231B;
@@ -58,6 +58,9 @@ var HTTPSB = {
     ALLOWED_DIRECT: 2,
     DISALLOWED_INDIRECT: 3,
     ALLOWED_INDIRECT: 4,
+
+    // internal state
+    webRequestHandler: false,
 
     // so that I don't have to care for last comma
     dummy: 0

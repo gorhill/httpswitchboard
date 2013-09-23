@@ -249,7 +249,7 @@ function webRequestHandler(details) {
     var isRootFrame = isMainFrame && details.parentFrameId < 0;
 
     // don't block extensions, especially myself...
-   if ( url.search(/^chrome-extension:\/\/.*$/) === 0 ) {
+   if ( url.search(/^chrome-extension:\/\//) === 0 ) {
         // special case (that's my solution for now):
         // if it is HTTP Switchboard's frame.html, verify that
         // the page that was blacklisted is still blacklisted, and if not,
@@ -267,38 +267,15 @@ function webRequestHandler(details) {
 
     var httpsb = HTTPSB;
 
-    // create a url stats store
-    if ( isRootFrame && httpsb.urls[url] === undefined ) {
-        httpsb.urls[url] = {
-            requests: {},
-            state: {},
-            lastTouched: 0
-            };
-    }
-
-    // create an entry for the tab if it doesn't exist
-    if ( httpsb.tabs[tabId] === undefined ) {
-        httpsb.tabs[tabId] = {
-            pageUrl: '',
-            urls: {},
-            state: {}
-            };
+    // dispatch traffic from tab to a new url stats store 
+    if ( isRootFrame ) {
+        bindTabToUrlstatsStore(tabId, url);
     }
     var tab = httpsb.tabs[tabId];
 
-    // TODO: more straightforward switching mechanism between tab and url
-
-    // if root frame, create a path between tab and url stats store
-    if ( isRootFrame ) {
-        // console.debug('redirecting tab id %d to "%s"', tabId, url);
-        tab.pageUrl = url,
-        tab.urls = httpsb.urls[url].requests,
-        tab.state = httpsb.urls[url].state;
-    }
-
     // It is possible at this point that there is no url stats store: this
     // happens if the extension was launched after tabs were already opened.
-    if ( httpsb.urls[tab.pageUrl] ) {
+    if ( tab.pageUrl.length > 0 && httpsb.urls[tab.pageUrl] ) {
         httpsb.urls[tab.pageUrl].lastTouched = Date.now();
 
         // TODO: garbage collect orphan tabs (unless tab ids are reused by the
@@ -312,7 +289,7 @@ function webRequestHandler(details) {
 
     // whitelisted?
     if ( whitelisted(type, domain) ) {
-        // console.debug('webRequestHandler > allowing ' + type + ' from ' + domain);
+        // console.debug('webRequestHandler > allowing %s from %s', type, domain);
         // if it is a root frame and scripts are blacklisted for the
         // domain, disable scripts for this domain, necessary since inline
         // script tags are not passed through web request handler.
@@ -356,63 +333,39 @@ function webRequestHandler(details) {
 
 /******************************************************************************/
 
-// hook to intercept web requests
-chrome.webRequest.onBeforeRequest.addListener(
-    webRequestHandler,
-    {
-        "urls": [
-            "<all_urls>"
-        ],
-        "types": [
-            "main_frame",
-            "sub_frame",
-            "script",
-            "image",
-            "object",
-            "xmlhttprequest",
-            "other"
-        ]
-    },
-    [ "blocking" ]
-);
+var webRequestHandlerRequirements = {
+    'tabsBound': 0,
+    'listsLoaded': 0
+    };
 
-/******************************************************************************/
-
-// Check if page has at least one script tab. We must do that here instead of
-// at web request intercept time, because we can't inject code at web request
-// time since the url hasn't been set in the tab.
-// TODO: For subframe though, we might need to do it at web request time.
-//       Need to investigate using trace, doc does not say everything.
-
-chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-    // console.debug('tab %d updated: "%s"', tabId, tab.url);
-    if ( changeInfo.status !== 'complete' ) {
+function startWebRequestHandler(from) {
+    // Do not launch traffic handler if not all requirements are fullfilled.
+    // This takes care of pages being blocked when chromium is launched
+    // because there is no whitelist loaded and default is to block everything.
+    var o = webRequestHandlerRequirements;
+    o[from] = 1;
+    if ( Object.keys(o).map(function(k){return o[k];}).join().search('0') >= 0 ) {
         return;
     }
-    // console.debug('tabs.onUpdated > tabId=%d changeInfo=%o tab=%o', tabId, changeInfo, tab);
-    if ( getUrlProtocol(tab.url).search('http') !== 0 ) {
-        return;
-    }
-    // Chrome webstore can't be injected with foreign code (I can see why),
-    // following is to avoid error message.
-    if ( tab.url.search(/^https?:\/\/chrome\.google\.com\/webstore\//) === 0 ) {
-        return;
-    }
-    // console.debug('tabs.onUpdated > injecting code to check for at least one <script> tag');
-    chrome.tabs.executeScript(
-        tabId,
+
+    chrome.webRequest.onBeforeRequest.addListener(
+        webRequestHandler,
         {
-            file: 'js/inject.js',
-            runAt: 'document_idle'
+            "urls": [
+                "<all_urls>"
+            ],
+            "types": [
+                "main_frame",
+                "sub_frame",
+                "script",
+                "image",
+                "object",
+                "xmlhttprequest",
+                "other"
+            ]
         },
-        function(r) {
-            if ( r ) {
-                var domain = getUrlDomain(tab.url);
-                record(tabId, 'script', tab.url);
-                if ( blacklisted('script', domain) ) {
-                    addTabState(tabId, 'script', domain);
-                }
-            }
-        }
+        [ "blocking" ]
     );
-})
+
+    HTTPSB.webRequestHandler = true;
+}

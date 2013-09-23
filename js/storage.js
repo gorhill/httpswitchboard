@@ -67,6 +67,11 @@ function loadUserLists() {
             }
         }
         populateListFromList(httpsb.blacklist, httpsb.blacklistUser);
+
+        chrome.runtime.sendMessage({
+            'what': 'startWebRequestHandler',
+            'from': 'listsLoaded'
+            });
     });
 }
 
@@ -86,18 +91,18 @@ function loadRemoteBlacklists() {
             }
             if ( !httpsb.remoteBlacklists[location] ) {
                 chrome.runtime.sendMessage({
-                    command: 'localRemoveRemoteBlacklist',
+                    what: 'localRemoveRemoteBlacklist',
                     location: location
                 });
             } else if ( store.remoteBlacklists[location].length ) {
                 chrome.runtime.sendMessage({
-                    command: 'mergeRemoteBlacklist',
+                    what: 'mergeRemoteBlacklist',
                     location: location,
                     content: store.remoteBlacklists[location]
                 });
             } else {
                 chrome.runtime.sendMessage({
-                    command: 'queryRemoteBlacklist',
+                    what: 'queryRemoteBlacklist',
                     location: location
                 });
             }
@@ -139,7 +144,7 @@ function queryRemoteBlacklist(location) {
         }
         console.log('HTTP Switchboard > queried third party blacklist "%s" from remote location', location);
         chrome.runtime.sendMessage({
-            command: 'parseRemoteBlacklist',
+            what: 'parseRemoteBlacklist',
             location: location,
             content: remoteData
         });
@@ -153,13 +158,13 @@ function parseRemoteBlacklist(location, content) {
     content = normalizeRemoteContent('*/', content, '');
     // save locally in order to load efficiently in the future
     chrome.runtime.sendMessage({
-        command: 'localSaveRemoteBlacklist',
+        what: 'localSaveRemoteBlacklist',
         location: location,
         content: content
     });
     // convert and merge content into internal representation
     chrome.runtime.sendMessage({
-        command: 'mergeRemoteBlacklist',
+        what: 'mergeRemoteBlacklist',
         location: location,
         content: content
     });
