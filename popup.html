@@ -27,7 +27,7 @@
         min-width: 2.5em;
     }
     tr.ancestor {
-        color: #888;
+        color: #8c8c8c;
     }
     .filter-allowed,
     .filter-disallowed,
@@ -37,11 +37,11 @@
     }
     .filter-allowed {
         color: white;
-        background-color: green;
+        background-color: #080;
     }
     .filter-disallowed {
         color: white;
-        background-color: red;
+        background-color: #c00;
     }
     .filter-allowed-indirect {
         background-color: #cfc;
@@ -59,6 +59,7 @@
         color: #888;
         white-space: nowrap;
         font-size: 14px;
+        min-width: 12em;
     }
     #message strong {
         color: black;
@@ -69,9 +70,9 @@
 </head>
 
 <body>
-<p id="message">&nbsp</p>
+<p id="message">&nbsp;</p>
 <p id="filters">
-    <span style="color:gray">So&nbsp;far,&nbsp;no&nbsp;HTTP&nbsp;traffic&nbsp;seen on this page.</span>
+    <span style="color:gray">So far, no net traffic seen on this page. Maybe the page was loaded before HTTP Switchboard was activated?</span>
 </p>
 
 <script src="js/lib/jquery-2.min.js"></script>

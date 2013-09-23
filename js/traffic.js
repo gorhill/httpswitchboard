@@ -21,29 +21,6 @@
 
 /******************************************************************************/
 
-// Update visual of extension icon.
-// A time out is used to coalesce adjacents requests to update badge.
-function updateBadge(tabId) {
-    var httpsb = HTTPSB;
-    if ( httpsb.tabs[tabId].updateBadgeTimer ) {
-            clearTimeout(httpsb.tabs[tabId].updateBadgeTimer);
-    }
-    httpsb.tabs[tabId].updateBadgeTimer = setTimeout(function() {
-        httpsb.tabs[tabId].updateBadgeTimer = null;
-        // Chromium tab may not exist, like when prerendering a web page for
-        // example.
-        chrome.tabs.get(tabId, function(tab) {
-            if ( tab ) {
-                var count = httpsb.tabs[tabId] ? Object.keys(httpsb.tabs[tabId].urls).length : 0;
-                chrome.browserAction.setBadgeText({ tabId: tabId, text: String(count) });
-                chrome.browserAction.setBadgeBackgroundColor({ tabId: tabId, color: '#000' });
-            }
-        });
-    }, 100);
-}
-
-/******************************************************************************/
-
     // whitelist something
 function allow(type, domain) {
     var httpsb = HTTPSB;
@@ -318,13 +295,18 @@ function webRequestHandler(details) {
         tab.urls = httpsb.urls[url].requests,
         tab.state = httpsb.urls[url].state;
     }
-    httpsb.urls[tab.pageUrl].lastTouched = Date.now();
 
-    // TODO: garbage collect orphan tabs (unless tab ids are reused by the
-    // browser?)
+    // It is possible at this point that there is no url stats store: this
+    // happens if the extension was launched after tabs were already opened.
+    if ( httpsb.urls[tab.pageUrl] ) {
+        httpsb.urls[tab.pageUrl].lastTouched = Date.now();
 
-    // log request attempt
-    record(tabId, type, url);
+        // TODO: garbage collect orphan tabs (unless tab ids are reused by the
+        // browser?)
+
+        // log request attempt
+        record(tabId, type, url);
+    }
 
     var domain = getUrlDomain(url);
 
@@ -332,13 +314,10 @@ function webRequestHandler(details) {
     if ( whitelisted(type, domain) ) {
         // console.debug('webRequestHandler > allowing ' + type + ' from ' + domain);
         // if it is a root frame and scripts are blacklisted for the
-        // domain, disable scripts for this domain.
+        // domain, disable scripts for this domain, necessary since inline
+        // script tags are not passed through web request handler.
         // TODO: not only root frame...
         if ( isMainFrame ) {
-            // A bug in Chromium prevent <noscript> tags from being properly
-            // rendered the first time. A forced refresh causes these
-            // to be properly rendered.
-            // https://code.google.com/p/chromium/issues/detail?id=232410
             var blacklistScript = blacklisted('script', domain);
             chrome.contentSettings.javascript.set({
                 primaryPattern: '*://' + domain + '/*',
@@ -362,7 +341,7 @@ function webRequestHandler(details) {
     // TODO: makes more sense to care about whitelisted items
     addTabState(tabId, type, domain)
 
-    // if it's a frame, redirect to frame.html
+    // if it's a blacklisted frame, redirect to frame.html
     if ( isMainFrame || type === 'sub_frame' ) {
         var q = chrome.runtime.getURL('frame.html') + '?';
         q += 'domain=' + encodeURIComponent(domain);

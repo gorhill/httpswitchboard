@@ -24,6 +24,7 @@
 /******************************************************************************/
 
 // hooks to let popup let us know whether page must be reloaded
+
 chrome.extension.onConnect.addListener(function(port) {
     port.onMessage.addListener(function(){});
     port.onDisconnect.addListener(function() {

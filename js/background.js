@@ -20,7 +20,7 @@
 */
 
 var HTTPSB = {
-    version: '0.1.7',
+    version: '0.1.8',
 
     // memo:
     // unicode for hourglass: &#x231B;

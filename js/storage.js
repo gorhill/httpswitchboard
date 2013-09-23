@@ -25,14 +25,14 @@
 function save() {
     var httpsb = HTTPSB;
     var bin = {
-        name: 'httpswitchboard',
+        'name': 'httpswitchboard',
         version: httpsb.version,
         // version < 0.1.3
         // whitelist: httpsb.whitelistUser,
         // blacklist: httpsb.blacklistUser
         // version == 0.1.3
-        whitelist: Object.keys(httpsb.whitelistUser).join('\n'),
-        blacklist: Object.keys(httpsb.blacklistUser).join('\n'),
+        'whitelist': Object.keys(httpsb.whitelistUser).join('\n'),
+        'blacklist': Object.keys(httpsb.blacklistUser).join('\n'),
     };
     chrome.storage.sync.set(bin, function() {
         console.log('HTTP Switchboard > saved user white and black lists (%d bytes)', bin.blacklist.length + bin.whitelist.length);

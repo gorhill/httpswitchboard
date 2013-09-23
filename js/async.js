@@ -1,0 +1,79 @@
+/*******************************************************************************
+
+    httpswitchboard - a Chromium browser extension to black/white list requests.
+    Copyright (C) 2013  Raymond Hill
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see {http://www.gnu.org/licenses/}.
+
+    Home: https://github.com/gorhill/httpswitchboard
+*/
+
+/******************************************************************************/
+
+// Update visual of extension icon.
+// A time out is used to coalesce adjacents requests to update badge.
+
+function updateBadge(tabId) {
+    var httpsb = HTTPSB;
+    if ( httpsb.tabs[tabId].updateBadgeTimer ) {
+            clearTimeout(httpsb.tabs[tabId].updateBadgeTimer);
+    }
+    httpsb.tabs[tabId].updateBadgeTimer = setTimeout(function() {
+        httpsb.tabs[tabId].updateBadgeTimer = null;
+        // Chromium tab may not exist, like when prerendering a web page for
+        // example.
+        chrome.tabs.get(tabId, function(tab) {
+            if ( tab ) {
+                var count = httpsb.tabs[tabId] ? Object.keys(httpsb.tabs[tabId].urls).length : 0;
+                chrome.browserAction.setBadgeText({ tabId: tabId, text: String(count) });
+                chrome.browserAction.setBadgeBackgroundColor({ tabId: tabId, color: '#000' });
+            }
+        });
+    }, 200);
+}
+
+/******************************************************************************/
+
+// Notify whoever care that whitelist/blacklist have changed (they need to
+// refresh their matrix).
+
+var permissionsChangedTimer = null;
+
+function permissionsChanged() {
+    if ( permissionsChangedTimer ) {
+        clearTimeout(permissionsChangedTimer);
+    }
+    permissionsChangedTimer = setTimeout(function() {
+        permissionsChangedTimer = null;
+        chrome.runtime.sendMessage({ 'command': 'permissions changed' });
+    }, 200);
+}
+
+/******************************************************************************/
+
+// Notify whoever care that url stats have changed (they need to
+// rebuild their matrix).
+
+var urlStatsChangedTimer = null;
+
+function urlStatsChanged() {
+    if ( urlStatsChangedTimer ) {
+        clearTimeout(urlStatsChangedTimer);
+    }
+    urlStatsChangedTimer = setTimeout(function() {
+        urlStatsChangedTimer = null;
+        chrome.runtime.sendMessage({ 'command': 'urlstats changed' });
+    }, 200);
+}
+

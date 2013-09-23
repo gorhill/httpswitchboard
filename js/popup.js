@@ -24,6 +24,7 @@
 /******************************************************************************/
 
 // tell the extension what we are doing
+var tabId; // this will be set later
 var port = chrome.extension.connect();
 var background = chrome.extension.getBackgroundPage();
 var httpsb = background.HTTPSB;
@@ -144,10 +145,10 @@ var typeNames = {
 };
 
 // build menu according to white and black lists
-var makeMenu = function(tabs) {
-    var chromeTab = tabs[0];
-    var tab = httpsb.tabs[chromeTab.id];
-    var topUrlParts = background.getUrlParts(chromeTab.url);
+var makeMenu = function() {
+    // TODO: check for undefined tabId
+
+    var tab = httpsb.tabs[tabId];
     var trees = makeTrees(tab);
 
     pageUrl = tab.pageUrl.slice(0,64);
@@ -169,8 +170,12 @@ var makeMenu = function(tabs) {
     });
     var domainKey, typeKey;
     var iDomain, iType;
-    var nDomains = Math.min(domainKeys.length);
+    var nDomains = domainKeys.length;
     var typeKeys = Object.keys(typeNames);
+
+    if ( !nDomains ) {
+        return;
+    }
 
     // header
     html.push(
@@ -282,7 +287,11 @@ var handleFilterMessage = function(button) {
 
 // make menu only when popup html is fully loaded
 document.addEventListener('DOMContentLoaded', function () {
-    chrome.tabs.query({currentWindow: true, active: true}, makeMenu);
+    chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
+        // TODO: can tabs be empty?
+        tabId = tabs[0].id; // Important!
+        makeMenu();
+    });
     // to handle filter button
     $('#filters').delegate('.filter-button', 'click', function() {
         handleFilter($(this));
@@ -293,7 +302,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     // to blank message
     $('#filters').delegate('.filter-button', 'mouseout', function() {
-        $('#message').html(pageUrl);
+        $('#message').html(pageUrl.length ? pageUrl : '&nbsp;');
+    });
+    // to know when to rebuild the matrix
+    chrome.runtime.onMessage.addListener(function(request, sender, callback) {
+        if ( request.command === 'urlstats changed' ) {
+            makeMenu();
+        }
     });
 });
 

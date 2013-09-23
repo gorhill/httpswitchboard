@@ -26,9 +26,14 @@ function record(tabId, type, url) {
     // console.debug("record() > %o: %s @ %s", details, details.type, details.url);
     var urls = HTTPSB.tabs[tabId].urls;
     if ( !urls[url] ) {
+        // TODO: since I got rid of count, I can get rid of extra indirection
         urls[url] = { types: {} };
     }
-    urls[url].types[type] = true;
+    var types = urls[url].types;
+    if ( !types[type] ) {
+        urlStatsChanged();
+    }
+    types[type] = true;
     updateBadge(tabId);
 }
 
