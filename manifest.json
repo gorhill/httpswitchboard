@@ -28,7 +28,7 @@
             "js/start.js"
         ]
     },
-    "homepage_url": "https://github.com/gorhill/httpswitchboard",
+    "homepage_url": "https://github.com/gorhill/httpswitchboard/wiki",
     "minimum_chrome_version": "28.0",
     "options_page": "options.html",
     "permissions": [

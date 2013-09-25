@@ -121,7 +121,20 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
             startWebRequestHandler(request.from);
             break;
 
+        case 'removeCookies':
+            removeCookies(request);
+            break;
+
+        case 'removeAllCookies':
+            removeAllCookies(request.url);
+            break;
+
+        case 'recordSetCookies':
+            recordSetCookies(request);
+            break;
+
         default:
+             // console.error('HTTP Switchboard > onMessage > unknown request: %o', request);
             break;
         }
     }
