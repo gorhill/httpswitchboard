@@ -361,13 +361,19 @@ function webHeaderRequestHandler(details) {
 
     var blacklistCookie = blacklisted('cookie', domain);
     if ( blacklistCookie ) {
+
         // this domain attempted to get cookies, so we block cookies for this
         // particular domain.
-        chrome.contentSettings.cookies.set({
-            primaryPattern: '*://*.' + domain + '/*',
-            secondaryPattern: '<all_urls>',
-            setting: blacklistCookie ? 'block' : 'allow'
-        });
+        // rhill 20130924: No, can't do that here, doing this risks permanently
+        // blocking cookies for a site even after whitelisting. The only
+        // sensible way is to block at `set-cookie` time, and here to resort
+        // to removing cookies from headers.
+        // chrome.contentSettings.cookies.set({
+        //    primaryPattern: '*://*.' + domain + '/*',
+        //    secondaryPattern: '<all_urls>',
+        //    setting: blacklistCookie ? 'block' : 'allow'
+        // });
+
         // remove cookie headers
         cookieJar.reverse();
         var headers;
