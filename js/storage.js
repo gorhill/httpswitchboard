@@ -34,7 +34,7 @@ function save() {
         'whitelist': Object.keys(httpsb.whitelistUser).join('\n'),
         'blacklist': Object.keys(httpsb.blacklistUser).join('\n'),
     };
-    chrome.storage.sync.set(bin, function() {
+    chrome.storage.local.set(bin, function() {
         console.log('HTTP Switchboard > saved user white and black lists (%d bytes)', bin.blacklist.length + bin.whitelist.length);
     });
 }
@@ -44,10 +44,9 @@ function save() {
 function loadUserLists() {
     var httpsb = HTTPSB;
 
-    chrome.storage.sync.get({ version: '0.1.4', whitelist: '', blacklist: ''}, function(store) {
-        console.log('HTTP Switchboard > loadUserLists > loaded user white and black lists');
-
+    chrome.storage.local.get({ version: '0.1.4', whitelist: '', blacklist: ''}, function(store) {
         if ( store.whitelist ) {
+            // console.log('HTTP Switchboard > loadUserLists > whitelist: "%s"', store.whitelist);
             if ( store.version.localeCompare(httpsb.version) < '0.1.3' ) {
                 httpsb.whitelistUser = store.whitelist;
             } else {
@@ -60,13 +59,22 @@ function loadUserLists() {
         populateListFromList(httpsb.whitelist, httpsb.whitelistUser);
 
         if ( store.blacklist ) {
-            if ( store.version.localeCompare(httpsb.version) < '0.1.3' ) {
+           // console.log('HTTP Switchboard > loadUserLists > blacklist: "%s"', store.blacklist);
+           if ( store.version.localeCompare(httpsb.version) < '0.1.3' ) {
                 httpsb.blacklistUser = store.blacklist;
             } else {
                 populateListFromString(httpsb.blacklistUser, store.blacklist);
             }
         }
         populateListFromList(httpsb.blacklist, httpsb.blacklistUser);
+
+        // gorhill 20130923: ok, there is no point in blacklisting 'page/*',
+        // since there is only one such page per tab. It is reasonable to
+        // whitelist by default 'page/*', and in any case, top page of
+        // blacklisted domain name will not be loaded anyways (because
+        // domain name has precedence over type). Now this way we save
+        // precious real estate pixels in popup menu.
+        allow('page', '*');
 
         chrome.runtime.sendMessage({
             'what': 'startWebRequestHandler',

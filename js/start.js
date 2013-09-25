@@ -32,8 +32,11 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     if ( getUrlProtocol(tab.url).search('http') !== 0 ) {
         return;
     }
+
+    var url = normalizeChromiumUrl(tab.url);
+
     // Ensure we have a url stats store and that the tab is bound to it.
-    bindTabToUrlstatsStore(tab.id, tab.url);
+    bindTabToUrlstatsStore(tab.id, url);
 
     // Following code is for script injection, which makes sense only if
     // web page in tab is completely loaded.
@@ -42,7 +45,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     }
     // Chrome webstore can't be injected with foreign code (I can see why),
     // following is to avoid error message.
-    if ( tab.url.search(/^https?:\/\/chrome\.google\.com\/webstore\//) === 0 ) {
+    if ( url.search(/^https?:\/\/chrome\.google\.com\/webstore\//) === 0 ) {
         return;
     }
     // Check if page has at least one script tab. We must do that here instead
@@ -57,10 +60,11 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
             file: 'js/inject.js',
             runAt: 'document_idle'
         },
+        // `r` tells whether there was at least one script tag in the page
         function(r) {
             if ( r ) {
-                var domain = getUrlDomain(tab.url);
-                record(tabId, 'script', tab.url);
+                var domain = getUrlDomain(url);
+                record(tabId, 'script', url);
                 if ( blacklisted('script', domain) ) {
                     addTabState(tabId, 'script', domain);
                 }
@@ -86,7 +90,7 @@ load();
         var tab;
         while ( i-- ) {
             tab = tabs[i];
-            bindTabToUrlstatsStore(tab.id, tab.url);
+            bindTabToUrlstatsStore(tab.id, normalizeChromiumUrl(tab.url));
         }
         // Tabs are now bound to url stats stores, therefore it is now safe
         // to handle net traffic.
@@ -102,7 +106,6 @@ load();
 // hooks to let popup let us know whether page must be reloaded
 
 chrome.extension.onConnect.addListener(function(port) {
-    port.onMessage.addListener(function(){});
     port.onDisconnect.addListener(function() {
         chrome.tabs.query({ status: 'complete' }, function(chromeTabs){
             var tabId;

@@ -42,13 +42,11 @@ var makeTrees = function(tab) {
     }
     var types = tree.types;
     var domains = tree.domains;
-    var urlParts;
     var domain;
     var nodes, nodeName;
     var level;
     for ( var urlKey in tab.urls ) {
-        urlParts = background.getUrlParts(urlKey);
-        domain = urlParts.domain;
+        domain = background.getUrlDomain(urlKey);
         nodes = domain.split('.');
         level = 0;
         while ( nodes.length > 1 ) {
@@ -135,13 +133,13 @@ var updateFilterButtons = function() {
 
 // pretty names
 var typeNames = {
-    "main_frame": "page",
-    "image": "images",
-    "object": "objects",
-    "script": "scripts",
-    "xmlhttprequest": "XHR",
-    "sub_frame": "frames",
-    "other": "others"
+    'cookie': 'cookie',
+    'image': 'image',
+    'object': 'object',
+    'script': 'script',
+    'xmlhttprequest': 'XHR',
+    'sub_frame': 'frame',
+    'other': 'other'
 };
 
 // build menu according to white and black lists
@@ -183,7 +181,7 @@ var makeMenu = function() {
         '<td',
         ' class="filter-button ', getCurrentClass('*', '*'), '"',
         ' data-filter-type="*" data-filter-domain="*"',
-        '>&nbsp;'
+        '>all'
         );
 
     // type of requests

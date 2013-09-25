@@ -20,7 +20,7 @@
 */
 
 var HTTPSB = {
-    version: '0.1.9',
+    version: '0.2.00',
 
     // memo:
     // unicode for hourglass: &#x231B;
@@ -28,9 +28,11 @@ var HTTPSB = {
     gcPeriod: 30 * 60 * 1000, // 30 minutes...
 
     // list of remote blacklist locations
+    // TODO: ttl (2-weeks?)
     remoteBlacklists: {
         'http://pgl.yoyo.org/as/serverlist.php?mimetype=plaintext': {},
         'http://www.malwaredomainlist.com/hostslist/hosts.txt': {},
+        'http://dns-bh.sagadc.org/justdomains': {},
         'http://dns-bh.sagadc.org/immortal_domains.txt': {}
         },
 

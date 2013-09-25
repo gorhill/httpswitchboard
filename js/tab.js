@@ -23,6 +23,19 @@
 
 // Check if a URL stats store exists
 
+function normalizeChromiumUrl(url) {
+    // remove fragment...
+    var i = url.search('#');
+    if ( i >= 0 ) {
+        return url.slice(0,i);
+    }
+    return url;
+}
+
+/******************************************************************************/
+
+// Check if a URL stats store exists
+
 function urlstatsStoreExists(url) {
     return !!HTTPSB.urls[url];
 }
@@ -88,6 +101,31 @@ function record(tabId, type, url) {
     }
     types[type] = true;
     updateBadge(tabId);
+}
+
+/******************************************************************************/
+
+function recordSetCookies(request) {
+    var i = request.cookieJar.length;
+    var rootUrl = getUrlHrefRoot(request.url);
+    var domain = getUrlDomain(request.url);
+    var valueAt;
+    var cookieName;
+    var cookieUrl;
+    while ( i-- ) {
+        cookieName = request.cookieJar[i];
+        valueAt = cookieName.indexOf('=');
+        if ( valueAt >= 0 ) {
+            cookieName = cookieName.slice(0, valueAt);
+        }
+        cookieName = cookieName.trim().toLowerCase();
+        cookieUrl = rootUrl + '/{cookie:' + cookieName + '}';
+        record(request.tabId, 'cookie', cookieUrl);
+        // console.debug('HTTP Switchboard > recordSetCookies: "%s"', cookieUrl);
+        if ( blacklisted('cookie', domain) ) {
+            addTabState(request.tabId, 'cookie', domain);
+        }
+    }
 }
 
 /******************************************************************************/

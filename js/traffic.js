@@ -226,25 +226,25 @@ function whitelisted(type, domain) {
 
 function webRequestHandler(details) {
 /*
-    console.debug('tab=%d parent=%d frame=%d type=%s, url=%s',
+    console.debug('Request: tab=%d parent=%d frame=%d type=%s, url=%s',
         details.tabId,
         details.parentFrameId,
         details.frameId,
         details.type,
-        details.url.slice(0,30),
-        details.url.slice(0,30)
+        details.url
         );
 */
+
     var tabId = details.tabId;
 
     // ignore traffic outside tabs
     // TODO: when might this happen?
     if ( tabId < 0 ) {
-        return { "cancel": false };
+        return;
     }
 
     var type = details.type;
-    var url = details.url;
+    var url = normalizeChromiumUrl(details.url);
     var isMainFrame = type === 'main_frame';
     var isRootFrame = isMainFrame && details.parentFrameId < 0;
 
@@ -262,7 +262,7 @@ function webRequestHandler(details) {
                 return { "redirectUrl": decodeURIComponent(matches[2]) };
             }
         }
-        return { "cancel": false };
+        return;
     }
 
     var httpsb = HTTPSB;
@@ -297,7 +297,7 @@ function webRequestHandler(details) {
         if ( isMainFrame ) {
             var blacklistScript = blacklisted('script', domain);
             chrome.contentSettings.javascript.set({
-                primaryPattern: '*://' + domain + '/*',
+                primaryPattern: '*://*.' + domain + '/*',
                 setting: blacklistScript ? 'block' : 'allow'
             });
             // console.debug('Blacklisting scripts for *://%s/* is %o', domain, blacklistScript);
@@ -306,7 +306,7 @@ function webRequestHandler(details) {
             // script tag, this takes care of inline scripting, which doesn't
             // generate 'script' type web requests.
         }
-        return { "cancel": false };
+        return;
     }
 
     // blacklisted
@@ -316,7 +316,7 @@ function webRequestHandler(details) {
     // of the tab, which is useful for smart reload of the page (reload the
     // page only when state efectively change)
     // TODO: makes more sense to care about whitelisted items
-    addTabState(tabId, type, domain)
+    addTabState(tabId, type, domain);
 
     // if it's a blacklisted frame, redirect to frame.html
     if ( isMainFrame || type === 'sub_frame' ) {
@@ -329,6 +329,123 @@ function webRequestHandler(details) {
     }
 
     return { "cancel": true };
+}
+
+/******************************************************************************/
+
+function webHeaderRequestHandler(details) {
+
+    // ignore traffic outside tabs
+    // TODO: when might this happen?
+    // Apparently from within extensions
+    var tabId = details.tabId;
+    if ( details.tabId < 0 ) {
+        return;
+    }
+
+    // Any cookie in there?
+    var cookieJar = [];
+    var i = details.requestHeaders.length;
+    while ( i-- ) {
+        if ( details.requestHeaders[i].name.toLowerCase() === 'cookie' ) {
+            cookieJar.push(i);
+        }
+    }
+    // Nope, bye
+    if ( cookieJar.length < 0 ) {
+        return;
+    }
+
+    var url = normalizeChromiumUrl(details.url);
+    var domain = getUrlDomain(url);
+
+    var blacklistCookie = blacklisted('cookie', domain);
+    if ( blacklistCookie ) {
+        // this domain attempted to get cookies, so we block cookies for this
+        // particular domain.
+        chrome.contentSettings.cookies.set({
+            primaryPattern: '*://*.' + domain + '/*',
+            secondaryPattern: '<all_urls>',
+            setting: blacklistCookie ? 'block' : 'allow'
+        });
+        // remove cookie headers
+        cookieJar.reverse();
+        var headers;
+        while ( cookieJar.length ) {
+            i = cookieJar.pop();
+            headers = details.requestHeaders.splice(i, 1);
+            // remove cookies: even if cookies are blocked, scripts can create
+            // cookies, so this here is to take careof removing these kind of
+            // cookies.
+            chrome.runtime.sendMessage({
+                what: 'removeCookies',
+                url: url,
+                domain: domain,
+                cookieStr: headers[0].value
+            });
+            console.debug('HTTP Switchboard > foiled chromium attempt to send cookie "%s..." to %s', headers[0].value.slice(0,40), url);
+        }
+
+        return { requestHeaders: details.requestHeaders };
+    }
+
+    return;
+}
+
+/******************************************************************************/
+
+function webHeadersReceivedHandler(details) {
+    var tabId = details.tabId;
+
+    // ignore traffic outside tabs
+    // TODO: when might this happen?
+    // Apparently from within extensions
+    if ( tabId < 0 ) {
+        return;
+    }
+
+    // Any cookie in there?
+    var cookieJar = [];
+    var i = details.responseHeaders.length;
+    while ( i-- ) {
+        if ( details.responseHeaders[i].name.toLowerCase() === 'set-cookie' ) {
+            cookieJar.push(details.responseHeaders[i].value);
+        }
+    }
+    // Nope, bye
+    if ( cookieJar.length === 0 ) {
+        return;
+    }
+
+    var url = normalizeChromiumUrl(details.url);
+    var domain = getUrlDomain(url);
+    var blacklistCookie = blacklisted('cookie', domain);
+
+    chrome.contentSettings.cookies.set({
+        primaryPattern: '*://*.' + domain + '/*',
+        secondaryPattern: '<all_urls>',
+        setting: blacklistCookie ? 'block' : 'allow'
+    });
+    // console.debug('HTTP Switchboard > %sing cookies from "*://*.%s/*"', blacklistCookie ? 'block' : 'allow', domain);
+
+    // Message instead of handling on the spot cookie parsing, which is not
+    // time-critical.
+    chrome.runtime.sendMessage({
+        what: 'recordSetCookies',
+        tabId: tabId,
+        url: url,
+        cookieJar: cookieJar
+        });
+
+    // remove cookies potentially left behind
+    if ( blacklistCookie ) {
+        chrome.runtime.sendMessage({
+            what: 'removeCookies',
+            url: url,
+            domain: domain,
+            cookieStr: cookieJar.join(';')
+        });
+    }
 }
 
 /******************************************************************************/
@@ -365,6 +482,26 @@ function startWebRequestHandler(from) {
             ]
         },
         [ "blocking" ]
+    );
+
+    chrome.webRequest.onBeforeSendHeaders.addListener(
+        webHeaderRequestHandler,
+        {
+            'urls': [
+                '<all_urls>'
+            ]
+        },
+        ['blocking', 'requestHeaders']
+    );
+
+    chrome.webRequest.onHeadersReceived.addListener(
+        webHeadersReceivedHandler,
+        {
+            'urls': [
+                '<all_urls>'
+            ]
+        },
+        ['responseHeaders']
     );
 
     HTTPSB.webRequestHandler = true;
