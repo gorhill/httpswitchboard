@@ -23,12 +23,13 @@ HTTP Switchboard let you easily white- or black-list net requests which originat
 - domain names
   * in full or part
 - type of requests
-  * images
-  * objects
-  * scripts
+  * cookie
+  * image
+  * object
+  * script
   * XMR (abbreviation for XMLHttpRequest)
-  * sub-frames
-  * others
+  * frame
+  * other
 
 The goal of this extension is to make allowing or blocking of web sites,
 wholly of partly, as straightforward as possible, so as to not discourage
@@ -45,22 +46,17 @@ Simply click on the appropriate entry in the matrix in order to white-,
 black- or gray-list a component. Gray-listing means the blocked or allowed
 status will be inherited from another entry in the matrix.
 
-Red square: effectively black-listed, i.e. requests are prevented from
-reaching their destination.
-
-Green square: effectively white-listed, i.e. requests are allowed to reach
-their intended destination.
-
-Bright red square: the specific domain name and/or type of request is
+-Red square = effectively black-listed, i.e. requests are prevented from
+reaching their destination:
+    * Dark red square: the specific domain name and/or type of request is
 specifically black-listed.
-
-Faded red square: the black-list status in inherited because the entry is
+    * Faded red square: the black-list status in inherited because the entry is
 gray-listed.
-
-Bright green square: the specific domain name and/or type of request is
+- Green square = effectively white-listed, i.e. requests are allowed to reach
+their intended destination.
+    * Bright green square: the specific domain name and/or type of request is
 specifically white-listed.
-
-Faded green square: the white-list status in inherited because the entry is
+    * Faded green square: the white-list status in inherited because the entry is
 gray-listed.
 
 The top-left cell in the matrix represents the default global setting, which
