@@ -34,98 +34,88 @@ function normalizeChromiumUrl(url) {
 
 /******************************************************************************/
 
-// Check if a URL stats store exists
+// Check if a page url stats store exists
 
-function urlstatsStoreExists(url) {
-    return !!HTTPSB.urls[url];
+function pageStatsExists(pageUrl) {
+    return !!pageStatsFromPageUrl(pageUrl);
 }
 
 /******************************************************************************/
 
-// Create a new URL stats store (if not already present)
+// Create a new page url stats store (if not already present)
 
-function createUrlstatsStore(url) {
+function createPageStats(pageUrl) {
     // do not create stats store for urls which are of no interest
-    if ( url.search(/^https?:\/\//) !== 0 ) {
+    if ( pageUrl.search(/^https?:\/\//) !== 0 ) {
         return undefined;
     }
     var httpsb = HTTPSB;
-    if ( httpsb.urls[url] === undefined ) {
-        httpsb.urls[url] = {
+    if ( !httpsb.pageStats[pageUrl] ) {
+        httpsb.pageStats[pageUrl] = {
+            pageUrl: pageUrl,
             requests: {},
+            domains: {},
             state: {},
             lastTouched: Date.now()
             };
     }
-    return httpsb.urls[url];
+    return httpsb.pageStats[pageUrl];
 }
 
 /******************************************************************************/
 
 // Create an entry for the tab if it doesn't exist
 
-function bindTabToUrlstatsStore(tabId, url) {
-    var urlstats = createUrlstatsStore(url);
-    if ( !urlstats ) {
+function bindTabToPageStats(tabId, pageUrl) {
+    var pageStats = createPageStats(pageUrl);
+    if ( !pageStats ) {
         return undefined;
     }
-    // console.debug('bindTabToUrlstatsStore > dispatching traffic in tab id %d to url stats store "%s"', tabId, url);
+    // console.debug('bindTabToPageStats > dispatching traffic in tab id %d to url stats store "%s"', tabId, pageUrl);
     var httpsb = HTTPSB;
-    if ( httpsb.tabs[tabId] === undefined ) {
-        httpsb.tabs[tabId] = {
-            pageUrl: '',
-            urls: {},
-            state: {}
-            };
+    if ( httpsb.tabIdToPageUrl[tabId] ) {
+        httpsb.pageUrlToTabId[httpsb.tabIdToPageUrl[tabId]] = undefined;
     }
-    var tab = httpsb.tabs[tabId];
-    tab.pageUrl = url,
-    tab.urls = urlstats.requests,
-    tab.state = urlstats.state;
-    return tab;
+    httpsb.pageUrlToTabId[pageUrl] = tabId;
+    httpsb.tabIdToPageUrl[tabId] = pageUrl;
+    return pageStats;
 }
 
 /******************************************************************************/
 
-// log a request
-function record(tabId, type, url) {
-    // console.debug("record() > %o: %s @ %s", details, details.type, details.url);
-    var urls = HTTPSB.tabs[tabId].urls;
-    if ( !urls[url] ) {
-        // TODO: since I got rid of count, I can get rid of extra indirection
-        urls[url] = { types: {} };
+// Log a request
+
+function recordFromTabId(tabId, type, url) {
+    var pageStats = pageStatsFromTabId(tabId);
+    if ( pageStats ) {
+        recordFromPageStats(pageStats, type, url);
     }
-    var types = urls[url].types;
+}
+
+function recordFromPageUrl(pageUrl, type, url) {
+    var pageStats = pageStatsFromPageUrl(pageUrl);
+    if ( pageStats ) {
+        recordFromPageStats(pageStats, type, url);
+    }
+}
+
+function recordFromPageStats(pageStats, type, url) {
+    // console.debug("record() > %o: %s @ %s", details, details.type, details.url);
+    if ( !pageStats ) {
+        console.error('HTTP Switchboard > record > page stats for tab id %d not found', tabId);
+        return;
+    }
+    pageStats.lastTouched = Date.now();
+    if ( !pageStats.requests[url] ) {
+        pageStats.requests[url] = { types: {} };
+    }
+    var types = pageStats.requests[url].types;
     if ( !types[type] ) {
         urlStatsChanged();
     }
     types[type] = true;
-    updateBadge(tabId);
-}
-
-/******************************************************************************/
-
-function recordSetCookies(request) {
-    var i = request.cookieJar.length;
-    var rootUrl = getUrlHrefRoot(request.url);
-    var domain = getUrlDomain(request.url);
-    var valueAt;
-    var cookieName;
-    var cookieUrl;
-    while ( i-- ) {
-        cookieName = request.cookieJar[i];
-        valueAt = cookieName.indexOf('=');
-        if ( valueAt >= 0 ) {
-            cookieName = cookieName.slice(0, valueAt);
-        }
-        cookieName = cookieName.trim().toLowerCase();
-        cookieUrl = rootUrl + '/{cookie:' + cookieName + '}';
-        record(request.tabId, 'cookie', cookieUrl);
-        // console.debug('HTTP Switchboard > recordSetCookies: "%s"', cookieUrl);
-        if ( blacklisted('cookie', domain) ) {
-            addTabState(request.tabId, 'cookie', domain);
-        }
-    }
+    pageStats.domains[getUrlDomain(url)] = true;
+    updateBadge(pageStats);
 }
 
 /******************************************************************************/
@@ -134,13 +124,21 @@ function recordSetCookies(request) {
 
 function smartReloadTab(tabId) {
     var newState = computeTabState(tabId);
-    var httpsb = HTTPSB;
-    var tab = httpsb.tabs[tabId];
-    if ( getStateHash(newState) != getStateHash(httpsb.tabs[tabId].state) ) {
+    var pageUrl = pageUrlFromTabId(tabId);
+    if ( !pageUrl ) {
+        console.error('HTTP Switchboard > smartReloadTab > page url for tab id %d not found', tabId);
+        return;
+    }
+    var pageStats = pageStatsFromTabId(tabId);
+    if ( !pageStats ) {
+        console.error('HTTP Switchboard > smartReloadTab > page stats for tab id %d not found', tabId);
+        return;
+    }
+
+    if ( getStateHash(newState) != getStateHash(pageStats.state) ) {
         // console.debug('reloaded content of tab id %d', tabId);
-        // console.debug('old="%s"\nnew="%s"', getStateHash(httpsb.tabs[tabId].state), getStateHash(newState));
-        var domain = getUrlDomain(tab.pageUrl);
-        httpsb.urls[tab.pageUrl].state = newState;
+        console.debug('old="%s"\nnew="%s"', getStateHash(pageStats.state), getStateHash(newState));
+        pageStats.state = newState;
         chrome.tabs.reload(tabId);
     }
 }
@@ -154,21 +152,46 @@ function smartReloadTab(tabId) {
 //      etc.
 
 function tabExists(tabId) {
-    return HTTPSB.tabs[tabId] !== undefined;
+    return !!pageUrlFromTabId(tabId);
 }
 
 /******************************************************************************/
 
 function getTabStateHash(tabId) {
-    // It is a critical error for a tab to not be defnied here
-    return getStateHash(HTTPSB.tabs[tabId].state);
+    var pageStats = pageStatsFromTabId(tabId);
+    if ( pageStats ) {
+        return getStateHash(pageStats.state);
+    }
+    console.error('HTTP Switchboard > getTabStateHash > page stats for tab id %d not found', tabId);
+    return '';
 }
 
 /******************************************************************************/
 
-function addTabState(tabId, type, domain) {
-    // It is a critical error for a tab to not be defined here
-    HTTPSB.tabs[tabId].state[type +  '/' + domain] = true;
+function addStateFromTabId(tabId, type, domain) {
+    var pageStats = pageStatsFromTabId(tabId);
+    if ( pageStats ) {
+        addStateFromPageStats(pageStats, type, domain);
+        return;
+    }
+    console.error('HTTP Switchboard > addStateFromTabId > page stats for tab id %d not found', tabId);
+}
+
+function addStateFromPageUrl(pageUrl, type, domain) {
+    var pageStats = pageStatsFromPageUrl(pageUrl);
+    if ( pageStats ) {
+        addStateFromPageStats(pageStats, type, domain);
+        return;
+    }
+    console.error('HTTP Switchboard > addStateFromPageUrl > page stats for page url %s not found', pageUrl);
+}
+
+function addStateFromPageStats(pageStats, type, domain) {
+    if ( pageStats ) {
+        pageStats.state[type +  '/' + domain] = true;
+        return;
+    }
+    console.error('HTTP Switchboard > addStateFromPageStats > page stats is null');
 }
 
 /******************************************************************************/
@@ -185,13 +208,17 @@ function getStateHash(state) {
 /******************************************************************************/
 
 function computeTabState(tabId) {
+    var pageStats = pageStatsFromTabId(tabId);
+    if ( !pageStats ) {
+        console.error('HTTP Switchboard > computeTabState > page stats for tab id %d not found', tabId);
+        return {};
+    }
     // Go through all recorded requests, apply filters to create state
-    var tab = HTTPSB.tabs[tabId];
     // It is a critical error for a tab to not be defined here
     var computedState = {};
     var domain, type;
-    for ( var url in tab.urls ) {
-        for ( type in tab.urls[url].types ) {
+    for ( var url in pageStats.requests ) {
+        for ( type in pageStats.requests[url].types ) {
             domain = getUrlDomain(url);
             if ( blacklisted(type, domain) ) {
                 computedState[type +  '/' + domain] = true;
@@ -204,6 +231,41 @@ function computeTabState(tabId) {
 /******************************************************************************/
 
 function tabStateChanged(tabId) {
-    return getStateHash(computeTabState(tabId)) != getStateHash(HTTPSB.tabs[tabId].state);
+    var pageStats = pageStatsFromTabId(tabId);
+    if ( pageStats ) {
+        return getStateHash(computeTabState(tabId)) != getStateHash(pageStats.state);
+    }
+    console.error('HTTP Switchboard > tabStateChanged > page stats for tab id %d not found', tabId);
+    return false;
+}
+
+/******************************************************************************/
+
+function tabIdFromPageUrl(pageUrl) {
+    return HTTPSB.pageUrlToTabId[pageUrl];
+}
+
+function tabIdFromPageStats(pageStats) {
+    return tabIdFromPageUrl(pageStats.pageUrl);
+}
+
+function pageUrlFromTabId(tabId) {
+    return HTTPSB.tabIdToPageUrl[tabId];
+}
+
+function pageUrlFromPageStats(pageStats) {
+    return pageStats.pageUrl;
+}
+
+function pageStatsFromTabId(tabId) {
+    var pageUrl = HTTPSB.tabIdToPageUrl[tabId];
+    if ( pageUrl ) {
+        return HTTPSB.pageStats[pageUrl];
+    }
+    return undefined;
+}
+
+function pageStatsFromPageUrl(pageUrl) {
+    return HTTPSB.pageStats[pageUrl];
 }
 

@@ -38,11 +38,12 @@ var HTTPSB = {
 
     // urls stats are kept on the back burner while waiting to be reactivated
     // in a tab or another.
-    urls: {},
+    pageStats: {},
 
     // tabs are used to redirect stats collection to a specific url stats
     // structure.
-    tabs: {},
+    pageUrlToTabId: {},
+    tabIdToPageUrl: {},
 
     // map["{type}/{domain}"]true
     // effective lists

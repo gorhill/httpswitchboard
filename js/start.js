@@ -33,10 +33,10 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
         return;
     }
 
-    var url = normalizeChromiumUrl(tab.url);
+    var pageUrl = normalizeChromiumUrl(tab.url);
 
     // Ensure we have a url stats store and that the tab is bound to it.
-    bindTabToUrlstatsStore(tab.id, url);
+    bindTabToPageStats(tab.id, pageUrl);
 
     // Following code is for script injection, which makes sense only if
     // web page in tab is completely loaded.
@@ -45,7 +45,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     }
     // Chrome webstore can't be injected with foreign code (I can see why),
     // following is to avoid error message.
-    if ( url.search(/^https?:\/\/chrome\.google\.com\/webstore\//) === 0 ) {
+    if ( pageUrl.search(/^https?:\/\/chrome\.google\.com\/webstore\//) === 0 ) {
         return;
     }
     // Check if page has at least one script tab. We must do that here instead
@@ -63,14 +63,22 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
         // `r` tells whether there was at least one script tag in the page
         function(r) {
             if ( r ) {
-                var domain = getUrlDomain(url);
-                record(tabId, 'script', url);
+                var domain = getUrlDomain(pageUrl);
+                recordFromPageUrl(pageUrl, 'script', pageUrl);
                 if ( blacklisted('script', domain) ) {
-                    addTabState(tabId, 'script', domain);
+                    addStateFromPageUrl(pageUrl, 'script', domain);
                 }
             }
         }
     );
+
+    // Cookie hunting expedition for this page url and record all those we
+    // find which hit any domain found on this page.
+    // TODO: listen to cookie changes.
+    chrome.runtime.sendMessage({
+        what: 'findAndRecordCookies',
+        pageUrl: pageUrlFromTabId(tabId)
+    });
 })
 
 /******************************************************************************/
@@ -90,7 +98,7 @@ load();
         var tab;
         while ( i-- ) {
             tab = tabs[i];
-            bindTabToUrlstatsStore(tab.id, normalizeChromiumUrl(tab.url));
+            bindTabToPageStats(tab.id, normalizeChromiumUrl(tab.url));
         }
         // Tabs are now bound to url stats stores, therefore it is now safe
         // to handle net traffic.
@@ -127,22 +135,18 @@ chrome.extension.onConnect.addListener(function(port) {
     var httpsb = HTTPSB;
     var gcFunc = function() {
         chrome.tabs.query({ 'url': '<all_urls>' }, function(tabs){
-            var url;
-            for ( var i = 0; i < tabs.length; i++ ) {
-                url = tabs[i].url;
-                if ( httpsb.urls[url] ) {
-                    httpsb.urls[url].lastTouched = Date.now();
-                }
-            }
             var interval;
-            for ( url in httpsb.urls ) {
-                interval = Date.now() - httpsb.urls[url].lastTouched;
-                if ( interval < httpsb.gcPeriod ) {
-                    // console.debug('GC > last touched %d ms ago, can\'t dispose of "%s"', interval, url);
-                    continue;
+            for ( var pageUrl in httpsb.pageStats ) {
+                // page is in a chrome tab
+                if ( tabIdFromPageUrl(pageUrl) ) {
+                    httpsb.pageStats[pageUrl].lastTouched = Date.now();
+                } else {
+                    interval = Date.now() - httpsb.pageStats[pageUrl].lastTouched;
+                    if ( interval >= httpsb.gcPeriod ) {
+                        // console.debug('GC > disposed of "%s"', url);
+                        delete httpsb.pageStats[pageUrl];
+                    }
                 }
-                // console.debug('GC > disposed of "%s"', url);
-                delete httpsb.urls[url];
             }
         });
     };

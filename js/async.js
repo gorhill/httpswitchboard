@@ -24,18 +24,20 @@
 // Update visual of extension icon.
 // A time out is used to coalesce adjacents requests to update badge.
 
-function updateBadge(tabId) {
-    var httpsb = HTTPSB;
-    if ( httpsb.tabs[tabId].updateBadgeTimer ) {
-            clearTimeout(httpsb.tabs[tabId].updateBadgeTimer);
+function updateBadge(pageStats) {
+    if ( pageStats.updateBadgeTimer ) {
+        clearTimeout(pageStats.updateBadgeTimer);
     }
-    httpsb.tabs[tabId].updateBadgeTimer = setTimeout(function() {
-        httpsb.tabs[tabId].updateBadgeTimer = null;
+    pageStats.updateBadgeTimer = setTimeout(function() {
+        pageStats.updateBadgeTimer = null;
         // Chromium tab may not exist, like when prerendering a web page for
         // example.
+        var tabId = tabIdFromPageStats(pageStats);
+        if ( !tabId ) { return; }
         chrome.tabs.get(tabId, function(tab) {
             if ( tab ) {
-                var count = httpsb.tabs[tabId] ? Object.keys(httpsb.tabs[tabId].urls).length : 0;
+                var pageStats = pageStatsFromTabId(tab.id);
+                var count = pageStats ? Object.keys(pageStats.requests).length : 0;
                 var countStr = String(count);
                 if ( count >= 1000 ) {
                     if ( count < 10000 ) {
@@ -48,8 +50,8 @@ function updateBadge(tabId) {
                         countStr = countStr.slice(0,-6) + 'M';
                     }
                 }
-                chrome.browserAction.setBadgeText({ tabId: tabId, text: countStr });
-                chrome.browserAction.setBadgeBackgroundColor({ tabId: tabId, color: '#000' });
+                chrome.browserAction.setBadgeText({ tabId: tab.id, text: countStr });
+                chrome.browserAction.setBadgeBackgroundColor({ tabId: tab.id, color: '#000' });
             }
         });
     }, 200);
@@ -129,8 +131,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
             removeAllCookies(request.url);
             break;
 
-        case 'recordSetCookies':
-            recordSetCookies(request);
+        case 'findAndRecordCookies':
+            findAndRecordCookies(request.pageUrl);
             break;
 
         default:

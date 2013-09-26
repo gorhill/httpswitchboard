@@ -20,7 +20,9 @@
             "js/lib/jquery-2.min.js",
             "js/async.js",
             "js/background.js",
+            "js/cookies.js",
             "js/inject.js",
+            "js/lists.js",
             "js/storage.js",
             "js/tab.js",
             "js/traffic.js",
@@ -29,7 +31,7 @@
         ]
     },
     "homepage_url": "https://github.com/gorhill/httpswitchboard/wiki",
-    "minimum_chrome_version": "28.0",
+    "minimum_chrome_version": "22.0",
     "options_page": "options.html",
     "permissions": [
         "contentSettings",

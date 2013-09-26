@@ -31,13 +31,13 @@ var httpsb = background.HTTPSB;
 var pageUrl = '';
 
 // make internal tree representation of white/black lists
-var makeTrees = function(tab) {
+var makeTrees = function(pageStats) {
     var tree = {
         domains: {},
         types: {}
     };
     // this can happen if domain in tab is evil
-    if ( !tab ) {
+    if ( !pageStats ) {
         return;
     }
     var types = tree.types;
@@ -45,7 +45,7 @@ var makeTrees = function(tab) {
     var domain;
     var nodes, nodeName;
     var level;
-    for ( var urlKey in tab.urls ) {
+    for ( var urlKey in pageStats.requests ) {
         domain = background.getUrlDomain(urlKey);
         nodes = domain.split('.');
         level = 0;
@@ -56,7 +56,7 @@ var makeTrees = function(tab) {
             }
             nodes = nodes.slice(1);
         }
-        for ( var typeKey in tab.urls[urlKey].types ) {
+        for ( var typeKey in pageStats.requests[urlKey].types ) {
             if ( !types[typeKey] ) {
                 types[typeKey] = {};
             }
@@ -144,13 +144,11 @@ var typeNames = {
 
 // build menu according to white and black lists
 var makeMenu = function() {
-    // TODO: check for undefined tabId
+    var pageStats = background.pageStatsFromTabId(tabId);
+    var trees = makeTrees(pageStats);
 
-    var tab = httpsb.tabs[tabId];
-    var trees = makeTrees(tab);
-
-    pageUrl = tab.pageUrl.slice(0,64);
-    if ( tab.pageUrl.length > 64 ) {
+    pageUrl = pageStats.pageUrl.slice(0,64);
+    if ( pageStats.pageUrl.length > 64 ) {
         pageUrl += '...';
     }
     $('#message').html(pageUrl);
