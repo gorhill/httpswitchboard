@@ -53,7 +53,7 @@ specifically black-listed.
     * Faded red square: the black-list status in inherited because the entry is
 gray-listed.
 - Green square = effectively white-listed, i.e. requests are allowed to reach
-their intended destination.
+their intended destination:
     * Bright green square: the specific domain name and/or type of request is
 specifically white-listed.
     * Faded green square: the white-list status in inherited because the entry is
