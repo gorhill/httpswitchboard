@@ -65,6 +65,7 @@ function webRequestHandler(details) {
     }
 
     // If it's a top frame, bind to a new page stats store
+    // TODO: favicon is sent before top main frame...
     if ( isRootFrame ) {
         bindTabToPageStats(tabId, url);
     }

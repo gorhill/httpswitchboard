@@ -64,7 +64,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
         function(r) {
             if ( r ) {
                 var domain = getUrlDomain(pageUrl);
-                recordFromPageUrl(pageUrl, 'script', pageUrl);
+                recordFromPageUrl(pageUrl, 'script', pageUrl + '/{inline_script}');
                 if ( blacklisted('script', domain) ) {
                     addStateFromPageUrl(pageUrl, 'script', domain);
                 }
@@ -115,15 +115,7 @@ load();
 
 chrome.extension.onConnect.addListener(function(port) {
     port.onDisconnect.addListener(function() {
-        chrome.tabs.query({ status: 'complete' }, function(chromeTabs){
-            var tabId;
-            for ( var i = 0; i < chromeTabs.length; i++ ) {
-                tabId = chromeTabs[i].id;
-                if ( tabExists(tabId) ) {
-                    smartReloadTab(tabId);
-                }
-            }
-        });
+        chrome.runtime.sendMessage({ what: 'reloadTabs' });
     });
 });
 

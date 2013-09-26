@@ -5,38 +5,65 @@
 <link href='css/fonts.css' rel='stylesheet' type='text/css'>
 <style>
     body {
+        margin: 0;
+        border: 0;
+        padding: 2px 4px;
         font: 13px httpsb,sans-serif;
+        background-color: white;
+        min-width: 32em;
     }
-    table {
+    div {
+        margin: 0;
+        border: 0;
+        padding: 0;
     }
-    tr:first-child td:first-child {
-        text-align: center;
+    div.pane-head {
+        padding: 0 0 4px 0;
+        position: fixed;
+        top: 0;
+        background-color: white;
     }
-    td {
-        margin: 0px;
-        border: 1px dotted #aaa;
+    div.pane-content {
+        padding-top: 74px;
+    }
+
+    div.matrix {
+        text-align: left;
+    }
+    div.matrix > div {
+        white-space: nowrap;
+    }
+    div.matrix > div:first-child {
+    }
+    div.matrix > div > div {
+        margin: 1px;
+        border: 1px solid rgba(0,0,0,0.05);
+        border-width: 1px 0 0 0;
+        padding: 0px 2px 3px 2px;
+        display: inline-block;
+        width: 35px;
         white-space:nowrap;
-        background-color: #eee;
         text-align: center;
-        cursor: default;
-    }
-    td.filter-button {
         cursor: pointer;
-    }
-    td:first-child {
+    }   
+    div.matrix > div > div:first-child {
+        width: 180px;
         text-align: right;
     }
-    tr:first-child td.filter-button {
-        min-width: 2.5em;
+    div.matrix > div.permissionSeparator {
+        margin: 6px;
+        border: 0;
+        padding: 0;
+        height: 0;
     }
-    tr.ancestor {
-        color: #8c8c8c;
+    div.matrix > div.domainSeparator {
+        margin: 3px;
+        border: 0;
+        padding: 0;
+        height: 0;
     }
-    .filter-allowed,
-    .filter-disallowed,
-    .filter-allowed-indirect,
-    .filter-disallowed-indirect {
-        padding: 0px 2px 2px 2px;
+    div.matrix > div > div.zero {
+        border-style: dotted;
     }
     .filter-allowed {
         color: white;
@@ -47,10 +74,10 @@
         background-color: #c00;
     }
     .filter-allowed-indirect {
-        background-color: #cfc;
+        background-color: #d0f0d0;
     }
     .filter-disallowed-indirect {
-        background-color: #fcc;
+        background-color: #f8d0d0;
     }
     .top {
         font-weight: bold;
@@ -68,15 +95,25 @@
         color: black;
         font-weight: normal;
     }
+    #message .filter-allowed, #message .filter-disallowed {
+        padding: 0 4px;
+    }
 </style>
 <title>HTTP Switchboard</title>
 </head>
 
 <body>
+
+<div class="pane-head">
 <p id="message">&nbsp;</p>
-<p id="filters">
-    <span style="color:gray">So far, no net traffic seen on this page. Maybe the page was loaded before HTTP Switchboard was activated?</span>
-</p>
+<div id="matrix-head" class="matrix"></div>
+</div>
+
+<div class="pane-content">
+<div id="matrix-list" class="matrix">
+<span style="color:gray">So far, no net traffic seen on this page. Maybe the page was loaded before HTTP Switchboard was activated?</span>
+</div>
+</div>
 
 <script src="js/lib/jquery-2.min.js"></script>
 <script src="js/popup.js"></script>

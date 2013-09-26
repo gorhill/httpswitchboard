@@ -19,6 +19,8 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
+// TODO: refactor this mess.
+
 (function(){
 
 /******************************************************************************/
@@ -30,49 +32,93 @@ var background = chrome.extension.getBackgroundPage();
 var httpsb = background.HTTPSB;
 var pageUrl = '';
 
-// make internal tree representation of white/black lists
-var makeTrees = function(pageStats) {
-    var tree = {
-        domains: {},
-        types: {}
-    };
-    // this can happen if domain in tab is evil
-    if ( !pageStats ) {
-        return;
+var domainGroupsSnapshot = {};
+var domainListSnapshot = 'dont leave this initial string empty';
+
+var getDomainStats = function(pageStats) {
+    if ( !pageStats ) { return {}; }
+
+    // Try to not reshuffle permission groups around.
+    var latestDomainListSnapshot = Object.keys(pageStats.domains).sort().join();
+    if ( latestDomainListSnapshot === domainListSnapshot ) {
+        return domainGroupsSnapshot;
     }
-    var types = tree.types;
-    var domains = tree.domains;
+    domainListSnapshot = latestDomainListSnapshot;
+
+    var domainGroups = {};
+
+    // first group according to whether at least one node in the domain
+    // hierarchy is white or blacklisted
     var domain;
-    var nodes, nodeName;
-    var level;
-    for ( var urlKey in pageStats.requests ) {
-        domain = background.getUrlDomain(urlKey);
+    var nodes;
+    var rootDomain;
+    var nodeName;
+    var permission;
+    for ( domain in pageStats.domains ) {
         nodes = domain.split('.');
-        level = 0;
+        // TODO: doesn't work for IP addresses, fix this!
+        rootDomain = nodes.slice(-2).join('.');
         while ( nodes.length > 1 ) {
             nodeName = nodes.join('.');
-            if ( !domains[nodeName] ) {
-                domains[nodeName] = level--;
+            permission = background.evaluate('*', nodeName);
+            if ( permission === httpsb.ALLOWED_DIRECT || permission === httpsb.DISALLOWED_DIRECT ) {
+                break;
             }
             nodes = nodes.slice(1);
         }
-        for ( var typeKey in pageStats.requests[urlKey].types ) {
-            if ( !types[typeKey] ) {
-                types[typeKey] = {};
-            }
-            nodes = domain.split('.');
-            while ( nodes.length > 1 ) {
-                nodeName = nodes.join('.');
-                if ( !types[typeKey][nodeName] ) {
-                    types[typeKey][nodeName] = 1;
-                } else {
-                    types[typeKey][nodeName] += 1;
+        if ( permission !== httpsb.ALLOWED_DIRECT && permission !== httpsb.DISALLOWED_DIRECT ) {
+            permission = httpsb.GRAY;
+        }
+        if ( !domainGroups[permission] ) {
+            domainGroups[permission] = {};
+        }
+        if ( !domainGroups[permission][rootDomain] ) {
+            domainGroups[permission][rootDomain] = { all: {}, directs: {} };
+        }
+        domainGroups[permission][rootDomain].directs[domain] = true;
+    }
+    // Generate all nodes possible for each groups, this is useful
+    // to allow users to toggle permissions for higher domains which is
+    // not explicitly part of the web page.
+    for ( permission in domainGroups ) {
+        for ( rootDomain in domainGroups[permission] ) {
+            for ( domain in domainGroups[permission][rootDomain].directs ) {
+                nodes = domain.split('.');
+                // TODO: doesn't work for IP addresses, fix this!
+                while ( nodes.length > 1 ) {
+                    nodeName = nodes.join('.');
+                    domainGroups[permission][rootDomain].all[nodeName] = domainGroups[permission][rootDomain].directs[nodeName];
+                    nodes = nodes.slice(1);
                 }
-                nodes = nodes.slice(1);
             }
         }
     }
-    return tree;
+
+    domainGroupsSnapshot = domainGroups;
+
+    return domainGroups;
+}
+
+// make internal tree representation of white/black lists
+var getTypeStats = function(pageStats) {
+    var typeStats = {};
+    if ( pageStats ) {
+        var domain;
+        var type;
+        for ( var url in pageStats.requests ) {
+            domain = background.getUrlDomain(url);
+            type = pageStats.requests[url];
+            if ( !typeStats[type] ) {
+                typeStats[type] = {};
+            }
+            if ( !typeStats[type][domain] ) {
+                typeStats[type][domain] = 1;
+            } else {
+                typeStats[type][domain] += 1;
+            }
+        }
+    }
+    return typeStats;
 };
 
 // translate black/white list status of something into a css class
@@ -131,6 +177,23 @@ var updateFilterButtons = function() {
     });
 };
 
+var formatHeader = function(s) {
+    var maxLength = 50;
+    var msg = s.slice(0, maxLength);
+    if ( s.length > maxLength ) {
+        msg += '...';
+    } else if ( s.length === 0 ) {
+        msg = '&nbsp;';
+    }
+    return msg;
+};
+
+var sortDomainNames = function(a,b) {
+    a = a.split('').reverse().join('');
+    b = b.split('').reverse().join('');
+    return a.localeCompare(b);
+};
+
 // pretty names
 var typeNames = {
     'cookie': 'cookie',
@@ -143,95 +206,116 @@ var typeNames = {
 };
 
 // build menu according to white and black lists
+// TODO: update incrementally
+
 var makeMenu = function() {
+    $('#message').html(formatHeader(pageUrl));
+
     var pageStats = background.pageStatsFromTabId(tabId);
-    var trees = makeTrees(pageStats);
+    var domainStats = getDomainStats(pageStats);
+    var typeStats = getTypeStats(pageStats);
 
-    pageUrl = pageStats.pageUrl.slice(0,64);
-    if ( pageStats.pageUrl.length > 64 ) {
-        pageUrl += '...';
-    }
-    $('#message').html(pageUrl);
-
-    var html = [];
-
-    html.push('<table>');
-
-    // few top sites with most requests
-    var domainKeys = Object.keys(trees.domains);
-    domainKeys.sort(function(a,b) {
-        a = a.split('').reverse().join('');
-        b = b.split('').reverse().join('');
-        return a.localeCompare(b);
-    });
-    var domainKey, typeKey;
-    var iDomain, iType;
-    var nDomains = domainKeys.length;
-    var typeKeys = Object.keys(typeNames);
-
-    if ( !nDomains ) {
+    if ( Object.keys(domainStats).length === 0 ) {
         return;
     }
 
-    // header
+    var html = [];
+
+    // header row
+    html.push('<div class="matrix-row">');
     html.push(
-        '<tr>',
-        '<td',
+        '<div',
         ' class="filter-button ', getCurrentClass('*', '*'), '"',
         ' data-filter-type="*" data-filter-domain="*"',
-        '>all'
+        '>all</div>'
         );
 
     // type of requests
-    for ( iType = 0; iType < typeKeys.length; iType++ ) {
-        typeKey = typeKeys[iType];
+    var iType;
+    var typeKey;
+    var types = Object.keys(typeNames);
+    var type;
+    for ( var i = 0; i < types.length; i++ ) {
+        type = types[i];
         html.push(
-        '<td',
-        ' class="filter-button ', getCurrentClass('*', typeKey), '"',
-        ' data-filter-type="', typeKey, '"',
+        '<div',
+        ' class="filter-button ', getCurrentClass('*', type), '"',
+        ' data-filter-type="', type, '"',
         ' data-filter-domain="*"',
         '>',
-        typeNames[typeKey]
+        typeNames[type],
+        '</div>'
         );
     }
+    html.push('</div>');
+    $('#matrix-head').html(html.join(''));
 
-    // domains
-    for ( iDomain = 0; iDomain < nDomains; iDomain++ ) {
-        domainKey = domainKeys[iDomain];
+    html = [];
 
-        html.push('<tr class="', trees.domains[domainKey] ? 'ancestor' : '', '">');
+    // main rows, order by explicit permissions
+    var permissions = [httpsb.ALLOWED_DIRECT, httpsb.GRAY, httpsb.DISALLOWED_DIRECT];
+    var permissionNames = {};
+    permissionNames[httpsb.ALLOWED_DIRECT] = 'whitelisted';
+    permissionNames[httpsb.GRAY] = 'graylisted';
+    permissionNames[httpsb.DISALLOWED_DIRECT] = 'blacklisted';
 
-        html.push(
-            '<td',
-            ' class="filter-button ', getCurrentClass(domainKey, '*'), '"',
-            ' data-filter-type="*"',
-            ' data-filter-domain="', domainKey, '"',
-            '>',
-            domainKey
-            );
-
-        // type of requests
-        for ( iType = 0; iType < typeKeys.length; iType++ ) {
-            typeKey = typeKeys[iType];
-            var domains = trees.types[typeKey];
-            if ( domains && domains[domainKey] ) {
+    var permission;
+    var rootDomains;
+    var rootDomain;
+    var domains;
+    var domain;
+    var count;
+    for ( var iPermission = 0; iPermission < permissions.length; iPermission++ ) {
+        permission = permissions[iPermission];
+        if ( !domainStats[permission] ) {
+            continue;
+        }
+        if ( iPermission > 0 ) {
+            html.push('<div class="permissionSeparator"></div>');
+        }
+        rootDomains = Object.keys(domainStats[permission]);
+        rootDomains.sort(sortDomainNames)
+        for ( var iRoot = 0; iRoot < rootDomains.length; iRoot++ ) {
+            if ( iRoot > 0 ) {
+                html.push('<div class="domainSeparator"></div>');
+            }
+            domains = Object.keys(domainStats[permission][rootDomains[iRoot]].all);
+            domains.sort(sortDomainNames);
+            for ( var iDomain = 0; iDomain < domains.length; iDomain++ ) {
+                domain = domains[iDomain];
+                html.push('<div>');
                 html.push(
-                    '<td',
-                    ' class="filter-button ', getCurrentClass(domainKey, typeKey), '"',
-                    ' data-filter-type="', typeKey, '"',
-                    ' data-filter-domain="', domainKey, '"',
+                    '<div',
+                    ' class="filter-button ', getCurrentClass(domain, '*'), '"',
+                    ' data-filter-type="*"',
+                    ' data-filter-domain="', domain, '"',
                     '>',
-                    domains[domainKey]
+                    domain,
+                    '</div>'
                     );
-            } else {
-                html.push('<td>');
+                // type of requests
+                for ( var iType = 0; iType < types.length; iType++ ) {
+                    type = types[iType];
+                    count = typeStats[type] ? typeStats[type][domain] : 0;
+                    html.push(
+                        '<div',
+                        ' class="filter-button ', getCurrentClass(domain, type),
+                        count ? '' : ' zero',
+                        '"',
+                        ' data-filter-type="', type, '"',
+                        ' data-filter-domain="', domain, '"',
+                        '>',
+                        count ? count : '&nbsp;',
+                        '</div>'
+                        );
+                }
+                html.push('</div>');
             }
         }
     }
-    html.push('</table>');
 
     // inject html in popup menu
-    $('#filters').html(html.join(''));
+    $('#matrix-list').html(html.join(''));
 };
 
 // handle user interaction with filters
@@ -286,19 +370,20 @@ document.addEventListener('DOMContentLoaded', function () {
     chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
         // TODO: can tabs be empty?
         tabId = tabs[0].id; // Important!
+        pageUrl = background.pageUrlFromTabId(tabId);
         makeMenu();
     });
     // to handle filter button
-    $('#filters').delegate('.filter-button', 'click', function() {
+    $('body').delegate('.filter-button', 'click', function() {
         handleFilter($(this));
     });
     // to display useful message
-    $('#filters').delegate('.filter-button', 'mouseenter', function() {
+    $('body').delegate('.filter-button', 'mouseenter', function() {
         handleFilterMessage($(this));
     });
     // to blank message
-    $('#filters').delegate('.filter-button', 'mouseout', function() {
-        $('#message').html(pageUrl.length ? pageUrl : '&nbsp;');
+    $('body').delegate('.filter-button', 'mouseout', function() {
+        $('#message').html(formatHeader(pageUrl));
     });
     // to know when to rebuild the matrix
     chrome.runtime.onMessage.addListener(function(request, sender, callback) {

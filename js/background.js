@@ -32,8 +32,8 @@ var HTTPSB = {
     remoteBlacklists: {
         'http://pgl.yoyo.org/as/serverlist.php?mimetype=plaintext': {},
         'http://www.malwaredomainlist.com/hostslist/hosts.txt': {},
-        'http://dns-bh.sagadc.org/justdomains': {},
-        'http://dns-bh.sagadc.org/immortal_domains.txt': {}
+        'http://malwaredomains.lehigh.edu/files/justdomains': {},
+        'http://malwaredomains.lehigh.edu/files/immortal_domains.txt': {}
         },
 
     // urls stats are kept on the back burner while waiting to be reactivated
@@ -57,6 +57,7 @@ var HTTPSB = {
     },
 
     // constants
+    GRAY: 0,
     DISALLOWED_DIRECT: 1,
     ALLOWED_DIRECT: 2,
     DISALLOWED_INDIRECT: 3,

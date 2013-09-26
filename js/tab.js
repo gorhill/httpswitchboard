@@ -105,17 +105,46 @@ function recordFromPageStats(pageStats, type, url) {
         return;
     }
     pageStats.lastTouched = Date.now();
-    if ( !pageStats.requests[url] ) {
-        pageStats.requests[url] = { types: {} };
-    }
-    var types = pageStats.requests[url].types;
-    if ( types[type] ) {
+
+    // TODO: if an obnoxious web page keep generating traffic, this could suck.
+    updateBadge(pageStats.pageUrl);
+
+    if ( pageStats.requests[url] ) {
+        console.assert(pageStats.requests[url] === type, 'HTTP Switchboard.recordFromPageStats >', url, ':', pageStats.requests[url], '===', type);
         return;
     }
-    types[type] = true;
+
+    // TODO: create an easily parsed key from url & type, and use bool instead.
+    // That will also take care of the above assertion failure seen once in a
+    // while.
+    pageStats.requests[url] = type;
     pageStats.domains[getUrlDomain(url)] = true;
     urlStatsChanged(pageStats.pageUrl);
     // console.debug("HTTP Switchboard > recordFromPageStats > %o: %s @ %s", pageStats, type, url);
+}
+
+/******************************************************************************/
+
+// reload content of a tabs
+
+var smartReloadTabsTimer = null;
+
+function smartReloadTabs() {
+    if ( smartReloadTabsTimer ) {
+        clearTimeout(smartReloadTabsTimer);
+    }
+    smartReloadTabsTimer = setTimeout(function() {
+        smartReloadTabsTimer = null;
+        chrome.tabs.query({ status: 'complete' }, function(chromeTabs){
+            var tabId;
+            for ( var i = 0; i < chromeTabs.length; i++ ) {
+                tabId = chromeTabs[i].id;
+                if ( tabExists(tabId) ) {
+                    smartReloadTab(tabId);
+                }
+            }
+        });
+    }, 250);
 }
 
 /******************************************************************************/
@@ -218,11 +247,10 @@ function computeTabState(tabId) {
     var computedState = {};
     var domain, type;
     for ( var url in pageStats.requests ) {
-        for ( type in pageStats.requests[url].types ) {
-            domain = getUrlDomain(url);
-            if ( blacklisted(type, domain) ) {
-                computedState[type +  '/' + domain] = true;
-            }
+        domain = getUrlDomain(url);
+        type = pageStats.requests[url];
+        if ( blacklisted(type, domain) ) {
+            computedState[type +  '/' + domain] = true;
         }
     }
     return computedState;
