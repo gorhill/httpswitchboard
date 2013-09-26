@@ -46,7 +46,7 @@ Simply click on the appropriate entry in the matrix in order to white-,
 black- or gray-list a component. Gray-listing means the blocked or allowed
 status will be inherited from another entry in the matrix.
 
--Red square = effectively black-listed, i.e. requests are prevented from
+- Red square = effectively black-listed, i.e. requests are prevented from
 reaching their destination:
     * Dark red square: the specific domain name and/or type of request is
 specifically black-listed.
