@@ -155,7 +155,7 @@ function webHeaderRequestHandler(details) {
         while ( cookieJar.length ) {
             i = cookieJar.pop();
             headers = details.requestHeaders.splice(i, 1);
-            console.debug('HTTP Switchboard > foiled chromium attempt to send cookie "%s..." to %s', headers[0].value.slice(0,40), details.url);
+            // console.debug('HTTP Switchboard > foiled chromium attempt to send cookie "%s..." to %s', headers[0].value.slice(0,40), details.url);
         }
 
         return { requestHeaders: details.requestHeaders };

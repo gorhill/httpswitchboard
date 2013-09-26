@@ -100,9 +100,8 @@ function recordFromPageUrl(pageUrl, type, url) {
 }
 
 function recordFromPageStats(pageStats, type, url) {
-    // console.debug("record() > %o: %s @ %s", details, details.type, details.url);
     if ( !pageStats ) {
-        console.error('HTTP Switchboard > record > page stats for tab id %d not found', tabId);
+        console.error('HTTP Switchboard > recordFromPageStats > no pageStats');
         return;
     }
     pageStats.lastTouched = Date.now();
@@ -110,12 +109,13 @@ function recordFromPageStats(pageStats, type, url) {
         pageStats.requests[url] = { types: {} };
     }
     var types = pageStats.requests[url].types;
-    if ( !types[type] ) {
-        urlStatsChanged();
+    if ( types[type] ) {
+        return;
     }
     types[type] = true;
     pageStats.domains[getUrlDomain(url)] = true;
-    updateBadge(pageStats);
+    urlStatsChanged(pageStats.pageUrl);
+    // console.debug("HTTP Switchboard > recordFromPageStats > %o: %s @ %s", pageStats, type, url);
 }
 
 /******************************************************************************/
@@ -137,7 +137,7 @@ function smartReloadTab(tabId) {
 
     if ( getStateHash(newState) != getStateHash(pageStats.state) ) {
         // console.debug('reloaded content of tab id %d', tabId);
-        console.debug('old="%s"\nnew="%s"', getStateHash(pageStats.state), getStateHash(newState));
+        // console.debug('old="%s"\nnew="%s"', getStateHash(pageStats.state), getStateHash(newState));
         pageStats.state = newState;
         chrome.tabs.reload(tabId);
     }

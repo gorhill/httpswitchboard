@@ -24,37 +24,31 @@
 // Update visual of extension icon.
 // A time out is used to coalesce adjacents requests to update badge.
 
-function updateBadge(pageStats) {
-    if ( pageStats.updateBadgeTimer ) {
-        clearTimeout(pageStats.updateBadgeTimer);
-    }
-    pageStats.updateBadgeTimer = setTimeout(function() {
-        pageStats.updateBadgeTimer = null;
-        // Chromium tab may not exist, like when prerendering a web page for
-        // example.
-        var tabId = tabIdFromPageStats(pageStats);
-        if ( !tabId ) { return; }
-        chrome.tabs.get(tabId, function(tab) {
-            if ( tab ) {
-                var pageStats = pageStatsFromTabId(tab.id);
-                var count = pageStats ? Object.keys(pageStats.requests).length : 0;
-                var countStr = String(count);
-                if ( count >= 1000 ) {
-                    if ( count < 10000 ) {
-                        countStr = countStr.slice(0,1) + '.' + countStr.slice(1,-2) + 'K';
-                    } else if ( count < 1000000 ) {
-                        countStr = countStr.slice(0,-3) + 'K';
-                    } else if ( count < 10000000 ) {
-                        countStr = countStr.slice(0,1) + '.' + countStr.slice(1,-5) + 'M';
-                    } else {
-                        countStr = countStr.slice(0,-6) + 'M';
-                    }
+function updateBadge(pageUrl) {
+    // Chromium tab may not exist, like when prerendering a web page for
+    // example.
+    var tabId = tabIdFromPageUrl(pageUrl);
+    if ( !tabId ) { return; }
+    chrome.tabs.get(tabId, function(tab) {
+        if ( tab ) {
+            var pageStats = pageStatsFromTabId(tab.id);
+            var count = pageStats ? Object.keys(pageStats.requests).length : 0;
+            var countStr = String(count);
+            if ( count >= 1000 ) {
+                if ( count < 10000 ) {
+                    countStr = countStr.slice(0,1) + '.' + countStr.slice(1,-2) + 'K';
+                } else if ( count < 1000000 ) {
+                    countStr = countStr.slice(0,-3) + 'K';
+                } else if ( count < 10000000 ) {
+                    countStr = countStr.slice(0,1) + '.' + countStr.slice(1,-5) + 'M';
+                } else {
+                    countStr = countStr.slice(0,-6) + 'M';
                 }
-                chrome.browserAction.setBadgeText({ tabId: tab.id, text: countStr });
-                chrome.browserAction.setBadgeBackgroundColor({ tabId: tab.id, color: '#000' });
             }
-        });
-    }, 200);
+            chrome.browserAction.setBadgeText({ tabId: tab.id, text: countStr });
+            chrome.browserAction.setBadgeBackgroundColor({ tabId: tab.id, color: '#000' });
+        }
+    });
 }
 
 /******************************************************************************/
@@ -79,15 +73,18 @@ function permissionsChanged() {
 // Notify whoever care that url stats have changed (they need to
 // rebuild their matrix).
 
-var urlStatsChangedTimer = null;
+var urlStatsChangedTimers = {};
 
-function urlStatsChanged() {
-    if ( urlStatsChangedTimer ) {
-        clearTimeout(urlStatsChangedTimer);
+function urlStatsChanged(pageUrl) {
+    if ( urlStatsChangedTimers[pageUrl] ) {
+        clearTimeout(urlStatsChangedTimers[pageUrl]);
     }
-    urlStatsChangedTimer = setTimeout(function() {
-        urlStatsChangedTimer = null;
-        chrome.runtime.sendMessage({ 'what': 'urlStatsChanged' });
+    urlStatsChangedTimers[pageUrl] = setTimeout(function() {
+        delete urlStatsChangedTimers[pageUrl];
+        chrome.runtime.sendMessage({
+            what: 'urlStatsChanged',
+            pageUrl: pageUrl
+        });
     }, 200);
 }
 
@@ -133,6 +130,10 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
 
         case 'findAndRecordCookies':
             findAndRecordCookies(request.pageUrl);
+            break;
+
+        case 'urlStatsChanged':
+            updateBadge(request.pageUrl);
             break;
 
         default:

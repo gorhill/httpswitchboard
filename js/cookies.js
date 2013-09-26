@@ -167,7 +167,7 @@ chrome.cookies.onChanged.addListener(function(changeInfo) {
             secondaryPattern: '<all_urls>',
             setting: blacklistCookie ? 'block' : 'allow'
         });
-        console.debug('HTTP Switchboard > chrome.cookies.onChanged: "%s" (cookie=%O)', cookieUrl, cookie);
+        // console.debug('HTTP Switchboard > chrome.cookies.onChanged: "%s" (cookie=%O)', cookieUrl, cookie);
     }
 });
 
