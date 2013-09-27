@@ -102,8 +102,7 @@ function webRequestHandler(details) {
 
     // remember this blacklisting, used to create a snapshot of the state
     // of the tab, which is useful for smart reload of the page (reload the
-    // page only when state efectively change)
-    // TODO: makes more sense to care about whitelisted items
+    // page only when state effectively change)
     addStateFromTabId(tabId, type, domain);
 
     // if it's a blacklisted frame, redirect to frame.html

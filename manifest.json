@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "HTTP Switchboard",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "description": "Point & click to forbid/allow any class of requests made by your browser. Use it to block scripts, iframes, ads, facebook, etc.",
     "icons": {
         "128": "icon_128.png"
@@ -30,7 +30,7 @@
             "js/start.js"
         ]
     },
-    "homepage_url": "https://github.com/gorhill/httpswitchboard/wiki",
+    "homepage_url": "https://github.com/gorhill/httpswitchboard/issues",
     "minimum_chrome_version": "22.0",
     "options_page": "options.html",
     "permissions": [
