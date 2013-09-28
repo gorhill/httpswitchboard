@@ -76,6 +76,17 @@ var HTTPSB = {
         other: 0,
         cookie: 0
     },
+    allowedRequestCounters: {
+        all: 0,
+        main_frame: 0,
+        sub_frame: 0,
+        script: 0,
+        image: 0,
+        object: 0,
+        xmlhttprequest: 0,
+        other: 0,
+        cookie: 0
+    },
 
     // internal state
     webRequestHandler: false,

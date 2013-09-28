@@ -107,7 +107,7 @@ var getTypeStats = function(pageStats) {
         var type;
         for ( var url in pageStats.requests ) {
             domain = background.getUrlDomain(url);
-            type = pageStats.requests[url];
+            type = url.slice(url.indexOf('|') + 1);
             if ( !typeStats[type] ) {
                 typeStats[type] = {};
             }

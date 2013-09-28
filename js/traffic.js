@@ -53,7 +53,7 @@ function webRequestHandler(details) {
         // if it is HTTP Switchboard's frame.html, verify that
         // the page that was blacklisted is still blacklisted, and if not,
         // redirect to the previously blacklisted page.
-        // TODO: is there a bette rway to do this? Works well though...
+        // TODO: is there a better way to do this? Works well though...
         // chrome-extension://bgdnahgfnkneapahgkejhjcenmopifdi/frame.html?domain={domain}&url={url}
         if ( isRootFrame ) {
             var matches = url.match(/^chrome-extension:\/\/[a-z]+\/frame\.html\?domain=(.+)&url=(.+)$/);
@@ -65,18 +65,22 @@ function webRequestHandler(details) {
     }
 
     // If it's a top frame, bind to a new page stats store
-    // TODO: favicon is sent before top main frame...
+    // TODO: favicon (type = "other") is sent before top main frame...
     if ( isRootFrame ) {
         bindTabToPageStats(tabId, url);
     }
 
-    // Log request
-    recordFromTabId(tabId, type, url);
-
+    // block request?
     var domain = getUrlDomain(url);
+    var block = blacklisted(type, domain);
+
+    // Log request
+    recordFromTabId(tabId, type, url, block);
+
+    var counters;
 
     // whitelisted?
-    if ( whitelisted(type, domain) ) {
+    if ( !block ) {
         // console.debug('webRequestHandler > allowing %s from %s', type, domain);
         // if it is a root frame and scripts are blacklisted for the
         // domain, disable scripts for this domain, necessary since inline
@@ -93,13 +97,19 @@ function webRequestHandler(details) {
             // script tag, this takes care of inline scripting, which doesn't
             // generate 'script' type web requests.
         }
+
+        counters = HTTPSB.allowedRequestCounters;
+        counters.all += 1;
+        counters[type] += 1;
+
         return;
     }
 
     // blacklisted
     // console.debug('webRequestHandler > blocking %s from %s', type, domain);
-    HTTPSB.blockedRequestCounters.all += 1;
-    HTTPSB.blockedRequestCounters[type] += 1;
+    counters = HTTPSB.blockedRequestCounters;
+    counters.all += 1;
+    counters[type] += 1;
 
 
     // remember this blacklisting, used to create a snapshot of the state
@@ -135,37 +145,26 @@ function webHeaderRequestHandler(details) {
     }
 
     // Any cookie in there?
-    var cookieJar = [];
-    var i = details.requestHeaders.length;
-    while ( i-- ) {
-        if ( details.requestHeaders[i].name.toLowerCase() === 'cookie' ) {
-            cookieJar.push(i);
-        }
-    }
-    // Nope, bye
-    if ( cookieJar.length < 0 ) {
-        return;
-    }
-
     var domain = getUrlDomain(details.url);
     var blacklistCookie = blacklisted('cookie', domain);
-
-    // Remove cookie headers if domain is blacklisted
-    if ( blacklistCookie ) {
-        var headers;
-        var cookies;
-        var cookieCount;
-        cookieJar.reverse();
-        while ( cookieJar.length ) {
-            i = cookieJar.pop();
-            headers = details.requestHeaders.splice(i, 1);
-            cookies = parseRawCookies(headers[0].value);
-            cookieCount = Object.keys(cookies).length;
-            HTTPSB.blockedRequestCounters.cookie += cookieCount;
-            HTTPSB.blockedRequestCounters.all += cookieCount;
-            // console.debug('HTTP Switchboard > foiled chromium attempt to send cookie "%s..." to %s', headers[0].value.slice(0,40), details.url);
+    var counters = blacklistCookie ? HTTPSB.blockedRequestCounters : HTTPSB.allowedRequestCounters;
+    var cookieCount;
+    var headers = details.requestHeaders;
+    var i = details.requestHeaders.length;
+    while ( i-- ) {
+        if ( headers[i].name.toLowerCase() !== 'cookie' ) {
+            continue;
         }
+        cookieCount = countRawCookies(headers[i].value);
+        counters.cookie += cookieCount;
+        counters.all += cookieCount;
+        if ( blacklistCookie ) {
+            // console.debug('HTTP Switchboard > foiled attempt to send %d cookies "%s..." to %s', cookieCount, headers[i].value.slice(0,40), details.url);
+            headers.splice(i, 1);
+        }
+    }
 
+    if ( blacklistCookie ) {
         return { requestHeaders: details.requestHeaders };
     }
 }

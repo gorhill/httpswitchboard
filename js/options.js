@@ -25,27 +25,77 @@
 
 /******************************************************************************/
 
-$('a').attr('target', '_blank');
-
 var background = chrome.extension.getBackgroundPage();
 var httpsb = background.HTTPSB;
-
 var data = {
-    whitelistCount: Object.keys(httpsb.whitelist).length,
-    blacklistCount: Object.keys(httpsb.blacklist).length,
+    whitelistCount: 0,
+    blacklistCount: 0,
     blockedRequestCounters: httpsb.blockedRequestCounters,
+    allowedRequestCounters: httpsb.allowedRequestCounters,
+    requests: [],
 
     last: 0
 };
+var maxRequests = 200;
 
-var template = Tempo.prepare('stats');
+var updateStatsData = function() {
+    data.whitelistCount = Object.keys(httpsb.whitelist).length;
+    data.blacklistCount = Object.keys(httpsb.blacklist).length;
+};
 
-template.render(data);
+var updateRequestData = function() {
+    data.requests = [];
 
-// TODO: listen to stats changed messages
-setInterval(function() {
-    template.render(data);
-}, 5000);
+    var pages = Object.keys(httpsb.pageStats);
+    var pageToRequests = pages.map(function(pageUrl) {
+        var pageStats = httpsb.pageStats[pageUrl];
+        var requests = pageStats.requests;
+        var reqKeys = Object.keys(requests);
+        reqKeys.sort(function(a, b) {
+            return requests[b].localeCompare(requests[a]);
+        });
+        reqKeys = reqKeys.slice(0, maxRequests);
+        requests = reqKeys.map(function(reqKey) {
+            // Using parseFloat because of
+            // http://jsperf.com/performance-of-parseint
+            return {
+                url: reqKey.slice(0, reqKey.indexOf('|')),
+                when: parseFloat(requests[reqKey].slice(0, requests[reqKey].indexOf('|'))),
+                blocked: requests[reqKey].slice(requests[reqKey].indexOf('|') + 1) === '0'
+            };
+        });
+        data.requests = data.requests.concat(requests);
+    });
+    data.requests.sort(function(a, b) {
+        return b.when - a.when;
+    });
+    data.requests = data.requests.slice(0, maxRequests);
+};
+
+var statsTemplate = Tempo.prepare('stats');
+var requestTemplate = Tempo.prepare('requests');
+
+var updateStats = function() {
+    updateStatsData();
+    statsTemplate.render(data);
+};
+
+var updateRequests = function() {
+    updateRequestData();
+    requestTemplate.render(data.requests);
+};
+
+updateStats();
+updateRequests();
+
+setInterval(function(){ updateStats(); }, 5000);
+
+/******************************************************************************/
+
+// Ensure links are opened in another tab
+$('a').attr('target', '_blank');
+
+$('#refresh-requests').click(updateRequests);
 
 /******************************************************************************/
 

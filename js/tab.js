@@ -73,8 +73,13 @@ function bindTabToPageStats(tabId, pageUrl) {
     }
     // console.debug('bindTabToPageStats > dispatching traffic in tab id %d to url stats store "%s"', tabId, pageUrl);
     var httpsb = HTTPSB;
-    if ( httpsb.tabIdToPageUrl[tabId] ) {
-        httpsb.pageUrlToTabId[httpsb.tabIdToPageUrl[tabId]] = undefined;
+    var oldTabId = httpsb.pageUrlToTabId[pageUrl];
+    var oldPageUrl = httpsb.tabIdToPageUrl[tabId];
+    if ( oldPageUrl ) {
+        httpsb.pageUrlToTabId[oldPageUrl] = undefined;
+    }
+    if ( oldTabId ) {
+        httpsb.tabIdToPageUrl[oldTabId] = undefined;
     }
     httpsb.pageUrlToTabId[pageUrl] = tabId;
     httpsb.tabIdToPageUrl[tabId] = pageUrl;
@@ -83,23 +88,33 @@ function bindTabToPageStats(tabId, pageUrl) {
 
 /******************************************************************************/
 
+function urlFromReqKey(reqKey) {
+    return reqKey.slice(0, reqKey.indexOf('|'));
+}
+
+function typeFromReqKey(reqKey) {
+    return reqKey.slice(reqKey.indexOf('|') + 1);
+}
+
+/******************************************************************************/
+
 // Log a request
 
-function recordFromTabId(tabId, type, url) {
+function recordFromTabId(tabId, type, url, blocked) {
     var pageStats = pageStatsFromTabId(tabId);
     if ( pageStats ) {
-        recordFromPageStats(pageStats, type, url);
+        recordFromPageStats(pageStats, type, url, blocked);
     }
 }
 
-function recordFromPageUrl(pageUrl, type, url) {
+function recordFromPageUrl(pageUrl, type, url, blocked) {
     var pageStats = pageStatsFromPageUrl(pageUrl);
     if ( pageStats ) {
-        recordFromPageStats(pageStats, type, url);
+        recordFromPageStats(pageStats, type, url, blocked);
     }
 }
 
-function recordFromPageStats(pageStats, type, url) {
+function recordFromPageStats(pageStats, type, url, blocked) {
     if ( !pageStats ) {
         console.error('HTTP Switchboard > recordFromPageStats > no pageStats');
         return;
@@ -109,16 +124,17 @@ function recordFromPageStats(pageStats, type, url) {
     // TODO: if an obnoxious web page keep generating traffic, this could suck.
     updateBadge(pageStats.pageUrl);
 
-    if ( pageStats.requests[url] ) {
-        console.assert(pageStats.requests[url] === type, 'HTTP Switchboard.recordFromPageStats >', url, ':', pageStats.requests[url], '===', type);
+    var reqKey = url + '|' + type;
+    var reqExists = pageStats.requests[reqKey];
+
+    pageStats.requests[reqKey] = String(pageStats.lastTouched) + '|' + String(blocked ? 0 : 1);
+
+    if ( reqExists ) {
         return;
     }
 
-    // TODO: create an easily parsed key from url & type, and use bool instead.
-    // That will also take care of the above assertion failure seen once in a
-    // while.
-    pageStats.requests[url] = type;
     pageStats.domains[getUrlDomain(url)] = true;
+
     urlStatsChanged(pageStats.pageUrl);
     // console.debug("HTTP Switchboard > recordFromPageStats > %o: %s @ %s", pageStats, type, url);
 }
@@ -203,7 +219,7 @@ function addStateFromTabId(tabId, type, domain) {
         addStateFromPageStats(pageStats, type, domain);
         return;
     }
-    console.error('HTTP Switchboard > addStateFromTabId > page stats for tab id %d not found', tabId);
+    // console.error('HTTP Switchboard > addStateFromTabId > page stats for tab id %d not found', tabId);
 }
 
 function addStateFromPageUrl(pageUrl, type, domain) {
@@ -212,7 +228,7 @@ function addStateFromPageUrl(pageUrl, type, domain) {
         addStateFromPageStats(pageStats, type, domain);
         return;
     }
-    console.error('HTTP Switchboard > addStateFromPageUrl > page stats for page url %s not found', pageUrl);
+    // console.error('HTTP Switchboard > addStateFromPageUrl > page stats for page url %s not found', pageUrl);
 }
 
 function addStateFromPageStats(pageStats, type, domain) {
@@ -220,7 +236,7 @@ function addStateFromPageStats(pageStats, type, domain) {
         pageStats.state[type +  '/' + domain] = true;
         return;
     }
-    console.error('HTTP Switchboard > addStateFromPageStats > page stats is null');
+    // console.error('HTTP Switchboard > addStateFromPageStats > page stats is null');
 }
 
 /******************************************************************************/
@@ -245,10 +261,11 @@ function computeTabState(tabId) {
     // Go through all recorded requests, apply filters to create state
     // It is a critical error for a tab to not be defined here
     var computedState = {};
-    var domain, type;
-    for ( var url in pageStats.requests ) {
+    var url, domain, type;
+    for ( var reqKey in pageStats.requests ) {
+        url = urlFromReqKey(reqKey);
         domain = getUrlDomain(url);
-        type = pageStats.requests[url];
+        type = typeFromReqKey(reqKey);
         if ( blacklisted(type, domain) ) {
             computedState[type +  '/' + domain] = true;
         }

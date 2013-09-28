@@ -64,8 +64,9 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
         function(r) {
             if ( r ) {
                 var domain = getUrlDomain(pageUrl);
-                recordFromPageUrl(pageUrl, 'script', pageUrl + '/{inline_script}');
-                if ( blacklisted('script', domain) ) {
+                var block = blacklisted('script', domain);
+                recordFromPageUrl(pageUrl, 'script', pageUrl + '{inline_script}', block);
+                if ( block ) {
                     addStateFromPageUrl(pageUrl, 'script', domain);
                 }
             }
@@ -128,16 +129,20 @@ chrome.extension.onConnect.addListener(function(port) {
     var gcFunc = function() {
         chrome.tabs.query({ 'url': '<all_urls>' }, function(tabs){
             var interval;
-            for ( var pageUrl in httpsb.pageStats ) {
+            var pageUrl;
+            var i = tabs.length;
+            while ( i-- ) {
                 // page is in a chrome tab
-                if ( tabIdFromPageUrl(pageUrl) ) {
+                pageUrl = pageUrlFromTabId(tabs[i].id);
+                if ( pageUrl ) {
                     httpsb.pageStats[pageUrl].lastTouched = Date.now();
-                } else {
-                    interval = Date.now() - httpsb.pageStats[pageUrl].lastTouched;
-                    if ( interval >= httpsb.gcPeriod ) {
-                        delete httpsb.pageStats[pageUrl];
-                        // console.debug('HTTP Switchboard >  > GC: disposed of "%s"', pageUrl);
-                    }
+                }
+            }
+            for ( var pageUrl in httpsb.pageStats ) {
+                interval = Date.now() - httpsb.pageStats[pageUrl].lastTouched;
+                if ( interval >= httpsb.gcPeriod ) {
+                    delete httpsb.pageStats[pageUrl];
+                    // console.debug('HTTP Switchboard >  > GC: disposed of "%s"', pageUrl);
                 }
             }
         });

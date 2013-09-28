@@ -76,7 +76,7 @@ function findAndRecordCookies(pageUrl) {
         var domains = Object.keys(pageStats.domains).join(' ') + ' ';
         var cookie;
         var domain;
-        var blacklistCookie;
+        var block;
         var cookieUrl;
         while ( i-- ) {
             cookie = cookies[i];
@@ -84,17 +84,17 @@ function findAndRecordCookies(pageUrl) {
             if ( domains.search(domain) < 0 ) {
                 continue;
             }
+            block = blacklisted('cookie', domain);
             cookieUrl = cookie.secure ? 'https://' : 'http://';
             cookieUrl += domain + '/{cookie:' + cookie.name.toLowerCase() + '}';
-            recordFromPageUrl(pageUrl, 'cookie', cookieUrl);
-            blacklistCookie = blacklisted('cookie', domain);
-            if ( blacklistCookie ) {
+            recordFromPageUrl(pageUrl, 'cookie', cookieUrl, block);
+            if ( block ) {
                 addStateFromPageStats(pageStats, 'cookie', domain);
             }
             chrome.contentSettings.cookies.set({
                 primaryPattern: '*://*.' + domain + '/*',
                 secondaryPattern: '<all_urls>',
-                setting: blacklistCookie ? 'block' : 'allow'
+                setting: block ? 'block' : 'allow'
             });
             // console.debug('HTTP Switchboard > findAndRecordCookies: "%s" (cookie=%O)', cookieUrl, cookie);
         }
@@ -107,7 +107,9 @@ function findAndRecordCookies(pageUrl) {
 // Thanks!
 
 function parseRawCookies(cookieStr) {
-    var c = cookieStr, v = 0, cookies = {};
+    var c = cookieStr,
+        v = 0,
+        cookies = {};
     if (document.cookie.match(/^\s*\$Version=(?:"1"|1);\s*(.*)/)) {
         c = RegExp.$1;
         v = 1;
@@ -131,6 +133,24 @@ function parseRawCookies(cookieStr) {
     return cookies;
 }
 
+// I reused the code snippet above to create a function which just returns
+// the number of cookies without the overhead of creating and returning an
+// associative array.
+function countRawCookies(cookieStr) {
+    var c = cookieStr,
+        v = 0;
+    if (document.cookie.match(/^\s*\$Version=(?:"1"|1);\s*(.*)/)) {
+        c = RegExp.$1;
+        v = 1;
+    }
+    if (v === 0) {
+        return c.split(/[,;]/).length;
+    } else {
+        return c.match(/(?:^|\s+)([!#$%&'*+\-.0-9A-Z^`a-z|~]+)=([!#$%&'*+\-.0-9A-Z^`a-z|~]*|"(?:[\x20-\x7E\x80\xFF]|\\[\x00-\x7F])*")(?=\s*[,;]|$)/g).length;
+    }
+    return 0;
+}
+
 /******************************************************************************/
 
 // Listen to any change in cookieland, we will update page stats accordingly.
@@ -141,7 +161,7 @@ chrome.cookies.onChanged.addListener(function(changeInfo) {
     var httpsb = HTTPSB;
     var cookie = changeInfo.cookie;
     var domain = cookie.domain.charAt(0) == '.' ? cookie.domain.slice(1) : cookie.domain;
-    var blacklistCookie = blacklisted('cookie', domain);
+    var block = blacklisted('cookie', domain);
     var removed = changeInfo.removed;
     var cookieUrl = cookie.secure ? 'https://' : 'http://';
     cookieUrl += domain + '/{cookie:' + cookie.name.toLowerCase() + '}';
@@ -158,14 +178,14 @@ chrome.cookies.onChanged.addListener(function(changeInfo) {
         if ( removed ) {
             continue;
         }
-        recordFromPageStats(pageStats, 'cookie', cookieUrl);
-        if ( blacklistCookie ) {
+        recordFromPageStats(pageStats, 'cookie', cookieUrl, block);
+        if ( block ) {
             addStateFromPageStats(pageStats, 'cookie', domain);
         }
         chrome.contentSettings.cookies.set({
             primaryPattern: '*://*.' + domain + '/*',
             secondaryPattern: '<all_urls>',
-            setting: blacklistCookie ? 'block' : 'allow'
+            setting: block ? 'block' : 'allow'
         });
         // console.debug('HTTP Switchboard > chrome.cookies.onChanged: "%s" (cookie=%O)', cookieUrl, cookie);
     }
