@@ -142,7 +142,7 @@ chrome.extension.onConnect.addListener(function(port) {
                 interval = Date.now() - httpsb.pageStats[pageUrl].lastTouched;
                 if ( interval >= httpsb.gcPeriod ) {
                     delete httpsb.pageStats[pageUrl];
-                    // console.debug('HTTP Switchboard >  > GC: disposed of "%s"', pageUrl);
+                    // console.debug('HTTP Switchboard > GC: disposed of "%s"', pageUrl);
                 }
             }
         });
