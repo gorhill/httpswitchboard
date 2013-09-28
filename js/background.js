@@ -27,6 +27,8 @@ var HTTPSB = {
 
     gcPeriod: 30 * 60 * 1000, // 30 minutes...
 
+    inlineFieldSeparator: '#',
+
     // list of remote blacklist locations
     remoteBlacklists: {
         'http://pgl.yoyo.org/as/serverlist.php?mimetype=plaintext': {},

@@ -59,9 +59,9 @@ var updateRequestData = function() {
             // Using parseFloat because of
             // http://jsperf.com/performance-of-parseint
             return {
-                url: reqKey.slice(0, reqKey.indexOf('|')),
-                when: parseFloat(requests[reqKey].slice(0, requests[reqKey].indexOf('|'))),
-                blocked: requests[reqKey].slice(requests[reqKey].indexOf('|') + 1) === '0'
+                url: reqKey.slice(0, reqKey.indexOf('#')),
+                when: parseFloat(requests[reqKey].slice(0, requests[reqKey].indexOf('#'))),
+                blocked: requests[reqKey].slice(requests[reqKey].indexOf('#') + 1) === '0'
             };
         });
         data.requests = data.requests.concat(requests);

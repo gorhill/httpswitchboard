@@ -104,10 +104,11 @@ var getTypeStats = function(pageStats) {
     var typeStats = {};
     if ( pageStats ) {
         var domain;
-        var type;
-        for ( var url in pageStats.requests ) {
+        var type, url;
+        for ( var reqKey in pageStats.requests ) {
+            url = background.urlFromReqKey(reqKey);
             domain = background.getUrlDomain(url);
-            type = url.slice(url.indexOf('|') + 1);
+            type = background.typeFromReqKey(reqKey);
             if ( !typeStats[type] ) {
                 typeStats[type] = {};
             }

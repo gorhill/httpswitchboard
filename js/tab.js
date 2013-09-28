@@ -89,11 +89,11 @@ function bindTabToPageStats(tabId, pageUrl) {
 /******************************************************************************/
 
 function urlFromReqKey(reqKey) {
-    return reqKey.slice(0, reqKey.indexOf('|'));
+    return reqKey.slice(0, reqKey.indexOf('#'));
 }
 
 function typeFromReqKey(reqKey) {
-    return reqKey.slice(reqKey.indexOf('|') + 1);
+    return reqKey.slice(reqKey.indexOf('#') + 1);
 }
 
 /******************************************************************************/
@@ -124,10 +124,10 @@ function recordFromPageStats(pageStats, type, url, blocked) {
     // TODO: if an obnoxious web page keep generating traffic, this could suck.
     updateBadge(pageStats.pageUrl);
 
-    var reqKey = url + '|' + type;
+    var reqKey = url + '#' + type;
     var reqExists = pageStats.requests[reqKey];
 
-    pageStats.requests[reqKey] = String(pageStats.lastTouched) + '|' + String(blocked ? 0 : 1);
+    pageStats.requests[reqKey] = String(pageStats.lastTouched) + '#' + String(blocked ? 0 : 1);
 
     if ( reqExists ) {
         return;
