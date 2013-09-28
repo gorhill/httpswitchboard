@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <head>
-<title>HTTP Switchboard options</title>
+<title>HTTP Switchboard</title>
 <style>
 body {
     font: 16px sans-serif;
+}
+#stats div div {
+    padding: 0 1em 0 0;
+    display: inline-block;
+    text-align: right;
 }
 </style>
 <link href='css/fonts.css' rel='stylesheet' type='text/css'>
@@ -12,12 +17,46 @@ body {
 <body>
 <h1>HTTP Switchboard</h1>
 <h3>Settings</h3>
-<p>Coming soon</p>
-<div id="whitelist"></div>
-<div id="blacklist"></div>
+<p>Under construction</p>
+
+
+<h3>Statistics</h3>
+<div id="stats">
+<div data-template>
+<div>
+Whitelisted domains:<br>
+Blacklisted domains:<br>
+&nbsp;<br>
+&nbsp;<br>
+All requests:<br>
+Pages:<br>
+Cookies:<br>
+Images:<br>
+Objects:<br>
+Scripts:<br>
+<a href="http://en.wikipedia.org/wiki/XMLHttpRequest">XMLHttpRequests</a>:<br>
+Frames:<br>
+Others:<br>
+</div>
+<div>
+{{whitelistCount | format ,}}<br>
+{{blacklistCount | format ,}}<br>
+&nbsp;<br>
+Blocked<br>
+{{blockedRequestCounters.all}}<br>
+{{blockedRequestCounters.main_frame}}<br>
+{{blockedRequestCounters.cookie}}<br>
+{{blockedRequestCounters.image}}<br>
+{{blockedRequestCounters.object}}<br>
+{{blockedRequestCounters.script}}<br>
+{{blockedRequestCounters.xmlhttprequest}}<br>
+{{blockedRequestCounters.sub_frame}}<br>
+{{blockedRequestCounters.other}}<br>
+</div>
+</div>
+</div>
 
 <div>
-
 <h3>Info</h3>
 <ul>
   <li><a href="https://github.com/gorhill/httpswitchboard/wiki/Change-log">Change log</a>
@@ -26,5 +65,8 @@ body {
 </ul>
 </div>
 
+<script src="js/lib/jquery-2.min.js"></script>
+<script src="js/lib/tempo.js"></script>
+<script src="js/options.js"></script>
 </body>
 </html>

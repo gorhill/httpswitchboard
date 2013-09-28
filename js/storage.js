@@ -21,6 +21,67 @@
 
 /******************************************************************************/
 
+// This object allows me to perform read-modify-write operations on
+// objects in chrome.store (otherwise not reliable because of asynchronicity).
+// Arguments for acquire() are same as with chrome.storage.{local|sync}.get(),
+// and release() *must* be called when done with stored object (or else changes
+// won't be committed).
+
+var storageBufferer = {
+    lock: 0,
+    store: {},
+    callbacks: [],
+    acquire: function(arg, callback) {
+        this.lock++;
+        var wantedKeys;
+        if ( typeof arg === 'string' ) {
+            wantedKeys = [arg];
+        } else if ( arg instanceof Array ) {
+            wantedKeys = arg.slice(0);
+        } else {
+            wantedKeys = Object.keys(arg);
+        }
+        var i = wantedKeys.length;
+        while ( i-- ) {
+            if ( wantedKeys[i] in this.store ) {
+                wantedKeys.splice(i, 1);
+            }
+        }
+        if ( wantedKeys.length ) {
+            var self = this;
+            this.callbacks.push(callback);
+            chrome.storage.local.get(arg, function(store) {
+                var i = wantedKeys.length;
+                var key;
+                while ( i-- ) {
+                    key = wantedKeys[i];
+                    if ( key in store ) {
+                        self.store[key] = store[key];
+                    } else if ( key in arg ) {
+                        self.store[key] = arg[key];
+                    }
+                }
+                while ( self.callbacks.length ) {
+                    (self.callbacks.pop())(self.store);
+                }
+            });
+        } else {
+            callback(this.store);
+        }
+    },
+    release: function() {
+        this.lock--;
+        console.assert(this.lock >= 0, 'storageBufferer.lock is negative!');
+        if ( this.lock === 0 ) {
+            chrome.storage.local.set(this.store, function() {
+                console.debug('HTTP Switchboard > saved buffered local storage');
+            });
+        }
+    }
+};
+
+/******************************************************************************/
+
 // save white/blacklist
 function save() {
     var httpsb = HTTPSB;
@@ -44,9 +105,10 @@ function save() {
 function loadUserLists() {
     var httpsb = HTTPSB;
 
-    chrome.storage.local.get({ version: '0.1.4', whitelist: '', blacklist: ''}, function(store) {
+    chrome.storage.local.get({ version: HTTPSB.version, whitelist: '', blacklist: '' }, function(store) {
         if ( store.whitelist ) {
             // console.log('HTTP Switchboard > loadUserLists > whitelist: "%s"', store.whitelist);
+            // TODO: remove this, surely all of the 7 users are up to date?
             if ( store.version.localeCompare(httpsb.version) < '0.1.3' ) {
                 httpsb.whitelistUser = store.whitelist;
             } else {
@@ -60,6 +122,7 @@ function loadUserLists() {
 
         if ( store.blacklist ) {
            // console.log('HTTP Switchboard > loadUserLists > blacklist: "%s"', store.blacklist);
+           // TODO: remove this, surely all of the 7 users are up to date?
            if ( store.version.localeCompare(httpsb.version) < '0.1.3' ) {
                 httpsb.blacklistUser = store.blacklist;
             } else {
@@ -68,18 +131,18 @@ function loadUserLists() {
         }
         populateListFromList(httpsb.blacklist, httpsb.blacklistUser);
 
-        // gorhill 20130923: ok, there is no point in blacklisting 'page/*',
-        // since there is only one such page per tab. It is reasonable to
-        // whitelist by default 'page/*', and in any case, top page of
-        // blacklisted domain name will not be loaded anyways (because
-        // domain name has precedence over type). Now this way we save
-        // precious real estate pixels in popup menu.
-        allow('page', '*');
+        // gorhill 20130923: ok, there is no point in blacklisting
+        // 'main_frame/*', since there is only one such page per tab. It is
+        // reasonable to whitelist by default 'main_frame/*', and top page of
+        // blacklisted domain name will not be loaded anyways (because domain
+        // name has precedence over type). Now this way we save precious real
+        // estate pixels in popup menu.
+        allow('main_frame', '*');
 
         chrome.runtime.sendMessage({
             'what': 'startWebRequestHandler',
             'from': 'listsLoaded'
-            });
+        });
     });
 }
 
@@ -91,29 +154,37 @@ function loadRemoteBlacklists() {
     chrome.storage.local.remove(Object.keys(httpsb.remoteBlacklists));
     chrome.storage.local.remove('remoteBlacklistLocations');
 
-    // get remote blacklist data
+    // Get remote blacklist data (which may be saved locally)
     chrome.storage.local.get({ 'remoteBlacklists': httpsb.remoteBlacklists }, function(store) {
         for ( var location in store.remoteBlacklists ) {
             if ( !store.remoteBlacklists.hasOwnProperty(location) ) {
                 continue;
             }
+            // If loaded list location is not part of default list location,
+            // remove its content from local storage.
             if ( !httpsb.remoteBlacklists[location] ) {
                 chrome.runtime.sendMessage({
                     what: 'localRemoveRemoteBlacklist',
                     location: location
                 });
-            } else if ( store.remoteBlacklists[location].length ) {
-                chrome.runtime.sendMessage({
-                    what: 'mergeRemoteBlacklist',
-                    location: location,
-                    content: store.remoteBlacklists[location]
-                });
-            } else {
-                chrome.runtime.sendMessage({
-                    what: 'queryRemoteBlacklist',
-                    location: location
-                });
+                continue;
             }
+            // Local copy of remote list out of date?
+            if ( store.remoteBlacklists[location].timeStamp ) {
+                var age = Date.now() - store.remoteBlacklists[location].timeStamp;
+                if ( age < httpsb.remoteBlacklistLocalCopyTTL ) {
+                    chrome.runtime.sendMessage({
+                        what: 'mergeRemoteBlacklist',
+                        list: store.remoteBlacklists[location]
+                    });
+                    continue;
+                }
+            }
+            // No local version, we need to fetch it from remote server.
+            chrome.runtime.sendMessage({
+                what: 'queryRemoteBlacklist',
+                location: location
+            });
         }
     });
 }
@@ -147,66 +218,67 @@ function queryRemoteBlacklist(location) {
     console.log('HTTP Switchboard > queryRemoteBlacklist > "%s"', location);
     $.get(location, function(remoteData) {
         if ( !remoteData || remoteData === '' ) {
-            console.log('HTTP Switchboard > failed to load third party blacklist "%s" from remote location', location);
+            console.error('HTTP Switchboard > failed to load third party blacklist from remote location "%s"', location);
             return;
         }
-        console.log('HTTP Switchboard > queried third party blacklist "%s" from remote location', location);
+        console.log('HTTP Switchboard > fetched third party blacklist from remote location "%s"', location);
         chrome.runtime.sendMessage({
             what: 'parseRemoteBlacklist',
-            location: location,
-            content: remoteData
+            list: {
+                url: location,
+                timeStamp: Date.now(),
+                raw: remoteData
+            }
         });
     });
 }
 
 /******************************************************************************/
 
-function parseRemoteBlacklist(location, content) {
-    console.log('HTTP Switchboard > parseRemoteBlacklist > "%s"', location);
-    content = normalizeRemoteContent('*/', content, '');
-    // save locally in order to load efficiently in the future
+function parseRemoteBlacklist(list) {
+    console.log('HTTP Switchboard > parseRemoteBlacklist > "%s"', list.url);
+    list.raw = normalizeRemoteContent('*/', list.raw, '');
+    // Save locally in order to load efficiently in the future.
     chrome.runtime.sendMessage({
         what: 'localSaveRemoteBlacklist',
-        location: location,
-        content: content
+        list: list
     });
-    // convert and merge content into internal representation
+    // Convert and merge content into internal representation.
     chrome.runtime.sendMessage({
         what: 'mergeRemoteBlacklist',
-        location: location,
-        content: content
+        list: list
     });
 }
 
 /******************************************************************************/
 
-function localSaveRemoteBlacklist(location, content) {
-    console.log('HTTP Switchboard > localSaveRemoteBlacklist > "%s"', location);
-    // TODO: expiration date
-    chrome.storage.local.get({ 'remoteBlacklists': {} }, function(store) {
-        store.remoteBlacklists[location] = content;
-        chrome.storage.local.set(store);
+function localSaveRemoteBlacklist(list) {
+    storageBufferer.acquire('remoteBlacklists', function(store) {
+        store.remoteBlacklists[list.url] = list;
+        // *important*
+        storageBufferer.release();
     });
 }
 
 /******************************************************************************/
 
 function localRemoveRemoteBlacklist(location) {
-    chrome.storage.local.get({ 'remoteBlacklists': {} }, function(store) {
-        delete store.remoteBlacklists[location];
-        chrome.storage.local.set(store);
+    storageBufferer.acquire('remoteBlacklists', function(store) {
+        delete store.remoteBlacklists[list.url];
+        // *important*
+        storageBufferer.release();
     });
 }
 
 /******************************************************************************/
 
-function mergeRemoteBlacklist(content) {
+function mergeRemoteBlacklist(list) {
+    console.log('HTTP Switchboard > mergeRemoteBlacklist from "%s": "%s..."', list.url, list.raw.slice(0, 40));
     var httpsb = HTTPSB;
-    console.log('HTTP Switchboard > mergeRemoteBlacklist > "%s..."', content.slice(0, 40));
-    var list = {};
-    populateListFromString(list, content);
-    populateListFromList(httpsb.remoteBlacklist, list);
-    populateListFromList(httpsb.blacklist, list);
+    var entries = {};
+    populateListFromString(entries, list.raw);
+    populateListFromList(httpsb.remoteBlacklist, entries);
+    populateListFromList(httpsb.blacklist, entries);
 }
 
 /******************************************************************************/

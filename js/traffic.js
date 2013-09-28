@@ -81,7 +81,6 @@ function webRequestHandler(details) {
         // if it is a root frame and scripts are blacklisted for the
         // domain, disable scripts for this domain, necessary since inline
         // script tags are not passed through web request handler.
-        // TODO: not only root frame...
         if ( isMainFrame ) {
             var blacklistScript = blacklisted('script', domain);
             chrome.contentSettings.javascript.set({
@@ -99,6 +98,9 @@ function webRequestHandler(details) {
 
     // blacklisted
     // console.debug('webRequestHandler > blocking %s from %s', type, domain);
+    HTTPSB.blockedRequestCounters.all += 1;
+    HTTPSB.blockedRequestCounters[type] += 1;
+
 
     // remember this blacklisting, used to create a snapshot of the state
     // of the tab, which is useful for smart reload of the page (reload the
@@ -148,13 +150,19 @@ function webHeaderRequestHandler(details) {
     var domain = getUrlDomain(details.url);
     var blacklistCookie = blacklisted('cookie', domain);
 
-    // remove cookie headers if domain is blacklisted
+    // Remove cookie headers if domain is blacklisted
     if ( blacklistCookie ) {
-        cookieJar.reverse();
         var headers;
+        var cookies;
+        var cookieCount;
+        cookieJar.reverse();
         while ( cookieJar.length ) {
             i = cookieJar.pop();
             headers = details.requestHeaders.splice(i, 1);
+            cookies = parseRawCookies(headers[0].value);
+            cookieCount = Object.keys(cookies).length;
+            HTTPSB.blockedRequestCounters.cookie += cookieCount;
+            HTTPSB.blockedRequestCounters.all += cookieCount;
             // console.debug('HTTP Switchboard > foiled chromium attempt to send cookie "%s..." to %s', headers[0].value.slice(0,40), details.url);
         }
 

@@ -20,7 +20,7 @@
 */
 
 var HTTPSB = {
-    version: '0.2.00',
+    version: '0.2.2',
 
     // memo:
     // unicode for hourglass: &#x231B;
@@ -28,13 +28,15 @@ var HTTPSB = {
     gcPeriod: 30 * 60 * 1000, // 30 minutes...
 
     // list of remote blacklist locations
-    // TODO: ttl (2-weeks?)
     remoteBlacklists: {
         'http://pgl.yoyo.org/as/serverlist.php?mimetype=plaintext': {},
         'http://www.malwaredomainlist.com/hostslist/hosts.txt': {},
         'http://malwaredomains.lehigh.edu/files/justdomains': {},
         'http://malwaredomains.lehigh.edu/files/immortal_domains.txt': {}
         },
+    // remoteBlacklistLocalCopyTTL: 10 * 1000, // for debugging
+    // Look for new version every 7 days
+    remoteBlacklistLocalCopyTTL: 7 * 24 * 60 * 60 * 1000,
 
     // urls stats are kept on the back burner while waiting to be reactivated
     // in a tab or another.
@@ -53,8 +55,7 @@ var HTTPSB = {
     whitelistUser: {},
     blacklistUser: {},
     // current entries from remote blacklists
-    remoteBlacklist: {
-    },
+    remoteBlacklist: {},
 
     // constants
     GRAY: 0,
@@ -62,6 +63,19 @@ var HTTPSB = {
     ALLOWED_DIRECT: 2,
     DISALLOWED_INDIRECT: 3,
     ALLOWED_INDIRECT: 4,
+
+    // various stats
+    blockedRequestCounters: {
+        all: 0,
+        main_frame: 0,
+        sub_frame: 0,
+        script: 0,
+        image: 0,
+        object: 0,
+        xmlhttprequest: 0,
+        other: 0,
+        cookie: 0
+    },
 
     // internal state
     webRequestHandler: false,
