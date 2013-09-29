@@ -374,23 +374,31 @@ document.addEventListener('DOMContentLoaded', function () {
         pageUrl = background.pageUrlFromTabId(tabId);
         makeMenu();
     });
+
     // to handle filter button
     $('body').delegate('.filter-button', 'click', function() {
         handleFilter($(this));
     });
+
     // to display useful message
     $('body').delegate('.filter-button', 'mouseenter', function() {
         handleFilterMessage($(this));
     });
+
     // to blank message
     $('body').delegate('.filter-button', 'mouseout', function() {
         $('#message').html(formatHeader(pageUrl));
     });
+
     // to know when to rebuild the matrix
     chrome.runtime.onMessage.addListener(function(request, sender, callback) {
         if ( request.what === 'urlStatsChanged' ) {
             makeMenu();
         }
+    });
+
+    $('#button-info').click(function() {
+        chrome.runtime.sendMessage({ what: 'gotoExtensionUrl', url: 'info.html' });
     });
 });
 

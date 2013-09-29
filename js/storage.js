@@ -86,8 +86,8 @@ var storageBufferer = {
 function save() {
     var httpsb = HTTPSB;
     var bin = {
-        'name': 'httpswitchboard',
-        version: httpsb.version,
+        'name': httpsb.manifest.name,
+        version: httpsb.manifest.version,
         // version < 0.1.3
         // whitelist: httpsb.whitelistUser,
         // blacklist: httpsb.blacklistUser
@@ -105,15 +105,10 @@ function save() {
 function loadUserLists() {
     var httpsb = HTTPSB;
 
-    chrome.storage.local.get({ version: HTTPSB.version, whitelist: '', blacklist: '' }, function(store) {
+    chrome.storage.local.get({ version: httpsb.manifest.version, whitelist: '', blacklist: '' }, function(store) {
         if ( store.whitelist ) {
             // console.log('HTTP Switchboard > loadUserLists > whitelist: "%s"', store.whitelist);
-            // TODO: remove this, surely all of the 7 users are up to date?
-            if ( store.version.localeCompare(httpsb.version) < '0.1.3' ) {
-                httpsb.whitelistUser = store.whitelist;
-            } else {
-                populateListFromString(httpsb.whitelistUser, store.whitelist);
-            }
+            populateListFromString(httpsb.whitelistUser, store.whitelist);
         } else {
             console.log('HTTP Switchboard > loadUserLists > using default whitelist');
             populateListFromString(httpsb.whitelistUser, 'image/*\nmain_frame/*');
@@ -121,13 +116,8 @@ function loadUserLists() {
         populateListFromList(httpsb.whitelist, httpsb.whitelistUser);
 
         if ( store.blacklist ) {
-           // console.log('HTTP Switchboard > loadUserLists > blacklist: "%s"', store.blacklist);
-           // TODO: remove this, surely all of the 7 users are up to date?
-           if ( store.version.localeCompare(httpsb.version) < '0.1.3' ) {
-                httpsb.blacklistUser = store.blacklist;
-            } else {
-                populateListFromString(httpsb.blacklistUser, store.blacklist);
-            }
+            // console.log('HTTP Switchboard > loadUserLists > blacklist: "%s"', store.blacklist);
+            populateListFromString(httpsb.blacklistUser, store.blacklist);
         }
         populateListFromList(httpsb.blacklist, httpsb.blacklistUser);
 

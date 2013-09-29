@@ -21,7 +21,7 @@
 
 /******************************************************************************/
 
-// Check if a URL stats store exists
+// Normalize a URL passed by chromium
 
 function normalizeChromiumUrl(url) {
     // remove fragment...
@@ -72,27 +72,19 @@ function bindTabToPageStats(tabId, pageUrl) {
         return undefined;
     }
     // console.debug('bindTabToPageStats > dispatching traffic in tab id %d to url stats store "%s"', tabId, pageUrl);
-    var httpsb = HTTPSB;
-    var oldTabId = httpsb.pageUrlToTabId[pageUrl];
-    var oldPageUrl = httpsb.tabIdToPageUrl[tabId];
-    if ( oldPageUrl ) {
-        httpsb.pageUrlToTabId[oldPageUrl] = undefined;
-    }
-    if ( oldTabId ) {
-        httpsb.tabIdToPageUrl[oldTabId] = undefined;
-    }
-    httpsb.pageUrlToTabId[pageUrl] = tabId;
-    httpsb.tabIdToPageUrl[tabId] = pageUrl;
-
+    unbindTabFromPageStats(tabId);
+    HTTPSB.pageUrlToTabId[pageUrl] = tabId;
+    HTTPSB.tabIdToPageUrl[tabId] = pageUrl;
     return pageStats;
 }
 
-function unbindTabFromPageStats(tabId, pageUrl) {
+function unbindTabFromPageStats(tabId) {
     var httpsb = HTTPSB;
-    delete httpsb.pageUrlToTabId[pageUrl];
-    if ( httpsb.tabIdToPageUrl[tabId] === pageUrl ) {
-        delete httpsb.tabIdToPageUrl[tabId];
+    var pageUrl = httpsb.tabIdToPageUrl[tabId];
+    if ( pageUrl ) {
+        delete httpsb.pageUrlToTabId[pageUrl];
     }
+    delete httpsb.tabIdToPageUrl[tabId];
 }
 
 /******************************************************************************/

@@ -151,6 +151,9 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
             smartReloadTabs();
             break;
 
+        case 'gotoExtensionUrl':
+            chrome.tabs.create({'url': chrome.extension.getURL(request.url)});
+
         default:
              // console.error('HTTP Switchboard > onMessage > unknown request: %o', request);
             break;

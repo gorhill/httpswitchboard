@@ -3,54 +3,64 @@
 <title>HTTP Switchboard</title>
 <style>
 body {
+    padding: 0 0 20em 0;
     font: 16px sans-serif;
-}
-h3 + * {
+    }
+h3 + *, h1 + * {
     margin-left: 2em;
-}
+    }
 #stats div div {
     padding: 0 1em 0 0;
     display: inline-block;
     text-align: right;
-}
+    }
+#requests {
+    font-size: 12px;
+    }
 #requests > div {
     margin: 0;
     border: 1px inset #eee;
     padding: 2px;
-    overflow: scroll;
-    font: 12px mono;
+    font-family: mono;
     background-color: white;
-}
+    overflow: scroll;
+    resize: vertical;
+    }
 #requests table {
     border-collapse: collapse;
-}
+    }
 #requests tr {
     margin: 0;
     border: 0;
     padding: 0;
     color: #070;
-}
+    }
 #requests tr:hover {
-    background-color: #ffc;
-}
+    background-color: #eee;
+    }
 #requests tr.blocked-true {
     color: #c00;
-}
+    }
 #requests tr > td {
     padding: 1px 1em 1px 0;
     white-space: nowrap;
-}
+    }
 #requests tr > td:nth-of-type(2) {
     text-align: right;
-}
+    }
 </style>
 <link href='css/fonts.css' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
 <h1>HTTP Switchboard</h1>
-<h3>Settings</h3>
-<p>Under construction</p>
+<div>
+<ul>
+  <li>Version: <span id="version"></span> (<a href="https://github.com/gorhill/httpswitchboard/wiki/Change-log">change log</a>)
+  <li>About <a href="https://github.com/gorhill/httpswitchboard/wiki/Permissions">permissions</a>
+  <li><a href="https://github.com/gorhill/httpswitchboard/wiki/Credits">Credits</a>
+</ul>
+</div>
 
 
 
@@ -78,7 +88,7 @@ Images:<br>
 {{whitelistCount | format ,}}<br>
 {{blacklistCount | format ,}}<br>
 &nbsp;<br>
-Blocked<br>
+<div style="margin:0;border:0;padding:0;color:#c00">Blocked<br>
 {{blockedRequestCounters.all | format ,}}<br>
 {{blockedRequestCounters.main_frame | format ,}}<br>
 {{blockedRequestCounters.cookie | format ,}}<br>
@@ -88,6 +98,7 @@ Blocked<br>
 {{blockedRequestCounters.xmlhttprequest | format ,}}<br>
 {{blockedRequestCounters.sub_frame | format ,}}<br>
 {{blockedRequestCounters.other | format ,}}<br>
+</div>
 </div>
 
 <div style="color:#070">
@@ -114,10 +125,21 @@ Allowed<br>
 <h3>Recent net requests</h3>
 <div id="requests">
 <p><button id="refresh-requests">Refresh</button></p>
-<p><span style="color:#c00">red</span> = blocked / <span style="color:#070">green</span> = allowed</p>
+<p>
+    Show: <input id="show-main_frame" type="checkbox" checked value="1">Pages&emsp;
+          <input id="show-blocked" type="checkbox" checked value="1"><span style="color:#c00">Blocked</span>&emsp;
+          <input id="show-allowed" type="checkbox" checked value="1"><span style="color:#070">Allowed</span>&emsp;
+          <input id="show-cookie" type="checkbox" checked value="1">Cookies&emsp;
+          <input id="show-image" type="checkbox" checked value="1">Images&emsp;
+          <input id="show-object" type="checkbox" checked value="1">Objects&emsp;
+          <input id="show-script" type="checkbox" checked value="1">Scripts&emsp;
+          <input id="show-xmlhttprequest" type="checkbox" checked value="1">XHRs&emsp;
+          <input id="show-sub_frame" type="checkbox" checked value="1">Frames&emsp;
+          <input id="show-other" type="checkbox" checked value="1">Others&emsp;
+    </p>
 <div style="height: 400px">
 <!-- begin template 'requests' --><table>
-<tr class="blocked-{{blocked}}" data-template><td>{{when | date HH:mm:ss}}<td>{{type}}<td>{{url}}</tr>
+<tr class="blocked-{{blocked}} type-{{type}}" data-template><td>{{when | date HH:mm:ss}}<td>{{type}}<td>{{url}}</tr>
 <!-- end template 'requests' -->
 <tr data-after-template><td>...
 </table>
@@ -125,17 +147,9 @@ Allowed<br>
 </div>
 
 
-<h3>Info</h3>
-<ul>
-  <li><a href="https://github.com/gorhill/httpswitchboard/wiki/Change-log">Change log</a>
-  <li>About <a href="https://github.com/gorhill/httpswitchboard/wiki/Permissions">permissions</a>
-  <li><a href="https://github.com/gorhill/httpswitchboard/wiki/Credits">Credits</a>
-</ul>
-
-
 
 <script src="js/lib/jquery-2.min.js"></script>
 <script src="js/lib/tempo.min.js"></script>
-<script src="js/options.js"></script>
+<script src="js/info.js"></script>
 </body>
 </html>

@@ -4,100 +4,114 @@
 <head>
 <link href='css/fonts.css' rel='stylesheet' type='text/css'>
 <style>
-    body {
-        margin: 0;
-        border: 0;
-        padding: 2px 4px;
-        font: 13px httpsb,sans-serif;
-        background-color: white;
-        min-width: 32em;
-    }
-    div {
-        margin: 0;
-        border: 0;
-        padding: 0;
-    }
-    div.pane-head {
-        padding: 0 0 4px 0;
-        position: fixed;
-        top: 0;
-        background-color: white;
-    }
-    div.pane-content {
-        padding-top: 74px;
-    }
+body {
+    margin: 0;
+    border: 0;
+    padding: 2px 4px;
+    font: 13px httpsb,sans-serif;
+    background-color: white;
+    min-width: 32em;
+}
+div {
+    margin: 0;
+    border: 0;
+    padding: 0;
+}
+div.pane-head {
+    padding: 0 0 4px 0;
+    position: fixed;
+    top: 0;
+    background-color: white;
+}
+div.pane-content {
+    padding-top: 74px;
+}
 
-    div.matrix {
-        text-align: left;
-    }
-    div.matrix > div {
-        white-space: nowrap;
-    }
-    div.matrix > div:first-child {
-    }
-    div.matrix > div > div {
-        margin: 1px;
-        border: 1px solid rgba(0,0,0,0.05);
-        border-width: 1px 0 0 0;
-        padding: 1px 2px 3px 2px;
-        display: inline-block;
-        width: 35px;
-        white-space:nowrap;
-        text-align: center;
-        cursor: pointer;
-    }   
-    div.matrix > div > div:first-child {
-        width: 180px;
-        text-align: right;
-    }
-    div.matrix > div.permissionSeparator {
-        margin: 6px;
-        border: 0;
-        padding: 0;
-        height: 0;
-    }
-    div.matrix > div.domainSeparator {
-        margin: 3px;
-        border: 0;
-        padding: 0;
-        height: 0;
-    }
-    div.matrix > div > div.zero {
-        border-style: dotted;
-    }
-    .filter-allowed {
-        color: white;
-        background-color: #080;
-    }
-    .filter-disallowed {
-        color: white;
-        background-color: #c00;
-    }
-    .filter-allowed-indirect {
-        background-color: #d0f0d0;
-    }
-    .filter-disallowed-indirect {
-        background-color: #f8d0d0;
-    }
-    .top {
-        font-weight: bold;
-    }
-    .dim {
-        color: #aaa;
-    }
-    #message {
-        color: #888;
-        white-space: nowrap;
-        font-size: 14px;
-        min-width: 12em;
-    }
-    #message strong {
-        color: black;
-        font-weight: normal;
-    }
-    #message .filter-allowed, #message .filter-disallowed {
-        padding: 0 4px;
-    }
+div.matrix {
+    text-align: left;
+}
+div.matrix > div {
+    white-space: nowrap;
+}
+div.matrix > div:first-child {
+}
+div.matrix > div > div {
+    margin: 1px;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-width: 1px 0 0 0;
+    padding: 1px 2px 3px 2px;
+    display: inline-block;
+    width: 35px;
+    white-space:nowrap;
+    text-align: center;
+    cursor: pointer;
+}   
+div.matrix > div > div:first-child {
+    width: 180px;
+    text-align: right;
+}
+div.matrix > div.permissionSeparator {
+    margin: 6px;
+    border: 0;
+    padding: 0;
+    height: 0;
+}
+div.matrix > div.domainSeparator {
+    margin: 3px;
+    border: 0;
+    padding: 0;
+    height: 0;
+}
+div.matrix > div > div.zero {
+    border-style: dotted;
+}
+.filter-allowed {
+    color: white;
+    background-color: #080;
+}
+.filter-disallowed {
+    color: white;
+    background-color: #c00;
+}
+.filter-allowed-indirect {
+    background-color: #d0f0d0;
+}
+.filter-disallowed-indirect {
+    background-color: #f8d0d0;
+}
+.top {
+    font-weight: bold;
+}
+.dim {
+    color: #aaa;
+}
+#button-info {
+    margin: 8px 0 0 0;
+    border: 0;
+    padding: 0;
+    background: url('img/dialog-information.png') no-repeat;
+    display: block;
+    position: fixed;
+    width: 16px;
+    height: 16px;
+    top: 6px;
+    right: 6px;
+    text-decoration: none;
+    outline: 0;
+}
+#message {
+    color: #888;
+    white-space: nowrap;
+    font-size: 14px;
+    min-width: 12em;
+}
+#message strong {
+    color: black;
+    font-weight: normal;
+}
+#message .filter-allowed, #message .filter-disallowed {
+    padding: 0 4px;
+}
 </style>
 <title>HTTP Switchboard</title>
 </head>
@@ -106,6 +120,7 @@
 
 <div class="pane-head">
 <p id="message">&nbsp;</p>
+<a id="button-info" href="#"></a>
 <div id="matrix-head" class="matrix"></div>
 </div>
 

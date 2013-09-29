@@ -21,7 +21,7 @@
 
 // TODO: refactor this mess.
 
-(function(){
+$(function(){
 
 /******************************************************************************/
 
@@ -33,19 +33,21 @@ var data = {
     blockedRequestCounters: httpsb.blockedRequestCounters,
     allowedRequestCounters: httpsb.allowedRequestCounters,
     requests: [],
-
     last: 0
 };
-var maxRequests = 200;
+var maxRequests = 500;
 
 var updateStatsData = function() {
     data.whitelistCount = Object.keys(httpsb.whitelist).length;
     data.blacklistCount = Object.keys(httpsb.blacklist).length;
 };
 
+/******************************************************************************/
+
+// Get a list of latest net requests
+
 var updateRequestData = function() {
     data.requests = [];
-
     var pages = Object.keys(httpsb.pageStats);
     var pageToRequests = pages.map(function(pageUrl) {
         var pageStats = httpsb.pageStats[pageUrl];
@@ -75,6 +77,34 @@ var updateRequestData = function() {
     data.requests = data.requests.slice(0, maxRequests);
 };
 
+/******************************************************************************/
+
+// Synchronize list of net requests with filter states
+
+var syncWithFilters = function() {
+    var blocked = ['blocked','allowed'];
+    var type = ['main_frame','cookie','image','object','script','xmlhttprequest','sub_frame','other'];
+    var i = blocked.length;
+    var j;
+    var display, selector;
+    while ( i-- ) {
+        j = type.length;
+        while ( j-- ) {
+            display = $('#show-' + blocked[i]).prop('checked') &&
+                      $('#show-' + type[j]).prop('checked')
+                ? ''
+                : 'none'
+                ;
+            selector = '.blocked-' + (blocked[i] === 'blocked') + '.type-' + type[j];
+            $(selector).css('display', display);
+        }
+    }
+};
+
+/******************************************************************************/
+
+// Render page
+
 var statsTemplate = Tempo.prepare('stats');
 var requestTemplate = Tempo.prepare('requests');
 
@@ -86,20 +116,28 @@ var updateStats = function() {
 var updateRequests = function() {
     updateRequestData();
     requestTemplate.render(data.requests);
+    syncWithFilters();
 };
 
 updateStats();
 updateRequests();
 
+/******************************************************************************/
+
+// Auto update basic stats (not list of requests though, this is done through
+// `refresh` button.
+
 setInterval(function(){ updateStats(); }, 5000);
 
 /******************************************************************************/
 
-// Ensure links are opened in another tab
-$('a').attr('target', '_blank');
+// Handle user interaction
 
+$('#version').html(httpsb.manifest.version);
+$('a').prop('target', '_blank');
 $('#refresh-requests').click(updateRequests);
+$('input[id^="show-"][type="checkbox"]').change(syncWithFilters);
 
 /******************************************************************************/
 
-})();
+});

@@ -142,7 +142,7 @@ chrome.extension.onConnect.addListener(function(port) {
                 }
                 pageStats.visible = !!visibleTabs[tabId];
                 if ( !pageStats.visible ) {
-                    unbindTabFromPageStats(tabId, pageUrl);
+                    unbindTabFromPageStats(tabId);
                 }
             }
         });

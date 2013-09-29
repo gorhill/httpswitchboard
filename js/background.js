@@ -20,7 +20,7 @@
 */
 
 var HTTPSB = {
-    version: '0.2.2',
+    manifest: chrome.runtime.getManifest(),
 
     // memo:
     // unicode for hourglass: &#x231B;
