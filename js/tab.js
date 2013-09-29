@@ -56,7 +56,7 @@ function createPageStats(pageUrl) {
             requests: {},
             domains: {},
             state: {},
-            lastTouched: Date.now()
+            visible: true
             };
     }
     return httpsb.pageStats[pageUrl];
@@ -83,7 +83,16 @@ function bindTabToPageStats(tabId, pageUrl) {
     }
     httpsb.pageUrlToTabId[pageUrl] = tabId;
     httpsb.tabIdToPageUrl[tabId] = pageUrl;
+
     return pageStats;
+}
+
+function unbindTabFromPageStats(tabId, pageUrl) {
+    var httpsb = HTTPSB;
+    delete httpsb.pageUrlToTabId[pageUrl];
+    if ( httpsb.tabIdToPageUrl[tabId] === pageUrl ) {
+        delete httpsb.tabIdToPageUrl[tabId];
+    }
 }
 
 /******************************************************************************/
@@ -119,15 +128,15 @@ function recordFromPageStats(pageStats, type, url, blocked) {
         console.error('HTTP Switchboard > recordFromPageStats > no pageStats');
         return;
     }
-    pageStats.lastTouched = Date.now();
 
     // TODO: if an obnoxious web page keep generating traffic, this could suck.
     updateBadge(pageStats.pageUrl);
 
     var reqKey = url + '#' + type;
     var reqExists = pageStats.requests[reqKey];
+    var now = Date.now();
 
-    pageStats.requests[reqKey] = String(pageStats.lastTouched) + '#' + String(blocked ? 0 : 1);
+    pageStats.requests[reqKey] = String(now) + '#' + String(blocked ? 0 : 1);
 
     if ( reqExists ) {
         return;

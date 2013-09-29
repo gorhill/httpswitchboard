@@ -18,20 +18,30 @@ h3 + * {
     border: 1px inset #eee;
     padding: 2px;
     overflow: scroll;
+    font: 12px mono;
     background-color: white;
 }
-#requests > div > div > p {
+#requests table {
+    border-collapse: collapse;
+}
+#requests tr {
     margin: 0;
     border: 0;
-    padding: 2px;
-    font: 12px mono;
+    padding: 0;
     color: #070;
 }
-#requests > div > div > p:hover {
+#requests tr:hover {
     background-color: #ffc;
 }
-#requests > div > div > p.blocked-true {
+#requests tr.blocked-true {
     color: #c00;
+}
+#requests tr > td {
+    padding: 1px 1em 1px 0;
+    white-space: nowrap;
+}
+#requests tr > td:nth-of-type(2) {
+    text-align: right;
 }
 </style>
 <link href='css/fonts.css' rel='stylesheet' type='text/css'>
@@ -106,10 +116,11 @@ Allowed<br>
 <p><button id="refresh-requests">Refresh</button></p>
 <p><span style="color:#c00">red</span> = blocked / <span style="color:#070">green</span> = allowed</p>
 <div style="height: 400px">
-<div style="white-space:nowrap;" data-template> <!-- begin template 'requests' -->
-<p class="blocked-{{blocked}}">{{when | date HH:mm}}&emsp;&emsp;{{url}}</p>
-</div>  <!-- end template 'requests' -->
-<p data-after-template>...</p>
+<!-- begin template 'requests' --><table>
+<tr class="blocked-{{blocked}}" data-template><td>{{when | date HH:mm:ss}}<td>{{type}}<td>{{url}}</tr>
+<!-- end template 'requests' -->
+<tr data-after-template><td>...
+</table>
 </div>
 </div>
 

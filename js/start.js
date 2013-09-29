@@ -128,21 +128,21 @@ chrome.extension.onConnect.addListener(function(port) {
     var httpsb = HTTPSB;
     var gcFunc = function() {
         chrome.tabs.query({ 'url': '<all_urls>' }, function(tabs){
-            var interval;
+            var tabId;
             var pageUrl;
-            var i = tabs.length;
-            while ( i-- ) {
-                // page is in a chrome tab
-                pageUrl = pageUrlFromTabId(tabs[i].id);
-                if ( pageUrl ) {
-                    httpsb.pageStats[pageUrl].lastTouched = Date.now();
-                }
-            }
+            var pageStats;
+            var visibleTabs = {};
+            tabs.map(function(tab) { visibleTabs[tab.id] = true; });
             for ( var pageUrl in httpsb.pageStats ) {
-                interval = Date.now() - httpsb.pageStats[pageUrl].lastTouched;
-                if ( interval >= httpsb.gcPeriod ) {
+                tabId = tabIdFromPageUrl(pageUrl);
+                pageStats = httpsb.pageStats[pageUrl];
+                if ( !visibleTabs[tabId] && !pageStats.visible ) {
                     delete httpsb.pageStats[pageUrl];
-                    // console.debug('HTTP Switchboard > GC: disposed of "%s"', pageUrl);
+                    console.debug('HTTP Switchboard > GC: disposed of "%s"', pageUrl);
+                }
+                pageStats.visible = !!visibleTabs[tabId];
+                if ( !pageStats.visible ) {
+                    unbindTabFromPageStats(tabId, pageUrl);
                 }
             }
         });

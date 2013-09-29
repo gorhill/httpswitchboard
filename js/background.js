@@ -25,7 +25,7 @@ var HTTPSB = {
     // memo:
     // unicode for hourglass: &#x231B;
 
-    gcPeriod: 30 * 60 * 1000, // 30 minutes...
+    gcPeriod: 20 * 60 * 1000, // 20 minutes...
 
     inlineFieldSeparator: '#',
 

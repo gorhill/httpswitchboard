@@ -56,12 +56,15 @@ var updateRequestData = function() {
         });
         reqKeys = reqKeys.slice(0, maxRequests);
         requests = reqKeys.map(function(reqKey) {
+            var v = requests[reqKey];
+            var i = v.indexOf('#');
             // Using parseFloat because of
             // http://jsperf.com/performance-of-parseint
             return {
-                url: reqKey.slice(0, reqKey.indexOf('#')),
-                when: parseFloat(requests[reqKey].slice(0, requests[reqKey].indexOf('#'))),
-                blocked: requests[reqKey].slice(requests[reqKey].indexOf('#') + 1) === '0'
+                url: background.urlFromReqKey(reqKey),
+                when: parseFloat(v.slice(0, i)),
+                type: background.typeFromReqKey(reqKey),
+                blocked: v.slice(i+1) === '0'
             };
         });
         data.requests = data.requests.concat(requests);
