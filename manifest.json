@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "HTTP Switchboard",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "description": "Point & click to forbid/allow any class of requests made by your browser. Use it to block scripts, iframes, ads, facebook, etc.",
     "icons": {
         "128": "icon_128.png"
@@ -16,19 +16,7 @@
     },
     "author": "Raymond Hill",
     "background": {
-        "scripts": [
-            "js/lib/jquery-2.min.js",
-            "js/async.js",
-            "js/background.js",
-            "js/cookies.js",
-            "js/inject.js",
-            "js/lists.js",
-            "js/storage.js",
-            "js/tab.js",
-            "js/traffic.js",
-            "js/utils.js",
-            "js/start.js"
-        ]
+        "page": "background.html"
     },
     "homepage_url": "https://github.com/gorhill/httpswitchboard/wiki",
     "minimum_chrome_version": "22.0",

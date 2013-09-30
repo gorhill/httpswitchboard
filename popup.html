@@ -2,6 +2,7 @@
 <html>
 
 <head>
+<link href='lib/bootstrap/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
 <link href='css/fonts.css' rel='stylesheet' type='text/css'>
 <style>
 body {
@@ -25,6 +26,13 @@ div.pane-head {
 }
 div.pane-content {
     padding-top: 74px;
+}
+div.pane-status {
+    margin: 0.5em 0 0 0;
+    font: 10px mono
+}
+div.pane-status p {
+    margin: 0.5em 0;
 }
 
 div.matrix {
@@ -100,6 +108,9 @@ div.matrix > div > div.zero {
     outline: 0;
 }
 #message {
+    margin: 1em 0;
+    border: 0;
+    padding: 0;
     color: #888;
     white-space: nowrap;
     font-size: 14px;
@@ -120,7 +131,7 @@ div.matrix > div > div.zero {
 
 <div class="pane-head">
 <p id="message">&nbsp;</p>
-<a id="button-info" href="#"></a>
+<a id="button-info" href="#" title="Global info"></a>
 <div id="matrix-head" class="matrix"></div>
 </div>
 
@@ -130,7 +141,11 @@ div.matrix > div > div.zero {
 </div>
 </div>
 
-<script src="js/lib/jquery-2.min.js"></script>
+<div class="pane-status">
+
+</div>
+
+<script src="lib/jquery-2.min.js"></script>
 <script src="js/popup.js"></script>
 </body>
 

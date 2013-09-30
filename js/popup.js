@@ -64,7 +64,7 @@ var getDomainStats = function(pageStats) {
             if ( permission === httpsb.ALLOWED_DIRECT || permission === httpsb.DISALLOWED_DIRECT ) {
                 break;
             }
-            nodes = nodes.slice(1);
+            nodes.shift();
         }
         if ( permission !== httpsb.ALLOWED_DIRECT && permission !== httpsb.DISALLOWED_DIRECT ) {
             permission = httpsb.GRAY;
@@ -364,6 +364,21 @@ var handleFilterMessage = function(button) {
     prompt = prompt.replace('{{what}}', typeNames[type]);
     prompt = prompt.replace('{{where}}', domain);
     $('#message').html(prompt);
+/*
+    var pageStats = background.pageStatsFromTabId(tabId);
+    var regex = new RegExp('^(.+\\/\\/' + domain + '\\/.*)#' + type + '$');
+    var matches;
+    var html = [];
+    for ( var reqKey in pageStats.requests ) {
+        matches = reqKey.match(regex);
+        if ( matches ) {
+            html.push('<p>);
+            html.push(matches[1]);
+            html.push('</p>);
+        }
+    }
+    $('.pane-status').html(requests.join(''));
+*/
 };
 
 // make menu only when popup html is fully loaded

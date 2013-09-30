@@ -161,6 +161,7 @@ function loadRemoteBlacklists() {
             }
             // Local copy of remote list out of date?
             if ( store.remoteBlacklists[location].timeStamp ) {
+                httpsb.remoteBlacklists[location].timeStamp = store.remoteBlacklists[location].timeStamp;
                 var age = Date.now() - store.remoteBlacklists[location].timeStamp;
                 if ( age < httpsb.remoteBlacklistLocalCopyTTL ) {
                     chrome.runtime.sendMessage({

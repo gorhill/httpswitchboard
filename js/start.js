@@ -62,7 +62,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
         },
         // `r` tells whether there was at least one script tag in the page
         function(r) {
-            if ( r ) {
+            if ( r && r.length && r[0] ) {
                 var domain = getUrlDomain(pageUrl);
                 var block = blacklisted('script', domain);
                 recordFromPageUrl(pageUrl, 'script', pageUrl + '{inline_script}', block);

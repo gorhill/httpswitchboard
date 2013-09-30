@@ -40,6 +40,7 @@ var maxRequests = 500;
 var updateStatsData = function() {
     data.whitelistCount = Object.keys(httpsb.whitelist).length;
     data.blacklistCount = Object.keys(httpsb.blacklist).length;
+    data.remoteBlacklists = httpsb.remoteBlacklists;
 };
 
 /******************************************************************************/
@@ -105,11 +106,13 @@ var syncWithFilters = function() {
 
 // Render page
 
+var listsTemplate = Tempo.prepare('lists');
 var statsTemplate = Tempo.prepare('stats');
 var requestTemplate = Tempo.prepare('requests');
 
 var updateStats = function() {
     updateStatsData();
+    listsTemplate.render(data);
     statsTemplate.render(data);
 };
 

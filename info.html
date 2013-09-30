@@ -4,12 +4,12 @@
 <style>
 body {
     padding: 0 0 20em 0;
-    font: 16px sans-serif;
+    font: 15px sans-serif;
     }
 h3 + *, h1 + * {
     margin-left: 2em;
     }
-#stats div div {
+#stats div div,#lists div div {
     padding: 0 1em 0 0;
     display: inline-block;
     text-align: right;
@@ -48,6 +48,9 @@ h3 + *, h1 + * {
 #requests tr > td:nth-of-type(2) {
     text-align: right;
     }
+.type-main_frame {
+    font-weight: bold;
+    }
 </style>
 <link href='css/fonts.css' rel='stylesheet' type='text/css'>
 </head>
@@ -64,58 +67,67 @@ h3 + *, h1 + * {
 
 
 
+<h3>Whitelists/blacklists</h3>
+<div id="lists">
+<div style="white-space:nowrap;" data-template> <!-- begin template 'stats' -->
+<div>
+    Whitelisted domains:<br>
+    Blacklisted domains:
+    </div>
+<div>
+    {{whitelistCount | format ,}}<br>
+    {{blacklistCount | format ,}}
+    </div>
+<div style="margin:1em 0 0 0;display:block;text-align:left">
+    Remote blacklists:<ul style="margin:0;color:gray">
+    <li data-template-for="remoteBlacklists" data-from-map><a href="{{key}}">{{key}}</a> (fetched on {{value.timeStamp | date DD MMMM YYYY}})
+    </ul>
+    </div>
+</div> <!-- end template 'stats' -->
+</div>
+
+
+
 <h3>Statistics</h3>
 <div id="stats">
 <div style="white-space:nowrap;" data-template> <!-- begin template 'stats' -->
 
 <div>
-Whitelisted domains:<br>
-Blacklisted domains:<br>
-&nbsp;<br>
-Requests<br>
-All:<br>
-Pages:<br>
-<a href="http://en.wikipedia.org/wiki/Http_cookie">Cookies</a>:<br>
-Images:<br>
-<span title="i.e. Flash, ActiveX, Java applets, etc.">Objects</span>:<br>
-<a href="http://en.wikipedia.org/wiki/HTML_scripting">Scripts</a>:<br>
-<a href="http://en.wikipedia.org/wiki/XMLHttpRequest">XMLHttpRequests</a>:<br>
-<a href="http://en.wikipedia.org/wiki/Framing_(World_Wide_Web)">Frames</a>:<br>
-<span title="i.e. HTML5 audio, HTML5 video, HTML5 canvas, fonts, etc.">Others</span>:<br>
-</div>
-
-<div>
-{{whitelistCount | format ,}}<br>
-{{blacklistCount | format ,}}<br>
-&nbsp;<br>
-<div style="margin:0;border:0;padding:0;color:#c00">Blocked<br>
-{{blockedRequestCounters.all | format ,}}<br>
-{{blockedRequestCounters.main_frame | format ,}}<br>
-{{blockedRequestCounters.cookie | format ,}}<br>
-{{blockedRequestCounters.image | format ,}}<br>
-{{blockedRequestCounters.object | format ,}}<br>
-{{blockedRequestCounters.script | format ,}}<br>
-{{blockedRequestCounters.xmlhttprequest | format ,}}<br>
-{{blockedRequestCounters.sub_frame | format ,}}<br>
-{{blockedRequestCounters.other | format ,}}<br>
-</div>
-</div>
-
+    Requests<br>
+    All:<br>
+    Pages:<br>
+    <a href="http://en.wikipedia.org/wiki/Http_cookie">Cookies</a>:<br>
+    Images:<br>
+    <span title="i.e. Flash, ActiveX, Java applets, etc.">Objects</span>:<br>
+    <a href="http://en.wikipedia.org/wiki/HTML_scripting">Scripts</a>:<br>
+    <a href="http://en.wikipedia.org/wiki/XMLHttpRequest">XMLHttpRequests</a>:<br>
+    <a href="http://en.wikipedia.org/wiki/Framing_(World_Wide_Web)">Frames</a>:<br>
+    <span title="i.e. HTML5 audio, HTML5 video, HTML5 canvas, fonts, etc.">Others</span>:<br>
+    </div>
+<div style="color:#c00">
+    Blocked<br>
+    {{blockedRequestCounters.all | format ,}}<br>
+    {{blockedRequestCounters.main_frame | format ,}}<br>
+    {{blockedRequestCounters.cookie | format ,}}<br>
+    {{blockedRequestCounters.image | format ,}}<br>
+    {{blockedRequestCounters.object | format ,}}<br>
+    {{blockedRequestCounters.script | format ,}}<br>
+    {{blockedRequestCounters.xmlhttprequest | format ,}}<br>
+    {{blockedRequestCounters.sub_frame | format ,}}<br>
+    {{blockedRequestCounters.other | format ,}}<br>
+    </div>
 <div style="color:#070">
-&nbsp;<br>
-&nbsp;<br>
-&nbsp;<br>
-Allowed<br>
-{{allowedRequestCounters.all | format ,}}<br>
-{{allowedRequestCounters.main_frame | format ,}}<br>
-{{allowedRequestCounters.cookie | format ,}}<br>
-{{allowedRequestCounters.image | format ,}}<br>
-{{allowedRequestCounters.object | format ,}}<br>
-{{allowedRequestCounters.script | format ,}}<br>
-{{allowedRequestCounters.xmlhttprequest | format ,}}<br>
-{{allowedRequestCounters.sub_frame | format ,}}<br>
-{{allowedRequestCounters.other | format ,}}<br>
-</div>
+    Allowed<br>
+    {{allowedRequestCounters.all | format ,}}<br>
+    {{allowedRequestCounters.main_frame | format ,}}<br>
+    {{allowedRequestCounters.cookie | format ,}}<br>
+    {{allowedRequestCounters.image | format ,}}<br>
+    {{allowedRequestCounters.object | format ,}}<br>
+    {{allowedRequestCounters.script | format ,}}<br>
+    {{allowedRequestCounters.xmlhttprequest | format ,}}<br>
+    {{allowedRequestCounters.sub_frame | format ,}}<br>
+    {{allowedRequestCounters.other | format ,}}<br>
+    </div>
 
 </div> <!-- end template 'stats' -->
 </div>
@@ -148,8 +160,8 @@ Allowed<br>
 
 
 
-<script src="js/lib/jquery-2.min.js"></script>
-<script src="js/lib/tempo.min.js"></script>
+<script src="lib/jquery-2.min.js"></script>
+<script src="lib/tempo.min.js"></script>
 <script src="js/info.js"></script>
 </body>
 </html>
