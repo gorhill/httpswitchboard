@@ -21,6 +21,45 @@
 
 /******************************************************************************/
 
+var frameReplacement = "<!DOCTYPE html> \
+<html> \
+<head> \
+<style> \
+@font-face { \
+ font-family: 'httpsb'; \
+ font-style: normal; \
+ font-weight: 400; \
+ src: local('httpsb'), url('{{fontUrl}}') format('truetype'); \
+} \
+body { \
+ margin: 0; \
+ border: 0; \
+ padding: 0; \
+ font: 13px httpsb,sans-serif; \
+ width: 100%; \
+ height: 100%; \
+ background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QkOFgcvc4DETwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAACGSURBVFjD7ZZBCsAgEAMT6f+/nJ5arYcqiKtIPAaFYR2DFCAAgEQ8iwzLCLxZWglSZgKUdgHJk2kdLEY5C4QAUxeIFOINfwUOBGkLPBnkAIEDQPoEDiw+uoGHBQ4ovv4GnvTMS4EvC+wvhBvYAltgC2yBLbAFPlTgvKG6vxXZB6QOl2S7gNw6ktgOp+IH7wAAAABJRU5ErkJggg==') repeat; \
+ text-align: center; \
+ vertical-align: middle; \
+} \
+#httpsb { \
+ margin: 2px; \
+ border: 0; \
+ padding: 0; \
+ display: inline-block; \
+ color: white; \
+ background: #c00; \
+} \
+</style> \
+<title>Blocked by HTTPSB</title> \
+</head> \
+<body title='&ldquo;{{domain}}&rdquo; blocked by HTTP Switchboard'> \
+<div id='httpsb'>{{domain}}</div> \
+</body> \
+</html>";
+
+/******************************************************************************/
+
 // Intercept and filter web requests according to white and black lists.
 
 function webRequestHandler(details) {
@@ -119,12 +158,13 @@ function webRequestHandler(details) {
 
     // if it's a blacklisted frame, redirect to frame.html
     if ( isMainFrame || type === 'sub_frame' ) {
-        var q = chrome.runtime.getURL('frame.html') + '?';
-        q += 'domain=' + encodeURIComponent(domain);
-        q += '&';
-        q += 'url=' + encodeURIComponent(url);
+        var fontUrl = chrome.runtime.getURL('css/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf');
+        var html = frameReplacement;
+        html = html.replace(/{{fontUrl}}/g, fontUrl);
+        html = html.replace(/{{domain}}/g, domain);
+        var dataUrl = 'data:text/html;base64,' + btoa(html);
         // console.debug('webRequestHandler > redirecting %s to %s', url, q);
-        return { "redirectUrl": q };
+        return { "redirectUrl": dataUrl };
     }
 
     return { "cancel": true };

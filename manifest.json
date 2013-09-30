@@ -32,8 +32,7 @@
         "<all_urls>"
     ],
     "web_accessible_resources": [
-        "frame.html",
-        "js/frame.js"
+        "css/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf"
     ],
     "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
