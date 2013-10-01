@@ -161,7 +161,7 @@ $('#refresh-requests').click(updateRequests);
 $('input[id^="show-"][type="checkbox"]').change(syncWithFilters);
 
 $('#urls').change(function(){
-    targetUrl = this[this.selectedIndex].value;
+    targetUrl = this[this.selectedIndex].value.replace(/&amp;/g, '&');
     updateStats();
     updateRequests();
     });
