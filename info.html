@@ -9,6 +9,9 @@ body {
 h3 + *, h1 + * {
     margin-left: 2em;
     }
+select {
+    max-width: 20em;
+    }
 #stats div div,#lists div div {
     padding: 0 1em 0 0;
     display: inline-block;
@@ -88,8 +91,14 @@ h3 + *, h1 + * {
 </div>
 
 
+<h3>Geeky stats</h3>
+ <!-- start of geek stats --><div>For 
+<select id="urls">
+<option data-template data-if-target value="{{url | encodeURI}}" selected>{{url | escape}}</option>
+<option data-template value="{{url | encodeURI}}">{{url | escape}}</option>
+</select>
 
-<h3>Statistics</h3>
+<h4>Basic</h4>
 <div id="stats">
 <div style="white-space:nowrap;" data-template> <!-- begin template 'stats' -->
 
@@ -134,8 +143,7 @@ h3 + *, h1 + * {
 </div>
 
 
-
-<h3>Recent net requests</h3>
+<h4>Detailed</h4>
 <div id="requests">
 <p><button id="refresh-requests">Refresh</button></p>
 <p>
@@ -159,7 +167,7 @@ h3 + *, h1 + * {
 </div>
 </div>
 
-
+</div> <!-- end of geek stats -->
 
 <script src="lib/jquery-2.min.js"></script>
 <script src="lib/tempo.min.js"></script>

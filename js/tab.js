@@ -56,6 +56,8 @@ function createPageStats(pageUrl) {
             requests: {},
             domains: {},
             state: {},
+            blockedStats: new BasicStats(),
+            allowedStats: new BasicStats(),
             visible: true
             };
     }

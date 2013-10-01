@@ -67,28 +67,8 @@ var HTTPSB = {
     ALLOWED_INDIRECT: 4,
 
     // various stats
-    blockedRequestCounters: {
-        all: 0,
-        main_frame: 0,
-        sub_frame: 0,
-        script: 0,
-        image: 0,
-        object: 0,
-        xmlhttprequest: 0,
-        other: 0,
-        cookie: 0
-    },
-    allowedRequestCounters: {
-        all: 0,
-        main_frame: 0,
-        sub_frame: 0,
-        script: 0,
-        image: 0,
-        object: 0,
-        xmlhttprequest: 0,
-        other: 0,
-        cookie: 0
-    },
+    blockedRequestCounters: new BasicStats(),
+    allowedRequestCounters: new BasicStats(),
 
     // internal state
     webRequestHandler: false,
@@ -97,3 +77,14 @@ var HTTPSB = {
     dummy: 0
 };
 
+function BasicStats() {
+    this.all = 0;
+    this.main_frame = 0;
+    this.sub_frame = 0;
+    this.script = 0;
+    this.image = 0;
+    this.object = 0;
+    this.xmlhttprequest = 0;
+    this.other = 0;
+    this.cookie = 0;
+};

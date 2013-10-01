@@ -25,9 +25,12 @@ $(function(){
 
 /******************************************************************************/
 
+
 var background = chrome.extension.getBackgroundPage();
 var httpsb = background.HTTPSB;
+var targetUrl = 'All';
 var data = {
+    urls: [],
     whitelistCount: 0,
     blacklistCount: 0,
     blockedRequestCounters: httpsb.blockedRequestCounters,
@@ -38,6 +41,17 @@ var data = {
 var maxRequests = 500;
 
 var updateStatsData = function() {
+    data.urls = Object.keys(httpsb.pageUrlToTabId).concat('All').sort().map(function(v) {
+        return { url: v, target: v === targetUrl };
+    });
+    data.blockedRequestCounters = targetUrl === 'All'
+        ? httpsb.blockedRequestCounters
+        : background.pageStatsFromPageUrl(targetUrl).blockedStats
+        ;
+    data.allowedRequestCounters = targetUrl === 'All'
+        ? httpsb.allowedRequestCounters
+        : background.pageStatsFromPageUrl(targetUrl).allowedStats
+        ;
     data.whitelistCount = Object.keys(httpsb.whitelist).length;
     data.blacklistCount = Object.keys(httpsb.blacklist).length;
     data.remoteBlacklists = httpsb.remoteBlacklists;
@@ -49,7 +63,10 @@ var updateStatsData = function() {
 
 var updateRequestData = function() {
     data.requests = [];
-    var pages = Object.keys(httpsb.pageStats);
+    var pages = targetUrl === 'All'
+        ? Object.keys(httpsb.pageStats)
+        : [targetUrl]
+        ;
     var pageToRequests = pages.map(function(pageUrl) {
         var pageStats = httpsb.pageStats[pageUrl];
         var requests = pageStats.requests;
@@ -106,12 +123,14 @@ var syncWithFilters = function() {
 
 // Render page
 
+var urlsTemplate = Tempo.prepare('urls');
 var listsTemplate = Tempo.prepare('lists');
 var statsTemplate = Tempo.prepare('stats');
 var requestTemplate = Tempo.prepare('requests');
 
 var updateStats = function() {
     updateStatsData();
+    urlsTemplate.render(data.urls);
     listsTemplate.render(data);
     statsTemplate.render(data);
 };
@@ -130,7 +149,7 @@ updateRequests();
 // Auto update basic stats (not list of requests though, this is done through
 // `refresh` button.
 
-setInterval(function(){ updateStats(); }, 5000);
+setInterval(function(){ updateStats(); }, 10000); // every 10s
 
 /******************************************************************************/
 
@@ -140,6 +159,12 @@ $('#version').html(httpsb.manifest.version);
 $('a').prop('target', '_blank');
 $('#refresh-requests').click(updateRequests);
 $('input[id^="show-"][type="checkbox"]').change(syncWithFilters);
+
+$('#urls').change(function(){
+    targetUrl = this[this.selectedIndex].value;
+    updateStats();
+    updateRequests();
+    });
 
 /******************************************************************************/
 

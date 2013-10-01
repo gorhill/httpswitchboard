@@ -114,9 +114,10 @@ function webRequestHandler(details) {
     var block = blacklisted(type, domain);
 
     // Log request
-    recordFromTabId(tabId, type, url, block);
-
-    var counters;
+    var pageStats = pageStatsFromTabId(tabId);
+    if ( pageStats ) {
+        recordFromPageStats(pageStats, type, url, block);
+    }
 
     // whitelisted?
     if ( !block ) {
@@ -137,19 +138,27 @@ function webRequestHandler(details) {
             // generate 'script' type web requests.
         }
 
-        counters = HTTPSB.allowedRequestCounters;
-        counters.all += 1;
-        counters[type] += 1;
+        // Collect stats
+        if ( pageStats ) {
+            pageStats.allowedStats.all += 1;
+            pageStats.allowedStats[type] += 1;
+        }
+        HTTPSB.allowedRequestCounters.all += 1;
+        HTTPSB.allowedRequestCounters[type] += 1;
 
         return;
     }
 
     // blacklisted
     // console.debug('webRequestHandler > blocking %s from %s', type, domain);
-    counters = HTTPSB.blockedRequestCounters;
-    counters.all += 1;
-    counters[type] += 1;
 
+    // Collect stats
+    if ( pageStats ) {
+        pageStats.blockedStats.all += 1;
+        pageStats.blockedStats[type] += 1;
+    }
+    HTTPSB.blockedRequestCounters.all += 1;
+    HTTPSB.blockedRequestCounters[type] += 1;
 
     // remember this blacklisting, used to create a snapshot of the state
     // of the tab, which is useful for smart reload of the page (reload the
