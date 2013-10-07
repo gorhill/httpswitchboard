@@ -24,7 +24,6 @@
 // whitelist something
 function allow(type, domain) {
     var httpsb = HTTPSB;
-
     var key = type + "/" + domain;
     var whitelisted = !httpsb.whitelist[key]
     var unblacklisted = httpsb.blacklist[key];
@@ -37,7 +36,7 @@ function allow(type, domain) {
         // TODO: handle case where user override third-party blacklists
         delete httpsb.blacklistUser[key];
     }
-    console.log('HTTP Switchboard > whitelisting %s from %s', type, domain);
+    // console.log('HTTP Switchboard > whitelisting %s from %s', type, domain);
     if ( whitelisted || unblacklisted ) {
         save();
     }
@@ -48,8 +47,7 @@ function allow(type, domain) {
 // blacklist something
 function disallow(type, domain) {
     var httpsb = HTTPSB;
-
-    var key = type + "/" + domain;
+    var key = type + '/' + domain;
     var unwhitelisted = httpsb.whitelist[key]
     var blacklisted = !httpsb.blacklist[key];
     if ( unwhitelisted ) {
@@ -60,7 +58,7 @@ function disallow(type, domain) {
         httpsb.blacklist[key] = true;
         httpsb.blacklistUser[key] = true;
     }
-    console.log('HTTP Switchboard > blacklisting %s from %s', type, domain);
+    // console.log('HTTP Switchboard > blacklisting %s from %s', type, domain);
     if ( unwhitelisted || blacklisted ) {
         save();
     }
@@ -71,9 +69,8 @@ function disallow(type, domain) {
 // remove something from both black and white lists
 function graylist(type, domain) {
     var httpsb = HTTPSB;
-
-    var key = type + "/" + domain;
-    // special case: root cannot be gray listed
+    var key = type + '/' + domain;
+    // special case: master switch cannot be gray listed
     if ( key === '*/*' ) {
         return;
     }
@@ -87,7 +84,7 @@ function graylist(type, domain) {
         delete httpsb.blacklist[key];
         delete httpsb.blacklistUser[key];
     }
-    console.log('HTTP Switchboard > graylisting %s from %s', type, domain);
+    // console.log('HTTP Switchboard > graylisting %s from %s', type, domain);
     if ( unwhitelisted || unblacklisted ) {
         save();
     }
@@ -98,8 +95,7 @@ function graylist(type, domain) {
 // check whether something is white or black listed, direct or indirectly
 function evaluate(type, domain) {
     var httpsb = HTTPSB;
-
-    var key, nodes, ancestor;
+    var key, ancestor;
     if ( type !== '*' && domain !== '*' ) {
         // direct: specific type, specific domain
         key = type + "/" + domain;
@@ -118,10 +114,8 @@ function evaluate(type, domain) {
             return httpsb.ALLOWED_INDIRECT;
         }
         // indirect: ancestor domain nodes
-        nodes = domain.split('.');
-        while ( nodes.length > 1 ) {
-            nodes = nodes.slice(1);
-            ancestor = nodes.join('.');
+        ancestor = domain;
+        while ( ancestor ) {
             key = type + "/" + ancestor;
             // specific type, specific ancestor
             if ( httpsb.blacklist[key] ) {
@@ -138,6 +132,7 @@ function evaluate(type, domain) {
             if ( httpsb.whitelist[key] ) {
                 return httpsb.ALLOWED_INDIRECT;
             }
+            ancestor = getParentDomainFromDomain(ancestor);
         }
         // indirect: specific type, any domain
         key = type + "/*";
@@ -162,10 +157,8 @@ function evaluate(type, domain) {
             return httpsb.ALLOWED_DIRECT;
         }
         // indirect: ancestor domain nodes
-        nodes = domain.split('.');
-        while ( nodes.length > 1 ) {
-            nodes = nodes.slice(1);
-            ancestor = nodes.join('.');
+        ancestor = domain;
+        while ( ancestor ) {
             // any type, specific domain
             key = "*/" + ancestor;
             if ( httpsb.blacklist[key] ) {
@@ -174,6 +167,7 @@ function evaluate(type, domain) {
             if ( httpsb.whitelist[key] ) {
                 return httpsb.ALLOWED_INDIRECT;
             }
+            ancestor = getParentDomainFromDomain(ancestor);
         }
         // indirect: any type, any domain
         if ( httpsb.whitelist["*/*"] ) {
@@ -207,7 +201,6 @@ function evaluate(type, domain) {
 // check whether something is blacklisted
 function blacklisted(type, domain) {
     var httpsb = HTTPSB;
-
     var result = evaluate(type, domain);
     return result === httpsb.DISALLOWED_DIRECT || result === httpsb.DISALLOWED_INDIRECT;
 }
@@ -215,7 +208,6 @@ function blacklisted(type, domain) {
 // check whether something is whitelisted
 function whitelisted(type, domain) {
     var httpsb = HTTPSB;
-
     var result = evaluate(type, domain);
     return result === httpsb.ALLOWED_DIRECT || result === httpsb.ALLOWED_INDIRECT;
 }

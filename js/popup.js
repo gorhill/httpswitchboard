@@ -20,6 +20,7 @@
 */
 
 // TODO: refactor this mess.
+// TODO: Use Tempo.js
 
 (function(){
 
@@ -50,21 +51,18 @@ var getDomainStats = function(pageStats) {
     // first group according to whether at least one node in the domain
     // hierarchy is white or blacklisted
     var domain;
-    var nodes;
     var rootDomain;
-    var nodeName;
+    var ancestor;
     var permission;
     for ( domain in pageStats.domains ) {
-        nodes = domain.split('.');
-        // TODO: doesn't work for IP addresses, fix this!
-        rootDomain = nodes.slice(-2).join('.');
-        while ( nodes.length > 1 ) {
-            nodeName = nodes.join('.');
-            permission = background.evaluate('*', nodeName);
+        rootDomain = background.getTopMostDomainFromDomain(domain);
+        ancestor = domain;
+        while ( ancestor ) {
+            permission = background.evaluate('*', ancestor);
             if ( permission === httpsb.ALLOWED_DIRECT || permission === httpsb.DISALLOWED_DIRECT ) {
                 break;
             }
-            nodes.shift();
+            ancestor = background.getParentDomainFromDomain(ancestor);
         }
         if ( permission !== httpsb.ALLOWED_DIRECT && permission !== httpsb.DISALLOWED_DIRECT ) {
             permission = httpsb.GRAY;
@@ -83,12 +81,10 @@ var getDomainStats = function(pageStats) {
     for ( permission in domainGroups ) {
         for ( rootDomain in domainGroups[permission] ) {
             for ( domain in domainGroups[permission][rootDomain].directs ) {
-                nodes = domain.split('.');
-                // TODO: doesn't work for IP addresses, fix this!
-                while ( nodes.length > 1 ) {
-                    nodeName = nodes.join('.');
-                    domainGroups[permission][rootDomain].all[nodeName] = domainGroups[permission][rootDomain].directs[nodeName];
-                    nodes = nodes.slice(1);
+               ancestor = domain;
+                while ( ancestor ) {
+                    domainGroups[permission][rootDomain].all[ancestor] = domainGroups[permission][rootDomain].directs[ancestor];
+                    ancestor = background.getParentDomainFromDomain(ancestor);
                 }
             }
         }
@@ -167,8 +163,10 @@ var getNextClass = function(currentClass, domain, type) {
 var updateFilterButtons = function() {
     $('.filter-button').each(function() {
         var button = $(this);
-        var type = button.data('filterType');
-        var domain = button.data('filterDomain');
+        // Need to cast to string or else data() method will convert to
+        // numbers if it thinks it's a number (likewhen domain is '127.0.0.1'
+        var type = String(button.data('filterType'));
+        var domain = String(button.data('filterDomain'));
         var newClass = getCurrentClass(domain, type);
         if ( newClass === '' || !button.hasClass(newClass) ) {
             button.removeClass('filter-allowed filter-disallowed filter-allowed-indirect filter-disallowed-indirect');
@@ -187,12 +185,6 @@ var formatHeader = function(s) {
         msg = '&nbsp;';
     }
     return msg;
-};
-
-var sortDomainNames = function(a,b) {
-    a = a.split('').reverse().join('');
-    b = b.split('').reverse().join('');
-    return a.localeCompare(b);
 };
 
 // pretty names
@@ -275,13 +267,13 @@ var makeMenu = function() {
             html.push('<div class="permissionSeparator"></div>');
         }
         rootDomains = Object.keys(domainStats[permission]);
-        rootDomains.sort(sortDomainNames)
+        rootDomains.sort(background.domainNameCompare)
         for ( var iRoot = 0; iRoot < rootDomains.length; iRoot++ ) {
             if ( iRoot > 0 ) {
                 html.push('<div class="domainSeparator"></div>');
             }
             domains = Object.keys(domainStats[permission][rootDomains[iRoot]].all);
-            domains.sort(sortDomainNames);
+            domains.sort(background.domainNameCompare);
             for ( var iDomain = 0; iDomain < domains.length; iDomain++ ) {
                 domain = domains[iDomain];
                 html.push('<div>');
@@ -321,8 +313,8 @@ var makeMenu = function() {
 
 // handle user interaction with filters
 var handleFilter = function(button) {
-    var type = button.data('filterType');
-    var domain = button.data('filterDomain');
+    var type = String(button.data('filterType'));
+    var domain = String(button.data('filterDomain'));
     var currentClass = getCurrentClass(domain, type);
     var nextClass = getNextClass(currentClass, domain, type);
     if ( nextClass === 'filter-disallowed' ) {
@@ -353,8 +345,8 @@ var mouseOverPrompts = {
 };
 
 var handleFilterMessage = function(button) {
-    var type = button.data('filterType');
-    var domain = button.data('filterDomain');
+    var type = String(button.data('filterType'));
+    var domain = String(button.data('filterDomain'));
     var currentClass = getCurrentClass(domain, type);
     var nextClass = getNextClass(currentClass, domain, type);
     var action = nextClass === 'filter-allowed' ? '+' : (nextClass === 'filter-disallowed' ? '-' : '.');

@@ -19,8 +19,6 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
-// TODO: refactor this mess.
-
 $(function(){
 
 /******************************************************************************/

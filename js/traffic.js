@@ -40,12 +40,11 @@ body { \
  height: 100%; \
  background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QkOFgcvc4DETwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAACGSURBVFjD7ZZBCsAgEAMT6f+/nJ5arYcqiKtIPAaFYR2DFCAAgEQ8iwzLCLxZWglSZgKUdgHJk2kdLEY5C4QAUxeIFOINfwUOBGkLPBnkAIEDQPoEDiw+uoGHBQ4ovv4GnvTMS4EvC+wvhBvYAltgC2yBLbAFPlTgvKG6vxXZB6QOl2S7gNw6ktgOp+IH7wAAAABJRU5ErkJggg==') repeat; \
  text-align: center; \
- vertical-align: middle; \
 } \
-#httpsb { \
+div { \
  margin: 2px; \
  border: 0; \
- padding: 0; \
+ padding: 0 2px; \
  display: inline-block; \
  color: white; \
  background: #c00; \
@@ -54,7 +53,7 @@ body { \
 <title>Blocked by HTTPSB</title> \
 </head> \
 <body title='&ldquo;{{domain}}&rdquo; blocked by HTTP Switchboard'> \
-<div id='httpsb'>{{domain}}</div> \
+<div>{{domain}}</div> \
 </body> \
 </html>";
 
@@ -128,7 +127,7 @@ function webRequestHandler(details) {
         if ( isMainFrame ) {
             var blacklistScript = blacklisted('script', domain);
             chrome.contentSettings.javascript.set({
-                primaryPattern: '*://*.' + domain + '/*',
+                primaryPattern: '*://' + domain + '/*',
                 setting: blacklistScript ? 'block' : 'allow'
             });
             // console.debug('Blacklisting scripts for *://%s/* is %o', domain, blacklistScript);

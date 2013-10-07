@@ -92,7 +92,7 @@ function findAndRecordCookies(pageUrl) {
                 addStateFromPageStats(pageStats, 'cookie', domain);
             }
             chrome.contentSettings.cookies.set({
-                primaryPattern: '*://*.' + domain + '/*',
+                primaryPattern: '*://' + domain + '/*',
                 secondaryPattern: '<all_urls>',
                 setting: block ? 'block' : 'allow'
             });
@@ -106,9 +106,11 @@ function findAndRecordCookies(pageUrl) {
 // http://stackoverflow.com/questions/4003823/javascript-getcookie-functions/4004010#4004010
 // Thanks!
 
-function parseRawCookies(cookieStr) {
-    var c = cookieStr,
-        v = 0,
+// TODO: This is not ok: the comma is often used in a json string, it can not
+// simply used mindlessly to split the cookie strings as it is done below.
+
+function parseRawCookies(c) {
+    var v = 0,
         cookies = {};
     if (document.cookie.match(/^\s*\$Version=(?:"1"|1);\s*(.*)/)) {
         c = RegExp.$1;
@@ -136,19 +138,13 @@ function parseRawCookies(cookieStr) {
 // I reused the code snippet above to create a function which just returns
 // the number of cookies without the overhead of creating and returning an
 // associative array.
-function countRawCookies(cookieStr) {
-    var c = cookieStr,
-        v = 0;
+// TODO: Not really accurate because of issue above.
+function countRawCookies(c) {
     if (document.cookie.match(/^\s*\$Version=(?:"1"|1);\s*(.*)/)) {
         c = RegExp.$1;
-        v = 1;
-    }
-    if (v === 0) {
-        return c.split(/[,;]/).length;
-    } else {
         return c.match(/(?:^|\s+)([!#$%&'*+\-.0-9A-Z^`a-z|~]+)=([!#$%&'*+\-.0-9A-Z^`a-z|~]*|"(?:[\x20-\x7E\x80\xFF]|\\[\x00-\x7F])*")(?=\s*[,;]|$)/g).length;
     }
-    return 0;
+    return c.split(/[,;]/).length;
 }
 
 /******************************************************************************/
@@ -183,7 +179,7 @@ chrome.cookies.onChanged.addListener(function(changeInfo) {
             addStateFromPageStats(pageStats, 'cookie', domain);
         }
         chrome.contentSettings.cookies.set({
-            primaryPattern: '*://*.' + domain + '/*',
+            primaryPattern: '*://' + domain + '/*',
             secondaryPattern: '<all_urls>',
             setting: block ? 'block' : 'allow'
         });

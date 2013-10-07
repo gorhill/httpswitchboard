@@ -90,3 +90,60 @@ function getUrlHrefPath(url) {
     return path;
 }
 
+/******************************************************************************/
+
+// Return the parent domain. For IP address, there is no parent domain.
+
+function getParentDomainFromDomain(domain) {
+    // Do not return top node alone, way too broad
+    var nodes = domain.split('.');
+    if ( nodes.length <= 2 ) {
+        return undefined;
+    }
+    // With plain IP address, top node is left-most
+    if ( isIpAddress(domain) ) {
+        return nodes.slice(0, nodes.length-1).join('.');
+    }
+    // With name address, top node is right-most
+    return nodes.slice(1).join('.');
+}
+
+/******************************************************************************/
+
+// Return the top-most domain. For IP address, there is no parent domain.
+
+function getTopMostDomainFromDomain(domain) {
+    // Do not return top node alone, way too broad
+    var nodes = domain.split('.');
+    // With plain IP address, top node is left-most
+    if ( isIpAddress(domain) ) {
+        return nodes.slice(0, 2).join('.');
+    }
+    // With name address, top node is right-most
+    return nodes.slice(-2).join('.');
+}
+
+/******************************************************************************/
+
+// Compare domain helper, to order domain in a logical manner:
+// top-most < bottom-most, take into account whether IP address or
+// named domain
+
+function domainNameCompare(a,b) {
+    // Normalize: most significant parts first
+    if ( !isIpAddress(a) ) {
+        var aa = a.split('.');
+        a = aa.slice(-2).concat(aa.slice(0,-2).reverse()).join('.');
+    }
+    if ( !isIpAddress(b) ) {
+        var bb = b.split('.');
+        b = bb.slice(-2).concat(bb.slice(0,-2).reverse()).join('.');
+    }
+    return a.localeCompare(b);
+}
+
+/******************************************************************************/
+
+function isIpAddress(domain) {
+    return domain.match(/^\d+(\.\d+){1,3}$/);
+}
