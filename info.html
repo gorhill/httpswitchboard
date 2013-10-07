@@ -84,7 +84,7 @@ select {
 <div style="margin:1em 0 0 0;display:block;text-align:left">
     Remote blacklists:<ul style="margin:0;color:gray">
     <li data-template-for="remoteBlacklists" data-from-map><a href="{{key}}">{{key}}</a>
-    &ensp;(fetched on {{value.timeStamp | date DD MMMM YYYY}})
+    &ensp;(fetched at {{value.timeStamp | date HH:mm on D MMM YYYY}})
     </ul>
     </div>
 </div> <!-- end template 'stats' -->

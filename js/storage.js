@@ -57,7 +57,7 @@ var storageBufferer = {
                     key = wantedKeys[i];
                     if ( key in store ) {
                         self.store[key] = store[key];
-                    } else if ( key in arg ) {
+                    } else if ( typeof arg === 'object' && key in arg ) {
                         self.store[key] = arg[key];
                     }
                 }
@@ -160,16 +160,17 @@ function loadRemoteBlacklists() {
                 continue;
             }
             // Local copy of remote list out of date?
-            if ( store.remoteBlacklists[location].timeStamp ) {
-                httpsb.remoteBlacklists[location].timeStamp = store.remoteBlacklists[location].timeStamp;
-                var age = Date.now() - store.remoteBlacklists[location].timeStamp;
-                if ( age < httpsb.remoteBlacklistLocalCopyTTL ) {
-                    chrome.runtime.sendMessage({
-                        what: 'mergeRemoteBlacklist',
-                        list: store.remoteBlacklists[location]
-                    });
-                    continue;
-                }
+            if ( store.remoteBlacklists[location].timeStamp === undefined ) {
+                store.remoteBlacklists[location].timeStamp = 0;
+            }
+            httpsb.remoteBlacklists[location].timeStamp = store.remoteBlacklists[location].timeStamp;
+            var age = Date.now() - store.remoteBlacklists[location].timeStamp;
+            if ( age < httpsb.remoteBlacklistLocalCopyTTL ) {
+                chrome.runtime.sendMessage({
+                    what: 'mergeRemoteBlacklist',
+                    list: store.remoteBlacklists[location]
+                });
+                continue;
             }
             // No local version, we need to fetch it from remote server.
             chrome.runtime.sendMessage({
@@ -213,6 +214,7 @@ function queryRemoteBlacklist(location) {
             return;
         }
         console.log('HTTP Switchboard > fetched third party blacklist from remote location "%s"', location);
+        HTTPSB.remoteBlacklists[location].timeStamp = Date.now();
         chrome.runtime.sendMessage({
             what: 'parseRemoteBlacklist',
             list: {
@@ -245,6 +247,9 @@ function parseRemoteBlacklist(list) {
 
 function localSaveRemoteBlacklist(list) {
     storageBufferer.acquire('remoteBlacklists', function(store) {
+        if ( store.remoteBlacklists === undefined ) {
+            store.remoteBlacklists = {};
+        }
         store.remoteBlacklists[list.url] = list;
         // *important*
         storageBufferer.release();
@@ -255,7 +260,9 @@ function localSaveRemoteBlacklist(list) {
 
 function localRemoveRemoteBlacklist(location) {
     storageBufferer.acquire('remoteBlacklists', function(store) {
-        delete store.remoteBlacklists[list.url];
+        if ( store.remoteBlacklists ) {
+            delete store.remoteBlacklists[list.url];
+        }
         // *important*
         storageBufferer.release();
     });
