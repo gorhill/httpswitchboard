@@ -1,3 +1,6 @@
-llnwd.net
-parsely.com
+# Blacklist maintained by HTTP Switchboard
+# For those domain names which are not found in other blacklists
+llnwd.net       # http://en.wikipedia.org/wiki/Limelight_Networks
+parsely.com     # http://en.wikipedia.org/wiki/Parse.ly
+lijit.com       # "We provide online advertising services, audience analytics"
 
