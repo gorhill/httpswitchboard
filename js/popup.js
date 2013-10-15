@@ -19,28 +19,119 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
-// TODO: refactor this mess.
-// TODO: Use Tempo.js
+// TODO: keep refactoring this mess.
 
 (function(){
 
 /******************************************************************************/
 
-// tell the extension what we are doing
-var tabId; // this will be set later
+var tabId; // these will be set later
+var pageUrl = '';
+
 var port = chrome.extension.connect();
 var background = chrome.extension.getBackgroundPage();
 var httpsb = background.HTTPSB;
-var pageUrl = '';
+var matrixStats = {};
+var matrixHeaderTypes = ['*'];
+var matrixHeaderPrettyNames = { };
+var matrixCellMenu = null;
+var matrixHasRows = false; // useful to know for various housekeeping task
+
+/******************************************************************************/
+
+function DomainStats() {
+    this['*'] = new EntryStats();
+    this.main_frame = new EntryStats();
+    this.cookie = new EntryStats();
+    this.image = new EntryStats();
+    this.object = new EntryStats();
+    this.script = new EntryStats();
+    this.xmlhttprequest = new EntryStats();
+    this.sub_frame = new EntryStats();
+    this.other = new EntryStats();
+}
+
+function EntryStats() {
+    this.count = 0;
+    this.temporaryColor = '';
+    this.permanentColor = '';
+}
+
+/******************************************************************************/
+
+var initMatrixStats = function(pageStats) {
+    if ( !pageStats ) {
+        return;
+    }
+
+    // domain '*' always present
+    matrixStats['*'] = new DomainStats();
+
+    // collect all domains and ancestors from net traffic
+    var url, domain, type, parent, reqKey;
+    var reqKeys = Object.keys(pageStats.requests);
+    var iReqKeys = reqKeys.length;
+
+    matrixHasRows = iReqKeys > 0;
+
+    while ( iReqKeys-- ) {
+        reqKey = reqKeys[iReqKeys];
+        url = background.urlFromReqKey(reqKey);
+        domain = background.getHostnameFromURL(url);
+        type = background.typeFromReqKey(reqKey);
+        // we want a row for self and ancestors
+        parent = domain;
+        while ( parent ) {
+            if ( !matrixStats[parent] ) {
+                matrixStats[parent] = new DomainStats();
+            }
+            parent = background.getParentDomainFromDomain(parent);
+        }
+        matrixStats[domain][type].count += 1;
+    }
+
+    updateMatrixStats(matrixStats);
+
+    return matrixStats;
+};
+
+/******************************************************************************/
+
+var updateMatrixStats = function(matrixStats) {
+    // for each domain/type occurrence, evaluate various stats
+    var domains = Object.keys(matrixStats);
+    var iDomain = domains.length;
+    var domain;
+    var types, iType, type;
+    var entry;
+    while ( iDomain-- ) {
+        domain = domains[iDomain];
+        types = Object.keys(matrixStats[domain]);
+        iType = types.length;
+        while ( iType-- ) {
+            type = types[iType];
+            entry = matrixStats[domain][type];
+            entry.temporaryColor = background.getTemporaryColor(type, domain);
+            entry.permanentColor = background.getPermanentColor(type, domain);
+        }
+    }
+};
+
+/******************************************************************************/
+
+// For display purpose, create three distinct groups of domains:
+// top: whitelisted
+// middle: graylisted
+// bottom: blacklisted
 
 var domainGroupsSnapshot = {};
 var domainListSnapshot = 'dont leave this initial string empty';
 
-var getDomainStats = function(pageStats) {
-    if ( !pageStats ) { return {}; }
+var getGroupStats = function() {
 
-    // Try to not reshuffle permission groups around.
-    var latestDomainListSnapshot = Object.keys(pageStats.domains).sort().join();
+    // Try to not reshuffle permission groups around while popup is opened if
+    // no new domain added.
+    var latestDomainListSnapshot = Object.keys(matrixStats).sort().join();
     if ( latestDomainListSnapshot === domainListSnapshot ) {
         return domainGroupsSnapshot;
     }
@@ -50,41 +141,59 @@ var getDomainStats = function(pageStats) {
 
     // first group according to whether at least one node in the domain
     // hierarchy is white or blacklisted
-    var domain;
-    var rootDomain;
-    var ancestor;
-    var permission;
-    for ( domain in pageStats.domains ) {
-        rootDomain = background.getTopMostDomainFromDomain(domain);
-        ancestor = domain;
-        while ( ancestor ) {
-            permission = background.evaluate('*', ancestor);
-            if ( permission === httpsb.ALLOWED_DIRECT || permission === httpsb.DISALLOWED_DIRECT ) {
+    var domain, rootDomain, parent;
+    var temporaryColor;
+    var dark, group;
+    var domains = Object.keys(matrixStats);
+    var iDomain = domains.length;
+    while ( iDomain-- ) {
+        domain = domains[iDomain];
+        // '*' is for header, ignore
+        if ( domain === '*' ) {
+            continue;
+        }
+        parent = domain;
+        while ( parent ) {
+            temporaryColor = matrixStats[parent]['*'].temporaryColor;
+            dark = temporaryColor.charAt(1) === 'd';
+            if ( dark ) {
                 break;
             }
-            ancestor = background.getParentDomainFromDomain(ancestor);
+            parent = background.getParentDomainFromDomain(parent);
         }
-        if ( permission !== httpsb.ALLOWED_DIRECT && permission !== httpsb.DISALLOWED_DIRECT ) {
-            permission = httpsb.GRAY;
+        if ( dark ) {
+            group = temporaryColor.charAt(0) === 'g' ? httpsb.ALLOWED_DIRECT : httpsb.DISALLOWED_DIRECT;
+        } else {
+            group = httpsb.GRAY;
         }
-        if ( !domainGroups[permission] ) {
-            domainGroups[permission] = {};
+        if ( !domainGroups[group] ) {
+            domainGroups[group] = {};
         }
-        if ( !domainGroups[permission][rootDomain] ) {
-            domainGroups[permission][rootDomain] = { all: {}, directs: {} };
+        rootDomain = background.getTopMostDomainFromDomain(domain);
+        if ( !domainGroups[group][rootDomain] ) {
+            domainGroups[group][rootDomain] = { all: {}, directs: {} };
         }
-        domainGroups[permission][rootDomain].directs[domain] = true;
+        domainGroups[group][rootDomain].directs[domain] = true;
     }
     // Generate all nodes possible for each groups, this is useful
-    // to allow users to toggle permissions for higher domains which is
+    // to allow users to toggle permissions for higher domains which are
     // not explicitly part of the web page.
-    for ( permission in domainGroups ) {
-        for ( rootDomain in domainGroups[permission] ) {
-            for ( domain in domainGroups[permission][rootDomain].directs ) {
-               ancestor = domain;
-                while ( ancestor ) {
-                    domainGroups[permission][rootDomain].all[ancestor] = domainGroups[permission][rootDomain].directs[ancestor];
-                    ancestor = background.getParentDomainFromDomain(ancestor);
+    var groups = Object.keys(domainGroups);
+    var iGroup = groups.length;
+    var rootDomains, iRootDomain;
+    while ( iGroup-- ) {
+        group = groups[iGroup];
+        rootDomains = Object.keys(domainGroups[group]);
+        iRootDomain = rootDomains.length;
+        while ( iRootDomain-- ) {
+            rootDomain = rootDomains[iRootDomain];
+            domains = Object.keys(domainGroups[group][rootDomain].directs);
+            iDomain = domains.length;
+            while ( iDomain-- ) {
+                domain = domains[iDomain];
+                while ( domain ) {
+                    domainGroups[group][rootDomain].all[domain] = domainGroups[group][rootDomain].directs[domain];
+                    domain = background.getParentDomainFromDomain(domain);
                 }
             }
         }
@@ -93,88 +202,147 @@ var getDomainStats = function(pageStats) {
     domainGroupsSnapshot = domainGroups;
 
     return domainGroups;
-}
-
-// make internal tree representation of white/black lists
-var getTypeStats = function(pageStats) {
-    var typeStats = {};
-    if ( pageStats ) {
-        var domain;
-        var type, url;
-        for ( var reqKey in pageStats.requests ) {
-            url = background.urlFromReqKey(reqKey);
-            domain = background.getUrlDomain(url);
-            type = background.typeFromReqKey(reqKey);
-            if ( !typeStats[type] ) {
-                typeStats[type] = {};
-            }
-            if ( !typeStats[type][domain] ) {
-                typeStats[type][domain] = 1;
-            } else {
-                typeStats[type][domain] += 1;
-            }
-        }
-    }
-    return typeStats;
 };
 
-// translate black/white list status of something into a css class
-// allowed (direct implied)
-// disallowed (direct implied)
-// allowed-inherited
-// disallowed-inherited
-var getCurrentClass = function(domain, type) {
-    var result = background.evaluate(type, domain);
-    if ( result === httpsb.DISALLOWED_DIRECT ) {
-        return 'filter-disallowed';
+/******************************************************************************/
+
+// helpers
+
+var getCellStats = function(domain, type) {
+    if ( matrixStats[domain] ) {
+        return matrixStats[domain][type];
     }
-    if ( result === httpsb.ALLOWED_DIRECT ) {
-        return 'filter-allowed';
-    }
-    if ( result === httpsb.ALLOWED_INDIRECT ) {
-        return 'filter-allowed-indirect';
-    }
-    if ( result === httpsb.DISALLOWED_INDIRECT ) {
-        return 'filter-disallowed-indirect';
-    }
-    return 'filter-disallowed';
+    return null;
 };
 
-// compute next class from current class
-var getNextClass = function(currentClass, domain, type) {
-    // special case: root toggle only between two states
-    if ( type === '*' && domain === '*' ) {
-        if ( currentClass === 'filter-allowed' ) {
-            return 'filter-disallowed';
-        }
-        return 'filter-allowed';
+var getTemporaryColor = function(domain, type) {
+    var entry = getCellStats(domain, type);
+    if ( entry ) {
+        return entry.temporaryColor;
     }
-    if ( currentClass === 'filter-allowed-indirect' || currentClass === 'filter-disallowed-indirect' ) {
-        return 'filter-disallowed';
-    }
-    if ( currentClass === 'filter-disallowed' ) {
-        return 'filter-allowed';
-    }
-    // if ( currentClass === 'filter-allowed' )
     return '';
 };
 
-// update visual of all filter buttons
+var getPermanentColor = function(domain, type) {
+    var entry = getCellStats(domain, type);
+    if ( entry ) {
+        return entry.permanentColor;
+    }
+    return '';
+};
+
+var getCellClass = function(domain, type) {
+    var temporaryColor = getTemporaryColor(domain, type);
+    var permanentColor = getPermanentColor(domain, type);
+    if ( permanentColor === 'xxx' ) {
+        return temporaryColor;
+    }
+    return temporaryColor + ' ' + permanentColor;
+};
+
+// compute next state
+var getNextAction = function(domain, type) {
+    var entry = matrixStats[domain][type];
+    var temporaryColor = entry.temporaryColor;
+    // special case: root toggle only between two states
+    if ( type === '*' && domain === '*' ) {
+        return temporaryColor === 'gdt' ? 'blacklist' : 'whitelist';
+    }
+    if ( temporaryColor === 'rpt' || temporaryColor === 'gpt' ) {
+        return 'blacklist';
+    }
+    if ( temporaryColor === 'rdt' ) {
+        return 'whitelist';
+    }
+    return 'graylist';
+};
+
+/******************************************************************************/
+
+// update visual of filter button(s)
+
 var updateFilterButtons = function() {
     $('.filter-button').each(function() {
         var button = $(this);
         // Need to cast to string or else data() method will convert to
         // numbers if it thinks it's a number (likewhen domain is '127.0.0.1'
-        var type = String(button.data('filterType'));
-        var domain = String(button.data('filterDomain'));
-        var newClass = getCurrentClass(domain, type);
-        if ( newClass === '' || !button.hasClass(newClass) ) {
-            button.removeClass('filter-allowed filter-disallowed filter-allowed-indirect filter-disallowed-indirect');
-            button.addClass(newClass);
-            port.postMessage({});
-        }
+        var data = button.data();
+        var type = String(data.filterType);
+        var domain = String(data.filterDomain);
+        var newClass = getCellClass(domain, type);
+        button.removeClass('rdt gdt rpt gpt rdp gdp rpp gpp');
+        button.addClass(newClass);
+        port.postMessage({});
     });
 };
+
+/******************************************************************************/
+
+// handle user interaction with filters
+
+var handleFilter = function(button) {
+    var data = button.data();
+    var type = String(data.filterType);
+    var domain = String(data.filterDomain);
+    var nextAction = getNextAction(domain, type);
+    if ( nextAction === 'blacklist' ) {
+        background.disallow(type, domain);
+    } else if ( nextAction === 'whitelist' ) {
+        background.allow(type, domain);
+    } else {
+        background.graylist(type, domain);
+    }
+    updateMatrixStats(matrixStats);
+    updateFilterButtons();
+    handleFilterMessage(button);
+};
+
+/******************************************************************************/
+
+// handle user interaction with persistence buttons
+
+var handlePersistence = function(button) {
+    // our parent cell knows who we are
+    var cell = button.closest('div.filter-button');
+    var data = cell.data();
+    var type = String(data.filterType);
+    var domain = String(data.filterDomain);
+    var entry = getCellStats(domain, type);
+    if ( !entry ) { return; }
+    if ( entry.temporaryColor.charAt(1) === 'd' && entry.temporaryColor !== entry.permanentColor ) {
+        if ( entry.temporaryColor === 'rdt' ) {
+            background.disallowPermanently(type, domain);
+        } else if ( entry.temporaryColor === 'gdt' ) {
+            background.allowPermanently(type, domain);
+        }
+        entry.permanentColor = background.getPermanentColor(type, domain);
+        var newClass = getCellClass(domain, type);
+        cell.removeClass('rdt gdt rpt gpt rdp gdp rpp gpp');
+        cell.addClass(newClass);
+    }
+};
+
+var handleUnpersistence = function(button) {
+    // our parent cell knows who we are
+    var cell = button.closest('div.filter-button');
+    var data = cell.data();
+    var type = String(data.filterType);
+    var domain = String(data.filterDomain);
+    var entry = getCellStats(domain, type);
+    if ( !entry ) { return; }
+    if ( entry.permanentColor.charAt(1) === 'd' ) {
+        background.graylistPermanently(type, domain);
+        entry.permanentColor = background.getPermanentColor(type, domain);
+        var newClass = getCellClass(domain, type);
+        cell.removeClass('rdt gdt rpt gpt rdp gdp rpp gpp');
+        cell.addClass(newClass);
+    }
+};
+
+/******************************************************************************/
+
+// build menu according to white and black lists
+// TODO: update incrementally
 
 var formatHeader = function(s) {
     var maxLength = 50;
@@ -187,63 +355,35 @@ var formatHeader = function(s) {
     return msg;
 };
 
-// pretty names
-var typeNames = {
-    'cookie': 'cookie',
-    'image': 'image',
-    'object': 'object',
-    'script': 'script',
-    'xmlhttprequest': 'XHR',
-    'sub_frame': 'frame',
-    'other': 'other'
-};
-
-// build menu according to white and black lists
-// TODO: update incrementally
-
 var makeMenu = function() {
+    var pageStats = background.pageStatsFromTabId(tabId);
+    var matrixStats = initMatrixStats(pageStats);
+    var groupStats = getGroupStats();
+
     $('#message').html(formatHeader(pageUrl));
 
-    var pageStats = background.pageStatsFromTabId(tabId);
-    var domainStats = getDomainStats(pageStats);
-    var typeStats = getTypeStats(pageStats);
-
-    if ( Object.keys(domainStats).length === 0 ) {
+    if ( Object.keys(groupStats).length === 0 ) {
         return;
     }
 
-    var html = [];
+    var matrixRow, matrixCells, matrixCell;
+    var types, iType, type;
 
     // header row
-    html.push('<div class="matrix-row">');
-    html.push(
-        '<div',
-        ' class="filter-button ', getCurrentClass('*', '*'), '"',
-        ' data-filter-type="*" data-filter-domain="*"',
-        '>all</div>'
-        );
-
-    // type of requests
-    var iType;
-    var typeKey;
-    var types = Object.keys(typeNames);
-    var type;
-    for ( var i = 0; i < types.length; i++ ) {
-        type = types[i];
-        html.push(
-        '<div',
-        ' class="filter-button ', getCurrentClass('*', type), '"',
-        ' data-filter-type="', type, '"',
-        ' data-filter-domain="*"',
-        '>',
-        typeNames[type],
-        '</div>'
-        );
+    matrixRow = $('#matrix-head .matrix-row');
+    matrixCells = $('div', matrixRow).toArray();
+    $(matrixCells[0]).addClass(getCellClass('*', '*'));
+    for ( iType = 1; iType < matrixCells.length; iType++ ) {
+        matrixCell = $(matrixCells[iType]);
+        type = matrixCell.data('filterType');
+        if ( matrixHeaderTypes.length < matrixCells.length ) {
+            matrixHeaderTypes.push(type);
+            matrixHeaderPrettyNames[type] = matrixCell.text();
+        }
+        matrixCell.addClass(getCellClass('*', type));
     }
-    html.push('</div>');
-    $('#matrix-head').html(html.join(''));
-
-    html = [];
+    matrixRow.css('display', '');
+    $('#matrix-list').empty();
 
     // main rows, order by explicit permissions
     var permissions = [httpsb.ALLOWED_DIRECT, httpsb.GRAY, httpsb.DISALLOWED_DIRECT];
@@ -254,106 +394,79 @@ var makeMenu = function() {
 
     var permission;
     var rootDomains;
-    var rootDomain;
     var domains;
     var domain;
     var count;
     for ( var iPermission = 0; iPermission < permissions.length; iPermission++ ) {
         permission = permissions[iPermission];
-        if ( !domainStats[permission] ) {
+        if ( !groupStats[permission] ) {
             continue;
         }
         if ( iPermission > 0 ) {
-            html.push('<div class="permissionSeparator"></div>');
+            $('#templates .permissionSeparator').clone().appendTo('#matrix-list');
         }
-        rootDomains = Object.keys(domainStats[permission]);
-        rootDomains.sort(background.domainNameCompare)
+        rootDomains = Object
+            .keys(groupStats[permission])
+            .sort(background.domainNameCompare);
         for ( var iRoot = 0; iRoot < rootDomains.length; iRoot++ ) {
             if ( iRoot > 0 ) {
-                html.push('<div class="domainSeparator"></div>');
+                $('#templates .domainSeparator').clone().appendTo('#matrix-list');
             }
-            domains = Object.keys(domainStats[permission][rootDomains[iRoot]].all);
+            domains = Object.keys(groupStats[permission][rootDomains[iRoot]].all);
             domains.sort(background.domainNameCompare);
             for ( var iDomain = 0; iDomain < domains.length; iDomain++ ) {
                 domain = domains[iDomain];
-                html.push('<div>');
-                html.push(
-                    '<div',
-                    ' class="filter-button ', getCurrentClass(domain, '*'), '"',
-                    ' data-filter-type="*"',
-                    ' data-filter-domain="', domain, '"',
-                    '>',
-                    domain,
-                    '</div>'
-                    );
+                matrixRow = $('#templates .matrix-row').clone();
+                matrixCells = $('div', matrixRow).toArray();
+                matrixCell = $(matrixCells[0]);
+                matrixCell.data('filterDomain', domain);
+                matrixCell.addClass(getCellClass(domain, '*'));
+                matrixCell.text(domain);
                 // type of requests
-                for ( var iType = 0; iType < types.length; iType++ ) {
-                    type = types[iType];
-                    count = typeStats[type] ? typeStats[type][domain] : 0;
-                    html.push(
-                        '<div',
-                        ' class="filter-button ', getCurrentClass(domain, type),
-                        count ? '' : ' zero',
-                        '"',
-                        ' data-filter-type="', type, '"',
-                        ' data-filter-domain="', domain, '"',
-                        '>',
-                        count ? count : '&nbsp;',
-                        '</div>'
-                        );
+                for ( iType = 1; iType < matrixHeaderTypes.length; iType++ ) {
+                    type = matrixHeaderTypes[iType];
+                    matrixCell = $(matrixCells[iType]);
+                    matrixCell.data({ 'filterDomain': domain, 'filterType': type });
+                    matrixCell.addClass(getCellClass(domain, type));
+                    count = matrixStats[domain][type] ? matrixStats[domain][type].count : 0;
+                    if ( count ) {
+                        matrixCell.text(count);
+                    }
                 }
-                html.push('</div>');
+            $('#matrix-list').append(matrixRow);
             }
         }
     }
-
-    // inject html in popup menu
-    $('#matrix-list').html(html.join(''));
 };
 
-// handle user interaction with filters
-var handleFilter = function(button) {
-    var type = String(button.data('filterType'));
-    var domain = String(button.data('filterDomain'));
-    var currentClass = getCurrentClass(domain, type);
-    var nextClass = getNextClass(currentClass, domain, type);
-    if ( nextClass === 'filter-disallowed' ) {
-        background.disallow(type, domain);
-    } else if ( nextClass === 'filter-allowed' ) {
-        background.allow(type, domain);
-    } else {
-        background.graylist(type, domain);
-    }
-    updateFilterButtons();
-    handleFilterMessage(button);
-};
+/******************************************************************************/
 
 // handle user mouse over filter buttons
 
 var mouseOverPrompts = {
-    '+**': '<span class="filter-allowed">allow</span> all graylisted types and domains',
-    '-**': '<span class="filter-disallowed">block</span> all graylisted types and domains',
-    '+?*': '<span class="filter-allowed">allow</span> <strong>{{what}}</strong> from <strong>everywhere</strong> except blacklisted domains',
-    '+*?': '<span class="filter-allowed">allow</span> <strong>everything</strong> from <strong>{{where}}</strong>',
-    '+??': '<span class="filter-allowed">allow</span> <strong>{{what}}</strong> from <strong>{{where}}</strong>',
-    '-?*': '<span class="filter-disallowed">block</span> <strong>{{what}}</strong> from <strong>everywhere</strong> except whitelisted domains',
-    '-*?': '<span class="filter-disallowed">block</span> <strong>everything</strong> from <strong>{{where}}</strong>',
-    '-??': '<span class="filter-disallowed">block</span> <strong>{{what}}</strong> from <strong>{{where}}</strong>',
-    '.?*': 'graylist <strong>{{what}}</strong> from <strong>everywhere</strong>',
-    '.*?': 'graylist <strong>everything</strong> from <strong>{{where}}</strong>',
-    '.??': 'graylist <strong>{{what}}</strong> from <strong>{{where}}</strong>'
+    '+**': 'Click to <span class="gdt">allow</span> all graylisted types and domains',
+    '-**': 'Click to <span class="rdt">block</span> all graylisted types and domains',
+    '+?*': 'Click to <span class="gdt">allow</span> <strong>{{what}}</strong> from <strong>everywhere</strong> except blacklisted domains',
+    '+*?': 'Click to <span class="gdt">allow</span> <strong>everything</strong> from <strong>{{where}}</strong>',
+    '+??': 'Click to <span class="gdt">allow</span> <strong>{{what}}</strong> from <strong>{{where}}</strong>',
+    '-?*': 'Click to <span class="rdt">block</span> <strong>{{what}}</strong> from <strong>everywhere</strong> except whitelisted domains',
+    '-*?': 'Click to <span class="rdt">block</span> <strong>everything</strong> from <strong>{{where}}</strong>',
+    '-??': 'Click to <span class="rdt">block</span> <strong>{{what}}</strong> from <strong>{{where}}</strong>',
+    '.?*': 'Click to graylist <strong>{{what}}</strong> from <strong>everywhere</strong>',
+    '.*?': 'Click to graylist <strong>everything</strong> from <strong>{{where}}</strong>',
+    '.??': 'Click to graylist <strong>{{what}}</strong> from <strong>{{where}}</strong>'
 };
 
 var handleFilterMessage = function(button) {
-    var type = String(button.data('filterType'));
-    var domain = String(button.data('filterDomain'));
-    var currentClass = getCurrentClass(domain, type);
-    var nextClass = getNextClass(currentClass, domain, type);
-    var action = nextClass === 'filter-allowed' ? '+' : (nextClass === 'filter-disallowed' ? '-' : '.');
+    var data = button.data();
+    var type = String(data.filterType);
+    var domain = String(data.filterDomain);
+    var nextAction = getNextAction(domain, type);
+    var action = nextAction === 'whitelist' ? '+' : (nextAction === 'blacklist' ? '-' : '.');
     var what = type === '*' ? '*' : '?';
     var where = domain === '*' ? '*' : '?';
     var prompt = mouseOverPrompts[action + what + where];
-    prompt = prompt.replace('{{what}}', typeNames[type]);
+    prompt = prompt.replace('{{what}}', matrixHeaderPrettyNames[type]);
     prompt = prompt.replace('{{where}}', domain);
     $('#message').html(prompt);
 /*
@@ -373,32 +486,59 @@ var handleFilterMessage = function(button) {
 */
 };
 
+/******************************************************************************/
+
 // make menu only when popup html is fully loaded
+
 document.addEventListener('DOMContentLoaded', function () {
     chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
         // TODO: can tabs be empty?
         tabId = tabs[0].id; // Important!
         pageUrl = background.pageUrlFromTabId(tabId);
         makeMenu();
+        if ( !matrixHasRows ) {
+            $('#no-traffic').css('display', '');
+        }
     });
 
     // to handle filter button
     $('body').delegate('.filter-button', 'click', function() {
         handleFilter($(this));
+        return false;
     });
+
+    // to handle cell menu item
+    $('body').delegate('#cellMenu span:nth-of-type(1)', 'click', function() {
+        handlePersistence($(this));
+        return false;
+    });
+
+    // to handle cell menu item
+    $('body').delegate('#cellMenu span:nth-of-type(2)', 'click', function() {
+        handleUnpersistence($(this));
+        return false;
+    });
+
+    // to prevent spurious selection
+// doesn't work...
+//    $('body').delegate('.filter-button', 'dblclick', function(event) {
+//        event.preventDefault();
+//    });
 
     // to display useful message
     $('body').delegate('.filter-button', 'mouseenter', function() {
+        matrixCellMenu.prependTo(this);
         handleFilterMessage($(this));
     });
 
     // to blank message
-    $('body').delegate('.filter-button', 'mouseout', function() {
+    $('body').delegate('.filter-button', 'mouseleave', function() {
+        matrixCellMenu.detach();
         $('#message').html(formatHeader(pageUrl));
     });
 
     // to know when to rebuild the matrix
-    chrome.runtime.onMessage.addListener(function(request, sender, callback) {
+    chrome.runtime.onMessage.addListener(function(request) {
         if ( request.what === 'urlStatsChanged' ) {
             makeMenu();
         }
@@ -407,6 +547,8 @@ document.addEventListener('DOMContentLoaded', function () {
     $('#button-info').click(function() {
         chrome.runtime.sendMessage({ what: 'gotoExtensionUrl', url: 'info.html' });
     });
+
+    matrixCellMenu = $('#cellMenu').detach();
 });
 
 /******************************************************************************/

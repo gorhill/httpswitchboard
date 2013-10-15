@@ -26,34 +26,42 @@ var frameReplacement = "<!DOCTYPE html> \
 <head> \
 <style> \
 @font-face { \
- font-family: 'httpsb'; \
- font-style: normal; \
- font-weight: 400; \
- src: local('httpsb'), url('{{fontUrl}}') format('truetype'); \
+font-family: 'httpsb'; \
+font-style: normal; \
+font-weight: 400; \
+src: local('httpsb'), url('{{fontUrl}}') format('truetype'); \
 } \
 body { \
- margin: 0; \
- border: 0; \
- padding: 0; \
- font: 13px httpsb,sans-serif; \
- width: 100%; \
- height: 100%; \
- background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QkOFgcvc4DETwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAACGSURBVFjD7ZZBCsAgEAMT6f+/nJ5arYcqiKtIPAaFYR2DFCAAgEQ8iwzLCLxZWglSZgKUdgHJk2kdLEY5C4QAUxeIFOINfwUOBGkLPBnkAIEDQPoEDiw+uoGHBQ4ovv4GnvTMS4EvC+wvhBvYAltgC2yBLbAFPlTgvKG6vxXZB6QOl2S7gNw6ktgOp+IH7wAAAABJRU5ErkJggg==') repeat; \
- text-align: center; \
+margin: 0; \
+border: 0; \
+padding: 0; \
+font: 13px httpsb,sans-serif; \
+width: 100%; \
+height: 100%; \
+background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QkOFgcvc4DETwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAACGSURBVFjD7ZZBCsAgEAMT6f+/nJ5arYcqiKtIPAaFYR2DFCAAgEQ8iwzLCLxZWglSZgKUdgHJk2kdLEY5C4QAUxeIFOINfwUOBGkLPBnkAIEDQPoEDiw+uoGHBQ4ovv4GnvTMS4EvC+wvhBvYAltgC2yBLbAFPlTgvKG6vxXZB6QOl2S7gNw6ktgOp+IH7wAAAABJRU5ErkJggg==') repeat; \
+text-align: center; \
 } \
 div { \
- margin: 2px; \
- border: 0; \
- padding: 0 2px; \
- display: inline-block; \
- color: white; \
- background: #c00; \
+margin: 2px; \
+border: 0; \
+padding: 0 2px; \
+display: inline-block; \
+color: white; \
+background: #c00; \
 } \
 </style> \
+<link href='{{cssURL}}?domain={{domain}}&t={{now}}' rel='stylesheet' type='text/css'> \
 <title>Blocked by HTTPSB</title> \
 </head> \
 <body title='&ldquo;{{domain}}&rdquo; blocked by HTTP Switchboard'> \
 <div>{{domain}}</div> \
+<script> \
+window.onload = function() { \
+ if ( window.getComputedStyle(document.body).visibility === 'hidden' ) { \
+  window.location = '{{originalURL}}'; \
+ } \
+}; \
+</script> \
 </body> \
 </html>";
 
@@ -74,42 +82,44 @@ function webRequestHandler(details) {
 
     var tabId = details.tabId;
 
-    // ignore traffic outside tabs
-    // TODO: when might this happen?
+    // Ignore traffic outside tabs
     if ( tabId < 0 ) {
         return;
     }
 
     var type = details.type;
     var url = normalizeChromiumUrl(details.url);
-    var isMainFrame = type === 'main_frame';
-    var isRootFrame = isMainFrame && details.parentFrameId < 0;
 
-    // don't block extensions, especially myself...
-   if ( url.search(/^chrome-extension:\/\//) === 0 ) {
-        // special case (that's my solution for now):
-        // if it is HTTP Switchboard's frame.html, verify that
+    // Don't block chrome extensions
+    var matches = url.match(/^chrome-extension:\/\/([^\/]+)\/(.+)$/);
+    if ( matches ) {
+        // If it is HTTP Switchboard's frame-replacement URL, verify that
         // the page that was blacklisted is still blacklisted, and if not,
         // redirect to the previously blacklisted page.
-        // TODO: is there a better way to do this? Works well though...
-        // chrome-extension://bgdnahgfnkneapahgkejhjcenmopifdi/frame.html?domain={domain}&url={url}
-        if ( isRootFrame ) {
-            var matches = url.match(/^chrome-extension:\/\/[a-z]+\/frame\.html\?domain=(.+)&url=(.+)$/);
-            if ( matches && whitelisted('main_frame', matches[1]) ) {
-                return { "redirectUrl": decodeURIComponent(matches[2]) };
+        if ( details.parentFrameId < 0 && matches[1] === chrome.runtime.id ) {
+             matches = matches[2].match(/^css\/noop\.css\?domain=([^&]+).*$/);
+             if ( matches && whitelisted('main_frame', decodeURIComponent(matches[1])) ) {
+                return { "redirectUrl": 'data:text/css;base64,' + btoa('body {visibility:hidden;}') };
             }
         }
         return;
     }
 
+    // Ignore stylesheet requests
+    if ( type === 'stylesheet' ) {
+        return;
+    }
+
     // If it's a top frame, bind to a new page stats store
     // TODO: favicon (type = "other") is sent before top main frame...
+    var isMainFrame = type === 'main_frame';
+    var isRootFrame = isMainFrame && details.parentFrameId < 0;
     if ( isRootFrame ) {
         bindTabToPageStats(tabId, url);
     }
 
     // block request?
-    var domain = getUrlDomain(url);
+    var domain = getHostnameFromURL(url);
     var block = blacklisted(type, domain);
 
     // Log request
@@ -125,12 +135,19 @@ function webRequestHandler(details) {
         // domain, disable scripts for this domain, necessary since inline
         // script tags are not passed through web request handler.
         if ( isMainFrame ) {
-            var blacklistScript = blacklisted('script', domain);
             chrome.contentSettings.javascript.set({
                 primaryPattern: '*://' + domain + '/*',
-                setting: blacklistScript ? 'block' : 'allow'
+                setting: blacklisted('script', domain) ? 'block' : 'allow'
             });
-            // console.debug('Blacklisting scripts for *://%s/* is %o', domain, blacklistScript);
+            chrome.contentSettings.plugins.set({
+                primaryPattern: '*://' + domain + '/*',
+                setting: blacklisted('object', domain) ? 'block' : 'allow'
+            });
+            chrome.contentSettings.cookies.set({ 
+                primaryPattern: '*://' + domain + '/*',
+                secondaryPattern: '<all_urls>',
+                setting: blacklisted('cookie', domain) ? 'block' : 'allow'
+            });
 
             // when the tab is updated, we will check if page has at least one
             // script tag, this takes care of inline scripting, which doesn't
@@ -166,10 +183,12 @@ function webRequestHandler(details) {
 
     // if it's a blacklisted frame, redirect to frame.html
     if ( isMainFrame || type === 'sub_frame' ) {
-        var fontUrl = chrome.runtime.getURL('css/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf');
         var html = frameReplacement;
-        html = html.replace(/{{fontUrl}}/g, fontUrl);
+        html = html.replace(/{{fontUrl}}/g, chrome.runtime.getURL('css/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf'));
+        html = html.replace(/{{cssURL}}/g, chrome.runtime.getURL('css/noop.css'));
         html = html.replace(/{{domain}}/g, domain);
+        html = html.replace(/{{originalURL}}/g, url);
+        html = html.replace(/{{now}}/g, String(Date.now()));
         var dataUrl = 'data:text/html;base64,' + btoa(html);
         // console.debug('webRequestHandler > redirecting %s to %s', url, q);
         return { "redirectUrl": dataUrl };
@@ -193,7 +212,7 @@ function webHeaderRequestHandler(details) {
     }
 
     // Any cookie in there?
-    var domain = getUrlDomain(details.url);
+    var domain = getHostnameFromURL(details.url);
     var blacklistCookie = blacklisted('cookie', domain);
     var counters = blacklistCookie ? HTTPSB.blockedRequestCounters : HTTPSB.allowedRequestCounters;
     var cookieCount;
@@ -238,11 +257,14 @@ function startWebRequestHandler(from) {
         webRequestHandler,
         {
             "urls": [
-                "<all_urls>"
+                "http://*/*",
+                "https://*/*",
+                "chrome-extension://*/*"
             ],
             "types": [
                 "main_frame",
                 "sub_frame",
+                'stylesheet',
                 "script",
                 "image",
                 "object",
@@ -257,7 +279,8 @@ function startWebRequestHandler(from) {
         webHeaderRequestHandler,
         {
             'urls': [
-                '<all_urls>'
+                "http://*/*",
+                "https://*/*"
             ]
         },
         ['blocking', 'requestHeaders']

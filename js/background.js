@@ -26,11 +26,13 @@ var HTTPSB = {
     // unicode for hourglass: &#x231B;
 
     gcPeriod: 20 * 60 * 1000, // 20 minutes...
+    runtimeId: 1,
 
     inlineFieldSeparator: '#',
 
     // list of remote blacklist locations
     remoteBlacklists: {
+        'assets/httpsb-blacklist.txt': {},
         'http://pgl.yoyo.org/as/serverlist.php?mimetype=plaintext': {},
         'http://www.malwaredomainlist.com/hostslist/hosts.txt': {},
         'http://malwaredomains.lehigh.edu/files/justdomains': {},
@@ -53,11 +55,13 @@ var HTTPSB = {
     // effective lists
     whitelist: { },
     blacklist: { '*/*': true },
+    graylist: { },
     // user lists
     whitelistUser: {},
     blacklistUser: {},
+    graylistUser: {},
     // current entries from remote blacklists
-    remoteBlacklist: {},
+    blacklistRemote: '',
 
     // constants
     GRAY: 0,

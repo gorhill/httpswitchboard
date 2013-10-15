@@ -94,6 +94,7 @@ function save() {
         // version == 0.1.3
         'whitelist': Object.keys(httpsb.whitelistUser).join('\n'),
         'blacklist': Object.keys(httpsb.blacklistUser).join('\n'),
+        'graylist': Object.keys(httpsb.graylistUser).join('\n'),
     };
     chrome.storage.local.set(bin, function() {
         console.log('HTTP Switchboard > saved user white and black lists (%d bytes)', bin.blacklist.length + bin.whitelist.length);
@@ -104,22 +105,29 @@ function save() {
 
 function loadUserLists() {
     var httpsb = HTTPSB;
-
-    chrome.storage.local.get({ version: httpsb.manifest.version, whitelist: '', blacklist: '' }, function(store) {
-        if ( store.whitelist ) {
-            // console.log('HTTP Switchboard > loadUserLists > whitelist: "%s"', store.whitelist);
-            populateListFromString(httpsb.whitelistUser, store.whitelist);
-        } else {
-            console.log('HTTP Switchboard > loadUserLists > using default whitelist');
-            populateListFromString(httpsb.whitelistUser, 'image/*\nmain_frame/*');
+    var defaults = {
+        version: httpsb.manifest.version,
+        whitelist: '',
+        blacklist: '',
+        graylist: ''
+    };
+    chrome.storage.local.get(defaults, function(store) {
+        // sensible defaults for first install
+        if ( store.whitelist === '' && store.blacklist === '' && store.graylist === '') {
+            console.log('HTTP Switchboard > loadUserLists > using default white/black/gray lists');
+            store.whitelist = 'image/*\nmain_frame/*';
+            store.blacklist = 'cookie/*\nobject/*\nsub_frame/*';
+            store.graylist = '';
         }
+
+        populateListFromString(httpsb.whitelistUser, store.whitelist);
         populateListFromList(httpsb.whitelist, httpsb.whitelistUser);
 
-        if ( store.blacklist ) {
-            // console.log('HTTP Switchboard > loadUserLists > blacklist: "%s"', store.blacklist);
-            populateListFromString(httpsb.blacklistUser, store.blacklist);
-        }
+        populateListFromString(httpsb.blacklistUser, store.blacklist);
         populateListFromList(httpsb.blacklist, httpsb.blacklistUser);
+
+        populateListFromString(httpsb.graylistUser, store.graylist);
+        populateListFromList(httpsb.graylist, httpsb.graylistUser);
 
         // gorhill 20130923: ok, there is no point in blacklisting
         // 'main_frame/*', since there is only one such page per tab. It is
@@ -207,23 +215,35 @@ function normalizeRemoteContent(prefix, s, suffix) {
 /******************************************************************************/
 
 function queryRemoteBlacklist(location) {
-    console.log('HTTP Switchboard > queryRemoteBlacklist > "%s"', location);
-    $.get(location, function(remoteData) {
-        if ( !remoteData || remoteData === '' ) {
-            console.error('HTTP Switchboard > failed to load third party blacklist from remote location "%s"', location);
-            return;
-        }
-        console.log('HTTP Switchboard > fetched third party blacklist from remote location "%s"', location);
+    // If location is local, assume local directory
+    var url = location;
+    if ( url.search(/^https?:\/\//) < 0 ) {
+        url = chrome.runtime.getURL(location);
+    }
+    console.log('HTTP Switchboard > queryRemoteBlacklist > "%s"', url);
+    var success = function() {
+        console.log('HTTP Switchboard > fetched third party blacklist from remote location "%s"', url);
         HTTPSB.remoteBlacklists[location].timeStamp = Date.now();
         chrome.runtime.sendMessage({
             what: 'parseRemoteBlacklist',
             list: {
                 url: location,
                 timeStamp: Date.now(),
-                raw: remoteData
+                raw: this.responseText
             }
         });
-    });
+    };
+    var failure = function() {
+        console.error('HTTP Switchboard > failed to load third party blacklist from remote location "%s"', url);
+    };
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'text';
+    xhr.timeout = 30 * 1000;
+    xhr.onload = success;
+    xhr.onerror = failure;
+    xhr.ontimeout = failure;
+    xhr.open('GET', url, true);
+    xhr.send();
 }
 
 /******************************************************************************/
@@ -273,10 +293,13 @@ function localRemoveRemoteBlacklist(location) {
 function mergeRemoteBlacklist(list) {
     console.log('HTTP Switchboard > mergeRemoteBlacklist from "%s": "%s..."', list.url, list.raw.slice(0, 40));
     var httpsb = HTTPSB;
-    var entries = {};
-    populateListFromString(entries, list.raw);
-    populateListFromList(httpsb.remoteBlacklist, entries);
-    populateListFromList(httpsb.blacklist, entries);
+    populateListFromString(httpsb.blacklist, list.raw);
+    httpsb.blacklistRemote += '\n' + list.raw;
+    httpsb.blacklistRemote = '\n' + httpsb.blacklistRemote
+        .trim()
+        .split(/\s+/)
+        .sort()
+        .join('\n') + '\n';
 }
 
 /******************************************************************************/
@@ -291,7 +314,7 @@ function load() {
 
 // parse and merge normalized content into a list
 function populateListFromString(des, s) {
-    var keys = s.split("\n");
+    var keys = s.split(/\s+/);
     var i = keys.length;
     while ( i-- ) {
         des[keys[i]] = true;

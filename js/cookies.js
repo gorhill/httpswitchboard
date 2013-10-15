@@ -25,7 +25,7 @@ function removeCookiesCallback(details) {
     if ( !details ) {
         console.debug('HTTP Switchboard > cookie removal failed because "%s"', chrome.runtime.lastError);
     } else {
-        // console.debug('HTTP Switchboard > removed cookie "%s" from %s', details.name, getUrlDomain(details.url));
+        // console.debug('HTTP Switchboard > removed cookie "%s" from %s', details.name, getHostnameFromURL(details.url));
     }
 }
 

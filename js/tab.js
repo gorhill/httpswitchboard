@@ -21,19 +21,6 @@
 
 /******************************************************************************/
 
-// Normalize a URL passed by chromium
-
-function normalizeChromiumUrl(url) {
-    // remove fragment...
-    var i = url.search('#');
-    if ( i >= 0 ) {
-        return url.slice(0,i);
-    }
-    return url;
-}
-
-/******************************************************************************/
-
 // Check if a page url stats store exists
 
 function pageStatsExists(pageUrl) {
@@ -136,7 +123,7 @@ function recordFromPageStats(pageStats, type, url, blocked) {
         return;
     }
 
-    pageStats.domains[getUrlDomain(url)] = true;
+    pageStats.domains[getHostnameFromURL(url)] = true;
 
     urlStatsChanged(pageStats.pageUrl);
     // console.debug("HTTP Switchboard > recordFromPageStats > %o: %s @ %s", pageStats, type, url);
@@ -267,7 +254,7 @@ function computeTabState(tabId) {
     var url, domain, type;
     for ( var reqKey in pageStats.requests ) {
         url = urlFromReqKey(reqKey);
-        domain = getUrlDomain(url);
+        domain = getHostnameFromURL(url);
         type = typeFromReqKey(reqKey);
         if ( blacklisted(type, domain) ) {
             computedState[type +  '/' + domain] = true;

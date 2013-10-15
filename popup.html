@@ -2,7 +2,6 @@
 <html>
 
 <head>
-<link href='lib/bootstrap/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
 <link href='css/fonts.css' rel='stylesheet' type='text/css'>
 <style>
 body {
@@ -23,6 +22,7 @@ div.pane-head {
     position: fixed;
     top: 0;
     background-color: white;
+    z-index: 10;
 }
 div.pane-content {
     padding-top: 74px;
@@ -45,15 +45,18 @@ div.matrix > div:first-child {
 }
 div.matrix > div > div {
     margin: 1px;
-    border: 1px solid rgba(0,0,0,0.05);
-    border-width: 1px 0 0 0;
-    padding: 1px 2px 3px 2px;
+    border: 1px dotted #aaa;
+    padding: 1px 1px 1px 6px;
     display: inline-block;
-    width: 35px;
+    width: 37px;
     white-space:nowrap;
     text-align: center;
     cursor: pointer;
+    position: relative;
 }   
+div.matrix > div > div:hover {
+    border-style: solid;
+}
 div.matrix > div > div:first-child {
     width: 180px;
     text-align: right;
@@ -70,23 +73,43 @@ div.matrix > div.domainSeparator {
     padding: 0;
     height: 0;
 }
-div.matrix > div > div.zero {
-    border-style: dotted;
-}
-.filter-allowed {
-    color: white;
-    background-color: #080;
-}
-.filter-disallowed {
+.rdt {
     color: white;
     background-color: #c00;
 }
-.filter-allowed-indirect {
-    background-color: #d0f0d0;
+.gdt {
+    color: white;
+    background-color: #080;
 }
-.filter-disallowed-indirect {
+.filter-button.rpt {
+    color: black;
     background-color: #f8d0d0;
 }
+.filter-button.gpt {
+    color: black;
+    background-color: #d0f0d0;
+}
+.filter-button.rdp {
+    background-image: url('img/permanent-black-small.png');
+    background-repeat: no-repeat;
+    background-position: -2px center;
+}
+.filter-button.gdp {
+    background-image: url('img/permanent-white-small.png');
+    background-repeat: no-repeat;
+    background-position: -2px center;
+}
+.filter-button.rpp {
+    background-image: url('img/permanent-black-small.png');
+    background-repeat: no-repeat;
+    background-position: -2px center;
+}
+.filter-button.gpp {
+    background-image: url('img/permanent-white-small.png');
+    background-repeat: no-repeat;
+    background-position: -2px center;
+}
+
 .top {
     font-weight: bold;
 }
@@ -100,8 +123,8 @@ div.matrix > div > div.zero {
     background: url('img/dialog-information.png') no-repeat;
     display: block;
     position: fixed;
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     top: 6px;
     right: 6px;
     text-decoration: none;
@@ -123,27 +146,97 @@ div.matrix > div > div.zero {
 #message .filter-allowed, #message .filter-disallowed {
     padding: 0 4px;
 }
+#cellMenu {
+    margin: 0;
+    border: inherit;
+    border-bottom: 0;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    padding: 0;
+    height: 18px;
+    position: absolute;
+    left: 3px;
+    top: -19px;
+    background: white;
+    z-index: 20;
+    display: none;
+}
+.filter-button.rdp #cellMenu {
+    display: block;
+}
+.filter-button.gdp #cellMenu {
+    display: block;
+}
+.filter-button.rdt #cellMenu {
+    display: block;
+}
+.filter-button.gdt #cellMenu {
+    display: block;
+}
+#cellMenu span {
+    margin: 1px;
+    border: 0;
+    padding: 0;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+#cellMenu span:nth-of-type(1) {
+    background-image: url('img/persist-dim.png');
+}
+#cellMenu span:nth-of-type(2) {
+    background-image: url('img/unpersist-dim.png');
+}
+.filter-button.rdt #cellMenu span:nth-of-type(1) {
+    background-image: url('img/persist-rd.png');
+}
+.filter-button.gdt #cellMenu span:nth-of-type(1) {
+    background-image: url('img/persist-gd.png');
+}
+.filter-button.rdp #cellMenu span:nth-of-type(2) {
+    background-image: url('img/unpersist-rd.png');
+}
+.filter-button.gdp #cellMenu span:nth-of-type(2) {
+    background-image: url('img/unpersist-gd.png');
+}
+.filter-button.rdt.rdp #cellMenu span:nth-of-type(1) {
+    background-image: url('img/persist-dim.png');
+}
+.filter-button.gdt.gdp #cellMenu span:nth-of-type(1) {
+    background-image: url('img/persist-dim.png');
+}
+
 </style>
 <title>HTTP Switchboard</title>
 </head>
 
 <body>
 
+<div id="templates" style="display:none">
+    <div class="permissionSeparator"></div>
+    <div class="domainSeparator"></div>
+    <div class="matrix-row"><div class="filter-button" data-filter-type="*" data-filter-domain="">&nbsp;</div><div class="filter-button" data-filter-type="" data-filter-domain="">&nbsp;</div><div class="filter-button" data-filter-type="" data-filter-domain="">&nbsp;</div><div class="filter-button" data-filter-type="" data-filter-domain="">&nbsp;</div><div class="filter-button" data-filter-type="" data-filter-domain="">&nbsp;</div><div class="filter-button" data-filter-type="" data-filter-domain="">&nbsp;</div><div class="filter-button" data-filter-type="" data-filter-domain="">&nbsp;</div><div class="filter-button" data-filter-type="" data-filter-domain="">&nbsp;</div></div>
+    <div id="cellMenu"><span id="persist"></span><span id="unpersist"></span></div></div>
+
 <div class="pane-head">
-<p id="message">&nbsp;</p>
-<a id="button-info" href="#" title="Global info"></a>
-<div id="matrix-head" class="matrix"></div>
-</div>
+    <p id="message">&nbsp;</p>
+    <a id="button-info" href="#" title="Global info"></a>
+    <div id="matrix-head" class="matrix">
+        <div class="matrix-row" style="display:none"><div class="filter-button" data-filter-type="*" data-filter-domain="*">all</div><div class="filter-button" data-filter-type="cookie" data-filter-domain="*">cookie</div><div class="filter-button" data-filter-type="image" data-filter-domain="*">image</div><div class="filter-button" data-filter-type="object" data-filter-domain="*">plugin</div><div class="filter-button" data-filter-type="script" data-filter-domain="*">script</div><div class="filter-button" data-filter-type="xmlhttprequest" data-filter-domain="*">XHR</div><div class="filter-button" data-filter-type="sub_frame" data-filter-domain="*">frame</div><div class="filter-button" data-filter-type="other" data-filter-domain="*">other</div></div>
+
+        </div>
+    </div>
 
 <div class="pane-content">
-<div id="matrix-list" class="matrix">
-<span style="color:gray">So far, no net traffic seen on this page. Maybe the page was loaded before HTTP Switchboard was activated?</span>
-</div>
-</div>
+    <div id="matrix-list" class="matrix">
+        <span id="no-traffic" style="color:gray;display:none">So far, no net traffic seen on this page. Maybe the page was loaded before HTTP Switchboard was activated?</span>
+        </div>
+    </div>
 
 <div class="pane-status">
-
-</div>
+    </div>
 
 <script src="lib/jquery-2.min.js"></script>
 <script src="js/popup.js"></script>

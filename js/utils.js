@@ -19,35 +19,35 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
-/******************************************************************************/
-
-// to easily parse urls
-var urlParser = document.createElement('a');
+var globalURI = new URI();
 
 /******************************************************************************/
 
-// parse a url and return only interesting parts
+// Normalize a URL passed by chromium
 
-function getUrlParts(url) {
-    var parts = { protocol: "", domain: ""};
-    // Ref.: https://gist.github.com/jlong/2428561
-    urlParser.href = url;
-    parts.protocol = urlParser.protocol;
-    // TODO: create user settings for this (`-8`)
-    var matches = urlParser.hostname.split('.').slice(-8);
-    if ( matches.length ) {
-        parts.domain = matches.join('.');
-    }
-    return parts;
+function normalizeChromiumUrl(url) {
+    // remove fragment...
+    return globalURI.href(url).fragment('').href();
 }
 
 /******************************************************************************/
 
 // extract domain from url
 
-function getUrlDomain(url) {
-    urlParser.href = url;
-    return urlParser.hostname;
+function getUrlParts(url) {
+    return URI.parse(url);
+}
+
+/******************************************************************************/
+
+// extract domain from url
+
+function getHostnameFromURL(url) {
+    var cacherQuestion = 'getUrlHostname:' + url;
+    if ( Cacher.exists(cacherQuestion) ) {
+        return Cacher.response(cacherQuestion);
+    }
+    return Cacher.remember(cacherQuestion, globalURI.href(url).hostname());
 }
 
 /******************************************************************************/
@@ -55,39 +55,18 @@ function getUrlDomain(url) {
 // extract domain from url
 
 function getUrlProtocol(url) {
-    urlParser.href = url;
-    return urlParser.protocol;
-}
-
-/******************************************************************************/
-
-function getUrlPath(url) {
-    urlParser.href = url;
-    var path = urlParser.protocol + '//' + urlParser.host + '/' + urlParser.pathname
-    var i = path.lastIndexOf('/');
-    if ( i >= 0 ) {
-        path = path.slice(0, i);
+    var cacherQuestion = 'getUrlProtocol:' + url;
+    if ( Cacher.exists(cacherQuestion) ) {
+        return Cacher.response(cacherQuestion);
     }
-    return path;
+    return Cacher.remember(cacherQuestion, globalURI.href(url).protocol());
 }
 
 /******************************************************************************/
 
 function getUrlHrefRoot(url) {
-    urlParser.href = url;
-    return urlParser.protocol + '//' + urlParser.host;
-}
-
-/******************************************************************************/
-
-function getUrlHrefPath(url) {
-    urlParser.href = url;
-    var path = urlParser.protocol + '//' + urlParser.host + '/' + urlParser.pathname
-    var i = path.lastIndexOf('/');
-    if ( i >= 0 ) {
-        path = path.slice(0, i);
-    }
-    return path;
+    var uri = globalURI.href(url);
+    return uri.scheme() + '://' + uri.hostname();
 }
 
 /******************************************************************************/
@@ -95,17 +74,21 @@ function getUrlHrefPath(url) {
 // Return the parent domain. For IP address, there is no parent domain.
 
 function getParentDomainFromDomain(domain) {
-    // Do not return top node alone, way too broad
-    var nodes = domain.split('.');
-    if ( nodes.length <= 2 ) {
-        return undefined;
+    var cacherQuestion = 'getParentDomainFromDomain:' + domain;
+    if ( Cacher.exists(cacherQuestion) ) {
+        return Cacher.response(cacherQuestion);
     }
-    // With plain IP address, top node is left-most
-    if ( isIpAddress(domain) ) {
-        return nodes.slice(0, nodes.length-1).join('.');
+    var uri = globalURI;
+    var subdomain = uri.hostname(domain).subdomain();
+    if ( subdomain === '' ) {
+        return Cacher.remember(cacherQuestion, undefined);
     }
-    // With name address, top node is right-most
-    return nodes.slice(1).join('.');
+    var tld = uri.domain();
+    var dot = subdomain.indexOf('.');
+    if ( dot < 0 ) {
+        return Cacher.remember(cacherQuestion, tld);
+    }
+    return Cacher.remember(cacherQuestion, subdomain.slice(dot+1) + '.' + tld);
 }
 
 /******************************************************************************/
@@ -113,14 +96,11 @@ function getParentDomainFromDomain(domain) {
 // Return the top-most domain. For IP address, there is no parent domain.
 
 function getTopMostDomainFromDomain(domain) {
-    // Do not return top node alone, way too broad
-    var nodes = domain.split('.');
-    // With plain IP address, top node is left-most
-    if ( isIpAddress(domain) ) {
-        return nodes.slice(0, 2).join('.');
+    var cacherQuestion = 'getTopMostDomainFromDomain:' + domain;
+    if ( Cacher.exists(cacherQuestion) ) {
+        return Cacher.response(cacherQuestion);
     }
-    // With name address, top node is right-most
-    return nodes.slice(-2).join('.');
+    return Cacher.remember(cacherQuestion, globalURI.hostname(domain).domain());
 }
 
 /******************************************************************************/
@@ -131,19 +111,14 @@ function getTopMostDomainFromDomain(domain) {
 
 function domainNameCompare(a,b) {
     // Normalize: most significant parts first
-    if ( !isIpAddress(a) ) {
+    if ( !a.match(/^\d+(\.\d+){1,3}$/) ) {
         var aa = a.split('.');
         a = aa.slice(-2).concat(aa.slice(0,-2).reverse()).join('.');
     }
-    if ( !isIpAddress(b) ) {
+    if ( !b.match(/^\d+(\.\d+){1,3}$/) ) {
         var bb = b.split('.');
         b = bb.slice(-2).concat(bb.slice(0,-2).reverse()).join('.');
     }
     return a.localeCompare(b);
 }
 
-/******************************************************************************/
-
-function isIpAddress(domain) {
-    return domain.match(/^\d+(\.\d+){1,3}$/);
-}

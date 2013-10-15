@@ -82,7 +82,7 @@ select {
     {{blacklistCount | format ,}}
     </div>
 <div style="margin:1em 0 0 0;display:block;text-align:left">
-    Remote blacklists:<ul style="margin:0;color:gray">
+    Blacklists:<ul style="margin:0;color:gray">
     <li data-template-for="remoteBlacklists" data-from-map><a href="{{key}}">{{key}}</a>
     &ensp;(fetched at {{value.timeStamp | date HH:mm on D MMM YYYY}})
     </ul>
@@ -108,11 +108,11 @@ select {
     Pages:<br>
     <a href="http://en.wikipedia.org/wiki/Http_cookie">Cookies</a>:<br>
     Images:<br>
-    <span title="i.e. Flash, ActiveX, Java applets, etc.">Objects</span>:<br>
+    <span title="i.e. Flash, ActiveX, Java applets, etc.">Plugins</span>:<br>
     <a href="http://en.wikipedia.org/wiki/HTML_scripting">Scripts</a>:<br>
     <a href="http://en.wikipedia.org/wiki/XMLHttpRequest">XMLHttpRequests</a>:<br>
     <a href="http://en.wikipedia.org/wiki/Framing_(World_Wide_Web)">Frames</a>:<br>
-    <span title="i.e. HTML5 audio, HTML5 video, HTML5 canvas, fonts, etc.">Others</span>:<br>
+    <a title="i.e. HTML5 audio, HTML5 video, HTML5 canvas, fonts, etc." href="https://github.com/gorhill/httpswitchboard/wiki/FAQ#in-the-top-left-of-the-matrix-what-is-other">Others</a>:<br>
     </div>
 <div style="color:#c00">
     Blocked<br>
