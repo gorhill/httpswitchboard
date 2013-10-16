@@ -484,6 +484,24 @@ var handleFilterMessage = function(button) {
 
 /******************************************************************************/
 
+function handlePersistMessage(button) {
+    if ( button.closest('.rdt').length ) {
+        $('#message').html('Permanently <span class="rdt">blacklist</span> this cell');
+    } else if ( button.closest('.rdt').length ) {
+        $('#message').html('Permanently <span class="gdt">whitelist</span> this cell');
+    }
+}
+
+function handleUnpersistMessage(button) {
+    if ( button.closest('.rdp').length ) {
+        $('#message').html('Cancel the permanent <span class="rdt">blacklist</span> status of this cell');
+    } else if ( button.closest('.gdp').length ) {
+        $('#message').html('Cancel the permanent <span class="gdt">whitelist</span> status of this cell');
+    }
+}
+
+/******************************************************************************/
+
 // make menu only when popup html is fully loaded
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -526,6 +544,16 @@ document.addEventListener('DOMContentLoaded', function () {
     $('body').delegate('.filter-button', 'mouseenter', function() {
         matrixCellMenu.prependTo(this);
         handleFilterMessage($(this));
+    });
+
+    // to display useful message
+    $('body').delegate('#cellMenu span:nth-of-type(1)', 'mouseenter', function() {
+        handlePersistMessage($(this));
+    });
+
+    // to display useful message
+    $('body').delegate('#cellMenu span:nth-of-type(2)', 'mouseenter', function() {
+        handleUnpersistMessage($(this));
     });
 
     // to blank message
