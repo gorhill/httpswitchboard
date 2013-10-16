@@ -21,6 +21,7 @@
 
 /******************************************************************************/
 
+/*jshint multistr: true */
 var frameReplacement = "<!DOCTYPE html> \
 <html> \
 <head> \
@@ -206,7 +207,6 @@ function webHeaderRequestHandler(details) {
     // ignore traffic outside tabs
     // TODO: when might this happen?
     // Apparently from within extensions
-    var tabId = details.tabId;
     if ( details.tabId < 0 ) {
         return;
     }
@@ -215,18 +215,26 @@ function webHeaderRequestHandler(details) {
     var domain = getHostnameFromURL(details.url);
     var blacklistCookie = blacklisted('cookie', domain);
     var counters = blacklistCookie ? HTTPSB.blockedRequestCounters : HTTPSB.allowedRequestCounters;
-    var cookieCount;
+    var cookieCount, cookieValue;
     var headers = details.requestHeaders;
     var i = details.requestHeaders.length;
     while ( i-- ) {
         if ( headers[i].name.toLowerCase() !== 'cookie' ) {
             continue;
         }
-        cookieCount = countRawCookies(headers[i].value);
+        cookieValue = headers[i].value;
+        // rhill 20131016: This is to handle binary cookies, as seen on:
+        // "http://edition.cnn.com/2013/10/15/politics/shutdown-showdown/index.html?hpt=hp_t1"
+        if ( !cookieValue ) {
+            if ( headers[i].binaryValue ) {
+                cookieValue = stringFromArrayBuffer(headers[i].binaryValue);
+            }
+        }
+        cookieCount = cookieValue ? countRawCookies(cookieValue) : 1;
         counters.cookie += cookieCount;
         counters.all += cookieCount;
         if ( blacklistCookie ) {
-            // console.debug('HTTP Switchboard > foiled attempt to send %d cookies "%s..." to %s', cookieCount, headers[i].value.slice(0,40), details.url);
+            // console.debug('HTTP Switchboard > foiled attempt to send %d cookies "%s..." to %s', cookieCount, cookieValue.slice(0,40), details.url);
             headers.splice(i, 1);
         }
     }

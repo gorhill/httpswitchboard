@@ -126,9 +126,9 @@ function parseRawCookies(c) {
     } else {
         c.match(/(?:^|\s+)([!#$%&'*+\-.0-9A-Z^`a-z|~]+)=([!#$%&'*+\-.0-9A-Z^`a-z|~]*|"(?:[\x20-\x7E\x80\xFF]|\\[\x00-\x7F])*")(?=\s*[,;]|$)/g).map(function($0, $1) {
             var name = $0,
-                value = $1.charAt(0) === '"'
-                          ? $1.substr(1, -1).replace(/\\(.)/g, "$1")
-                          : $1;
+                value = $1.charAt(0) === '"' ?
+                    $1.substr(1, -1).replace(/\\(.)/g, "$1") :
+                    $1;
             cookies[name] = value;
         });
     }
@@ -165,9 +165,11 @@ chrome.cookies.onChanged.addListener(function(changeInfo) {
     // Go through all pages and update if needed
     var pageStats;
     var domains;
-    for ( var pageUrl in httpsb.pageStats ) {
-        pageStats = httpsb.pageStats[pageUrl];
-        var domains = Object.keys(pageStats.domains).join(' ') + ' ';
+    var urls = Object.keys(httpsb.pageStats);
+    var iUrl = urls.length;
+    while ( iUrl-- ) {
+        pageStats = httpsb.pageStats[urls[iUrl]];
+        domains = Object.keys(pageStats.domains).join(' ') + ' ';
         if ( domains.search(domain) < 0 ) {
             continue;
         }
@@ -186,4 +188,37 @@ chrome.cookies.onChanged.addListener(function(changeInfo) {
         // console.debug('HTTP Switchboard > chrome.cookies.onChanged: "%s" (cookie=%O)', cookieUrl, cookie);
     }
 });
+
+/******************************************************************************/
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Base64_encoding_and_decoding#Solution_.232_.E2.80.93_rewriting_atob()_and_btoa()_using_TypedArrays_and_UTF-8
+// Thanks!
+
+// Convert anArrayBuffer to a unicode string, for those cookies encoded into
+// a binary value.
+
+/*jshint bitwise: false*/
+function stringFromArrayBuffer(ab) {
+    var s = '';
+    for (var nPart, nLen = ab.length, nIdx = 0; nIdx < nLen; nIdx++) {
+        nPart = ab[nIdx];
+        s += String.fromCharCode(
+            nPart > 251 && nPart < 254 && nIdx + 5 < nLen ? /* six bytes */
+            /* (nPart - 252 << 32) is not possible in ECMAScript! So...: */
+            (nPart - 252) * 1073741824 + (ab[++nIdx] - 128 << 24) + (ab[++nIdx] - 128 << 18) + (ab[++nIdx] - 128 << 12) + (ab[++nIdx] - 128 << 6) + ab[++nIdx] - 128
+            : nPart > 247 && nPart < 252 && nIdx + 4 < nLen ? /* five bytes */
+            (nPart - 248 << 24) + (ab[++nIdx] - 128 << 18) + (ab[++nIdx] - 128 << 12) + (ab[++nIdx] - 128 << 6) + ab[++nIdx] - 128
+            : nPart > 239 && nPart < 248 && nIdx + 3 < nLen ? /* four bytes */
+            (nPart - 240 << 18) + (ab[++nIdx] - 128 << 12) + (ab[++nIdx] - 128 << 6) + ab[++nIdx] - 128
+            : nPart > 223 && nPart < 240 && nIdx + 2 < nLen ? /* three bytes */
+            (nPart - 224 << 12) + (ab[++nIdx] - 128 << 6) + ab[++nIdx] - 128
+            : nPart > 191 && nPart < 224 && nIdx + 1 < nLen ? /* two bytes */
+            (nPart - 192 << 6) + ab[++nIdx] - 128
+            : /* nPart < 127 ? */ /* one byte */
+            nPart
+        );
+    }
+    return s;
+}
+/*jshint bitwise: true*/
 
