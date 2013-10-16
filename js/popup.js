@@ -119,17 +119,18 @@ var updateMatrixStats = function(matrixStats) {
 
 /******************************************************************************/
 
-// For display purpose, create three distinct groups of domains:
-// top: whitelisted
-// middle: graylisted
-// bottom: blacklisted
+// For display purpose, create four distinct groups rows:
+// 1st: page domain's related
+// 2nd: whitelisted
+// 3rd: graylisted
+// 4th: blacklisted
 
-var domainGroupsSnapshot = {};
+var domainGroupsSnapshot = [];
 var domainListSnapshot = 'dont leave this initial string empty';
 
 var getGroupStats = function() {
 
-    // Try to not reshuffle permission groups around while popup is opened if
+    // Try to not reshuffle groups around while popup is opened if
     // no new domain added.
     var latestDomainListSnapshot = Object.keys(matrixStats).sort().join();
     if ( latestDomainListSnapshot === domainListSnapshot ) {
@@ -137,10 +138,16 @@ var getGroupStats = function() {
     }
     domainListSnapshot = latestDomainListSnapshot;
 
-    var domainGroups = {};
+    var domainGroups = [
+        {},
+        {},
+        {},
+        {}
+    ];
 
     // first group according to whether at least one node in the domain
     // hierarchy is white or blacklisted
+    var pageDomain = background.getDomainFromURL(pageUrl);
     var domain, rootDomain, parent;
     var temporaryColor;
     var dark, group;
@@ -161,13 +168,13 @@ var getGroupStats = function() {
             }
             parent = background.getParentDomainFromDomain(parent);
         }
-        if ( dark ) {
-            group = temporaryColor.charAt(0) === 'g' ? httpsb.ALLOWED_DIRECT : httpsb.DISALLOWED_DIRECT;
-        } else {
-            group = httpsb.GRAY;
+        if ( background.getDomainFromHostname(domain) === pageDomain ) {
+            group = 0;
         }
-        if ( !domainGroups[group] ) {
-            domainGroups[group] = {};
+        else if ( dark ) {
+            group = temporaryColor.charAt(0) === 'g' ? 1 : 3;
+        } else {
+            group = 2
         }
         rootDomain = background.getTopMostDomainFromDomain(domain);
         if ( !domainGroups[group][rootDomain] ) {
@@ -178,21 +185,20 @@ var getGroupStats = function() {
     // Generate all nodes possible for each groups, this is useful
     // to allow users to toggle permissions for higher domains which are
     // not explicitly part of the web page.
-    var groups = Object.keys(domainGroups);
-    var iGroup = groups.length;
+    var iGroup = domainGroups.length;
     var rootDomains, iRootDomain;
     while ( iGroup-- ) {
-        group = groups[iGroup];
-        rootDomains = Object.keys(domainGroups[group]);
+        group = domainGroups[iGroup];
+        rootDomains = Object.keys(group);
         iRootDomain = rootDomains.length;
         while ( iRootDomain-- ) {
             rootDomain = rootDomains[iRootDomain];
-            domains = Object.keys(domainGroups[group][rootDomain].directs);
+            domains = Object.keys(group[rootDomain].directs);
             iDomain = domains.length;
             while ( iDomain-- ) {
                 domain = domains[iDomain];
                 while ( domain ) {
-                    domainGroups[group][rootDomain].all[domain] = domainGroups[group][rootDomain].directs[domain];
+                    group[rootDomain].all[domain] = group[rootDomain].directs[domain];
                     domain = background.getParentDomainFromDomain(domain);
                 }
             }
@@ -385,34 +391,24 @@ var makeMenu = function() {
     matrixRow.css('display', '');
     $('#matrix-list').empty();
 
-    // main rows, order by explicit permissions
-    var permissions = [httpsb.ALLOWED_DIRECT, httpsb.GRAY, httpsb.DISALLOWED_DIRECT];
-    var permissionNames = {};
-    permissionNames[httpsb.ALLOWED_DIRECT] = 'whitelisted';
-    permissionNames[httpsb.GRAY] = 'graylisted';
-    permissionNames[httpsb.DISALLOWED_DIRECT] = 'blacklisted';
-
-    var permission;
+    // main rows, grouped logically
     var rootDomains;
-    var domains;
-    var domain;
+    var domains, domain;
     var count;
-    for ( var iPermission = 0; iPermission < permissions.length; iPermission++ ) {
-        permission = permissions[iPermission];
-        if ( !groupStats[permission] ) {
+    for ( var iGroup = 0; iGroup < groupStats.length; iGroup++ ) {
+        group = groupStats[iGroup];
+        rootDomains = Object.keys(group).sort(background.domainNameCompare);
+        if ( rootDomains.length === 0 ) {
             continue;
         }
-        if ( iPermission > 0 ) {
-            $('#templates .permissionSeparator').clone().appendTo('#matrix-list');
+        if ( iGroup > 0 ) {
+            $('#templates .groupSeparator').clone().appendTo('#matrix-list');
         }
-        rootDomains = Object
-            .keys(groupStats[permission])
-            .sort(background.domainNameCompare);
         for ( var iRoot = 0; iRoot < rootDomains.length; iRoot++ ) {
             if ( iRoot > 0 ) {
                 $('#templates .domainSeparator').clone().appendTo('#matrix-list');
             }
-            domains = Object.keys(groupStats[permission][rootDomains[iRoot]].all);
+            domains = Object.keys(group[rootDomains[iRoot]].all);
             domains.sort(background.domainNameCompare);
             for ( var iDomain = 0; iDomain < domains.length; iDomain++ ) {
                 domain = domains[iDomain];

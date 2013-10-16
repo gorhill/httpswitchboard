@@ -32,7 +32,7 @@ function normalizeChromiumUrl(url) {
 
 /******************************************************************************/
 
-// extract domain from url
+// extract everything from url
 
 function getUrlParts(url) {
     return URI.parse(url);
@@ -40,14 +40,38 @@ function getUrlParts(url) {
 
 /******************************************************************************/
 
-// extract domain from url
+// extract hostname from url
 
 function getHostnameFromURL(url) {
-    var cacherQuestion = 'getUrlHostname:' + url;
+    var cacherQuestion = 'getHostnameFromURL:' + url;
     if ( Cacher.exists(cacherQuestion) ) {
         return Cacher.response(cacherQuestion);
     }
     return Cacher.remember(cacherQuestion, globalURI.href(url).hostname());
+}
+
+/******************************************************************************/
+
+// extract domain from url
+
+function getDomainFromURL(url) {
+    var cacherQuestion = 'getDomainFromURL:' + url;
+    if ( Cacher.exists(cacherQuestion) ) {
+        return Cacher.response(cacherQuestion);
+    }
+    return Cacher.remember(cacherQuestion, globalURI.href(url).domain());
+}
+
+/******************************************************************************/
+
+// extract domain from hostname
+
+function getDomainFromHostname(hostname) {
+    var cacherQuestion = 'getDomainFromHostname:' + hostname;
+    if ( Cacher.exists(cacherQuestion) ) {
+        return Cacher.response(cacherQuestion);
+    }
+    return Cacher.remember(cacherQuestion, globalURI.hostname(hostname).domain());
 }
 
 /******************************************************************************/
