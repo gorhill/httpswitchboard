@@ -154,6 +154,7 @@ function loadRemoteBlacklists() {
 
     // Get remote blacklist data (which may be saved locally)
     chrome.storage.local.get({ 'remoteBlacklists': httpsb.remoteBlacklists }, function(store) {
+        var age;
         for ( var location in store.remoteBlacklists ) {
             if ( !store.remoteBlacklists.hasOwnProperty(location) ) {
                 continue;
@@ -172,13 +173,16 @@ function loadRemoteBlacklists() {
                 store.remoteBlacklists[location].timeStamp = 0;
             }
             httpsb.remoteBlacklists[location].timeStamp = store.remoteBlacklists[location].timeStamp;
-            var age = Date.now() - store.remoteBlacklists[location].timeStamp;
-            if ( age < httpsb.remoteBlacklistLocalCopyTTL ) {
-                chrome.runtime.sendMessage({
-                    what: 'mergeRemoteBlacklist',
-                    list: store.remoteBlacklists[location]
-                });
-                continue;
+            // If it is project's local list, always query
+            if ( location.search('httpsb') < 0 ) {
+                age = Date.now() - store.remoteBlacklists[location].timeStamp;
+                if ( age < httpsb.remoteBlacklistLocalCopyTTL ) {
+                    chrome.runtime.sendMessage({
+                        what: 'mergeRemoteBlacklist',
+                        list: store.remoteBlacklists[location]
+                    });
+                    continue;
+                }
             }
             // No local version, we need to fetch it from remote server.
             chrome.runtime.sendMessage({
@@ -195,7 +199,7 @@ function normalizeRemoteContent(prefix, s, suffix) {
     var normal = [];
     var keys = s.split("\n");
     var i = keys.length;
-    var k;
+    var j, k;
     while ( i-- ) {
         k = keys[i];
         j = k.indexOf('#');
@@ -233,8 +237,18 @@ function queryRemoteBlacklist(location) {
             }
         });
     };
+    // In case of failure, try to load local copy if any: we must do all to
+    // not leave the user naked.
     var failure = function() {
-        console.error('HTTP Switchboard > failed to load third party blacklist from remote location "%s"', url);
+        console.error('HTTP Switchboard > failed to load third party blacklist from remote location "%s"\n\tWill falling back on local copy if any.', url);
+        chrome.storage.local.get({ 'remoteBlacklists': {} }, function(store) {
+            if ( store.remoteBlacklists[location] ) {
+                chrome.runtime.sendMessage({
+                    what: 'mergeRemoteBlacklist',
+                    list: store.remoteBlacklists[location]
+                });
+            }
+        });
     };
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'text';
@@ -278,7 +292,7 @@ function localSaveRemoteBlacklist(list) {
 
 /******************************************************************************/
 
-function localRemoveRemoteBlacklist(location) {
+function localRemoveRemoteBlacklist(list) {
     storageBufferer.acquire('remoteBlacklists', function(store) {
         if ( store.remoteBlacklists ) {
             delete store.remoteBlacklists[list.url];
