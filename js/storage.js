@@ -116,7 +116,7 @@ function loadUserLists() {
         if ( store.whitelist === '' && store.blacklist === '' && store.graylist === '') {
             console.log('HTTP Switchboard > loadUserLists > using default white/black/gray lists');
             store.whitelist = 'image/*\nmain_frame/*';
-            store.blacklist = 'cookie/*\nobject/*\nsub_frame/*';
+            store.blacklist = 'object/*\nsub_frame/*';
             store.graylist = '';
         }
 
