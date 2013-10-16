@@ -1,6 +1,6 @@
 ## INSTALL
 
-- Download and unzip `httpswitchboard.zip`.
+- Download and unzip `httpswitchboard.zip` (latest version desirable).
 - Go to chromium/chrome *Extensions*.
 - Click to check *Developer mode*.
 - Click *Load unpacked extension...*.
