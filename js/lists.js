@@ -131,6 +131,49 @@ function graylistPermanently(type, domain) {
 
 /******************************************************************************/
 
+// Reset lists to their default state.
+
+function resetLists() {
+    var httpsb = HTTPSB;
+    var whitelist = {};
+    var blacklist = {};
+    var filters = Object.keys(httpsb.whitelist);
+    var iFilter = filters.length;
+    var filter;
+    while ( iFilter-- ) {
+        filter = filters[iFilter];
+        if ( !httpsb.whitelistUser[filter] ) {
+            delete httpsb.whitelist[filter];
+        }
+        if ( httpsb.blacklistUser[filter] || quickIndexOf(httpsb.blacklistRemote, '\n' + filter + '\n') >= 0 ) {
+            blacklist[filter] = true;
+        }
+    }
+    filters = Object.keys(httpsb.blacklist);
+    iFilter = filters.length;
+    while ( iFilter-- ) {
+        filter = filters[iFilter];
+        if ( !httpsb.blacklistUser[filter] && quickIndexOf(httpsb.blacklistRemote, '\n' + filter + '\n') < 0 ) {
+            delete httpsb.blacklist[filter];
+        }
+        if ( httpsb.whitelistUser[filter] ) {
+            whitelist[filter] = true;
+        }
+    }
+    filters = Object.keys(blacklist);
+    iFilter = filters.length;
+    while ( iFilter-- ) {
+        httpsb.blacklist[filters[iFilter]] = true;
+    }
+    filters = Object.keys(whitelist);
+    iFilter = filters.length;
+    while ( iFilter-- ) {
+        httpsb.whitelist[filters[iFilter]] = true;
+    }
+}
+
+/******************************************************************************/
+
 // check whether something is white or black listed, direct or indirectly
 function evaluate(type, domain) {
     var httpsb = HTTPSB;
@@ -262,7 +305,7 @@ function whitelisted(type, domain) {
 //   'rpp' = red pale permanent
 //   'gdp' = green dark permanent
 //   'gpp' = green pale permanent
-//   '-' used at position without valid state
+//   'xxx' used at position without valid state
 
 /******************************************************************************/
 
@@ -301,7 +344,6 @@ function getPermanentColor(type, domain) {
         return 'xxx';
     }
 
-    var now = Date.now();
 //    var r = httpsb.blacklistRemote.indexOf('\n' + key + '\n');
     var r = quickIndexOf(httpsb.blacklistRemote, '\n' + key + '\n');
     if ( r >= 0 ) {

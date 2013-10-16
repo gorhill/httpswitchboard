@@ -116,19 +116,31 @@ div.matrix > div.domainSeparator {
 .dim {
     color: #aaa;
 }
-#button-info {
+#toolbar {
     margin: 8px 0 0 0;
     border: 0;
     padding: 0;
-    background: url('img/dialog-information.png') no-repeat;
-    display: block;
     position: fixed;
-    width: 20px;
-    height: 20px;
     top: 6px;
     right: 6px;
+    text-align: right;
+    vertical-align: middle;
+}
+#toolbar > a {
+    margin: 0 0 0 1em;
+    border: 0;
+    padding: 0;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
     text-decoration: none;
     outline: 0;
+}
+#button-revert {
+    background: url('img/go-first-symbolic.png') no-repeat;
+}
+#button-info {
+    background: url('img/dialog-information.png') no-repeat;
 }
 #message {
     margin: 1em 0;
@@ -222,7 +234,10 @@ div.matrix > div.domainSeparator {
 
 <div class="pane-head">
     <p id="message">&nbsp;</p>
-    <a id="button-info" href="#" title="Global info"></a>
+    <div id="toolbar">
+        <a id="button-revert" href="#" title="Undo all temporary changes"></a>
+        <a id="button-info" href="#" title="Global info"></a>
+        </div>
     <div id="matrix-head" class="matrix">
         <div class="matrix-row" style="display:none"><div class="filter-button" data-filter-type="*" data-filter-domain="*">all</div><div class="filter-button" data-filter-type="cookie" data-filter-domain="*">cookie</div><div class="filter-button" data-filter-type="image" data-filter-domain="*">image</div><div class="filter-button" data-filter-type="object" data-filter-domain="*">plugin</div><div class="filter-button" data-filter-type="script" data-filter-domain="*">script</div><div class="filter-button" data-filter-type="xmlhttprequest" data-filter-domain="*">XHR</div><div class="filter-button" data-filter-type="sub_frame" data-filter-domain="*">frame</div><div class="filter-button" data-filter-type="other" data-filter-domain="*">other</div></div>
 

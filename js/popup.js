@@ -569,6 +569,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    $('#button-revert').click(function() {
+        background.resetLists();
+        updateMatrixStats(matrixStats);
+        updateFilterButtons();
+    });
+
     $('#button-info').click(function() {
         chrome.runtime.sendMessage({ what: 'gotoExtensionUrl', url: 'info.html' });
     });
