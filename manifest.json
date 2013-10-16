@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "HTTP Switchboard",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "description": "Point & click to forbid/allow any class of requests made by your browser. Use it to block scripts, iframes, ads, facebook, etc.",
     "icons": {
         "128": "icon_128.png"
