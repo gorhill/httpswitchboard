@@ -494,6 +494,7 @@ document.addEventListener('DOMContentLoaded', function () {
         makeMenu();
         if ( !matrixHasRows ) {
             $('#no-traffic').css('display', '');
+            $('#matrix-head').css('display', 'none');
         }
     });
 
