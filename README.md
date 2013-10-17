@@ -15,7 +15,7 @@ or you can [install manually](https://github.com/gorhill/httpswitchboard/tree/ma
 
 ![HTTP Switchboard](doc/img/screenshot1.png)
 
-HTTP Switchboard let you easily white- or black-list net requests which originate from
+HTTP Switchboard let you easily whitelist/blacklist net requests which originate from
  within a web page according to:
 
 - domain names
@@ -31,37 +31,48 @@ HTTP Switchboard let you easily white- or black-list net requests which originat
 
 The goal of this extension is to make allowing or blocking of web sites,
 wholly of partly, as straightforward as possible, so as to not discourage
-those users who give up easily on good security habits.
+those users who give up easily on good security and privacy habits.
 
-The extension is also useful to understand what the web page in your browser
-is doing behind the scene.
+The extension is also useful to see what the web page in your browser
+is doing (or trying to do) behind the scene.
 
 The number which appear in the extension icon correspond to the total number
 of requests attempted (successfully or not depending on whether it was
-white- or black-listed) behind the scene.
+whitelisted/blacklisted) behind the scene.
 
-Simply click on the appropriate entry in the matrix in order to white-,
-black- or gray-list a component. Gray-listing means the blocked or allowed
+Simply click on the appropriate entry in the matrix in order to whitelist,
+blacklist or graylist a component. *Graylisting* means the blocked or allowed
 status will be inherited from another entry in the matrix.
 
-- Red square = effectively blacklisted, i.e. requests are prevented from
+- Redish square = effectively blacklisted, i.e. requests are prevented from
 reaching their destination:
     * Dark red square: the specific domain name and/or type of request is
 specifically blacklisted.
-    * Faded red square: the blacklist status in inherited because the entry is
+    * Pale red square: the blacklist status in inherited because the entry is
 graylisted.
-- Green square = effectively whitelisted, i.e. requests are allowed to reach
+- Greenish square = effectively whitelisted, i.e. requests are allowed to reach
 their intended destination:
     * Bright green square = the specific domain name and/or type of request is
 specifically whitelisted.
-    * Faded green square = the whitelist status in inherited because the entry is
+    * Pale green square = the whitelist status in inherited because the entry is
 graylisted.
 
-The top-left cell in the matrix represents the default global setting, which
-allows you to choose whether allowing or blocking everything is the default
-behavior. Some prefer to allow everything while blocking exceptionally.
-My personal preference is of course the reverse, blocking everything and
-allowing exceptionally.
+The top-left cell in the matrix represents the default global setting (the
+'master switch'), which allows you to choose whether allowing or blocking
+everything is the default behavior.
+
+Whether a graylisted cell in the matrix is effectively whitelisted/blacklisted
+depends on whether a cell with lower precedence is expressly
+whitelisted/blacklisted. The precedence order works this way, from higher to
+lower:
+
+- Specific domain and specific type of request (i.e. 'cookie' @ 'edition.cnn.com')
+- Domain names, which are subject to a another rule of precedence order within themselves:
+    - ...
+    - Subdomain names (i.e. 'ichef.bbc.co.uk')
+    - Domain names (i.e. 'bbc.co.uk')
+- Types of request (cells in the the top row)
+- Master switch (the *all* cell in the top-left corner)
 
 This extension is also useful if you wish to speed up your browsing, by
 blocking all requests for images as an example.
