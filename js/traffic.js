@@ -108,6 +108,7 @@ function webRequestHandler(details) {
 
     // Ignore stylesheet requests
     if ( type === 'stylesheet' ) {
+        // console.log("HTTPSB > %s @ url=%s", details.type, details.url);
         return;
     }
 
@@ -144,11 +145,6 @@ function webRequestHandler(details) {
                 primaryPattern: '*://' + domain + '/*',
                 setting: blacklisted('object', domain) ? 'block' : 'allow'
             });
-            chrome.contentSettings.cookies.set({ 
-                primaryPattern: '*://' + domain + '/*',
-                secondaryPattern: '<all_urls>',
-                setting: blacklisted('cookie', domain) ? 'block' : 'allow'
-            });
 
             // when the tab is updated, we will check if page has at least one
             // script tag, this takes care of inline scripting, which doesn't
@@ -163,6 +159,7 @@ function webRequestHandler(details) {
         HTTPSB.allowedRequestCounters.all += 1;
         HTTPSB.allowedRequestCounters[type] += 1;
 
+        // console.log("HTTPSB > %s @ url=%s", details.type, details.url);
         return;
     }
 
@@ -204,9 +201,7 @@ function webRequestHandler(details) {
 
 function webHeaderRequestHandler(details) {
 
-    // ignore traffic outside tabs
-    // TODO: when might this happen?
-    // Apparently from within extensions
+    // Ignore traffic outside tabs
     if ( details.tabId < 0 ) {
         return;
     }
@@ -237,6 +232,9 @@ function webHeaderRequestHandler(details) {
             // console.debug('HTTP Switchboard > foiled attempt to send %d cookies "%s..." to %s', cookieCount, cookieValue.slice(0,40), details.url);
             headers.splice(i, 1);
         }
+//         else {
+//             console.log('HTTPSB > %d cookies @ %s', cookieCount, details.url);
+//         }
     }
 
     if ( blacklistCookie ) {

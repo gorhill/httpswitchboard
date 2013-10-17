@@ -23,6 +23,15 @@
 
 /******************************************************************************/
 
+// rhill 20131017 > https://github.com/gorhill/httpswitchboard/issues/9:
+// HTTP Switchboard relinquishes all control of cookies settings (it will
+// however keep removing outbound cookies from headers, so this is equivalent
+// to a recording machine which can never be played back).
+
+chrome.contentSettings.cookies.clear({});
+
+/******************************************************************************/
+
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     // Can this happen?
     if ( !tab.url || !tab.url.length ) {

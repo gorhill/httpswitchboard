@@ -91,11 +91,6 @@ function findAndRecordCookies(pageUrl) {
             if ( block ) {
                 addStateFromPageStats(pageStats, 'cookie', domain);
             }
-            chrome.contentSettings.cookies.set({
-                primaryPattern: '*://' + domain + '/*',
-                secondaryPattern: '<all_urls>',
-                setting: block ? 'block' : 'allow'
-            });
             // console.debug('HTTP Switchboard > findAndRecordCookies: "%s" (cookie=%O)', cookieUrl, cookie);
         }
     });
@@ -180,11 +175,6 @@ chrome.cookies.onChanged.addListener(function(changeInfo) {
         if ( block ) {
             addStateFromPageStats(pageStats, 'cookie', domain);
         }
-        chrome.contentSettings.cookies.set({
-            primaryPattern: '*://' + domain + '/*',
-            secondaryPattern: '<all_urls>',
-            setting: block ? 'block' : 'allow'
-        });
         // console.debug('HTTP Switchboard > chrome.cookies.onChanged: "%s" (cookie=%O)', cookieUrl, cookie);
     }
 });
