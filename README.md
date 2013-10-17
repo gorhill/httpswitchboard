@@ -9,9 +9,7 @@ as per domain name.
 ##Installation
 
 Available on Chrome web store (<a href="https://chrome.google.com/webstore/detail/httpswitchboard/mghdpehejfekicfjcdbfofhcmnjhgaag">HTTP Switchboard</a>),
-or you can copy the content of this git to:
-
-    {chromium folder on your machine}/Default/Extensions/mghdpehejfekicfjcdbfofhcmnjhgaag
+or you can [install manually](https://github.com/gorhill/httpswitchboard/tree/master/dist).
 
 ##Documentation
 
