@@ -19,8 +19,6 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
-// TODO: keep refactoring this mess.
-
 (function(){
 
 /******************************************************************************/
@@ -88,6 +86,8 @@ var initMatrixStats = function(pageStats) {
             parent = background.getParentDomainFromDomain(parent);
         }
         matrixStats[domain][type].count += 1;
+        // Issue #12: Count requests for whole row.
+        matrixStats[domain]['*'].count += 1;
     }
 
     updateMatrixStats(matrixStats);
@@ -155,10 +155,16 @@ var getGroupStats = function() {
     var iDomain = domains.length;
     while ( iDomain-- ) {
         domain = domains[iDomain];
-        // '*' is for header, ignore
+        // '*' is for header, ignore, since header is always at the top
         if ( domain === '*' ) {
             continue;
         }
+        // Issue #12: Ignore rows with no request for now.
+        if ( matrixStats[domain]['*'].count === 0 ) {
+            continue;
+        }
+        // Walk upward the chain of domain names and find at least one which
+        // is expressly whitelisted or blacklisted.
         parent = domain;
         while ( parent ) {
             temporaryColor = matrixStats[parent]['*'].temporaryColor;
@@ -168,11 +174,14 @@ var getGroupStats = function() {
             }
             parent = background.getParentDomainFromDomain(parent);
         }
+        // Domain of the page comes first
         if ( background.getDomainFromHostname(domain) === pageDomain ) {
             group = 0;
         }
+        // Whitelisted domains are second, blacklisted are fourth
         else if ( dark ) {
             group = temporaryColor.charAt(0) === 'g' ? 1 : 3;
+        // Graylisted are third
         } else {
             group = 2
         }
@@ -182,6 +191,11 @@ var getGroupStats = function() {
         }
         domainGroups[group][rootDomain].directs[domain] = true;
     }
+    // At this point, one root domain could end up in two different groups.
+    // Should we merge data from these two (or more) groups so that we
+    // avoid duplicated cells in the matrix?
+    // For now, I am undecided on this.
+
     // Generate all nodes possible for each groups, this is useful
     // to allow users to toggle permissions for higher domains which are
     // not explicitly part of the web page.
