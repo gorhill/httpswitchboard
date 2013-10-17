@@ -13,7 +13,7 @@ or you can [install manually](https://github.com/gorhill/httpswitchboard/tree/ma
 
 ##Documentation
 
-![HTTP Switchboard](img/screenshot1.png)
+![HTTP Switchboard](doc/img/screenshot1.png)
 
 HTTP Switchboard let you easily white- or black-list net requests which originate from
  within a web page according to:
