@@ -135,41 +135,11 @@ function graylistPermanently(type, domain) {
 
 function resetLists() {
     var httpsb = HTTPSB;
-    var whitelist = {};
-    var blacklist = {};
-    var filters = Object.keys(httpsb.whitelist);
-    var iFilter = filters.length;
-    var filter;
-    while ( iFilter-- ) {
-        filter = filters[iFilter];
-        if ( !httpsb.whitelistUser[filter] ) {
-            delete httpsb.whitelist[filter];
-        }
-        if ( httpsb.blacklistUser[filter] || quickIndexOf(httpsb.blacklistRemote, '\n' + filter + '\n') >= 0 ) {
-            blacklist[filter] = true;
-        }
-    }
-    filters = Object.keys(httpsb.blacklist);
-    iFilter = filters.length;
-    while ( iFilter-- ) {
-        filter = filters[iFilter];
-        if ( !httpsb.blacklistUser[filter] && quickIndexOf(httpsb.blacklistRemote, '\n' + filter + '\n') < 0 ) {
-            delete httpsb.blacklist[filter];
-        }
-        if ( httpsb.whitelistUser[filter] ) {
-            whitelist[filter] = true;
-        }
-    }
-    filters = Object.keys(blacklist);
-    iFilter = filters.length;
-    while ( iFilter-- ) {
-        httpsb.blacklist[filters[iFilter]] = true;
-    }
-    filters = Object.keys(whitelist);
-    iFilter = filters.length;
-    while ( iFilter-- ) {
-        httpsb.whitelist[filters[iFilter]] = true;
-    }
+    httpsb.whitelist = {};
+    httpsb.blacklist = {};
+    populateListFromList(httpsb.whitelist, httpsb.whitelistUser);
+    populateListFromList(httpsb.blacklist, httpsb.blacklistUser);
+    populateListFromString(httpsb.blacklist, httpsb.blacklistRemote);
 }
 
 /******************************************************************************/
@@ -345,35 +315,10 @@ function getPermanentColor(type, domain) {
     }
 
 //    var r = httpsb.blacklistRemote.indexOf('\n' + key + '\n');
-    var r = quickIndexOf(httpsb.blacklistRemote, '\n' + key + '\n');
+    var r = quickIndexOf(httpsb.blacklistRemote, key, '\n');
     if ( r >= 0 ) {
         return 'rdp';
     }
     return 'xxx';
-}
-
-/******************************************************************************/
-
-// http://jsperf.com/long-string-indexof-vs-quickindexof/2
-
-function quickIndexOf(s, t) {
-    var i, j, k;
-    var left = 1;
-    var right = s.length - 1;
-    var sub;
-    while (left < right) {
-        i = left + right >> 1;
-        j = s.lastIndexOf('\n', i);
-        k = s.indexOf('\n', j+1) + 1;
-        sub = s.slice(j, k);
-        if ( t < sub ) {
-            right = j;
-        } else if ( t > sub ) {
-            left = k;
-        } else {
-            return j;
-        }
-    }
-    return -1;
 }
 
