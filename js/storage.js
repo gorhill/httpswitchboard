@@ -244,7 +244,7 @@ function queryRemoteBlacklist(location) {
     // In case of failure, try to load local copy if any: we must do all to
     // not leave the user naked.
     var failure = function() {
-        console.error('HTTP Switchboard > failed to load third party blacklist from remote location "%s"\n\tWill falling back on local copy if any.', url);
+        console.error('HTTP Switchboard > failed to load third party blacklist from remote location "%s"\n\tWill fall back on local copy if any.', url);
         chrome.storage.local.get({ 'remoteBlacklists': {} }, function(store) {
             if ( store.remoteBlacklists[location] ) {
                 chrome.runtime.sendMessage({
