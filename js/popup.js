@@ -365,7 +365,7 @@ var handleUnpersistence = function(button) {
 // TODO: update incrementally
 
 var formatHeader = function(s) {
-    var maxLength = 50;
+    var maxLength = 80;
     var msg = s.slice(0, maxLength);
     if ( s.length > maxLength ) {
         msg += '...';
@@ -591,6 +591,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     $('#button-info').click(function() {
         chrome.runtime.sendMessage({ what: 'gotoExtensionUrl', url: 'info.html' });
+    });
+
+    $('#button-settings').click(function() {
+        chrome.runtime.sendMessage({ what: 'gotoExtensionUrl', url: 'settings.html' });
     });
 
     matrixCellMenu = $('#cellMenu').detach();

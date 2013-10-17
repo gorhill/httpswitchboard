@@ -101,6 +101,8 @@ function urlStatsChanged(pageUrl) {
 // Handling stuff asynchronously simplifies code
 
 chrome.runtime.onMessage.addListener(function(request, sender, callback) {
+    var response = undefined;
+
     if ( request && request.what ) {
         switch ( request.what ) {
 
@@ -154,6 +156,14 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
         case 'gotoExtensionUrl':
             chrome.tabs.create({'url': chrome.extension.getURL(request.url)});
 
+        case 'userSettings':
+            if ( typeof request.name === 'string' && request.name !== '' ) {
+                if ( HTTPSB.userSettings[request.name] !== undefined && request.value !== undefined ) {
+                    HTTPSB.userSettings[request.name] = request.value;
+                }
+                response = HTTPSB.userSettings[request.name];
+                saveUserSettings();
+            }
         default:
              // console.error('HTTP Switchboard > onMessage > unknown request: %o', request);
             break;
@@ -161,7 +171,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
     }
 
     if ( callback ) {
-        callback();
+        callback(response);
     }
 });
 

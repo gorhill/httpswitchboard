@@ -22,6 +22,11 @@
 var HTTPSB = {
     manifest: chrome.runtime.getManifest(),
 
+    userSettings: {
+        deleteCookies: false,
+        deleteLocalStorage: false
+    },
+
     // memo:
     // unicode for hourglass: &#x231B;
 

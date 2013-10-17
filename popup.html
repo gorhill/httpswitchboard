@@ -2,6 +2,7 @@
 <html>
 
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href='css/fonts.css' rel='stylesheet' type='text/css'>
 <style>
 body {
@@ -125,9 +126,10 @@ div.matrix > div.domainSeparator {
     right: 6px;
     text-align: right;
     vertical-align: middle;
+    background-color: white;
 }
 #toolbar > a {
-    margin: 0 0 0 1em;
+    margin: 0 0 0 0.5em;
     border: 0;
     padding: 0;
     display: inline-block;
@@ -141,6 +143,9 @@ div.matrix > div.domainSeparator {
 }
 #button-info {
     background: url('img/dialog-information.png') no-repeat;
+}
+#button-settings {
+    background: url('img/system-run-symbolic.png') no-repeat;
 }
 #message {
     margin: 1em 0;
@@ -237,6 +242,7 @@ div.matrix > div.domainSeparator {
     <div id="toolbar">
         <a id="button-revert" href="#" title="Undo all temporary changes"></a>
         <a id="button-info" href="#" title="Global info"></a>
+        <a id="button-settings" href="#" title="Settings"></a>
         </div>
     <div id="matrix-head" class="matrix">
         <div class="matrix-row" style="display:none"><div class="filter-button" data-filter-type="*" data-filter-domain="*">all</div><div class="filter-button" data-filter-type="cookie" data-filter-domain="*">cookie</div><div class="filter-button" data-filter-type="image" data-filter-domain="*">image</div><div class="filter-button" data-filter-type="object" data-filter-domain="*">plugin</div><div class="filter-button" data-filter-type="script" data-filter-domain="*">script</div><div class="filter-button" data-filter-type="xmlhttprequest" data-filter-domain="*">XHR</div><div class="filter-button" data-filter-type="sub_frame" data-filter-domain="*">frame</div><div class="filter-button" data-filter-type="other" data-filter-domain="*">other</div></div>

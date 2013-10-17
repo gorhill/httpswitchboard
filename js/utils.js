@@ -146,3 +146,29 @@ function domainNameCompare(a,b) {
     return a.localeCompare(b);
 }
 
+/******************************************************************************/
+
+// http://jsperf.com/long-string-indexof-vs-quickindexof/2
+
+function quickIndexOf(s, t, c) {
+    var i, j, k;
+    var left = 1;
+    var right = s.length - 1;
+    var sub;
+    t = c + t + c;
+    while (left < right) {
+        i = left + right >> 1;
+        j = s.lastIndexOf(c, i);
+        k = s.indexOf(c, j+1) + 1;
+        sub = s.slice(j, k);
+        if ( t < sub ) {
+            right = j;
+        } else if ( t > sub ) {
+            left = k;
+        } else {
+            return j;
+        }
+    }
+    return -1;
+}
+

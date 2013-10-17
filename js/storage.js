@@ -86,6 +86,23 @@ var storageBufferer = {
 
 /******************************************************************************/
 
+function saveUserSettings() {
+    chrome.storage.local.set(HTTPSB.userSettings, function() {
+        console.log('HTTP Switchboard > saved user settings');
+    });
+}
+
+/******************************************************************************/
+
+function loadUserSettings() {
+    chrome.storage.local.get(HTTPSB.userSettings, function(store) {
+        HTTPSB.userSettings = store;
+        console.log('HTTP Switchboard > loaded user settings');
+    });
+}
+
+/******************************************************************************/
+
 // save white/blacklist
 function save() {
     var httpsb = HTTPSB;
@@ -324,6 +341,7 @@ function mergeRemoteBlacklist(list) {
 
 // load white/blacklist
 function load() {
+    loadUserSettings();
     loadUserLists();
     loadRemoteBlacklists();
 }
