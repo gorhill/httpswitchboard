@@ -76,6 +76,10 @@ var storageBufferer = {
             chrome.storage.local.set(this.store, function() {
                 console.debug('HTTP Switchboard > saved buffered local storage');
             });
+            // rhill 20131017: Once all is persisted, no need to hold onto
+            // whatever is in the store, this reduce memory footprint of
+            // exension.
+            this.store = {};
         }
     }
 };
