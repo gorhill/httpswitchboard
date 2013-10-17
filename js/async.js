@@ -155,6 +155,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
 
         case 'gotoExtensionUrl':
             chrome.tabs.create({'url': chrome.extension.getURL(request.url)});
+            break;
 
         case 'userSettings':
             if ( typeof request.name === 'string' && request.name !== '' ) {
@@ -164,6 +165,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
                 response = HTTPSB.userSettings[request.name];
                 saveUserSettings();
             }
+            break;
+
         default:
              // console.error('HTTP Switchboard > onMessage > unknown request: %o', request);
             break;
