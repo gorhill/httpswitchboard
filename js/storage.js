@@ -150,7 +150,7 @@ function loadUserLists() {
         populateListFromString(httpsb.graylistUser, store.graylist);
         populateListFromList(httpsb.graylist, httpsb.graylistUser);
 
-        // gorhill 20130923: ok, there is no point in blacklisting
+        // rhill 20130923: ok, there is no point in blacklisting
         // 'main_frame/*', since there is only one such page per tab. It is
         // reasonable to whitelist by default 'main_frame/*', and top page of
         // blacklisted domain name will not be loaded anyways (because domain
@@ -198,6 +198,11 @@ function loadRemoteBlacklists() {
             if ( location.search('httpsb') < 0 ) {
                 age = Date.now() - store.remoteBlacklists[location].timeStamp;
                 if ( age < httpsb.remoteBlacklistLocalCopyTTL ) {
+                    // https://github.com/gorhill/httpswitchboard/issues/15
+                    // TODO: Will be to remove this one all lists have been refreshed
+                    // on all user's cache: let's wait two week than we can
+                    // remove it
+                    store.remoteBlacklists[location].raw = store.remoteBlacklists[location].raw.replace(/\s+(\*\/localhost|\*\/127\.0\.0\.1|\*\/::1)\b/g, '');
                     chrome.runtime.sendMessage({
                         what: 'mergeRemoteBlacklist',
                         list: store.remoteBlacklists[location]
@@ -227,7 +232,9 @@ function normalizeRemoteContent(prefix, s, suffix) {
         if ( j >= 0 ) {
             k = k.slice(0, j);
         }
-        k = k.replace('127.0.0.1', '');
+        // https://github.com/gorhill/httpswitchboard/issues/15
+        // Ensure localhost et al. don't end up on the read-only blacklist.
+        k = k.replace(/\b(127\.0\.0\.1|::1|localhost)\b/g, '');
         k = k.trim();
         if ( k.length === 0 ) {
             continue;
