@@ -106,7 +106,7 @@ function recordFromPageUrl(pageUrl, type, url, blocked) {
 
 function recordFromPageStats(pageStats, type, url, blocked) {
     if ( !pageStats ) {
-        console.error('HTTP Switchboard > recordFromPageStats > no pageStats');
+        // console.error('HTTP Switchboard > recordFromPageStats > no pageStats');
         return;
     }
 

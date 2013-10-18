@@ -101,7 +101,7 @@ function urlStatsChanged(pageUrl) {
 // Handling stuff asynchronously simplifies code
 
 chrome.runtime.onMessage.addListener(function(request, sender, callback) {
-    var response = undefined;
+    var response;
 
     if ( request && request.what ) {
         switch ( request.what ) {
@@ -136,10 +136,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
 
         case 'removeAllCookies':
             removeAllCookies(request.url);
-            break;
-
-        case 'findAndRecordCookies':
-            findAndRecordCookies(request.pageUrl);
             break;
 
         case 'updateBadge':

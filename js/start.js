@@ -37,12 +37,14 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     if ( !tab.url || !tab.url.length ) {
         return;
     }
-    // console.debug('tabs.onUpdated > tabId=%d changeInfo=%o tab=%o', tabId, changeInfo, tab);
-    if ( getUrlProtocol(tab.url).search('http') !== 0 ) {
-        return;
-    }
 
     var pageUrl = normalizeChromiumUrl(tab.url);
+
+    // console.debug('tabs.onUpdated > tabId=%d changeInfo=%o tab=%o', tabId, changeInfo, tab);
+    var protocol = getUrlProtocol(pageUrl);
+    if ( protocol !== 'http' && protocol !== 'https' ) {
+        return;
+    }
 
     // Ensure we have a url stats store and that the tab is bound to it.
     bindTabToPageStats(tab.id, pageUrl);
@@ -52,11 +54,13 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     if ( changeInfo.status !== 'complete' ) {
         return;
     }
-    // Chrome webstore can't be injected with foreign code (I can see why),
-    // following is to avoid error message.
+
+    // Chrome webstore can't be injected with foreign code following is to
+    // avoid error message.
     if ( pageUrl.search(/^https?:\/\/chrome\.google\.com\/webstore\//) === 0 ) {
         return;
     }
+
     // Check if page has at least one script tab. We must do that here instead
     // of at web request intercept time, because we can't inject code at web
     // request time since the url hasn't been set in the tab.
@@ -81,15 +85,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
             }
         }
     );
-
-    // Cookie hunting expedition for this page url and record all those we
-    // find which hit any domain found on this page.
-    // TODO: listen to cookie changes.
-    chrome.runtime.sendMessage({
-        what: 'findAndRecordCookies',
-        pageUrl: pageUrlFromTabId(tabId)
-    });
-})
+});
 
 /******************************************************************************/
 
@@ -137,15 +133,15 @@ chrome.extension.onConnect.addListener(function(port) {
     var httpsb = HTTPSB;
     var gcFunc = function() {
         chrome.tabs.query({ 'url': '<all_urls>' }, function(tabs){
-            var tabId;
-            var pageUrl;
-            var pageStats;
             var visibleTabs = {};
-            tabs.map(function(tab) { visibleTabs[tab.id] = true; });
-            for ( var pageUrl in httpsb.pageStats ) {
-                tabId = tabIdFromPageUrl(pageUrl);
-                pageStats = httpsb.pageStats[pageUrl];
+            tabs.map(function(tab) {
+                visibleTabs[tab.id] = true;
+            });
+            Object.keys(httpsb.pageStats).forEach(function(pageUrl) {
+                var tabId = tabIdFromPageUrl(pageUrl);
+                var pageStats = httpsb.pageStats[pageUrl];
                 if ( !visibleTabs[tabId] && !pageStats.visible ) {
+                    cookieHunterQueue.add(pageStats);
                     delete httpsb.pageStats[pageUrl];
                     console.debug('HTTP Switchboard > GC: disposed of "%s"', pageUrl);
                 }
@@ -153,7 +149,7 @@ chrome.extension.onConnect.addListener(function(port) {
                 if ( !pageStats.visible ) {
                     unbindTabFromPageStats(tabId);
                 }
-            }
+            });
         });
     };
 

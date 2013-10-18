@@ -151,6 +151,12 @@ function webRequestHandler(details) {
             // generate 'script' type web requests.
         }
 
+        // If the request is not blocked, this means the response could contain
+        // cookies. Thus, we go cookie hunting for this page url and record all
+        // those we find which hit any domain found on this page.
+        // No worry, this is async.
+        cookieHunterQueue.add(pageStats);
+
         // Collect stats
         if ( pageStats ) {
             pageStats.allowedStats.all += 1;

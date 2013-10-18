@@ -52,5 +52,5 @@ Profiler.prototype.avg = function() {
     return this.count > 0 ? this.time / this.count : 0;
 };
 
-var qadProfiler = new Profiler();
+var quickProfiler = new Profiler();
 
