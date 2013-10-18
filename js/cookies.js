@@ -125,36 +125,6 @@ function findAndRecordCookies(pageStats) {
 
 /******************************************************************************/
 
-function findAndDisposeCookies(pageStats) {
-    chrome.cookies.getAll({}, function(cookies) {
-        var httpsb = HTTPSB;
-        var i = cookies.length;
-        if ( !i ) { return; }
-        var domains = ' ' + Object.keys(pageStats.domains).sort().join(' ') + ' ';
-        var cookie;
-        var domain;
-        var block;
-        var cookieUrl;
-        while ( i-- ) {
-            cookie = cookies[i];
-            domain = cookie.domain.charAt(0) === '.' ? cookie.domain.slice(1) : cookie.domain;
-            if ( quickIndexOf(domains, domain, ' ') < 0 ) {
-                continue;
-            }
-            block = blacklisted('cookie', domain);
-            cookieUrl = cookie.secure ? 'https://' : 'http://';
-            cookieUrl += domain + '/{cookie:' + cookie.name.toLowerCase() + '}';
-            if ( block &&  httpsb.userSettings.deleteCookies ) {
-                chrome.cookies.remove({ url: cookieUrl, name: cookie.name });
-                console.debug('HTTP Switchboard > removed cookie "%s"', cookieUrl);
-            }
-        }
-    });
-}
-
-
-/******************************************************************************/
-
 // http://stackoverflow.com/questions/4003823/javascript-getcookie-functions/4004010#4004010
 // Thanks!
 
