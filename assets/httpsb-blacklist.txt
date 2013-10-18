@@ -2,6 +2,7 @@
 # For those domain names which are not found in other blacklists
 
 adgear.com          # "AdGear is an online advertising technologies company based in Montreal, Canada"
+adobetag.com        # "Adobe Announces Adobe Tag Manager for the Online Marketing Suite"
 aimatch.com         # "Ad Server, SAS® Intelligent Advertising for Publishers"
 axf8.net            # https://www.eff.org/deeplinks/2013/06/third-party-resources-nsa-leaks
 bizographics.com    # "Business Audience Marketing"
