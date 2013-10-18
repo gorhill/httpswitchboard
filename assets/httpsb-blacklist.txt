@@ -1,18 +1,24 @@
 # Blacklist maintained by HTTP Switchboard
 # For those domain names which are not found in other blacklists
 
-aimatch.com      # "Ad Server, SAS® Intelligent Advertising for Publishers"
-axf8.net         # https://www.eff.org/deeplinks/2013/06/third-party-resources-nsa-leaks
-bizographics.com # "Business Audience Marketing"
+adgear.com          # "AdGear is an online advertising technologies company based in Montreal, Canada"
+aimatch.com         # "Ad Server, SAS® Intelligent Advertising for Publishers"
+axf8.net            # https://www.eff.org/deeplinks/2013/06/third-party-resources-nsa-leaks
+bizographics.com    # "Business Audience Marketing"
 bkrtx.com
-krxd.net         # https://www.eff.org/deeplinks/2013/06/third-party-resources-nsa-leaks
-lijit.com        # "We provide online advertising services, audience analytics"
-llnwd.net        # http://en.wikipedia.org/wiki/Limelight_Networks
-moatads.com      # https://www.eff.org/deeplinks/2013/06/third-party-resources-nsa-leaks
-msads.net        # Sounds like ads, and no home web page...
-outbrain.com     # https://www.eff.org/deeplinks/2013/06/third-party-resources-nsa-leaks
-parsely.com      # http://en.wikipedia.org/wiki/Parse.ly
-peer39.net       # https://www.eff.org/deeplinks/2013/06/third-party-resources-nsa-leaks
+
+# "Imagine Having The Power To Turn Abandoning Visitors Into Customers"
+# "The BounceX software is tracking all the cursor movements of every visitor in real-time" (yikes!)
+bounceexchange.com
+
+krxd.net            # https://www.eff.org/deeplinks/2013/06/third-party-resources-nsa-leaks
+lijit.com           # "We provide online advertising services, audience analytics"
+llnwd.net           # http://en.wikipedia.org/wiki/Limelight_Networks
+moatads.com         # https://www.eff.org/deeplinks/2013/06/third-party-resources-nsa-leaks
+msads.net           # Sounds like ads, and no home web page...
+outbrain.com        # https://www.eff.org/deeplinks/2013/06/third-party-resources-nsa-leaks
+parsely.com         # http://en.wikipedia.org/wiki/Parse.ly
+peer39.net          # https://www.eff.org/deeplinks/2013/06/third-party-resources-nsa-leaks
 
 # These have "tracking" in domain name...
 tracking.tomsguide.com
