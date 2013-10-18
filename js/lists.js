@@ -25,7 +25,7 @@
 function allow(type, domain) {
     var httpsb = HTTPSB;
     var key = type + '/' + domain;
-    var whitelisted = !httpsb.whitelist[key]
+    var whitelisted = !httpsb.whitelist[key];
     var unblacklisted = httpsb.blacklist[key];
     if ( whitelisted ) {
         httpsb.whitelist[key] = true;
@@ -39,7 +39,7 @@ function allow(type, domain) {
 function allowPermanently(type, domain) {
     var httpsb = HTTPSB;
     var key = type + '/' + domain;
-    var whitelisted = !httpsb.whitelistUser[key]
+    var whitelisted = !httpsb.whitelistUser[key];
     var unblacklisted = httpsb.blacklistUser[key];
     if ( whitelisted ) {
         httpsb.whitelistUser[key] = true;
@@ -59,7 +59,7 @@ function allowPermanently(type, domain) {
 function disallow(type, domain) {
     var httpsb = HTTPSB;
     var key = type + '/' + domain;
-    var unwhitelisted = httpsb.whitelist[key]
+    var unwhitelisted = httpsb.whitelist[key];
     var blacklisted = !httpsb.blacklist[key];
     if ( unwhitelisted ) {
         delete httpsb.whitelist[key];
@@ -73,7 +73,7 @@ function disallow(type, domain) {
 function disallowPermanently(type, domain) {
     var httpsb = HTTPSB;
     var key = type + '/' + domain;
-    var unwhitelisted = httpsb.whitelistUser[key]
+    var unwhitelisted = httpsb.whitelistUser[key];
     var blacklisted = !httpsb.blacklistUser[key];
     if ( unwhitelisted ) {
         delete httpsb.whitelistUser[key];
@@ -101,7 +101,7 @@ function graylist(type, domain) {
     if ( key === '*/*' ) {
         return;
     }
-    var unwhitelisted = httpsb.whitelist[key]
+    var unwhitelisted = httpsb.whitelist[key];
     var unblacklisted = httpsb.blacklist[key];
     if ( unwhitelisted ) {
         delete httpsb.whitelist[key];
@@ -115,7 +115,7 @@ function graylist(type, domain) {
 function graylistPermanently(type, domain) {
     var httpsb = HTTPSB;
     var key = type + '/' + domain;
-    var unwhitelisted = httpsb.whitelistUser[key]
+    var unwhitelisted = httpsb.whitelistUser[key];
     var unblacklisted = httpsb.blacklistUser[key];
     if ( unwhitelisted ) {
         delete httpsb.whitelistUser[key];

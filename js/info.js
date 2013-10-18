@@ -65,7 +65,7 @@ var updateRequestData = function() {
         ? Object.keys(httpsb.pageStats)
         : [targetUrl]
         ;
-    var pageToRequests = pages.map(function(pageUrl) {
+    pages.map(function(pageUrl) {
         var pageStats = httpsb.pageStats[pageUrl];
         var requests = pageStats.requests;
         var reqKeys = Object.keys(requests);

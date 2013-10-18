@@ -28,7 +28,6 @@ var pageUrl = '';
 
 var port = chrome.extension.connect();
 var background = chrome.extension.getBackgroundPage();
-var httpsb = background.HTTPSB;
 var matrixStats = {};
 var matrixHeaderTypes = ['*'];
 var matrixHeaderPrettyNames = { };
@@ -183,7 +182,7 @@ var getGroupStats = function() {
             group = temporaryColor.charAt(0) === 'g' ? 1 : 3;
         // Graylisted are third
         } else {
-            group = 2
+            group = 2;
         }
         rootDomain = background.getTopMostDomainFromDomain(domain);
         if ( !domainGroups[group][rootDomain] ) {
@@ -387,7 +386,7 @@ var makeMenu = function() {
     }
 
     var matrixRow, matrixCells, matrixCell;
-    var types, iType, type;
+    var iType, type;
 
     // header row
     matrixRow = $('#matrix-head .matrix-row');
@@ -406,6 +405,7 @@ var makeMenu = function() {
     $('#matrix-list').empty();
 
     // main rows, grouped logically
+    var group;
     var rootDomains;
     var domains, domain;
     var count;
