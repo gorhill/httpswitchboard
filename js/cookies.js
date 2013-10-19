@@ -120,6 +120,7 @@ function findAndRecordCookies(pageStats) {
                 addStateFromPageStats(pageStats, 'cookie', domain);
                 if ( httpsb.userSettings.deleteCookies ) {
                     chrome.cookies.remove({ url: cookieUrl, name: cookie.name });
+                    httpsb.cookieRemovedCounter += 1;
                     // console.debug('HTTP Switchboard > removed cookie "%s"', cookieUrl);
                 }
             }

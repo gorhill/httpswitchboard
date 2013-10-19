@@ -30,6 +30,7 @@ var httpsb = background.HTTPSB;
 
 $('#delete-blacklisted-cookies').attr('checked', httpsb.userSettings.deleteCookies);
 $('#delete-blacklisted-localstorages').attr('checked', httpsb.userSettings.deleteLocalStorages);
+$('#cookie-removed-counter').html(httpsb.cookieRemovedCounter);
 
 /******************************************************************************/
 

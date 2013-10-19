@@ -79,6 +79,7 @@ var HTTPSB = {
 
     // various stats
     requestStats: new WebRequestStats(),
+    cookieRemovedCounter: 0,
 
     // internal state
     webRequestHandler: false,
