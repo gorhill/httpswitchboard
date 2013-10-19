@@ -23,6 +23,7 @@
 
 var Cacher = {
     questions: {},
+    ttl: 15 * 60 * 1000,
 
     entry: function() {
         this.response = undefined;
@@ -54,6 +55,27 @@ var Cacher = {
 
     exists: function(question) {
         return this.questions[question] !== undefined;
+    },
+
+    purge: function() {
+        var count = 0;
+        var now = Date.now();
+        var ttl = this.ttl;
+        var questions = this.questions;
+        var keys = Object.keys(questions);
+        var i = keys.length;
+        var key;
+        while ( i-- ) {
+            key = keys[i];
+            if ( (now - questions[key].timeStamp) >= ttl ) {
+                delete questions[key];
+                count += 1;
+            }
+        }
+        console.debug('HTTP Switchboard > Cacher.purge() deleted %d entries', count);
     }
 };
+
+// purge obsolete questions, those not asked in the last, say, 15 minutes?
+setInterval(function(){Cacher.purge();}, Cacher.ttl + 5 * 60 * 1000);
 
