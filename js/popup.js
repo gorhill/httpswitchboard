@@ -52,6 +52,13 @@ function EntryStats() {
     this.count = 0;
     this.temporaryColor = '';
     this.permanentColor = '';
+    // bit 0 = http
+    // bit 1 = https
+    // thus:
+    // 1 = http
+    // 2 = https
+    // 3 = mixed
+    this.protocol = 0;
 }
 
 /******************************************************************************/
@@ -285,9 +292,8 @@ var updateFilterButtons = function() {
         var button = $(this);
         // Need to cast to string or else data() method will convert to
         // numbers if it thinks it's a number (likewhen domain is '127.0.0.1'
-        var data = button.data();
-        var type = String(data.filterType);
-        var domain = String(data.filterDomain);
+        var type = button.prop('filterType');
+        var domain = button.prop('filterDomain');
         var newClass = getCellClass(domain, type);
         button.removeClass('rdt gdt rpt gpt rdp gdp rpp gpp');
         button.addClass(newClass);
@@ -300,9 +306,8 @@ var updateFilterButtons = function() {
 // handle user interaction with filters
 
 var handleFilter = function(button) {
-    var data = button.data();
-    var type = String(data.filterType);
-    var domain = String(data.filterDomain);
+    var type = button.prop('filterType');
+    var domain = button.prop('filterDomain');
     var nextAction = getNextAction(domain, type);
     if ( nextAction === 'blacklist' ) {
         background.disallow(type, domain);
@@ -323,9 +328,8 @@ var handleFilter = function(button) {
 var handlePersistence = function(button) {
     // our parent cell knows who we are
     var cell = button.closest('div.filter-button');
-    var data = cell.data();
-    var type = String(data.filterType);
-    var domain = String(data.filterDomain);
+    var type = cell.prop('filterType');
+    var domain = cell.prop('filterDomain');
     var entry = getCellStats(domain, type);
     if ( !entry ) { return; }
     if ( entry.temporaryColor.charAt(1) === 'd' && entry.temporaryColor !== entry.permanentColor ) {
@@ -344,9 +348,8 @@ var handlePersistence = function(button) {
 var handleUnpersistence = function(button) {
     // our parent cell knows who we are
     var cell = button.closest('div.filter-button');
-    var data = cell.data();
-    var type = String(data.filterType);
-    var domain = String(data.filterDomain);
+    var type = cell.prop('filterType');
+    var domain = cell.prop('filterDomain');
     var entry = getCellStats(domain, type);
     if ( !entry ) { return; }
     if ( entry.permanentColor.charAt(1) === 'd' ) {
@@ -391,7 +394,9 @@ var makeMenu = function() {
     // header row
     matrixRow = $('#matrix-head .matrix-row');
     matrixCells = $('div', matrixRow).toArray();
-    $(matrixCells[0]).addClass(getCellClass('*', '*'));
+    matrixCell = $(matrixCells[0]);
+    matrixCell.prop({filterType: '*', filterDomain: '*'});
+    matrixCell.addClass(getCellClass('*', '*'));
     for ( iType = 1; iType < matrixCells.length; iType++ ) {
         matrixCell = $(matrixCells[iType]);
         type = matrixCell.data('filterType');
@@ -399,6 +404,7 @@ var makeMenu = function() {
             matrixHeaderTypes.push(type);
             matrixHeaderPrettyNames[type] = matrixCell.text();
         }
+        matrixCell.prop({filterType: type, filterDomain: '*'});
         matrixCell.addClass(getCellClass('*', type));
     }
     matrixRow.css('display', '');
@@ -429,14 +435,14 @@ var makeMenu = function() {
                 matrixRow = $('#templates .matrix-row').clone();
                 matrixCells = $('div', matrixRow).toArray();
                 matrixCell = $(matrixCells[0]);
-                matrixCell.data('filterDomain', domain);
+                matrixCell.prop({filterType: '*', filterDomain: domain});
                 matrixCell.addClass(getCellClass(domain, '*'));
                 matrixCell.text(domain);
                 // type of requests
                 for ( iType = 1; iType < matrixHeaderTypes.length; iType++ ) {
                     type = matrixHeaderTypes[iType];
                     matrixCell = $(matrixCells[iType]);
-                    matrixCell.data({ 'filterDomain': domain, 'filterType': type });
+                    matrixCell.prop({filterType: type, filterDomain: domain});
                     matrixCell.addClass(getCellClass(domain, type));
                     count = matrixStats[domain][type] ? matrixStats[domain][type].count : 0;
                     if ( count ) {
@@ -468,9 +474,8 @@ var mouseOverPrompts = {
 };
 
 var handleFilterMessage = function(button) {
-    var data = button.data();
-    var type = String(data.filterType);
-    var domain = String(data.filterDomain);
+    var type = button.prop('filterType');
+    var domain = button.prop('filterDomain');
     var nextAction = getNextAction(domain, type);
     var action = nextAction === 'whitelist' ? '+' : (nextAction === 'blacklist' ? '-' : '.');
     var what = type === '*' ? '*' : '?';
