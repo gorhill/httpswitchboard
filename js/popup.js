@@ -89,7 +89,7 @@ var initMatrixStats = function(pageStats) {
             if ( !matrixStats[parent] ) {
                 matrixStats[parent] = new DomainStats();
             }
-            parent = background.getParentDomainFromDomain(parent);
+            parent = background.getParentHostnameFromHostname(parent);
         }
         matrixStats[domain][type].count += 1;
         // Issue #12: Count requests for whole row.
@@ -178,7 +178,7 @@ var getGroupStats = function() {
             if ( dark ) {
                 break;
             }
-            parent = background.getParentDomainFromDomain(parent);
+            parent = background.getParentHostnameFromHostname(parent);
         }
         // Domain of the page comes first
         if ( background.getDomainFromHostname(domain) === pageDomain ) {
@@ -191,7 +191,7 @@ var getGroupStats = function() {
         } else {
             group = 2;
         }
-        rootDomain = background.getTopMostDomainFromDomain(domain);
+        rootDomain = background.getDomainFromHostname(domain);
         if ( !domainGroups[group][rootDomain] ) {
             domainGroups[group][rootDomain] = { all: {}, directs: {} };
         }
@@ -219,7 +219,7 @@ var getGroupStats = function() {
                 domain = domains[iDomain];
                 while ( domain ) {
                     group[rootDomain].all[domain] = group[rootDomain].directs[domain];
-                    domain = background.getParentDomainFromDomain(domain);
+                    domain = background.getParentHostnameFromHostname(domain);
                 }
             }
         }

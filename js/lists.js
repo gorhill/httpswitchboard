@@ -184,7 +184,7 @@ function evaluate(type, domain) {
             if ( httpsb.whitelist[key] ) {
                 return httpsb.ALLOWED_INDIRECT;
             }
-            ancestor = getParentDomainFromDomain(ancestor);
+            ancestor = getParentHostnameFromHostname(ancestor);
         }
         // indirect: specific type, any domain
         key = type + '/*';
@@ -219,7 +219,7 @@ function evaluate(type, domain) {
             if ( httpsb.whitelist[key] ) {
                 return httpsb.ALLOWED_INDIRECT;
             }
-            ancestor = getParentDomainFromDomain(ancestor);
+            ancestor = getParentHostnameFromHostname(ancestor);
         }
         // indirect: any type, any domain
         if ( httpsb.whitelist['*/*'] ) {

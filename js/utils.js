@@ -97,34 +97,34 @@ function getUrlHrefRoot(url) {
 
 // Return the parent domain. For IP address, there is no parent domain.
 
-function getParentDomainFromDomain(domain) {
-    var cacherQuestion = 'getParentDomainFromDomain:' + domain;
+function getParentHostnameFromHostname(hostname) {
+    var cacherQuestion = 'getParentHostnameFromHostname:' + hostname;
     if ( Cacher.exists(cacherQuestion) ) {
         return Cacher.response(cacherQuestion);
     }
     var uri = globalURI;
-    var subdomain = uri.hostname(domain).subdomain();
+    var subdomain = uri.hostname(hostname).subdomain();
     if ( subdomain === '' ) {
         return Cacher.remember(cacherQuestion, undefined);
     }
-    var tld = uri.domain();
+    var domain = uri.domain();
     var dot = subdomain.indexOf('.');
     if ( dot < 0 ) {
-        return Cacher.remember(cacherQuestion, tld);
+        return Cacher.remember(cacherQuestion, domain);
     }
-    return Cacher.remember(cacherQuestion, subdomain.slice(dot+1) + '.' + tld);
+    return Cacher.remember(cacherQuestion, subdomain.slice(dot+1) + '.' + domain);
 }
 
 /******************************************************************************/
 
 // Return the top-most domain. For IP address, there is no parent domain.
 
-function getTopMostDomainFromDomain(domain) {
-    var cacherQuestion = 'getTopMostDomainFromDomain:' + domain;
+function getDomainFromHostname(hostname) {
+    var cacherQuestion = 'getDomainFromHostname:' + hostname;
     if ( Cacher.exists(cacherQuestion) ) {
         return Cacher.response(cacherQuestion);
     }
-    return Cacher.remember(cacherQuestion, globalURI.hostname(domain).domain());
+    return Cacher.remember(cacherQuestion, globalURI.hostname(hostname).domain());
 }
 
 /******************************************************************************/
