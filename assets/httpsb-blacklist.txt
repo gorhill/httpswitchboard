@@ -1,6 +1,7 @@
 # Blacklist maintained by HTTP Switchboard
 # For those domain names which are not found in other blacklists
 
+2mdn.net            # "2mdn.net is a domain used by Doubleclick which is an advertising company..."
 adgear.com          # "AdGear is an online advertising technologies company based in Montreal, Canada"
 adnxs.com           # "Adnxs.com is run by AppNexus, a company that provides technology, data and analytics to help companies buy and sell online display advertising" (Ref.: http://www.theguardian.com/technology/2012/apr/23/adnxs-tracking-trackers-cookies-web-monitoring)
 adobetag.com        # "Adobe Announces Adobe Tag Manager for the Online Marketing Suite"
