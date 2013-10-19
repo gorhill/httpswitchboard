@@ -21,6 +21,20 @@
 
 /******************************************************************************/
 
+// This is the solution to avoid calling code which has shown to eat
+// too many CPU cycles (profiling showed that URI.js/SLD.has and SLD.is
+// are somewhat expensive calls in th context of analyzing net traffic).
+// Trade-off is a larger memory footprint.
+// For the record, profiling these two lines of code (used to handle web
+// requests) showed:
+//
+//   var domain = getHostnameFromURL(url);
+//   var block = blacklisted(type, domain);
+//
+// Without Cacher: 0.80 ms
+//    With Cacher: 0.11 ms
+// This on an 8 year old Inspiron 6000 running Linux Mint 15 and Chromium 28.
+
 var Cacher = {
     questions: {},
     ttl: 15 * 60 * 1000,
