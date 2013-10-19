@@ -14,7 +14,7 @@ bkrtx.com
 # "The BounceX software is tracking all the cursor movements of every visitor in real-time" (yikes!)
 bounceexchange.com
 
-crosspixel.net      # "leading provider of high performance audience data and information for the real-time advertising industry"
+crosspixel.net      # (cookies, localStorage) "leading provider of high performance audience data and information for the real-time advertising industry"
 crsspxl.com         # Related to crosspixel.net
 gigya.com:          # "The tools you need to connect with consumers, harness rich data, and make marketing relevant"
 krxd.net            # https://www.eff.org/deeplinks/2013/06/third-party-resources-nsa-leaks
