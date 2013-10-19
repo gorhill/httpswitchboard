@@ -64,6 +64,7 @@ select {
 <div>
 <ul>
   <li>Version: <span id="version"></span> (<a href="https://github.com/gorhill/httpswitchboard/wiki/Change-log">change log</a>)
+  <li><a href="settings.html">Settings</a>
   <li><a href="https://github.com/gorhill/httpswitchboard/wiki/Quick-tour">Quick tour</a>
   <li>About <a href="https://github.com/gorhill/httpswitchboard/wiki/Permissions">permissions</a>
   <li><a href="https://github.com/gorhill/httpswitchboard/wiki/Credits">Credits</a>
@@ -118,27 +119,27 @@ select {
     </div>
 <div style="color:#c00">
     Blocked<br>
-    {{blockedRequestCounters.all | format ,}}<br>
-    {{blockedRequestCounters.main_frame | format ,}}<br>
-    {{blockedRequestCounters.cookie | format ,}}<br>
-    {{blockedRequestCounters.image | format ,}}<br>
-    {{blockedRequestCounters.object | format ,}}<br>
-    {{blockedRequestCounters.script | format ,}}<br>
-    {{blockedRequestCounters.xmlhttprequest | format ,}}<br>
-    {{blockedRequestCounters.sub_frame | format ,}}<br>
-    {{blockedRequestCounters.other | format ,}}<br>
+    {{requestStats.blocked.all | format ,}}<br>
+    {{requestStats.blocked.main_frame | format ,}}<br>
+    {{requestStats.blocked.cookie | format ,}}<br>
+    {{requestStats.blocked.image | format ,}}<br>
+    {{requestStats.blocked.object | format ,}}<br>
+    {{requestStats.blocked.script | format ,}}<br>
+    {{requestStats.blocked.xmlhttprequest | format ,}}<br>
+    {{requestStats.blocked.sub_frame | format ,}}<br>
+    {{requestStats.blocked.other | format ,}}<br>
     </div>
 <div style="color:#070">
     Allowed<br>
-    {{allowedRequestCounters.all | format ,}}<br>
-    {{allowedRequestCounters.main_frame | format ,}}<br>
-    {{allowedRequestCounters.cookie | format ,}}<br>
-    {{allowedRequestCounters.image | format ,}}<br>
-    {{allowedRequestCounters.object | format ,}}<br>
-    {{allowedRequestCounters.script | format ,}}<br>
-    {{allowedRequestCounters.xmlhttprequest | format ,}}<br>
-    {{allowedRequestCounters.sub_frame | format ,}}<br>
-    {{allowedRequestCounters.other | format ,}}<br>
+    {{requestStats.allowed.all | format ,}}<br>
+    {{requestStats.allowed.main_frame | format ,}}<br>
+    {{requestStats.allowed.cookie | format ,}}<br>
+    {{requestStats.allowed.image | format ,}}<br>
+    {{requestStats.allowed.object | format ,}}<br>
+    {{requestStats.allowed.script | format ,}}<br>
+    {{requestStats.allowed.xmlhttprequest | format ,}}<br>
+    {{requestStats.allowed.sub_frame | format ,}}<br>
+    {{requestStats.allowed.other | format ,}}<br>
     </div>
 
 </div> <!-- end template 'stats' -->

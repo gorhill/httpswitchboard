@@ -19,6 +19,8 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
+/******************************************************************************/
+
 var HTTPSB = {
     manifest: chrome.runtime.getManifest(),
 
@@ -76,8 +78,7 @@ var HTTPSB = {
     ALLOWED_INDIRECT: 4,
 
     // various stats
-    blockedRequestCounters: new BasicStats(),
-    allowedRequestCounters: new BasicStats(),
+    requestStats: new WebRequestStats(),
 
     // internal state
     webRequestHandler: false,
@@ -86,7 +87,9 @@ var HTTPSB = {
     dummy: 0
 };
 
-function BasicStats() {
+/******************************************************************************/
+
+function _WebRequestStats() {
     this.all = 0;
     this.main_frame = 0;
     this.sub_frame = 0;
@@ -96,4 +99,19 @@ function BasicStats() {
     this.xmlhttprequest = 0;
     this.other = 0;
     this.cookie = 0;
+}
+
+function WebRequestStats() {
+    this.allowed = new _WebRequestStats();
+    this.blocked = new _WebRequestStats();
+};
+
+WebRequestStats.prototype.record = function(type, blocked) {
+    if ( blocked ) {
+        this.blocked[type] += 1;
+        this.blocked.all += 1;
+    } else {
+        this.allowed[type] += 1;
+        this.allowed.all += 1;
+    }
 };

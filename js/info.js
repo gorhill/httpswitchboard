@@ -31,8 +31,7 @@ var data = {
     urls: [],
     whitelistCount: 0,
     blacklistCount: 0,
-    blockedRequestCounters: httpsb.blockedRequestCounters,
-    allowedRequestCounters: httpsb.allowedRequestCounters,
+    requestStats: httpsb.requestStats,
     requests: [],
     last: 0
 };
@@ -42,13 +41,9 @@ var updateStatsData = function() {
     data.urls = Object.keys(httpsb.pageUrlToTabId).concat('All').sort().map(function(v) {
         return { url: v, target: v === targetUrl };
     });
-    data.blockedRequestCounters = targetUrl === 'All'
-        ? httpsb.blockedRequestCounters
-        : background.pageStatsFromPageUrl(targetUrl).blockedStats
-        ;
-    data.allowedRequestCounters = targetUrl === 'All'
-        ? httpsb.allowedRequestCounters
-        : background.pageStatsFromPageUrl(targetUrl).allowedStats
+    data.requestStats = targetUrl === 'All'
+        ? httpsb.requestStats
+        : background.pageStatsFromPageUrl(targetUrl).requestStats
         ;
     data.whitelistCount = Object.keys(httpsb.whitelist).length;
     data.blacklistCount = Object.keys(httpsb.blacklist).length;

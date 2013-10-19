@@ -159,11 +159,9 @@ function webRequestHandler(details) {
 
         // Collect stats
         if ( pageStats ) {
-            pageStats.allowedStats.all += 1;
-            pageStats.allowedStats[type] += 1;
+            pageStats.requestStats.record(type, false);
         }
-        HTTPSB.allowedRequestCounters.all += 1;
-        HTTPSB.allowedRequestCounters[type] += 1;
+        HTTPSB.requestStats.record(type, false);
 
         // console.log("HTTPSB > %s @ url=%s", details.type, details.url);
         return;
@@ -174,11 +172,9 @@ function webRequestHandler(details) {
 
     // Collect stats
     if ( pageStats ) {
-        pageStats.blockedStats.all += 1;
-        pageStats.blockedStats[type] += 1;
+        pageStats.requestStats.record(type, true);
     }
-    HTTPSB.blockedRequestCounters.all += 1;
-    HTTPSB.blockedRequestCounters[type] += 1;
+    HTTPSB.requestStats.record(type, true);
 
     // remember this blacklisting, used to create a snapshot of the state
     // of the tab, which is useful for smart reload of the page (reload the
@@ -215,32 +211,16 @@ function webHeaderRequestHandler(details) {
     // Any cookie in there?
     var domain = getHostnameFromURL(details.url);
     var blacklistCookie = blacklisted('cookie', domain);
-    var counters = blacklistCookie ? HTTPSB.blockedRequestCounters : HTTPSB.allowedRequestCounters;
-    var cookieCount, cookieValue;
     var headers = details.requestHeaders;
     var i = details.requestHeaders.length;
     while ( i-- ) {
         if ( headers[i].name.toLowerCase() !== 'cookie' ) {
             continue;
         }
-        cookieValue = headers[i].value;
-        // rhill 20131016: This is to handle binary cookies, as seen on:
-        // "http://edition.cnn.com/2013/10/15/politics/shutdown-showdown/index.html?hpt=hp_t1"
-        if ( !cookieValue ) {
-            if ( headers[i].binaryValue ) {
-                cookieValue = stringFromArrayBuffer(headers[i].binaryValue);
-            }
-        }
-        cookieCount = cookieValue ? countRawCookies(cookieValue) : 1;
-        counters.cookie += cookieCount;
-        counters.all += cookieCount;
         if ( blacklistCookie ) {
-            // console.debug('HTTP Switchboard > foiled attempt to send %d cookies "%s..." to %s', cookieCount, cookieValue.slice(0,40), details.url);
+            // console.debug('HTTP Switchboard > foiled browser attempt to send cookie(s) to %s', details.url);
             headers.splice(i, 1);
         }
-//         else {
-//             console.log('HTTPSB > %d cookies @ %s', cookieCount, details.url);
-//         }
     }
 
     if ( blacklistCookie ) {

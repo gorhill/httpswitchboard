@@ -111,6 +111,11 @@ function findAndRecordCookies(pageStats) {
             cookieUrl = cookie.secure ? 'https://' : 'http://';
             cookieUrl += domain + '/{cookie:' + cookie.name.toLowerCase() + '}';
             recordFromPageStats(pageStats, 'cookie', cookieUrl, block);
+            // TODO: I forgot whether pageStats can be null here...
+            if ( pageStats ) {
+                pageStats.requestStats.record('cookie', true);
+            }
+            httpsb.requestStats.record('cookie', true);
             if ( block ) {
                 addStateFromPageStats(pageStats, 'cookie', domain);
                 if ( httpsb.userSettings.deleteCookies ) {
