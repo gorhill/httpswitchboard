@@ -44,9 +44,13 @@ function createPageStats(pageUrl) {
             domains: {},
             state: {},
             requestStats: new WebRequestStats(),
-            visible: true
+            visible: true,
+            // rhill 2013-10-20:
+            // https://github.com/gorhill/httpswitchboard/issues/19
+            ignore: HTTPSB.excludeRegex.test(pageUrl)
             };
     }
+
     return httpsb.pageStats[pageUrl];
 }
 

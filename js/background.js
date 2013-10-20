@@ -70,6 +70,8 @@ var HTTPSB = {
     // current entries from remote blacklists
     blacklistRemote: '',
 
+    excludeRegex: /^https?:\/\/chrome\.google\.com\/(extensions|webstore)/,
+
     // constants
     GRAY: 0,
     DISALLOWED_DIRECT: 1,

@@ -121,13 +121,21 @@ function webRequestHandler(details) {
     }
 
     // block request?
+    // quickProfiler.start('webRequestHandler / blacklisted');
     var domain = getHostnameFromURL(url);
     var block = blacklisted(type, domain);
+    // quickProfiler.stop('');
 
     // Log request
     var pageStats = pageStatsFromTabId(tabId);
     if ( pageStats ) {
         recordFromPageStats(pageStats, type, url, block);
+    }
+
+    // rhill 2013-10-20:
+    // https://github.com/gorhill/httpswitchboard/issues/19
+    if ( pageStats.ignore ) {
+        return;
     }
 
     // whitelisted?
