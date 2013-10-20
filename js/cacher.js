@@ -32,6 +32,8 @@
 //   var block = blacklisted(type, domain);
 //
 // Without Cacher: 0.80 ms
+// Without Cacher but with patch https://github.com/medialize/URI.js/pull/120
+//               : 0.38 ms
 //    With Cacher: 0.11 ms
 // This on an 8 year old Inspiron 6000 running Linux Mint 15 and Chromium 28.
 
