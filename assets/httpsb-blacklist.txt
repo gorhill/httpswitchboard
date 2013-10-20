@@ -16,6 +16,7 @@ bounceexchange.com
 
 crosspixel.net      # (cookies, localStorage) "leading provider of high performance audience data and information for the real-time advertising industry"
 crsspxl.com         # Related to crosspixel.net
+exelator.com        # "domain used by eXelate Media which is an advertising company that is part of a network of sites, cookies, and other technologies used to track you" (Ref.: http://www.donottrackplus.com/trackers/exelator.com.php)
 gigya.com:          # "The tools you need to connect with consumers, harness rich data, and make marketing relevant"
 krxd.net            # https://www.eff.org/deeplinks/2013/06/third-party-resources-nsa-leaks
 lijit.com           # "We provide online advertising services, audience analytics"
