@@ -310,9 +310,9 @@ var handleFilter = function(button) {
     var domain = button.prop('filterDomain');
     var nextAction = getNextAction(domain, type);
     if ( nextAction === 'blacklist' ) {
-        background.disallow(type, domain);
+        background.blacklistTemporarily(type, domain);
     } else if ( nextAction === 'whitelist' ) {
-        background.allow(type, domain);
+        background.whitelistTemporarily(type, domain);
     } else {
         background.graylist(type, domain);
     }
@@ -334,9 +334,9 @@ var handlePersistence = function(button) {
     if ( !entry ) { return; }
     if ( entry.temporaryColor.charAt(1) === 'd' && entry.temporaryColor !== entry.permanentColor ) {
         if ( entry.temporaryColor === 'rdt' ) {
-            background.disallowPermanently(type, domain);
+            background.blacklistPermanently(type, domain);
         } else if ( entry.temporaryColor === 'gdt' ) {
-            background.allowPermanently(type, domain);
+            background.whitelistPermanently(type, domain);
         }
         entry.permanentColor = background.getPermanentColor(type, domain);
         var newClass = getCellClass(domain, type);
@@ -589,7 +589,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     $('#button-revert').click(function() {
-        background.resetLists();
+        background.restoreTemporaryLists();
         updateMatrixStats(matrixStats);
         updateFilterButtons();
     });

@@ -22,7 +22,7 @@
 /******************************************************************************/
 
 // Whitelist something
-function allow(type, domain) {
+function whitelistTemporarily(type, domain) {
     var httpsb = HTTPSB;
     var key = type + '/' + domain;
     var whitelisted = !httpsb.whitelist[key];
@@ -36,7 +36,7 @@ function allow(type, domain) {
     }
 }
 
-function allowPermanently(type, domain) {
+function whitelistPermanently(type, domain) {
     var httpsb = HTTPSB;
     var key = type + '/' + domain;
     var whitelisted = !httpsb.whitelistUser[key];
@@ -56,7 +56,7 @@ function allowPermanently(type, domain) {
 /******************************************************************************/
 
 // Blacklist something
-function disallow(type, domain) {
+function blacklistTemporarily(type, domain) {
     var httpsb = HTTPSB;
     var key = type + '/' + domain;
     var unwhitelisted = httpsb.whitelist[key];
@@ -70,7 +70,7 @@ function disallow(type, domain) {
     }
 }
 
-function disallowPermanently(type, domain) {
+function blacklistPermanently(type, domain) {
     var httpsb = HTTPSB;
     var key = type + '/' + domain;
     var unwhitelisted = httpsb.whitelistUser[key];
@@ -133,13 +133,30 @@ function graylistPermanently(type, domain) {
 
 // Reset lists to their default state.
 
-function resetLists() {
+function restoreTemporaryLists() {
+    var httpsb = HTTPSB;
+    httpsb.blacklist = {};
+    populateListFromString(httpsb.blacklist, httpsb.blacklistRemote);
+    populateListFromList(httpsb.blacklist, httpsb.blacklistUser);
+    // rhill 2013-10-19: https://github.com/gorhill/httpswitchboard/issues/18
+    // Be sure a domain doesn't end up in both the effective black and whitelist
+    restoreTemporaryWhitelist();
+}
+
+
+// rhill 2013-10-19: https://github.com/gorhill/httpswitchboard/issues/18
+// I create a separate function so it can also be called at launch time.
+function restoreTemporaryWhitelist() {
     var httpsb = HTTPSB;
     httpsb.whitelist = {};
-    httpsb.blacklist = {};
-    populateListFromList(httpsb.whitelist, httpsb.whitelistUser);
-    populateListFromList(httpsb.blacklist, httpsb.blacklistUser);
-    populateListFromString(httpsb.blacklist, httpsb.blacklistRemote);
+    var filters = Object.keys(httpsb.whitelistUser);
+    var i = filters.length;
+    var filter;
+    while ( i-- ) {
+        filter = filters[i];
+        delete httpsb.blacklist[filter];
+        httpsb.whitelist[filter] = true;
+    }
 }
 
 /******************************************************************************/

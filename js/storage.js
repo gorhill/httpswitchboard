@@ -141,14 +141,14 @@ function loadUserLists() {
             store.graylist = '';
         }
 
-        populateListFromString(httpsb.whitelistUser, store.whitelist);
-        populateListFromList(httpsb.whitelist, httpsb.whitelistUser);
-
         populateListFromString(httpsb.blacklistUser, store.blacklist);
         populateListFromList(httpsb.blacklist, httpsb.blacklistUser);
 
         populateListFromString(httpsb.graylistUser, store.graylist);
         populateListFromList(httpsb.graylist, httpsb.graylistUser);
+
+        populateListFromString(httpsb.whitelistUser, store.whitelist);
+        populateListFromList(httpsb.whitelist, httpsb.whitelistUser);
 
         // rhill 20130923: ok, there is no point in blacklisting
         // 'main_frame/*', since there is only one such page per tab. It is
@@ -156,7 +156,7 @@ function loadUserLists() {
         // blacklisted domain name will not be loaded anyways (because domain
         // name has precedence over type). Now this way we save precious real
         // estate pixels in popup menu.
-        allow('main_frame', '*');
+        whitelistTemporarily('main_frame', '*');
 
         chrome.runtime.sendMessage({
             'what': 'startWebRequestHandler',
@@ -291,7 +291,7 @@ function queryRemoteBlacklist(location) {
 /******************************************************************************/
 
 function parseRemoteBlacklist(list) {
-    console.log('HTTP Switchboard > parseRemoteBlacklist > "%s"', list.url);
+    // console.log('HTTP Switchboard > parseRemoteBlacklist > "%s"', list.url);
     list.raw = normalizeRemoteContent('*/', list.raw, '');
     // Save locally in order to load efficiently in the future.
     chrome.runtime.sendMessage({
@@ -333,9 +333,18 @@ function localRemoveRemoteBlacklist(list) {
 /******************************************************************************/
 
 function mergeRemoteBlacklist(list) {
-    console.log('HTTP Switchboard > mergeRemoteBlacklist from "%s": "%s..."', list.url, list.raw.slice(0, 40));
+    // console.log('HTTP Switchboard > mergeRemoteBlacklist from "%s": "%s..."', list.url, list.raw.slice(0, 40));
     var httpsb = HTTPSB;
+
     populateListFromString(httpsb.blacklist, list.raw);
+
+    // rhill 2013-10-19: https://github.com/gorhill/httpswitchboard/issues/18
+    // Ensure that whatever is in the whitelist is not also found in the
+    // blacklist.
+    restoreTemporaryWhitelist();
+
+    // Make our internal collection of preset blacklist domains compatible with
+    // quickIndexOf().
     httpsb.blacklistRemote += '\n' + list.raw;
     httpsb.blacklistRemote = '\n' + httpsb.blacklistRemote
         .trim()
