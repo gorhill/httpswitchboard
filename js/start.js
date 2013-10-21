@@ -144,9 +144,9 @@ chrome.extension.onConnect.addListener(function(port) {
                     // TODO: separate 'record' and 'remove' duties
                     // 'record' should be done on demand
                     // 'remove' should be done at regular interval
-                    cookieHunter.record(pageStats);
+                    cookieHunter.erase(pageStats);
                     delete httpsb.pageStats[pageUrl];
-                    console.debug('HTTP Switchboard > GC: disposed of "%s"', pageUrl);
+                    // console.debug('HTTP Switchboard > GC: disposed of "%s"', pageUrl);
                 }
                 pageStats.visible = !!visibleTabs[tabId];
                 if ( !pageStats.visible ) {

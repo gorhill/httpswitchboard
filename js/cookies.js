@@ -23,6 +23,7 @@
 
 var cookieHunter = {
     queueRecord: {},
+    queueErase: {},
     queueRemove: [],
     processCounter: 0,
     cleanCycle: 60,
@@ -37,27 +38,47 @@ var cookieHunter = {
         }
     },
 
+    erase: function(pageStats) {
+        // Hold onto pageStats objects so that it doesn't go away
+        // before we handle the job.
+        // rhill 2013-10-19: pageStats could be nil, for example, this can
+        // happens if a file:// ... makes an xmlHttpRequest
+        if ( pageStats ) {
+            this.queueErase[pageUrlFromPageStats(pageStats)] = pageStats;
+        }
+    },
+
     remove: function(cookie) {
         this.queueRemove.push(cookie);
     },
 
     process: function() {
         var me = this;
+        // record cookies from a specific page
         Object.keys(this.queueRecord).forEach(function(pageUrl) {
             chrome.cookies.getAll({}, function(cookies) {
                 me._record(pageUrl, cookies);
                 delete me.queueRecord[pageUrl];
             });
         });
+        // erase cookies from a specific page
+        Object.keys(this.queueErase).forEach(function(pageUrl) {
+            chrome.cookies.getAll({}, function(cookies) {
+                me._erase(pageUrl, cookies);
+                delete me.queueErase[pageUrl];
+            });
+        });
+        // clean all blacklisted cookies from whatever origin
         this.processCounter++;
         if ( (this.processCounter % this.cleanCycle) === 0 ) {
             this.clean();
         }
+        // then perform real removal
         var cookie;
         while ( cookie = this.queueRemove.pop() ) {
             chrome.cookies.remove({ url: cookie.url, name: cookie.name });
             HTTPSB.cookieRemovedCounter++;
-            console.debug('HTTP Switchboard > removed cookie "%s" from "%s"', cookie.name, cookie.url);
+            // console.debug('HTTP Switchboard > removed cookie "%s" from "%s"', cookie.name, cookie.url);
         }
     },
 
@@ -89,6 +110,7 @@ var cookieHunter = {
         });
     },
 
+    // find and record cookies for a specific web page
     _record: function(pageUrl, cookies) {
         // quickProfiler.start();
         var httpsb = HTTPSB;
@@ -100,6 +122,8 @@ var cookieHunter = {
         while ( i-- ) {
             cookie = cookies[i];
             domain = cookie.domain.charAt(0) === '.' ? cookie.domain.slice(1) : cookie.domain;
+            // TODO: Check also upper hostnames...? There is something about
+            // the cookie domain being preceded by a dot.
             if ( quickIndexOf(domains, domain, ' ') < 0 ) {
                 continue;
             }
@@ -121,11 +145,41 @@ var cookieHunter = {
                 }
             }
         }
-        delete this.queueRecord[pageUrl];
-        // quickProfiler.stop('cookieHunter.record()');
+        // quickProfiler.stop('cookieHunter._record()');
+    },
+
+    // remove cookies for a specific web page
+    _erase: function(pageUrl, cookies) {
+        // quickProfiler.start();
+        if ( !HTTPSB.userSettings.deleteCookies ) {
+            return;
+        }
+        var pageStats = this.queueErase[pageUrl];
+        var i = cookies.length;
+        if ( !i ) { return; }
+        var domains = ' ' + Object.keys(pageStats.domains).sort().join(' ') + ' ';
+        var cookie, domain, block, rootUrl;
+        while ( i-- ) {
+            cookie = cookies[i];
+            domain = cookie.domain.charAt(0) === '.' ? cookie.domain.slice(1) : cookie.domain;
+            // TODO: Check also upper hostnames...? There is something about
+            // the cookie domain being preceded by a dot.
+            if ( quickIndexOf(domains, domain, ' ') < 0 ) {
+                continue;
+            }
+            block = blacklisted('cookie', domain);
+            rootUrl = (cookie.secure ? 'https://' : 'http://') + domain;
+            if ( block ) {
+                this.remove({ url: rootUrl + cookie.path, name: cookie.name });
+            }
+        }
+        // quickProfiler.stop('cookieHunter._erase()');
     }
+
 }
 
+// Every five seconds, so that cookies are reported soon enough after a
+// web page loads.
 setInterval(function(){cookieHunter.process();}, 5000);
 
 /******************************************************************************/
