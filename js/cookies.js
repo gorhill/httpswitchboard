@@ -21,113 +21,110 @@
 
 /******************************************************************************/
 
-var cookieHunterQueue = {
-    queue: {},
+var cookieHunter = {
+    queueRecord: {},
+    queueRemove: [],
+    processCounter: 0,
+    cleanCycle: 60,
 
-    add: function(pageStats) {
+    record: function(pageStats) {
         // store the page stats objects so that it doesn't go away
         // before we handle the job.
-        this.queue[pageUrlFromPageStats(pageStats)] = pageStats;
+        // rhill 2013-10-19: pageStats could be nil, for example, this can
+        // happens if a file:// ... makes an xmlHttpRequest
+        if ( pageStats ) {
+            this.queueRecord[pageUrlFromPageStats(pageStats)] = pageStats;
+        }
+    },
+
+    remove: function(cookie) {
+        this.queueRemove.push(cookie);
     },
 
     process: function() {
+        this.processCounter++;
         var me = this;
-        Object.keys(this.queue).forEach(function(pageUrl) {
-            findAndRecordCookies(me.queue[pageUrl]);
-            delete me.queue[pageUrl];
+        Object.keys(this.queueRecord).forEach(function(pageUrl) {
+            chrome.cookies.getAll({}, function(cookies) {
+                // quickProfiler.start();
+                var httpsb = HTTPSB;
+                var pageStats = me.queueRecord[pageUrl];
+                var i = cookies.length;
+                if ( !i ) { return; }
+                var domains = ' ' + Object.keys(pageStats.domains).sort().join(' ') + ' ';
+                var cookie, domain, block, rootUrl;
+                while ( i-- ) {
+                    cookie = cookies[i];
+                    domain = cookie.domain.charAt(0) === '.' ? cookie.domain.slice(1) : cookie.domain;
+                    if ( quickIndexOf(domains, domain, ' ') < 0 ) {
+                        continue;
+                    }
+                    block = blacklisted('cookie', domain);
+                    rootUrl = (cookie.secure ? 'https://' : 'http://') + domain;
+                    recordFromPageStats(pageStats, 'cookie', rootUrl + '/{cookie:' + cookie.name.toLowerCase() + '}', block);
+                    // TODO: I forgot whether pageStats can be null here...
+                    if ( pageStats ) {
+                        pageStats.requestStats.record('cookie', block);
+                    }
+                    httpsb.requestStats.record('cookie', block);
+                    if ( block ) {
+                        addStateFromPageStats(pageStats, 'cookie', domain);
+                        if ( httpsb.userSettings.deleteCookies ) {
+                            me.remove({
+                                url: rootUrl + cookie.path,
+                                name: cookie.name
+                            });
+                        }
+                    }
+                }
+                delete me.queueRecord[pageUrl];
+                // quickProfiler.stop('cookieHunter.record()');
+            });
+        });
+        if ( (this.processCounter % this.cleanCycle) === 0 ) {
+            this.clean();
+        }
+        var cookie;
+        while ( cookie = this.queueRemove.pop() ) {
+            chrome.cookies.remove({
+                url: cookie.url,
+                name: cookie.name
+                });
+            HTTPSB.cookieRemovedCounter++;
+            // console.debug('HTTP Switchboard > removed cookie "%s" from "%s"', cookie.name, cookie.url);
+        }
+    },
+
+    // Once in a while, we go ahead and clean everything that might have been
+    // left behind.
+    clean: function() {
+        var httpsb = HTTPSB;
+        if ( !httpsb.userSettings.deleteCookies ) {
+            return;
+        }
+        var me = this;
+        chrome.cookies.getAll({}, function(cookies) {
+            // quickProfiler.start();
+            var i = cookies.length;
+            if ( !i ) { return; }
+            var cookie, domain, cookieUrl;
+            while ( i-- ) {
+                cookie = cookies[i];
+                domain = cookie.domain.charAt(0) === '.' ? cookie.domain.slice(1) : cookie.domain;
+                if ( blacklisted('cookie', domain) ) {
+                    cookieUrl = (cookie.secure ? 'https://' : 'http://') + domain + cookie.path;
+                    // be mindful of https://github.com/gorhill/httpswitchboard/issues/19
+                    if ( !httpsb.excludeRegex.test(cookieUrl) ) {
+                        me.remove({ url: cookieUrl, name: cookie.name });
+                    }
+                }
+            }
+            // quickProfiler.stop('cookieHunter.clean()');
         });
     }
 }
 
-setInterval(function(){cookieHunterQueue.process();}, 5000);
-
-/******************************************************************************/
-
-function removeCookiesCallback(details) {
-    if ( !details ) {
-        console.debug('HTTP Switchboard > cookie removal failed because "%s"', chrome.runtime.lastError);
-    } else {
-        // console.debug('HTTP Switchboard > removed cookie "%s" from %s', details.name, getHostnameFromURL(details.url));
-    }
-}
-
-var removeCookiesTimers = {};
-
-function removeCookies(request) {
-    // coalesce multiple same requests
-    var k = '{' + request.domain + '}{' + request.cookieStr + '}';
-    var timer = removeCookiesTimers[k];
-    if ( timer ) {
-        clearTimeout(timer);
-    }
-    removeCookiesTimers[k] = setTimeout(function() {
-        delete removeCookiesTimers[k];
-        var rootUrl = getUrlHrefRoot(request.url);
-        var cookies = parseRawCookies(request.cookieStr);
-        var cookieNames = Object.keys(cookies);
-        var cookieName;
-        while ( cookieNames.length > 0 ) {
-            cookieName = cookieNames.pop();
-            chrome.cookies.remove({ url: rootUrl, name: cookieName }, removeCookiesCallback);
-        }
-    }, 5000);
-}
-
-/******************************************************************************/
-
-function removeAllCookies(url) {
-    chrome.cookies.getAll({ url: url }, function(cookies) {
-        var i = cookies.length;
-        var cookie;
-        var blacklistCookie;
-        while ( i-- ) {
-            cookie = cookies[i];
-            chrome.cookies.remove({ url: url, name: cookie.name });
-            // console.debug('HTTP Switchboard > removed cookie "%s"="%s..." from %s', cookie.name, cookie.value.slice(0,40), url);
-        }
-    });
-}
-
-/******************************************************************************/
-
-function findAndRecordCookies(pageStats) {
-    chrome.cookies.getAll({}, function(cookies) {
-        // quickProfiler.start();
-        var httpsb = HTTPSB;
-        var i = cookies.length;
-        if ( !i ) { return; }
-        var domains = ' ' + Object.keys(pageStats.domains).sort().join(' ') + ' ';
-        var cookie;
-        var domain;
-        var block;
-        var cookieUrl;
-        while ( i-- ) {
-            cookie = cookies[i];
-            domain = cookie.domain.charAt(0) === '.' ? cookie.domain.slice(1) : cookie.domain;
-            if ( quickIndexOf(domains, domain, ' ') < 0 ) {
-                continue;
-            }
-            block = blacklisted('cookie', domain);
-            cookieUrl = cookie.secure ? 'https://' : 'http://';
-            cookieUrl += domain + '/{cookie:' + cookie.name.toLowerCase() + '}';
-            recordFromPageStats(pageStats, 'cookie', cookieUrl, block);
-            // TODO: I forgot whether pageStats can be null here...
-            if ( pageStats ) {
-                pageStats.requestStats.record('cookie', true);
-            }
-            httpsb.requestStats.record('cookie', true);
-            if ( block ) {
-                addStateFromPageStats(pageStats, 'cookie', domain);
-                if ( httpsb.userSettings.deleteCookies ) {
-                    chrome.cookies.remove({ url: cookieUrl, name: cookie.name });
-                    httpsb.cookieRemovedCounter += 1;
-                    // console.debug('HTTP Switchboard > removed cookie "%s"', cookieUrl);
-                }
-            }
-        }
-        // quickProfiler.stop('findAndRecordCookies');
-    });
-}
+setInterval(function(){cookieHunter.process();}, 5000);
 
 /******************************************************************************/
 
@@ -197,7 +194,7 @@ chrome.cookies.onChanged.addListener(function(changeInfo) {
     Object.keys(httpsb.pageStats).forEach(function(pageUrl) {
         domains = ' ' + Object.keys(httpsb.pageStats[pageUrl].domains).sort().join(' ') + ' ';
         if ( quickIndexOf(domains, domain, ' ') >= 0 ) {
-            cookieHunterQueue.add(httpsb.pageStats[pageUrl]);
+            cookieHunter.record(httpsb.pageStats[pageUrl]);
         }
         // console.debug('HTTP Switchboard > chrome.cookies.onChanged: "%s" (cookie=%O)', cookieUrl, cookie);
     });

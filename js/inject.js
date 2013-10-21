@@ -16,6 +16,10 @@
     }
 })();
 
+// Can extension remove localStorage of page (like when cookies for 
+// page are blacklisted)? Need to investigate. (Well at least when
+// scripts are blocked, localStorage wont happen.)
+
 // This must be last, so that result is returned to extension.
 // This is used so that inline script tags are logged in the stats
 !!document.querySelector("script");

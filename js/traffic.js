@@ -88,7 +88,6 @@ function webRequestHandler(details) {
         return;
     }
 
-    var type = details.type;
     var url = normalizeChromiumUrl(details.url);
 
     // Don't block chrome extensions
@@ -107,6 +106,7 @@ function webRequestHandler(details) {
     }
 
     // Ignore stylesheet requests
+    var type = details.type;
     if ( type === 'stylesheet' ) {
         // console.log("HTTPSB > %s @ url=%s", details.type, details.url);
         return;
@@ -163,7 +163,7 @@ function webRequestHandler(details) {
         // cookies. Thus, we go cookie hunting for this page url and record all
         // those we find which hit any domain found on this page.
         // No worry, this is async.
-        cookieHunterQueue.add(pageStats);
+        cookieHunter.record(pageStats);
 
         // Collect stats
         if ( pageStats ) {

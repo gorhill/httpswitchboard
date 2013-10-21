@@ -130,14 +130,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
             startWebRequestHandler(request.from);
             break;
 
-        case 'removeCookies':
-            removeCookies(request);
-            break;
-
-        case 'removeAllCookies':
-            removeAllCookies(request.url);
-            break;
-
         case 'updateBadge':
             updateBadge(request.pageUrl);
             break;
