@@ -198,11 +198,6 @@ function loadRemoteBlacklists() {
             if ( location.search('httpsb') < 0 ) {
                 age = Date.now() - store.remoteBlacklists[location].timeStamp;
                 if ( age < httpsb.remoteBlacklistLocalCopyTTL ) {
-                    // https://github.com/gorhill/httpswitchboard/issues/15
-                    // TODO: Will be to remove this one all lists have been refreshed
-                    // on all user's cache: let's wait two week than we can
-                    // remove it
-                    store.remoteBlacklists[location].raw = store.remoteBlacklists[location].raw.replace(/\s+(\*\/localhost|\*\/127\.0\.0\.1|\*\/::1)\b/g, '');
                     chrome.runtime.sendMessage({
                         what: 'mergeRemoteBlacklist',
                         list: store.remoteBlacklists[location]
@@ -221,7 +216,7 @@ function loadRemoteBlacklists() {
 
 /******************************************************************************/
 
-function normalizeRemoteContent(prefix, s, suffix) {
+function normalizeRemoteContent(s) {
     var normal = [];
     var keys = s.split("\n");
     var i = keys.length;
@@ -234,12 +229,11 @@ function normalizeRemoteContent(prefix, s, suffix) {
         }
         // https://github.com/gorhill/httpswitchboard/issues/15
         // Ensure localhost et al. don't end up on the read-only blacklist.
-        k = k.replace(/\b(127\.0\.0\.1|::1|localhost)\b/g, '');
+        k = k.replace(/127\.0\.0\.1\b|::1\b|localhost\b/g, '');
         k = k.trim();
-        if ( k.length === 0 ) {
-            continue;
+        if ( k.length ) {
+            normal.push(k.toLowerCase());
         }
-        normal.push(prefix + k + suffix);
     }
     return normal.join('\n');
 }
@@ -292,12 +286,18 @@ function queryRemoteBlacklist(location) {
 
 function parseRemoteBlacklist(list) {
     // console.log('HTTP Switchboard > parseRemoteBlacklist > "%s"', list.url);
-    list.raw = normalizeRemoteContent('*/', list.raw, '');
+
+    // rhill 2013-10-21: no need to prefix with '*/', the hostname is just what
+    // we need for preset blacklists. The prefix '*/' is ONLY needed when
+    // used as a filter in temporary blacklist.
+    list.raw = normalizeRemoteContent(list.raw);
+
     // Save locally in order to load efficiently in the future.
     chrome.runtime.sendMessage({
         what: 'localSaveRemoteBlacklist',
         list: list
     });
+
     // Convert and merge content into internal representation.
     chrome.runtime.sendMessage({
         what: 'mergeRemoteBlacklist',
@@ -336,21 +336,19 @@ function mergeRemoteBlacklist(list) {
     // console.log('HTTP Switchboard > mergeRemoteBlacklist from "%s": "%s..."', list.url, list.raw.slice(0, 40));
     var httpsb = HTTPSB;
 
-    populateListFromString(httpsb.blacklist, list.raw);
+    // https://github.com/gorhill/httpswitchboard/issues/15
+    // TODO: Will remove this one when all lists have been refreshed
+    // on all user's cache: let's wait two week than we can
+    // remove it (now it is 2013-10-21)
+    list.raw = list.raw.replace(/\*\/localhost\b|\*\/127\.0\.0\.1\b|\*\/::1\b|\*\//g, '');
+
+    httpsb.blacklistReadonly.addMany(list.raw);
+    httpsb.blacklistReadonly.toFilters(httpsb.blacklist);
 
     // rhill 2013-10-19: https://github.com/gorhill/httpswitchboard/issues/18
     // Ensure that whatever is in the whitelist is not also found in the
     // blacklist.
     restoreTemporaryWhitelist();
-
-    // Make our internal collection of preset blacklist domains compatible with
-    // quickIndexOf().
-    httpsb.blacklistRemote += '\n' + list.raw;
-    httpsb.blacklistRemote = '\n' + httpsb.blacklistRemote
-        .trim()
-        .split(/\s+/)
-        .sort()
-        .join('\n') + '\n';
 }
 
 /******************************************************************************/
@@ -368,8 +366,12 @@ function load() {
 function populateListFromString(des, s) {
     var keys = s.split(/\s+/);
     var i = keys.length;
+    var key;
     while ( i-- ) {
-        des[keys[i]] = true;
+        key = keys[i];
+        if ( key.length ) {
+            des[key.toLowerCase()] = true;
+        }
     }
 }
 

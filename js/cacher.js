@@ -88,7 +88,7 @@ var Cacher = {
                 count += 1;
             }
         }
-        console.debug('HTTP Switchboard > Cacher.purge() deleted %d entries', count);
+        // console.debug('HTTP Switchboard > Cacher.purge() deleted %d entries', count);
     }
 };
 

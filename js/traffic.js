@@ -121,10 +121,10 @@ function webRequestHandler(details) {
     }
 
     // block request?
-    // quickProfiler.start('webRequestHandler / blacklisted');
+    // quickProfiler.start();
     var domain = getHostnameFromURL(url);
     var block = blacklisted(type, domain);
-    // quickProfiler.stop('');
+    // quickProfiler.stop('webRequestHandler / blacklisted');
 
     // Log request
     var pageStats = pageStatsFromTabId(tabId);

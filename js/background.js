@@ -21,6 +21,182 @@
 
 /******************************************************************************/
 
+// unpacked:
+//      map[hostname] = true/false
+// packed
+//      map[tld].[leftover.length] = haystack on which to perform binary search
+//
+// Idea for mapping according to length inspired from reading the section
+// "String-based Binary Search" @ http://ejohn.org/blog/revised-javascript-dictionary-search/
+// Except for the core binary search I reused my own faithful version which has
+// served me well over time.
+//
+// Figuratively speaking, this means when looking up a hostname, aka the needle,
+// the TLD of the hostname tells us on which farm we must go, and the length
+// of the hostname minus TLD tells us which haystack on that farm with must
+// look into.
+//
+// Before, with quickIndexOf(), I was binary-searching one big ass haystack,
+// now, using very easy to compute hostname patterns, I lookup a smaller
+// haystack before binary-searching. But I appreciate especially the reduced
+// memory footprint -- through the removal of all redundant information within
+// a single haystack.
+//
+// Stats:
+// Using Object for farm: sizeof(blacklistReadonly): 1,050,028
+// Using Array for farm: sizeof(blacklistReadonly): 1,050,640
+// So I will stick to using an Array because:
+// http://jsperf.com/performance-of-array-vs-object/49
+
+var blacklistReadonly = {
+    packed: {},
+    unpacked: null,
+
+    unpack: function() {
+        var unpacked = this.unpacked;
+        if ( unpacked ) {
+            return unpacked;
+        }
+        unpacked = {};
+        this._unpack(unpacked, '');
+        this.packed = null;
+        this.unpacked = unpacked;
+        return unpacked;
+    },
+
+    pack: function() {
+        var packed = this.packed;
+        if ( packed ) {
+            return packed;
+        }
+        packed = {};
+        var unpacked = this.unpacked;
+        var hostnames = Object.keys(unpacked);
+        var iHostname = hostnames.length;
+        var hostname, idot, tld, hnPrefix;
+        var len, farm, haystack;
+        while ( iHostname-- ) {
+            hostname = hostnames[iHostname];
+            idot = hostname.lastIndexOf('.');
+            hnPrefix = hostname.slice(0, idot);
+            tld = hostname.slice(idot+1);
+            len = hnPrefix.length;
+            if ( !packed[tld] ) {
+                packed[tld] = [];
+            }
+            farm = packed[tld];
+            if ( !farm[len] ) {
+                farm[len] = {};
+            }
+            haystack = farm[len];
+            haystack[hnPrefix] = true;
+        }
+        var tldKeys = Object.keys(packed);
+        var iTld = tldKeys.length;
+        while ( iTld-- ) {
+            tld = tldKeys[iTld];
+            farm = packed[tld];
+            len = farm.length;
+            while ( len-- ) {
+                if ( farm[len] !== undefined ) {
+                    farm[len] = Object.keys(farm[len]).sort().join('');
+                }
+            }
+        }
+        this.unpacked = null;
+        this.packed = packed;
+        return packed;
+    },
+
+    toFilters: function(des) {
+        var unpacked = this.unpacked;
+        if ( unpacked ) {
+            var hostnames = Object.keys(unpacked);
+            var i = hostnames.length;
+            while ( i-- ) {
+                des['*/' + hostnames[i]] = true;
+            }
+            return;
+        }
+        this._unpack(des, '*/');
+    },
+
+    addOne: function(hostname) {
+        var unpacked = this.unpacked || this.unpack();
+        unpacked[hostname] = true;
+    },
+
+    addMany: function(s) {
+        var unpacked = this.unpacked || this.unpack();
+        var domains = s.split(/\s+/);
+        var i = domains.length;
+        var domain;
+        while ( i-- ) {
+            domain = domains[i];
+            if ( domain.length ) {
+                unpacked[domain.toLowerCase()] = true;
+            }
+        }
+    },
+
+    find: function(hostname) {
+        var packed = this.packed || this.pack();
+        var idot = hostname.lastIndexOf('.');
+        var tld = hostname.slice(idot+1);
+        var farm = packed[tld];
+        if ( !farm ) {
+            return false;
+        }
+        var hnPrefix = hostname.slice(0, idot);
+        var len = hnPrefix.length;
+        var haystack = farm[len];
+        if ( !haystack ) {
+            return false;
+        }
+        var left = 0;
+        var right = Math.round(haystack.length / len);
+        var i, needle;
+        while ( left < right ) {
+            i = left + right >> 1;
+            needle = haystack.substr(i * len, len);
+            if ( hnPrefix < needle ) {
+                right = i;
+            } else if ( hnPrefix > needle ) {
+                left = i + 1;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    },
+
+    // this exists only in order to avoid code duplication
+    _unpack: function(des, prefix) {
+        var packed = this.packed;
+        var tlds = Object.keys(packed);
+        var iTld = tlds.length;
+        var tld, farm, len;
+        var haystack, iStraw;
+        while ( iTld-- ) {
+            tld = tlds[iTld];
+            farm = packed[tld];
+            len = farm.length;
+            while ( len-- ) {
+                haystack = farm[len];
+                if ( haystack ) {
+                    iStraw = haystack.length;
+                    while ( iStraw ) {
+                        iStraw -= len;
+                        des[prefix + haystack.substr(iStraw, len) + '.' + tld] = true;
+                    }
+                }
+            }
+        }
+    }
+};
+
+/******************************************************************************/
+
 var HTTPSB = {
     manifest: chrome.runtime.getManifest(),
 
@@ -62,14 +238,16 @@ var HTTPSB = {
     // effective lists
     whitelist: { },
     blacklist: { '*/*': true },
-    graylist: { },
+    graylist: { },  // this will override preset blacklists
     // user lists
     whitelistUser: {},
     blacklistUser: {},
-    graylistUser: {},
-    // current entries from remote blacklists
-    blacklistRemote: '',
+    graylistUser: {}, // this will override preset blacklists
 
+    // Current entries from remote blacklists
+    blacklistReadonly: blacklistReadonly,
+
+    // https://github.com/gorhill/httpswitchboard/issues/19
     excludeRegex: /^https?:\/\/chrome\.google\.com\/(extensions|webstore)/,
 
     // constants
@@ -107,7 +285,7 @@ function _WebRequestStats() {
 function WebRequestStats() {
     this.allowed = new _WebRequestStats();
     this.blocked = new _WebRequestStats();
-};
+}
 
 WebRequestStats.prototype.record = function(type, blocked) {
     if ( blocked ) {
