@@ -29,7 +29,7 @@ function whitelistTemporarily(type, domain) {
     var unblacklisted = httpsb.blacklist[key];
     if ( whitelisted ) {
         httpsb.whitelist[key] = true;
-        console.log('HTTP Switchboard > temporary whitelisting %s from %s', type, domain);
+        // console.log('HTTP Switchboard > temporary whitelisting %s from %s', type, domain);
     }
     if ( unblacklisted ) {
         delete httpsb.blacklist[key];
@@ -48,7 +48,7 @@ function whitelistPermanently(type, domain) {
         delete httpsb.blacklistUser[key];
     }
     if ( whitelisted || unblacklisted ) {
-        console.log('HTTP Switchboard > permanent whitelisting %s from %s', type, domain);
+        // console.log('HTTP Switchboard > permanent whitelisting %s from %s', type, domain);
         save();
     }
 }
@@ -66,7 +66,7 @@ function blacklistTemporarily(type, domain) {
     }
     if ( blacklisted ) {
         httpsb.blacklist[key] = true;
-        console.log('HTTP Switchboard > temporary blacklisting %s from %s', type, domain);
+        // console.log('HTTP Switchboard > temporary blacklisting %s from %s', type, domain);
     }
 }
 
@@ -82,7 +82,7 @@ function blacklistPermanently(type, domain) {
         httpsb.blacklistUser[key] = true;
     }
     if ( unwhitelisted || blacklisted ) {
-        console.log('HTTP Switchboard > permanent blacklisting %s from %s', type, domain);
+        // console.log('HTTP Switchboard > permanent blacklisting %s from %s', type, domain);
         save();
     }
 }
@@ -109,7 +109,7 @@ function graylist(type, domain) {
     if ( unblacklisted ) {
         delete httpsb.blacklist[key];
     }
-    console.log('HTTP Switchboard > temporary graylisting %s from %s', type, domain);
+    // console.log('HTTP Switchboard > temporary graylisting %s from %s', type, domain);
 }
 
 function graylistPermanently(type, domain) {
@@ -124,7 +124,7 @@ function graylistPermanently(type, domain) {
         delete httpsb.blacklistUser[key];
     }
     if ( unwhitelisted || unblacklisted ) {
-        console.log('HTTP Switchboard > permanent graylisting %s from %s', type, domain);
+        // console.log('HTTP Switchboard > permanent graylisting %s from %s', type, domain);
         save();
     }
 }
@@ -164,22 +164,24 @@ function restoreTemporaryWhitelist() {
 // check whether something is white or black listed, direct or indirectly
 function evaluate(type, domain) {
     var httpsb = HTTPSB;
+    var blacklist = httpsb.blacklist;
+    var whitelist = httpsb.whitelist;
     var key, ancestor;
     if ( type !== '*' && domain !== '*' ) {
         // direct: specific type, specific domain
         key = type + '/' + domain;
-        if ( httpsb.blacklist[key] ) {
+        if ( blacklist[key] ) {
             return httpsb.DISALLOWED_DIRECT;
         }
-        if ( httpsb.whitelist[key] ) {
+        if ( whitelist[key] ) {
             return httpsb.ALLOWED_DIRECT;
         }
         // indirect: any type, specific domain
         key = '*/' + domain;
-        if ( httpsb.blacklist[key] ) {
+        if ( blacklist[key] ) {
             return httpsb.DISALLOWED_INDIRECT;
         }
-        if ( httpsb.whitelist[key] ) {
+        if ( whitelist[key] ) {
             return httpsb.ALLOWED_INDIRECT;
         }
         // indirect: ancestor domain nodes
@@ -187,42 +189,42 @@ function evaluate(type, domain) {
         while ( ancestor ) {
             key = type + '/' + ancestor;
             // specific type, specific ancestor
-            if ( httpsb.blacklist[key] ) {
+            if ( blacklist[key] ) {
                 return httpsb.DISALLOWED_INDIRECT;
             }
-            if ( httpsb.whitelist[key] ) {
+            if ( whitelist[key] ) {
                 return httpsb.ALLOWED_INDIRECT;
             }
             // any type, specific ancestor
             key = '*/' + ancestor;
-            if ( httpsb.blacklist[key] ) {
+            if ( blacklist[key] ) {
                 return httpsb.DISALLOWED_INDIRECT;
             }
-            if ( httpsb.whitelist[key] ) {
+            if ( whitelist[key] ) {
                 return httpsb.ALLOWED_INDIRECT;
             }
             ancestor = getParentHostnameFromHostname(ancestor);
         }
         // indirect: specific type, any domain
         key = type + '/*';
-        if ( httpsb.blacklist[key] ) {
+        if ( blacklist[key] ) {
             return httpsb.DISALLOWED_INDIRECT;
         }
-        if ( httpsb.whitelist[key] ) {
+        if ( whitelist[key] ) {
             return httpsb.ALLOWED_INDIRECT;
         }
         // indirect: any type, any domain
-        if ( httpsb.whitelist['*/*'] ) {
+        if ( whitelist['*/*'] ) {
             return httpsb.ALLOWED_INDIRECT;
         }
         return httpsb.DISALLOWED_INDIRECT;
     } else if ( type === '*' && domain !== '*' ) {
         // direct: any type, specific domain
         key = '*/' + domain;
-        if ( httpsb.blacklist[key] ) {
+        if ( blacklist[key] ) {
             return httpsb.DISALLOWED_DIRECT;
         }
-        if ( httpsb.whitelist[key] ) {
+        if ( whitelist[key] ) {
             return httpsb.ALLOWED_DIRECT;
         }
         // indirect: ancestor domain nodes
@@ -230,36 +232,36 @@ function evaluate(type, domain) {
         while ( ancestor ) {
             // any type, specific domain
             key = '*/' + ancestor;
-            if ( httpsb.blacklist[key] ) {
+            if ( blacklist[key] ) {
                 return httpsb.DISALLOWED_INDIRECT;
             }
-            if ( httpsb.whitelist[key] ) {
+            if ( whitelist[key] ) {
                 return httpsb.ALLOWED_INDIRECT;
             }
             ancestor = getParentHostnameFromHostname(ancestor);
         }
         // indirect: any type, any domain
-        if ( httpsb.whitelist['*/*'] ) {
+        if ( whitelist['*/*'] ) {
             return httpsb.ALLOWED_INDIRECT;
         }
         return httpsb.DISALLOWED_INDIRECT;
     } else if ( type !== '*' && domain === '*' ) {
         // indirect: specific type, any domain
         key = type + '/*';
-        if ( httpsb.blacklist[key] ) {
+        if ( blacklist[key] ) {
             return httpsb.DISALLOWED_DIRECT;
         }
-        if ( httpsb.whitelist[key] ) {
+        if ( whitelist[key] ) {
             return httpsb.ALLOWED_DIRECT;
         }
         // indirect: any type, any domain
-        if ( httpsb.whitelist['*/*'] ) {
+        if ( whitelist['*/*'] ) {
             return httpsb.ALLOWED_INDIRECT;
         }
         return httpsb.DISALLOWED_INDIRECT;
     }
     // global default decide
-    if ( httpsb.whitelist['*/*'] ) {
+    if ( whitelist['*/*'] ) {
         return httpsb.ALLOWED_DIRECT;
     }
     return httpsb.DISALLOWED_DIRECT;
