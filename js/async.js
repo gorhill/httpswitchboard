@@ -32,10 +32,10 @@ function updateBadge(pageUrl) {
     }
     updateBadgeTimers[pageUrl] = setTimeout(function() {
         delete updateBadgeTimers[pageUrl];
-        // Chromium tab may not exist, like when prerendering a web page for
-        // example.
         var tabId = tabIdFromPageUrl(pageUrl);
-        if ( !tabId ) { return; }
+        if ( !tabId || tabId === HTTPSB.behindTheSceneTabId ) {
+            return;
+        }
         chrome.tabs.get(tabId, function(tab) {
             if ( tab ) {
                 var pageStats = pageStatsFromTabId(tab.id);

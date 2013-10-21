@@ -164,12 +164,12 @@ function smartReloadTab(tabId) {
     var newState = computeTabState(tabId);
     var pageUrl = pageUrlFromTabId(tabId);
     if ( !pageUrl ) {
-        console.error('HTTP Switchboard > smartReloadTab > page url for tab id %d not found', tabId);
+        //console.error('HTTP Switchboard > smartReloadTab > page url for tab id %d not found', tabId);
         return;
     }
     var pageStats = pageStatsFromTabId(tabId);
     if ( !pageStats ) {
-        console.error('HTTP Switchboard > smartReloadTab > page stats for tab id %d not found', tabId);
+        //console.error('HTTP Switchboard > smartReloadTab > page stats for tab id %d not found', tabId);
         return;
     }
 
@@ -248,7 +248,7 @@ function getStateHash(state) {
 function computeTabState(tabId) {
     var pageStats = pageStatsFromTabId(tabId);
     if ( !pageStats ) {
-        console.error('HTTP Switchboard > computeTabState > page stats for tab id %d not found', tabId);
+        //console.error('HTTP Switchboard > computeTabState > page stats for tab id %d not found', tabId);
         return {};
     }
     // Go through all recorded requests, apply filters to create state

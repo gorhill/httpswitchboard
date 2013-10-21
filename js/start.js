@@ -95,6 +95,13 @@ load();
 
 /******************************************************************************/
 
+// Virtual tab to collect behind the scene traffic: we want to know what is
+// going on in there.
+
+bindTabToPageStats(HTTPSB.behindTheSceneTabId, HTTPSB.behindTheSceneURL);
+
+/******************************************************************************/
+
 // Initialize internal state with maybe already existing tabs
 
 (function(){
@@ -132,18 +139,26 @@ chrome.extension.onConnect.addListener(function(port) {
 (function(){
     var httpsb = HTTPSB;
     var gcFunc = function() {
+        // Get rid of stale pageStats, those not bound to a tab for more than
+        // {duration placeholder}.
         chrome.tabs.query({ 'url': '<all_urls>' }, function(tabs){
             var visibleTabs = {};
             tabs.map(function(tab) {
                 visibleTabs[tab.id] = true;
             });
-            Object.keys(httpsb.pageStats).forEach(function(pageUrl) {
-                var tabId = tabIdFromPageUrl(pageUrl);
-                var pageStats = httpsb.pageStats[pageUrl];
+            var pageUrls = Object.keys(httpsb.pageStats);
+            var i = pageUrls.length;
+            var pageUrl, tabId, pageStats;
+            while ( i-- ) {
+                pageUrl = pageUrls[i];
+                tabId = tabIdFromPageUrl(pageUrl);
+                // Do not dispose of chromium-behind-the-scene virtual tab,
+                // GC is done differently on this one (i.e. just pruning).
+                if ( tabId === httpsb.chromiumBehindTheSceneTabId ) {
+                    continue;
+                }
+                pageStats = httpsb.pageStats[pageUrl];
                 if ( !visibleTabs[tabId] && !pageStats.visible ) {
-                    // TODO: separate 'record' and 'remove' duties
-                    // 'record' should be done on demand
-                    // 'remove' should be done at regular interval
                     cookieHunter.erase(pageStats);
                     delete httpsb.pageStats[pageUrl];
                     // console.debug('HTTP Switchboard > GC: disposed of "%s"', pageUrl);
@@ -152,8 +167,27 @@ chrome.extension.onConnect.addListener(function(port) {
                 if ( !pageStats.visible ) {
                     unbindTabFromPageStats(tabId);
                 }
-            });
+            };
         });
+
+        // Prune content of chromium-behind-the-scene virtual tab
+        var pageStats = httpsb.pageStats[httpsb.behindTheSceneURL];
+        if ( pageStats ) {
+            var reqKeys = Object.keys(pageStats.requests)
+            if ( reqKeys > httpsb.behindTheSceneMaxReq ) {
+                reqKeys = reqKeys.sort(function(a,b){
+                    var ra = pageStats.requests[a];
+                    var rb = pageStats.requests[b];
+                    if ( rb < ra ) { return -1; }
+                    if ( ra < rb ) { return 1; }
+                    return 0;
+                }).slice(httpsb.behindTheSceneMaxReq);
+                var iReqKey = reqKeys.length;
+                while ( iReqKey-- ) {
+                    delete pageStats.requests[reqKeys[iReqKey]];
+                }
+            }
+        }
     };
 
     setInterval(gcFunc, httpsb.gcPeriod / 2);

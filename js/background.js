@@ -264,6 +264,11 @@ var HTTPSB = {
     // internal state
     webRequestHandler: false,
 
+    // record what chromium is soing behind the scene
+    behindTheSceneURL: 'http://chromium.behind.the.scene',
+    behindTheSceneTabId: 0x7FFFFFFFFFFFFFFF,
+    behindTheSceneMaxReq: 250,
+
     // so that I don't have to care for last comma
     dummy: 0
 };

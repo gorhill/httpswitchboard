@@ -51,11 +51,11 @@ color: white; \
 background: #c00; \
 } \
 </style> \
-<link href='{{cssURL}}?domain={{domain}}&t={{now}}' rel='stylesheet' type='text/css'> \
+<link href='{{cssURL}}?hostname={{hostname}}&t={{now}}' rel='stylesheet' type='text/css'> \
 <title>Blocked by HTTPSB</title> \
 </head> \
-<body title='&ldquo;{{domain}}&rdquo; blocked by HTTP Switchboard'> \
-<div>{{domain}}</div> \
+<body title='&ldquo;{{hostname}}&rdquo; blocked by HTTP Switchboard'> \
+<div>{{hostname}}</div> \
 <script> \
 window.onload = function() { \
  if ( window.getComputedStyle(document.body).visibility === 'hidden' ) { \
@@ -83,9 +83,9 @@ function webRequestHandler(details) {
 
     var tabId = details.tabId;
 
-    // Ignore traffic outside tabs
+    // Do not ignore traffic outside tabs
     if ( tabId < 0 ) {
-        return;
+        tabId = HTTPSB.behindTheSceneTabId;
     }
 
     var url = normalizeChromiumUrl(details.url);
@@ -97,7 +97,7 @@ function webRequestHandler(details) {
         // the page that was blacklisted is still blacklisted, and if not,
         // redirect to the previously blacklisted page.
         if ( details.parentFrameId < 0 && matches[1] === chrome.runtime.id ) {
-             matches = matches[2].match(/^css\/noop\.css\?domain=([^&]+).*$/);
+             matches = matches[2].match(/^css\/noop\.css\?hostname=([^&]+).*$/);
              if ( matches && whitelisted('main_frame', decodeURIComponent(matches[1])) ) {
                 return { "redirectUrl": 'data:text/css;base64,' + btoa('body {visibility:hidden;}') };
             }
@@ -122,8 +122,8 @@ function webRequestHandler(details) {
 
     // block request?
     // quickProfiler.start();
-    var domain = getHostnameFromURL(url);
-    var block = blacklisted(type, domain);
+    var hostname = getHostnameFromURL(url);
+    var block = blacklisted(type, hostname);
     // quickProfiler.stop('webRequestHandler / blacklisted');
 
     // Log request
@@ -134,24 +134,24 @@ function webRequestHandler(details) {
 
     // rhill 2013-10-20:
     // https://github.com/gorhill/httpswitchboard/issues/19
-    if ( pageStats.ignore ) {
+    if ( pageStats && pageStats.ignore ) {
         return;
     }
 
     // whitelisted?
     if ( !block ) {
-        // console.debug('webRequestHandler > allowing %s from %s', type, domain);
+        // console.debug('webRequestHandler > allowing %s from %s', type, hostname);
         // if it is a root frame and scripts are blacklisted for the
-        // domain, disable scripts for this domain, necessary since inline
+        // hostname, disable scripts for this hostname, necessary since inline
         // script tags are not passed through web request handler.
         if ( isMainFrame ) {
             chrome.contentSettings.javascript.set({
-                primaryPattern: '*://' + domain + '/*',
-                setting: blacklisted('script', domain) ? 'block' : 'allow'
+                primaryPattern: '*://' + hostname + '/*',
+                setting: blacklisted('script', hostname) ? 'block' : 'allow'
             });
             chrome.contentSettings.plugins.set({
-                primaryPattern: '*://' + domain + '/*',
-                setting: blacklisted('object', domain) ? 'block' : 'allow'
+                primaryPattern: '*://' + hostname + '/*',
+                setting: blacklisted('object', hostname) ? 'block' : 'allow'
             });
 
             // when the tab is updated, we will check if page has at least one
@@ -161,7 +161,7 @@ function webRequestHandler(details) {
 
         // If the request is not blocked, this means the response could contain
         // cookies. Thus, we go cookie hunting for this page url and record all
-        // those we find which hit any domain found on this page.
+        // those we find which hit any hostname found on this page.
         // No worry, this is async.
         cookieHunter.record(pageStats);
 
@@ -176,7 +176,7 @@ function webRequestHandler(details) {
     }
 
     // blacklisted
-    // console.debug('webRequestHandler > blocking %s from %s', type, domain);
+    // console.debug('webRequestHandler > blocking %s from %s', type, hostname);
 
     // Collect stats
     if ( pageStats ) {
@@ -187,14 +187,14 @@ function webRequestHandler(details) {
     // remember this blacklisting, used to create a snapshot of the state
     // of the tab, which is useful for smart reload of the page (reload the
     // page only when state effectively change)
-    addStateFromTabId(tabId, type, domain);
+    addStateFromTabId(tabId, type, hostname);
 
     // if it's a blacklisted frame, redirect to frame.html
     if ( isMainFrame || type === 'sub_frame' ) {
         var html = frameReplacement;
         html = html.replace(/{{fontUrl}}/g, chrome.runtime.getURL('css/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf'));
         html = html.replace(/{{cssURL}}/g, chrome.runtime.getURL('css/noop.css'));
-        html = html.replace(/{{domain}}/g, domain);
+        html = html.replace(/{{hostname}}/g, hostname);
         html = html.replace(/{{originalURL}}/g, url);
         html = html.replace(/{{now}}/g, String(Date.now()));
         var dataUrl = 'data:text/html;base64,' + btoa(html);
@@ -217,8 +217,8 @@ function webHeaderRequestHandler(details) {
     }
 
     // Any cookie in there?
-    var domain = getHostnameFromURL(details.url);
-    var blacklistCookie = blacklisted('cookie', domain);
+    var hostname = getHostnameFromURL(details.url);
+    var blacklistCookie = blacklisted('cookie', hostname);
     var headers = details.requestHeaders;
     var i = details.requestHeaders.length;
     while ( i-- ) {
