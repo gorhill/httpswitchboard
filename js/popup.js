@@ -19,8 +19,6 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
-(function(){
-
 /******************************************************************************/
 
 var tabId; // these will be set later
@@ -484,21 +482,6 @@ var handleFilterMessage = function(button) {
     prompt = prompt.replace('{{what}}', matrixHeaderPrettyNames[type]);
     prompt = prompt.replace('{{where}}', domain);
     $('#message').html(prompt);
-/*
-    var pageStats = background.pageStatsFromTabId(tabId);
-    var regex = new RegExp('^(.+\\/\\/' + domain + '\\/.*)#' + type + '$');
-    var matches;
-    var html = [];
-    for ( var reqKey in pageStats.requests ) {
-        matches = reqKey.match(regex);
-        if ( matches ) {
-            html.push('<p>);
-            html.push(matches[1]);
-            html.push('</p>);
-        }
-    }
-    $('.pane-status').html(requests.join(''));
-*/
 };
 
 /******************************************************************************/
@@ -523,7 +506,7 @@ function handleUnpersistMessage(button) {
 
 // make menu only when popup html is fully loaded
 
-document.addEventListener('DOMContentLoaded', function () {
+$(function(){
     chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
         // TODO: can tabs be empty?
         tabId = tabs[0].id; // Important!
@@ -604,7 +587,3 @@ document.addEventListener('DOMContentLoaded', function () {
 
     matrixCellMenu = $('#cellMenu').detach();
 });
-
-/******************************************************************************/
-
-})();
