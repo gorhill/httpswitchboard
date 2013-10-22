@@ -151,12 +151,12 @@ chrome.extension.onConnect.addListener(function(port) {
             var pageUrl, tabId, pageStats;
             while ( i-- ) {
                 pageUrl = pageUrls[i];
-                tabId = tabIdFromPageUrl(pageUrl);
                 // Do not dispose of chromium-behind-the-scene virtual tab,
                 // GC is done differently on this one (i.e. just pruning).
-                if ( tabId === httpsb.chromiumBehindTheSceneTabId ) {
+                if ( pageUrl === httpsb.behindTheSceneURL ) {
                     continue;
                 }
+                tabId = tabIdFromPageUrl(pageUrl);
                 pageStats = httpsb.pageStats[pageUrl];
                 if ( !visibleTabs[tabId] && !pageStats.visible ) {
                     cookieHunter.erase(pageStats);
