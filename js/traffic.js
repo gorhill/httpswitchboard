@@ -124,7 +124,7 @@ function webRequestHandler(details) {
     // quickProfiler.start();
     var hostname = getHostnameFromURL(url);
     var block = blacklisted(type, hostname);
-    // quickProfiler.stop('webRequestHandler / blacklisted');
+    // quickProfiler.stop('webRequestHandler | blacklisted()');
 
     // Log request
     var pageStats = pageStatsFromTabId(tabId);

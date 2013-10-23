@@ -55,6 +55,7 @@ var cookieHunter = {
     process: function() {
         var me = this;
         // record cookies from a specific page
+        // TODO: use internal counter and avoid closures
         Object.keys(this.queueRecord).forEach(function(pageUrl) {
             chrome.cookies.getAll({}, function(cookies) {
                 me._record(pageUrl, cookies);
@@ -62,6 +63,7 @@ var cookieHunter = {
             });
         });
         // erase cookies from a specific page
+        // TODO: use internal counter and avoid closures
         Object.keys(this.queueErase).forEach(function(pageUrl) {
             chrome.cookies.getAll({}, function(cookies) {
                 me._erase(pageUrl, cookies);
@@ -180,7 +182,11 @@ var cookieHunter = {
 
 // Every five seconds, so that cookies are reported soon enough after a
 // web page loads.
-setInterval(function(){cookieHunter.process();}, 5000);
+function cookieHunterCallback() {
+    cookieHunter.process();
+}
+
+asyncJobQueue.add('cookieHunter', null, cookieHunterCallback, 5000, true);
 
 /******************************************************************************/
 

@@ -21,5 +21,46 @@
 // scripts are blocked, localStorage wont happen.)
 
 // This must be last, so that result is returned to extension.
-// This is used so that inline script tags are logged in the stats
-!!document.querySelector("script");
+// This is used so that inline script tags and preemptively blocked scripts
+// (which won't generate web requests) are logged in the stats.
+// TODO: Do same with <object>, <embed>, they are currently underreported
+// when preemptively blocked.
+(function() {
+    var r = {
+        pageUrl: window.location.href,
+        scriptSources: {}, // to avoid duplicates
+        pluginSources: {} // to avoid duplicates
+    };
+    var i, elem, elems;
+    // https://github.com/gorhill/httpswitchboard/issues/25
+    elems = document.scripts;
+    i = elems.length;
+    while ( i-- ) {
+        elem = elems[i];
+        if ( elem.innerText.trim() !== '' ) {
+            r.scriptSources['{inline_script}'] = true;
+        }
+        if ( elem.src && elem.src.trim() !== '' ) {
+            r.scriptSources[elem.src.trim()] = true;
+        }
+    }
+    // https://github.com/gorhill/httpswitchboard/issues/25
+    elems = document.querySelectorAll('object');
+    i = elems.length;
+    while ( i-- ) {
+        elem = elems[i];
+        if ( elem.data && elem.data.trim() !== '' ) {
+            r.pluginSources[elem.data.trim()] = true;
+        }
+    }
+    // https://github.com/gorhill/httpswitchboard/issues/25
+    elems = document.querySelectorAll('embed');
+    i = elems.length;
+    while ( i-- ) {
+        elem = elems[i];
+        if ( elem.src && elem.src.trim() !== '' ) {
+            r.pluginSources[elem.src.trim()] = true;
+        }
+    }
+    return r;
+})();

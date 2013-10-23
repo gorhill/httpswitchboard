@@ -134,26 +134,26 @@ function recordFromPageStats(pageStats, type, url, blocked) {
 
 /******************************************************************************/
 
-// reload content of a tabs
+// Reload content of a tabs.
+// rhill 2013-10-23: revised to avoid closures.
 
-var smartReloadTabsTimer = null;
+function smartReloadExistingTabsCallback(chromeTabs) {
+    var tabId;
+    var i = chromeTabs.length;
+    while ( i-- ) {
+        tabId = chromeTabs[i].id;
+        if ( tabExists(tabId) ) {
+            smartReloadTab(tabId);
+        }
+    }
+}
+
+function smartReloadTabsCallback() {
+    chrome.tabs.query({ status: 'complete' }, smartReloadExistingTabsCallback);
+}
 
 function smartReloadTabs() {
-    if ( smartReloadTabsTimer ) {
-        clearTimeout(smartReloadTabsTimer);
-    }
-    smartReloadTabsTimer = setTimeout(function() {
-        smartReloadTabsTimer = null;
-        chrome.tabs.query({ status: 'complete' }, function(chromeTabs){
-            var tabId;
-            for ( var i = 0; i < chromeTabs.length; i++ ) {
-                tabId = chromeTabs[i].id;
-                if ( tabExists(tabId) ) {
-                    smartReloadTab(tabId);
-                }
-            }
-        });
-    }, 250);
+    asyncJobQueue.add('smartReloadTabs', null, smartReloadTabsCallback, 250);
 }
 
 /******************************************************************************/

@@ -21,6 +21,11 @@
 
 /******************************************************************************/
 
+// rhill 2013-10-23: Commented out since latest fixes
+// to URI.js SecondLevelDomains. Not as fast as with the Cacher,
+// but now in the upper 0.20 ms on my old crusty laptop, sounds acceptable,
+// given the saving in memory footprint.
+
 // This is the solution to avoid calling code which has shown to eat
 // too many CPU cycles (profiling showed that URI.js/SLD.has and SLD.is
 // are somewhat expensive calls in th context of analyzing net traffic).
@@ -36,7 +41,7 @@
 //               : 0.38 ms
 //    With Cacher: 0.11 ms
 // This on an 8 year old Inspiron 6000 running Linux Mint 15 and Chromium 28.
-
+/*
 var Cacher = {
     questions: {},
     ttl: 15 * 60 * 1000,
@@ -57,6 +62,7 @@ var Cacher = {
     },
 
     remember: function(question, response) {
+        return response;
         var entry = this.questions[question];
         if ( entry === undefined ) {
             this.questions[question] = entry = new this.entry();
@@ -73,6 +79,7 @@ var Cacher = {
     },
 
     exists: function(question) {
+        return false;
         return this.questions[question] !== undefined;
     },
 
@@ -95,6 +102,10 @@ var Cacher = {
     }
 };
 
-// purge obsolete questions, those not asked in the last, say, 15 minutes?
-setInterval(function(){Cacher.purge();}, Cacher.ttl + 5 * 60 * 1000);
+function cacherPurgeCallback() {
+    Cacher.purge();
+}
 
+// purge obsolete questions, those not asked in the last, say, 15 minutes?
+asyncJobQueue.add('Cacher.purge()', null, cacherPurgeCallback, Cacher.ttl + 5 * 60 * 1000, true);
+*/

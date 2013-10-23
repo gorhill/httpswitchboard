@@ -21,42 +21,107 @@
 
 /******************************************************************************/
 
+function asyncJobEntry(name) {
+    this.name = name;
+    this.data = null;
+    this.callback = null;
+    this.when = 0;
+    this.period = 0;
+}
+
+asyncJobEntry.prototype._nullify = function() {
+    this.data = null;
+    this.callback = null;
+}
+
+var asyncJobQueue = {
+    jobs: {},
+    jobCount: 0,
+    junkyard: [],
+    resolution: 200,
+
+    add: function(name, data, callback, delay, recurrent) {
+        var job = this.jobs[name];
+        if ( !job ) {
+            job = this.junkyard.pop();
+            if ( !job ) {
+                job = new asyncJobEntry(name);
+            } else {
+                job.name = name;
+            }
+            this.jobs[name] = job;
+            this.jobCount++;
+        }
+        job.data = data;
+        job.callback = callback;
+        job.when = Date.now() + delay;
+        job.period = recurrent ? delay : 0;
+    },
+
+    _process: function() {
+        var now = Date.now();
+        var keys = Object.keys(this.jobs);
+        var i = keys.length;
+        var job;
+        while ( i-- ) {
+            job = this.jobs[keys[i]];
+            if ( job.when > now ) {
+                continue;
+            }
+            job.callback(job.data);
+            if ( job.period ) {
+                job.when = now + job.period;
+            } else {
+                job._nullify();
+                delete this.jobs[job.name];
+                this.jobCount--;
+                this.junkyard.push(job);
+            }
+        }
+    }
+};
+
+function asyncJobQueueHandler() {
+    if ( asyncJobQueue.jobCount ) {
+        asyncJobQueue._process();
+    }
+}
+
+setInterval(asyncJobQueueHandler, 100);
+
+/******************************************************************************/
+
 // Update visual of extension icon.
 // A time out is used to coalesce adjacents requests to update badge.
 
-var updateBadgeTimers = {};
-
 function updateBadge(pageUrl) {
-    if ( updateBadgeTimers[pageUrl] ) {
-        clearTimeout(updateBadgeTimers[pageUrl]);
+    asyncJobQueue.add('updateBadge ' + pageUrl, pageUrl, updateBadgeCallback, 250);
+}
+
+function updateBadgeCallback(pageUrl) {
+    if ( pageUrl === HTTPSB.behindTheSceneURL ) {
+        return;
     }
-    updateBadgeTimers[pageUrl] = setTimeout(function() {
-        delete updateBadgeTimers[pageUrl];
-        var tabId = tabIdFromPageUrl(pageUrl);
-        if ( !tabId || tabId === HTTPSB.behindTheSceneTabId ) {
-            return;
+    var tabId = tabIdFromPageUrl(pageUrl);
+    if ( !tabId ) {
+        return;
+    }
+    var pageStats = pageStatsFromTabId(tabId);
+    var count = pageStats ? Object.keys(pageStats.requests).length : 0;
+    var countStr = count.toString();
+    if ( count >= 1000 ) {
+        if ( count < 10000 ) {
+            countStr = countStr.slice(0,1) + '.' + countStr.slice(1,-2) + 'K';
+        } else if ( count < 1000000 ) {
+            countStr = countStr.slice(0,-3) + 'K';
+        } else if ( count < 10000000 ) {
+            countStr = countStr.slice(0,1) + '.' + countStr.slice(1,-5) + 'M';
+        } else {
+            countStr = countStr.slice(0,-6) + 'M';
         }
-        chrome.tabs.get(tabId, function(tab) {
-            if ( tab ) {
-                var pageStats = pageStatsFromTabId(tab.id);
-                var count = pageStats ? Object.keys(pageStats.requests).length : 0;
-                var countStr = String(count);
-                if ( count >= 1000 ) {
-                    if ( count < 10000 ) {
-                        countStr = countStr.slice(0,1) + '.' + countStr.slice(1,-2) + 'K';
-                    } else if ( count < 1000000 ) {
-                        countStr = countStr.slice(0,-3) + 'K';
-                    } else if ( count < 10000000 ) {
-                        countStr = countStr.slice(0,1) + '.' + countStr.slice(1,-5) + 'M';
-                    } else {
-                        countStr = countStr.slice(0,-6) + 'M';
-                    }
-                }
-                chrome.browserAction.setBadgeText({ tabId: tab.id, text: countStr });
-                chrome.browserAction.setBadgeBackgroundColor({ tabId: tab.id, color: '#000' });
-            }
-        });
-    }, 200);
+    }
+    chrome.browserAction.setBadgeText({ tabId: tabId, text: countStr });
+    chrome.browserAction.setBadgeBackgroundColor({ tabId: tabId, color: '#000' });
 }
 
 /******************************************************************************/
@@ -64,16 +129,14 @@ function updateBadge(pageUrl) {
 // Notify whoever care that whitelist/blacklist have changed (they need to
 // refresh their matrix).
 
-var permissionsChangedTimer = null;
+function permissionChangedCallback() {
+    chrome.runtime.sendMessage({
+        'what': 'permissionsChanged'
+    });
+}
 
 function permissionsChanged() {
-    if ( permissionsChangedTimer ) {
-        clearTimeout(permissionsChangedTimer);
-    }
-    permissionsChangedTimer = setTimeout(function() {
-        permissionsChangedTimer = null;
-        chrome.runtime.sendMessage({ 'what': 'permissionsChanged' });
-    }, 200);
+    asyncJobQueue.add('permissionsChanged', null, permissionChangedCallback, 250);
 }
 
 /******************************************************************************/
@@ -81,26 +144,22 @@ function permissionsChanged() {
 // Notify whoever care that url stats have changed (they need to
 // rebuild their matrix).
 
-var urlStatsChangedTimers = {};
+function urlStatsChangedCallback(pageUrl) {
+    chrome.runtime.sendMessage({
+        what: 'urlStatsChanged',
+        pageUrl: pageUrl
+    });
+}
 
 function urlStatsChanged(pageUrl) {
-    if ( urlStatsChangedTimers[pageUrl] ) {
-        clearTimeout(urlStatsChangedTimers[pageUrl]);
-    }
-    urlStatsChangedTimers[pageUrl] = setTimeout(function() {
-        delete urlStatsChangedTimers[pageUrl];
-        chrome.runtime.sendMessage({
-            what: 'urlStatsChanged',
-            pageUrl: pageUrl
-        });
-    }, 200);
+    asyncJobQueue.add('urlStatsChanged ' + pageUrl, pageUrl, urlStatsChangedCallback, 250);
 }
 
 /******************************************************************************/
 
 // Handling stuff asynchronously simplifies code
 
-chrome.runtime.onMessage.addListener(function(request, sender, callback) {
+function onMessageHandler(request, sender, callback) {
     var response;
 
     if ( request && request.what ) {
@@ -120,17 +179,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
 
         case 'startWebRequestHandler':
             startWebRequestHandler(request.from);
-            break;
-
-        case 'updateBadge':
-            updateBadge(request.pageUrl);
-            break;
-
-        case 'urlStatsChanged':
-            break;
-
-        case 'reloadTabs':
-            smartReloadTabs();
             break;
 
         case 'gotoExtensionUrl':
@@ -156,5 +204,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
     if ( callback ) {
         callback(response);
     }
-});
+}
 
+chrome.runtime.onMessage.addListener(onMessageHandler);

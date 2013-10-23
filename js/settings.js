@@ -19,14 +19,15 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
-$(function(){
+function httpsb() {
+    return chrome.extension.getBackgroundPage().HTTPSB;
+}
+
+$(function() {
 
 /******************************************************************************/
 
-var background = chrome.extension.getBackgroundPage();
-var httpsb = background.HTTPSB;
-
-/******************************************************************************/
+var httpsb = httpsb();
 
 $('#delete-blacklisted-cookies').attr('checked', httpsb.userSettings.deleteCookies);
 $('#delete-blacklisted-localstorages').attr('checked', httpsb.userSettings.deleteLocalStorages);

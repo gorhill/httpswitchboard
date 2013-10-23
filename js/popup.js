@@ -24,13 +24,23 @@
 var tabId; // these will be set later
 var pageUrl = '';
 
+// Just so the background page will be notified when popup menu is closed
 var port = chrome.extension.connect();
-var background = chrome.extension.getBackgroundPage();
+
 var matrixStats = {};
 var matrixHeaderTypes = ['*'];
 var matrixHeaderPrettyNames = { };
 var matrixCellMenu = null;
 var matrixHasRows = false; // useful to know for various housekeeping task
+
+/******************************************************************************/
+
+// Don't hold permanently onto background page. I don't know if this help,
+// but I am trying to keep memory footprint as low as possible.
+
+function backgroundPage() {
+    return chrome.extension.getBackgroundPage();
+}
 
 /******************************************************************************/
 
@@ -61,7 +71,7 @@ function EntryStats() {
 
 /******************************************************************************/
 
-var initMatrixStats = function(pageStats) {
+function initMatrixStats(pageStats) {
     if ( !pageStats ) {
         return;
     }
@@ -70,6 +80,7 @@ var initMatrixStats = function(pageStats) {
     matrixStats['*'] = new DomainStats();
 
     // collect all domains and ancestors from net traffic
+    var background = backgroundPage();
     var url, domain, type, parent, reqKey;
     var reqKeys = Object.keys(pageStats.requests);
     var iReqKeys = reqKeys.length;
@@ -97,12 +108,13 @@ var initMatrixStats = function(pageStats) {
     updateMatrixStats(matrixStats);
 
     return matrixStats;
-};
+}
 
 /******************************************************************************/
 
-var updateMatrixStats = function(matrixStats) {
+function updateMatrixStats(matrixStats) {
     // for each domain/type occurrence, evaluate various stats
+    var background = backgroundPage();
     var domains = Object.keys(matrixStats);
     var iDomain = domains.length;
     var domain;
@@ -119,7 +131,7 @@ var updateMatrixStats = function(matrixStats) {
             entry.permanentColor = background.getPermanentColor(type, domain);
         }
     }
-};
+}
 
 /******************************************************************************/
 
@@ -132,7 +144,7 @@ var updateMatrixStats = function(matrixStats) {
 var domainGroupsSnapshot = [];
 var domainListSnapshot = 'dont leave this initial string empty';
 
-var getGroupStats = function() {
+function getGroupStats() {
 
     // Try to not reshuffle groups around while popup is opened if
     // no new domain added.
@@ -151,6 +163,7 @@ var getGroupStats = function() {
 
     // first group according to whether at least one node in the domain
     // hierarchy is white or blacklisted
+    var background = backgroundPage();
     var pageDomain = background.getDomainFromURL(pageUrl);
     var domain, rootDomain, parent;
     var temporaryColor;
@@ -226,46 +239,46 @@ var getGroupStats = function() {
     domainGroupsSnapshot = domainGroups;
 
     return domainGroups;
-};
+}
 
 /******************************************************************************/
 
 // helpers
 
-var getCellStats = function(domain, type) {
+function getCellStats(domain, type) {
     if ( matrixStats[domain] ) {
         return matrixStats[domain][type];
     }
     return null;
-};
+}
 
-var getTemporaryColor = function(domain, type) {
+function getTemporaryColor(domain, type) {
     var entry = getCellStats(domain, type);
     if ( entry ) {
         return entry.temporaryColor;
     }
     return '';
-};
+}
 
-var getPermanentColor = function(domain, type) {
+function getPermanentColor(domain, type) {
     var entry = getCellStats(domain, type);
     if ( entry ) {
         return entry.permanentColor;
     }
     return '';
-};
+}
 
-var getCellClass = function(domain, type) {
+function getCellClass(domain, type) {
     var temporaryColor = getTemporaryColor(domain, type);
     var permanentColor = getPermanentColor(domain, type);
     if ( permanentColor === 'xxx' ) {
         return temporaryColor;
     }
     return temporaryColor + ' ' + permanentColor;
-};
+}
 
 // compute next state
-var getNextAction = function(domain, type) {
+function getNextAction(domain, type) {
     var entry = matrixStats[domain][type];
     var temporaryColor = entry.temporaryColor;
     // special case: root toggle only between two states
@@ -279,31 +292,34 @@ var getNextAction = function(domain, type) {
         return 'whitelist';
     }
     return 'graylist';
-};
+}
 
 /******************************************************************************/
 
-// update visual of filter button(s)
+// update visual of matrix cells(s)
 
-var updateFilterButtons = function() {
-    $('.filter-button').each(function() {
-        var button = $(this);
+function updateMatrixCells() {
+    var cells = $('.filter-button').toArray();
+    var i = cells.length;
+    var cell, type, domain, newClass;
+    while ( i-- ) {
+        cell = $(cells[i]);
         // Need to cast to string or else data() method will convert to
         // numbers if it thinks it's a number (likewhen domain is '127.0.0.1'
-        var type = button.prop('filterType');
-        var domain = button.prop('filterDomain');
-        var newClass = getCellClass(domain, type);
-        button.removeClass('rdt gdt rpt gpt rdp gdp rpp gpp');
-        button.addClass(newClass);
-        port.postMessage({});
-    });
-};
+        type = cell.prop('filterType');
+        domain = cell.prop('filterDomain');
+        newClass = getCellClass(domain, type);
+        cell.removeClass();
+        cell.addClass('filter-button ' + newClass);
+    }
+}
 
 /******************************************************************************/
 
 // handle user interaction with filters
 
-var handleFilter = function(button) {
+function handleFilter(button) {
+    var background = backgroundPage();
     var type = button.prop('filterType');
     var domain = button.prop('filterDomain');
     var nextAction = getNextAction(domain, type);
@@ -315,15 +331,16 @@ var handleFilter = function(button) {
         background.graylist(type, domain);
     }
     updateMatrixStats(matrixStats);
-    updateFilterButtons();
+    updateMatrixCells();
     handleFilterMessage(button);
-};
+}
 
 /******************************************************************************/
 
 // handle user interaction with persistence buttons
 
-var handlePersistence = function(button) {
+function handlePersistence(button) {
+    var background = backgroundPage();
     // our parent cell knows who we are
     var cell = button.closest('div.filter-button');
     var type = cell.prop('filterType');
@@ -341,9 +358,10 @@ var handlePersistence = function(button) {
         cell.removeClass('rdt gdt rpt gpt rdp gdp rpp gpp');
         cell.addClass(newClass);
     }
-};
+}
 
-var handleUnpersistence = function(button) {
+function handleUnpersistence(button) {
+    var background = backgroundPage();
     // our parent cell knows who we are
     var cell = button.closest('div.filter-button');
     var type = cell.prop('filterType');
@@ -357,14 +375,14 @@ var handleUnpersistence = function(button) {
         cell.removeClass('rdt gdt rpt gpt rdp gdp rpp gpp');
         cell.addClass(newClass);
     }
-};
+}
 
 /******************************************************************************/
 
 // build menu according to white and black lists
 // TODO: update incrementally
 
-var formatHeader = function(s) {
+function formatHeader(s) {
     var maxLength = 80;
     var msg = s.slice(0, maxLength);
     if ( s.length > maxLength ) {
@@ -373,9 +391,36 @@ var formatHeader = function(s) {
         msg = '&nbsp;';
     }
     return msg;
-};
+}
 
-var makeMenu = function() {
+/******************************************************************************/
+
+function createMatrixRow(matrixRow, domain) {
+    var matrixCells = $('div', matrixRow).toArray();
+    var matrixCell = $(matrixCells[0]);
+
+    matrixCell.prop({filterType: '*', filterDomain: domain});
+    matrixCell.addClass(getCellClass(domain, '*'));
+    matrixCell.text(domain);
+
+    // type of requests
+    var count;
+    for ( var iType = 1; iType < matrixHeaderTypes.length; iType++ ) {
+        type = matrixHeaderTypes[iType];
+        matrixCell = $(matrixCells[iType]);
+        matrixCell.prop({filterType: type, filterDomain: domain});
+        matrixCell.addClass(getCellClass(domain, type));
+        count = matrixStats[domain][type] ? matrixStats[domain][type].count : 0;
+        if ( count ) {
+            matrixCell.text(count);
+        }
+    }
+}
+
+/******************************************************************************/
+
+function makeMenu() {
+    var background = backgroundPage();
     var pageStats = background.pageStatsFromTabId(tabId);
     var matrixStats = initMatrixStats(pageStats);
     var groupStats = getGroupStats();
@@ -410,9 +455,8 @@ var makeMenu = function() {
 
     // main rows, grouped logically
     var group;
-    var rootDomains;
-    var domains, domain;
-    var count;
+    var rootDomains, iRoot;
+    var domains, iDomain;
     for ( var iGroup = 0; iGroup < groupStats.length; iGroup++ ) {
         group = groupStats[iGroup];
         rootDomains = Object.keys(group).sort(background.domainNameCompare);
@@ -422,41 +466,26 @@ var makeMenu = function() {
         if ( iGroup > 0 ) {
             $('#templates .groupSeparator').clone().appendTo('#matrix-list');
         }
-        for ( var iRoot = 0; iRoot < rootDomains.length; iRoot++ ) {
+        for ( iRoot = 0; iRoot < rootDomains.length; iRoot++ ) {
             if ( iRoot > 0 ) {
                 $('#templates .domainSeparator').clone().appendTo('#matrix-list');
             }
             domains = Object.keys(group[rootDomains[iRoot]].all);
             domains.sort(background.domainNameCompare);
-            for ( var iDomain = 0; iDomain < domains.length; iDomain++ ) {
-                domain = domains[iDomain];
+            for ( iDomain = 0; iDomain < domains.length; iDomain++ ) {
                 matrixRow = $('#templates .matrix-row').clone();
-                matrixCells = $('div', matrixRow).toArray();
-                matrixCell = $(matrixCells[0]);
-                matrixCell.prop({filterType: '*', filterDomain: domain});
-                matrixCell.addClass(getCellClass(domain, '*'));
-                matrixCell.text(domain);
-                // type of requests
-                for ( iType = 1; iType < matrixHeaderTypes.length; iType++ ) {
-                    type = matrixHeaderTypes[iType];
-                    matrixCell = $(matrixCells[iType]);
-                    matrixCell.prop({filterType: type, filterDomain: domain});
-                    matrixCell.addClass(getCellClass(domain, type));
-                    count = matrixStats[domain][type] ? matrixStats[domain][type].count : 0;
-                    if ( count ) {
-                        matrixCell.text(count);
-                    }
-                }
-            $('#matrix-list').append(matrixRow);
+                createMatrixRow(matrixRow, domains[iDomain]);
+                $('#matrix-list').append(matrixRow);
             }
         }
     }
-};
+}
 
 /******************************************************************************/
 
 // handle user mouse over filter buttons
 
+// TODO: localize
 var mouseOverPrompts = {
     '+**': 'Click to <span class="gdt">allow</span> all graylisted types and domains',
     '-**': 'Click to <span class="rdt">block</span> all graylisted types and domains',
@@ -471,7 +500,7 @@ var mouseOverPrompts = {
     '.??': 'Click to graylist <strong>{{what}}</strong> from <strong>{{where}}</strong>'
 };
 
-var handleFilterMessage = function(button) {
+function handleFilterMessage(button) {
     var type = button.prop('filterType');
     var domain = button.prop('filterDomain');
     var nextAction = getNextAction(domain, type);
@@ -482,7 +511,7 @@ var handleFilterMessage = function(button) {
     prompt = prompt.replace('{{what}}', matrixHeaderPrettyNames[type]);
     prompt = prompt.replace('{{where}}', domain);
     $('#message').html(prompt);
-};
+}
 
 /******************************************************************************/
 
@@ -504,19 +533,59 @@ function handleUnpersistMessage(button) {
 
 /******************************************************************************/
 
+function onMessage(request) {
+    if ( request.what === 'urlStatsChanged' ) {
+        makeMenu();
+    }
+}
+
+/******************************************************************************/
+
+// Because chrome.tabs.query() is async
+function bindToTabHandler(tabs) {
+    // TODO: can tabs be empty?
+    if ( !tabs.length ) {
+        return;
+    }
+
+    // Important! Before calling makeMenu()
+    var background = backgroundPage();
+    tabId = tabs[0].id;
+    pageUrl = background.pageUrlFromTabId(tabId);
+
+    // Now that tabId and pageUrl are set, we can build our menu
+    makeMenu();
+
+    // After popup menu is built, we check whether there is a non-empty matrix
+    if ( !matrixHasRows ) {
+        $('#no-traffic').css('display', '');
+        $('#matrix-head').css('display', 'none');
+    }
+
+    // We reuse for all cells the one and only cell menu.
+    matrixCellMenu = $('#cellMenu').detach();
+
+    // To know when to rebuild the matrix
+    // TODO: What if this event is triggered before bindToTabHandler()
+    // is called?
+    chrome.runtime.onMessage.addListener(onMessage);
+}
+
+/******************************************************************************/
+
+function revert() {
+    var background = backgroundPage();
+    background.restoreTemporaryLists();
+    updateMatrixStats(matrixStats);
+    updateMatrixCells();
+}
+
+/******************************************************************************/
+
 // make menu only when popup html is fully loaded
 
 $(function(){
-    chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
-        // TODO: can tabs be empty?
-        tabId = tabs[0].id; // Important!
-        pageUrl = background.pageUrlFromTabId(tabId);
-        makeMenu();
-        if ( !matrixHasRows ) {
-            $('#no-traffic').css('display', '');
-            $('#matrix-head').css('display', 'none');
-        }
-    });
+    chrome.tabs.query({currentWindow: true, active: true}, bindToTabHandler);
 
     // to handle filter button
     $('body').delegate('.filter-button', 'click', function() {
@@ -564,18 +633,7 @@ $(function(){
         $('#message').html(formatHeader(pageUrl));
     });
 
-    // to know when to rebuild the matrix
-    chrome.runtime.onMessage.addListener(function(request) {
-        if ( request.what === 'urlStatsChanged' ) {
-            makeMenu();
-        }
-    });
-
-    $('#button-revert').click(function() {
-        background.restoreTemporaryLists();
-        updateMatrixStats(matrixStats);
-        updateFilterButtons();
-    });
+    $('#button-revert').click(revert);
 
     $('#button-info').click(function() {
         chrome.runtime.sendMessage({ what: 'gotoExtensionUrl', url: 'info.html' });
@@ -584,6 +642,4 @@ $(function(){
     $('#button-settings').click(function() {
         chrome.runtime.sendMessage({ what: 'gotoExtensionUrl', url: 'settings.html' });
     });
-
-    matrixCellMenu = $('#cellMenu').detach();
 });
