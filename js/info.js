@@ -43,12 +43,11 @@ function pageStatsFromPageUrl(pageUrl) {
 
 // Get a list of latest net requests
 
-function compareRequestByTime(a, b) {
-    a = pageRequests[a];
-    b = pageRequests[b];
-    if ( a < b ) { return 1; }
-    if ( b < a ) { return -1; }
-    return 0;
+function requestDetails(url, type, when, blocked) {
+    this.url = url;
+    this.when = type;
+    this.type = when;
+    this.blocked = blocked;
 }
 
 function updateRequestData() {
@@ -59,7 +58,7 @@ function updateRequestData() {
     var iPageUrl, nPageUrls, pageUrl;
     var reqKeys, iReqKey, nReqKeys, reqKey;
     var pageStats, pageRequests;
-    var i, v;
+    var i, j, v;
 
     nPageUrls = pageUrls.length;
     for ( iPageUrl = 0; iPageUrl < nPageUrls; iPageUrl++ ) {
@@ -71,26 +70,20 @@ function updateRequestData() {
         }
         pageRequests = pageStats.requests;
         reqKeys = Object.keys(pageRequests);
-        // Dont bother sorting or slicing if under max requests
-        if ( reqKeys.length > maxRequests ) {
-            // Inverse chronological order.
-            reqKeys
-                .sort(compareRequestByTime)
-                .slice(0, maxRequests);
-        }
         nReqKeys = reqKeys.length;
         for ( iReqKey = 0; iReqKey < nReqKeys; iReqKey++ ) {
             reqKey = reqKeys[iReqKey];
             v = pageRequests[reqKey];
-            i = v.indexOf('#');
+            i = reqKey.indexOf('#');
+            j = v.indexOf('#');
             // Using parseFloat because of
             // http://jsperf.com/performance-of-parseint
-            requests.push({
-                url: reqKey.slice(0, reqKey.indexOf('#')),
-                when: parseFloat(v.slice(0, i)),
-                type: reqKey.slice(reqKey.indexOf('#') + 1),
-                blocked: v.slice(i+1) === '0'
-            });
+            requests.push(new requestDetails(
+                reqKey.slice(0, i),
+                parseFloat(v.slice(0, j)),
+                reqKey.slice(i+1),
+                v.slice(j+1) === '0'
+            ));
         }
     }
 
