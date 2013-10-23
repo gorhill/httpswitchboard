@@ -243,12 +243,19 @@ function renderRequestRow(row, request) {
     $(cells[0]).text(when.toLocaleTimeString());
     $(cells[1]).text(request.type);
     var a = $('a', cells[2]);
-    a.attr('href', request.url);
-    a.css('display', '');
+    // Well I got back full control since not using Tempo.js, I can now
+    // generate smarter hyperlinks, that is, not hyperlinking fake
+    // request URLs, which are recognizable with their curly braces inside.
+    if ( request.url.search('{') < 0 ) {
+        a.attr('href', request.url);
+        a.css('display', '');
+    } else {
+        a.css('display', 'none');
+    }
     $(cells[3]).text(request.url);
 }
 
-/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 function renderRequests() {
     var table = $('#requestsTable tbody');
