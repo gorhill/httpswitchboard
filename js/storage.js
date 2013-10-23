@@ -168,50 +168,65 @@ function loadUserLists() {
 /******************************************************************************/
 
 function loadRemoteBlacklists() {
-    var httpsb = HTTPSB;
-    // v <= 0.1.3
-    chrome.storage.local.remove(Object.keys(httpsb.remoteBlacklists));
-    chrome.storage.local.remove('remoteBlacklistLocations');
-
     // Get remote blacklist data (which may be saved locally)
-    chrome.storage.local.get({ 'remoteBlacklists': httpsb.remoteBlacklists }, function(store) {
-        var age;
-        for ( var location in store.remoteBlacklists ) {
-            if ( !store.remoteBlacklists.hasOwnProperty(location) ) {
-                continue;
-            }
-            // If loaded list location is not part of default list location,
-            // remove its content from local storage.
-            if ( !httpsb.remoteBlacklists[location] ) {
-                chrome.runtime.sendMessage({
-                    what: 'localRemoveRemoteBlacklist',
-                    location: location
-                });
-                continue;
-            }
-            // Local copy of remote list out of date?
-            if ( store.remoteBlacklists[location].timeStamp === undefined ) {
-                store.remoteBlacklists[location].timeStamp = 0;
-            }
-            httpsb.remoteBlacklists[location].timeStamp = store.remoteBlacklists[location].timeStamp;
-            // If it is project's local list, always query
-            if ( location.search('httpsb') < 0 ) {
-                age = Date.now() - store.remoteBlacklists[location].timeStamp;
-                if ( age < httpsb.remoteBlacklistLocalCopyTTL ) {
-                    chrome.runtime.sendMessage({
-                        what: 'mergeRemoteBlacklist',
-                        list: store.remoteBlacklists[location]
-                    });
-                    continue;
-                }
-            }
-            // No local version, we need to fetch it from remote server.
+    chrome.storage.local.get(
+        { 'remoteBlacklists': HTTPSB.remoteBlacklists },
+        loadRemoteBlacklistsHandler
+        );
+}
+
+/******************************************************************************/
+
+function loadRemoteBlacklistsHandler(store) {
+    var httpsb = HTTPSB;
+    var age;
+
+    for ( var location in store.remoteBlacklists ) {
+
+        if ( !store.remoteBlacklists.hasOwnProperty(location) ) {
+            continue;
+        }
+        // If loaded list location is not part of default list location,
+        // remove its content from local storage.
+        if ( !httpsb.remoteBlacklists[location] ) {
             chrome.runtime.sendMessage({
-                what: 'queryRemoteBlacklist',
+                what: 'localRemoveRemoteBlacklist',
                 location: location
             });
+            continue;
         }
-    });
+
+        // This is useful to know when it is worth to pack the read-only
+        // blacklist. From this point on, a merge is expected, whether \
+        // by loading the cached copy, or by downloading the remote content.
+        httpsb.remoteBlacklistMergeCounter++;
+
+        // Local copy of remote list out of date?
+        if ( store.remoteBlacklists[location].timeStamp === undefined ) {
+            store.remoteBlacklists[location].timeStamp = 0;
+        }
+        httpsb.remoteBlacklists[location].timeStamp = store.remoteBlacklists[location].timeStamp;
+
+        // If it is project's local list, always query
+        if ( location.search('httpsb') < 0 ) {
+            age = Date.now() - store.remoteBlacklists[location].timeStamp;
+            if ( age < httpsb.remoteBlacklistLocalCopyTTL ) {
+                mergeRemoteBlacklist(store.remoteBlacklists[location]);
+
+                // TODO: I am wondering if chromium leaks items in store...
+                // I can see them in heap snapshot, while nowhere I am holding
+                // onto them..
+
+                continue;
+            }
+        }
+
+        // No local version, we need to fetch it from remote server.
+        chrome.runtime.sendMessage({
+            what: 'queryRemoteBlacklist',
+            location: location
+        });
+    }
 }
 
 /******************************************************************************/
@@ -247,39 +262,46 @@ function queryRemoteBlacklist(location) {
         url = chrome.runtime.getURL(location);
     }
     console.log('HTTP Switchboard > queryRemoteBlacklist > "%s"', url);
-    var success = function() {
-        console.log('HTTP Switchboard > fetched third party blacklist from remote location "%s"', url);
-        HTTPSB.remoteBlacklists[location].timeStamp = Date.now();
-        chrome.runtime.sendMessage({
-            what: 'parseRemoteBlacklist',
-            list: {
-                url: location,
-                timeStamp: Date.now(),
-                raw: this.responseText
-            }
-        });
-    };
-    // In case of failure, try to load local copy if any: we must do all to
-    // not leave the user naked.
-    var failure = function() {
-        console.error('HTTP Switchboard > failed to load third party blacklist from remote location "%s"\n\tWill fall back on local copy if any.', url);
-        chrome.storage.local.get({ 'remoteBlacklists': {} }, function(store) {
-            if ( store.remoteBlacklists[location] ) {
-                chrome.runtime.sendMessage({
-                    what: 'mergeRemoteBlacklist',
-                    list: store.remoteBlacklists[location]
-                });
-            }
-        });
-    };
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'text';
     xhr.timeout = 30 * 1000;
-    xhr.onload = success;
-    xhr.onerror = failure;
-    xhr.ontimeout = failure;
+    xhr.onload = function() {
+        queryRemoteBlacklistSuccess(location, this.responseText);
+        };
+    xhr.onerror = function() {
+        queryRemoteBlacklistFailure(location);
+        };
+    xhr.ontimeout = function() {
+        queryRemoteBlacklistFailure(location);
+        };
     xhr.open('GET', url, true);
     xhr.send();
+}
+
+function queryRemoteBlacklistSuccess(location, content) {
+    // console.log('HTTP Switchboard > fetched third party blacklist from remote location "%s"', location);
+    HTTPSB.remoteBlacklists[location].timeStamp = Date.now();
+    chrome.runtime.sendMessage({
+        what: 'parseRemoteBlacklist',
+        list: {
+            url: location,
+            timeStamp: Date.now(),
+            raw: content
+        }
+    });
+}
+
+function queryRemoteBlacklistFailure(location) {
+    // console.error('HTTP Switchboard > failed to load third party blacklist from remote location "%s"\n\tWill fall back on local copy if any.', location);
+    chrome.storage.local.get({ 'remoteBlacklists': {} }, function(store) {
+        if ( store.remoteBlacklists[location] ) {
+            mergeRemoteBlacklist(store.remoteBlacklists[location]);
+        } else {
+            // That sucks, we can't even merge, so we need to release
+            // pending merge counter
+            HTTPSB.remoteBlacklistMergeCounter--;
+        }
+    });
 }
 
 /******************************************************************************/
@@ -293,16 +315,10 @@ function parseRemoteBlacklist(list) {
     list.raw = normalizeRemoteContent(list.raw);
 
     // Save locally in order to load efficiently in the future.
-    chrome.runtime.sendMessage({
-        what: 'localSaveRemoteBlacklist',
-        list: list
-    });
+    localSaveRemoteBlacklist(list);
 
     // Convert and merge content into internal representation.
-    chrome.runtime.sendMessage({
-        what: 'mergeRemoteBlacklist',
-        list: list
-    });
+    mergeRemoteBlacklist(list);
 }
 
 /******************************************************************************/
@@ -344,6 +360,13 @@ function mergeRemoteBlacklist(list) {
 
     httpsb.blacklistReadonly.addMany(list.raw);
     httpsb.blacklistReadonly.toFilters(httpsb.blacklist);
+
+    // TODO: Need to somehow force a pack of the read-only blacklists, as
+    // packing when the popup menu is called causes a noticeable delay.
+    httpsb.remoteBlacklistMergeCounter--;
+    if ( !httpsb.remoteBlacklistMergeCounter ) {
+        httpsb.blacklistReadonly.pack();
+    }
 
     // rhill 2013-10-19: https://github.com/gorhill/httpswitchboard/issues/18
     // Ensure that whatever is in the whitelist is not also found in the

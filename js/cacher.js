@@ -40,6 +40,7 @@
 var Cacher = {
     questions: {},
     ttl: 15 * 60 * 1000,
+    count: 0,
 
     entry: function() {
         this.response = undefined;
@@ -59,6 +60,7 @@ var Cacher = {
         var entry = this.questions[question];
         if ( entry === undefined ) {
             this.questions[question] = entry = new this.entry();
+            this.count++;
         }
         entry.timeStamp = Date.now();
         entry.response = response;
@@ -67,6 +69,7 @@ var Cacher = {
 
     forget: function(question) {
         delete this.questions[question];
+        this.count--;
     },
 
     exists: function(question) {
@@ -74,7 +77,7 @@ var Cacher = {
     },
 
     purge: function() {
-        var count = 0;
+        var count = this.count;
         var now = Date.now();
         var ttl = this.ttl;
         var questions = this.questions;
@@ -85,10 +88,10 @@ var Cacher = {
             key = keys[i];
             if ( (now - questions[key].timeStamp) >= ttl ) {
                 delete questions[key];
-                count += 1;
+                this.count--;
             }
         }
-        // console.debug('HTTP Switchboard > Cacher.purge() deleted %d entries', count);
+        // console.debug('HTTP Switchboard > Cacher.purge() deleted %d entries', count-this.count);
     }
 };
 

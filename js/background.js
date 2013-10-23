@@ -128,13 +128,13 @@ var blacklistReadonly = {
 
     addMany: function(s) {
         var unpacked = this.unpacked || this.unpack();
-        var domains = s.split(/\s+/);
-        var i = domains.length;
-        var domain;
+        var hostnames = s.split(/\s+/);
+        var i = hostnames.length;
+        var hostname;
         while ( i-- ) {
-            domain = domains[i];
-            if ( domain.length ) {
-                unpacked[domain.toLowerCase()] = true;
+            hostname = hostnames[i];
+            if ( hostname.length ) {
+                unpacked[hostname.toLowerCase()] = true;
             }
         }
     },
@@ -224,6 +224,7 @@ var HTTPSB = {
     // remoteBlacklistLocalCopyTTL: 10 * 1000, // for debugging
     // Look for new version every 7 days
     remoteBlacklistLocalCopyTTL: 7 * 24 * 60 * 60 * 1000,
+    remoteBlacklistMergeCounter: 0,
 
     // urls stats are kept on the back burner while waiting to be reactivated
     // in a tab or another.

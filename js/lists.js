@@ -140,6 +140,10 @@ function restoreTemporaryLists() {
     // restore read-only blacklists
     httpsb.blacklistReadonly.toFilters(httpsb.blacklist);
 
+    // Reduce mem usage + avoid noticeable delay for when packing is needed,
+    // like when we need to lookup a hostname in the read-only list.
+    httpsb.blacklistReadonly.pack();
+
     // restore user blacklist
     populateListFromList(httpsb.blacklist, httpsb.blacklistUser);
 

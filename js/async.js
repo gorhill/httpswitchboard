@@ -106,20 +106,12 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
     if ( request && request.what ) {
         switch ( request.what ) {
 
-        case 'mergeRemoteBlacklist':
-            mergeRemoteBlacklist(request.list);
-            break;
-
         case 'parseRemoteBlacklist':
             parseRemoteBlacklist(request.list);
             break;
 
         case 'queryRemoteBlacklist':
             queryRemoteBlacklist(request.location);
-            break;
-
-        case 'localSaveRemoteBlacklist':
-            localSaveRemoteBlacklist(request.list);
             break;
 
         case 'localRemoveRemoteBlacklist':
