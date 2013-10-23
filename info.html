@@ -75,19 +75,18 @@ select {
 
 <h3>Whitelists/blacklists</h3>
 <div id="lists">
-<div style="white-space:nowrap;" data-template> <!-- begin template 'stats' -->
+<div style="white-space:nowrap;"> <!-- begin template 'stats' -->
 <div>
     Whitelisted domains:<br>
     Blacklisted domains:
     </div>
 <div>
-    {{whitelistCount | format ,}}<br>
-    {{blacklistCount | format ,}}
+    <span id="whitelistCount"></span><br>
+    <span id="blacklistCount"></span>
     </div>
 <div style="margin:1em 0 0 0;display:block;text-align:left">
-    Blacklists:<ul style="margin:0;color:gray">
-    <li data-template-for="remoteBlacklists" data-from-map><a href="{{key}}">{{key}}</a>
-    &ensp;(fetched at {{value.timeStamp | date HH:mm on D MMM YYYY}})
+    Blacklists:<ul id="remoteBlacklists" style="margin:0;color:gray">
+    <li id="remoteBlacklistDetails" style="display:none"><a href=""></a>&ensp;(fetched at <span class="downloadTime"></span> on <span class="downloadDate"></span>)</li>
     </ul>
     </div>
 </div> <!-- end template 'stats' -->
@@ -96,14 +95,14 @@ select {
 
 <h3>Geeky stats</h3>
  <!-- start of geek stats --><div>For 
-<select id="urls">
-<option data-template data-if-target value="{{url}}" selected>{{url}}</option>
-<option data-template value="{{url}}">{{url}}</option>
+<select id="selectPageUrls">
+<option value="All">All</option>
+<option id="selectPageUrlTemplate" value="http://chromium.behind.the.scene">Chromium: Behind the scene</option>
 </select>
 
 <h4>Basic</h4>
 <div id="stats">
-<div style="white-space:nowrap;" data-template> <!-- begin template 'stats' -->
+<div style="white-space:nowrap;"> <!-- begin template 'stats' -->
 
 <div>
     Requests<br>
@@ -119,27 +118,27 @@ select {
     </div>
 <div style="color:#c00">
     Blocked<br>
-    {{requestStats.blocked.all | format ,}}<br>
-    {{requestStats.blocked.main_frame | format ,}}<br>
-    {{requestStats.blocked.cookie | format ,}}<br>
-    {{requestStats.blocked.image | format ,}}<br>
-    {{requestStats.blocked.object | format ,}}<br>
-    {{requestStats.blocked.script | format ,}}<br>
-    {{requestStats.blocked.xmlhttprequest | format ,}}<br>
-    {{requestStats.blocked.sub_frame | format ,}}<br>
-    {{requestStats.blocked.other | format ,}}<br>
+    <span id="blockedAllCount"></span><br>
+    <span id="blockedMainFrameCount"></span><br>
+    <span id="blockedCookieCount"></span><br>
+    <span id="blockedImageCount"></span><br>
+    <span id="blockedObjectCount"></span><br>
+    <span id="blockedScriptCount"></span><br>
+    <span id="blockedXHRCount"></span><br>
+    <span id="blockedSubFrameCount"></span><br>
+    <span id="blockedOtherCount"></span><br>
     </div>
 <div style="color:#070">
     Allowed<br>
-    {{requestStats.allowed.all | format ,}}<br>
-    {{requestStats.allowed.main_frame | format ,}}<br>
-    {{requestStats.allowed.cookie | format ,}}<br>
-    {{requestStats.allowed.image | format ,}}<br>
-    {{requestStats.allowed.object | format ,}}<br>
-    {{requestStats.allowed.script | format ,}}<br>
-    {{requestStats.allowed.xmlhttprequest | format ,}}<br>
-    {{requestStats.allowed.sub_frame | format ,}}<br>
-    {{requestStats.allowed.other | format ,}}<br>
+    <span id="allowedAllCount"></span><br>
+    <span id="allowedMainFrameCount"></span><br>
+    <span id="allowedCookieCount"></span><br>
+    <span id="allowedImageCount"></span><br>
+    <span id="allowedObjectCount"></span><br>
+    <span id="allowedScriptCount"></span><br>
+    <span id="allowedXHRCount"></span><br>
+    <span id="allowedSubFrameCount"></span><br>
+    <span id="allowedOtherCount"></span><br>
     </div>
 
 </div> <!-- end template 'stats' -->
@@ -162,10 +161,8 @@ select {
           <input id="show-other" type="checkbox" checked value="1">Others&emsp;
     </p>
 <div style="height: 400px">
-<!-- begin template 'requests' --><table>
-<tr class="blocked-{{blocked}} type-{{type}}" data-template><td>{{when | date HH:mm:ss}}<td>{{type}}<td><a href="{{url}}">&lt;a&gt;</a><td>{{url}}</tr>
-<!-- end template 'requests' -->
-<tr data-after-template><td>...
+<table id="requestsTable">
+<tr id="requestRowTemplate"><td>...<td><td><a href="" style="display:none">&lt;a&gt;</a><td></tr>
 </table>
 </div>
 </div>
@@ -173,7 +170,6 @@ select {
 </div> <!-- end of geek stats -->
 
 <script src="lib/jquery-2.min.js"></script>
-<script src="lib/tempo.min.js"></script>
 <script src="js/info.js"></script>
 </body>
 </html>

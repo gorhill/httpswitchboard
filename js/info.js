@@ -19,80 +19,273 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
-$(function(){
+/******************************************************************************/
+
+var targetUrl = 'All';
+var maxRequests = 500;
+
 
 /******************************************************************************/
 
+function extensionPage() {
+    return chrome.extension.getBackgroundPage();
+}
 
-var background = chrome.extension.getBackgroundPage();
-var httpsb = background.HTTPSB;
-var targetUrl = 'All';
-var data = {
-    urls: [],
-    whitelistCount: 0,
-    blacklistCount: 0,
-    requestStats: httpsb.requestStats,
-    requests: [],
-    last: 0
-};
-var maxRequests = 500;
+function httpsb() {
+    return chrome.extension.getBackgroundPage().HTTPSB;
+}
 
-var updateStatsData = function() {
-    data.urls = Object.keys(httpsb.pageUrlToTabId).concat('All').sort().map(function(v) {
-        return { url: v, target: v === targetUrl };
-    });
-    data.requestStats = targetUrl === 'All'
-        ? httpsb.requestStats
-        : background.pageStatsFromPageUrl(targetUrl).requestStats
-        ;
-    data.whitelistCount = Object.keys(httpsb.whitelist).length;
-    data.blacklistCount = Object.keys(httpsb.blacklist).length;
-    data.remoteBlacklists = httpsb.remoteBlacklists;
-};
+function pageStatsFromPageUrl(pageUrl) {
+    return chrome.extension.getBackgroundPage().HTTPSB.pageStats[pageUrl];
+}
 
 /******************************************************************************/
 
 // Get a list of latest net requests
 
-var updateRequestData = function() {
-    data.requests = [];
-    var pages = targetUrl === 'All'
-        ? Object.keys(httpsb.pageStats)
-        : [targetUrl]
-        ;
-    pages.map(function(pageUrl) {
-        var pageStats = httpsb.pageStats[pageUrl];
-        var requests = pageStats.requests;
-        var reqKeys = Object.keys(requests);
-        reqKeys.sort(function(a, b) {
-            return requests[b].localeCompare(requests[a]);
-        });
-        reqKeys = reqKeys.slice(0, maxRequests);
-        requests = reqKeys.map(function(reqKey) {
-            var v = requests[reqKey];
-            var i = v.indexOf('#');
+function compareRequestByTime(a, b) {
+    a = pageRequests[a];
+    b = pageRequests[b];
+    if ( a < b ) { return 1; }
+    if ( b < a ) { return -1; }
+    return 0;
+}
+
+function updateRequestData() {
+    var requests = [];
+    var pageUrls = targetUrl === 'All' ?
+        Object.keys(httpsb().pageStats) :
+        [targetUrl];
+    var iPageUrl, nPageUrls, pageUrl;
+    var reqKeys, iReqKey, nReqKeys, reqKey;
+    var pageStats, pageRequests;
+    var i, v;
+
+    nPageUrls = pageUrls.length;
+    for ( iPageUrl = 0; iPageUrl < nPageUrls; iPageUrl++ ) {
+        pageUrl = pageUrls[iPageUrl];
+        pageStats = pageStatsFromPageUrl(pageUrl);
+        // Unsure if it can happen... Just in case
+        if ( !pageStats ) {
+            continue;
+        }
+        pageRequests = pageStats.requests;
+        reqKeys = Object.keys(pageRequests);
+        // Dont bother sorting or slicing if under max requests
+        if ( reqKeys.length > maxRequests ) {
+            // Inverse chronological order.
+            reqKeys
+                .sort(compareRequestByTime)
+                .slice(0, maxRequests);
+        }
+        nReqKeys = reqKeys.length;
+        for ( iReqKey = 0; iReqKey < nReqKeys; iReqKey++ ) {
+            reqKey = reqKeys[iReqKey];
+            v = pageRequests[reqKey];
+            i = v.indexOf('#');
             // Using parseFloat because of
             // http://jsperf.com/performance-of-parseint
-            return {
-                url: background.urlFromReqKey(reqKey),
+            requests.push({
+                url: reqKey.slice(0, reqKey.indexOf('#')),
                 when: parseFloat(v.slice(0, i)),
-                type: background.typeFromReqKey(reqKey),
+                type: reqKey.slice(reqKey.indexOf('#') + 1),
                 blocked: v.slice(i+1) === '0'
-            };
-        });
-        data.requests = data.requests.concat(requests);
+            });
+        }
+    }
+
+    return requests
+        .sort(function(a,b){return b.when-a.when;})
+        .slice(0, maxRequests);
+}
+
+/******************************************************************************/
+
+function renderNumber(selector, value) {
+    // TODO: localization
+    if ( +value > 1000 ) {
+        value = value.toString();
+        var i = value.length - 3;
+        while ( i > 0 ) {
+            value = value.slice(0, i) + ',' + value.slice(i);
+            i -= 3;
+        }
+    }
+    $(selector).text(value);
+}
+
+function renderNumbers(set) {
+    var keys = Object.keys(set);
+    var i = keys.length;
+    var key;
+    while ( i-- ) {
+        key = keys[i];
+        renderNumber(key, set[key]);
+    }
+}
+
+/******************************************************************************/
+
+function renderBlacklistDetails() {
+    var background = extensionPage();
+    var httpsb = background.HTTPSB;
+    var blacklists = httpsb.remoteBlacklists;
+    var ul = $('#remoteBlacklists');
+    var keys = Object.keys(blacklists);
+    var i = keys.length;
+    var blacklist;
+    var liTemplate = $('#remoteBlacklistDetails', ul);
+    var li, a;
+    var date = new Date();
+    while ( i-- ) {
+        blacklist = blacklists[keys[i]];
+        li = liTemplate.clone();
+        li.attr('id', '');
+        li.css('display', '');
+        a = $('a', li);
+        a.attr('href', keys[i]);
+        a.text(keys[i]);
+        date.setTime(blacklist.timeStamp);
+        $('.downloadTime', li).text(date.toLocaleTimeString());
+        $('.downloadDate', li).text(date.toLocaleDateString());
+        ul.append(li);
+    }
+   
+}
+
+/******************************************************************************/
+
+function renderPageUrls() {
+    var background = extensionPage();
+    var httpsb = background.HTTPSB;
+    var select = $('#selectPageUrls');
+
+    // One of the permanent entry will serve as a template
+    var optionTemplate = $('#selectPageUrlTemplate', select);
+
+    // Remove whatever was put there in a previous call
+    $(optionTemplate).nextAll().remove();
+
+    var pageUrls = Object.keys(httpsb.pageUrlToTabId).sort();
+    var pageUrl, option;
+    for ( var i = 0; i < pageUrls.length; i++ ) {
+        pageUrl = pageUrls[i];
+        // Avoid duplicating
+        if ( pageUrl === httpsb.behindTheSceneURL ) {
+            continue;
+        }
+        option = optionTemplate.clone();
+        option.attr('id', '');
+        option.attr('value', pageUrl);
+        option.text(pageUrl);
+        select.append(option);
+    }
+    // Deselect whatever is currently selected
+    $('option:selected', select).prop('selected', false);
+    // Select whatever needs to be selected
+    $('option[value="'+targetUrl+'"]', select).prop('selected', true);
+}
+
+/******************************************************************************/
+
+function renderStats() {
+    var background = extensionPage();
+    var httpsb = background.HTTPSB;
+
+    // Make sure targetUrl is valid
+    if ( targetUrl !== 'All' && !httpsb.pageStats[targetUrl] ) {
+        targetUrl = 'All';
+    }
+
+    var requestStats = targetUrl === 'All' ? httpsb.requestStats : httpsb.pageStats[targetUrl].requestStats;
+    var blockedStats = requestStats.blocked;
+    var allowedStats = requestStats.allowed;
+    renderNumbers({
+        '#whitelistCount': Object.keys(httpsb.whitelist).length,
+        '#blacklistCount': Object.keys(httpsb.blacklist).length,
+        '#blockedAllCount': requestStats.blocked.all,
+        '#blockedMainFrameCount': blockedStats.main_frame,
+        '#blockedCookieCount': blockedStats.cookie,
+        '#blockedImageCount': blockedStats.image,
+        '#blockedObjectCount': blockedStats.object,
+        '#blockedScriptCount': blockedStats.script,
+        '#blockedXHRCount': blockedStats.xmlhttprequest,
+        '#blockedSubFrameCount': blockedStats.sub_frame,
+        '#blockedOtherCount': blockedStats.other,
+        '#allowedAllCount': allowedStats.all,
+        '#allowedMainFrameCount': allowedStats.main_frame,
+        '#allowedCookieCount': allowedStats.cookie,
+        '#allowedImageCount': allowedStats.image,
+        '#allowedObjectCount': allowedStats.object,
+        '#allowedScriptCount': allowedStats.script,
+        '#allowedXHRCount': allowedStats.xmlhttprequest,
+        '#allowedSubFrameCount': allowedStats.sub_frame,
+        '#allowedOtherCount': allowedStats.other
     });
-    data.requests.sort(function(a, b) {
-        return b.when - a.when;
-    });
-    data.requests = data.requests.slice(0, maxRequests);
-};
+}
+
+/******************************************************************************/
+
+function renderRequestRow(row, request) {
+    var jqRow = $(row);
+    row = jqRow[0];
+    jqRow.attr('id', '');
+    jqRow.css('display', '');
+    jqRow.removeClass();
+    if ( request.blocked ) {
+        jqRow.addClass('blocked-true');
+    } else {
+        jqRow.addClass('blocked-false');
+    }
+    jqRow.addClass('type-' + request.type);
+    var cells = row.cells;
+    var when = new Date(request.when);
+    $(cells[0]).text(when.toLocaleTimeString());
+    $(cells[1]).text(request.type);
+    var a = $('a', cells[2]);
+    a.attr('href', request.url);
+    a.css('display', '');
+    $(cells[3]).text(request.url);
+}
+
+/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+function renderRequests() {
+    var table = $('#requestsTable tbody');
+    var requests = updateRequestData();
+    var row;
+    var rowTemplate = $('#requestRowTemplate', table);
+
+    // Reuse whatever rows is already in there.
+    // Remember: order of elements returned by prevAll() is closest to farthest.
+    var rows = $(rowTemplate).prevAll().toArray().reverse();
+    var i = 0;
+    while ( i < requests.length && rows.length ) {
+        renderRequestRow(rows.pop(), requests[i]);
+        i++;
+    }
+    // Create new rows to receive what is left
+    if ( i < requests.length ) {
+        do {
+            row = rowTemplate.clone();
+            renderRequestRow(row, requests[i]);
+            row.insertBefore(rowTemplate);
+            i++;
+        } while ( i < requests.length );
+    }
+    // Remove extra rows
+    else if ( rows.length ) {
+        $(rows).remove();
+    }
+
+    syncWithFilters();
+}
 
 /******************************************************************************/
 
 // Synchronize list of net requests with filter states
 
-var syncWithFilters = function() {
+function syncWithFilters() {
     var blocked = ['blocked','allowed'];
     var type = ['main_frame','cookie','image','object','script','xmlhttprequest','sub_frame','other'];
     var i = blocked.length;
@@ -102,63 +295,56 @@ var syncWithFilters = function() {
         j = type.length;
         while ( j-- ) {
             display = $('#show-' + blocked[i]).prop('checked') &&
-                      $('#show-' + type[j]).prop('checked')
-                ? ''
-                : 'none'
-                ;
+                      $('#show-' + type[j]).prop('checked') ? '' : 'none';
             selector = '.blocked-' + (blocked[i] === 'blocked') + '.type-' + type[j];
             $(selector).css('display', display);
         }
     }
-};
+}
 
 /******************************************************************************/
 
-// Render page
+var renderTransientTimer;
 
-var urlsTemplate = Tempo.prepare('urls');
-var listsTemplate = Tempo.prepare('lists');
-var statsTemplate = Tempo.prepare('stats');
-var requestTemplate = Tempo.prepare('requests');
-
-var updateStats = function() {
-    updateStatsData();
-    urlsTemplate.render(data.urls);
-    listsTemplate.render(data);
-    statsTemplate.render(data);
-};
-
-var updateRequests = function() {
-    updateRequestData();
-    requestTemplate.render(data.requests);
-    syncWithFilters();
-};
-
-updateStats();
-updateRequests();
+function renderTransientData(internal) {
+    // This is in case this function is not called from timeout event
+    if ( internal && renderTransientTimer ) {
+        clearTimeout(renderTransientTimer);
+    }
+    renderPageUrls();
+    renderStats();
+    renderTransientTimer = setTimeout(renderTransientData, 10000); // every 10s
+}
 
 /******************************************************************************/
 
-// Auto update basic stats (not list of requests though, this is done through
-// `refresh` button.
+function targetUrlChangeHandler() {
+    targetUrl = this[this.selectedIndex].value;
+    renderStats();
+    renderRequests();
+}
 
-setInterval(function(){ updateStats(); }, 10000); // every 10s
+/******************************************************************************/
+
+function initAll() {
+    $('#version').html(httpsb().manifest.version);
+    $('a').prop('target', '_blank');
+
+    // Event handlers
+    $('#refresh-requests').click(renderRequests);
+    $('input[id^="show-"][type="checkbox"]').change(syncWithFilters);
+    $('#selectPageUrls').change(targetUrlChangeHandler);
+
+    renderTransientData(true);
+    renderRequests();
+    renderBlacklistDetails();
+}
 
 /******************************************************************************/
 
 // Handle user interaction
 
-$('#version').html(httpsb.manifest.version);
-$('a').prop('target', '_blank');
-$('#refresh-requests').click(updateRequests);
-$('input[id^="show-"][type="checkbox"]').change(syncWithFilters);
-
-$('#urls').change(function(){
-    targetUrl = this[this.selectedIndex].value.replace(/&amp;/g, '&');
-    updateStats();
-    updateRequests();
-    });
-
-/******************************************************************************/
-
+$(function(){
+    initAll();
 });
+
