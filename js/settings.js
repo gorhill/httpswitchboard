@@ -47,15 +47,15 @@ function initAll() {
 
     // Handle user interaction
 
-    $('#delete-blacklisted-cookies').change(function(){
+    $('#delete-blacklisted-cookies').on('change', function(){
         changeUserSettings('deleteCookies', $(this).is(':checked'));
     });
 
-    $('#delete-blacklisted-localstorages').change(function(){
+    $('#delete-blacklisted-localstorages').on('change', function(){
         changeUserSettings('deleteLocalStorages', $(this).is(':checked'));
     });
 
-    $('#process-behind-the-scene').change(function(){
+    $('#process-behind-the-scene').on('change', function(){
         changeUserSettings('processBehindTheSceneRequests', $(this).is(':checked'));
     });
 }

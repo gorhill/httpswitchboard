@@ -328,9 +328,9 @@ function initAll() {
     $('a').prop('target', '_blank');
 
     // Event handlers
-    $('#refresh-requests').click(renderRequests);
-    $('input[id^="show-"][type="checkbox"]').change(syncWithFilters);
-    $('#selectPageUrls').change(targetUrlChangeHandler);
+    $('#refresh-requests').on('click', renderRequests);
+    $('input[id^="show-"][type="checkbox"]').on('change', syncWithFilters);
+    $('#selectPageUrls').on('change', targetUrlChangeHandler);
 
     renderTransientData(true);
     renderRequests();

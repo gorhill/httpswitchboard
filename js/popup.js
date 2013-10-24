@@ -594,19 +594,19 @@ function initAll() {
     chrome.tabs.query({currentWindow: true, active: true}, bindToTabHandler);
 
     // to handle filter button
-    $('body').delegate('.filter-button', 'click', function() {
+    $('body').on('click', '.filter-button', function() {
         handleFilter($(this));
         return false;
     });
 
     // to handle cell menu item
-    $('body').delegate('#cellMenu span:nth-of-type(1)', 'click', function() {
+    $('body').on('click', '#cellMenu span:nth-of-type(1)', function() {
         handlePersistence($(this));
         return false;
     });
 
     // to handle cell menu item
-    $('body').delegate('#cellMenu span:nth-of-type(2)', 'click', function() {
+    $('body').on('click', '#cellMenu span:nth-of-type(2)', function() {
         handleUnpersistence($(this));
         return false;
     });
@@ -618,34 +618,34 @@ function initAll() {
 //    });
 
     // to display useful message
-    $('body').delegate('.filter-button', 'mouseenter', function() {
+    $('body').on('mouseenter', '.filter-button', function() {
         matrixCellMenu.prependTo(this);
         handleFilterMessage($(this));
     });
 
     // to display useful message
-    $('body').delegate('#cellMenu span:nth-of-type(1)', 'mouseenter', function() {
+    $('body').on('mouseenter', '#cellMenu span:nth-of-type(1)', function() {
         handlePersistMessage($(this));
     });
 
     // to display useful message
-    $('body').delegate('#cellMenu span:nth-of-type(2)', 'mouseenter', function() {
+    $('body').on('mouseenter', '#cellMenu span:nth-of-type(2)', function() {
         handleUnpersistMessage($(this));
     });
 
     // to blank message
-    $('body').delegate('.filter-button', 'mouseleave', function() {
+    $('body').on('mouseleave', '.filter-button', function() {
         matrixCellMenu.detach();
         $('#message').html(formatHeader(pageUrl));
     });
 
-    $('#button-revert').click(revert);
+    $('#button-revert').on('click', revert);
 
-    $('#button-info').click(function() {
+    $('#button-info').on('click', function() {
         chrome.runtime.sendMessage({ what: 'gotoExtensionUrl', url: 'info.html' });
     });
 
-    $('#button-settings').click(function() {
+    $('#button-settings').on('click', function() {
         chrome.runtime.sendMessage({ what: 'gotoExtensionUrl', url: 'settings.html' });
     });
 }
