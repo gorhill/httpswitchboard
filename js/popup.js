@@ -590,7 +590,7 @@ function revert() {
 
 // make menu only when popup html is fully loaded
 
-$(function(){
+function initAll() {
     chrome.tabs.query({currentWindow: true, active: true}, bindToTabHandler);
 
     // to handle filter button
@@ -648,4 +648,12 @@ $(function(){
     $('#button-settings').click(function() {
         chrome.runtime.sendMessage({ what: 'gotoExtensionUrl', url: 'settings.html' });
     });
+}
+
+/******************************************************************************/
+
+// Entry point
+
+$(function(){
+    initAll();
 });

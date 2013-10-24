@@ -31,7 +31,7 @@ function extensionPage() {
     return chrome.extension.getBackgroundPage();
 }
 
-function httpsb() {
+function gethttpsb() {
     return chrome.extension.getBackgroundPage().HTTPSB;
 }
 
@@ -53,7 +53,7 @@ function requestDetails(url, type, when, blocked) {
 function updateRequestData() {
     var requests = [];
     var pageUrls = targetUrl === 'All' ?
-        Object.keys(httpsb().pageStats) :
+        Object.keys(gethttpsb().pageStats) :
         [targetUrl];
     var iPageUrl, nPageUrls, pageUrl;
     var reqKeys, iReqKey, nReqKeys, reqKey;
@@ -120,8 +120,7 @@ function renderNumbers(set) {
 /******************************************************************************/
 
 function renderBlacklistDetails() {
-    var background = extensionPage();
-    var httpsb = background.HTTPSB;
+    var httpsb = gethttpsb();
     var blacklists = httpsb.remoteBlacklists;
     var ul = $('#remoteBlacklists');
     var keys = Object.keys(blacklists);
@@ -149,8 +148,7 @@ function renderBlacklistDetails() {
 /******************************************************************************/
 
 function renderPageUrls() {
-    var background = extensionPage();
-    var httpsb = background.HTTPSB;
+    var httpsb = gethttpsb();
     var select = $('#selectPageUrls');
 
     // One of the permanent entry will serve as a template
@@ -182,8 +180,7 @@ function renderPageUrls() {
 /******************************************************************************/
 
 function renderStats() {
-    var background = extensionPage();
-    var httpsb = background.HTTPSB;
+    var httpsb = gethttpsb();
 
     // Make sure targetUrl is valid
     if ( targetUrl !== 'All' && !httpsb.pageStats[targetUrl] ) {
@@ -258,7 +255,7 @@ function renderRequests() {
 
     // Reuse whatever rows is already in there.
     // Remember: order of elements returned by prevAll() is closest to farthest.
-    var rows = $(rowTemplate).prevAll().toArray().reverse();
+    var rows = $(rowTemplate).prevAll().toArray();
     var i = 0;
     while ( i < requests.length && rows.length ) {
         renderRequestRow(rows.pop(), requests[i]);
@@ -327,7 +324,7 @@ function targetUrlChangeHandler() {
 /******************************************************************************/
 
 function initAll() {
-    $('#version').html(httpsb().manifest.version);
+    $('#version').html(gethttpsb().manifest.version);
     $('a').prop('target', '_blank');
 
     // Event handlers
@@ -338,6 +335,10 @@ function initAll() {
     renderTransientData(true);
     renderRequests();
     renderBlacklistDetails();
+
+    $( window ).unload(function() {
+        console.log( "Handler for .unload() called." );
+    });
 }
 
 /******************************************************************************/

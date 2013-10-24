@@ -20,7 +20,7 @@
     },
     "homepage_url": "https://github.com/gorhill/httpswitchboard/wiki",
     "minimum_chrome_version": "22.0",
-    "options_page": "info.html",
+    "options_page": "settings.html",
     "permissions": [
         "contentSettings",
         "cookies",
