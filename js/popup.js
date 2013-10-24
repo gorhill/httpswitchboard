@@ -76,12 +76,13 @@ function initMatrixStats(pageStats) {
         return;
     }
 
-    // domain '*' always present
+    // hostname '*' always present
     matrixStats['*'] = new DomainStats();
 
     // collect all domains and ancestors from net traffic
     var background = backgroundPage();
-    var url, domain, type, parent, reqKey;
+    var pageUrl = pageStats.pageUrl;
+    var url, hostname, type, parent, reqKey;
     var reqKeys = Object.keys(pageStats.requests);
     var iReqKeys = reqKeys.length;
 
@@ -90,19 +91,24 @@ function initMatrixStats(pageStats) {
     while ( iReqKeys-- ) {
         reqKey = reqKeys[iReqKeys];
         url = background.urlFromReqKey(reqKey);
-        domain = background.getHostnameFromURL(url);
+        hostname = background.getHostnameFromURL(url);
+        // rhill 2013-10-23: hostname can be empty if the request is a data url
+        // https://github.com/gorhill/httpswitchboard/issues/26
+        if ( hostname === '' ) {
+            hostname = background.getHostnameFromURL(pageUrl);
+        }
         type = background.typeFromReqKey(reqKey);
         // we want a row for self and ancestors
-        parent = domain;
+        parent = hostname;
         while ( parent ) {
             if ( !matrixStats[parent] ) {
                 matrixStats[parent] = new DomainStats();
             }
             parent = background.getParentHostnameFromHostname(parent);
         }
-        matrixStats[domain][type].count += 1;
+        matrixStats[hostname][type].count += 1;
         // Issue #12: Count requests for whole row.
-        matrixStats[domain]['*'].count += 1;
+        matrixStats[hostname]['*'].count += 1;
     }
 
     updateMatrixStats(matrixStats);
