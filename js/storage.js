@@ -262,6 +262,9 @@ function queryRemoteBlacklist(location) {
         url = chrome.runtime.getURL(location);
     }
     console.log('HTTP Switchboard > queryRemoteBlacklist > "%s"', url);
+
+    // rhill 2013-10-24: Beware, our own requests could be blocked by our own
+    // behind-the-scene requests processor.
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'text';
     xhr.timeout = 30 * 1000;
@@ -324,6 +327,12 @@ function parseRemoteBlacklist(list) {
 /******************************************************************************/
 
 function localSaveRemoteBlacklist(list) {
+    // rhill 2013-10-24: Don't pointlessly save lists which are already
+    // stored locally.
+    if ( list.url.search('assets/') === 0 ) {
+        return;
+    }
+
     storageBufferer.acquire('remoteBlacklists', function(store) {
         if ( store.remoteBlacklists === undefined ) {
             store.remoteBlacklists = {};
@@ -336,13 +345,14 @@ function localSaveRemoteBlacklist(list) {
 
 /******************************************************************************/
 
-function localRemoveRemoteBlacklist(list) {
+function localRemoveRemoteBlacklist(location) {
     storageBufferer.acquire('remoteBlacklists', function(store) {
         if ( store.remoteBlacklists ) {
-            delete store.remoteBlacklists[list.url];
+            delete store.remoteBlacklists[location];
         }
         // *important*
         storageBufferer.release();
+        console.log('HTTP Switchboard > removed cached %s', location);
     });
 }
 
