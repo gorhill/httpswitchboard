@@ -202,7 +202,8 @@ var HTTPSB = {
 
     userSettings: {
         deleteCookies: false,
-        deleteLocalStorage: false
+        deleteLocalStorage: false,
+        processBehindTheSceneRequests: false
     },
 
     // memo:
@@ -216,10 +217,14 @@ var HTTPSB = {
     // list of remote blacklist locations
     remoteBlacklists: {
         'assets/httpsb-blacklist.txt': {},
-        'http://pgl.yoyo.org/as/serverlist.php?mimetype=plaintext': {},
-        'http://www.malwaredomainlist.com/hostslist/hosts.txt': {},
-        'http://malwaredomains.lehigh.edu/files/justdomains': {},
-        'http://malwaredomains.lehigh.edu/files/immortal_domains.txt': {}
+        'assets/thirdparties/mirror1.malwaredomains.com/files/immortal_domains.txt': {},
+        'assets/thirdparties/mirror1.malwaredomains.com/files/justdomains': {},
+        'assets/thirdparties/pgl.yoyo.org/as/serverlist.php': {},
+        'assets/thirdparties/www.malwaredomainlist.com/hostslist/hosts.txt': {}
+        // 'http://pgl.yoyo.org/as/serverlist.php?mimetype=plaintext': {},
+        // 'http://www.malwaredomainlist.com/hostslist/hosts.txt': {},
+        // 'http://malwaredomains.lehigh.edu/files/justdomains': {},
+        // 'http://malwaredomains.lehigh.edu/files/immortal_domains.txt': {}
         },
     // remoteBlacklistLocalCopyTTL: 10 * 1000, // for debugging
     // Look for new version every 7 days

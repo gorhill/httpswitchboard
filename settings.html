@@ -26,17 +26,42 @@ h3 + *, h1 + * {
 
     <h2>Cookies</h3>
     <div>
-        <p>Blacklisted cookies are not prevented by HTTP Switchboard from entering
+        <p>Blacklisted cookies are not prevented by <i>HTTP Switchboard</i> from entering
         your browser. However they are prevented from leaving your browser, which
         is what really matters. Not blocking cookies before they enter your browser
         gives you the opportunity to be informed that a site tried to use cookies,
         and furthermore to inspect their contents if you wish.</p>
-        <p>Once these blacklisted cookies have been accounted for by HTTP Switchboard,
+        <p>Once these blacklisted cookies have been accounted for by <i>HTTP Switchboard</i>,
         they can be removed from your browser if you wish so:</p>
         <ul style="list-style-type:none">
         <li><input id="delete-blacklisted-cookies" type="checkbox" value="">Delete cookies <span class="dim">(<span id="cookie-removed-counter">0</span> cookies removed so far)</span>
-        <li><input id="delete-blacklisted-localstorages" type="checkbox" value="">Delete local storage (not yet implemented)
+        <li><input id="delete-blacklisted-localstorages" type="checkbox" value="">Delete local storage (not yet implemented, unsure if feasible)
         </ul>
+        </div>
+
+    <h2>Chromium: behind-the-scene requests</h3>
+    <div>
+        <p>According to <a href="http://www.google.com/intl/en/chrome/browser/privacy/whitepaper.html">Google Chrome Privacy Whitepaper</a>,
+        <i>Chromium</i> might send HTTP requests to <i>Google</i> without the user
+        expressly visiting a web page. Let's call these special requests
+        <strong>behind-the-scene</strong>
+        requests. Also, other installed browser extensions can send 
+        <strong>behind-the-scene</strong> HTTP requests.</p>
+        <p><i>HTTP Switchboard</i> let you
+        intercept and treat these requests like any other request: they can be
+        processed in order to allow/block them as per your whitelist/blacklist.</p>
+        <ul style="list-style-type:none">
+        <li><input id="process-behind-the-scene" type="checkbox" value="">Process <strong>behind-the-scene</strong> HTTP requests.
+        </ul>
+        <p><span style="color:red;font-weight:bold">Beware:</span> potentially
+        blocking <strong>behind-the-scene</strong> net requests is currently causing
+        <a href="https://github.com/gorhill/httpswitchboard/issues/27">an issue</a>
+        when the user wants to install an extension from the Chrome store, hence
+        the ability to disable the feature here. Blocking can also cause other
+        installed extensions to not work properly (those querying for remote data).</p>
+        <p>Even if this feature is not enabled, <strong>behind-the-scene</strong> requests
+        are still logged by <i>HTTP Switchboard</i>, so that you can at least inspect them
+        (from the <i>Stats</i> page).
         </div>
 
 <script src="lib/jquery-2.min.js"></script>

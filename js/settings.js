@@ -19,41 +19,49 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
-function httpsb() {
+/******************************************************************************/
+
+function gethttpsb() {
     return chrome.extension.getBackgroundPage().HTTPSB;
 }
 
+/******************************************************************************/
+
+function changeUserSettings(name, value) {
+    chrome.runtime.sendMessage({
+        what: 'userSettings',
+        name: name,
+        value: value
+    });
+}
+
+/******************************************************************************/
+
+function initAll() {
+    var httpsb = gethttpsb();
+
+    $('#delete-blacklisted-cookies').attr('checked', httpsb.userSettings.deleteCookies);
+    $('#delete-blacklisted-localstorages').attr('checked', httpsb.userSettings.deleteLocalStorages);
+    $('#cookie-removed-counter').html(httpsb.cookieRemovedCounter);
+    $('#process-behind-the-scene').attr('checked', httpsb.userSettings.processBehindTheSceneRequests);
+
+    // Handle user interaction
+
+    $('#delete-blacklisted-cookies').change(function(){
+        changeUserSettings('deleteCookies', $(this).is(':checked'));
+    });
+
+    $('#delete-blacklisted-localstorages').change(function(){
+        changeUserSettings('deleteLocalStorages', $(this).is(':checked'));
+    });
+
+    $('#process-behind-the-scene').change(function(){
+        changeUserSettings('processBehindTheSceneRequests', $(this).is(':checked'));
+    });
+}
+
+/******************************************************************************/
+
 $(function() {
-
-/******************************************************************************/
-
-var httpsb = httpsb();
-
-$('#delete-blacklisted-cookies').attr('checked', httpsb.userSettings.deleteCookies);
-$('#delete-blacklisted-localstorages').attr('checked', httpsb.userSettings.deleteLocalStorages);
-$('#cookie-removed-counter').html(httpsb.cookieRemovedCounter);
-
-/******************************************************************************/
-
-// Handle user interaction
-
-$('#delete-blacklisted-cookies').change(function(){
-    chrome.runtime.sendMessage({
-        what: 'userSettings',
-        name: 'deleteCookies',
-        value: $(this).is(':checked')
-    });
-});
-
-$('#delete-blacklisted-localstorages').change(function(){
-    chrome.runtime.sendMessage({
-        what: 'userSettings',
-        name: 'deleteLocalStorages',
-        value: $(this).is(':checked')
-    });
-});
-
-
-/******************************************************************************/
-
+    initAll();
 });

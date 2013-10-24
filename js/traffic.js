@@ -71,6 +71,8 @@ window.onload = function() { \
 // Intercept and filter web requests according to white and black lists.
 
 function webRequestHandler(details) {
+    var httpsb = HTTPSB;
+
 /*
     console.debug('Request: tab=%d parent=%d frame=%d type=%s, url=%s',
         details.tabId,
@@ -85,7 +87,7 @@ function webRequestHandler(details) {
 
     // Do not ignore traffic outside tabs
     if ( tabId < 0 ) {
-        tabId = HTTPSB.behindTheSceneTabId;
+        tabId = httpsb.behindTheSceneTabId;
     }
 
     var url = normalizeChromiumUrl(details.url);
@@ -120,17 +122,26 @@ function webRequestHandler(details) {
         bindTabToPageStats(tabId, url);
     }
 
-    // block request?
     // quickProfiler.start();
+
+    // block request?
     var hostname = getHostnameFromURL(url);
-    var block = blacklisted(type, hostname);
-    // quickProfiler.stop('webRequestHandler | blacklisted()');
+    var block;
+
+    // https://github.com/gorhill/httpswitchboard/issues/27
+    if ( tabId !== httpsb.behindTheSceneTabId || httpsb.userSettings.processBehindTheSceneRequests ) {
+        block = blacklisted(type, hostname);
+    } else {
+        block = false;
+    }
 
     // Log request
     var pageStats = pageStatsFromTabId(tabId);
     if ( pageStats ) {
         recordFromPageStats(pageStats, type, url, block);
     }
+
+    // quickProfiler.stop('webRequestHandler | evaluate&record');
 
     // rhill 2013-10-20:
     // https://github.com/gorhill/httpswitchboard/issues/19
@@ -169,7 +180,7 @@ function webRequestHandler(details) {
         if ( pageStats ) {
             pageStats.requestStats.record(type, false);
         }
-        HTTPSB.requestStats.record(type, false);
+        httpsb.requestStats.record(type, false);
 
         // console.log("HTTPSB > %s @ url=%s", details.type, details.url);
         return;
@@ -182,7 +193,7 @@ function webRequestHandler(details) {
     if ( pageStats ) {
         pageStats.requestStats.record(type, true);
     }
-    HTTPSB.requestStats.record(type, true);
+    httpsb.requestStats.record(type, true);
 
     // remember this blacklisting, used to create a snapshot of the state
     // of the tab, which is useful for smart reload of the page (reload the
