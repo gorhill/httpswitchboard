@@ -31,6 +31,7 @@ var matrixStats = {};
 var matrixHeaderTypes = ['*'];
 var matrixHeaderPrettyNames = { };
 var matrixCellMenu = null;
+var matrixCellHotspots = null;
 var matrixHasRows = false; // useful to know for various housekeeping task
 
 /******************************************************************************/
@@ -284,18 +285,23 @@ function getCellClass(domain, type) {
 }
 
 // compute next state
-function getNextAction(domain, type) {
+function getNextAction(domain, type, leaning) {
     var entry = matrixStats[domain][type];
     var temporaryColor = entry.temporaryColor;
     // special case: root toggle only between two states
     if ( type === '*' && domain === '*' ) {
         return temporaryColor === 'gdt' ? 'blacklist' : 'whitelist';
     }
+    // Lean toward whitelisting?
+    if ( leaning === 'whitelisting' ) {
+        if ( temporaryColor === 'rpt' || temporaryColor === 'gpt' ) {
+            return 'whitelist';
+        }
+        return 'graylist';
+    }
+    // Lean toward blacklisting
     if ( temporaryColor === 'rpt' || temporaryColor === 'gpt' ) {
         return 'blacklist';
-    }
-    if ( temporaryColor === 'rdt' ) {
-        return 'whitelist';
     }
     return 'graylist';
 }
@@ -324,11 +330,13 @@ function updateMatrixCells() {
 
 // handle user interaction with filters
 
-function handleFilter(button) {
+function handleFilter(button, leaning) {
     var background = backgroundPage();
-    var type = button.prop('filterType');
-    var domain = button.prop('filterDomain');
-    var nextAction = getNextAction(domain, type);
+    // our parent cell knows who we are
+    var cell = button.closest('div.filter-button');
+    var type = cell.prop('filterType');
+    var domain = cell.prop('filterDomain');
+    var nextAction = getNextAction(domain, type, leaning);
     if ( nextAction === 'blacklist' ) {
         background.blacklistTemporarily(type, domain);
     } else if ( nextAction === 'whitelist' ) {
@@ -338,7 +346,15 @@ function handleFilter(button) {
     }
     updateMatrixStats(matrixStats);
     updateMatrixCells();
-    handleFilterMessage(button);
+    handleFilterMessage(button, leaning);
+}
+
+function handleWhitelistFilter(button) {
+    handleFilter(button, 'whitelisting');
+}
+
+function handleBlacklistFilter(button) {
+    handleFilter(button, 'blacklisting');
 }
 
 /******************************************************************************/
@@ -506,10 +522,11 @@ var mouseOverPrompts = {
     '.??': 'Click to graylist <strong>{{what}}</strong> from <strong>{{where}}</strong>'
 };
 
-function handleFilterMessage(button) {
-    var type = button.prop('filterType');
-    var domain = button.prop('filterDomain');
-    var nextAction = getNextAction(domain, type);
+function handleFilterMessage(hotspot, leaning) {
+    var cell = hotspot.closest('div.filter-button');
+    var type = cell.prop('filterType');
+    var domain = cell.prop('filterDomain');
+    var nextAction = getNextAction(domain, type, leaning);
     var action = nextAction === 'whitelist' ? '+' : (nextAction === 'blacklist' ? '-' : '.');
     var what = type === '*' ? '*' : '?';
     var where = domain === '*' ? '*' : '?';
@@ -517,6 +534,14 @@ function handleFilterMessage(button) {
     prompt = prompt.replace('{{what}}', matrixHeaderPrettyNames[type]);
     prompt = prompt.replace('{{where}}', domain);
     $('#message').html(prompt);
+}
+
+function handleWhitelistFilterMessage(hotspot) {
+    handleFilterMessage(hotspot, 'whitelisting');
+}
+
+function handleBlacklistFilterMessage(hotspot) {
+    handleFilterMessage(hotspot, 'blacklisting');
 }
 
 /******************************************************************************/
@@ -535,6 +560,12 @@ function handleUnpersistMessage(button) {
     } else if ( button.closest('.gdp').length ) {
         $('#message').html('Cancel the permanent <span class="gdt">whitelist</span> status of this cell');
     }
+}
+
+/******************************************************************************/
+
+function blankMessage() {
+    $('#message').html(formatHeader(pageUrl));
 }
 
 /******************************************************************************/
@@ -570,6 +601,43 @@ function bindToTabHandler(tabs) {
 
     // We reuse for all cells the one and only cell menu.
     matrixCellMenu = $('#cellMenu').detach();
+    $('span:nth-of-type(1)', matrixCellMenu).on('click', function() {
+        handlePersistence($(this));
+        return false;
+    });
+    $('span:nth-of-type(2)', matrixCellMenu).on('click', function() {
+        handleUnpersistence($(this));
+        return false;
+    });
+    $('span:nth-of-type(1)', matrixCellMenu).on('mouseenter', function() {
+        handlePersistMessage($(this));
+        return false;
+    });
+    // to display useful message
+    $('span:nth-of-type(2)', matrixCellMenu).on('mouseenter', function() {
+        handleUnpersistMessage($(this));
+        return false;
+    });
+
+
+    // We reuse for all cells the one and only cell hotspots.
+    matrixCellHotspots = $('#cellHotspots').detach();
+    $('div:nth-of-type(1)', matrixCellHotspots).on('click', function() {
+        handleWhitelistFilter($(this));
+        return false;
+    });
+    $('div:nth-of-type(2)', matrixCellHotspots).on('click', function() {
+        handleBlacklistFilter($(this));
+        return false;
+    });
+    $('div:nth-of-type(1)', matrixCellHotspots).on('mouseenter', function() {
+        handleWhitelistFilterMessage($(this));
+        return false;
+    });
+    $('div:nth-of-type(2)', matrixCellHotspots).on('mouseenter', function() {
+        handleBlacklistFilterMessage($(this));
+        return false;
+    });
 
     // To know when to rebuild the matrix
     // TODO: What if this event is triggered before bindToTabHandler()
@@ -593,58 +661,25 @@ function revert() {
 function initAll() {
     chrome.tabs.query({currentWindow: true, active: true}, bindToTabHandler);
 
-    // to handle filter button
-    $('body').on('click', '.filter-button', function() {
-        handleFilter($(this));
-        return false;
-    });
+    // TODO: prevent spurious selection
 
-    // to handle cell menu item
-    $('body').on('click', '#cellMenu span:nth-of-type(1)', function() {
-        handlePersistence($(this));
-        return false;
-    });
-
-    // to handle cell menu item
-    $('body').on('click', '#cellMenu span:nth-of-type(2)', function() {
-        handleUnpersistence($(this));
-        return false;
-    });
-
-    // to prevent spurious selection
-// doesn't work...
-//    $('body').delegate('.filter-button', 'dblclick', function(event) {
-//        event.preventDefault();
-//    });
-
-    // to display useful message
+    // to attach widgets to matrix cell
     $('body').on('mouseenter', '.filter-button', function() {
+        matrixCellHotspots.prependTo(this);
         matrixCellMenu.prependTo(this);
-        handleFilterMessage($(this));
-    });
-
-    // to display useful message
-    $('body').on('mouseenter', '#cellMenu span:nth-of-type(1)', function() {
-        handlePersistMessage($(this));
-    });
-
-    // to display useful message
-    $('body').on('mouseenter', '#cellMenu span:nth-of-type(2)', function() {
-        handleUnpersistMessage($(this));
     });
 
     // to blank message
     $('body').on('mouseleave', '.filter-button', function() {
+        matrixCellHotspots.detach();
         matrixCellMenu.detach();
-        $('#message').html(formatHeader(pageUrl));
+        blankMessage();
     });
 
     $('#button-revert').on('click', revert);
-
     $('#button-info').on('click', function() {
         chrome.runtime.sendMessage({ what: 'gotoExtensionUrl', url: 'info.html' });
     });
-
     $('#button-settings').on('click', function() {
         chrome.runtime.sendMessage({ what: 'gotoExtensionUrl', url: 'settings.html' });
     });
