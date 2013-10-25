@@ -140,7 +140,7 @@ function restoreTemporaryLists() {
 
 // Check whether something is white or blacklisted, direct or indirectly.
 //
-// Levels of evaluations (4 distinct algorithms):
+// Levels of evaluations (3 distinct algorithms):
 //   while hostname !== empty:
 //     type/hostname
 //     */hostname
@@ -170,27 +170,35 @@ function evaluate(type, hostname) {
     var whitelist = httpsb.whitelist;
     var graylist = httpsb.graylist;
     var blacklistReadonly = httpsb.blacklistReadonly;
-    var key, parent;
+    var typeKey;
+    var cellKey, parent;
 
     // Pick proper entry point
 
     if ( type !== '*' && hostname !== '*' ) {
+        // https://github.com/gorhill/httpswitchboard/issues/29
+        typeKey = type + '/*';
+
         // direct: specific type, specific hostname
-        key = type + '/' + hostname;
-        if ( whitelist[key] ) {
-            return httpsb.ALLOWED_DIRECT;
-        }
-        if ( blacklist[key] ) {
+        cellKey = type + '/' + hostname;
+        if ( blacklist[cellKey] ) {
             return httpsb.DISALLOWED_DIRECT;
         }
-        // indirect: any type, specific hostname
-        key = '*/' + hostname;
-        if ( whitelist[key] ) {
-            return httpsb.ALLOWED_INDIRECT;
+        if ( whitelist[cellKey] ) {
+            return httpsb.ALLOWED_DIRECT;
         }
-        if ( blacklist[key] || (!graylist[key] && blacklistReadonly[hostname]) ) {
+        // indirect: any type, specific hostname
+        cellKey = '*/' + hostname;
+        if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[hostname]) ) {
             return httpsb.DISALLOWED_INDIRECT;
         }
+        if ( whitelist[cellKey] ) {
+            // https://github.com/gorhill/httpswitchboard/issues/29
+            // The cell is indirectly whitelisted because of hostname, type
+            // must nOT be blacklisted.
+            return blacklist[typeKey] ? httpsb.DISALLOWED_INDIRECT : httpsb.ALLOWED_INDIRECT;
+        }
+
         // indirect: parent hostname nodes
         parent = hostname;
         while ( true ) {
@@ -198,30 +206,32 @@ function evaluate(type, hostname) {
             if ( !parent ) {
                 break;
             }
-            key = type + '/' + parent;
+            cellKey = type + '/' + parent;
             // specific type, specific parent
-            if ( whitelist[key] ) {
-                return httpsb.ALLOWED_INDIRECT;
-            }
-            if ( blacklist[key] ) {
+            if ( blacklist[cellKey] ) {
                 return httpsb.DISALLOWED_INDIRECT;
+            }
+            if ( whitelist[cellKey] ) {
+                return httpsb.ALLOWED_INDIRECT;
             }
             // any type, specific parent
-            key = '*/' + parent;
-            if ( whitelist[key] ) {
-                return httpsb.ALLOWED_INDIRECT;
-            }
-            if ( blacklist[key] || (!graylist[key] && blacklistReadonly[parent]) ) {
+            cellKey = '*/' + parent;
+            if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[parent]) ) {
                 return httpsb.DISALLOWED_INDIRECT;
+            }
+            if ( whitelist[cellKey] ) {
+                // https://github.com/gorhill/httpswitchboard/issues/29
+                // The cell is indirectly whitelisted because of hostname, type
+                // must nOT be blacklisted.
+                return blacklist[typeKey] ? httpsb.DISALLOWED_INDIRECT : httpsb.ALLOWED_INDIRECT;
             }
         }
         // indirect: specific type, any hostname
-        key = type + '/*';
-        if ( whitelist[key] ) {
-            return httpsb.ALLOWED_INDIRECT;
-        }
-        if ( blacklist[key] ) {
+        if ( blacklist[typeKey] ) {
             return httpsb.DISALLOWED_INDIRECT;
+        }
+        if ( whitelist[typeKey] ) {
+            return httpsb.ALLOWED_INDIRECT;
         }
         // indirect: any type, any hostname
         if ( whitelist['*/*'] ) {
@@ -231,11 +241,11 @@ function evaluate(type, hostname) {
     }
     if ( type === '*' && hostname !== '*' ) {
         // direct: any type, specific hostname
-        key = '*/' + hostname;
-        if ( whitelist[key] ) {
+        cellKey = '*/' + hostname;
+        if ( whitelist[cellKey] ) {
             return httpsb.ALLOWED_DIRECT;
         }
-        if ( blacklist[key] || (!graylist[key] && blacklistReadonly[hostname]) ) {
+        if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[hostname]) ) {
             return httpsb.DISALLOWED_DIRECT;
         }
         // indirect: parent hostname nodes
@@ -246,11 +256,11 @@ function evaluate(type, hostname) {
                 break;
             }
             // any type, specific hostname
-            key = '*/' + parent;
-            if ( whitelist[key] ) {
+            cellKey = '*/' + parent;
+            if ( whitelist[cellKey] ) {
                 return httpsb.ALLOWED_INDIRECT;
             }
-            if ( blacklist[key] || (!graylist[key] && blacklistReadonly[parent]) ) {
+            if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[parent]) ) {
                 return httpsb.DISALLOWED_INDIRECT;
             }
         }
@@ -262,11 +272,11 @@ function evaluate(type, hostname) {
     }
     if ( type !== '*' && hostname === '*' ) {
         // indirect: specific type, any hostname
-        key = type + '/*';
-        if ( whitelist[key] ) {
+        cellKey = type + '/*';
+        if ( whitelist[cellKey] ) {
             return httpsb.ALLOWED_DIRECT;
         }
-        if ( blacklist[key] ) {
+        if ( blacklist[cellKey] ) {
             return httpsb.DISALLOWED_DIRECT;
         }
         // indirect: any type, any hostname
