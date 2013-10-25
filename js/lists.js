@@ -25,15 +25,9 @@
 function whitelistTemporarily(type, hostname) {
     var httpsb = HTTPSB;
     var key = type + '/' + hostname;
-    var whitelisted = !httpsb.whitelist[key];
-    var unblacklisted = httpsb.blacklist[key];
-    if ( whitelisted ) {
-        httpsb.whitelist[key] = true;
-        // console.log('HTTP Switchboard > temporary whitelisting %s from %s', type, hostname);
-    }
-    if ( unblacklisted ) {
-        delete httpsb.blacklist[key];
-    }
+    httpsb.whitelist[key] = true;
+    delete httpsb.blacklist[key];
+    delete httpsb.graylist[key];
 }
 
 function whitelistPermanently(type, hostname) {
@@ -59,15 +53,9 @@ function whitelistPermanently(type, hostname) {
 function blacklistTemporarily(type, hostname) {
     var httpsb = HTTPSB;
     var key = type + '/' + hostname;
-    var unwhitelisted = httpsb.whitelist[key];
-    var blacklisted = !httpsb.blacklist[key];
-    if ( unwhitelisted ) {
-        delete httpsb.whitelist[key];
-    }
-    if ( blacklisted ) {
-        httpsb.blacklist[key] = true;
-        // console.log('HTTP Switchboard > temporary blacklisting %s from %s', type, hostname);
-    }
+    delete httpsb.whitelist[key];
+    httpsb.blacklist[key] = true;
+    delete httpsb.graylist[key];
 }
 
 function blacklistPermanently(type, hostname) {
@@ -101,15 +89,17 @@ function graylist(type, hostname) {
     if ( key === '*/*' ) {
         return;
     }
-    var unwhitelisted = httpsb.whitelist[key];
-    var unblacklisted = httpsb.blacklist[key];
-    if ( unwhitelisted ) {
-        delete httpsb.whitelist[key];
+    delete httpsb.whitelist[key];
+    delete httpsb.blacklist[key];
+
+    // rhill 2013-10-25: special case, we expressly graylist only if the
+    // key is '*' and hostname is found in read-only blacklist, so that the
+    // express graylisting occults the read-only blacklist status.
+    if ( type === '*' && httpsb.blacklistReadonly[hostname] ) {
+        httpsb.graylist[key] = true;
+    } else {
+        delete httpsb.graylist[key]; // just in case...
     }
-    if ( unblacklisted ) {
-        delete httpsb.blacklist[key];
-    }
-    // console.log('HTTP Switchboard > temporary graylisting %s from %s', type, hostname);
 }
 
 function graylistPermanently(type, hostname) {
@@ -117,14 +107,18 @@ function graylistPermanently(type, hostname) {
     var key = type + '/' + hostname;
     var unwhitelisted = httpsb.whitelistUser[key];
     var unblacklisted = httpsb.blacklistUser[key];
+    var graylisted = type === '*' && httpsb.blacklistReadonly[hostname] && !httpsb.graylistUser[key];
     if ( unwhitelisted ) {
         delete httpsb.whitelistUser[key];
     }
     if ( unblacklisted ) {
         delete httpsb.blacklistUser[key];
     }
-    if ( unwhitelisted || unblacklisted ) {
-        // console.log('HTTP Switchboard > permanent graylisting %s from %s', type, hostname);
+    if ( graylisted ) {
+        // httpsb.graylistUser[key] = true;
+    }
+    if ( unwhitelisted || unblacklisted /*|| graylisted*/ ) {
+    // console.log('HTTP Switchboard > permanent graylisting %s from %s', type, hostname);
         save();
     }
 }
@@ -135,133 +129,99 @@ function graylistPermanently(type, hostname) {
 
 function restoreTemporaryLists() {
     var httpsb = HTTPSB;
-    httpsb.blacklist = {};
-
-    // restore read-only blacklists
-    httpsb.blacklistReadonly.toFilters(httpsb.blacklist);
-
-    // Reduce mem usage + avoid noticeable delay for when packing is needed,
-    // like when we need to lookup a hostname in the read-only list.
-    httpsb.blacklistReadonly.pack();
-
-    // restore user blacklist
-    populateListFromList(httpsb.blacklist, httpsb.blacklistUser);
-
-    // rhill 2013-10-19: https://github.com/gorhill/httpswitchboard/issues/18
-    // Be sure a hostname doesn't end up in both the effective black and whitelist
-    restoreTemporaryWhitelist();
-}
-
-
-// rhill 2013-10-19: https://github.com/gorhill/httpswitchboard/issues/18
-// I create a separate function so it can also be called at launch time.
-function restoreTemporaryWhitelist() {
-    var httpsb = HTTPSB;
     httpsb.whitelist = {};
-    var filters = Object.keys(httpsb.whitelistUser);
-    var i = filters.length;
-    var filter;
-    while ( i-- ) {
-        filter = filters[i];
-        delete httpsb.blacklist[filter];
-        httpsb.whitelist[filter] = true;
-    }
+    httpsb.blacklist = {};
+    httpsb.graylist = {};
+    populateListFromList(httpsb.whitelist, httpsb.whitelistUser);
+    populateListFromList(httpsb.blacklist, httpsb.blacklistUser);
 }
 
 /******************************************************************************/
 
-// check whether something is white or black listed, direct or indirectly
+// Check whether something is white or blacklisted, direct or indirectly.
+//
+// Levels of evaluations (4 distinct algorithms):
+//   while hostname !== empty:
+//     type/hostname
+//     */hostname
+//     hostname = parent hostname
+//   type/*
+//   */*
+//
+// For each evaluation:
+//   In whitelist?
+//      Yes: evaluated as whitelisted
+//   In blacklist?
+//      Yes: evaluated as blacklisted
+//   Not in graylist and in read-only blacklist?
+//      Yes: evaluated as blacklisted
+//   Evaluated as graylisted
+//      Evaluate next level
+//
+// It is a naturally recursive function, but we unwind it completely here
+// because it is a core function, used in  time critical part of the
+// code, and we gain by making local references to global variables, which
+// is better if done once, which would happen for each recursive call
+// otherwise.
+
 function evaluate(type, hostname) {
     var httpsb = HTTPSB;
     var blacklist = httpsb.blacklist;
     var whitelist = httpsb.whitelist;
-    var key, ancestor;
+    var graylist = httpsb.graylist;
+    var blacklistReadonly = httpsb.blacklistReadonly;
+    var key, parent;
+
+    // Pick proper entry point
+
     if ( type !== '*' && hostname !== '*' ) {
         // direct: specific type, specific hostname
         key = type + '/' + hostname;
-        if ( blacklist[key] ) {
-            return httpsb.DISALLOWED_DIRECT;
-        }
         if ( whitelist[key] ) {
             return httpsb.ALLOWED_DIRECT;
+        }
+        if ( blacklist[key] ) {
+            return httpsb.DISALLOWED_DIRECT;
         }
         // indirect: any type, specific hostname
         key = '*/' + hostname;
-        if ( blacklist[key] ) {
-            return httpsb.DISALLOWED_INDIRECT;
-        }
         if ( whitelist[key] ) {
             return httpsb.ALLOWED_INDIRECT;
         }
-        // indirect: ancestor hostname nodes
-        ancestor = hostname;
-        while ( ancestor ) {
-            key = type + '/' + ancestor;
-            // specific type, specific ancestor
-            if ( blacklist[key] ) {
-                return httpsb.DISALLOWED_INDIRECT;
+        if ( blacklist[key] || (!graylist[key] && blacklistReadonly[hostname]) ) {
+            return httpsb.DISALLOWED_INDIRECT;
+        }
+        // indirect: parent hostname nodes
+        parent = hostname;
+        while ( true ) {
+            parent = getParentHostnameFromHostname(parent);
+            if ( !parent ) {
+                break;
             }
+            key = type + '/' + parent;
+            // specific type, specific parent
             if ( whitelist[key] ) {
                 return httpsb.ALLOWED_INDIRECT;
             }
-            // any type, specific ancestor
-            key = '*/' + ancestor;
             if ( blacklist[key] ) {
                 return httpsb.DISALLOWED_INDIRECT;
             }
+            // any type, specific parent
+            key = '*/' + parent;
             if ( whitelist[key] ) {
                 return httpsb.ALLOWED_INDIRECT;
             }
-            ancestor = getParentHostnameFromHostname(ancestor);
+            if ( blacklist[key] || (!graylist[key] && blacklistReadonly[parent]) ) {
+                return httpsb.DISALLOWED_INDIRECT;
+            }
         }
         // indirect: specific type, any hostname
         key = type + '/*';
+        if ( whitelist[key] ) {
+            return httpsb.ALLOWED_INDIRECT;
+        }
         if ( blacklist[key] ) {
             return httpsb.DISALLOWED_INDIRECT;
-        }
-        if ( whitelist[key] ) {
-            return httpsb.ALLOWED_INDIRECT;
-        }
-        // indirect: any type, any hostname
-        if ( whitelist['*/*'] ) {
-            return httpsb.ALLOWED_INDIRECT;
-        }
-        return httpsb.DISALLOWED_INDIRECT;
-    } else if ( type === '*' && hostname !== '*' ) {
-        // direct: any type, specific hostname
-        key = '*/' + hostname;
-        if ( blacklist[key] ) {
-            return httpsb.DISALLOWED_DIRECT;
-        }
-        if ( whitelist[key] ) {
-            return httpsb.ALLOWED_DIRECT;
-        }
-        // indirect: ancestor hostname nodes
-        ancestor = hostname;
-        while ( ancestor ) {
-            // any type, specific hostname
-            key = '*/' + ancestor;
-            if ( blacklist[key] ) {
-                return httpsb.DISALLOWED_INDIRECT;
-            }
-            if ( whitelist[key] ) {
-                return httpsb.ALLOWED_INDIRECT;
-            }
-            ancestor = getParentHostnameFromHostname(ancestor);
-        }
-        // indirect: any type, any hostname
-        if ( whitelist['*/*'] ) {
-            return httpsb.ALLOWED_INDIRECT;
-        }
-        return httpsb.DISALLOWED_INDIRECT;
-    } else if ( type !== '*' && hostname === '*' ) {
-        // indirect: specific type, any hostname
-        key = type + '/*';
-        if ( blacklist[key] ) {
-            return httpsb.DISALLOWED_DIRECT;
-        }
-        if ( whitelist[key] ) {
-            return httpsb.ALLOWED_DIRECT;
         }
         // indirect: any type, any hostname
         if ( whitelist['*/*'] ) {
@@ -269,7 +229,52 @@ function evaluate(type, hostname) {
         }
         return httpsb.DISALLOWED_INDIRECT;
     }
-    // global default decide
+    if ( type === '*' && hostname !== '*' ) {
+        // direct: any type, specific hostname
+        key = '*/' + hostname;
+        if ( whitelist[key] ) {
+            return httpsb.ALLOWED_DIRECT;
+        }
+        if ( blacklist[key] || (!graylist[key] && blacklistReadonly[hostname]) ) {
+            return httpsb.DISALLOWED_DIRECT;
+        }
+        // indirect: parent hostname nodes
+        parent = hostname;
+        while ( true ) {
+            parent = getParentHostnameFromHostname(parent);
+            if ( !parent ) {
+                break;
+            }
+            // any type, specific hostname
+            key = '*/' + parent;
+            if ( whitelist[key] ) {
+                return httpsb.ALLOWED_INDIRECT;
+            }
+            if ( blacklist[key] || (!graylist[key] && blacklistReadonly[parent]) ) {
+                return httpsb.DISALLOWED_INDIRECT;
+            }
+        }
+        // indirect: any type, any hostname
+        if ( whitelist['*/*'] ) {
+            return httpsb.ALLOWED_INDIRECT;
+        }
+        return httpsb.DISALLOWED_INDIRECT;
+    }
+    if ( type !== '*' && hostname === '*' ) {
+        // indirect: specific type, any hostname
+        key = type + '/*';
+        if ( whitelist[key] ) {
+            return httpsb.ALLOWED_DIRECT;
+        }
+        if ( blacklist[key] ) {
+            return httpsb.DISALLOWED_DIRECT;
+        }
+        // indirect: any type, any hostname
+        if ( whitelist['*/*'] ) {
+            return httpsb.ALLOWED_INDIRECT;
+        }
+        return httpsb.DISALLOWED_INDIRECT;
+    }
     if ( whitelist['*/*'] ) {
         return httpsb.ALLOWED_DIRECT;
     }
@@ -341,8 +346,8 @@ function getPermanentColor(type, hostname) {
     if ( type !== '*' ) {
         return 'xxx';
     }
-
-    if ( httpsb.blacklistReadonly.find(hostname) ) {
+    // console.debug('httpsb.blacklistReadonly[%s] = %o', hostname, httpsb.blacklistReadonly[hostname]);
+    if ( httpsb.blacklistReadonly[hostname] ) {
         return 'rdp';
     }
     return 'xxx';

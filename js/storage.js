@@ -284,12 +284,18 @@ function queryRemoteBlacklist(location) {
 function queryRemoteBlacklistSuccess(location, content) {
     // console.log('HTTP Switchboard > fetched third party blacklist from remote location "%s"', location);
     HTTPSB.remoteBlacklists[location].timeStamp = Date.now();
+
+    // rhill 2013-10-25: using toLowerCase() here instead of at
+    // populateListFromString() time appears to be beneficial to memory
+    // footprint, I suspect this has to do with maybe chromium merely referring
+    // to the larger string using [s,e] when slicing substrings as long as
+    // these substrings are not processed further.
     chrome.runtime.sendMessage({
         what: 'parseRemoteBlacklist',
         list: {
             url: location,
             timeStamp: Date.now(),
-            raw: content
+            raw: content.toLowerCase()
         }
     });
 }
@@ -368,20 +374,7 @@ function mergeRemoteBlacklist(list) {
     // remove it (now it is 2013-10-21)
     list.raw = list.raw.replace(/\*\/localhost\b|\*\/127\.0\.0\.1\b|\*\/::1\b|\*\//g, '');
 
-    httpsb.blacklistReadonly.addMany(list.raw);
-    httpsb.blacklistReadonly.toFilters(httpsb.blacklist);
-
-    // TODO: Need to somehow force a pack of the read-only blacklists, as
-    // packing when the popup menu is called causes a noticeable delay.
-    httpsb.remoteBlacklistMergeCounter--;
-    if ( !httpsb.remoteBlacklistMergeCounter ) {
-        httpsb.blacklistReadonly.pack();
-    }
-
-    // rhill 2013-10-19: https://github.com/gorhill/httpswitchboard/issues/18
-    // Ensure that whatever is in the whitelist is not also found in the
-    // blacklist.
-    restoreTemporaryWhitelist();
+    populateListFromString(httpsb.blacklistReadonly, list.raw);
 }
 
 /******************************************************************************/
@@ -403,7 +396,7 @@ function populateListFromString(des, s) {
     while ( i-- ) {
         key = keys[i];
         if ( key.length ) {
-            des[key.toLowerCase()] = true;
+            des[key] = true;
         }
     }
 }
