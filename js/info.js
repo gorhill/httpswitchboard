@@ -190,8 +190,8 @@ function renderStats() {
     var blockedStats = requestStats.blocked;
     var allowedStats = requestStats.allowed;
     renderNumbers({
-        '#whitelistCount': httpsb.whitelist.length,
-        '#blacklistCount': httpsb.blacklistReadonly.length + httpsb.blacklist.length,
+        '#whitelistCount': Object.keys(httpsb.whitelist),
+        '#blacklistCount': httpsb.blacklistReadonly.length + Object.keys(httpsb.blacklist),
         '#blockedAllCount': requestStats.blocked.all,
         '#blockedMainFrameCount': blockedStats.main_frame,
         '#blockedCookieCount': blockedStats.cookie,
