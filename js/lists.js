@@ -196,7 +196,10 @@ function evaluate(type, hostname) {
             // https://github.com/gorhill/httpswitchboard/issues/29
             // The cell is indirectly whitelisted because of hostname, type
             // must nOT be blacklisted.
-            return blacklist[typeKey] ? httpsb.DISALLOWED_INDIRECT : httpsb.ALLOWED_INDIRECT;
+            if ( httpsb.userSettings.strictBlocking ) {
+                return blacklist[typeKey] ? httpsb.DISALLOWED_INDIRECT : httpsb.ALLOWED_INDIRECT;
+            }
+            return httpsb.ALLOWED_INDIRECT;
         }
 
         // indirect: parent hostname nodes
@@ -223,7 +226,10 @@ function evaluate(type, hostname) {
                 // https://github.com/gorhill/httpswitchboard/issues/29
                 // The cell is indirectly whitelisted because of hostname, type
                 // must nOT be blacklisted.
-                return blacklist[typeKey] ? httpsb.DISALLOWED_INDIRECT : httpsb.ALLOWED_INDIRECT;
+                if ( httpsb.userSettings.strictBlocking ) {
+                    return blacklist[typeKey] ? httpsb.DISALLOWED_INDIRECT : httpsb.ALLOWED_INDIRECT;
+                }
+                return httpsb.ALLOWED_INDIRECT;
             }
         }
         // indirect: specific type, any hostname

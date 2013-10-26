@@ -44,19 +44,21 @@ function initAll() {
     $('#delete-blacklisted-localstorages').attr('checked', httpsb.userSettings.deleteLocalStorages);
     $('#cookie-removed-counter').html(httpsb.cookieRemovedCounter);
     $('#process-behind-the-scene').attr('checked', httpsb.userSettings.processBehindTheSceneRequests);
+    $('#strict-blocking').attr('checked', httpsb.userSettings.strictBlocking);
 
     // Handle user interaction
 
     $('#delete-blacklisted-cookies').on('change', function(){
         changeUserSettings('deleteCookies', $(this).is(':checked'));
     });
-
     $('#delete-blacklisted-localstorages').on('change', function(){
         changeUserSettings('deleteLocalStorages', $(this).is(':checked'));
     });
-
     $('#process-behind-the-scene').on('change', function(){
         changeUserSettings('processBehindTheSceneRequests', $(this).is(':checked'));
+    });
+    $('#strict-blocking').on('change', function(){
+        changeUserSettings('strictBlocking', $(this).is(':checked'));
     });
 }
 

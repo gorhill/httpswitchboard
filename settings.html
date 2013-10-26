@@ -24,6 +24,23 @@ h3 + *, h1 + * {
 <div>
     Under construction.
 
+    <h2>Strict blocking</h3>
+    <div>
+        <p><strong>Strict blocking</strong>, introduced in <a href="https://github.com/gorhill/httpswitchboard/wiki/Change-log#036">version 0.3.6</a>, means that even
+        if you whitelist a specific hostname, blacklisted type of requests (<i>plugins</i>,
+        <i>frames</i>, etc.) will remain blacklisted. For some users this maybe
+        too bothersome, hence this switch.</p>
+        <p><strong>Strict blocking on</strong>: blacklisted types of request (if any)
+        for a whitelisted hostname are blocked (unless you explicitly whitelist
+        specifically these types of request for the whitelisted hostname.)</p>
+        <p><strong>Strict blocking off</strong>: blacklisted types of request (if any)
+        for a whitelisted hostname are allowed (unless you explicitly blacklist
+        specifically these types of request for the whitelisted hostname.)</p>
+        <ul style="list-style-type:none">
+        <li><input id="strict-blocking" type="checkbox" value="">Enable strict blocking.
+        </ul>
+        </div>
+
     <h2>Cookies</h3>
     <div>
         <p>Blacklisted cookies are not prevented by <i>HTTP Switchboard</i> from entering

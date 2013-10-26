@@ -353,6 +353,9 @@ function recordFromPageStats(pageStats, type, url, blocked) {
         return;
     }
 
+    // rhill 2013-10-26: This needs to be called even if the request is
+    // already logged, since the request stats are cached for a while after the
+    // page is no longer in the browser.
     updateBadge(pageStats.pageUrl);
 
     var reqKey = url + '#' + type;

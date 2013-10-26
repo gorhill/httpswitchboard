@@ -27,7 +27,8 @@ var HTTPSB = {
     userSettings: {
         deleteCookies: false,
         deleteLocalStorage: false,
-        processBehindTheSceneRequests: false
+        processBehindTheSceneRequests: false,
+        strictBlocking: false
     },
 
     // memo:
