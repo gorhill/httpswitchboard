@@ -33,7 +33,6 @@ var HTTPSB = {
     // memo:
     // unicode for hourglass: &#x231B;
 
-    gcPeriod: 20 * 60 * 1000, // 20 minutes...
     runtimeId: 1,
 
     inlineFieldSeparator: '#',
@@ -106,16 +105,28 @@ var HTTPSB = {
 /******************************************************************************/
 
 function _WebRequestStats() {
-    this.all = 0;
-    this.main_frame = 0;
-    this.sub_frame = 0;
-    this.script = 0;
-    this.image = 0;
-    this.object = 0;
-    this.xmlhttprequest = 0;
-    this.other = 0;
+    this.all =
+    this.main_frame =
+    this.sub_frame =
+    this.script =
+    this.image =
+    this.object =
+    this.xmlhttprequest =
+    this.other =
     this.cookie = 0;
 }
+
+_WebRequestStats.prototype.reset = function() {
+    this.all = 
+    this.main_frame =
+    this.sub_frame =
+    this.script =
+    this.image =
+    this.object =
+    this.xmlhttprequest =
+    this.other =
+    this.cookie = 0;
+};
 
 function WebRequestStats() {
     this.allowed = new _WebRequestStats();
@@ -130,4 +141,9 @@ WebRequestStats.prototype.record = function(type, blocked) {
         this.allowed[type] += 1;
         this.allowed.all += 1;
     }
+};
+
+WebRequestStats.prototype.reset = function() {
+    this.blocked.reset();
+    this.allowed.reset();
 };

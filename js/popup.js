@@ -21,6 +21,22 @@
 
 /******************************************************************************/
 
+// Refactor so that global name space is not used
+
+/*
+
+var httpsbPopup = {
+
+
+...
+
+
+};
+
+*/
+
+/******************************************************************************/
+
 var tabId; // these will be set later
 var pageUrl = '';
 
@@ -108,7 +124,8 @@ function initMatrixStats(pageStats) {
             parent = background.getParentHostnameFromHostname(parent);
         }
         matrixStats[hostname][type].count += 1;
-        // Issue #12: Count requests for whole row.
+        // https://github.com/gorhill/httpswitchboard/issues/12
+        // Count requests for whole row.
         matrixStats[hostname]['*'].count += 1;
     }
 
@@ -120,7 +137,7 @@ function initMatrixStats(pageStats) {
 /******************************************************************************/
 
 function updateMatrixStats(matrixStats) {
-    // for each domain/type occurrence, evaluate various stats
+    // For each domain/type occurrence, evaluate colors
     var background = backgroundPage();
     var domains = Object.keys(matrixStats);
     var iDomain = domains.length;
@@ -406,11 +423,14 @@ function handleUnpersistence(button) {
 
 function formatHeader(s) {
     var maxLength = 80;
-    var msg = s.slice(0, maxLength);
-    if ( s.length > maxLength ) {
-        msg += '...';
-    } else if ( s.length === 0 ) {
+    var msg = '&nbsp;';
+    if ( !s || !s.length ) {
         msg = '&nbsp;';
+    } else {
+        msg = s.slice(0, maxLength);
+        if ( s.length > maxLength ) {
+            msg += '...';
+        }
     }
     return msg;
 }
@@ -426,7 +446,7 @@ function createMatrixRow(matrixRow, domain) {
     matrixCell.text(domain);
 
     // type of requests
-    var count;
+    var type, count;
     for ( var iType = 1; iType < matrixHeaderTypes.length; iType++ ) {
         type = matrixHeaderTypes[iType];
         matrixCell = $(matrixCells[iType]);
@@ -441,10 +461,13 @@ function createMatrixRow(matrixRow, domain) {
 
 /******************************************************************************/
 
+// TODO: build incrementally, i.e. reuse any existing rows rather than
+// dispose then re-create all of them.
+
 function makeMenu() {
     var background = backgroundPage();
     var pageStats = background.pageStatsFromTabId(tabId);
-    var matrixStats = initMatrixStats(pageStats);
+    initMatrixStats(pageStats);
     var groupStats = getGroupStats();
 
     $('#message').html(formatHeader(pageUrl));
@@ -505,9 +528,10 @@ function makeMenu() {
 
 /******************************************************************************/
 
-// handle user mouse over filter buttons
+// Handle user mouse over filter buttons
 
 // TODO: localize
+
 var mouseOverPrompts = {
     '+**': 'Click to <span class="gdt">allow</span> all graylisted types and domains',
     '-**': 'Click to <span class="rdt">block</span> all graylisted types and domains',
@@ -599,6 +623,30 @@ function bindToTabHandler(tabs) {
         $('#matrix-head').css('display', 'none');
     }
 
+    // To know when to rebuild the matrix
+    // TODO: What if this event is triggered before bindToTabHandler()
+    // is called?
+    chrome.runtime.onMessage.addListener(onMessage);
+}
+
+/******************************************************************************/
+
+function revert() {
+    var background = backgroundPage();
+    background.restoreTemporaryLists();
+    updateMatrixStats(matrixStats);
+    updateMatrixCells();
+}
+
+/******************************************************************************/
+
+// make menu only when popup html is fully loaded
+
+function initAll() {
+    chrome.tabs.query({currentWindow: true, active: true}, bindToTabHandler);
+
+    // TODO: prevent spurious selection
+
     // We reuse for all cells the one and only cell menu.
     matrixCellMenu = $('#cellMenu').detach();
     $('span:nth-of-type(1)', matrixCellMenu).on('click', function() {
@@ -639,37 +687,13 @@ function bindToTabHandler(tabs) {
         return false;
     });
 
-    // To know when to rebuild the matrix
-    // TODO: What if this event is triggered before bindToTabHandler()
-    // is called?
-    chrome.runtime.onMessage.addListener(onMessage);
-}
-
-/******************************************************************************/
-
-function revert() {
-    var background = backgroundPage();
-    background.restoreTemporaryLists();
-    updateMatrixStats(matrixStats);
-    updateMatrixCells();
-}
-
-/******************************************************************************/
-
-// make menu only when popup html is fully loaded
-
-function initAll() {
-    chrome.tabs.query({currentWindow: true, active: true}, bindToTabHandler);
-
-    // TODO: prevent spurious selection
-
     // to attach widgets to matrix cell
     $('body').on('mouseenter', '.filter-button', function() {
         matrixCellHotspots.prependTo(this);
         matrixCellMenu.prependTo(this);
     });
 
-    // to blank message
+    // to detach widgets from matrix cell and blank message
     $('body').on('mouseleave', '.filter-button', function() {
         matrixCellHotspots.detach();
         matrixCellMenu.detach();

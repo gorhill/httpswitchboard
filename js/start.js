@@ -35,7 +35,7 @@ chrome.contentSettings.cookies.clear({});
 function injectedCodeCallback(r) {
     // `r` tells whether there was at least one script tag in the page
     if ( r && r.length ) {
-        var r = r[0];
+        r = r[0];
         var pageUrl = normalizeChromiumUrl(r.pageUrl);
         var sources, i;
         var url, domain, block;
@@ -169,68 +169,4 @@ function onDisconnectHandler() {
 }
 
 chrome.extension.onConnect.addListener(onConnectHandler);
-
-/******************************************************************************/
-
-// Garbage collect stale url stats entries
-// rhill 2013-10-23: revised to avoid closures.
-
-function gcPageStatsExistingTabsHandler(tabs) {
-    var httpsb = HTTPSB;
-    var visibleTabs = {};
-    tabs.map(function(tab) {
-        visibleTabs[tab.id] = true;
-    });
-    var pageUrls = Object.keys(httpsb.pageStats);
-    var i = pageUrls.length;
-    var pageUrl, tabId, pageStats;
-    while ( i-- ) {
-        pageUrl = pageUrls[i];
-        // Do not dispose of chromium-behind-the-scene virtual tab,
-        // GC is done differently on this one (i.e. just pruning).
-        if ( pageUrl === httpsb.behindTheSceneURL ) {
-            continue;
-        }
-        tabId = tabIdFromPageUrl(pageUrl);
-        pageStats = httpsb.pageStats[pageUrl];
-        if ( !visibleTabs[tabId] && !pageStats.visible ) {
-            cookieHunter.erase(pageStats);
-            delete httpsb.pageStats[pageUrl];
-            // console.debug('HTTP Switchboard > GC: disposed of "%s"', pageUrl);
-        }
-        pageStats.visible = !!visibleTabs[tabId];
-        if ( !pageStats.visible ) {
-            unbindTabFromPageStats(tabId);
-        }
-    }
-}
-
-function gcPageStatsCallback() {
-    var httpsb = HTTPSB;
-
-    // Get rid of stale pageStats, those not bound to a tab for more than
-    // {duration placeholder}.
-    chrome.tabs.query({ 'url': '<all_urls>' }, gcPageStatsExistingTabsHandler);
-
-    // Prune content of chromium-behind-the-scene virtual tab
-    var pageStats = httpsb.pageStats[httpsb.behindTheSceneURL];
-    if ( pageStats ) {
-        var reqKeys = Object.keys(pageStats.requests)
-        if ( reqKeys > httpsb.behindTheSceneMaxReq ) {
-            reqKeys = reqKeys.sort(function(a,b){
-                var ra = pageStats.requests[a];
-                var rb = pageStats.requests[b];
-                if ( rb < ra ) { return -1; }
-                if ( ra < rb ) { return 1; }
-                return 0;
-            }).slice(httpsb.behindTheSceneMaxReq);
-            var iReqKey = reqKeys.length;
-            while ( iReqKey-- ) {
-                delete pageStats.requests[reqKeys[iReqKey]];
-            }
-        }
-    }
-}
-
-asyncJobQueue.add('gcPageStats', null, gcPageStatsCallback, HTTPSB.gcPeriod / 2, true);
 

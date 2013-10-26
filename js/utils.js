@@ -51,6 +51,9 @@ function getHostnameFromURL(url) {
 // extract domain from url
 
 function getDomainFromURL(url) {
+    if ( !url ) {
+        return '';
+    }
     return globalURI.href(url).domain();
 }
 

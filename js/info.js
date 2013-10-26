@@ -58,7 +58,7 @@ function updateRequestData() {
     var iPageUrl, nPageUrls, pageUrl;
     var reqKeys, iReqKey, nReqKeys, reqKey;
     var pageStats, pageRequests;
-    var i, j, v;
+    var i, entry;
 
     nPageUrls = pageUrls.length;
     for ( iPageUrl = 0; iPageUrl < nPageUrls; iPageUrl++ ) {
@@ -73,16 +73,15 @@ function updateRequestData() {
         nReqKeys = reqKeys.length;
         for ( iReqKey = 0; iReqKey < nReqKeys; iReqKey++ ) {
             reqKey = reqKeys[iReqKey];
-            v = pageRequests[reqKey];
+            entry = pageRequests[reqKey];
             i = reqKey.indexOf('#');
-            j = v.indexOf('#');
             // Using parseFloat because of
             // http://jsperf.com/performance-of-parseint
             requests.push(new requestDetails(
                 reqKey.slice(0, i),
-                parseFloat(v.slice(0, j)),
+                entry.when,
                 reqKey.slice(i+1),
-                v.slice(j+1) === '0'
+                entry.blocked
             ));
         }
     }

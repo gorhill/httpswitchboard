@@ -32,7 +32,7 @@ function asyncJobEntry(name) {
 asyncJobEntry.prototype._nullify = function() {
     this.data = null;
     this.callback = null;
-}
+};
 
 var asyncJobQueue = {
     jobs: {},
@@ -107,7 +107,7 @@ function updateBadgeCallback(pageUrl) {
         return;
     }
     var pageStats = pageStatsFromTabId(tabId);
-    var count = pageStats ? Object.keys(pageStats.requests).length : 0;
+    var count = pageStats ? pageStats.requestCount : 0;
     var countStr = count.toString();
     if ( count >= 1000 ) {
         if ( count < 10000 ) {
