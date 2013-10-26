@@ -190,8 +190,8 @@ function renderStats() {
     var blockedStats = requestStats.blocked;
     var allowedStats = requestStats.allowed;
     renderNumbers({
-        '#whitelistCount': Object.keys(httpsb.whitelist),
-        '#blacklistCount': httpsb.blacklistReadonly.length + Object.keys(httpsb.blacklist),
+        '#whitelistCount': Object.keys(httpsb.whitelist).length,
+        '#blacklistCount': httpsb.blacklistReadonly.length + Object.keys(httpsb.blacklist).length,
         '#blockedAllCount': requestStats.blocked.all,
         '#blockedMainFrameCount': blockedStats.main_frame,
         '#blockedCookieCount': blockedStats.cookie,
@@ -334,10 +334,6 @@ function initAll() {
     renderTransientData(true);
     renderRequests();
     renderBlacklistDetails();
-
-    $( window ).unload(function() {
-        console.log( "Handler for .unload() called." );
-    });
 }
 
 /******************************************************************************/
