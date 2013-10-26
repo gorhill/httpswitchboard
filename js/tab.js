@@ -353,6 +353,8 @@ function recordFromPageStats(pageStats, type, url, blocked) {
         return;
     }
 
+    updateBadge(pageStats.pageUrl);
+
     var reqKey = url + '#' + type;
 
 //    var packedUrl = urlPacker.remember(url) + '#' + type;
@@ -371,7 +373,6 @@ function recordFromPageStats(pageStats, type, url, blocked) {
     pageStats.requestCount++;
     pageStats.domains[getHostnameFromURL(url)] = true;
 
-    updateBadge(pageStats.pageUrl);
     urlStatsChanged(pageStats.pageUrl);
     // console.debug("HTTP Switchboard > recordFromPageStats > %o: %s @ %s", pageStats, type, url);
 }
