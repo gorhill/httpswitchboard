@@ -496,6 +496,15 @@ function makeMenu() {
         matrixCell.addClass(getCellClass('*', type));
     }
     matrixRow.css('display', '');
+
+    // https://github.com/gorhill/httpswitchboard/issues/31
+    if ( matrixCellHotspots ) {
+        matrixCellHotspots.detach();
+    }
+    if ( matrixCellMenu ) {
+        matrixCellMenu.detach();
+    }
+
     $('#matrix-list').empty();
 
     // main rows, grouped logically
