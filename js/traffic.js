@@ -114,6 +114,8 @@ function webRequestHandler(details) {
         return;
     }
 
+    // quickProfiler.start();
+
     // If it's a top frame, bind to a new page stats store
     // TODO: favicon (type = "other") is sent before top main frame...
     var isMainFrame = type === 'main_frame';
@@ -121,8 +123,6 @@ function webRequestHandler(details) {
     if ( isRootFrame ) {
         bindTabToPageStats(tabId, url);
     }
-
-    // quickProfiler.start();
 
     // block request?
     var hostname = getHostnameFromURL(url);
@@ -149,27 +149,26 @@ function webRequestHandler(details) {
         return;
     }
 
+    // if it is a frame and scripts are blacklisted for the
+    // hostname, disable scripts for this hostname, necessary since inline
+    // script tags are not passed through web request handler.
+    if ( isMainFrame ) {
+        chrome.contentSettings.javascript.set({
+            primaryPattern: '*://' + hostname + '/*',
+            setting: blacklisted('script', hostname) ? 'block' : 'allow'
+        });
+        chrome.contentSettings.plugins.set({
+            primaryPattern: '*://' + hostname + '/*',
+            setting: blacklisted('object', hostname) ? 'block' : 'allow'
+        });
+        // when the tab is updated, we will check if page has at least one
+        // script tag, this takes care of inline scripting, which doesn't
+        // generate 'script' type web requests.
+    }
+
     // whitelisted?
     if ( !block ) {
         // console.debug('webRequestHandler > allowing %s from %s', type, hostname);
-        // if it is a root frame and scripts are blacklisted for the
-        // hostname, disable scripts for this hostname, necessary since inline
-        // script tags are not passed through web request handler.
-        if ( isMainFrame ) {
-            chrome.contentSettings.javascript.set({
-                primaryPattern: '*://' + hostname + '/*',
-                setting: blacklisted('script', hostname) ? 'block' : 'allow'
-            });
-            chrome.contentSettings.plugins.set({
-                primaryPattern: '*://' + hostname + '/*',
-                setting: blacklisted('object', hostname) ? 'block' : 'allow'
-            });
-
-            // when the tab is updated, we will check if page has at least one
-            // script tag, this takes care of inline scripting, which doesn't
-            // generate 'script' type web requests.
-        }
-
         // If the request is not blocked, this means the response could contain
         // cookies. Thus, we go cookie hunting for this page url and record all
         // those we find which hit any hostname found on this page.
@@ -182,6 +181,7 @@ function webRequestHandler(details) {
         }
         httpsb.requestStats.record(type, false);
 
+        // quickProfiler.stop('webRequestHandler');
         // console.log("HTTPSB > %s @ url=%s", details.type, details.url);
         return;
     }
@@ -209,9 +209,14 @@ function webRequestHandler(details) {
         html = html.replace(/{{originalURL}}/g, url);
         html = html.replace(/{{now}}/g, String(Date.now()));
         var dataUrl = 'data:text/html;base64,' + btoa(html);
+
+        // quickProfiler.stop('webRequestHandler');
         // console.debug('webRequestHandler > redirecting %s to %s', url, q);
+
         return { "redirectUrl": dataUrl };
     }
+
+    // quickProfiler.stop('webRequestHandler');
 
     return { "cancel": true };
 }

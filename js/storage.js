@@ -390,22 +390,30 @@ function load() {
 
 // parse and merge normalized content into a list
 function populateListFromString(des, s) {
+    if ( des.length === undefined ) {
+        des.length = 0;
+    }
     var keys = s.split(/\s+/);
     var i = keys.length;
     var key;
     while ( i-- ) {
         key = keys[i];
-        if ( key.length ) {
+        if ( key.length && !des[key] ) {
             des[key] = true;
+            des.length++;
         }
     }
 }
 
  // merge a list into another list
 function populateListFromList(des, src) {
+    if ( des.length === undefined ) {
+        des.length = 0;
+    }
     for ( var k in src ) {
-        if ( src.hasOwnProperty(k) ) {
+        if ( src.hasOwnProperty(k) && !des[k] ) {
             des[k] = src[k];
+            des.length++;
         }
     }
 }
