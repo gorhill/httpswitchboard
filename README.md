@@ -11,6 +11,15 @@ as per domain name.
 Available on Chrome web store (<a href="https://chrome.google.com/webstore/detail/httpswitchboard/mghdpehejfekicfjcdbfofhcmnjhgaag">HTTP Switchboard</a>),
 or you can [install manually](https://github.com/gorhill/httpswitchboard/tree/master/dist).
 
+**IMPORTANT**: Because of [issue #35](https://github.com/gorhill/httpswitchboard/issues/35), it is best to disable javascript by default. To do so:
+- Go to chrome/chromium *Settings*.
+- You might need to click *Show advanced settings*.
+- In *Privacy* seection, click *Content settings...* button.
+- In the *Javascript* section, click "Do not allow any site to run JavaScript".
+
+As of now, I don't see any better workaround, as doing the above programmatically risks
+breaking a lot of things I can't foresee.
+
 ##Documentation
 
 ![HTTP Switchboard](doc/img/screenshot1.png)
