@@ -189,9 +189,8 @@ function evaluate(type, hostname) {
         }
         // indirect: any type, specific hostname
         cellKey = '*/' + hostname;
-        if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[hostname]) ) {
-            return httpsb.DISALLOWED_INDIRECT;
-        }
+        // rhill 2013-10-26: Whitelist MUST be checked before blacklist,
+        // because read-only blacklists are, hum... read-only?
         if ( whitelist[cellKey] ) {
             // https://github.com/gorhill/httpswitchboard/issues/29
             // The cell is indirectly whitelisted because of hostname, type
@@ -200,6 +199,9 @@ function evaluate(type, hostname) {
                 return blacklist[typeKey] ? httpsb.DISALLOWED_INDIRECT : httpsb.ALLOWED_INDIRECT;
             }
             return httpsb.ALLOWED_INDIRECT;
+        }
+        if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[hostname]) ) {
+            return httpsb.DISALLOWED_INDIRECT;
         }
 
         // indirect: parent hostname nodes
@@ -219,9 +221,8 @@ function evaluate(type, hostname) {
             }
             // any type, specific parent
             cellKey = '*/' + parent;
-            if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[parent]) ) {
-                return httpsb.DISALLOWED_INDIRECT;
-            }
+            // rhill 2013-10-26: Whitelist MUST be checked before blacklist,
+            // because read-only blacklists are, hum... read-only?
             if ( whitelist[cellKey] ) {
                 // https://github.com/gorhill/httpswitchboard/issues/29
                 // The cell is indirectly whitelisted because of hostname, type
@@ -230,6 +231,9 @@ function evaluate(type, hostname) {
                     return blacklist[typeKey] ? httpsb.DISALLOWED_INDIRECT : httpsb.ALLOWED_INDIRECT;
                 }
                 return httpsb.ALLOWED_INDIRECT;
+            }
+            if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[parent]) ) {
+                return httpsb.DISALLOWED_INDIRECT;
             }
         }
         // indirect: specific type, any hostname
