@@ -30,6 +30,17 @@
 
 chrome.contentSettings.cookies.clear({});
 
+// https://github.com/gorhill/httpswitchboard/issues/35
+// Block all by default.
+chrome.contentSettings.javascript.set({
+    primaryPattern: 'http://*/*',
+    setting: 'block'
+});
+chrome.contentSettings.javascript.set({
+    primaryPattern: 'https://*/*',
+    setting: 'block'
+});
+
 /******************************************************************************/
 
 function injectedCodeCallback(r) {
