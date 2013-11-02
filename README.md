@@ -6,6 +6,11 @@ A Chromium browser extension which let you white- or blacklist requests
 originating from within a web page according to their type and/or destination
 as per domain name.
 
+**IMPORTANT**: Expect some behavior changes for version 0.5.0 (on which I am currently working),
+which will support per-web page permissions (which feature will enable something like "always
+block `facebook.com` except when visiting pages starting with `https://www.facebook.com`"). Hopefully
+I won't meet any unforeseen difficulty which would prevent me from fully implementing this feature.
+
 ##Installation
 
 Available on Chrome web store (<a href="https://chrome.google.com/webstore/detail/httpswitchboard/mghdpehejfekicfjcdbfofhcmnjhgaag">HTTP Switchboard</a>),
