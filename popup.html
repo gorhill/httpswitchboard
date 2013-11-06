@@ -4,6 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href='css/fonts.css' rel='stylesheet' type='text/css'>
+<link href='lib/bootstrap.min.css' rel='stylesheet' type='text/css'>
 <style>
 body {
     margin: 0;
@@ -12,6 +13,7 @@ body {
     font: 13px httpsb,sans-serif;
     background-color: white;
     min-width: 32em;
+    min-height: 10em;
 }
 div {
     margin: 0;
@@ -26,7 +28,7 @@ div.pane-head {
     z-index: 10;
 }
 div.pane-content {
-    padding-top: 74px;
+    padding-top: 70px;
 }
 div.pane-status {
     margin: 0.5em 0 0 0;
@@ -49,12 +51,13 @@ div.matrix > div > div {
     border: 1px dotted #aaa;
     padding: 1px 1px 1px 6px;
     display: inline-block;
-    width: 35px;
+    box-sizing: content-box;
+    width: 32px;
     white-space:nowrap;
     text-align: center;
     cursor: pointer;
     position: relative;
-}   
+}
 div.matrix > div > div:hover {
     border-style: solid;
 }
@@ -117,26 +120,61 @@ div.matrix > div.domainSeparator {
 .dim {
     color: #aaa;
 }
-#toolbar {
-    margin: 8px 0 0 0;
+
+#toolbars {
+    margin: 3px 0;
+    border: 0;
+    padding: 0;
+    background-color: white;
+    height: 40px;
+    text-align: center;
+}
+#toolbars.scope-is-global {
+//    background-color: #fff5eb;
+}
+#toolbars.scope-is-page {
+    background-color: #ebf0ff;
+}
+
+#toolbars .toolbar {
+    margin: 2px 2px;
     border: 0;
     padding: 0;
     position: fixed;
-    top: 6px;
-    right: 6px;
-    text-align: right;
-    vertical-align: middle;
-    background-color: white;
+    top: 2px;
+    background-color: transparent;
 }
-#toolbar > a {
-    margin: 0 0 0 0.5em;
+#toolbars .toolbar > a {
     border: 0;
     padding: 0;
     display: inline-block;
+    vertical-align: top;
     width: 20px;
     height: 20px;
     text-decoration: none;
     outline: 0;
+    opacity: 0.5;
+}
+#toolbars .toolbar > a:hover {
+    opacity: 1;
+}
+#scope-toolbar {
+    text-align: left;
+    left: 3px;
+}
+#scope-toolbar > a#button-toggle-scope {
+    background: url('img/add-page-permissions.png') no-repeat;
+}
+#toolbars.scope-is-page #scope-toolbar > a#button-toggle-scope {
+    background: url('img/remove-page-permissions.png') no-repeat;
+}
+
+#global-toolbar {
+    text-align: right;
+    right: 3px;
+}
+#global-toolbar > a {
+    margin: 0 0 0 0.5em;
 }
 #button-revert {
     background: url('img/view-refresh-symbolic.png') no-repeat;
@@ -147,14 +185,17 @@ div.matrix > div.domainSeparator {
 #button-settings {
     background: url('img/system-run-symbolic.png') no-repeat;
 }
+
 #message {
-    margin: 1em 0;
+    margin: 0;
     border: 0;
-    padding: 0;
+    padding: 0 1em;
+    display: inline-block;
     color: #888;
-    white-space: nowrap;
     font-size: 14px;
-    min-width: 12em;
+    max-width: 24em;
+    max-height: 2.5em;
+    overflow: hidden;
 }
 #message strong {
     color: black;
@@ -163,6 +204,7 @@ div.matrix > div.domainSeparator {
 #message .gdt, #message .rdt {
     padding: 0 4px;
 }
+
 #cellMenu {
     margin: 0;
     border: inherit;
@@ -280,6 +322,17 @@ div.matrix > div.domainSeparator {
 .filter-button.gdt #cellHotspots > div:nth-of-type(2):hover {
     background-color: inherited;
 }
+
+.tooltip {
+    font-size: inherit;
+}
+.tooltip.in {
+    opacity: 0.98;
+}
+.tooltip-inner {
+    color:#fff;
+    background-color:#444;
+}
 </style>
 <title>HTTP Switchboard</title>
 </head>
@@ -295,11 +348,16 @@ div.matrix > div.domainSeparator {
     </div>
 
 <div class="pane-head">
-    <p id="message">&nbsp;</p>
-    <div id="toolbar">
-        <a id="button-revert" href="#" title="Undo all temporary changes"></a>
-        <a id="button-info" href="#" title="Stats"></a>
-        <a id="button-settings" href="#" title="Settings"></a>
+    <div id="toolbars">
+        <div id="scope-toolbar" class="toolbar">
+            <a id="button-toggle-scope" href="#" title=""></a>
+            </div>
+        <div id="global-toolbar" class="toolbar">
+            <a id="button-revert" href="#"></a>
+            <a id="button-info" href="#"></a>
+            <a id="button-settings" href="#"></a>
+            </div>
+        <div id="message">&nbsp;</div>
         </div>
     <div id="matrix-head" class="matrix">
         <div class="matrix-row" style="display:none"><div class="filter-button">all</div><div class="filter-button" data-filter-type="cookie">cookie</div><div class="filter-button" data-filter-type="image">image</div><div class="filter-button" data-filter-type="object">plugin</div><div class="filter-button" data-filter-type="script">script</div><div class="filter-button" data-filter-type="xmlhttprequest">XHR</div><div class="filter-button" data-filter-type="sub_frame">frame</div><div class="filter-button" data-filter-type="other">other</div></div>
@@ -317,6 +375,7 @@ div.matrix > div.domainSeparator {
     </div>
 
 <script src="lib/jquery-2.min.js"></script>
+<script src="lib/bootstrap.min.js"></script>
 <script src="js/popup.js"></script>
 </body>
 

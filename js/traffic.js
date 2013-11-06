@@ -22,7 +22,7 @@
 /******************************************************************************/
 
 /*jshint multistr: true */
-var frameReplacement = "<!DOCTYPE html> \
+var rootFrameReplacement = "<!DOCTYPE html> \
 <html> \
 <head> \
 <style> \
@@ -51,18 +51,47 @@ color: white; \
 background: #c00; \
 } \
 </style> \
-<link href='{{cssURL}}?hostname={{hostname}}&t={{now}}' rel='stylesheet' type='text/css'> \
+<link href='{{cssURL}}?url={{originalURL}}&hostname={{hostname}}&t={{now}}' rel='stylesheet' type='text/css'> \
 <title>Blocked by HTTPSB</title> \
 </head> \
 <body title='&ldquo;{{hostname}}&rdquo; blocked by HTTP Switchboard'> \
 <div>{{hostname}}</div> \
-<script> \
-window.onload = function() { \
- if ( window.getComputedStyle(document.body).visibility === 'hidden' ) { \
-  window.location = '{{originalURL}}'; \
- } \
-}; \
-</script> \
+</body> \
+</html>";
+
+var subFrameReplacement = "<!DOCTYPE html> \
+<html> \
+<head> \
+<style> \
+@font-face { \
+font-family: 'httpsb'; \
+font-style: normal; \
+font-weight: 400; \
+src: local('httpsb'), url('{{fontUrl}}') format('truetype'); \
+} \
+body { \
+margin: 0; \
+border: 0; \
+padding: 0; \
+font: 13px httpsb,sans-serif; \
+width: 100%; \
+height: 100%; \
+background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QkOFgcvc4DETwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAACGSURBVFjD7ZZBCsAgEAMT6f+/nJ5arYcqiKtIPAaFYR2DFCAAgEQ8iwzLCLxZWglSZgKUdgHJk2kdLEY5C4QAUxeIFOINfwUOBGkLPBnkAIEDQPoEDiw+uoGHBQ4ovv4GnvTMS4EvC+wvhBvYAltgC2yBLbAFPlTgvKG6vxXZB6QOl2S7gNw6ktgOp+IH7wAAAABJRU5ErkJggg==') repeat; \
+text-align: center; \
+} \
+div { \
+margin: 2px; \
+border: 0; \
+padding: 0 2px; \
+display: inline-block; \
+color: white; \
+background: #c00; \
+} \
+</style> \
+<title>Blocked by HTTPSB</title> \
+</head> \
+<body title='&ldquo;{{hostname}}&rdquo; blocked by HTTP Switchboard'> \
+<div>{{hostname}}</div> \
 </body> \
 </html>";
 
@@ -72,17 +101,6 @@ window.onload = function() { \
 
 function webRequestHandler(details) {
     var httpsb = HTTPSB;
-
-/*
-    console.debug('Request: tab=%d parent=%d frame=%d type=%s, url=%s',
-        details.tabId,
-        details.parentFrameId,
-        details.frameId,
-        details.type,
-        details.url
-        );
-*/
-
     var tabId = details.tabId;
 
     // Do not ignore traffic outside tabs
@@ -99,9 +117,17 @@ function webRequestHandler(details) {
         // the page that was blacklisted is still blacklisted, and if not,
         // redirect to the previously blacklisted page.
         if ( details.parentFrameId < 0 && matches[1] === chrome.runtime.id ) {
-             matches = matches[2].match(/^css\/noop\.css\?hostname=([^&]+).*$/);
-             if ( matches && whitelisted('main_frame', decodeURIComponent(matches[1])) ) {
-                return { "redirectUrl": 'data:text/css;base64,' + btoa('body {visibility:hidden;}') };
+            matches = matches[2].match(/^css\/noop\.css\?url=([^&]+)&hostname=([^&]+).*$/);
+            if ( matches ) {
+                var pageURL = decodeURIComponent(matches[1]);
+                var hostname = decodeURIComponent(matches[2]);
+                if ( httpsb.whitelisted(pageURL, 'main_frame', hostname) ) {
+                    chrome.runtime.sendMessage({
+                        what: 'gotoURL',
+                        tabId: tabId,
+                        url: pageURL
+                    });
+                }
             }
         }
         return;
@@ -126,19 +152,20 @@ function webRequestHandler(details) {
 
     // block request?
     var hostname = getHostnameFromURL(url);
+    var pageStats = pageStatsFromTabId(tabId);
+    var pageURL = pageUrlFromPageStats(pageStats) || '*';
     var block;
 
     // https://github.com/gorhill/httpswitchboard/issues/27
     if ( tabId !== httpsb.behindTheSceneTabId || httpsb.userSettings.processBehindTheSceneRequests ) {
-        block = blacklisted(type, hostname);
+        block = httpsb.blacklisted(pageURL, type, hostname);
     } else {
         block = false;
     }
 
     // Log request
-    var pageStats = pageStatsFromTabId(tabId);
     if ( pageStats ) {
-        recordFromPageStats(pageStats, type, url, block);
+        pageStats.recordRequest(type, url, block);
     }
 
     // quickProfiler.stop('webRequestHandler | evaluate&record');
@@ -155,12 +182,8 @@ function webRequestHandler(details) {
     if ( isMainFrame ) {
         chrome.contentSettings.javascript.set({
             primaryPattern: '*://' + hostname + '/*',
-            setting: blacklisted('script', hostname) ? 'block' : 'allow'
-        });
-        chrome.contentSettings.plugins.set({
-            primaryPattern: '*://' + hostname + '/*',
-            setting: blacklisted('object', hostname) ? 'block' : 'allow'
-        });
+            setting: httpsb.blacklisted(pageURL, 'script', hostname) ? 'block' : 'allow'
+            });
         // when the tab is updated, we will check if page has at least one
         // script tag, this takes care of inline scripting, which doesn't
         // generate 'script' type web requests.
@@ -176,9 +199,6 @@ function webRequestHandler(details) {
         cookieHunter.record(pageStats);
 
         // Collect stats
-        if ( pageStats ) {
-            pageStats.requestStats.record(type, false);
-        }
         httpsb.requestStats.record(type, false);
 
         // quickProfiler.stop('webRequestHandler');
@@ -190,30 +210,25 @@ function webRequestHandler(details) {
     // console.debug('webRequestHandler > blocking %s from %s', type, hostname);
 
     // Collect stats
-    if ( pageStats ) {
-        pageStats.requestStats.record(type, true);
-    }
     httpsb.requestStats.record(type, true);
 
-    // remember this blacklisting, used to create a snapshot of the state
-    // of the tab, which is useful for smart reload of the page (reload the
-    // page only when state effectively change)
-    addStateFromTabId(tabId, type, hostname);
-
-    // if it's a blacklisted frame, redirect to frame.html
-    if ( isMainFrame || type === 'sub_frame' ) {
-        var html = frameReplacement;
+    // If it's a blacklisted frame, redirect to frame.html
+    var html, dataURI;
+    if ( isRootFrame ) {
+        html = rootFrameReplacement;
         html = html.replace(/{{fontUrl}}/g, chrome.runtime.getURL('css/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf'));
         html = html.replace(/{{cssURL}}/g, chrome.runtime.getURL('css/noop.css'));
-        html = html.replace(/{{hostname}}/g, hostname);
-        html = html.replace(/{{originalURL}}/g, url);
+        html = html.replace(/{{hostname}}/g, encodeURIComponent(hostname));
+        html = html.replace(/{{originalURL}}/g, encodeURIComponent(url));
         html = html.replace(/{{now}}/g, String(Date.now()));
-        var dataUrl = 'data:text/html;base64,' + btoa(html);
-
-        // quickProfiler.stop('webRequestHandler');
-        // console.debug('webRequestHandler > redirecting %s to %s', url, q);
-
-        return { "redirectUrl": dataUrl };
+        dataURI = 'data:text/html;base64,' + btoa(html);
+        return { "redirectUrl": dataURI };
+    } else if ( isMainFrame || type === 'sub_frame' ) {
+        html = subFrameReplacement;
+        html = html.replace(/{{fontUrl}}/g, chrome.runtime.getURL('css/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf'));
+        html = html.replace(/{{hostname}}/g, hostname);
+        dataURI = 'data:text/html;base64,' + btoa(html);
+        return { "redirectUrl": dataURI };
     }
 
     // quickProfiler.stop('webRequestHandler');
@@ -234,7 +249,7 @@ function webHeaderRequestHandler(details) {
 
     // Any cookie in there?
     var hostname = getHostnameFromURL(details.url);
-    var blacklistCookie = blacklisted('cookie', hostname);
+    var blacklistCookie = HTTPSB.blacklisted(pageUrlFromTabId(details.tabId), 'cookie', hostname);
     var headers = details.requestHeaders;
     var i = details.requestHeaders.length;
     while ( i-- ) {

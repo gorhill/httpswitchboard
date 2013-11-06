@@ -27,8 +27,10 @@
 // HTTP Switchboard relinquishes all control of cookies settings (it will
 // however keep removing outbound cookies from headers, so this is equivalent
 // to a recording machine which can never be played back).
-
 chrome.contentSettings.cookies.clear({});
+
+// https://github.com/gorhill/httpswitchboard/issues/37
+chrome.contentSettings.plugins.clear({});
 
 /******************************************************************************/
 
@@ -36,6 +38,7 @@ function injectedCodeCallback(r) {
     // `r` tells whether there was at least one script tag in the page
     if ( r && r.length ) {
         r = r[0];
+        var httpsb = HTTPSB;
         var pageUrl = normalizeChromiumUrl(r.pageUrl);
         var sources, i;
         var url, domain, block;
@@ -52,11 +55,8 @@ function injectedCodeCallback(r) {
                 url = normalizeChromiumUrl(url);
                 domain = getHostnameFromURL(url);
             }
-            block = blacklisted('script', domain);
+            block = httpsb.blacklisted(pageUrl, 'script', domain);
             recordFromPageUrl(pageUrl, 'script', url, block);
-            if ( block ) {
-                addStateFromPageUrl(pageUrl, 'script', domain);
-            }
         }
         // plugins
         // https://github.com/gorhill/httpswitchboard/issues/25
@@ -65,11 +65,8 @@ function injectedCodeCallback(r) {
         while ( i-- ) {
             url = normalizeChromiumUrl(sources[i]);
             domain = getHostnameFromURL(url);
-            block = blacklisted('object', domain);
+            block = httpsb.blacklisted(pageUrl, 'object', domain);
             recordFromPageUrl(pageUrl, 'object', url, block);
-            if ( block ) {
-                addStateFromPageUrl(pageUrl, 'object', domain);
-            }
         }
     }
 }
@@ -120,6 +117,19 @@ function onUpdatedTabsHandler(tabId, changeInfo, tab) {
 }
 
 chrome.tabs.onUpdated.addListener(onUpdatedTabsHandler);
+
+/******************************************************************************/
+
+function onRemovedTabHandler(tabId) {
+    // Can this happen?
+    if ( tabId < 0 ) {
+        return;
+    }
+
+    unbindTabFromPageStats(tabId);
+}
+
+chrome.tabs.onRemoved.addListener(onRemovedTabHandler);
 
 /******************************************************************************/
 

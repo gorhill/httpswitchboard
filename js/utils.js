@@ -75,7 +75,7 @@ function getUrlProtocol(url) {
 
 /******************************************************************************/
 
-function getUrlHrefRoot(url) {
+function getRootURLFromURL(url) {
     var uri = globalURI.href(url);
     return uri.scheme() + '://' + uri.hostname();
 }
@@ -100,14 +100,6 @@ function getParentHostnameFromHostname(hostname) {
 
 /******************************************************************************/
 
-// Return the top-most domain. For IP address, there is no parent domain.
-
-function getDomainFromHostname(hostname) {
-    return globalURI.hostname(hostname).domain();
-}
-
-/******************************************************************************/
-
 // Compare domain helper, to order domain in a logical manner:
 // top-most < bottom-most, take into account whether IP address or
 // named domain
@@ -123,31 +115,5 @@ function domainNameCompare(a,b) {
         b = bb.slice(-2).concat(bb.slice(0,-2).reverse()).join('.');
     }
     return a.localeCompare(b);
-}
-
-/******************************************************************************/
-
-// http://jsperf.com/long-string-indexof-vs-quickindexof/2
-
-function quickIndexOf(s, t, c) {
-    var i, j, k;
-    var left = 1;
-    var right = s.length - 1;
-    var sub;
-    t = c + t + c;
-    while (left < right) {
-        i = left + right >> 1;
-        j = s.lastIndexOf(c, i);
-        k = s.indexOf(c, j+1) + 1;
-        sub = s.slice(j, k);
-        if ( t < sub ) {
-            right = j;
-        } else if ( t > sub ) {
-            left = k;
-        } else {
-            return j;
-        }
-    }
-    return -1;
 }
 

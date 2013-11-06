@@ -21,161 +21,44 @@
 
 /******************************************************************************/
 
-// Experimental
+RequestStatsEntry.prototype.junkyard = [];
 
-function UrlPackerEntry(code) {
-    this.count = 1;
-    this.code = code;
-}
-
-var urlPacker = {
-    uri: new URI(),
-    codeGenerator: 0,
-    codeJunkyard: [],
-    fragmentToCode: {},
-    codeToFragment: {},
-    codeDigits: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_',
-
-    remember: function(url) {
-        this.uri.href(url);
-        var scheme = this.uri.scheme();
-        var hostname = this.uri.hostname();
-        var directory = this.uri.directory();
-        var leaf = this.uri.filename() + this.uri.search();
-        var entry;
-        var packedScheme;
-        if ( scheme !== '' ) {
-            entry = this.fragmentToCode[scheme];
-            if ( !entry ) {
-                entry = this.codeJunkyard.pop();
-                packedScheme = this.strFromCode(this.codeGenerator++);
-                if ( !entry ) {
-                    entry = new UrlPackerEntry(packedScheme);
-                } else {
-                    entry.code = packedScheme;
-                    entry.count = 1;
-                }
-                this.fragmentToCode[scheme] = entry;
-                this.codeToFragment[packedScheme] = scheme;
-            } else {
-                packedScheme = entry.code;
-                entry.count++;
-            }
-        } else {
-            packedScheme = '';
-        }
-        var packedHostname;
-        if ( hostname !== '' ) {
-            entry = this.fragmentToCode[hostname];
-            if ( !entry ) {
-                entry = this.codeJunkyard.pop();
-                packedHostname = this.strFromCode(this.codeGenerator++);
-                if ( !entry ) {
-                    entry = new UrlPackerEntry(packedHostname);
-                } else {
-                    entry.code = packedHostname;
-                    entry.count = 1;
-                }
-                this.fragmentToCode[hostname] = entry;
-                this.codeToFragment[packedHostname] = hostname;
-            } else {
-                packedHostname = entry.code;
-                entry.count++;
-            }
-        } else {
-            packedHostname = '';
-        }
-        var packedDirectory;
-        if ( directory !== '' ) {
-            entry = this.fragmentToCode[directory];
-            if ( !entry ) {
-                packedDirectory = this.strFromCode(this.codeGenerator++);
-                entry = this.codeJunkyard.pop();
-                if ( !entry ) {
-                    entry = new UrlPackerEntry(packedDirectory);
-                } else {
-                    entry.code = packedDirectory;
-                    entry.count = 1;
-                }
-                this.fragmentToCode[directory] = entry;
-                this.codeToFragment[packedDirectory] = directory;
-            } else {
-                packedDirectory = entry.code;
-                entry.count++;
-            }
-        } else {
-            packedDirectory = '';
-        }
-        // Return assembled packed fragments
-        return packedScheme + '/' + packedHostname + '/' + packedDirectory + '/' + leaf;
-    },
-
-    forget: function() {
-    },
-
-    strFromCode: function(code) {
-        var s = '';
-        var codeDigits = this.codeDigits;
-        while ( code ) {
-            s = s + String.fromCharCode(codeDigits.charCodeAt(code & 63));
-            code = code >> 6;
-        }
-        return s;
-    },
-
-};
-
-/******************************************************************************/
-
-function createRequestStatsEntry() {
-    var requestStatsEntry = requestStatsEntryJunkyard.pop();
-    if ( requestStatsEntry ) {
-        return requestStatsEntry;
+RequestStatsEntry.prototype.factory = function() {
+    var entry = RequestStatsEntry.prototype.junkyard.pop();
+    if ( entry ) {
+        return entry;
     }
     return new RequestStatsEntry();
-}
-
-function RequestStatsEntry() {
-    this.when = 0;
-    this.blocked = false;
-}
+};
 
 RequestStatsEntry.prototype.dispose = function() {
-    if ( requestStatsEntryJunkyard.length < 200 ) {
-        requestStatsEntryJunkyard.push(this);
+    // Let's not grab and hold onto too much memory..
+    if ( RequestStatsEntry.prototype.junkyard.length < 200 ) {
+        RequestStatsEntry.prototype.junkyard.push(this);
     }
 };
 
-var requestStatsEntryJunkyard = [];
-
 /******************************************************************************/
 
-function createPageStatsEntry(pageUrl) {
-    var pageStatsEntry = pageStatsEntryJunkyard.pop();
-    if ( pageStatsEntry ) {
-        return pageStatsEntry.init(pageUrl);
-    }
-    return new pageStatsEntry(pageUrl);
-}
+PageStatsEntry.prototype.junkyard = [];
 
-function PageStatsEntry(pageUrl) {
-    this.pageUrl = '';
-    this.requests = {};
-    this.packedRequests = null;
-    this.requestCount = 0;
-    this.domains = {};
-    this.state = {};
-    this.requestStats = new WebRequestStats();
-    this.visible = false;
-    this.ignore = false;
-    this.init(pageUrl);
-}
+PageStatsEntry.prototype.factory = function(pageUrl) {
+    var entry = PageStatsEntry.prototype.junkyard.pop();
+    if ( entry ) {
+        return entry.init(pageUrl);
+    }
+    return new PageStatsEntry(pageUrl);
+};
+
+/******************************************************************************/
 
 PageStatsEntry.prototype.init = function(pageUrl) {
     this.pageUrl = pageUrl;
     this.ignore = HTTPSB.excludeRegex.test(pageUrl);
     return this;
 };
+
+/******************************************************************************/
 
 PageStatsEntry.prototype.dispose = function() {
     this.pageUrl = '';
@@ -194,10 +77,63 @@ PageStatsEntry.prototype.dispose = function() {
     this.state = {};
     this.requestStats.reset();
     this.visible = true;
-    pageStatsEntryJunkyard.push(this);
+    PageStatsEntry.prototype.junkyard.push(this);
 };
 
-var pageStatsEntryJunkyard = [];
+/******************************************************************************/
+
+PageStatsEntry.prototype.recordRequest = function(type, url, block) {
+    if ( !this ) {
+        // console.error('HTTP Switchboard > PageStatsEntry.recordRequest() > no pageStats');
+        return;
+    }
+
+    // rhill 2013-10-26: This needs to be called even if the request is
+    // already logged, since the request stats are cached for a while after the
+    // page is no longer in the browser.
+    updateBadge(this.pageUrl);
+
+    var hostname = getHostnameFromURL(url);
+
+    // remember this blacklisting, used to create a snapshot of the state
+    // of the page, which is useful for smart reload of the page (reload the
+    // page only when permissions effectively change)
+    if ( block ) {
+        this.state[type +  '|' + hostname] = true;
+    }
+
+    // Count blocked/allowed requests
+    this.requestStats.record(type, block);
+
+    // var packedUrl = urlPacker.remember(url) + '#' + type;
+
+    var reqKey = url + '#' + type;
+    var requestStatsEntry = this.requests[reqKey];
+    if ( requestStatsEntry ) {
+        requestStatsEntry.when = Date.now();
+        requestStatsEntry.blocked = block;
+        return;
+    }
+
+    requestStatsEntry = RequestStatsEntry.prototype.factory();
+    requestStatsEntry.when = Date.now();
+    requestStatsEntry.blocked = block;
+    this.requests[reqKey] = requestStatsEntry;
+    this.requestCount++;
+    this.domains[hostname] = true;
+
+    urlStatsChanged(this.pageUrl);
+    // console.debug("HTTP Switchboard > PageStatsEntry.recordRequest() > %o: %s @ %s", this, type, url);
+};
+
+/******************************************************************************/
+
+PageStatsEntry.prototype.getPageURL = function() {
+    if ( !this ) {
+        return undefined;
+    }
+    return this.pageUrl;
+};
 
 /******************************************************************************/
 
@@ -289,7 +225,7 @@ function createPageStats(pageUrl) {
     }
     var httpsb = HTTPSB;
     if ( !httpsb.pageStats[pageUrl] ) {
-        httpsb.pageStats[pageUrl] = new PageStatsEntry(pageUrl);
+        httpsb.pageStats[pageUrl] = PageStatsEntry.prototype.factory(pageUrl);
     }
     return httpsb.pageStats[pageUrl];
 }
@@ -336,48 +272,15 @@ function typeFromReqKey(reqKey) {
 function recordFromTabId(tabId, type, url, blocked) {
     var pageStats = pageStatsFromTabId(tabId);
     if ( pageStats ) {
-        recordFromPageStats(pageStats, type, url, blocked);
+        pageStats.recordRequest(type, url, blocked);
     }
 }
 
 function recordFromPageUrl(pageUrl, type, url, blocked) {
     var pageStats = pageStatsFromPageUrl(pageUrl);
     if ( pageStats ) {
-        recordFromPageStats(pageStats, type, url, blocked);
+        pageStats.recordRequest(type, url, blocked);
     }
-}
-
-function recordFromPageStats(pageStats, type, url, blocked) {
-    if ( !pageStats ) {
-        // console.error('HTTP Switchboard > recordFromPageStats > no pageStats');
-        return;
-    }
-
-    // rhill 2013-10-26: This needs to be called even if the request is
-    // already logged, since the request stats are cached for a while after the
-    // page is no longer in the browser.
-    updateBadge(pageStats.pageUrl);
-
-    var reqKey = url + '#' + type;
-
-//    var packedUrl = urlPacker.remember(url) + '#' + type;
-
-    var requestStatsEntry = pageStats.requests[reqKey];
-    if ( requestStatsEntry ) {
-        requestStatsEntry.when = Date.now();
-        requestStatsEntry.blocked = blocked;
-        return;
-    }
-
-    requestStatsEntry = createRequestStatsEntry();
-    requestStatsEntry.when = Date.now();
-    requestStatsEntry.blocked = blocked;
-    pageStats.requests[reqKey] = requestStatsEntry;
-    pageStats.requestCount++;
-    pageStats.domains[getHostnameFromURL(url)] = true;
-
-    urlStatsChanged(pageStats.pageUrl);
-    // console.debug("HTTP Switchboard > recordFromPageStats > %o: %s @ %s", pageStats, type, url);
 }
 
 /******************************************************************************/
@@ -420,7 +323,6 @@ function smartReloadTab(tabId) {
         //console.error('HTTP Switchboard > smartReloadTab > page stats for tab id %d not found', tabId);
         return;
     }
-
     if ( getStateHash(newState) != getStateHash(pageStats.state) ) {
         // console.debug('reloaded content of tab id %d', tabId);
         // console.debug('old="%s"\nnew="%s"', getStateHash(pageStats.state), getStateHash(newState));
@@ -454,34 +356,6 @@ function getTabStateHash(tabId) {
 
 /******************************************************************************/
 
-function addStateFromTabId(tabId, type, domain) {
-    var pageStats = pageStatsFromTabId(tabId);
-    if ( pageStats ) {
-        addStateFromPageStats(pageStats, type, domain);
-        return;
-    }
-    // console.error('HTTP Switchboard > addStateFromTabId > page stats for tab id %d not found', tabId);
-}
-
-function addStateFromPageUrl(pageUrl, type, domain) {
-    var pageStats = pageStatsFromPageUrl(pageUrl);
-    if ( pageStats ) {
-        addStateFromPageStats(pageStats, type, domain);
-        return;
-    }
-    // console.error('HTTP Switchboard > addStateFromPageUrl > page stats for page url %s not found', pageUrl);
-}
-
-function addStateFromPageStats(pageStats, type, domain) {
-    if ( pageStats ) {
-        pageStats.state[type +  '/' + domain] = true;
-        return;
-    }
-    // console.error('HTTP Switchboard > addStateFromPageStats > page stats is null');
-}
-
-/******************************************************************************/
-
 function getStateHash(state) {
     var keys = Object.keys(state);
     if ( !keys.length ) {
@@ -501,14 +375,15 @@ function computeTabState(tabId) {
     }
     // Go through all recorded requests, apply filters to create state
     // It is a critical error for a tab to not be defined here
+    var httpsb = HTTPSB;
     var computedState = {};
     var url, domain, type;
     for ( var reqKey in pageStats.requests ) {
         url = urlFromReqKey(reqKey);
         domain = getHostnameFromURL(url);
         type = typeFromReqKey(reqKey);
-        if ( blacklisted(type, domain) ) {
-            computedState[type +  '/' + domain] = true;
+        if ( httpsb.blacklisted(pageUrlFromPageStats(pageStats), type, domain) ) {
+            computedState[type +  '|' + domain] = true;
         }
     }
     return computedState;
@@ -527,6 +402,22 @@ function tabStateChanged(tabId) {
 
 /******************************************************************************/
 
+function getPageMainSwitch(pageUrl) {
+    var pageStats = pageStatsFromPageUrl(pageUrl);
+    if ( pageStats ) {
+        return !pageStats.off;
+    }
+}
+
+function setPageMainSwitch(pageUrl, on) {
+    var pageStats = pageStatsFromPageUrl(pageUrl);
+    if ( pageStats ) {
+        return pageStats.off = !on;
+    }
+}
+
+/******************************************************************************/
+
 function tabIdFromPageUrl(pageUrl) {
     return HTTPSB.pageUrlToTabId[pageUrl];
 }
@@ -540,7 +431,10 @@ function pageUrlFromTabId(tabId) {
 }
 
 function pageUrlFromPageStats(pageStats) {
-    return pageStats.pageUrl;
+    if ( pageStats ) {
+        return pageStats.getPageURL();
+    }
+    return undefined;
 }
 
 function pageStatsFromTabId(tabId) {

@@ -103,60 +103,46 @@ function loadUserSettings() {
 
 /******************************************************************************/
 
-// save white/blacklist
-function save() {
-    var httpsb = HTTPSB;
-    var bin = {
-        'name': httpsb.manifest.name,
-        version: httpsb.manifest.version,
-        // version < 0.1.3
-        // whitelist: httpsb.whitelistUser,
-        // blacklist: httpsb.blacklistUser
-        // version == 0.1.3
-        'whitelist': Object.keys(httpsb.whitelistUser).join('\n'),
-        'blacklist': Object.keys(httpsb.blacklistUser).join('\n'),
-        'graylist': Object.keys(httpsb.graylistUser).join('\n'),
-    };
-    chrome.storage.local.set(bin, function() {
-        console.log('HTTP Switchboard > saved user white and black lists (%d bytes)', bin.blacklist.length + bin.whitelist.length);
-    });
-}
-
-/******************************************************************************/
-
 function loadUserLists() {
     var httpsb = HTTPSB;
     var defaults = {
         version: httpsb.manifest.version,
         whitelist: '',
         blacklist: '',
-        graylist: ''
+        graylist: '',
+        scopes: ''
     };
     chrome.storage.local.get(defaults, function(store) {
-        // sensible defaults for first install
-        if ( store.whitelist === '' && store.blacklist === '' && store.graylist === '') {
+        if ( store.scopes !== '' ) {
+            httpsb.permanentScopes.fromString(store.scopes);
+            httpsb.temporaryScopes.fromString(store.scopes);
+        } else if ( store.whitelist !== '' || store.blacklist !== '' || store.graylist !== '') {
+            // Pre v0.5.0
             console.log('HTTP Switchboard > loadUserLists > using default white/black/gray lists');
-            store.whitelist = 'image/*\nmain_frame/*';
-            store.blacklist = 'object/*\nsub_frame/*';
-            store.graylist = '';
+            httpsb.permanentScopes.scopes['*'].black.fromString(store.blacklist);
+            httpsb.temporaryScopes.scopes['*'].black.fromString(store.blacklist);
+            httpsb.permanentScopes.scopes['*'].gray.fromString(store.graylist);
+            httpsb.temporaryScopes.scopes['*'].gray.fromString(store.graylist);
+            httpsb.permanentScopes.scopes['*'].white.fromString(store.whitelist);
+            httpsb.temporaryScopes.scopes['*'].white.fromString(store.whitelist);
+        } else {
+            // Sensible defaults
+            httpsb.whitelistTemporarily('*', 'image', '*');
+            httpsb.whitelistPermanently('*', 'image', '*');
+            httpsb.blacklistTemporarily('*', 'object', '*')
+            httpsb.blacklistPermanently('*', 'object', '*')
+            httpsb.blacklistTemporarily('*', 'sub_frame', '*')
+            httpsb.blacklistPermanently('*', 'sub_frame', '*')
         }
 
-        populateListFromString(httpsb.blacklistUser, store.blacklist);
-        populateListFromList(httpsb.blacklist, httpsb.blacklistUser);
-
-        populateListFromString(httpsb.graylistUser, store.graylist);
-        populateListFromList(httpsb.graylist, httpsb.graylistUser);
-
-        populateListFromString(httpsb.whitelistUser, store.whitelist);
-        populateListFromList(httpsb.whitelist, httpsb.whitelistUser);
-
-        // rhill 20130923: ok, there is no point in blacklisting
-        // 'main_frame/*', since there is only one such page per tab. It is
-        // reasonable to whitelist by default 'main_frame/*', and top page of
+        // rhill 2013-09-23: ok, there is no point in blacklisting
+        // 'main_frame|*', since there is only one such page per tab. It is
+        // reasonable to whitelist by default 'main_frame|*', and top page of
         // blacklisted domain name will not be loaded anyways (because domain
         // name has precedence over type). Now this way we save precious real
         // estate pixels in popup menu.
-        whitelistTemporarily('main_frame', '*');
+        httpsb.whitelistTemporarily('*', 'main_frame', '*');
+        httpsb.whitelistPermanently('*', 'main_frame', '*');
 
         chrome.runtime.sendMessage({
             'what': 'startWebRequestHandler',
@@ -318,8 +304,8 @@ function queryRemoteBlacklistFailure(location) {
 function parseRemoteBlacklist(list) {
     // console.log('HTTP Switchboard > parseRemoteBlacklist > "%s"', list.url);
 
-    // rhill 2013-10-21: no need to prefix with '*/', the hostname is just what
-    // we need for preset blacklists. The prefix '*/' is ONLY needed when
+    // rhill 2013-10-21: no need to prefix with '* ', the hostname is just what
+    // we need for preset blacklists. The prefix '* ' is ONLY needed when
     // used as a filter in temporary blacklist.
     list.raw = normalizeRemoteContent(list.raw);
 
@@ -372,9 +358,23 @@ function mergeRemoteBlacklist(list) {
     // TODO: Will remove this one when all lists have been refreshed
     // on all user's cache: let's wait two week than we can
     // remove it (now it is 2013-10-21)
-    list.raw = list.raw.replace(/\*\/localhost\b|\*\/127\.0\.0\.1\b|\*\/::1\b|\*\//g, '');
+    var raw = list.raw.replace(/\*\/localhost\b|\*\/127\.0\.0\.1\b|\*\/::1\b|\*\//g, '');
+    var blacklistReadonly = httpsb.blacklistReadonly;
 
-    populateListFromString(httpsb.blacklistReadonly, list.raw);
+    if ( blacklistReadonly.count === undefined ) {
+        blacklistReadonly.count = 0;
+    }
+
+    var keys = raw.split(/\s+/);
+    var i = keys.length;
+    var key;
+    while ( i-- ) {
+        key = keys[i];
+        if ( key.length && !blacklistReadonly[key] ) {
+            blacklistReadonly[key] = true;
+            blacklistReadonly.count++;
+        }
+    }
 }
 
 /******************************************************************************/
@@ -384,37 +384,5 @@ function load() {
     loadUserSettings();
     loadUserLists();
     loadRemoteBlacklists();
-}
-
-/******************************************************************************/
-
-// parse and merge normalized content into a list
-function populateListFromString(des, s) {
-    if ( des.length === undefined ) {
-        des.length = 0;
-    }
-    var keys = s.split(/\s+/);
-    var i = keys.length;
-    var key;
-    while ( i-- ) {
-        key = keys[i];
-        if ( key.length && !des[key] ) {
-            des[key] = true;
-            des.length++;
-        }
-    }
-}
-
- // merge a list into another list
-function populateListFromList(des, src) {
-    if ( des.length === undefined ) {
-        des.length = 0;
-    }
-    for ( var k in src ) {
-        if ( src.hasOwnProperty(k) && !des[k] ) {
-            des[k] = src[k];
-            des.length++;
-        }
-    }
 }
 

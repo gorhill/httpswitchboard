@@ -16,9 +16,9 @@
     }
 })();
 
-// Can extension remove localStorage of page (like when cookies for 
+// Can extension remove localStorage of pages (like when cookies for 
 // page are blacklisted)? Need to investigate. (Well at least when
-// scripts are blocked, localStorage wont happen.)
+// scripts are blocked, localStorage won't happen..)
 
 // This must be last, so that result is returned to extension.
 // This is used so that inline script tags and preemptively blocked scripts
@@ -62,5 +62,6 @@
             r.pluginSources[elem.src.trim()] = true;
         }
     }
+    // Important!!
     return r;
 })();

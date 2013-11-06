@@ -31,9 +31,6 @@ var HTTPSB = {
         strictBlocking: false
     },
 
-    // memo:
-    // unicode for hourglass: &#x231B;
-
     runtimeId: 1,
 
     inlineFieldSeparator: '#',
@@ -59,31 +56,25 @@ var HTTPSB = {
 
     // tabs are used to redirect stats collection to a specific url stats
     // structure.
-    pageUrlToTabId: {},
-    tabIdToPageUrl: {},
+    pageUrlToTabId: { },
+    tabIdToPageUrl: { },
 
     // map["{type}/{domain}"]true
     // effective lists
-    whitelist: { },
-    blacklist: { '*/*': true },
-    graylist: { },
-    // user lists
-    whitelistUser: {},
-    blacklistUser: {},
-    graylistUser: {}, // this will override preset blacklists
+//    whitelist: new PermissionList(),
+//    blacklist: new PermissionList(['*|*']),
+//    graylist: new PermissionList(), // only purpose is to override preset blacklists
 
-    // Current entries from remote blacklists
-    blacklistReadonly: {},
+    // domain => PermissionLists
+    temporaryScopes: null,
+    permanentScopes: null,
+
+    // Current entries from remote blacklists --
+    // just hostnames, '*/' is implied, this saves significantly on memory.
+    blacklistReadonly: { },
 
     // https://github.com/gorhill/httpswitchboard/issues/19
     excludeRegex: /^https?:\/\/chrome\.google\.com\/(extensions|webstore)/,
-
-    // constants
-    GRAY: 0,
-    DISALLOWED_DIRECT: 1,
-    ALLOWED_DIRECT: 2,
-    DISALLOWED_INDIRECT: 3,
-    ALLOWED_INDIRECT: 4,
 
     // various stats
     requestStats: new WebRequestStats(),
@@ -103,46 +94,3 @@ var HTTPSB = {
 
 /******************************************************************************/
 
-function _WebRequestStats() {
-    this.all =
-    this.main_frame =
-    this.sub_frame =
-    this.script =
-    this.image =
-    this.object =
-    this.xmlhttprequest =
-    this.other =
-    this.cookie = 0;
-}
-
-_WebRequestStats.prototype.reset = function() {
-    this.all = 
-    this.main_frame =
-    this.sub_frame =
-    this.script =
-    this.image =
-    this.object =
-    this.xmlhttprequest =
-    this.other =
-    this.cookie = 0;
-};
-
-function WebRequestStats() {
-    this.allowed = new _WebRequestStats();
-    this.blocked = new _WebRequestStats();
-}
-
-WebRequestStats.prototype.record = function(type, blocked) {
-    if ( blocked ) {
-        this.blocked[type] += 1;
-        this.blocked.all += 1;
-    } else {
-        this.allowed[type] += 1;
-        this.allowed.all += 1;
-    }
-};
-
-WebRequestStats.prototype.reset = function() {
-    this.blocked.reset();
-    this.allowed.reset();
-};

@@ -107,8 +107,10 @@ function updateBadgeCallback(pageUrl) {
         return;
     }
     var pageStats = pageStatsFromTabId(tabId);
+
+    // If turned off, used special key in order to warn user
     var count = pageStats ? pageStats.requestCount : 0;
-    var countStr = count.toString();
+    var countStr = count.toFixed(0);
     if ( count >= 1000 ) {
         if ( count < 10000 ) {
             countStr = countStr.slice(0,1) + '.' + countStr.slice(1,-2) + 'K';
@@ -120,6 +122,7 @@ function updateBadgeCallback(pageUrl) {
             countStr = countStr.slice(0,-6) + 'M';
         }
     }
+
     chrome.browserAction.setBadgeText({ tabId: tabId, text: countStr });
     chrome.browserAction.setBadgeBackgroundColor({ tabId: tabId, color: '#000' });
 }
@@ -179,6 +182,10 @@ function onMessageHandler(request, sender, callback) {
 
         case 'startWebRequestHandler':
             startWebRequestHandler(request.from);
+            break;
+
+        case 'gotoURL':
+            chrome.tabs.update(request.tabId, { url: request.url });
             break;
 
         case 'gotoExtensionUrl':

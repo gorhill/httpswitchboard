@@ -26,7 +26,6 @@ var cookieHunter = {
     queueErase: {},
     queueRemove: [],
     processCounter: 0,
-    cleanCycle: 60,
 
     record: function(pageStats) {
         // store the page stats objects so that it doesn't go away
@@ -52,7 +51,7 @@ var cookieHunter = {
         this.queueRemove.push(cookie);
     },
 
-    process: function() {
+    processRecord: function() {
         var me = this;
         // record cookies from a specific page
         // TODO: use internal counter and avoid closures
@@ -62,6 +61,10 @@ var cookieHunter = {
                 delete me.queueRecord[pageUrl];
             });
         });
+    },
+
+    processRemove: function() {
+        var me = this;
         // erase cookies from a specific page
         // TODO: use internal counter and avoid closures
         Object.keys(this.queueErase).forEach(function(pageUrl) {
@@ -70,11 +73,6 @@ var cookieHunter = {
                 delete me.queueErase[pageUrl];
             });
         });
-        // clean all blacklisted cookies from whatever origin
-        this.processCounter++;
-        if ( (this.processCounter % this.cleanCycle) === 0 ) {
-            this.clean();
-        }
         // then perform real removal
         var cookie;
         while ( cookie = this.queueRemove.pop() ) {
@@ -86,7 +84,7 @@ var cookieHunter = {
 
     // Once in a while, we go ahead and clean everything that might have been
     // left behind.
-    clean: function() {
+    processClean: function() {
         var httpsb = HTTPSB;
         if ( !httpsb.userSettings.deleteCookies ) {
             return;
@@ -100,7 +98,7 @@ var cookieHunter = {
             while ( i-- ) {
                 cookie = cookies[i];
                 domain = cookie.domain.charAt(0) === '.' ? cookie.domain.slice(1) : cookie.domain;
-                if ( blacklisted('cookie', domain) ) {
+                if ( httpsb.blacklisted(undefined, 'cookie', domain) ) {
                     cookieUrl = (cookie.secure ? 'https://' : 'http://') + domain + cookie.path;
                     // be mindful of https://github.com/gorhill/httpswitchboard/issues/19
                     if ( !httpsb.excludeRegex.test(cookieUrl) ) {
@@ -108,7 +106,7 @@ var cookieHunter = {
                     }
                 }
             }
-            // quickProfiler.stop('cookieHunter.clean()');
+            // quickProfiler.stop('cookieHunter.processClean()');
         });
     },
 
@@ -117,34 +115,31 @@ var cookieHunter = {
         // quickProfiler.start();
         var httpsb = HTTPSB;
         var pageStats = this.queueRecord[pageUrl];
+        var domains = ' ' + Object.keys(pageStats.domains).join(' ') + ' ';
         var i = cookies.length;
         if ( !i ) { return; }
-        var domains = ' ' + Object.keys(pageStats.domains).sort().join(' ') + ' ';
-        var cookie, domain, block, rootUrl;
+        var cookie, cookieDomain, block, rootUrl, matchSubdomains;
         while ( i-- ) {
             cookie = cookies[i];
-            domain = cookie.domain.charAt(0) === '.' ? cookie.domain.slice(1) : cookie.domain;
-            // TODO: Check also upper hostnames...? There is something about
-            // the cookie domain being preceded by a dot.
-            if ( quickIndexOf(domains, domain, ' ') < 0 ) {
-                continue;
-            }
-            block = blacklisted('cookie', domain);
-            rootUrl = (cookie.secure ? 'https://' : 'http://') + domain;
-            recordFromPageStats(pageStats, 'cookie', rootUrl + '/{cookie:' + cookie.name.toLowerCase() + '}', block);
-            // TODO: I forgot whether pageStats can be null here...
-            if ( pageStats ) {
-                pageStats.requestStats.record('cookie', block);
-            }
-            httpsb.requestStats.record('cookie', block);
-            if ( block ) {
-                addStateFromPageStats(pageStats, 'cookie', domain);
-                if ( httpsb.userSettings.deleteCookies ) {
-                    this.remove({
-                        url: rootUrl + cookie.path,
-                        name: cookie.name
-                    });
+            matchSubdomains = cookie.domain.charAt(0) === '.';
+            cookieDomain = matchSubdomains ? cookie.domain.slice(1) : cookie.domain;
+            if ( domains.indexOf(' ' + cookieDomain + ' ') < 0 ) {
+                if ( !matchSubdomains ) {
+                    continue;
                 }
+                if ( domains.indexOf('.' + cookieDomain + ' ') < 0 ) {
+                    continue;
+                }
+            }
+            block = httpsb.blacklisted(pageUrl, 'cookie', cookieDomain);
+            rootUrl = (cookie.secure ? 'https://' : 'http://') + cookieDomain;
+            pageStats.recordRequest('cookie', rootUrl + '/{cookie:' + cookie.name.toLowerCase() + '}', block);
+            httpsb.requestStats.record('cookie', block);
+            if ( block && httpsb.userSettings.deleteCookies ) {
+                this.remove({
+                    url: rootUrl + cookie.path,
+                    name: cookie.name
+                });
             }
         }
         // quickProfiler.stop('cookieHunter._record()');
@@ -153,24 +148,29 @@ var cookieHunter = {
     // remove cookies for a specific web page
     _erase: function(pageUrl, cookies) {
         // quickProfiler.start();
-        if ( !HTTPSB.userSettings.deleteCookies ) {
+        var httpsb = HTTPSB;
+        if ( !httpsb.userSettings.deleteCookies ) {
             return;
         }
         var pageStats = this.queueErase[pageUrl];
+        var domains = ' ' + Object.keys(pageStats.domains).join(' ') + ' ';
         var i = cookies.length;
         if ( !i ) { return; }
-        var domains = ' ' + Object.keys(pageStats.domains).sort().join(' ') + ' ';
-        var cookie, domain, block, rootUrl;
+        var cookie, cookieDomain, block, rootUrl, matchSubdomains;
         while ( i-- ) {
             cookie = cookies[i];
-            domain = cookie.domain.charAt(0) === '.' ? cookie.domain.slice(1) : cookie.domain;
-            // TODO: Check also upper hostnames...? There is something about
-            // the cookie domain being preceded by a dot.
-            if ( quickIndexOf(domains, domain, ' ') < 0 ) {
-                continue;
+            matchSubdomains = cookie.domain.charAt(0) === '.';
+            cookieDomain = matchSubdomains ? cookie.domain.slice(1) : cookie.domain;
+            if ( domains.indexOf(' ' + cookieDomain + ' ') < 0 ) {
+                if ( !matchSubdomains ) {
+                    continue;
+                }
+                if ( domains.indexOf('.' + cookieDomain + ' ') < 0 ) {
+                    continue;
+                }
             }
-            block = blacklisted('cookie', domain);
-            rootUrl = (cookie.secure ? 'https://' : 'http://') + domain;
+            block = httpsb.blacklisted(pageUrl, 'cookie', cookieDomain);
+            rootUrl = (cookie.secure ? 'https://' : 'http://') + cookieDomain;
             if ( block ) {
                 this.remove({ url: rootUrl + cookie.path, name: cookie.name });
             }
@@ -178,67 +178,28 @@ var cookieHunter = {
         // quickProfiler.stop('cookieHunter._erase()');
     }
 
-}
+};
 
 // Every five seconds, so that cookies are reported soon enough after a
 // web page loads.
-function cookieHunterCallback() {
-    cookieHunter.process();
+function cookieHunterRecordCallback() {
+    cookieHunter.processRecord();
 }
+asyncJobQueue.add('cookieHunterRecord', null, cookieHunterRecordCallback, 500, true);
 
-asyncJobQueue.add('cookieHunter', null, cookieHunterCallback, 5000, true);
-
-/******************************************************************************/
-
-// http://stackoverflow.com/questions/4003823/javascript-getcookie-functions/4004010#4004010
-// Thanks!
-
-// TODO: This is not ok: the comma is often used in a json string, it can not
-// simply used mindlessly to split the cookie strings as it is done below.
-
-function parseRawCookies(c) {
-    var v = 0,
-        cookies = {};
-    if (document.cookie.match(/^\s*\$Version=(?:"1"|1);\s*(.*)/)) {
-        c = RegExp.$1;
-        v = 1;
-    }
-    if (v === 0) {
-        c.split(/[,;]/).map(function(cookie) {
-            var parts = cookie.split(/=/, 2),
-                name = decodeURIComponent(parts[0].trimLeft()),
-                value = parts.length > 1 ? decodeURIComponent(parts[1].trimRight()) : null;
-            cookies[name] = value;
-        });
-    } else {
-        c.match(/(?:^|\s+)([!#$%&'*+\-.0-9A-Z^`a-z|~]+)=([!#$%&'*+\-.0-9A-Z^`a-z|~]*|"(?:[\x20-\x7E\x80\xFF]|\\[\x00-\x7F])*")(?=\s*[,;]|$)/g).map(function($0, $1) {
-            var name = $0,
-                value = $1.charAt(0) === '"' ?
-                    $1.substr(1, -1).replace(/\\(.)/g, "$1") :
-                    $1;
-            cookies[name] = value;
-        });
-    }
-    return cookies;
+function cookieHunterRemoveCallback() {
+    cookieHunter.processRemove();
 }
+asyncJobQueue.add('cookieHunterRemove', null, cookieHunterRemoveCallback, 30 * 1000, true);
 
-// I reused the code snippet above to create a function which just returns
-// the number of cookies without the overhead of creating and returning an
-// associative array.
-// TODO: Not really accurate because of issue above.
-function countRawCookies(c) {
-    if (document.cookie.match(/^\s*\$Version=(?:"1"|1);\s*(.*)/)) {
-        c = RegExp.$1;
-        return c.match(/(?:^|\s+)([!#$%&'*+\-.0-9A-Z^`a-z|~]+)=([!#$%&'*+\-.0-9A-Z^`a-z|~]*|"(?:[\x20-\x7E\x80\xFF]|\\[\x00-\x7F])*")(?=\s*[,;]|$)/g).length;
-    }
-    return c.split(/[,;]/).length;
+function cookieHunterCleanCallback() {
+    cookieHunter.processClean();
 }
+asyncJobQueue.add('cookieHunterClean', null, cookieHunterCleanCallback, 5 * 60 * 1000, true);
 
 /******************************************************************************/
 
 // Listen to any change in cookieland, we will update page stats accordingly.
-
-// TODO: use timer
 
 chrome.cookies.onChanged.addListener(function(changeInfo) {
     var removed = changeInfo.removed;
@@ -247,51 +208,21 @@ chrome.cookies.onChanged.addListener(function(changeInfo) {
     }
     var httpsb = HTTPSB;
     var cookie = changeInfo.cookie;
-    var domain = cookie.domain.charAt(0) == '.' ? cookie.domain.slice(1) : cookie.domain;
+    var cookieDomain = cookie.domain.charAt(0) == '.' ? cookie.domain.slice(1) : cookie.domain;
     var cookieUrl = cookie.secure ? 'https://' : 'http://';
-    cookieUrl += domain + '/{cookie:' + cookie.name.toLowerCase() + '}';
+    cookieUrl += cookieDomain + '/{cookie:' + cookie.name.toLowerCase() + '}';
 
-    // Go through all pages and update if needed
-    var domains;
-    Object.keys(httpsb.pageStats).forEach(function(pageUrl) {
-        domains = ' ' + Object.keys(httpsb.pageStats[pageUrl].domains).sort().join(' ') + ' ';
-        if ( quickIndexOf(domains, domain, ' ') >= 0 ) {
+    // Go through all pages and update if needed, as one cookie can be used
+    // by many web pages, so they need to be recorded for all these pages.
+    var pageUrls = Object.keys(httpsb.pageStats);
+    var iPageUrl = pageUrls.length;
+    var pageUrl;
+    while ( iPageUrl-- ) {
+        pageUrl = pageUrls[iPageUrl];
+        if ( httpsb.pageStats[pageUrl].domains[cookieDomain] ) {
             cookieHunter.record(httpsb.pageStats[pageUrl]);
         }
         // console.debug('HTTP Switchboard > chrome.cookies.onChanged: "%s" (cookie=%O)', cookieUrl, cookie);
-    });
-});
-
-/******************************************************************************/
-
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Base64_encoding_and_decoding#Solution_.232_.E2.80.93_rewriting_atob()_and_btoa()_using_TypedArrays_and_UTF-8
-// Thanks!
-
-// Convert anArrayBuffer to a unicode string, for those cookies encoded into
-// a binary value.
-
-/*jshint bitwise: false*/
-function stringFromArrayBuffer(ab) {
-    var s = '';
-    for (var nPart, nLen = ab.length, nIdx = 0; nIdx < nLen; nIdx++) {
-        nPart = ab[nIdx];
-        s += String.fromCharCode(
-            nPart > 251 && nPart < 254 && nIdx + 5 < nLen ? /* six bytes */
-            /* (nPart - 252 << 32) is not possible in ECMAScript! So...: */
-            (nPart - 252) * 1073741824 + (ab[++nIdx] - 128 << 24) + (ab[++nIdx] - 128 << 18) + (ab[++nIdx] - 128 << 12) + (ab[++nIdx] - 128 << 6) + ab[++nIdx] - 128
-            : nPart > 247 && nPart < 252 && nIdx + 4 < nLen ? /* five bytes */
-            (nPart - 248 << 24) + (ab[++nIdx] - 128 << 18) + (ab[++nIdx] - 128 << 12) + (ab[++nIdx] - 128 << 6) + ab[++nIdx] - 128
-            : nPart > 239 && nPart < 248 && nIdx + 3 < nLen ? /* four bytes */
-            (nPart - 240 << 18) + (ab[++nIdx] - 128 << 12) + (ab[++nIdx] - 128 << 6) + ab[++nIdx] - 128
-            : nPart > 223 && nPart < 240 && nIdx + 2 < nLen ? /* three bytes */
-            (nPart - 224 << 12) + (ab[++nIdx] - 128 << 6) + ab[++nIdx] - 128
-            : nPart > 191 && nPart < 224 && nIdx + 1 < nLen ? /* two bytes */
-            (nPart - 192 << 6) + ab[++nIdx] - 128
-            : /* nPart < 127 ? */ /* one byte */
-            nPart
-        );
     }
-    return s;
-}
-/*jshint bitwise: true*/
+});
 

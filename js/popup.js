@@ -21,43 +21,15 @@
 
 /******************************************************************************/
 
-// Refactor so that global name space is not used
-
-/*
-
-var httpsbPopup = {
-
-
-...
-
-
-};
-
-*/
-
-/******************************************************************************/
-
-var tabId; // these will be set later
-var pageUrl = '';
-
-// Just so the background page will be notified when popup menu is closed
-var port = chrome.extension.connect();
-
-var matrixStats = {};
-var matrixHeaderTypes = ['*'];
-var matrixHeaderPrettyNames = { };
-var matrixCellMenu = null;
-var matrixCellHotspots = null;
-var matrixHasRows = false; // useful to know for various housekeeping task
-
-/******************************************************************************/
-
-// Don't hold permanently onto background page. I don't know if this help,
-// but I am trying to keep memory footprint as low as possible.
-
-function backgroundPage() {
-    return chrome.extension.getBackgroundPage();
+function EntryStats() {
+    this.count = 0;
+    this.temporaryColor = '';
+    this.permanentColor = '';
 }
+
+EntryStats.prototype.reset = function() {
+    this.count = 0;
+};
 
 /******************************************************************************/
 
@@ -73,31 +45,104 @@ function DomainStats() {
     this.other = new EntryStats();
 }
 
-function EntryStats() {
-    this.count = 0;
-    this.temporaryColor = '';
-    this.permanentColor = '';
-    // bit 0 = http
-    // bit 1 = https
-    // thus:
-    // 1 = http
-    // 2 = https
-    // 3 = mixed
-    this.protocol = 0;
+DomainStats.prototype.junkyard = [];
+
+DomainStats.prototype.factory = function() {
+    var domainStats = DomainStats.prototype.junkyard.pop();
+    if ( domainStats ) {
+        domainStats.reset();
+    } else {
+        domainStats = new DomainStats();
+    }
+    return domainStats;
+}
+
+DomainStats.prototype.reset = function() {
+    this['*'].reset();
+    this.main_frame.reset();
+    this.cookie.reset();
+    this.image.reset();
+    this.object.reset();
+    this.script.reset();
+    this.xmlhttprequest.reset();
+    this.sub_frame.reset();
+    this.other.reset();
+};
+
+DomainStats.prototype.dispose = function() {
+    DomainStats.prototype.junkyard.push(this);
+};
+
+/******************************************************************************/
+
+function MatrixStats() {
+    // hostname '*' always present
+    this['*'] = DomainStats.prototype.factory();
+}
+
+MatrixStats.prototype.createMatrixStats = function() {
+    return new MatrixStats();
+}
+
+MatrixStats.prototype.reset = function() {
+    var prop;
+    for ( var hostname in this ) {
+        prop = this[hostname];
+        if ( hostname !== '*' && prop instanceof DomainStats ) {
+            prop.dispose();
+            delete this[hostname];
+        }
+    }
+    this['*'].reset();
+};
+
+/******************************************************************************/
+
+var HTTPSBPopup = {
+    tabId: -1,
+    pageURL: '',
+    scopeURL: '*'
+};
+
+// Just so the background page will be notified when popup menu is closed
+var port = chrome.extension.connect();
+
+var matrixStats = MatrixStats.prototype.createMatrixStats();
+var matrixHeaderTypes = ['*'];
+var matrixHeaderPrettyNames = { };
+var matrixCellMenu = null;
+var matrixCellHotspots = null;
+var matrixHasRows = false; // useful to know for various housekeeping task
+
+/******************************************************************************/
+
+// Don't hold permanently onto background page. I don't know if this help,
+// but I am trying to keep memory footprint as low as possible.
+
+function getBackgroundPage() {
+    return chrome.extension.getBackgroundPage();
+}
+
+function getHTTPSB() {
+    return getBackgroundPage().HTTPSB;
+}
+
+function getPageStats() {
+    return getBackgroundPage().pageStatsFromTabId(HTTPSBPopup.tabId);
 }
 
 /******************************************************************************/
 
-function initMatrixStats(pageStats) {
+function initMatrixStats() {
+    var pageStats = getPageStats();
     if ( !pageStats ) {
         return;
     }
 
-    // hostname '*' always present
-    matrixStats['*'] = new DomainStats();
+    matrixStats.reset();
 
     // collect all domains and ancestors from net traffic
-    var background = backgroundPage();
+    var background = getBackgroundPage();
     var pageUrl = pageStats.pageUrl;
     var url, hostname, type, parent, reqKey;
     var reqKeys = Object.keys(pageStats.requests);
@@ -119,7 +164,7 @@ function initMatrixStats(pageStats) {
         parent = hostname;
         while ( parent ) {
             if ( !matrixStats[parent] ) {
-                matrixStats[parent] = new DomainStats();
+                matrixStats[parent] = DomainStats.prototype.factory();
             }
             parent = background.getParentHostnameFromHostname(parent);
         }
@@ -138,7 +183,8 @@ function initMatrixStats(pageStats) {
 
 function updateMatrixStats(matrixStats) {
     // For each domain/type occurrence, evaluate colors
-    var background = backgroundPage();
+    var httpsb = getHTTPSB();
+    var scopeURL = HTTPSBPopup.scopeURL;
     var domains = Object.keys(matrixStats);
     var iDomain = domains.length;
     var domain;
@@ -151,8 +197,8 @@ function updateMatrixStats(matrixStats) {
         while ( iType-- ) {
             type = types[iType];
             entry = matrixStats[domain][type];
-            entry.temporaryColor = background.getTemporaryColor(type, domain);
-            entry.permanentColor = background.getPermanentColor(type, domain);
+            entry.temporaryColor = httpsb.getTemporaryColor(scopeURL, type, domain);
+            entry.permanentColor = httpsb.getPermanentColor(scopeURL, type, domain);
         }
     }
 }
@@ -187,8 +233,8 @@ function getGroupStats() {
 
     // first group according to whether at least one node in the domain
     // hierarchy is white or blacklisted
-    var background = backgroundPage();
-    var pageDomain = background.getDomainFromURL(pageUrl);
+    var background = getBackgroundPage();
+    var pageDomain = background.getDomainFromURL(HTTPSBPopup.pageURL);
     var domain, rootDomain, parent;
     var temporaryColor;
     var dark, group;
@@ -307,17 +353,17 @@ function getNextAction(domain, type, leaning) {
     var temporaryColor = entry.temporaryColor;
     // special case: root toggle only between two states
     if ( type === '*' && domain === '*' ) {
-        return temporaryColor === 'gdt' ? 'blacklist' : 'whitelist';
+        return temporaryColor.charAt(0) === 'g' ? 'blacklist' : 'whitelist';
     }
     // Lean toward whitelisting?
     if ( leaning === 'whitelisting' ) {
-        if ( temporaryColor === 'rpt' || temporaryColor === 'gpt' ) {
+        if ( temporaryColor.charAt(1) === 'p' ) {
             return 'whitelist';
         }
         return 'graylist';
     }
     // Lean toward blacklisting
-    if ( temporaryColor === 'rpt' || temporaryColor === 'gpt' ) {
+    if ( temporaryColor.charAt(1) === 'p' ) {
         return 'blacklist';
     }
     return 'graylist';
@@ -348,18 +394,18 @@ function updateMatrixCells() {
 // handle user interaction with filters
 
 function handleFilter(button, leaning) {
-    var background = backgroundPage();
+    var httpsb = getHTTPSB();
     // our parent cell knows who we are
     var cell = button.closest('div.filter-button');
     var type = cell.prop('filterType');
     var domain = cell.prop('filterDomain');
     var nextAction = getNextAction(domain, type, leaning);
     if ( nextAction === 'blacklist' ) {
-        background.blacklistTemporarily(type, domain);
+        httpsb.blacklistTemporarily(HTTPSBPopup.scopeURL, type, domain);
     } else if ( nextAction === 'whitelist' ) {
-        background.whitelistTemporarily(type, domain);
+        httpsb.whitelistTemporarily(HTTPSBPopup.scopeURL, type, domain);
     } else {
-        background.graylist(type, domain);
+        httpsb.graylistTemporarily(HTTPSBPopup.scopeURL, type, domain);
     }
     updateMatrixStats(matrixStats);
     updateMatrixCells();
@@ -379,7 +425,7 @@ function handleBlacklistFilter(button) {
 // handle user interaction with persistence buttons
 
 function handlePersistence(button) {
-    var background = backgroundPage();
+    var httpsb = getHTTPSB();
     // our parent cell knows who we are
     var cell = button.closest('div.filter-button');
     var type = cell.prop('filterType');
@@ -388,11 +434,11 @@ function handlePersistence(button) {
     if ( !entry ) { return; }
     if ( entry.temporaryColor.charAt(1) === 'd' && entry.temporaryColor !== entry.permanentColor ) {
         if ( entry.temporaryColor === 'rdt' ) {
-            background.blacklistPermanently(type, domain);
+            httpsb.blacklistPermanently(HTTPSBPopup.scopeURL, type, domain);
         } else if ( entry.temporaryColor === 'gdt' ) {
-            background.whitelistPermanently(type, domain);
+            httpsb.whitelistPermanently(HTTPSBPopup.scopeURL, type, domain);
         }
-        entry.permanentColor = background.getPermanentColor(type, domain);
+        entry.permanentColor = httpsb.getPermanentColor(HTTPSBPopup.scopeURL, type, domain);
         var newClass = getCellClass(domain, type);
         cell.removeClass('rdt gdt rpt gpt rdp gdp rpp gpp');
         cell.addClass(newClass);
@@ -400,7 +446,7 @@ function handlePersistence(button) {
 }
 
 function handleUnpersistence(button) {
-    var background = backgroundPage();
+    var httpsb = getHTTPSB();
     // our parent cell knows who we are
     var cell = button.closest('div.filter-button');
     var type = cell.prop('filterType');
@@ -408,8 +454,8 @@ function handleUnpersistence(button) {
     var entry = getCellStats(domain, type);
     if ( !entry ) { return; }
     if ( entry.permanentColor.charAt(1) === 'd' ) {
-        background.graylistPermanently(type, domain);
-        entry.permanentColor = background.getPermanentColor(type, domain);
+        httpsb.graylistPermanently(HTTPSBPopup.scopeURL, type, domain);
+        entry.permanentColor = httpsb.getPermanentColor(HTTPSBPopup.scopeURL, type, domain);
         var newClass = getCellClass(domain, type);
         cell.removeClass('rdt gdt rpt gpt rdp gdp rpp gpp');
         cell.addClass(newClass);
@@ -465,12 +511,12 @@ function createMatrixRow(matrixRow, domain) {
 // dispose then re-create all of them.
 
 function makeMenu() {
-    var background = backgroundPage();
-    var pageStats = background.pageStatsFromTabId(tabId);
-    initMatrixStats(pageStats);
+    var background = getBackgroundPage();
+    initMatrixStats();
     var groupStats = getGroupStats();
 
-    $('#message').html(formatHeader(pageUrl));
+    $('#page-switch').removeClass();
+    $('#message').html(formatHeader(HTTPSBPopup.pageURL));
 
     if ( Object.keys(groupStats).length === 0 ) {
         return;
@@ -537,6 +583,37 @@ function makeMenu() {
 
 /******************************************************************************/
 
+// Create page scopes for the web page
+
+function toggleScopePage() {
+    var toolbars = $('#toolbars');
+    var button = $('#button-toggle-scope');
+    button.tooltip('hide');
+    if ( toolbars.hasClass('scope-is-page') ) {
+        toolbars.removeClass('scope-is-page');
+        getHTTPSB().destroyPageScopeIfExists(HTTPSBPopup.pageURL);
+    } else {
+        toolbars.addClass('scope-is-page');
+        getHTTPSB().createPageScopeIfNotExists(HTTPSBPopup.pageURL);
+    }
+    updateMatrixStats(matrixStats);
+    updateMatrixCells();
+}
+
+function getScopePageButtonTip() {
+    var toolbars = $('#toolbars');
+    if ( toolbars.hasClass('scope-is-page') ) {
+        return 'Remove all permissions specific to <span style="border-bottom:1px dotted #aaa;">' +
+            HTTPSBPopup.scopeURL +
+            '</span>';
+    }
+    return 'Create permissions specific to <span style="border-bottom:1px dotted #aaa;">' +
+        HTTPSBPopup.scopeURL +
+        '</span> only';
+}
+
+/******************************************************************************/
+
 // Handle user mouse over filter buttons
 
 // TODO: localize
@@ -582,7 +659,7 @@ function handleBlacklistFilterMessage(hotspot) {
 function handlePersistMessage(button) {
     if ( button.closest('.rdt').length ) {
         $('#message').html('Permanently <span class="rdt">blacklist</span> this cell');
-    } else if ( button.closest('.rdt').length ) {
+    } else if ( button.closest('.gdt').length ) {
         $('#message').html('Permanently <span class="gdt">whitelist</span> this cell');
     }
 }
@@ -598,7 +675,7 @@ function handleUnpersistMessage(button) {
 /******************************************************************************/
 
 function blankMessage() {
-    $('#message').html(formatHeader(pageUrl));
+    $('#message').html(formatHeader(HTTPSBPopup.pageURL));
 }
 
 /******************************************************************************/
@@ -611,6 +688,14 @@ function onMessage(request) {
 
 /******************************************************************************/
 
+function revert() {
+    getHTTPSB().revertPermissions();
+    updateMatrixStats(matrixStats);
+    updateMatrixCells();
+}
+
+/******************************************************************************/
+
 // Because chrome.tabs.query() is async
 function bindToTabHandler(tabs) {
     // TODO: can tabs be empty?
@@ -619,32 +704,31 @@ function bindToTabHandler(tabs) {
     }
 
     // Important! Before calling makeMenu()
-    var background = backgroundPage();
-    tabId = tabs[0].id;
-    pageUrl = background.pageUrlFromTabId(tabId);
+    var background = getBackgroundPage();
+    var httpsb = getHTTPSB();
+    HTTPSBPopup.tabId = tabs[0].id;
+    HTTPSBPopup.pageURL = background.pageUrlFromTabId(HTTPSBPopup.tabId);
+    HTTPSBPopup.scopeURL = httpsb.normalizeScopeURL(HTTPSBPopup.pageURL);
 
-    // Now that tabId and pageUrl are set, we can build our menu
+    // Now that tabId and pageURL are set, we can build our menu
     makeMenu();
 
-    // After popup menu is built, we check whether there is a non-empty matrix
+    // After popup menu is built, check whether there is a non-empty matrix
     if ( !matrixHasRows ) {
         $('#no-traffic').css('display', '');
         $('#matrix-head').css('display', 'none');
+        $('#scope-toolbar').css('display', 'none');
+    }
+
+    // Activate page scope if there is one
+    if ( httpsb.scopePageExists(HTTPSBPopup.scopeURL) ) {
+        toggleScopePage();
     }
 
     // To know when to rebuild the matrix
     // TODO: What if this event is triggered before bindToTabHandler()
     // is called?
     chrome.runtime.onMessage.addListener(onMessage);
-}
-
-/******************************************************************************/
-
-function revert() {
-    var background = backgroundPage();
-    background.restoreTemporaryLists();
-    updateMatrixStats(matrixStats);
-    updateMatrixCells();
 }
 
 /******************************************************************************/
@@ -709,6 +793,7 @@ function initAll() {
         blankMessage();
     });
 
+    $('#button-toggle-scope').on('click', toggleScopePage);
     $('#button-revert').on('click', revert);
     $('#button-info').on('click', function() {
         chrome.runtime.sendMessage({ what: 'gotoExtensionUrl', url: 'info.html' });
@@ -716,6 +801,34 @@ function initAll() {
     $('#button-settings').on('click', function() {
         chrome.runtime.sendMessage({ what: 'gotoExtensionUrl', url: 'settings.html' });
     });
+
+    // Tooltips
+    // TODO: localize
+    var tips = [
+        {   sel: '#button-toggle-scope',
+            tip: getScopePageButtonTip
+            },
+        {   sel: '#button-revert',
+            tip: 'Undo all temporary changes &mdash; those which were not padlocked'
+            },
+        {   sel: '#button-info',
+            tip: 'Statistics and detailed net requests'
+            },
+        {   sel: '#button-settings',
+            tip: 'Settings: how HTTP Switchboard behaves'
+            }
+        ];
+    var i = tips.length;
+    while ( i-- ) {
+        $(tips[i].sel).tooltip({
+            html: true,
+            placement: 'auto bottom',
+            trigger: 'hover',
+            delay: { show: 750, hide: 0 },
+            container: 'body',
+            title: tips[i].tip
+        });
+    }
 }
 
 /******************************************************************************/

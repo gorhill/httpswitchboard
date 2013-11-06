@@ -2,11 +2,13 @@
 # For those domain names which are not found in other blacklists
 
 2mdn.net            # "2mdn.net is a domain used by Doubleclick which is an advertising company..."
+adextent.com        # "We are an advertising technology company - we build technologies that improve ads performance"
 adgear.com          # "AdGear is an online advertising technologies company based in Montreal, Canada"
 adnxs.com           # "Adnxs.com is run by AppNexus, a company that provides technology, data and analytics to help companies buy and sell online display advertising" (Ref.: http://www.theguardian.com/technology/2012/apr/23/adnxs-tracking-trackers-cookies-web-monitoring)
 adobetag.com        # "Adobe Announces Adobe Tag Manager for the Online Marketing Suite"
 aimatch.com         # "Ad Server, SAS® Intelligent Advertising for Publishers"
 axf8.net            # https://www.eff.org/deeplinks/2013/06/third-party-resources-nsa-leaks
+betrad.com          # "Evidon: Home | Online Marketing Intelligence, Web Analytics, Privacy" (which also publishes "Ghostery" add-on..)
 bizographics.com    # "Business Audience Marketing"
 bkrtx.com
 
@@ -23,9 +25,11 @@ krxd.net            # https://www.eff.org/deeplinks/2013/06/third-party-resource
 lijit.com           # "We provide online advertising services, audience analytics"
 llnwd.net           # http://en.wikipedia.org/wiki/Limelight_Networks
 lduhtrp.net
+mathtag.com         # "domain used by MediaMath to place cookies, on behalf of its customers, on the computers of visitors to our selected customer's websites and who may view our customer's display advertisements"
 moatads.com         # https://www.eff.org/deeplinks/2013/06/third-party-resources-nsa-leaks
 mookie1.com         # "Specializing in online digital advertising, search marketing"
 msads.net           # Sounds like ads, and no home web page...
+omtrdc.net          # Redirect to Omniture
 outbrain.com        # https://www.eff.org/deeplinks/2013/06/third-party-resources-nsa-leaks
 parsely.com         # http://en.wikipedia.org/wiki/Parse.ly
 peer39.net          # https://www.eff.org/deeplinks/2013/06/third-party-resources-nsa-leaks

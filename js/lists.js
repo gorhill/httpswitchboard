@@ -21,304 +21,6 @@
 
 /******************************************************************************/
 
-// Whitelist something
-function whitelistTemporarily(type, hostname) {
-    var httpsb = HTTPSB;
-    var key = type + '/' + hostname;
-    httpsb.whitelist[key] = true;
-    delete httpsb.blacklist[key];
-    delete httpsb.graylist[key];
-}
-
-function whitelistPermanently(type, hostname) {
-    var httpsb = HTTPSB;
-    var key = type + '/' + hostname;
-    var whitelisted = !httpsb.whitelistUser[key];
-    var unblacklisted = httpsb.blacklistUser[key];
-    if ( whitelisted ) {
-        httpsb.whitelistUser[key] = true;
-    }
-    if ( unblacklisted ) {
-        delete httpsb.blacklistUser[key];
-    }
-    if ( whitelisted || unblacklisted ) {
-        // console.log('HTTP Switchboard > permanent whitelisting %s from %s', type, hostname);
-        save();
-    }
-}
-
-/******************************************************************************/
-
-// Blacklist something
-function blacklistTemporarily(type, hostname) {
-    var httpsb = HTTPSB;
-    var key = type + '/' + hostname;
-    delete httpsb.whitelist[key];
-    httpsb.blacklist[key] = true;
-    delete httpsb.graylist[key];
-}
-
-function blacklistPermanently(type, hostname) {
-    var httpsb = HTTPSB;
-    var key = type + '/' + hostname;
-    var unwhitelisted = httpsb.whitelistUser[key];
-    var blacklisted = !httpsb.blacklistUser[key];
-    if ( unwhitelisted ) {
-        delete httpsb.whitelistUser[key];
-    }
-    if ( blacklisted ) {
-        httpsb.blacklistUser[key] = true;
-    }
-    if ( unwhitelisted || blacklisted ) {
-        // console.log('HTTP Switchboard > permanent blacklisting %s from %s', type, hostname);
-        save();
-    }
-}
-
-/******************************************************************************/
-
-// Remove something from both black and white lists.
-
-// If key is [specific hostname]/[any type], remove also any existing
-// auto-blacklisted types for the specific hostname.
-
-function graylist(type, hostname) {
-    var httpsb = HTTPSB;
-    var key = type + '/' + hostname;
-    // special case: master switch cannot be gray listed
-    if ( key === '*/*' ) {
-        return;
-    }
-    delete httpsb.whitelist[key];
-    delete httpsb.blacklist[key];
-
-    // rhill 2013-10-25: special case, we expressly graylist only if the
-    // key is '*' and hostname is found in read-only blacklist, so that the
-    // express graylisting occults the read-only blacklist status.
-    if ( type === '*' && httpsb.blacklistReadonly[hostname] ) {
-        httpsb.graylist[key] = true;
-    } else {
-        delete httpsb.graylist[key]; // just in case...
-    }
-}
-
-function graylistPermanently(type, hostname) {
-    var httpsb = HTTPSB;
-    var key = type + '/' + hostname;
-    var unwhitelisted = httpsb.whitelistUser[key];
-    var unblacklisted = httpsb.blacklistUser[key];
-    var graylisted = type === '*' && httpsb.blacklistReadonly[hostname] && !httpsb.graylistUser[key];
-    if ( unwhitelisted ) {
-        delete httpsb.whitelistUser[key];
-    }
-    if ( unblacklisted ) {
-        delete httpsb.blacklistUser[key];
-    }
-    if ( graylisted ) {
-        // httpsb.graylistUser[key] = true;
-    }
-    if ( unwhitelisted || unblacklisted /*|| graylisted*/ ) {
-    // console.log('HTTP Switchboard > permanent graylisting %s from %s', type, hostname);
-        save();
-    }
-}
-
-/******************************************************************************/
-
-// Reset lists to their default state.
-
-function restoreTemporaryLists() {
-    var httpsb = HTTPSB;
-    httpsb.whitelist = {};
-    httpsb.blacklist = {};
-    httpsb.graylist = {};
-    populateListFromList(httpsb.whitelist, httpsb.whitelistUser);
-    populateListFromList(httpsb.blacklist, httpsb.blacklistUser);
-}
-
-/******************************************************************************/
-
-// Check whether something is white or blacklisted, direct or indirectly.
-//
-// Levels of evaluations (3 distinct algorithms):
-//   while hostname !== empty:
-//     type/hostname
-//     */hostname
-//     hostname = parent hostname
-//   type/*
-//   */*
-//
-// For each evaluation:
-//   In whitelist?
-//      Yes: evaluated as whitelisted
-//   In blacklist?
-//      Yes: evaluated as blacklisted
-//   Not in graylist and in read-only blacklist?
-//      Yes: evaluated as blacklisted
-//   Evaluated as graylisted
-//      Evaluate next level
-//
-// It is a naturally recursive function, but we unwind it completely here
-// because it is a core function, used in  time critical part of the
-// code, and we gain by making local references to global variables, which
-// is better if done once, which would happen for each recursive call
-// otherwise.
-
-function evaluate(type, hostname) {
-    var httpsb = HTTPSB;
-    var blacklist = httpsb.blacklist;
-    var whitelist = httpsb.whitelist;
-    var graylist = httpsb.graylist;
-    var blacklistReadonly = httpsb.blacklistReadonly;
-    var typeKey;
-    var cellKey, parent;
-
-    // Pick proper entry point
-
-    if ( type !== '*' && hostname !== '*' ) {
-        // https://github.com/gorhill/httpswitchboard/issues/29
-        typeKey = type + '/*';
-
-        // direct: specific type, specific hostname
-        cellKey = type + '/' + hostname;
-        if ( blacklist[cellKey] ) {
-            return httpsb.DISALLOWED_DIRECT;
-        }
-        if ( whitelist[cellKey] ) {
-            return httpsb.ALLOWED_DIRECT;
-        }
-        // indirect: any type, specific hostname
-        cellKey = '*/' + hostname;
-        // rhill 2013-10-26: Whitelist MUST be checked before blacklist,
-        // because read-only blacklists are, hum... read-only?
-        if ( whitelist[cellKey] ) {
-            // https://github.com/gorhill/httpswitchboard/issues/29
-            // The cell is indirectly whitelisted because of hostname, type
-            // must nOT be blacklisted.
-            if ( httpsb.userSettings.strictBlocking ) {
-                return blacklist[typeKey] ? httpsb.DISALLOWED_INDIRECT : httpsb.ALLOWED_INDIRECT;
-            }
-            return httpsb.ALLOWED_INDIRECT;
-        }
-        if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[hostname]) ) {
-            return httpsb.DISALLOWED_INDIRECT;
-        }
-
-        // indirect: parent hostname nodes
-        parent = hostname;
-        while ( true ) {
-            parent = getParentHostnameFromHostname(parent);
-            if ( !parent ) {
-                break;
-            }
-            cellKey = type + '/' + parent;
-            // specific type, specific parent
-            if ( blacklist[cellKey] ) {
-                return httpsb.DISALLOWED_INDIRECT;
-            }
-            if ( whitelist[cellKey] ) {
-                return httpsb.ALLOWED_INDIRECT;
-            }
-            // any type, specific parent
-            cellKey = '*/' + parent;
-            // rhill 2013-10-26: Whitelist MUST be checked before blacklist,
-            // because read-only blacklists are, hum... read-only?
-            if ( whitelist[cellKey] ) {
-                // https://github.com/gorhill/httpswitchboard/issues/29
-                // The cell is indirectly whitelisted because of hostname, type
-                // must nOT be blacklisted.
-                if ( httpsb.userSettings.strictBlocking ) {
-                    return blacklist[typeKey] ? httpsb.DISALLOWED_INDIRECT : httpsb.ALLOWED_INDIRECT;
-                }
-                return httpsb.ALLOWED_INDIRECT;
-            }
-            if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[parent]) ) {
-                return httpsb.DISALLOWED_INDIRECT;
-            }
-        }
-        // indirect: specific type, any hostname
-        if ( blacklist[typeKey] ) {
-            return httpsb.DISALLOWED_INDIRECT;
-        }
-        if ( whitelist[typeKey] ) {
-            return httpsb.ALLOWED_INDIRECT;
-        }
-        // indirect: any type, any hostname
-        if ( whitelist['*/*'] ) {
-            return httpsb.ALLOWED_INDIRECT;
-        }
-        return httpsb.DISALLOWED_INDIRECT;
-    }
-    if ( type === '*' && hostname !== '*' ) {
-        // direct: any type, specific hostname
-        cellKey = '*/' + hostname;
-        if ( whitelist[cellKey] ) {
-            return httpsb.ALLOWED_DIRECT;
-        }
-        if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[hostname]) ) {
-            return httpsb.DISALLOWED_DIRECT;
-        }
-        // indirect: parent hostname nodes
-        parent = hostname;
-        while ( true ) {
-            parent = getParentHostnameFromHostname(parent);
-            if ( !parent ) {
-                break;
-            }
-            // any type, specific hostname
-            cellKey = '*/' + parent;
-            if ( whitelist[cellKey] ) {
-                return httpsb.ALLOWED_INDIRECT;
-            }
-            if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[parent]) ) {
-                return httpsb.DISALLOWED_INDIRECT;
-            }
-        }
-        // indirect: any type, any hostname
-        if ( whitelist['*/*'] ) {
-            return httpsb.ALLOWED_INDIRECT;
-        }
-        return httpsb.DISALLOWED_INDIRECT;
-    }
-    if ( type !== '*' && hostname === '*' ) {
-        // indirect: specific type, any hostname
-        cellKey = type + '/*';
-        if ( whitelist[cellKey] ) {
-            return httpsb.ALLOWED_DIRECT;
-        }
-        if ( blacklist[cellKey] ) {
-            return httpsb.DISALLOWED_DIRECT;
-        }
-        // indirect: any type, any hostname
-        if ( whitelist['*/*'] ) {
-            return httpsb.ALLOWED_INDIRECT;
-        }
-        return httpsb.DISALLOWED_INDIRECT;
-    }
-    if ( whitelist['*/*'] ) {
-        return httpsb.ALLOWED_DIRECT;
-    }
-    return httpsb.DISALLOWED_DIRECT;
-}
-
-/******************************************************************************/
-
-// check whether something is blacklisted
-function blacklisted(type, hostname) {
-    var httpsb = HTTPSB;
-    var result = evaluate(type, hostname);
-    return result === httpsb.DISALLOWED_DIRECT || result === httpsb.DISALLOWED_INDIRECT;
-}
-
-// check whether something is whitelisted
-function whitelisted(type, hostname) {
-    var httpsb = HTTPSB;
-    var result = evaluate(type, hostname);
-    return result === httpsb.ALLOWED_DIRECT || result === httpsb.ALLOWED_INDIRECT;
-}
-
-/******************************************************************************/
-
 // Re. "color":
 //   'rdt' = red dark temporary
 //   'rpt' = red pale temporary
@@ -331,46 +33,502 @@ function whitelisted(type, hostname) {
 //   'xxx' used at position without valid state
 
 /******************************************************************************/
+/******************************************************************************/
 
-function getTemporaryColor(type, hostname) {
-    var httpsb = HTTPSB;
-    var what = evaluate(type, hostname);
-    if ( what === httpsb.ALLOWED_DIRECT ) {
-        return 'gdt';
+PermissionList.prototype.addOne = function(pattern) {
+    if ( !this.list[pattern] ) {
+        this.list[pattern] = true;
+        this.count++;
+        return true;
     }
-    if ( what === httpsb.DISALLOWED_DIRECT ) {
-        return 'rdt';
-    }
-    if ( what === httpsb.ALLOWED_INDIRECT ) {
-        return 'gpt';
-    }
-    if ( what === httpsb.DISALLOWED_INDIRECT ) {
-        return 'rpt';
-    }
-    return 'xxx';
-}
+    return false;
+};
 
 /******************************************************************************/
 
-function getPermanentColor(type, hostname) {
-    var httpsb = HTTPSB;
-    var key = type + '/' + hostname;
-    if ( httpsb.whitelistUser[key] ) {
-        return 'gdp';
+PermissionList.prototype.removeOne = function(pattern) {
+    if ( this.list[pattern] ) {
+        delete this.list[pattern];
+        this.count--;
+        return true;
     }
-    if ( httpsb.blacklistUser[key] ) {
-        return 'rdp';
+    return false;
+};
+
+/******************************************************************************/
+
+PermissionList.prototype.removeAll = function() {
+    this.list = {};
+    this.count = 0;
+};
+
+/******************************************************************************/
+
+PermissionList.prototype.toString = function() {
+    // I sort() to allow deterministic output, this way I can compare
+    // whether two lists are exactly the same just using string
+    // comparison.
+    return Object.keys(this.list).sort().join('\n');
+};
+
+PermissionList.prototype.fromString = function(s) {
+    var patterns = s.split(/\s+/);
+    var pattern;
+    var i = patterns.length;
+    while ( i-- ) {
+        pattern = patterns[i];
+        if ( !pattern.length ) {
+            continue;
+        }
+        // rhill 2013-11-02:
+        //   Old format: */*
+        //   New format: *|*
+        if ( pattern.indexOf('|') < 0 ) {
+            pattern = pattern.replace('/', '|');
+        }
+        if ( !this.list[pattern] ) {
+            this.list[pattern] = true;
+            this.count++;
+        }
     }
-    // rhill 2013-10-13 > optimization: if type is not '*', hostname is not
-    // in the remote blacklists.
-    if ( type !== '*' ) {
-        return 'xxx';
+};
+
+/******************************************************************************/
+
+PermissionList.prototype.fromList = function(other) {
+    for ( var kother in other.list ) {
+        if ( !other.list.hasOwnProperty(kother) ) {
+            continue;
+        }
+        // rhill 2013-11-02:
+        //   Old format: */*
+        //   New format: *|*
+        if ( kother.indexOf('|') < 0 ) {
+            kother = kother.replace('/', '|');
+        }
+        if ( !this.list[kother] ) {
+            this.list[kother] = true;
+            this.count++;
+        }
     }
-    // console.debug('httpsb.blacklistReadonly[%s] = %o', hostname, httpsb.blacklistReadonly[hostname]);
-    if ( httpsb.blacklistReadonly[hostname] ) {
-        return 'rdp';
+};
+
+/******************************************************************************/
+
+PermissionList.prototype.fromArray = function(filters) {
+    if ( Object.prototype.toString.call(filters) !== '[object Array]' ) {
+        throw 'PermissionList.fromArray() > expecting an array';
     }
-    return 'xxx';
-}
+    var i = filters.length;
+    var filter;
+    while ( i-- ) {
+        filter = filters[i];
+        // rhill 2013-11-02:
+        //   Old format: */*
+        //   New format: *|*
+        if ( filter.indexOf('|') < 0 ) {
+            filter = filter.replace('/', '|');
+        }
+        this.addOne(filter);
+    }
+};
+
+/******************************************************************************/
+
+PermissionList.prototype.assign = function(other) {
+    // This is done this way in order to reduce mem alloc/dealloc.
+    // Remove all that is not in the other but found in this one.
+    for ( var kthis in this.list ) {
+        if ( this.list.hasOwnProperty(kthis) && !other.list[kthis] ) {
+            delete this.list[kthis];
+            this.count--;
+        }
+    }
+    // Add all that is in the other list but not found in this one.
+    for ( var kother in other.list ) {
+        if ( other.list.hasOwnProperty(kother) && !this.list[kother] ) {
+            this.list[kother] = true;
+            this.count++;
+        }
+    }
+};
+
+/******************************************************************************/
+/******************************************************************************/
+
+// A scope exhibits three lists: white, black and gray.
+
+PermissionScope.prototype.toString = function() {
+    var bin = {
+        whiteStr: this.white.toString(),
+        blackStr: this.black.toString(),
+        grayStr: this.gray.toString()
+    };
+    if ( bin.whiteStr === '' && bin.blackStr === '' && bin.grayStr === '' ) {
+        return '';
+    }
+    return JSON.stringify(bin);
+};
+
+PermissionScope.prototype.fromString = function(s) {
+    var bin = JSON.parse(s);
+    this.white.fromString(bin.whiteStr);
+    this.black.fromString(bin.blackStr);
+    this.gray.fromString(bin.grayStr);
+};
+
+/******************************************************************************/
+
+PermissionScope.prototype.assign = function(other) {
+    this.white.assign(other.white);
+    this.black.assign(other.black);
+    this.gray.assign(other.gray);
+};
+
+/******************************************************************************/
+
+// This is the heart of HTTP Switchboard:
+//
+// Check whether something is white or blacklisted, direct or indirectly.
+//
+// Levels of evaluations (3 distinct algorithms):
+//   while hostname !== empty:
+//     type|hostname
+//     *|hostname
+//     hostname = parent hostname
+//   type|*
+//   *|*
+//
+// For each evaluation:
+//   In whitelist?
+//      Yes: evaluated as whitelisted
+//   In blacklist?
+//      Yes: evaluated as blacklisted
+//   Not in graylist and in read-only blacklist?
+//      Yes: evaluated as blacklisted
+//   Evaluated as graylisted
+//      Evaluate next level
+//
+// It is a naturally recursive function, but I unwind it completely here
+// because it is a core function, used in time critical parts of the
+// code, and I gain by making local references to global variables, which
+// is better if done once, which would happen for each recursive call
+// otherwise.
+
+PermissionScope.prototype.evaluate = function(type, hostname) {
+    var blacklistReadonly = this.httpsb.blacklistReadonly;
+    var blacklist = this.black.list;
+    var whitelist = this.white.list;
+    var graylist = this.gray.list;
+    var typeKey, cellKey, parent;
+
+    // Pick proper entry point
+
+    if ( type !== '*' && hostname !== '*' ) {
+        // https://github.com/gorhill/httpswitchboard/issues/29
+        typeKey = type + '|*';
+
+        // direct: specific type, specific hostname
+        cellKey = type + '|' + hostname;
+        if ( whitelist[cellKey] ) {
+            return 'gdt';
+        }
+        if ( blacklist[cellKey] ) {
+            return 'rdt';
+        }
+        // indirect: any type, specific hostname
+        cellKey = '*|' + hostname;
+        // rhill 2013-10-26: Whitelist MUST be checked before blacklist,
+        // because read-only blacklists are, hum... read-only? (which means
+        // they can only be overriden through occultation, which means
+        // whitelists has to be checked first).
+        if ( whitelist[cellKey] ) {
+            // https://github.com/gorhill/httpswitchboard/issues/29
+            // The cell is indirectly whitelisted because of hostname, type
+            // must NOT be blacklisted.
+            if ( this.httpsb.userSettings.strictBlocking && blacklist[typeKey] ) {
+                return 'rpt';
+            }
+            return 'gpt';
+        }
+        if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[hostname]) ) {
+            return 'rpt';
+        }
+
+        // indirect: parent hostname nodes
+        parent = hostname;
+        while ( true ) {
+            parent = getParentHostnameFromHostname(parent);
+            if ( !parent ) {
+                break;
+            }
+            cellKey = type + '|' + parent;
+            // specific type, specific parent
+            if ( whitelist[cellKey] ) {
+                return 'gpt';
+            }
+            if ( blacklist[cellKey] ) {
+                return 'rpt';
+            }
+            // any type, specific parent
+            cellKey = '*|' + parent;
+            // rhill 2013-10-26: Whitelist MUST be checked before blacklist,
+            // because read-only blacklists are, hum... read-only?
+            if ( whitelist[cellKey] ) {
+                // https://github.com/gorhill/httpswitchboard/issues/29
+                // The cell is indirectly whitelisted because of hostname, type
+                // must nOT be blacklisted.
+                if ( this.httpsb.userSettings.strictBlocking && blacklist[typeKey] ) {
+                    return 'rpt';
+                }
+                return 'gpt';
+            }
+            if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[parent]) ) {
+                return 'rpt';
+            }
+        }
+        // indirect: specific type, any hostname
+        if ( whitelist[typeKey] ) {
+            return 'gpt';
+        }
+        if ( blacklist[typeKey]  ) {
+            return 'rpt';
+        }
+        // indirect: any type, any hostname
+        if ( whitelist['*|*'] ) {
+            return 'gpt';
+        }
+        return 'rpt';
+    }
+    if ( type === '*' && hostname !== '*' ) {
+        // direct: any type, specific hostname
+        cellKey = '*|' + hostname;
+        if ( whitelist[cellKey] ) {
+            return 'gdt';
+        }
+        if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[hostname]) ) {
+            return 'rdt';
+        }
+        // indirect: parent hostname nodes
+        parent = hostname;
+        while ( true ) {
+            parent = getParentHostnameFromHostname(parent);
+            if ( !parent ) {
+                break;
+            }
+            // any type, specific hostname
+            cellKey = '*|' + parent;
+            if ( whitelist[cellKey] ) {
+                return 'gpt';
+            }
+            if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[parent]) ) {
+                return 'rpt';
+            }
+        }
+        // indirect: any type, any hostname
+        if ( whitelist['*|*'] ) {
+            return 'gpt';
+        }
+        return 'rpt';
+    }
+    if ( type !== '*' && hostname === '*' ) {
+        // indirect: specific type, any hostname
+        cellKey = type + '|*';
+        if ( whitelist[cellKey] ) {
+            return 'gdt';
+        }
+        if ( blacklist[cellKey] ) {
+            return 'rdt';
+        }
+        // indirect: any type, any hostname
+        if ( whitelist['*|*'] ) {
+            return 'gpt';
+        }
+        return 'rpt';
+    }
+    if ( whitelist['*|*'] ) {
+        return 'gdt';
+    }
+    return 'rdt';
+};
+
+/******************************************************************************/
+
+PermissionScope.prototype.whitelist = function(type, hostname) {
+    var key = type + '|' + hostname;
+    var changed = false;
+    changed = this.white.addOne(key) || changed;
+    changed = this.black.removeOne(key) || changed;
+    changed = this.gray.removeOne(key) || changed;
+    return changed;
+};
+
+/******************************************************************************/
+
+PermissionScope.prototype.blacklist = function(type, hostname) {
+    var key = type + '|' + hostname;
+    var changed = false;
+    changed = this.white.removeOne(key) || changed;
+    changed = this.gray.removeOne(key) || changed;
+    // TODO: Avoid duplicating read-only blacklisted entries
+    changed = this.black.addOne(key) || changed;
+    return changed;
+};
+
+/******************************************************************************/
+
+PermissionScope.prototype.graylist = function(type, hostname) {
+    var key = type + '|' + hostname;
+    // rhill 2013-11-04: No worry about master switch being graylisted, it will
+    // never happens because evaluate() always return a dark color for the
+    // master switch.
+    var changed = false;
+    changed = this.white.removeOne(key) || changed;
+    changed = this.black.removeOne(key) || changed;
+    // rhill 2013-10-25: special case, we expressly graylist only if the
+    // key is '*' and hostname is found in read-only blacklist, so that the
+    // express graylisting occults the read-only blacklist status.
+    if ( type === '*' && this.httpsb.blacklistReadonly[hostname] ) {
+        changed = this.gray.addOne(key) || changed;
+    }
+    return changed;
+};
+
+/******************************************************************************/
+/******************************************************************************/
+
+PermissionScopes.prototype.toString = function() {
+    var bin = {
+        scopes: []
+    };
+    var scopeKeys = Object.keys(this.scopes);
+    var i = scopeKeys.length;
+    var scopeKey, scope, scopeStr;
+    while ( i-- ) {
+        scopeKey = scopeKeys[i];
+        scope = this.scopes[scopeKey];
+        // Ignore scope if it is turned off
+        if ( scope.off ) {
+            continue;
+        }
+        scopeStr = scope.toString();
+        if ( scopeStr !== '' ) {
+            bin.scopes.push({
+                scopeKey: scopeKey,
+                scopeStr: scopeStr
+            });
+        }
+    }
+    return JSON.stringify(bin);
+};
+
+PermissionScopes.prototype.fromString = function(s) {
+    var bin = JSON.parse(s);
+    var i = bin.scopes.length;
+    var scope, scopeBin;
+    while ( i-- ) {
+        scope = new PermissionScope(this.httpsb);
+        scopeBin = bin.scopes[i];
+        scope.fromString(scopeBin.scopeStr);
+        this.scopes[scopeBin.scopeKey] = scope;
+    }
+};
+
+/******************************************************************************/
+
+PermissionScopes.prototype.assign = function(other) {
+    var scopeKeys, i, scopeKey;
+
+    // Remove scopes found here but not found in other
+    // Overwrite scopes found both here and in other
+    scopeKeys = Object.keys(this.scopes);
+    i = scopeKeys.length;
+    while ( i-- ) {
+        scopeKey = scopeKeys[i];
+        if ( !other.scopes[scopeKey] ) {
+            delete this.scopes[scopeKey];
+        } else {
+            this.scopes[scopeKey].assign(other.scopes[scopeKey]);
+        }
+    }
+
+    // Add scopes not found here but found in other
+    scopeKeys = Object.keys(other.scopes);
+    i = scopeKeys.length;
+    while ( i-- ) {
+        scopeKey = scopeKeys[i];
+        if ( !this.scopes[scopeKey] ) {
+            this.scopes[scopeKey] = new PermissionScope(this.httpsb);
+            this.scopes[scopeKey].assign(other.scopes[scopeKey]);
+        }
+    }
+};
+
+/******************************************************************************/
+
+PermissionScopes.prototype.normalizeScopeURL = function(url) {
+    if ( !url ) {
+        return null;
+    }
+    if ( url !== '*' ) {
+        url = getRootURLFromURL(url);
+    }
+    return url;
+};
+
+/******************************************************************************/
+
+PermissionScopes.prototype.scopeFromURL = function(url) {
+    if ( !url ) {
+        return this.scopes['*'];
+    }
+    if ( url !== '*' ) {
+        url = getRootURLFromURL(url);
+    }
+    return this.scopes[url];
+};
+
+/******************************************************************************/
+
+PermissionScopes.prototype.evaluate = function(url, type, hostname) {
+    var scope = this.scopeFromURL(url);
+    // rhill 2013-11-04: A caller which does not want an inexistant scope
+    // to fall back on global scope will have to create explicitly the
+    // inexistant scope before calling.
+    if ( !scope || scope.off ) {
+        scope = this.scopes['*'];
+    }
+    return scope.evaluate(type, hostname);
+};
+
+/******************************************************************************/
+
+PermissionScopes.prototype.whitelist = function(url, type, hostname) {
+    var scope = this.scopeFromURL(url);
+    if ( !scope || scope.off ) {
+        scope = this.scopes['*'];
+    }
+    return scope.whitelist(type, hostname);
+};
+
+/******************************************************************************/
+
+PermissionScopes.prototype.blacklist = function(url, type, hostname) {
+    var scope = this.scopeFromURL(url);
+    if ( !scope || scope.off ) {
+        scope = this.scopes['*'];
+    }
+    return scope.blacklist(type, hostname);
+};
+
+/******************************************************************************/
+
+PermissionScopes.prototype.graylist = function(url, type, hostname) {
+    var scope = this.scopeFromURL(url);
+    if ( !scope || scope.off ) {
+        scope = this.scopes['*'];
+    }
+    return scope.graylist(type, hostname);
+};
 
 /******************************************************************************/
