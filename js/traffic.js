@@ -165,6 +165,12 @@ function webRequestHandler(details) {
 
     // Log request
     if ( pageStats ) {
+        // These counters are used so that icon give an overview of ratio
+        // allowed/blocked.
+        if ( isRootFrame ) {
+            pageStats.perLoadAllowedRequestCount =
+            pageStats.perLoadBlockedRequestCount = 0;
+        }
         pageStats.recordRequest(type, url, block);
     }
 

@@ -69,15 +69,16 @@ function PageStatsEntry(pageUrl) {
     this.pageUrl = '';
     this.requests = {};
     this.packedRequests = null;
-    this.requestCount = 0;
     this.domains = {};
     this.state = {};
-    this.requestStats = new WebRequestStats();
-    this.whitelist = null;
-    this.whitelistIgnore = false;
     this.visible = false;
     this.ignore = false;
-    this.off = false;
+    this.requestStats = new WebRequestStats();
+    this.distinctRequestCount = 0;
+    this.perLoadAllowedRequestCount = 0;
+    this.perLoadBlockedRequestCount = 0;
+    this.icon = null;
+    this.greenSize = undefined;
     this.init(pageUrl);
 }
 

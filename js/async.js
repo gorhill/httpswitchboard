@@ -107,9 +107,8 @@ function updateBadgeCallback(pageUrl) {
         return;
     }
     var pageStats = pageStatsFromTabId(tabId);
-
     // If turned off, used special key in order to warn user
-    var count = pageStats ? pageStats.requestCount : 0;
+    var count = pageStats ? pageStats.distinctRequestCount : 0;
     var countStr = count.toFixed(0);
     if ( count >= 1000 ) {
         if ( count < 10000 ) {
@@ -122,9 +121,20 @@ function updateBadgeCallback(pageUrl) {
             countStr = countStr.slice(0,-6) + 'M';
         }
     }
-
-    chrome.browserAction.setBadgeText({ tabId: tabId, text: countStr });
-    chrome.browserAction.setBadgeBackgroundColor({ tabId: tabId, color: '#000' });
+    if ( pageStats ) {
+        chrome.browserAction.setIcon({
+            tabId: tabId,
+            imageData: pageStats.computeIcon(HTTPSB.icons['19'])
+            });
+    }
+    chrome.browserAction.setBadgeText({
+        tabId: tabId,
+        text: countStr
+        });
+    chrome.browserAction.setBadgeBackgroundColor({
+        tabId: tabId,
+        color: HTTPSB.scopePageExists(pageUrl) ? '#66F' : '#000'
+        });
 }
 
 /******************************************************************************/

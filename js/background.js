@@ -59,13 +59,7 @@ var HTTPSB = {
     pageUrlToTabId: { },
     tabIdToPageUrl: { },
 
-    // map["{type}/{domain}"]true
-    // effective lists
-//    whitelist: new PermissionList(),
-//    blacklist: new PermissionList(['*|*']),
-//    graylist: new PermissionList(), // only purpose is to override preset blacklists
-
-    // domain => PermissionLists
+    // page url => permission scope
     temporaryScopes: null,
     permanentScopes: null,
 
@@ -87,6 +81,9 @@ var HTTPSB = {
     behindTheSceneURL: 'http://chromium.behind.the.scene',
     behindTheSceneTabId: 0x7FFFFFFFFFFFFFFF,
     behindTheSceneMaxReq: 250,
+
+    // Icons, to be used in chrome.browserAction.setIcon() calls
+    icons: { },
 
     // so that I don't have to care for last comma
     dummy: 0

@@ -815,7 +815,7 @@ function initAll() {
             tip: 'Statistics and detailed net requests'
             },
         {   sel: '#button-settings',
-            tip: 'Settings: how HTTP Switchboard behaves'
+            tip: 'Settings: how HTTP&nbsp;Switchboard behaves'
             }
         ];
     var i = tips.length;

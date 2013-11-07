@@ -370,8 +370,14 @@ PermissionScope.prototype.blacklist = function(type, hostname) {
     var changed = false;
     changed = this.white.removeOne(key) || changed;
     changed = this.gray.removeOne(key) || changed;
-    // TODO: Avoid duplicating read-only blacklisted entries
-    changed = this.black.addOne(key) || changed;
+    // Avoid duplicating read-only blacklisted entries
+    // TODO: Is this really a good idea? If user explicitly blocked an entry
+    // which is already in read-only blacklist (after graylisting or
+    // whitelisting it), user expects entry to still be blacklisted if ever
+    // same entry is removed from read-only blacklist.
+    if ( type !== '*' || !this.httpsb.blacklistReadonly[hostname] ) {
+        changed = this.black.addOne(key) || changed;
+    }
     return changed;
 };
 

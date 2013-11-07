@@ -54,6 +54,14 @@ PageStatsEntry.prototype.factory = function(pageUrl) {
 
 PageStatsEntry.prototype.init = function(pageUrl) {
     this.pageUrl = pageUrl;
+    this.requests = {};
+    this.domains = {};
+    this.state = {};
+    this.requestStats.reset();
+    this.distinctRequestCount = 0;
+    this.perLoadAllowedRequestCount = 0;
+    this.perLoadBlockedRequestCount = 0;
+    this.greenSize = undefined;
     this.ignore = HTTPSB.excludeRegex.test(pageUrl);
     return this;
 };
@@ -61,7 +69,6 @@ PageStatsEntry.prototype.init = function(pageUrl) {
 /******************************************************************************/
 
 PageStatsEntry.prototype.dispose = function() {
-    this.pageUrl = '';
     // Iterate through all requests and return them to the junkyard for
     // later reuse.
     var reqKeys = Object.keys(this.requests);
@@ -72,11 +79,6 @@ PageStatsEntry.prototype.dispose = function() {
         this.requests[reqKey].dispose();
         delete this.requests[reqKey];
     }
-    this.requestCount = 0;
-    this.domains = {};
-    this.state = {};
-    this.requestStats.reset();
-    this.visible = true;
     PageStatsEntry.prototype.junkyard.push(this);
 };
 
@@ -105,6 +107,11 @@ PageStatsEntry.prototype.recordRequest = function(type, url, block) {
     // Count blocked/allowed requests
     this.requestStats.record(type, block);
 
+    if ( block ) {
+        this.perLoadBlockedRequestCount++;
+    } else {
+        this.perLoadAllowedRequestCount++;
+    }
     // var packedUrl = urlPacker.remember(url) + '#' + type;
 
     var reqKey = url + '#' + type;
@@ -119,7 +126,8 @@ PageStatsEntry.prototype.recordRequest = function(type, url, block) {
     requestStatsEntry.when = Date.now();
     requestStatsEntry.blocked = block;
     this.requests[reqKey] = requestStatsEntry;
-    this.requestCount++;
+
+    this.distinctRequestCount++;
     this.domains[hostname] = true;
 
     urlStatsChanged(this.pageUrl);
@@ -134,6 +142,49 @@ PageStatsEntry.prototype.getPageURL = function() {
     }
     return this.pageUrl;
 };
+
+/******************************************************************************/
+
+PageStatsEntry.prototype.setIcon = function(canvas) {
+    this.icon = canvas;
+};
+
+/******************************************************************************/
+
+// Generate image data which reflect internal state
+
+PageStatsEntry.prototype.computeIcon = function(original) {
+    if ( !this.icon ) {
+        this.icon = cloneCanvas(original);
+    }
+    var squareSize = this.icon.width;
+    var squareArea = squareSize * squareSize;
+    var context = this.icon.getContext('2d');
+    var total = this.perLoadAllowedRequestCount + this.perLoadBlockedRequestCount;
+    var greenSize;
+    if ( total ) {
+        greenSize = Math.sqrt(squareArea * this.perLoadAllowedRequestCount / total);
+        greenSize = greenSize < squareArea/2 ? Math.ceil(greenSize) : Math.floor(greenSize);
+    }
+    if ( greenSize !== this.iconGreenSize ) {
+        if ( total ) {
+            context.globalAlpha = 1.0;
+            context.fillStyle = '#F44';
+            context.fillRect(0, 0, squareSize, squareSize);
+            if ( greenSize ) {
+                context.fillStyle = '#0F0';
+                context.fillRect(0, 0, greenSize, greenSize);
+            }
+            context.globalAlpha = 0.6;
+            context.drawImage(original, 0, 0);
+        } else {
+            context.globalAlpha = 1.0;
+            context.drawImage(original, 0, 0);
+        }
+        this.iconGreenSize = greenSize;
+    }
+    return context.getImageData(0, 0, squareSize, squareSize);
+}
 
 /******************************************************************************/
 
@@ -224,10 +275,12 @@ function createPageStats(pageUrl) {
         return undefined;
     }
     var httpsb = HTTPSB;
-    if ( !httpsb.pageStats[pageUrl] ) {
-        httpsb.pageStats[pageUrl] = PageStatsEntry.prototype.factory(pageUrl);
+    var pageStats = httpsb.pageStats[pageUrl];
+    if ( !pageStats ) {
+        pageStats = PageStatsEntry.prototype.factory(pageUrl);
+        httpsb.pageStats[pageUrl] = pageStats;
     }
-    return httpsb.pageStats[pageUrl];
+    return pageStats;
 }
 
 /******************************************************************************/
@@ -398,22 +451,6 @@ function tabStateChanged(tabId) {
     }
     console.error('HTTP Switchboard > tabStateChanged > page stats for tab id %d not found', tabId);
     return false;
-}
-
-/******************************************************************************/
-
-function getPageMainSwitch(pageUrl) {
-    var pageStats = pageStatsFromPageUrl(pageUrl);
-    if ( pageStats ) {
-        return !pageStats.off;
-    }
-}
-
-function setPageMainSwitch(pageUrl, on) {
-    var pageStats = pageStatsFromPageUrl(pageUrl);
-    if ( pageStats ) {
-        return pageStats.off = !on;
-    }
 }
 
 /******************************************************************************/

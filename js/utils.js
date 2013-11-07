@@ -117,3 +117,14 @@ function domainNameCompare(a,b) {
     return a.localeCompare(b);
 }
 
+/******************************************************************************/
+
+function cloneCanvas(other) {
+    var canvas = document.createElement('canvas');
+    canvas.width = other.width;
+    canvas.height = other.height;
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(other, 0, 0);
+    return canvas;
+}
+

@@ -210,9 +210,14 @@ HTTPSB.getPermanentColor = function(src, type, hostname) {
     if ( scope.black.list[key] ) {
         return 'rdp';
     }
-    // rhill 2013-10-13 > optimization: if type is not '*', hostname is not
+    // rhill 2013-10-13: optimization: if type is not '*', hostname is not
     // in the remote blacklists.
     if ( type !== '*' ) {
+        return 'xxx';
+    }
+    // rhill 2013-11-07: if in the graylist, this means a read-only blacklist
+    // entry is occulted.
+    if ( scope.gray.list[key] ) {
         return 'xxx';
     }
     // console.debug('this.blacklistReadonly[%s] = %o', hostname, this.blacklistReadonly[hostname]);
@@ -249,7 +254,7 @@ HTTPSB.savePermissions = function() {
         // version = 0.5.0
         'scopes': this.permanentScopes.toString()
     };
-    console.debug('HTTP Switchboard > HTTPSB.savePermissions(): persisting %o', bin);
+    // console.debug('HTTP Switchboard > HTTPSB.savePermissions(): persisting %o', bin);
     chrome.storage.local.set(bin, function() {
         if ( chrome.runtime.lastError ) {
             // console.log('HTTP Switchboard > saved permissions: %s', chrome.runtime.lastError.message());
