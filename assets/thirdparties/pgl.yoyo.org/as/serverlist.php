@@ -28,6 +28,7 @@
 7bpeople.com
 7search.com
 99count.com
+a-ads.com
 a-counter.kiev.ua
 a.0day.kiev.ua
 a.collective-media.net
@@ -60,7 +61,6 @@ ad-serverparc.nl
 ad-souk.com
 ad-space.net
 ad-tech.com
-ad-universe.com
 ad-up.com
 ad.100.tbn.ru
 ad.103092804.com
@@ -112,7 +112,6 @@ ad.ilove.ch
 ad.infoseek.com
 ad.investopedia.com
 ad.ir.ru
-ad.isohunt.com
 ad.jamba.net
 ad.jamster.co.uk
 ad.jetsoftware.com
@@ -136,7 +135,6 @@ ad.pandora.tv
 ad.pbs.bb.ru
 ad.playground.ru
 ad.preferances.com
-ad.primopdf.com
 ad.profiwin.de
 ad.prv.pl
 ad.rambler.ru
@@ -548,7 +546,6 @@ ads.mambocommunities.com
 ads.mariuana.it
 ads.massinfra.nl
 ads.mcafee.com
-ads.mediaodyssey.com
 ads.mediaturf.net
 ads.medienhaus.de
 ads.mgnetwork.com
@@ -1116,7 +1113,6 @@ banners.bol.com.br
 banners.cams.com
 banners.clubseventeen.com
 banners.czi.cz
-banners.de.clara.net
 banners.dine.com
 banners.direction-x.com
 banners.directnic.com
@@ -1126,7 +1122,6 @@ banners.expressindia.com
 banners.freett.com
 banners.friendfinder.com
 banners.getiton.com
-banners.helpmij.nl
 banners.iq.pl
 banners.isoftmarketing.com
 banners.lifeserv.com
@@ -1172,6 +1167,7 @@ bigads.guj.de
 bigbangmedia.com
 bigclicks.com
 billboard.cz
+bitads.net
 bizad.nikkeibp.co.jp
 bizban.net
 bizrate.com
@@ -1358,7 +1354,6 @@ cpxinteractive.com
 cqcounter.com
 crakmedia.com
 craktraffic.com
-crawlability.com
 crazypopups.com
 creafi-online-media.com
 creative.ak.facebook.com
@@ -1853,7 +1848,6 @@ neocounter.neoworx-blog-tools.net
 neocounter.net
 neoffic.com
 net-filter.com
-netads.sohu.com
 netaffiliation.com
 netagent.cz
 netclickstats.com
@@ -1915,7 +1909,6 @@ onestatfree.com
 onewaylinkexchange.net
 online-metrix.net
 onlinecash.com
-onlinecashmethod.com
 onlinerewardcenter.com
 onresponse.com
 openad.travelnow.com
