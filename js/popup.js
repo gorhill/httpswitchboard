@@ -615,7 +615,7 @@ function getScopePageButtonTip() {
             HTTPSBPopup.scopeURL +
             '</span>';
     }
-    return 'Create permissions specific to web pages starting precisely with ' +
+    return 'Create permissions specific to web pages which URL starts exactly with ' +
         '<span style="border-bottom:1px dotted #aaa;">' +
         HTTPSBPopup.scopeURL +
         '</span>';
