@@ -61,8 +61,8 @@ PageStatsEntry.prototype.init = function(pageUrl) {
     this.distinctRequestCount = 0;
     this.perLoadAllowedRequestCount = 0;
     this.perLoadBlockedRequestCount = 0;
-    this.greenSize = undefined;
     this.ignore = HTTPSB.excludeRegex.test(pageUrl);
+    this.resetBadge();
     return this;
 };
 
@@ -79,6 +79,15 @@ PageStatsEntry.prototype.dispose = function() {
         this.requests[reqKey].dispose();
         delete this.requests[reqKey];
     }
+    // rhill 2013-11-07: Even though at init time these are reset, I still
+    // need to release the memory taken by these, which can amount to
+    // sizeable enough chunks (especially requests, through the request URL
+    // used as a key).
+    this.pageUrl = '';
+    this.requests = {};
+    this.domains = {};
+    this.state = {};
+
     PageStatsEntry.prototype.junkyard.push(this);
 };
 
@@ -145,46 +154,58 @@ PageStatsEntry.prototype.getPageURL = function() {
 
 /******************************************************************************/
 
-PageStatsEntry.prototype.setIcon = function(canvas) {
-    this.icon = canvas;
+// Update badge, incrementally
+
+PageStatsEntry.prototype.updateBadge = function(tabId) {
+    // Icon
+    var iconPath;
+    var total = this.perLoadAllowedRequestCount + this.perLoadBlockedRequestCount;
+    if ( total ) {
+        var squareSize = 19;
+        var greenSize = squareSize * this.perLoadAllowedRequestCount / total;
+        greenSize = greenSize < squareSize/2 ? Math.ceil(greenSize) : Math.floor(greenSize);
+        iconPath = 'img/browsericons/icon19-' + greenSize + '.png';
+    } else {
+        iconPath = 'img/browsericons/icon19.png';
+    }
+    if ( iconPath !== this.iconPath ) {
+        chrome.browserAction.setIcon({ tabId: tabId, path: iconPath });
+        this.iconPath = iconPath;
+    }
+
+    // Badge text
+    var count = this.distinctRequestCount;
+    var iconStr = count.toFixed(0);
+    if ( count >= 1000 ) {
+        if ( count < 10000 ) {
+            iconStr = iconStr.slice(0,1) + '.' + iconStr.slice(1,-2) + 'K';
+        } else if ( count < 1000000 ) {
+            iconStr = iconStr.slice(0,-3) + 'K';
+        } else if ( count < 10000000 ) {
+            iconStr = iconStr.slice(0,1) + '.' + iconStr.slice(1,-5) + 'M';
+        } else {
+            iconStr = iconStr.slice(0,-6) + 'M';
+        }
+    }
+    // Badge color
+    var iconStrColor = HTTPSB.scopePageExists(this.pageUrl) ? '#66F' : '#000';
+    if ( iconStr !== this.iconStr || iconStrColor !== this.iconStrColor ) {
+        chrome.browserAction.setBadgeText({ tabId: tabId, text: iconStr });
+        this.iconStr = iconStr;
+        chrome.browserAction.setBadgeBackgroundColor({ tabId: tabId, color: iconStrColor });
+        this.iconStrColor = iconStrColor;
+    }
 };
 
 /******************************************************************************/
 
-// Generate image data which reflect internal state
+// Reset badge data
 
-PageStatsEntry.prototype.computeIcon = function(original) {
-    if ( !this.icon ) {
-        this.icon = cloneCanvas(original);
-    }
-    var squareSize = this.icon.width;
-    var squareArea = squareSize * squareSize;
-    var context = this.icon.getContext('2d');
-    var total = this.perLoadAllowedRequestCount + this.perLoadBlockedRequestCount;
-    var greenSize;
-    if ( total ) {
-        greenSize = Math.sqrt(squareArea * this.perLoadAllowedRequestCount / total);
-        greenSize = greenSize < squareArea/2 ? Math.ceil(greenSize) : Math.floor(greenSize);
-    }
-    if ( greenSize !== this.iconGreenSize ) {
-        if ( total ) {
-            context.globalAlpha = 1.0;
-            context.fillStyle = '#F44';
-            context.fillRect(0, 0, squareSize, squareSize);
-            if ( greenSize ) {
-                context.fillStyle = '#0F0';
-                context.fillRect(0, 0, greenSize, greenSize);
-            }
-            context.globalAlpha = 0.6;
-            context.drawImage(original, 0, 0);
-        } else {
-            context.globalAlpha = 1.0;
-            context.drawImage(original, 0, 0);
-        }
-        this.iconGreenSize = greenSize;
-    }
-    return context.getImageData(0, 0, squareSize, squareSize);
-}
+PageStatsEntry.prototype.resetBadge = function() {
+    this.iconStr = '';
+    this.iconStrColor = '';
+    this.iconPath = '';
+};
 
 /******************************************************************************/
 
@@ -254,7 +275,7 @@ function garbageCollectStalePageStatsCallback() {
 
 // Time somewhat arbitrary: If a web page has not been in a tab for 10 minutes,
 // flush its stats.
-//                                                                          min  sec  1-sec
+//                                                                          min  sec   1sec
 asyncJobQueue.add('gcPageStats', null, garbageCollectStalePageStatsCallback, 10 * 60 * 1000, true);
 
 /******************************************************************************/
@@ -279,7 +300,10 @@ function createPageStats(pageUrl) {
     if ( !pageStats ) {
         pageStats = PageStatsEntry.prototype.factory(pageUrl);
         httpsb.pageStats[pageUrl] = pageStats;
+    } else {
+        pageStats.init(pageUrl);
     }
+
     return pageStats;
 }
 
@@ -429,13 +453,18 @@ function computeTabState(tabId) {
     // Go through all recorded requests, apply filters to create state
     // It is a critical error for a tab to not be defined here
     var httpsb = HTTPSB;
+    var pageUrl = pageStats.pageUrl;
+    var reqKeys = Object.keys(pageStats.requests);
+    var i = reqKeys.length;
     var computedState = {};
     var url, domain, type;
-    for ( var reqKey in pageStats.requests ) {
+    var reqKey;
+    while ( i-- ) {
+        reqKey = reqKeys[i];
         url = urlFromReqKey(reqKey);
         domain = getHostnameFromURL(url);
         type = typeFromReqKey(reqKey);
-        if ( httpsb.blacklisted(pageUrlFromPageStats(pageStats), type, domain) ) {
+        if ( httpsb.blacklisted(pageUrl, type, domain) ) {
             computedState[type +  '|' + domain] = true;
         }
     }

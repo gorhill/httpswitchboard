@@ -44,7 +44,8 @@ div.matrix {
 div.matrix > div {
     white-space: nowrap;
 }
-div.matrix > div:first-child {
+div.matrix > div.matrix-row:not(.domain) > div:first-child {
+    font-weight: 100;
 }
 div.matrix > div > div {
     margin: 1px;

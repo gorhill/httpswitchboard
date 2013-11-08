@@ -87,12 +87,15 @@ function onUpdatedTabsHandler(tabId, changeInfo, tab) {
         return;
     }
 
-    // Ensure we have a url stats store and that the tab is bound to it.
-    var pageStats = bindTabToPageStats(tab.id, pageUrl);
-
     // Following code is for script injection, which makes sense only if
     // web page in tab is completely loaded.
     if ( changeInfo.status !== 'complete' ) {
+        return;
+    }
+
+    // Ensure we have a url stats store and that the tab is bound to it.
+    var pageStats = pageStatsFromTabId(tab.id);
+    if ( !pageStats ) {
         return;
     }
 
@@ -138,35 +141,6 @@ chrome.tabs.onRemoved.addListener(onRemovedTabHandler);
 // Load user settings
 
 load();
-
-/******************************************************************************/
-
-// Extension icons
-
-(function() {
-    var icons = [
-        'img/icon19.png',
-        'img/icon38.png',
-    ];
-    var imageLoadedHandler = function() {
-        console.debug('Loaded %s', this.src);
-        var canvas = document.createElement('canvas');
-        var matches = this.src.match(/icon(\d+)\.png$/);
-        var sizeStr = matches[1];
-        canvas.width = canvas.height = parseInt(sizeStr);
-        var context = canvas.getContext('2d');
-        context.drawImage(this, 0, 0);
-        HTTPSB.icons[sizeStr] = canvas;
-        this.removeEventListener('load', imageLoadedHandler);
-    };
-    var i = icons.length;
-    var image;
-    while ( i-- ) {
-        image = document.createElement('img');
-        image.addEventListener('load', imageLoadedHandler, false);
-        image.src = chrome.runtime.getURL(icons[i]);
-    }
-})();
 
 /******************************************************************************/
 

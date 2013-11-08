@@ -55,7 +55,7 @@ DomainStats.prototype.factory = function() {
         domainStats = new DomainStats();
     }
     return domainStats;
-}
+};
 
 DomainStats.prototype.reset = function() {
     this['*'].reset();
@@ -82,11 +82,14 @@ function MatrixStats() {
 
 MatrixStats.prototype.createMatrixStats = function() {
     return new MatrixStats();
-}
+};
 
 MatrixStats.prototype.reset = function() {
-    var prop;
-    for ( var hostname in this ) {
+    var hostnames = Object.keys(this);
+    var i = hostnames.length;
+    var hostname, prop;
+    while ( i-- ) {
+        hostname = hostnames[i];
         prop = this[hostname];
         if ( hostname !== '*' && prop instanceof DomainStats ) {
             prop.dispose();
@@ -575,6 +578,9 @@ function makeMenu() {
             for ( iDomain = 0; iDomain < domains.length; iDomain++ ) {
                 matrixRow = $('#templates .matrix-row').clone();
                 createMatrixRow(matrixRow, domains[iDomain]);
+                if ( iDomain === 0 ) {
+                    matrixRow.addClass('domain');
+                }
                 $('#matrix-list').append(matrixRow);
             }
         }
@@ -607,9 +613,10 @@ function getScopePageButtonTip() {
             HTTPSBPopup.scopeURL +
             '</span>';
     }
-    return 'Create permissions specific to <span style="border-bottom:1px dotted #aaa;">' +
+    return 'Create permissions specific to web pages starting precisely with ' +
+        '<span style="border-bottom:1px dotted #aaa;">' +
         HTTPSBPopup.scopeURL +
-        '</span> only';
+        '</span>';
 }
 
 /******************************************************************************/

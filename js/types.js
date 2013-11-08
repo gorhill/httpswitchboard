@@ -77,8 +77,9 @@ function PageStatsEntry(pageUrl) {
     this.distinctRequestCount = 0;
     this.perLoadAllowedRequestCount = 0;
     this.perLoadBlockedRequestCount = 0;
-    this.icon = null;
-    this.greenSize = undefined;
+    this.iconStr = '';
+    this.iconStrColor = '';
+    this.iconPath = '';
     this.init(pageUrl);
 }
 

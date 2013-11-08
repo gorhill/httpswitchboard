@@ -109,18 +109,19 @@ function webRequestHandler(details) {
     }
 
     var url = normalizeChromiumUrl(details.url);
+    var hostname, pageURL;
 
     // Don't block chrome extensions
     var matches = url.match(/^chrome-extension:\/\/([^\/]+)\/(.+)$/);
     if ( matches ) {
-        // If it is HTTP Switchboard's frame-replacement URL, verify that
+        // If it is HTTP Switchboard's root frame replacement URL, verify that
         // the page that was blacklisted is still blacklisted, and if not,
         // redirect to the previously blacklisted page.
         if ( details.parentFrameId < 0 && matches[1] === chrome.runtime.id ) {
             matches = matches[2].match(/^css\/noop\.css\?url=([^&]+)&hostname=([^&]+).*$/);
             if ( matches ) {
-                var pageURL = decodeURIComponent(matches[1]);
-                var hostname = decodeURIComponent(matches[2]);
+                pageURL = decodeURIComponent(matches[1]);
+                hostname = decodeURIComponent(matches[2]);
                 if ( httpsb.whitelisted(pageURL, 'main_frame', hostname) ) {
                     chrome.runtime.sendMessage({
                         what: 'gotoURL',
@@ -133,7 +134,9 @@ function webRequestHandler(details) {
         return;
     }
 
-    // Ignore stylesheet requests
+    // Don't block stylesheet requests, these are considered has being parts
+    // of the root frame. If root frame is blocked, stylesheets will never
+    // be requested.
     var type = details.type;
     if ( type === 'stylesheet' ) {
         // console.log("HTTPSB > %s @ url=%s", details.type, details.url);
@@ -143,46 +146,43 @@ function webRequestHandler(details) {
     // quickProfiler.start();
 
     // If it's a top frame, bind to a new page stats store
-    // TODO: favicon (type = "other") is sent before top main frame...
     var isMainFrame = type === 'main_frame';
     var isRootFrame = isMainFrame && details.parentFrameId < 0;
     if ( isRootFrame ) {
         bindTabToPageStats(tabId, url);
     }
 
-    // block request?
-    var hostname = getHostnameFromURL(url);
     var pageStats = pageStatsFromTabId(tabId);
-    var pageURL = pageUrlFromPageStats(pageStats) || '*';
-    var block;
+    hostname = getHostnameFromURL(url);
+    pageURL = pageUrlFromPageStats(pageStats) || '*';
 
+    // Block request?
     // https://github.com/gorhill/httpswitchboard/issues/27
+    var block = false; // By default, don't block behind-the-scene requests
     if ( tabId !== httpsb.behindTheSceneTabId || httpsb.userSettings.processBehindTheSceneRequests ) {
         block = httpsb.blacklisted(pageURL, type, hostname);
-    } else {
-        block = false;
     }
 
-    // Log request
     if ( pageStats ) {
-        // These counters are used so that icon give an overview of ratio
-        // allowed/blocked.
+        // These counters are used so that icon presents an overview of how
+        // much allowed/blocked.
         if ( isRootFrame ) {
             pageStats.perLoadAllowedRequestCount =
             pageStats.perLoadBlockedRequestCount = 0;
         }
+        // Log request
         pageStats.recordRequest(type, url, block);
+
+        // rhill 2013-10-20:
+        // https://github.com/gorhill/httpswitchboard/issues/19
+        if ( pageStats.ignore ) {
+            return;
+        }
     }
 
     // quickProfiler.stop('webRequestHandler | evaluate&record');
 
-    // rhill 2013-10-20:
-    // https://github.com/gorhill/httpswitchboard/issues/19
-    if ( pageStats && pageStats.ignore ) {
-        return;
-    }
-
-    // if it is a frame and scripts are blacklisted for the
+    // If it is a frame and scripts are blacklisted for the
     // hostname, disable scripts for this hostname, necessary since inline
     // script tags are not passed through web request handler.
     if ( isMainFrame ) {
@@ -195,17 +195,23 @@ function webRequestHandler(details) {
         // generate 'script' type web requests.
     }
 
+    // Collect global stats
+    httpsb.requestStats.record(type, block);
+
     // whitelisted?
     if ( !block ) {
         // console.debug('webRequestHandler > allowing %s from %s', type, hostname);
+
         // If the request is not blocked, this means the response could contain
         // cookies. Thus, we go cookie hunting for this page url and record all
         // those we find which hit any hostname found on this page.
         // No worry, this is async.
-        cookieHunter.record(pageStats);
 
-        // Collect stats
-        httpsb.requestStats.record(type, false);
+        // rhill 2013-11-07: Senseless to do this for behind-the-scene
+        // requests.
+        if ( tabId !== httpsb.behindTheSceneTabId ) {
+            cookieHunter.record(pageStats);
+        }
 
         // quickProfiler.stop('webRequestHandler');
         // console.log("HTTPSB > %s @ url=%s", details.type, details.url);
@@ -215,10 +221,10 @@ function webRequestHandler(details) {
     // blacklisted
     // console.debug('webRequestHandler > blocking %s from %s', type, hostname);
 
-    // Collect stats
-    httpsb.requestStats.record(type, true);
-
     // If it's a blacklisted frame, redirect to frame.html
+    // rhill 2013-11-05: The root frame contains a link to noop.css, this
+    // allows to later check whether the root frame has been unblocked by the
+    // user, in which case we are able to force a reload using a redirect.
     var html, dataURI;
     if ( isRootFrame ) {
         html = rootFrameReplacement;

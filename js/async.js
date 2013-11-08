@@ -94,10 +94,6 @@ setInterval(asyncJobQueueHandler, 100);
 // Update visual of extension icon.
 // A time out is used to coalesce adjacents requests to update badge.
 
-function updateBadge(pageUrl) {
-    asyncJobQueue.add('updateBadge ' + pageUrl, pageUrl, updateBadgeCallback, 250);
-}
-
 function updateBadgeCallback(pageUrl) {
     if ( pageUrl === HTTPSB.behindTheSceneURL ) {
         return;
@@ -107,34 +103,16 @@ function updateBadgeCallback(pageUrl) {
         return;
     }
     var pageStats = pageStatsFromTabId(tabId);
-    // If turned off, used special key in order to warn user
-    var count = pageStats ? pageStats.distinctRequestCount : 0;
-    var countStr = count.toFixed(0);
-    if ( count >= 1000 ) {
-        if ( count < 10000 ) {
-            countStr = countStr.slice(0,1) + '.' + countStr.slice(1,-2) + 'K';
-        } else if ( count < 1000000 ) {
-            countStr = countStr.slice(0,-3) + 'K';
-        } else if ( count < 10000000 ) {
-            countStr = countStr.slice(0,1) + '.' + countStr.slice(1,-5) + 'M';
-        } else {
-            countStr = countStr.slice(0,-6) + 'M';
-        }
-    }
     if ( pageStats ) {
-        chrome.browserAction.setIcon({
-            tabId: tabId,
-            imageData: pageStats.computeIcon(HTTPSB.icons['19'])
-            });
+        pageStats.updateBadge(tabId);
+    } else {
+        chrome.browserAction.setIcon({ tabId: tabId, path: 'img/browsericons/icon19.png' });
+        chrome.browserAction.setBadgeText({ tabId: tabId, text: '?' });
     }
-    chrome.browserAction.setBadgeText({
-        tabId: tabId,
-        text: countStr
-        });
-    chrome.browserAction.setBadgeBackgroundColor({
-        tabId: tabId,
-        color: HTTPSB.scopePageExists(pageUrl) ? '#66F' : '#000'
-        });
+}
+
+function updateBadge(pageUrl) {
+    asyncJobQueue.add('updateBadge ' + pageUrl, pageUrl, updateBadgeCallback, 250);
 }
 
 /******************************************************************************/
