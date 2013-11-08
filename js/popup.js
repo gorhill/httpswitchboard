@@ -486,22 +486,27 @@ function formatHeader(s) {
 
 /******************************************************************************/
 
-function createMatrixRow(matrixRow, domain) {
+function createMatrixRow(matrixRow, hostname, domain) {
     var matrixCells = $('div', matrixRow).toArray();
     var matrixCell = $(matrixCells[0]);
 
-    matrixCell.prop({filterType: '*', filterDomain: domain});
-    matrixCell.addClass(getCellClass(domain, '*'));
-    matrixCell.text(domain);
+    matrixCell.prop({filterType: '*', filterDomain: hostname});
+    matrixCell.addClass(getCellClass(hostname, '*'));
+    var i = hostname.lastIndexOf(domain);
+    if ( i <= 0 ) {
+        matrixCell.html('<b>'+ hostname + '</b>');
+    } else {
+        matrixCell.html('<b>'+ hostname.slice(0, i-1) + '.</b>' + domain);
+    }
 
     // type of requests
     var type, count;
     for ( var iType = 1; iType < matrixHeaderTypes.length; iType++ ) {
         type = matrixHeaderTypes[iType];
         matrixCell = $(matrixCells[iType]);
-        matrixCell.prop({filterType: type, filterDomain: domain});
-        matrixCell.addClass(getCellClass(domain, type));
-        count = matrixStats[domain][type] ? matrixStats[domain][type].count : 0;
+        matrixCell.prop({filterType: type, filterDomain: hostname});
+        matrixCell.addClass(getCellClass(hostname, type));
+        count = matrixStats[hostname][type] ? matrixStats[hostname][type].count : 0;
         if ( count ) {
             matrixCell.text(count);
         }
@@ -577,10 +582,7 @@ function makeMenu() {
             domains.sort(background.domainNameCompare);
             for ( iDomain = 0; iDomain < domains.length; iDomain++ ) {
                 matrixRow = $('#templates .matrix-row').clone();
-                createMatrixRow(matrixRow, domains[iDomain]);
-                if ( iDomain === 0 ) {
-                    matrixRow.addClass('domain');
-                }
+                createMatrixRow(matrixRow, domains[iDomain], rootDomains[iRoot]);
                 $('#matrix-list').append(matrixRow);
             }
         }
