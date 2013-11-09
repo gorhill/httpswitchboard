@@ -36,7 +36,7 @@ if ( window.location.href.match(/^https?:\/\//) ) {
         pageUrl: window.location.href,
         scriptSources: {}, // to avoid duplicates
         pluginSources: {}, // to avoid duplicates
-        localStorage: null
+        localStorage: false
     };
     var i, elem, elems;
     // https://github.com/gorhill/httpswitchboard/issues/25

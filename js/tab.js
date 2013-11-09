@@ -157,7 +157,7 @@ PageStatsEntry.prototype.getPageURL = function() {
 
 // rhill 2013-11-09: well this sucks, I can't update icon/badge
 // incrementally, as chromium overwrite the icon at some point without
-// notifying me, and this causes internal cacjed state to be out of sync.
+// notifying me, and this causes internal cached state to be out of sync.
 
 PageStatsEntry.prototype.updateBadge = function(tabId) {
     // Icon
