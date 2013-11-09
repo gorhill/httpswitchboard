@@ -36,38 +36,40 @@ chrome.contentSettings.plugins.clear({});
 
 function injectedCodeCallback(r) {
     // `r` tells whether there was at least one script tag in the page
-    if ( r && r.length ) {
-        r = r[0];
-        var httpsb = HTTPSB;
-        var pageUrl = normalizeChromiumUrl(r.pageUrl);
-        var sources, i;
-        var url, domain, block;
-        // scripts
-        // https://github.com/gorhill/httpswitchboard/issues/25
-        sources = Object.keys(r.scriptSources);
-        i = sources.length;
-        while ( i-- ) {
-            url = sources[i];
-            if ( url === '{inline_script}' ) {
-                domain = getHostnameFromURL(pageUrl);
-                url = pageUrl + '{inline_script}';
-            } else {
-                url = normalizeChromiumUrl(url);
-                domain = getHostnameFromURL(url);
-            }
-            block = httpsb.blacklisted(pageUrl, 'script', domain);
-            recordFromPageUrl(pageUrl, 'script', url, block);
-        }
-        // plugins
-        // https://github.com/gorhill/httpswitchboard/issues/25
-        sources = Object.keys(r.pluginSources);
-        i = sources.length;
-        while ( i-- ) {
-            url = normalizeChromiumUrl(sources[i]);
+    if ( !r || !r.length ) {
+        return;
+    }
+    r = r[0];
+    var httpsb = HTTPSB;
+    var pageUrl = normalizeChromiumUrl(r.pageUrl);
+    var pageHostname = getHostnameFromURL(pageUrl);
+    var sources, i;
+    var url, domain, block;
+    // scripts
+    // https://github.com/gorhill/httpswitchboard/issues/25
+    sources = Object.keys(r.scriptSources);
+    i = sources.length;
+    while ( i-- ) {
+        url = sources[i];
+        if ( url === '{inline_script}' ) {
+            domain = pageHostname;
+            url = pageUrl + '{inline_script}';
+        } else {
+            url = normalizeChromiumUrl(url);
             domain = getHostnameFromURL(url);
-            block = httpsb.blacklisted(pageUrl, 'object', domain);
-            recordFromPageUrl(pageUrl, 'object', url, block);
         }
+        block = httpsb.blacklisted(pageUrl, 'script', domain);
+        recordFromPageUrl(pageUrl, 'script', url, block);
+    }
+    // plugins
+    // https://github.com/gorhill/httpswitchboard/issues/25
+    sources = Object.keys(r.pluginSources);
+    i = sources.length;
+    while ( i-- ) {
+        url = normalizeChromiumUrl(sources[i]);
+        domain = getHostnameFromURL(url);
+        block = httpsb.blacklisted(pageUrl, 'object', domain);
+        recordFromPageUrl(pageUrl, 'object', url, block);
     }
 }
 

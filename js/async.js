@@ -70,7 +70,7 @@ var asyncJobQueue = {
             }
             job.callback(job.data);
             if ( job.period ) {
-                job.when = now + job.period;
+                job.when = Date.now() + job.period;
             } else {
                 job._nullify();
                 delete this.jobs[job.name];
@@ -187,6 +187,16 @@ function onMessageHandler(request, sender, callback) {
                 }
                 response = HTTPSB.userSettings[request.name];
                 saveUserSettings();
+            }
+            break;
+
+        case 'contentHasLocalStorage':
+            // `blocked` aka `response`
+            response = HTTPSB.blacklisted(request.url, 'cookie', request.url);
+            recordFromPageUrl(request.url, 'cookie', getRootURLFromURL(request.url) + '/{localStorage}', response);
+            response = response && HTTPSB.userSettings.deleteLocalStorage;
+            if ( response ) {
+                HTTPSB.localStorageRemovedCounter++;
             }
             break;
 

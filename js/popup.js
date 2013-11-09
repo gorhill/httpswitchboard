@@ -487,28 +487,28 @@ function formatHeader(s) {
 /******************************************************************************/
 
 function createMatrixRow(matrixRow, hostname, domain) {
-    var matrixCells = $('div', matrixRow).toArray();
-    var matrixCell = $(matrixCells[0]);
-
-    matrixCell.prop({filterType: '*', filterDomain: hostname});
-    matrixCell.addClass(getCellClass(hostname, '*'));
+    var cells = $('div', matrixRow).toArray();
+    var cell = $(cells[0]);
+    cell.prop({filterType: '*', filterDomain: hostname});
+    cell.addClass(getCellClass(hostname, '*'));
+    var b = $('b', cell);
     var i = hostname.lastIndexOf(domain);
     if ( i <= 0 ) {
-        matrixCell.html('<b>'+ hostname + '</b>');
+        b.text(hostname);
     } else {
-        matrixCell.html('<b>'+ hostname.slice(0, i-1) + '.</b>' + domain);
+        b.text(hostname.slice(0, i-1) + '.');
+        b.after(domain);
     }
-
     // type of requests
     var type, count;
     for ( var iType = 1; iType < matrixHeaderTypes.length; iType++ ) {
         type = matrixHeaderTypes[iType];
-        matrixCell = $(matrixCells[iType]);
-        matrixCell.prop({filterType: type, filterDomain: hostname});
-        matrixCell.addClass(getCellClass(hostname, type));
+        cell = $(cells[iType]);
+        cell.prop({filterType: type, filterDomain: hostname});
+        cell.addClass(getCellClass(hostname, type));
         count = matrixStats[hostname][type] ? matrixStats[hostname][type].count : 0;
         if ( count ) {
-            matrixCell.text(count);
+            cell.text(count);
         }
     }
 }

@@ -41,8 +41,9 @@ function initAll() {
     var httpsb = gethttpsb();
 
     $('#delete-blacklisted-cookies').attr('checked', httpsb.userSettings.deleteCookies);
-    $('#delete-blacklisted-localstorages').attr('checked', httpsb.userSettings.deleteLocalStorages);
+    $('#delete-blacklisted-localstorage').attr('checked', httpsb.userSettings.deleteLocalStorage);
     $('#cookie-removed-counter').html(httpsb.cookieRemovedCounter);
+    $('#localstorage-removed-counter').html(httpsb.localStorageRemovedCounter);
     $('#process-behind-the-scene').attr('checked', httpsb.userSettings.processBehindTheSceneRequests);
     $('#strict-blocking').attr('checked', httpsb.userSettings.strictBlocking);
 
@@ -51,8 +52,8 @@ function initAll() {
     $('#delete-blacklisted-cookies').on('change', function(){
         changeUserSettings('deleteCookies', $(this).is(':checked'));
     });
-    $('#delete-blacklisted-localstorages').on('change', function(){
-        changeUserSettings('deleteLocalStorages', $(this).is(':checked'));
+    $('#delete-blacklisted-localstorage').on('change', function(){
+        changeUserSettings('deleteLocalStorage', $(this).is(':checked'));
     });
     $('#process-behind-the-scene').on('change', function(){
         changeUserSettings('processBehindTheSceneRequests', $(this).is(':checked'));

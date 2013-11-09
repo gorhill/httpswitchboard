@@ -12,7 +12,8 @@ h3 + *, h1 + * {
     margin-left: 2em;
     }
 .dim {
-    color: #aaa;
+    font-weight: 100;
+    color: #888;
     }
 </style>
 <link href='css/fonts.css' rel='stylesheet' type='text/css'>
@@ -26,7 +27,7 @@ h3 + *, h1 + * {
 
     <h2>Strict blocking</h3>
     <div>
-        <p><strong><a href="https://github.com/gorhill/httpswitchboard/wiki/What-is-%22strict-blocking%22%3F">Strict blocking</a></strong>,
+        <p><strong><a href="https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated">Strict blocking</a></strong>,
         introduced in <a href="https://github.com/gorhill/httpswitchboard/wiki/Change-log#036">version 0.3.6</a>,
         means that even
         if you whitelist a specific hostname, blacklisted type of requests (<i>plugins</i>,
@@ -53,8 +54,11 @@ h3 + *, h1 + * {
         <p>Once these blacklisted cookies have been accounted for by <i>HTTP Switchboard</i>,
         they can be removed from your browser if you wish so:</p>
         <ul style="list-style-type:none">
-        <li><input id="delete-blacklisted-cookies" type="checkbox" value="">Delete cookies <span class="dim">(<span id="cookie-removed-counter">0</span> cookies removed so far)</span>
-        <li><input id="delete-blacklisted-localstorages" type="checkbox" value="">Delete local storage (not implemented: <a href="https://code.google.com/p/chromium/issues/detail?id=78093">no chromium API available yet</a>)
+        <li><input id="delete-blacklisted-cookies" type="checkbox" value="">Delete cookies
+            <span class="dim">(<span id="cookie-removed-counter">0</span> cookie(s) removed so far).</span>
+        <li><input id="delete-blacklisted-localstorage" type="checkbox" value="">Delete contents of
+            <a href="http://en.wikipedia.org/wiki/Web_storage">local storage</a>
+            <span class="dim">(<span id="localstorage-removed-counter">0</span> local storage(s) emptied so far).</span>.
         </ul>
         </div>
 
@@ -72,10 +76,11 @@ h3 + *, h1 + * {
         <ul style="list-style-type:none">
         <li><input id="process-behind-the-scene" type="checkbox" value="">Process <strong>behind-the-scene</strong> HTTP requests.
         </ul>
-        <p><span style="color:red;font-weight:bold">Beware:</span> potentially
+        <p><span style="color:red;font-weight:bold">Beware!</span> Potentially
         blocking <strong>behind-the-scene</strong> net requests is currently causing
         <a href="https://github.com/gorhill/httpswitchboard/issues/27">an issue</a>
-        when the user wants to install an extension from the Chrome store, hence
+        when the user wants to install an extension from the Chrome store (including
+        maybe preventing extensions from being updated), hence
         the ability to disable the feature here. Blocking can also cause other
         installed extensions to not work properly (those querying for remote data).</p>
         <p>Even if this feature is not enabled, <strong>behind-the-scene</strong> requests

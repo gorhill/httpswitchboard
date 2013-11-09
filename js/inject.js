@@ -1,4 +1,10 @@
-// injected into content pages
+// Injected into content pages
+
+// rhill 2013-11-09: Weird... This code is executed from HTTP Switchboard
+// context first time extension is launched. Avoid this.
+if ( window.location.href.match(/^https?:\/\//) ) {
+
+/******************************************************************************/
 
 // This is to take care of
 // https://code.google.com/p/chromium/issues/detail?id=232410
@@ -29,7 +35,8 @@
     var r = {
         pageUrl: window.location.href,
         scriptSources: {}, // to avoid duplicates
-        pluginSources: {} // to avoid duplicates
+        pluginSources: {}, // to avoid duplicates
+        localStorage: null
     };
     var i, elem, elems;
     // https://github.com/gorhill/httpswitchboard/issues/25
@@ -62,6 +69,27 @@
             r.pluginSources[elem.src.trim()] = true;
         }
     }
+    // Check for non-empty localStorage
+    if ( window.localStorage && window.localStorage.key(0) ) {
+        r.localStorage = true;
+        chrome.runtime.sendMessage({
+            what: 'contentHasLocalStorage',
+            url: r.pageUrl
+        }, function(mustRemove) {
+            if ( mustRemove ) {
+                window.localStorage.clear();
+                // console.debug('HTTP Switchboard > found and removed non-empty localStorage');
+            }
+        });
+    }
+    // TODO: indexedDB
+    // Doesn't seem possible as of 2013-11-09
+
     // Important!!
     return r;
 })();
+
+/******************************************************************************/
+
+}
+

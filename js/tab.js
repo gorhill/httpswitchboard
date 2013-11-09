@@ -62,7 +62,6 @@ PageStatsEntry.prototype.init = function(pageUrl) {
     this.perLoadAllowedRequestCount = 0;
     this.perLoadBlockedRequestCount = 0;
     this.ignore = HTTPSB.excludeRegex.test(pageUrl);
-    this.resetBadge();
     return this;
 };
 
@@ -156,6 +155,10 @@ PageStatsEntry.prototype.getPageURL = function() {
 
 // Update badge, incrementally
 
+// rhill 2013-11-09: well this sucks, I can't update icon/badge
+// incrementally, as chromium overwrite the icon at some point without
+// notifying me, and this causes internal cacjed state to be out of sync.
+
 PageStatsEntry.prototype.updateBadge = function(tabId) {
     // Icon
     var iconPath;
@@ -168,10 +171,7 @@ PageStatsEntry.prototype.updateBadge = function(tabId) {
     } else {
         iconPath = 'img/browsericons/icon19.png';
     }
-    if ( iconPath !== this.iconPath ) {
-        chrome.browserAction.setIcon({ tabId: tabId, path: iconPath });
-        this.iconPath = iconPath;
-    }
+    chrome.browserAction.setIcon({ tabId: tabId, path: iconPath });
 
     // Badge text
     var count = this.distinctRequestCount;
@@ -187,24 +187,13 @@ PageStatsEntry.prototype.updateBadge = function(tabId) {
             iconStr = iconStr.slice(0,-6) + 'M';
         }
     }
+    chrome.browserAction.setBadgeText({ tabId: tabId, text: iconStr });
+
     // Badge color
-    var iconStrColor = HTTPSB.scopePageExists(this.pageUrl) ? '#66F' : '#000';
-    if ( iconStr !== this.iconStr || iconStrColor !== this.iconStrColor ) {
-        chrome.browserAction.setBadgeText({ tabId: tabId, text: iconStr });
-        this.iconStr = iconStr;
-        chrome.browserAction.setBadgeBackgroundColor({ tabId: tabId, color: iconStrColor });
-        this.iconStrColor = iconStrColor;
-    }
-};
-
-/******************************************************************************/
-
-// Reset badge data
-
-PageStatsEntry.prototype.resetBadge = function() {
-    this.iconStr = '';
-    this.iconStrColor = '';
-    this.iconPath = '';
+    chrome.browserAction.setBadgeBackgroundColor({
+        tabId: tabId,
+        color: HTTPSB.scopePageExists(this.pageUrl) ? '#66F' : '#000'
+    });
 };
 
 /******************************************************************************/
@@ -300,7 +289,7 @@ function createPageStats(pageUrl) {
     if ( !pageStats ) {
         pageStats = PageStatsEntry.prototype.factory(pageUrl);
         httpsb.pageStats[pageUrl] = pageStats;
-    } else {
+    } else if ( pageStats.pageUrl !== pageUrl ) {
         pageStats.init(pageUrl);
     }
 
@@ -389,18 +378,26 @@ function smartReloadTabs() {
 // reload content of a tab
 
 function smartReloadTab(tabId) {
-    var newState = computeTabState(tabId);
-    var pageUrl = pageUrlFromTabId(tabId);
+    var pageStats = pageStatsFromTabId(tabId);
+    if ( !pageStats || pageStats.ignore ) {
+        //console.error('HTTP Switchboard > smartReloadTab > page stats for tab id %d not found', tabId);
+        return;
+    }
+    var pageUrl = pageUrlFromPageStats(pageStats);
     if ( !pageUrl ) {
         //console.error('HTTP Switchboard > smartReloadTab > page url for tab id %d not found', tabId);
         return;
     }
-    var pageStats = pageStatsFromTabId(tabId);
-    if ( !pageStats ) {
-        //console.error('HTTP Switchboard > smartReloadTab > page stats for tab id %d not found', tabId);
-        return;
-    }
+    var newState = computeTabState(tabId);
     if ( getStateHash(newState) != getStateHash(pageStats.state) ) {
+        // https://github.com/gorhill/httpswitchboard/issues/35
+        // Appears to help.
+        var hostname = getHostnameFromURL(pageUrl);
+        var blocked = HTTPSB.blacklisted(pageUrl, 'script', hostname);
+        chrome.contentSettings.javascript.set({
+            primaryPattern: '*://' + hostname + '/*',
+            setting: blocked ? 'block' : 'allow'
+            });
         // console.debug('reloaded content of tab id %d', tabId);
         // console.debug('old="%s"\nnew="%s"', getStateHash(pageStats.state), getStateHash(newState));
         pageStats.state = newState;
