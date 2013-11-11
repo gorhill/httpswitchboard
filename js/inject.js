@@ -70,7 +70,7 @@ if ( window.location.href.match(/^https?:\/\//) ) {
         }
     }
     // Check for non-empty localStorage
-    if ( window.localStorage && window.localStorage.key(0) ) {
+    if ( window.localStorage && window.localStorage.length ) {
         r.localStorage = true;
         chrome.runtime.sendMessage({
             what: 'contentHasLocalStorage',
