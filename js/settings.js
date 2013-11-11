@@ -40,6 +40,9 @@ function changeUserSettings(name, value) {
 function initAll() {
     var httpsb = gethttpsb();
 
+    $('input[name="displayTextSize"]').attr('checked', function(){
+        return $(this).attr('value') === httpsb.userSettings.displayTextSize;
+        });
     $('#delete-blacklisted-cookies').attr('checked', httpsb.userSettings.deleteCookies);
     $('#delete-blacklisted-localstorage').attr('checked', httpsb.userSettings.deleteLocalStorage);
     $('#cookie-removed-counter').html(httpsb.cookieRemovedCounter);
@@ -49,6 +52,9 @@ function initAll() {
 
     // Handle user interaction
 
+    $('input[name="displayTextSize"]').on('change', function(){
+        changeUserSettings('displayTextSize', $(this).attr('value'));
+    });
     $('#delete-blacklisted-cookies').on('change', function(){
         changeUserSettings('deleteCookies', $(this).is(':checked'));
     });

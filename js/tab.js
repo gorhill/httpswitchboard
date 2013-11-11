@@ -165,7 +165,7 @@ PageStatsEntry.prototype.updateBadge = function(tabId) {
     var total = this.perLoadAllowedRequestCount + this.perLoadBlockedRequestCount;
     if ( total ) {
         var squareSize = 19;
-        var greenSize = squareSize * this.perLoadAllowedRequestCount / total;
+        var greenSize = squareSize * Math.sqrt(this.perLoadAllowedRequestCount / total);
         greenSize = greenSize < squareSize/2 ? Math.ceil(greenSize) : Math.floor(greenSize);
         iconPath = 'img/browsericons/icon19-' + greenSize + '.png';
     } else {

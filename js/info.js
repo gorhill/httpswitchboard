@@ -27,10 +27,6 @@ var maxRequests = 500;
 
 /******************************************************************************/
 
-function extensionPage() {
-    return chrome.extension.getBackgroundPage();
-}
-
 function gethttpsb() {
     return chrome.extension.getBackgroundPage().HTTPSB;
 }

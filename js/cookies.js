@@ -222,8 +222,6 @@ var cookieHunter = {
     }
 };
 
-// Every five seconds, so that cookies are reported soon enough after a
-// web page loads.
 function cookieHunterPageRecordCallback() {
     cookieHunter.processPageRecord();
 }

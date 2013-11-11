@@ -98,33 +98,4 @@ function getParentHostnameFromHostname(hostname) {
     return subdomain.slice(dot+1) + '.' + domain;
 }
 
-/******************************************************************************/
-
-// Compare domain helper, to order domain in a logical manner:
-// top-most < bottom-most, take into account whether IP address or
-// named domain
-
-function domainNameCompare(a,b) {
-    // Normalize: most significant parts first
-    if ( !a.match(/^\d+(\.\d+){1,3}$/) ) {
-        var aa = a.split('.');
-        a = aa.slice(-2).concat(aa.slice(0,-2).reverse()).join('.');
-    }
-    if ( !b.match(/^\d+(\.\d+){1,3}$/) ) {
-        var bb = b.split('.');
-        b = bb.slice(-2).concat(bb.slice(0,-2).reverse()).join('.');
-    }
-    return a.localeCompare(b);
-}
-
-/******************************************************************************/
-
-function cloneCanvas(other) {
-    var canvas = document.createElement('canvas');
-    canvas.width = other.width;
-    canvas.height = other.height;
-    var ctx = canvas.getContext('2d');
-    ctx.drawImage(other, 0, 0);
-    return canvas;
-}
 

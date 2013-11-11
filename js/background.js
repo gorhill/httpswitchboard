@@ -28,7 +28,9 @@ var HTTPSB = {
         deleteCookies: false,
         deleteLocalStorage: false,
         processBehindTheSceneRequests: false,
-        strictBlocking: false
+        strictBlocking: false,
+        popupHideBlacklisted: false,
+        displayTextSize: '13px'
     },
 
     runtimeId: 1,

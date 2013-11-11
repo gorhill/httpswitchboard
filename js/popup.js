@@ -104,18 +104,26 @@ MatrixStats.prototype.reset = function() {
 var HTTPSBPopup = {
     tabId: -1,
     pageURL: '',
-    scopeURL: '*'
+    scopeURL: '*',
+
+    matrixStats: MatrixStats.prototype.createMatrixStats(),
+    matrixHeaderTypes: ['*'],
+    matrixHeaderPrettyNames: { },
+    matrixCellMenu: null,
+    matrixCellHotspots: null,
+    matrixRowTemplate: null,
+    matrixHasRows: false,
+    matrixGroup3Collapsed: false,
+
+    domainGroupsSnapshot: [],
+    domainListSnapshot: 'do not leave this initial string empty',
+
+    dummy: 0
 };
 
 // Just so the background page will be notified when popup menu is closed
 var port = chrome.extension.connect();
 
-var matrixStats = MatrixStats.prototype.createMatrixStats();
-var matrixHeaderTypes = ['*'];
-var matrixHeaderPrettyNames = { };
-var matrixCellMenu = null;
-var matrixCellHotspots = null;
-var matrixHasRows = false; // useful to know for various housekeeping task
 
 /******************************************************************************/
 
@@ -134,6 +142,10 @@ function getPageStats() {
     return getBackgroundPage().pageStatsFromTabId(HTTPSBPopup.tabId);
 }
 
+function getUserSetting(setting) {
+    return getHTTPSB().userSettings[setting];
+};
+
 /******************************************************************************/
 
 function initMatrixStats() {
@@ -142,6 +154,7 @@ function initMatrixStats() {
         return;
     }
 
+    var matrixStats = HTTPSBPopup.matrixStats;
     matrixStats.reset();
 
     // collect all domains and ancestors from net traffic
@@ -151,7 +164,7 @@ function initMatrixStats() {
     var reqKeys = Object.keys(pageStats.requests);
     var iReqKeys = reqKeys.length;
 
-    matrixHasRows = iReqKeys > 0;
+    HTTPSBPopup.matrixHasRows = iReqKeys > 0;
 
     while ( iReqKeys-- ) {
         reqKey = reqKeys[iReqKeys];
@@ -177,17 +190,18 @@ function initMatrixStats() {
         matrixStats[hostname]['*'].count += 1;
     }
 
-    updateMatrixStats(matrixStats);
+    updateMatrixStats();
 
     return matrixStats;
 }
 
 /******************************************************************************/
 
-function updateMatrixStats(matrixStats) {
+function updateMatrixStats() {
     // For each domain/type occurrence, evaluate colors
     var httpsb = getHTTPSB();
     var scopeURL = HTTPSBPopup.scopeURL;
+    var matrixStats = HTTPSBPopup.matrixStats;
     var domains = Object.keys(matrixStats);
     var iDomain = domains.length;
     var domain;
@@ -214,18 +228,16 @@ function updateMatrixStats(matrixStats) {
 // 3rd: graylisted
 // 4th: blacklisted
 
-var domainGroupsSnapshot = [];
-var domainListSnapshot = 'dont leave this initial string empty';
-
 function getGroupStats() {
 
     // Try to not reshuffle groups around while popup is opened if
     // no new domain added.
+    var matrixStats = HTTPSBPopup.matrixStats;
     var latestDomainListSnapshot = Object.keys(matrixStats).sort().join();
-    if ( latestDomainListSnapshot === domainListSnapshot ) {
-        return domainGroupsSnapshot;
+    if ( latestDomainListSnapshot === HTTPSBPopup.domainListSnapshot ) {
+        return HTTPSBPopup.domainGroupsSnapshot;
     }
-    domainListSnapshot = latestDomainListSnapshot;
+    HTTPSBPopup.domainListSnapshot = latestDomainListSnapshot;
 
     var domainGroups = [
         {},
@@ -234,7 +246,7 @@ function getGroupStats() {
         {}
     ];
 
-    // first group according to whether at least one node in the domain
+    // First group according to whether at least one node in the domain
     // hierarchy is white or blacklisted
     var background = getBackgroundPage();
     var pageDomain = background.getDomainFromURL(HTTPSBPopup.pageURL);
@@ -249,7 +261,8 @@ function getGroupStats() {
         if ( domain === '*' ) {
             continue;
         }
-        // Issue #12: Ignore rows with no request for now.
+        // https://github.com/gorhill/httpswitchboard/issues/12
+        // Ignore rows with no request for now.
         if ( matrixStats[domain]['*'].count === 0 ) {
             continue;
         }
@@ -287,8 +300,8 @@ function getGroupStats() {
     // For now, I am undecided on this.
 
     // Generate all nodes possible for each groups, this is useful
-    // to allow users to toggle permissions for higher domains which are
-    // not explicitly part of the web page.
+    // to allow users to toggle permissions for higher-level domains
+    // which are not explicitly part of the web page.
     var iGroup = domainGroups.length;
     var rootDomains, iRootDomain;
     while ( iGroup-- ) {
@@ -309,7 +322,7 @@ function getGroupStats() {
         }
     }
 
-    domainGroupsSnapshot = domainGroups;
+    HTTPSBPopup.domainGroupsSnapshot = domainGroups;
 
     return domainGroups;
 }
@@ -319,6 +332,7 @@ function getGroupStats() {
 // helpers
 
 function getCellStats(domain, type) {
+    var matrixStats = HTTPSBPopup.matrixStats;
     if ( matrixStats[domain] ) {
         return matrixStats[domain][type];
     }
@@ -352,7 +366,7 @@ function getCellClass(domain, type) {
 
 // compute next state
 function getNextAction(domain, type, leaning) {
-    var entry = matrixStats[domain][type];
+    var entry = HTTPSBPopup.matrixStats[domain][type];
     var temporaryColor = entry.temporaryColor;
     // special case: root toggle only between two states
     if ( type === '*' && domain === '*' ) {
@@ -377,7 +391,7 @@ function getNextAction(domain, type, leaning) {
 // update visual of matrix cells(s)
 
 function updateMatrixCells() {
-    var cells = $('.filter-button').toArray();
+    var cells = $('.rw .matCell').toArray();
     var i = cells.length;
     var cell, type, domain, newClass;
     while ( i-- ) {
@@ -388,7 +402,7 @@ function updateMatrixCells() {
         domain = cell.prop('filterDomain');
         newClass = getCellClass(domain, type);
         cell.removeClass();
-        cell.addClass('filter-button ' + newClass);
+        cell.addClass('matCell ' + newClass);
     }
 }
 
@@ -399,7 +413,7 @@ function updateMatrixCells() {
 function handleFilter(button, leaning) {
     var httpsb = getHTTPSB();
     // our parent cell knows who we are
-    var cell = button.closest('div.filter-button');
+    var cell = button.closest('div.matCell');
     var type = cell.prop('filterType');
     var domain = cell.prop('filterDomain');
     var nextAction = getNextAction(domain, type, leaning);
@@ -410,7 +424,7 @@ function handleFilter(button, leaning) {
     } else {
         httpsb.graylistTemporarily(HTTPSBPopup.scopeURL, type, domain);
     }
-    updateMatrixStats(matrixStats);
+    updateMatrixStats();
     updateMatrixCells();
     handleFilterMessage(button, leaning);
 }
@@ -430,7 +444,7 @@ function handleBlacklistFilter(button) {
 function handlePersistence(button) {
     var httpsb = getHTTPSB();
     // our parent cell knows who we are
-    var cell = button.closest('div.filter-button');
+    var cell = button.closest('div.matCell');
     var type = cell.prop('filterType');
     var domain = cell.prop('filterDomain');
     var entry = getCellStats(domain, type);
@@ -451,7 +465,7 @@ function handlePersistence(button) {
 function handleUnpersistence(button) {
     var httpsb = getHTTPSB();
     // our parent cell knows who we are
-    var cell = button.closest('div.filter-button');
+    var cell = button.closest('div.matCell');
     var type = cell.prop('filterType');
     var domain = cell.prop('filterDomain');
     var entry = getCellStats(domain, type);
@@ -486,11 +500,17 @@ function formatHeader(s) {
 
 /******************************************************************************/
 
-function createMatrixRow(matrixRow, hostname, domain) {
+function makeMatrixRow(hostname, domain, runningStats) {
+    if ( !HTTPSBPopup.matrixRowTemplate ) {
+        HTTPSBPopup.matrixRowTemplate = $('#templates .matRow');
+    }
+    var matrixRow = HTTPSBPopup.matrixRowTemplate.clone();
+    matrixRow.addClass('rw');
     var cells = $('div', matrixRow).toArray();
     var cell = $(cells[0]);
     cell.prop({filterType: '*', filterDomain: hostname});
-    cell.addClass(getCellClass(hostname, '*'));
+    var cellClass = getCellClass(hostname, '*');
+    cell.addClass(cellClass);
     var b = $('b', cell);
     var i = hostname.lastIndexOf(domain);
     if ( i <= 0 ) {
@@ -499,18 +519,74 @@ function createMatrixRow(matrixRow, hostname, domain) {
         b.text(hostname.slice(0, i-1) + '.');
         b.after(domain);
     }
+    // Count number of explicitly blacklisted hostnames
+    if ( cellClass.search('rdt') >= 0 ) {
+        runningStats['*'].count++;
+    }
     // type of requests
+    var matrixStats = HTTPSBPopup.matrixStats;
+    var matrixHeaderTypes = HTTPSBPopup.matrixHeaderTypes;
     var type, count;
     for ( var iType = 1; iType < matrixHeaderTypes.length; iType++ ) {
         type = matrixHeaderTypes[iType];
         cell = $(cells[iType]);
         cell.prop({filterType: type, filterDomain: hostname});
         cell.addClass(getCellClass(hostname, type));
-        count = matrixStats[hostname][type] ? matrixStats[hostname][type].count : 0;
+        count = matrixStats[hostname][type].count;
+        if ( count ) {
+            cell.text(count);
+            runningStats[type].count += count;
+        }
+    }
+    return matrixRow;
+}
+
+/******************************************************************************/
+
+function makeMatrixRowMeta(runningStats, groupClass) {
+    if ( !HTTPSBPopup.matrixRowTemplate ) {
+        HTTPSBPopup.matrixRowTemplate = $('#templates .matRow');
+    }
+    var matrixRow = HTTPSBPopup.matrixRowTemplate.clone();
+    matrixRow.addClass('ro');
+    var cells = $('div', matrixRow).toArray();
+    var cell = $(cells[0]);
+    cell.removeClass('matCell');
+    cell.addClass(groupClass + 'Meta');
+    cell.addClass('rdt');
+    cell.html('<i>' + runningStats['*'].count + ' blacklisted hostname(s)</i>');
+    // type of requests
+    var matrixHeaderTypes = HTTPSBPopup.matrixHeaderTypes;
+    var type, count;
+    for ( var iType = 1; iType < matrixHeaderTypes.length; iType++ ) {
+        type = matrixHeaderTypes[iType];
+        cell = $(cells[iType]);
+        cell.addClass('rpt');
+        count = runningStats[type].count;
         if ( count ) {
             cell.text(count);
         }
     }
+    return matrixRow;
+}
+
+/******************************************************************************/
+
+// Compare domain helper, to order domain in a logical manner:
+// top-most < bottom-most, take into account whether IP address or
+// named domain
+
+function domainNameCompare(a,b) {
+    // Normalize: most significant parts first
+    if ( !a.match(/^\d+(\.\d+){1,3}$/) ) {
+        var aa = a.split('.');
+        a = aa.slice(-2).concat(aa.slice(0,-2).reverse()).join('.');
+    }
+    if ( !b.match(/^\d+(\.\d+){1,3}$/) ) {
+        var bb = b.split('.');
+        b = bb.slice(-2).concat(bb.slice(0,-2).reverse()).join('.');
+    }
+    return a.localeCompare(b);
 }
 
 /******************************************************************************/
@@ -519,11 +595,9 @@ function createMatrixRow(matrixRow, hostname, domain) {
 // dispose then re-create all of them.
 
 function makeMenu() {
-    var background = getBackgroundPage();
     initMatrixStats();
     var groupStats = getGroupStats();
 
-    $('#page-switch').removeClass();
     $('#message').html(formatHeader(HTTPSBPopup.pageURL));
 
     if ( Object.keys(groupStats).length === 0 ) {
@@ -533,8 +607,12 @@ function makeMenu() {
     var matrixRow, matrixCells, matrixCell;
     var iType, type;
 
-    // header row
-    matrixRow = $('#matrix-head .matrix-row');
+    // Matrix header
+
+    var matrixHeaderTypes = HTTPSBPopup.matrixHeaderTypes;
+    var matrixHeaderPrettyNames = HTTPSBPopup.matrixHeaderPrettyNames;
+
+    matrixRow = $('#matHead .matRow');
     matrixCells = $('div', matrixRow).toArray();
     matrixCell = $(matrixCells[0]);
     matrixCell.prop({filterType: '*', filterDomain: '*'});
@@ -552,39 +630,62 @@ function makeMenu() {
     matrixRow.css('display', '');
 
     // https://github.com/gorhill/httpswitchboard/issues/31
-    if ( matrixCellHotspots ) {
-        matrixCellHotspots.detach();
+    if ( HTTPSBPopup.matrixCellHotspots ) {
+        HTTPSBPopup.matrixCellHotspots.detach();
     }
-    if ( matrixCellMenu ) {
-        matrixCellMenu.detach();
+    if ( HTTPSBPopup.matrixCellMenu ) {
+        HTTPSBPopup.matrixCellMenu.detach();
     }
 
-    $('#matrix-list').empty();
+    // Matrix contents
+
+    var matrixList = $('#matList');
+    matrixList.empty();
 
     // main rows, grouped logically
     var group;
     var rootDomains, iRoot;
     var domains, iDomain;
+    var groupClass;
+    var groupSeparatorTmpl = $('#templates .groupSeparator');
+    var groupSeparator;
+    var runningStats = new DomainStats();
+
     for ( var iGroup = 0; iGroup < groupStats.length; iGroup++ ) {
+        runningStats.reset();
         group = groupStats[iGroup];
-        rootDomains = Object.keys(group).sort(background.domainNameCompare);
+        rootDomains = Object.keys(group).sort(domainNameCompare);
         if ( rootDomains.length === 0 ) {
             continue;
         }
+        groupClass = 'g' + iGroup;
         if ( iGroup > 0 ) {
-            $('#templates .groupSeparator').clone().appendTo('#matrix-list');
+            groupSeparator = groupSeparatorTmpl.clone();
+            if ( iGroup === 3 ) {
+                groupSeparator.addClass(groupClass + 'Meta');
+                groupSeparator.toggleClass('hide', !!getUserSetting('popupHideBlacklisted'));
+            }
+            matrixList.append(groupSeparator);
         }
         for ( iRoot = 0; iRoot < rootDomains.length; iRoot++ ) {
             if ( iRoot > 0 ) {
-                $('#templates .domainSeparator').clone().appendTo('#matrix-list');
+                matrixList.append($('#templates .domainSeparator').clone());
             }
             domains = Object.keys(group[rootDomains[iRoot]].all);
-            domains.sort(background.domainNameCompare);
+            domains.sort(domainNameCompare);
             for ( iDomain = 0; iDomain < domains.length; iDomain++ ) {
-                matrixRow = $('#templates .matrix-row').clone();
-                createMatrixRow(matrixRow, domains[iDomain], rootDomains[iRoot]);
-                $('#matrix-list').append(matrixRow);
+                matrixRow = makeMatrixRow(domains[iDomain], rootDomains[iRoot], runningStats);
+                matrixRow.addClass(groupClass);
+                if ( iDomain > 0 ) {
+                    matrixRow.addClass('l2');
+                }
+                matrixList.append(matrixRow);
             }
+        }
+        // Create meta matrix row for group 3
+        if ( iGroup === 3 ) {
+            matrixRow = makeMatrixRowMeta(runningStats, groupClass);
+            matrixList.append(matrixRow);
         }
     }
 }
@@ -595,7 +696,7 @@ function makeMenu() {
 
 function toggleScopePage() {
     var toolbars = $('#toolbars');
-    var button = $('#button-toggle-scope');
+    var button = $('#buttonToggleScope');
     button.tooltip('hide');
     if ( toolbars.hasClass('scope-is-page') ) {
         toolbars.removeClass('scope-is-page');
@@ -604,7 +705,7 @@ function toggleScopePage() {
         toolbars.addClass('scope-is-page');
         getHTTPSB().createPageScopeIfNotExists(HTTPSBPopup.pageURL);
     }
-    updateMatrixStats(matrixStats);
+    updateMatrixStats();
     updateMatrixCells();
 }
 
@@ -642,7 +743,7 @@ var mouseOverPrompts = {
 };
 
 function handleFilterMessage(hotspot, leaning) {
-    var cell = hotspot.closest('div.filter-button');
+    var cell = hotspot.closest('div.matCell');
     var type = cell.prop('filterType');
     var domain = cell.prop('filterDomain');
     var nextAction = getNextAction(domain, type, leaning);
@@ -650,7 +751,7 @@ function handleFilterMessage(hotspot, leaning) {
     var what = type === '*' ? '*' : '?';
     var where = domain === '*' ? '*' : '?';
     var prompt = mouseOverPrompts[action + what + where];
-    prompt = prompt.replace('{{what}}', matrixHeaderPrettyNames[type]);
+    prompt = prompt.replace('{{what}}', HTTPSBPopup.matrixHeaderPrettyNames[type]);
     prompt = prompt.replace('{{where}}', domain);
     $('#message').html(prompt);
 }
@@ -699,7 +800,7 @@ function onMessage(request) {
 
 function revert() {
     getHTTPSB().revertPermissions();
-    updateMatrixStats(matrixStats);
+    updateMatrixStats();
     updateMatrixCells();
 }
 
@@ -723,10 +824,10 @@ function bindToTabHandler(tabs) {
     makeMenu();
 
     // After popup menu is built, check whether there is a non-empty matrix
-    if ( !matrixHasRows ) {
+    if ( !HTTPSBPopup.matrixHasRows ) {
         $('#no-traffic').css('display', '');
-        $('#matrix-head').css('display', 'none');
-        $('#scope-toolbar').css('display', 'none');
+        $('#matHead').css('display', 'none');
+        $('#scopeToolbar').css('display', 'none');
     }
 
     // Activate page scope if there is one
@@ -748,82 +849,98 @@ function initAll() {
     chrome.tabs.query({currentWindow: true, active: true}, bindToTabHandler);
 
     // TODO: prevent spurious selection
+    // ...
+
+    var popup = HTTPSBPopup;
+
+    // Display size
+    $('body').css('font-size', getUserSetting('displayTextSize'));
 
     // We reuse for all cells the one and only cell menu.
-    matrixCellMenu = $('#cellMenu').detach();
-    $('span:nth-of-type(1)', matrixCellMenu).on('click', function() {
+    popup.matrixCellMenu = $('#cellMenu').detach();
+    $('span:nth-of-type(1)', popup.matrixCellMenu).on('click', function() {
         handlePersistence($(this));
         return false;
     });
-    $('span:nth-of-type(2)', matrixCellMenu).on('click', function() {
+    $('span:nth-of-type(2)', popup.matrixCellMenu).on('click', function() {
         handleUnpersistence($(this));
         return false;
     });
-    $('span:nth-of-type(1)', matrixCellMenu).on('mouseenter', function() {
+    $('span:nth-of-type(1)', popup.matrixCellMenu).on('mouseenter', function() {
         handlePersistMessage($(this));
         return false;
     });
     // to display useful message
-    $('span:nth-of-type(2)', matrixCellMenu).on('mouseenter', function() {
+    $('span:nth-of-type(2)', popup.matrixCellMenu).on('mouseenter', function() {
         handleUnpersistMessage($(this));
         return false;
     });
 
 
     // We reuse for all cells the one and only cell hotspots.
-    matrixCellHotspots = $('#cellHotspots').detach();
-    $('div:nth-of-type(1)', matrixCellHotspots).on('click', function() {
+    popup.matrixCellHotspots = $('#cellHotspots').detach();
+    $('div:nth-of-type(1)', popup.matrixCellHotspots).on('click', function() {
         handleWhitelistFilter($(this));
         return false;
     });
-    $('div:nth-of-type(2)', matrixCellHotspots).on('click', function() {
+    $('div:nth-of-type(2)', popup.matrixCellHotspots).on('click', function() {
         handleBlacklistFilter($(this));
         return false;
     });
-    $('div:nth-of-type(1)', matrixCellHotspots).on('mouseenter', function() {
+    $('div:nth-of-type(1)', popup.matrixCellHotspots).on('mouseenter', function() {
         handleWhitelistFilterMessage($(this));
         return false;
     });
-    $('div:nth-of-type(2)', matrixCellHotspots).on('mouseenter', function() {
+    $('div:nth-of-type(2)', popup.matrixCellHotspots).on('mouseenter', function() {
         handleBlacklistFilterMessage($(this));
         return false;
     });
 
     // to attach widgets to matrix cell
-    $('body').on('mouseenter', '.filter-button', function() {
-        matrixCellHotspots.prependTo(this);
-        matrixCellMenu.prependTo(this);
+    $('body').on('mouseenter', '.matCell', function() {
+        popup.matrixCellHotspots.prependTo(this);
+        popup.matrixCellMenu.prependTo(this);
     });
 
     // to detach widgets from matrix cell and blank message
-    $('body').on('mouseleave', '.filter-button', function() {
-        matrixCellHotspots.detach();
-        matrixCellMenu.detach();
+    $('body').on('mouseleave', '.matCell', function() {
+        popup.matrixCellHotspots.detach();
+        popup.matrixCellMenu.detach();
         blankMessage();
     });
 
-    $('#button-toggle-scope').on('click', toggleScopePage);
-    $('#button-revert').on('click', revert);
-    $('#button-info').on('click', function() {
+    $('#buttonToggleScope').on('click', toggleScopePage);
+    $('#buttonRevert').on('click', revert);
+    $('#buttonInfo').on('click', function() {
         chrome.runtime.sendMessage({ what: 'gotoExtensionUrl', url: 'info.html' });
     });
-    $('#button-settings').on('click', function() {
+    $('#buttonSettings').on('click', function() {
         chrome.runtime.sendMessage({ what: 'gotoExtensionUrl', url: 'settings.html' });
+    });
+
+    $('#matList').on('click', '.groupSeparator.g3Meta', function() {
+        var separator = $(this);
+        separator.toggleClass('hide');
+        chrome.runtime.sendMessage({
+            what: 'userSettings',
+            name: 'popupHideBlacklisted',
+            value: separator.hasClass('hide')
+        });
     });
 
     // Tooltips
     // TODO: localize
     var tips = [
-        {   sel: '#button-toggle-scope',
+        {   sel: '#buttonToggleScope',
             tip: getScopePageButtonTip
             },
-        {   sel: '#button-revert',
+        {   sel: '#buttonRevert',
             tip: 'Undo all temporary changes &mdash; those which were not padlocked'
             },
-        {   sel: '#button-info',
+        {   sel: '#buttonInfo',
             tip: 'Statistics and detailed net requests'
             },
-        {   sel: '#button-settings',
+        {   sel: '#buttonSettings',
             tip: 'Settings: how HTTP&nbsp;Switchboard behaves'
             }
         ];

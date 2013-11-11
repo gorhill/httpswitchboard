@@ -13,28 +13,28 @@ body {
     font: 13px httpsb,sans-serif;
     background-color: white;
     min-width: 32em;
-    min-height: 10em;
+    min-height: 8em;
 }
 div {
     margin: 0;
     border: 0;
     padding: 0;
 }
-div.pane-head {
+div.paneHead {
     padding: 0 0 4px 0;
     position: fixed;
     top: 0;
     background-color: white;
     z-index: 10;
 }
-div.pane-content {
-    padding-top: 70px;
+div.paneContent {
+    padding-top: 5.5em;
 }
-div.pane-status {
+div.paneStatus {
     margin: 0.5em 0 0 0;
     font: 10px mono
 }
-div.pane-status p {
+div.paneStatus p {
     margin: 0.5em 0;
 }
 
@@ -44,42 +44,64 @@ div.matrix {
 div.matrix > div {
     white-space: nowrap;
 }
-.pane-content div.matrix > div.matrix-row > div:first-child {
-    font-weight: 100;
-}
-.pane-content div.matrix > div.matrix-row > div:first-child > b {
-    font-weight: normal;
-}
 div.matrix > div > div {
     margin: 1px;
     border: 1px dotted #aaa;
     padding: 1px 1px 1px 6px;
     display: inline-block;
     box-sizing: content-box;
-    width: 32px;
+    width: 2.5em;
     white-space:nowrap;
     text-align: center;
-    cursor: pointer;
     position: relative;
 }
-div.matrix > div > div:hover {
-    border-style: solid;
+.paneContent div.matrix > div.matRow > div:first-child {
+    font-weight: 100;
+}
+.paneContent div.matrix > div.matRow > div:first-child > b {
+    font-weight: normal;
 }
 div.matrix > div > div:first-child {
     width: 180px;
     text-align: right;
 }
-div.matrix > div.groupSeparator {
-    margin: 6px;
-    border: 0;
-    padding: 0;
-    height: 0;
+div.matrix > div > div:hover {
+    border-style: solid;
 }
 div.matrix > div.domainSeparator {
-    margin: 3px;
+    margin: 0;
     border: 0;
     padding: 0;
-    height: 0;
+    height: 4px;
+}
+div.matrix > div.groupSeparator {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    height: 9px;
+    background: url('img/matrix-group-hline.png') repeat-x center center;
+    opacity: 0.1;
+}
+div.matrix > div.groupSeparator.g3Meta {
+    background: url('img/matrix-group-hide.png') no-repeat center center,
+                url('img/matrix-group-hline.png') repeat-x center center;
+    cursor: pointer;
+}
+div.matrix > div.groupSeparator.g3Meta.hide {
+    background: url('img/matrix-group-show.png') no-repeat center center,
+                url('img/matrix-group-hline.png') repeat-x center center;
+}
+div.matrix > div.groupSeparator.g3Meta.hide ~ .matRow.rw {
+    display: none;
+}
+div.matrix > div.groupSeparator.g3Meta.hide ~ .domainSeparator {
+    display: none;
+}
+div.matrix > div.groupSeparator.g3Meta ~ .matRow.ro {
+    display: none;
+}
+div.matrix > div.groupSeparator.g3Meta.hide ~ .matRow.ro {
+    display: block;
 }
 .rdt {
     color: white;
@@ -89,30 +111,33 @@ div.matrix > div.domainSeparator {
     color: white;
     background-color: #080;
 }
-.filter-button.rpt {
+.matRow.rw .matCell {
+    cursor: pointer;
+}
+.rpt {
     color: black;
     background-color: #f8d0d0;
 }
-.filter-button.gpt {
+.gpt {
     color: black;
     background-color: #d0f0d0;
 }
-.filter-button.rdp {
+.matCell.rdp {
     background-image: url('img/permanent-black-small.png');
     background-repeat: no-repeat;
     background-position: -2px center;
 }
-.filter-button.gdp {
+.matCell.gdp {
     background-image: url('img/permanent-white-small.png');
     background-repeat: no-repeat;
     background-position: -2px center;
 }
-.filter-button.rpp {
+.matCell.rpp {
     background-image: url('img/permanent-black-small.png');
     background-repeat: no-repeat;
     background-position: -2px center;
 }
-.filter-button.gpp {
+.matCell.gpp {
     background-image: url('img/permanent-white-small.png');
     background-repeat: no-repeat;
     background-position: -2px center;
@@ -134,10 +159,10 @@ div.matrix > div.domainSeparator {
     text-align: center;
 }
 #toolbars.scope-is-global {
-//    background-color: #fff5eb;
 }
 #toolbars.scope-is-page {
     background-color: #ebf0ff;
+    box-shadow: 0 0 3px 3px #ebf0ff;
 }
 
 #toolbars .toolbar {
@@ -162,31 +187,31 @@ div.matrix > div.domainSeparator {
 #toolbars .toolbar > a:hover {
     opacity: 1;
 }
-#scope-toolbar {
+#scopeToolbar {
     text-align: left;
     left: 3px;
 }
-#scope-toolbar > a#button-toggle-scope {
+#scopeToolbar > a#buttonToggleScope {
     background: url('img/add-page-permissions.png') no-repeat;
 }
-#toolbars.scope-is-page #scope-toolbar > a#button-toggle-scope {
+#toolbars.scope-is-page #scopeToolbar > a#buttonToggleScope {
     background: url('img/remove-page-permissions.png') no-repeat;
 }
 
-#global-toolbar {
+#globalToolbar {
     text-align: right;
     right: 3px;
 }
-#global-toolbar > a {
+#globalToolbar > a {
     margin: 0 0 0 0.5em;
 }
-#button-revert {
+#buttonRevert {
     background: url('img/view-refresh-symbolic.png') no-repeat;
 }
-#button-info {
+#buttonInfo {
     background: url('img/dialog-information.png') no-repeat;
 }
-#button-settings {
+#buttonSettings {
     background: url('img/system-run-symbolic.png') no-repeat;
 }
 
@@ -196,10 +221,10 @@ div.matrix > div.domainSeparator {
     padding: 0;
     display: inline-block;
     color: #888;
-    font-size: 14px;
-    word-break: break-all;
-    max-width: 22em;
-    max-height: 2.5em;
+    word-break: keep-all;
+    max-width: 20em;
+    max-height: 4.5em;
+    line-height: 110%;
     overflow: hidden;
 }
 #message strong {
@@ -225,16 +250,16 @@ div.matrix > div.domainSeparator {
     z-index: 20;
     display: none;
 }
-.filter-button.rdp #cellMenu {
+.matCell.rdp #cellMenu {
     display: block;
 }
-.filter-button.gdp #cellMenu {
+.matCell.gdp #cellMenu {
     display: block;
 }
-.filter-button.rdt #cellMenu {
+.matCell.rdt #cellMenu {
     display: block;
 }
-.filter-button.gdt #cellMenu {
+.matCell.gdt #cellMenu {
     display: block;
 }
 #cellMenu span {
@@ -253,22 +278,22 @@ div.matrix > div.domainSeparator {
 #cellMenu span:nth-of-type(2) {
     background-image: url('img/unpersist-dim.png');
 }
-.filter-button.rdt #cellMenu span:nth-of-type(1) {
+.matCell.rdt #cellMenu span:nth-of-type(1) {
     background-image: url('img/persist-rd.png');
 }
-.filter-button.gdt #cellMenu span:nth-of-type(1) {
+.matCell.gdt #cellMenu span:nth-of-type(1) {
     background-image: url('img/persist-gd.png');
 }
-.filter-button.rdp #cellMenu span:nth-of-type(2) {
+.matCell.rdp #cellMenu span:nth-of-type(2) {
     background-image: url('img/unpersist-rd.png');
 }
-.filter-button.gdp #cellMenu span:nth-of-type(2) {
+.matCell.gdp #cellMenu span:nth-of-type(2) {
     background-image: url('img/unpersist-gd.png');
 }
-.filter-button.rdt.rdp #cellMenu span:nth-of-type(1) {
+.matCell.rdt.rdp #cellMenu span:nth-of-type(1) {
     background-image: url('img/persist-dim.png');
 }
-.filter-button.gdt.gdp #cellMenu span:nth-of-type(1) {
+.matCell.gdt.gdp #cellMenu span:nth-of-type(1) {
     background-image: url('img/persist-dim.png');
 }
 #cellHotspots {
@@ -299,32 +324,32 @@ div.matrix > div.domainSeparator {
 #cellHotspots > div:nth-of-type(2) {
     top: 50%;
 }
-.filter-button.rpt #cellHotspots > div:nth-of-type(1):hover {
+.matCell.rpt #cellHotspots > div:nth-of-type(1):hover {
     background-color: #080;
     opacity: 0.25;
 }
-.filter-button.gpt #cellHotspots > div:nth-of-type(1):hover {
+.matCell.gpt #cellHotspots > div:nth-of-type(1):hover {
     background-color: #080;
     opacity: 0.25;
 }
-.filter-button.rdt #cellHotspots > div:nth-of-type(1):hover {
+.matCell.rdt #cellHotspots > div:nth-of-type(1):hover {
     background-color: inherited;
 }
-.filter-button.gdt #cellHotspots > div:nth-of-type(1):hover {
+.matCell.gdt #cellHotspots > div:nth-of-type(1):hover {
     background-color: inherited;
 }
-.filter-button.rpt #cellHotspots > div:nth-of-type(2):hover {
+.matCell.rpt #cellHotspots > div:nth-of-type(2):hover {
     background-color: #c00;
     opacity: 0.25;
 }
-.filter-button.gpt #cellHotspots > div:nth-of-type(2):hover {
+.matCell.gpt #cellHotspots > div:nth-of-type(2):hover {
     background-color: #c00;
     opacity: 0.25;
 }
-.filter-button.rdt #cellHotspots > div:nth-of-type(2):hover {
+.matCell.rdt #cellHotspots > div:nth-of-type(2):hover {
     background-color: inherited;
 }
-.filter-button.gdt #cellHotspots > div:nth-of-type(2):hover {
+.matCell.gdt #cellHotspots > div:nth-of-type(2):hover {
     background-color: inherited;
 }
 
@@ -337,6 +362,7 @@ div.matrix > div.domainSeparator {
 .tooltip-inner {
     color:#fff;
     background-color:#444;
+    max-width: 16em;
 }
 </style>
 <title>HTTP Switchboard</title>
@@ -347,36 +373,35 @@ div.matrix > div.domainSeparator {
 <div id="templates" style="display:none">
     <div class="groupSeparator"></div>
     <div class="domainSeparator"></div>
-    <div class="matrix-row"><div class="filter-button"><b></b></div><div class="filter-button">&nbsp;</div><div class="filter-button">&nbsp;</div><div class="filter-button">&nbsp;</div><div class="filter-button">&nbsp;</div><div class="filter-button">&nbsp;</div><div class="filter-button">&nbsp;</div><div class="filter-button">&nbsp;</div></div>
+    <div class="matRow"><div class="matCell"><b></b></div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div></div>
     <div id="cellMenu"><span id="persist"></span><span id="unpersist"></span></div>
     <div id="cellHotspots"><div></div><div></div></div>
     </div>
 
-<div class="pane-head">
+<div class="paneHead">
     <div id="toolbars">
-        <div id="scope-toolbar" class="toolbar">
-            <a id="button-toggle-scope" href="#" title=""></a>
+        <div id="scopeToolbar" class="toolbar">
+            <a id="buttonToggleScope" href="#" title=""></a>
             </div>
-        <div id="global-toolbar" class="toolbar">
-            <a id="button-revert" href="#"></a>
-            <a id="button-info" href="#"></a>
-            <a id="button-settings" href="#"></a>
+        <div id="globalToolbar" class="toolbar">
+            <a id="buttonRevert" href="#"></a>
+            <a id="buttonInfo" href="#"></a>
+            <a id="buttonSettings" href="#"></a>
             </div>
         <div id="message">&nbsp;</div>
         </div>
-    <div id="matrix-head" class="matrix">
-        <div class="matrix-row" style="display:none"><div class="filter-button">all</div><div class="filter-button" data-filter-type="cookie">cookie</div><div class="filter-button" data-filter-type="image">image</div><div class="filter-button" data-filter-type="object">plugin</div><div class="filter-button" data-filter-type="script">script</div><div class="filter-button" data-filter-type="xmlhttprequest">XHR</div><div class="filter-button" data-filter-type="sub_frame">frame</div><div class="filter-button" data-filter-type="other">other</div></div>
-
+    <div id="matHead" class="matrix">
+        <div class="matRow rw" style="display:none"><div class="matCell">all</div><div class="matCell" data-filter-type="cookie">cookie</div><div class="matCell" data-filter-type="image">image</div><div class="matCell" data-filter-type="object">plugin</div><div class="matCell" data-filter-type="script">script</div><div class="matCell" data-filter-type="xmlhttprequest">XHR</div><div class="matCell" data-filter-type="sub_frame">frame</div><div class="matCell" data-filter-type="other">other</div></div>
         </div>
     </div>
 
-<div class="pane-content">
-    <div id="matrix-list" class="matrix">
+<div class="paneContent">
+    <div id="matList" class="matrix">
         <span id="no-traffic" style="color:gray;display:none">So far, no net traffic seen on this page. Maybe the page was loaded before HTTP Switchboard was activated?</span>
         </div>
     </div>
 
-<div class="pane-status">
+<div class="paneStatus">
     </div>
 
 <script src="lib/jquery-2.min.js"></script>
