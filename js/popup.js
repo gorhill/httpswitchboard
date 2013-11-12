@@ -613,7 +613,7 @@ function makeMenu() {
     var matrixHeaderPrettyNames = HTTPSBPopup.matrixHeaderPrettyNames;
 
     matrixRow = $('#matHead .matRow');
-    matrixCells = $('div', matrixRow).toArray();
+    matrixCells = $('.matCell', matrixRow).toArray();
     matrixCell = $(matrixCells[0]);
     matrixCell.prop({filterType: '*', filterDomain: '*'});
     matrixCell.addClass(getCellClass('*', '*'));
@@ -792,7 +792,9 @@ function blankMessage() {
 
 function onMessage(request) {
     if ( request.what === 'urlStatsChanged' ) {
-        makeMenu();
+        if ( !HTTPSBPopup.pageURL || HTTPSBPopup.pageURL === request.pageURL ) {
+            makeMenu();
+        }
     }
 }
 

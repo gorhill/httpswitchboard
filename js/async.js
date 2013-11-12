@@ -138,12 +138,12 @@ function permissionsChanged() {
 function urlStatsChangedCallback(pageUrl) {
     chrome.runtime.sendMessage({
         what: 'urlStatsChanged',
-        pageUrl: pageUrl
+        pageURL: pageUrl
     });
 }
 
 function urlStatsChanged(pageUrl) {
-    asyncJobQueue.add('urlStatsChanged ' + pageUrl, pageUrl, urlStatsChangedCallback, 250);
+    asyncJobQueue.add('urlStatsChanged ' + pageUrl, pageUrl, urlStatsChangedCallback, 1000);
 }
 
 /******************************************************************************/
