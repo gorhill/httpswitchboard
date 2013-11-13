@@ -40,6 +40,12 @@ function injectedCodeCallback(r) {
         return;
     }
     r = r[0];
+    // TODO: Investigate "Error in response to tabs.executeScript: TypeError:
+    // Cannot read property 'pageUrl' of null" (2013-11-12). When can this
+    // happens? 
+    if ( !r || !r.pageUrl ) {
+        return;
+    }
     var httpsb = HTTPSB;
     var pageUrl = normalizeChromiumUrl(r.pageUrl);
     var pageHostname = getHostnameFromURL(pageUrl);

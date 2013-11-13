@@ -132,9 +132,6 @@ function renderBlacklistDetails() {
         a = $('a', li);
         a.attr('href', keys[i]);
         a.text(keys[i]);
-        date.setTime(blacklist.timeStamp);
-        $('.downloadTime', li).text(date.toLocaleTimeString());
-        $('.downloadDate', li).text(date.toLocaleDateString());
         ul.append(li);
     }
    
@@ -187,7 +184,8 @@ function renderStats() {
     var allowedStats = requestStats.allowed;
     renderNumbers({
         '#whitelistCount': httpsb.temporaryScopes.scopes['*'].white.count,
-        '#blacklistCount': httpsb.blacklistReadonly.count + httpsb.temporaryScopes.scopes['*'].black.count,
+        '#blacklistCount': httpsb.temporaryScopes.scopes['*'].black.count,
+        '#blacklistReadonlyCount': httpsb.blacklistReadonly.count,
         '#blockedAllCount': requestStats.blocked.all,
         '#blockedMainFrameCount': blockedStats.main_frame,
         '#blockedCookieCount': blockedStats.cookie,

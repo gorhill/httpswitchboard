@@ -144,7 +144,7 @@ function getPageStats() {
 
 function getUserSetting(setting) {
     return getHTTPSB().userSettings[setting];
-};
+}
 
 /******************************************************************************/
 
@@ -500,74 +500,126 @@ function formatHeader(s) {
 
 /******************************************************************************/
 
-function makeMatrixRow(hostname, domain, runningStats) {
-    if ( !HTTPSBPopup.matrixRowTemplate ) {
-        HTTPSBPopup.matrixRowTemplate = $('#templates .matRow');
+function renderMatrixHeaderRow() {
+    var cells = $('#matHead .matRow .matCell').toArray();
+    $(cells[0]).prop({filterType: '*', filterDomain: '*'}).addClass(getCellClass('*', '*'));
+    $(cells[1]).prop({filterType: 'cookie', filterDomain: '*'}).addClass(getCellClass('*', 'cookie'));
+    $(cells[2]).prop({filterType: 'image', filterDomain: '*'}).addClass(getCellClass('*', 'image'));
+    $(cells[3]).prop({filterType: 'object', filterDomain: '*'}).addClass(getCellClass('*', 'object'));
+    $(cells[4]).prop({filterType: 'script', filterDomain: '*'}).addClass(getCellClass('*', 'script'));
+    $(cells[5]).prop({filterType: 'xmlhttprequest', filterDomain: '*'}).addClass(getCellClass('*', 'xmlhttprequest'));
+    $(cells[6]).prop({filterType: 'sub_frame', filterDomain: '*'}).addClass(getCellClass('*', 'sub_frame'));
+    $(cells[7]).prop({filterType: 'other', filterDomain: '*'}).addClass(getCellClass('*', 'other'));
+    $('#matHead .matRow').css('display', '');
+}
+
+/******************************************************************************/
+
+function renderMatrixCellDomain(cell, domain) {
+    $(cell).prop({filterType: '*', filterDomain: domain})
+        .addClass(getCellClass(domain, '*'))
+        .children('b')
+        .text(domain);
+}
+
+function renderMatrixCellSubdomain(cell, domain, subomain) {
+    $(cell).prop({filterType: '*', filterDomain: subomain})
+        .addClass(getCellClass(subomain, '*'))
+        .children('b')
+        .text(subomain.slice(0, subomain.lastIndexOf(domain)-1) + '.')
+        .after(domain);
+}
+
+function renderMatrixCellType(cell, hostname, type, stats) {
+    var cell = $(cell);
+    cell.prop({filterType: type, filterDomain: hostname})
+        .addClass(stats.temporaryColor);
+    if ( stats.count ) {
+        cell.text(stats.count);
     }
-    var matrixRow = HTTPSBPopup.matrixRowTemplate.clone();
-    matrixRow.addClass('rw');
-    var cells = $('div', matrixRow).toArray();
-    var cell = $(cells[0]);
-    cell.prop({filterType: '*', filterDomain: hostname});
-    var cellClass = getCellClass(hostname, '*');
-    cell.addClass(cellClass);
-    var b = $('b', cell);
-    var i = hostname.lastIndexOf(domain);
-    if ( i <= 0 ) {
-        b.text(hostname);
-    } else {
-        b.text(hostname.slice(0, i-1) + '.');
-        b.after(domain);
-    }
-    // Count number of explicitly blacklisted hostnames
-    if ( cellClass.search('rdt') >= 0 ) {
-        runningStats['*'].count++;
-    }
-    // type of requests
-    var matrixStats = HTTPSBPopup.matrixStats;
-    var matrixHeaderTypes = HTTPSBPopup.matrixHeaderTypes;
-    var type, count;
-    for ( var iType = 1; iType < matrixHeaderTypes.length; iType++ ) {
-        type = matrixHeaderTypes[iType];
-        cell = $(cells[iType]);
-        cell.prop({filterType: type, filterDomain: hostname});
-        cell.addClass(getCellClass(hostname, type));
-        count = matrixStats[hostname][type].count;
-        if ( count ) {
-            cell.text(count);
-            runningStats[type].count += count;
-        }
-    }
+    return cell;
+}
+
+function renderMatrixCellTypes(cells, hostname, stats) {
+    renderMatrixCellType(cells[1], hostname, 'cookie', stats.cookie);
+    renderMatrixCellType(cells[2], hostname, 'image', stats.image);
+    renderMatrixCellType(cells[3], hostname, 'object', stats.object);
+    renderMatrixCellType(cells[4], hostname, 'script', stats.script);
+    renderMatrixCellType(cells[5], hostname, 'xmlhttprequest', stats.xmlhttprequest);
+    renderMatrixCellType(cells[6], hostname, 'sub_frame', stats.sub_frame);
+    renderMatrixCellType(cells[7], hostname, 'other', stats.other);
+}
+
+/******************************************************************************/
+
+function makeMatrixRowDomain(domain) {
+    var matrixRow = HTTPSBPopup.matrixRowTemplate.clone().addClass('rw');
+    var cells = $('.matCell', matrixRow).toArray();
+    renderMatrixCellDomain(cells[0], domain);
+    renderMatrixCellTypes(cells, domain, HTTPSBPopup.matrixStats[domain]);
+    return matrixRow;
+}
+
+function makeMatrixRowSubdomain(domain, subdomain) {
+    var matrixRow = HTTPSBPopup.matrixRowTemplate.clone().addClass('rw');
+    var cells = $('.matCell', matrixRow).toArray();
+    renderMatrixCellSubdomain(cells[0], domain, subdomain);
+    renderMatrixCellTypes(cells, subdomain, HTTPSBPopup.matrixStats[subdomain]);
     return matrixRow;
 }
 
 /******************************************************************************/
 
-function makeMatrixRowMeta(runningStats, groupClass) {
-    if ( !HTTPSBPopup.matrixRowTemplate ) {
-        HTTPSBPopup.matrixRowTemplate = $('#templates .matRow');
+function renderMatrixMetaCellType(cell, count) {
+    var cell = $(cell);
+    cell.addClass('rpt');
+    if ( count ) {
+        cell.text(count);
     }
-    var matrixRow = HTTPSBPopup.matrixRowTemplate.clone();
-    matrixRow.addClass('ro');
+}
+
+function makeMatrixMetaRow(stats, groupClass) {
+    var matrixRow = HTTPSBPopup.matrixRowTemplate.clone().addClass('ro');
     var cells = $('div', matrixRow).toArray();
-    var cell = $(cells[0]);
-    cell.removeClass('matCell');
-    cell.addClass(groupClass + 'Meta');
-    cell.addClass('rdt');
-    cell.html('<i>' + runningStats['*'].count + ' blacklisted hostname(s)</i>');
-    // type of requests
-    var matrixHeaderTypes = HTTPSBPopup.matrixHeaderTypes;
-    var type, count;
-    for ( var iType = 1; iType < matrixHeaderTypes.length; iType++ ) {
-        type = matrixHeaderTypes[iType];
-        cell = $(cells[iType]);
-        cell.addClass('rpt');
-        count = runningStats[type].count;
-        if ( count ) {
-            cell.text(count);
+    $(cells[0]).removeClass('matCell')
+        .addClass(groupClass + 'Meta rdt')
+        .html('<i>' + stats['*'].count + ' blacklisted hostname(s)</i>');
+    renderMatrixMetaCellType(cells[1], stats.cookie.count);
+    renderMatrixMetaCellType(cells[2], stats.image.count);
+    renderMatrixMetaCellType(cells[3], stats.object.count);
+    renderMatrixMetaCellType(cells[4], stats.script.count);
+    renderMatrixMetaCellType(cells[5], stats.xmlhttprequest.count);
+    renderMatrixMetaCellType(cells[6], stats.sub_frame.count);
+    renderMatrixMetaCellType(cells[7], stats.other.count);
+    return matrixRow;
+}
+
+/******************************************************************************/
+
+function computeMatrixGroupMetaStats(group) {
+    var metaStats = new DomainStats();
+    var domains = Object.keys(group);
+    var i = domains.length;
+    var hostnames, hostname, j, stats;
+    while ( i-- ) {
+        hostnames = Object.keys(group[domains[i]].all);
+        j = hostnames.length;
+        while ( j-- ) {
+            hostname = hostnames[j];
+            stats = HTTPSBPopup.matrixStats[hostname];
+            if ( getTemporaryColor(hostname, '*') === 'rdt' ) {
+                metaStats['*'].count++;
+            }
+            metaStats.cookie.count += stats.cookie.count;
+            metaStats.image.count += stats.image.count;
+            metaStats.object.count += stats.object.count;
+            metaStats.script.count += stats.script.count;
+            metaStats.xmlhttprequest.count += stats.xmlhttprequest.count;
+            metaStats.sub_frame.count += stats.sub_frame.count;
+            metaStats.other.count += stats.other.count;
         }
     }
-    return matrixRow;
+    return metaStats;
 }
 
 /******************************************************************************/
@@ -591,6 +643,141 @@ function domainNameCompare(a,b) {
 
 /******************************************************************************/
 
+function makeMatrixGroup0SectionDomain(domain) {
+    makeMatrixRowDomain(domain)
+        .addClass('g0 l1')
+        .appendTo('#matList');
+}
+
+function makeMatrixGroup0SectionSubomain(domain, subdomain) {
+    makeMatrixRowSubdomain(domain, subdomain)
+        .addClass('g0 l2')
+        .appendTo('#matList');
+}
+
+function makeMatrixGroup0Section(domains) {
+    var domain = domains[0];
+    makeMatrixGroup0SectionDomain(domain);
+    for ( var iDomain = 1; iDomain < domains.length; iDomain++ ) {
+        makeMatrixGroup0SectionSubomain(domain, domains[iDomain]);
+    }
+}
+
+function makeMatrixGroup0(group) {
+    var rootDomains = Object.keys(group).sort(domainNameCompare);
+    if ( rootDomains.length ) {
+        makeMatrixGroup0Section(Object.keys(group[rootDomains[0]].all).sort(domainNameCompare));
+        for ( var iRoot = 1; iRoot < rootDomains.length; iRoot++ ) {
+            makeMatrixGroup0Section(Object.keys(group[rootDomains[iRoot]].all).sort(domainNameCompare));
+        }
+    }
+}
+
+/******************************************************************************/
+
+function makeMatrixGroup1SectionDomain(domain) {
+    makeMatrixRowDomain(domain)
+        .addClass('g1 l1')
+        .appendTo('#matList');
+}
+
+function makeMatrixGroup1SectionSubomain(domain, subdomain) {
+    makeMatrixRowSubdomain(domain, subdomain)
+        .addClass('g1 l2')
+        .appendTo('#matList');
+}
+
+function makeMatrixGroup1Section(domains) {
+    var domain = domains[0];
+    makeMatrixGroup1SectionDomain(domain);
+    for ( var iDomain = 1; iDomain < domains.length; iDomain++ ) {
+        makeMatrixGroup1SectionSubomain(domain, domains[iDomain]);
+    }
+}
+
+function makeMatrixGroup1(group) {
+    var rootDomains = Object.keys(group).sort(domainNameCompare);
+    if ( rootDomains.length) {
+        $('#templates .groupSeparator').clone().appendTo('#matList');
+        makeMatrixGroup1Section(Object.keys(group[rootDomains[0]].all).sort(domainNameCompare));
+        for ( var iRoot = 1; iRoot < rootDomains.length; iRoot++ ) {
+            makeMatrixGroup1Section(Object.keys(group[rootDomains[iRoot]].all).sort(domainNameCompare));
+        }
+    }
+}
+
+/******************************************************************************/
+
+function makeMatrixGroup2SectionDomain(domain) {
+    makeMatrixRowDomain(domain)
+        .addClass('g2 l1')
+        .appendTo('#matList');
+}
+
+function makeMatrixGroup2SectionSubomain(domain, subdomain) {
+    makeMatrixRowSubdomain(domain, subdomain)
+        .addClass('g2 l2')
+        .appendTo('#matList');
+}
+
+function makeMatrixGroup2Section(domains) {
+    var domain = domains[0];
+    makeMatrixGroup2SectionDomain(domain);
+    for ( var iDomain = 1; iDomain < domains.length; iDomain++ ) {
+        makeMatrixGroup2SectionSubomain(domain, domains[iDomain]);
+    }
+}
+
+function makeMatrixGroup2(group) {
+    var rootDomains = Object.keys(group).sort(domainNameCompare);
+    if ( rootDomains.length) {
+        $('#templates .groupSeparator').clone().appendTo('#matList');
+        makeMatrixGroup2Section(Object.keys(group[rootDomains[0]].all).sort(domainNameCompare));
+        for ( var iRoot = 1; iRoot < rootDomains.length; iRoot++ ) {
+            makeMatrixGroup2Section(Object.keys(group[rootDomains[iRoot]].all).sort(domainNameCompare));
+        }
+    }
+}
+
+/******************************************************************************/
+
+function makeMatrixGroup3SectionDomain(domain) {
+    makeMatrixRowDomain(domain)
+        .addClass('g3 l1')
+        .appendTo('#matList');
+}
+
+function makeMatrixGroup3SectionSubomain(domain, subdomain) {
+    makeMatrixRowSubdomain(domain, subdomain)
+        .addClass('g3 l2')
+        .appendTo('#matList');
+}
+
+function makeMatrixGroup3Section(domains) {
+    var domain = domains[0];
+    makeMatrixGroup3SectionDomain(domain);
+    for ( var iDomain = 1; iDomain < domains.length; iDomain++ ) {
+        makeMatrixGroup3SectionSubomain(domain, domains[iDomain]);
+    }
+}
+
+function makeMatrixGroup3(group) {
+    var rootDomains = Object.keys(group).sort(domainNameCompare);
+    if ( rootDomains.length ) {
+        $('#templates .groupSeparator').clone()
+            .addClass('g3Meta')
+            .toggleClass('hide', !!getUserSetting('popupHideBlacklisted'))
+            .appendTo('#matList');
+        makeMatrixGroup3Section(Object.keys(group[rootDomains[0]].all).sort(domainNameCompare));
+        for ( var iRoot = 1; iRoot < rootDomains.length; iRoot++ ) {
+            makeMatrixGroup3Section(Object.keys(group[rootDomains[iRoot]].all).sort(domainNameCompare));
+        }
+        makeMatrixMetaRow(computeMatrixGroupMetaStats(group), 'g3').appendTo('#matList');
+    }
+}
+
+/******************************************************************************/
+
 // TODO: build incrementally, i.e. reuse any existing rows rather than
 // dispose then re-create all of them.
 
@@ -604,31 +791,6 @@ function makeMenu() {
         return;
     }
 
-    var matrixRow, matrixCells, matrixCell;
-    var iType, type;
-
-    // Matrix header
-
-    var matrixHeaderTypes = HTTPSBPopup.matrixHeaderTypes;
-    var matrixHeaderPrettyNames = HTTPSBPopup.matrixHeaderPrettyNames;
-
-    matrixRow = $('#matHead .matRow');
-    matrixCells = $('.matCell', matrixRow).toArray();
-    matrixCell = $(matrixCells[0]);
-    matrixCell.prop({filterType: '*', filterDomain: '*'});
-    matrixCell.addClass(getCellClass('*', '*'));
-    for ( iType = 1; iType < matrixCells.length; iType++ ) {
-        matrixCell = $(matrixCells[iType]);
-        type = matrixCell.data('filterType');
-        if ( matrixHeaderTypes.length < matrixCells.length ) {
-            matrixHeaderTypes.push(type);
-            matrixHeaderPrettyNames[type] = matrixCell.text();
-        }
-        matrixCell.prop({filterType: type, filterDomain: '*'});
-        matrixCell.addClass(getCellClass('*', type));
-    }
-    matrixRow.css('display', '');
-
     // https://github.com/gorhill/httpswitchboard/issues/31
     if ( HTTPSBPopup.matrixCellHotspots ) {
         HTTPSBPopup.matrixCellHotspots.detach();
@@ -637,56 +799,30 @@ function makeMenu() {
         HTTPSBPopup.matrixCellMenu.detach();
     }
 
-    // Matrix contents
+    $('#matList').empty();
 
-    var matrixList = $('#matList');
-    matrixList.empty();
+    renderMatrixHeaderRow();
+    makeMatrixGroup0(groupStats[0]);
+    makeMatrixGroup1(groupStats[1]);
+    makeMatrixGroup2(groupStats[2]);
+    makeMatrixGroup3(groupStats[3]);
+}
 
-    // main rows, grouped logically
-    var group;
-    var rootDomains, iRoot;
-    var domains, iDomain;
-    var groupClass;
-    var groupSeparatorTmpl = $('#templates .groupSeparator');
-    var groupSeparator;
-    var runningStats = new DomainStats();
+/******************************************************************************/
 
-    for ( var iGroup = 0; iGroup < groupStats.length; iGroup++ ) {
-        runningStats.reset();
-        group = groupStats[iGroup];
-        rootDomains = Object.keys(group).sort(domainNameCompare);
-        if ( rootDomains.length === 0 ) {
-            continue;
-        }
-        groupClass = 'g' + iGroup;
-        if ( iGroup > 0 ) {
-            groupSeparator = groupSeparatorTmpl.clone();
-            if ( iGroup === 3 ) {
-                groupSeparator.addClass(groupClass + 'Meta');
-                groupSeparator.toggleClass('hide', !!getUserSetting('popupHideBlacklisted'));
-            }
-            matrixList.append(groupSeparator);
-        }
-        for ( iRoot = 0; iRoot < rootDomains.length; iRoot++ ) {
-            if ( iRoot > 0 ) {
-                matrixList.append($('#templates .domainSeparator').clone());
-            }
-            domains = Object.keys(group[rootDomains[iRoot]].all);
-            domains.sort(domainNameCompare);
-            for ( iDomain = 0; iDomain < domains.length; iDomain++ ) {
-                matrixRow = makeMatrixRow(domains[iDomain], rootDomains[iRoot], runningStats);
-                matrixRow.addClass(groupClass);
-                if ( iDomain > 0 ) {
-                    matrixRow.addClass('l2');
-                }
-                matrixList.append(matrixRow);
-            }
-        }
-        // Create meta matrix row for group 3
-        if ( iGroup === 3 ) {
-            matrixRow = makeMatrixRowMeta(runningStats, groupClass);
-            matrixList.append(matrixRow);
-        }
+// Do all the stuff that needs to be done before building menu et al.
+
+function initMenuEnvironment() {
+    HTTPSBPopup.matrixRowTemplate = $('#templates .matRow');
+
+    var prettyNames = HTTPSBPopup.matrixHeaderPrettyNames;
+    var cells = $('#matHead .matRow .matCell').toArray();
+    var i = cells.length;
+    var cell, type;
+    while ( i-- ) {
+        cell = $(cells[i]);
+        type = cell.data('filterType');
+        prettyNames[type] = cell.text();
     }
 }
 
@@ -746,6 +882,9 @@ function handleFilterMessage(hotspot, leaning) {
     var cell = hotspot.closest('div.matCell');
     var type = cell.prop('filterType');
     var domain = cell.prop('filterDomain');
+    if ( !type || !domain ) {
+        return;
+    }
     var nextAction = getNextAction(domain, type, leaning);
     var action = nextAction === 'whitelist' ? '+' : (nextAction === 'blacklist' ? '-' : '.');
     var what = type === '*' ? '*' : '?';
@@ -792,7 +931,7 @@ function blankMessage() {
 
 function onMessage(request) {
     if ( request.what === 'urlStatsChanged' ) {
-        if ( !HTTPSBPopup.pageURL || HTTPSBPopup.pageURL === request.pageURL ) {
+        if ( HTTPSBPopup.pageURL === request.pageURL ) {
             makeMenu();
         }
     }
@@ -823,6 +962,7 @@ function bindToTabHandler(tabs) {
     HTTPSBPopup.scopeURL = httpsb.normalizeScopeURL(HTTPSBPopup.pageURL);
 
     // Now that tabId and pageURL are set, we can build our menu
+    initMenuEnvironment();
     makeMenu();
 
     // After popup menu is built, check whether there is a non-empty matrix
@@ -850,8 +990,8 @@ function bindToTabHandler(tabs) {
 function initAll() {
     chrome.tabs.query({currentWindow: true, active: true}, bindToTabHandler);
 
-    // TODO: prevent spurious selection
-    // ...
+   // Below is UI stuff which is not key to make the menu, so this can
+    // be done without having to wait for a tab to be bound to the menu.
 
     var popup = HTTPSBPopup;
 

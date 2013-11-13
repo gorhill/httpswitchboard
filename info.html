@@ -77,16 +77,17 @@ select {
 <div id="lists">
 <div style="white-space:nowrap;"> <!-- begin template 'stats' -->
 <div>
-    Whitelisted domains:<br>
-    Blacklisted domains:
+    Whitelisted hostnames:<br>
+    Blacklisted hostnames:
     </div>
 <div>
     <span id="whitelistCount"></span><br>
     <span id="blacklistCount"></span>
     </div>
 <div style="margin:1em 0 0 0;display:block;text-align:left">
-    Blacklists:<ul id="remoteBlacklists" style="margin:0;color:gray">
-    <li id="remoteBlacklistDetails" style="display:none"><a href=""></a>&ensp;(fetched at <span class="downloadTime"></span> on <span class="downloadDate"></span>)</li>
+    <span id="blacklistReadonlyCount">?</span> preset blacklisted hostnames from:
+    <ul id="remoteBlacklists" style="margin:0;color:gray">
+    <li id="remoteBlacklistDetails" style="display:none"><a href=""></a>
     </ul>
     </div>
 </div> <!-- end template 'stats' -->
