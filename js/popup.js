@@ -531,13 +531,12 @@ function renderMatrixCellSubdomain(cell, domain, subomain) {
 }
 
 function renderMatrixCellType(cell, hostname, type, stats) {
-    var cell = $(cell);
+    cell = $(cell);
     cell.prop({filterType: type, filterDomain: hostname})
         .addClass(stats.temporaryColor);
     if ( stats.count ) {
         cell.text(stats.count);
     }
-    return cell;
 }
 
 function renderMatrixCellTypes(cells, hostname, stats) {
@@ -571,7 +570,7 @@ function makeMatrixRowSubdomain(domain, subdomain) {
 /******************************************************************************/
 
 function renderMatrixMetaCellType(cell, count) {
-    var cell = $(cell);
+    cell = $(cell);
     cell.addClass('rpt');
     if ( count ) {
         cell.text(count);

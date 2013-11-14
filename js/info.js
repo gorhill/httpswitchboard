@@ -123,7 +123,6 @@ function renderBlacklistDetails() {
     var blacklist;
     var liTemplate = $('#remoteBlacklistDetails', ul);
     var li, a;
-    var date = new Date();
     while ( i-- ) {
         blacklist = blacklists[keys[i]];
         li = liTemplate.clone();

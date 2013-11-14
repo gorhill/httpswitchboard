@@ -107,9 +107,9 @@ function onUpdatedTabsHandler(tabId, changeInfo, tab) {
         return;
     }
 
-    // Chrome webstore can't be injected with foreign code following is to
+    // Chrome webstore can't be injected with foreign code, following is to
     // avoid error message.
-    if ( pageStats.ignore ) {
+    if ( HTTPSB.excludeRegex.test(tab.url) ) {
         return;
     }
 
@@ -143,6 +143,27 @@ function onRemovedTabHandler(tabId) {
 }
 
 chrome.tabs.onRemoved.addListener(onRemovedTabHandler);
+
+/******************************************************************************/
+
+// Could this fix:
+// https://github.com/gorhill/httpswitchboard/issues/53
+// ?
+
+function onBeforeNavigateCallback(details) {
+    if ( details.url.search(/^https?:\/\//) < 0 ) {
+        return;
+    }
+    if ( HTTPSB.excludeRegex.test(details.url) ) {
+        return;
+    }
+    // Might help.
+    //   https://github.com/gorhill/httpswitchboard/issues/35
+    var hostname = getHostnameFromURL(details.url);
+    setJavascript(hostname, HTTPSB.whitelisted(details.url, 'script', hostname));
+}
+
+chrome.webNavigation.onBeforeNavigate.addListener(onBeforeNavigateCallback);
 
 /******************************************************************************/
 

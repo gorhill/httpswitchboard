@@ -390,14 +390,10 @@ function smartReloadTab(tabId) {
     }
     var newState = computeTabState(tabId);
     if ( getStateHash(newState) != getStateHash(pageStats.state) ) {
-        // https://github.com/gorhill/httpswitchboard/issues/35
         // Appears to help.
+        //   https://github.com/gorhill/httpswitchboard/issues/35
         var hostname = getHostnameFromURL(pageUrl);
-        var blocked = HTTPSB.blacklisted(pageUrl, 'script', hostname);
-        chrome.contentSettings.javascript.set({
-            primaryPattern: '*://' + hostname + '/*',
-            setting: blocked ? 'block' : 'allow'
-            });
+        setJavascript(hostname, HTTPSB.whitelisted(pageUrl, 'script', hostname));
         // console.debug('reloaded content of tab id %d', tabId);
         // console.debug('old="%s"\nnew="%s"', getStateHash(pageStats.state), getStateHash(newState));
         pageStats.state = newState;

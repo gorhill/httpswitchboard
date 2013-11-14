@@ -98,4 +98,38 @@ function getParentHostnameFromHostname(hostname) {
     return subdomain.slice(dot+1) + '.' + domain;
 }
 
+/******************************************************************************/
+
+// Enable/disable javascript for a specific hostname.
+
+function setJavascriptCallback(windows, hostname, setting) {
+    // Need to do this to avoid "You cannot set a preference with scope
+    // 'incognito_session_only' when no incognito window is open."
+    var i = windows.length;
+    while ( i-- ) {
+        if ( windows[i].incognito ) {
+            chrome.contentSettings.javascript.set({
+                scope: 'incognito_session_only',
+                primaryPattern: hostname,
+                setting: setting
+            });
+            break;
+        }
+    }
+}
+
+function setJavascript(hostname, state) {
+    var hostname = '*://' + hostname + '/*';
+    var setting = state ? 'allow' : 'block';
+    // https://github.com/gorhill/httpswitchboard/issues/53
+    // Until chromium fixes:
+    //   https://code.google.com/p/chromium/issues/detail?id=319400
+    chrome.contentSettings.javascript.set({
+        primaryPattern: hostname,
+        setting: setting
+    });
+    chrome.windows.getAll(function(windows) {
+        setJavascriptCallback(windows, hostname, setting);
+    });
+}
 

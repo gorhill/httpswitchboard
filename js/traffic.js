@@ -186,10 +186,7 @@ function webRequestHandler(details) {
     // hostname, disable scripts for this hostname, necessary since inline
     // script tags are not passed through web request handler.
     if ( isMainFrame ) {
-        chrome.contentSettings.javascript.set({
-            primaryPattern: '*://' + hostname + '/*',
-            setting: httpsb.blacklisted(pageURL, 'script', hostname) ? 'block' : 'allow'
-            });
+        setJavascript(hostname, httpsb.whitelisted(pageURL, 'script', hostname));
         // when the tab is updated, we will check if page has at least one
         // script tag, this takes care of inline scripting, which doesn't
         // generate 'script' type web requests.

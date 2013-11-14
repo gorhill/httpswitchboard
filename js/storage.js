@@ -129,10 +129,10 @@ function loadUserLists() {
             // Sensible defaults
             httpsb.whitelistTemporarily('*', 'image', '*');
             httpsb.whitelistPermanently('*', 'image', '*');
-            httpsb.blacklistTemporarily('*', 'object', '*')
-            httpsb.blacklistPermanently('*', 'object', '*')
-            httpsb.blacklistTemporarily('*', 'sub_frame', '*')
-            httpsb.blacklistPermanently('*', 'sub_frame', '*')
+            httpsb.blacklistTemporarily('*', 'object', '*');
+            httpsb.blacklistPermanently('*', 'object', '*');
+            httpsb.blacklistTemporarily('*', 'sub_frame', '*');
+            httpsb.blacklistPermanently('*', 'sub_frame', '*');
         }
 
         // rhill 2013-09-23: ok, there is no point in blacklisting
