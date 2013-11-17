@@ -546,6 +546,7 @@ ads.mambocommunities.com
 ads.mariuana.it
 ads.massinfra.nl
 ads.mcafee.com
+ads.mediaodyssey.com
 ads.mediaturf.net
 ads.medienhaus.de
 ads.mgnetwork.com
@@ -634,7 +635,6 @@ ads.silverdisc.co.uk
 ads.skins.be
 ads.slim.com
 ads.smartclick.com
-ads.smartpressgroup.com
 ads.smartshopping.co.uk
 ads.soft32.com
 ads.space.com
@@ -740,7 +740,6 @@ ads2.rne.com
 ads2.virtual-nights.com
 ads2.xnet.cz
 ads2004.treiberupdate.de
-ads3.flabber.nl
 ads3.gamecity.net
 ads3.virtual-nights.com
 ads4.clearchannel.com
@@ -816,6 +815,7 @@ adserver.o2.pl
 adserver.oddschecker.com
 adserver.pl
 adserver.plhb.com
+adserver.portalofevil.com
 adserver.portugalmail.net
 adserver.portugalmail.pt
 adserver.quizdingo.com
@@ -853,7 +853,6 @@ adsfac.net
 adsfac.us
 adshost1.com
 adshuffle.com
-adside.com
 adskape.ru
 adsklick.de
 adsmarket.com
@@ -926,6 +925,7 @@ advertmarket.com
 advertmedia.de
 advertpro.sitepoint.com
 advertpro.ya.com
+adverts.carltononline.com
 adverts.digitalspy.co.uk
 advertserve.com
 advertstream.com
@@ -989,7 +989,6 @@ affiliatetracking.com
 affiliatetracking.net
 affiliatewindow.com
 affiliation-france.com
-afiliados.submarino.com.br
 ah-ha.com
 aidu-ads.de
 aim4media.com
@@ -1500,7 +1499,6 @@ findyourcasino.com
 fineclicks.com
 first.nova.cz
 firstlightera.com
-flabberads.flabber.nl
 flashtalking.com
 fleshlightcash.com
 flexbanner.com
@@ -2185,7 +2183,6 @@ smartadserver.com
 smartbase.cdnservices.com
 smile.modchipstore.com
 smowtion.com
-snapads.com
 snoobi.com
 socialspark.com
 softclick.com.br
@@ -2279,7 +2276,6 @@ theadhost.com
 theanswerto.com
 thebugs.ws
 thecounter.com
-thefreesitez.com
 therapistla.com
 therichkids.com
 thesearchworks.com
@@ -2308,7 +2304,6 @@ topbarh.box.sk
 topblogarea.se
 topbloglists.com
 topbucks.com
-topforall.com
 topgamesites.net
 toplist.cz
 toplist.pornhost.com
