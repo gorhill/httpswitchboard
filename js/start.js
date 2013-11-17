@@ -32,6 +32,9 @@ chrome.contentSettings.cookies.clear({});
 // https://github.com/gorhill/httpswitchboard/issues/37
 chrome.contentSettings.plugins.clear({});
 
+// For privacy reasons, ensure all exceptions are removed from settings.
+chrome.contentSettings.javascript.clear({});
+
 /******************************************************************************/
 
 function injectedCodeCallback(r) {
@@ -118,7 +121,7 @@ function onUpdatedTabsHandler(tabId, changeInfo, tab) {
     // request time since the url hasn't been set in the tab.
     // TODO: For subframe though, we might need to do it at web request time.
     //       Need to investigate using trace, doc does not say everything.
-    // console.debug('tabs.onUpdated > injecting code to check for at least one <script> tag');
+    // console.debug('tabs.onUpdated > injecting code to check for <script> tags');
     chrome.tabs.executeScript(
         tabId,
         {
@@ -146,9 +149,8 @@ chrome.tabs.onRemoved.addListener(onRemovedTabHandler);
 
 /******************************************************************************/
 
-// Could this fix:
-// https://github.com/gorhill/httpswitchboard/issues/53
-// ?
+// Might help.
+//   https://github.com/gorhill/httpswitchboard/issues/35
 
 function onBeforeNavigateCallback(details) {
     if ( details.url.search(/^https?:\/\//) < 0 ) {
@@ -157,8 +159,6 @@ function onBeforeNavigateCallback(details) {
     if ( HTTPSB.excludeRegex.test(details.url) ) {
         return;
     }
-    // Might help.
-    //   https://github.com/gorhill/httpswitchboard/issues/35
     var hostname = getHostnameFromURL(details.url);
     setJavascript(hostname, HTTPSB.whitelisted(details.url, 'script', hostname));
 }

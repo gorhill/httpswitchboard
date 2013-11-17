@@ -86,6 +86,11 @@ PermissionList.prototype.fromString = function(s) {
         if ( pattern.indexOf('|') < 0 ) {
             pattern = pattern.replace('/', '|');
         }
+        // rhill 2013-11-16: somehow (maybe during development), a
+        // 'undefined|*' made it to the storage..
+        if ( pattern === 'undefined|*' ) {
+            continue;
+        }
         if ( !this.list[pattern] ) {
             this.list[pattern] = true;
             this.count++;

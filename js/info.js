@@ -21,9 +21,12 @@
 
 /******************************************************************************/
 
+(function() {
+
+/******************************************************************************/
+
 var targetUrl = 'All';
 var maxRequests = 500;
-
 
 /******************************************************************************/
 
@@ -317,7 +320,7 @@ function targetUrlChangeHandler() {
 
 function initAll() {
     $('#version').html(gethttpsb().manifest.version);
-    $('a').prop('target', '_blank');
+    $('a:not([target])').prop('target', '_blank');
 
     // Event handlers
     $('#refresh-requests').on('click', renderRequests);
@@ -337,3 +340,6 @@ $(function(){
     initAll();
 });
 
+/******************************************************************************/
+
+})();

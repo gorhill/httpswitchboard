@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>HTTP Switchboard &mdash; Rule manager</title>
+<style>
+body {
+    padding: 0 0 8em 0;
+    font: 15px httpsb,sans-serif;
+    box-sizing: border-box;
+    }
+h3 + *, h1 + * {
+    margin: 0 2em;
+    }
+textarea {
+    width: 100%;
+    }
+textarea#recipeUgly {
+    height: 8em;
+    }
+textarea#recipeBeautiful {
+    height: 20em;
+    }
+textarea + div {
+    width: 100%;
+    }
+textarea + div > div {
+    display: inline-block;
+    width: calc(50% - 2px);
+    text-align: center;
+    }
+#recipeDecode, #recipeImport, #recipeEncode, #recipeExport {
+    display: inline-block;
+    width: 28px;
+    height: 32px;
+    cursor: pointer;
+    opacity: 0.5;
+    }
+#recipeDecode, #recipeImport {
+    background: url('img/import.png') no-repeat center center;
+    }
+#recipeEncode, #recipeExport {
+    background: url('img/export.png') no-repeat center center;
+    }
+#recipeDecode:hover, #recipeImport:hover, #recipeEncode:hover, #recipeExport:hover {
+    opacity: 1;
+    }
+.recipe {
+    margin: 2px;
+    border: 1px solid #ddd;
+    padding: 1px;
+    font-family: monospace;
+    font-size: smaller;
+    line-height: 110%;
+    color: #888;
+    background-color: #f2f2f2;
+    white-space: pre;
+    overflow-x: hidden;
+    }
+.scopes ul {
+    padding-left: 1em;
+    list-style: none;
+    }
+.scopes > ul {
+    padding: 0;
+    }
+.scopes > ul > li {
+    margin: 4px;
+    border: 1px dotted #ccc;
+    display: inline-block;
+    vertical-align: top;
+    }
+.scopes > ul > li:hover {
+    border: 1px solid #ccc;
+    }
+.scopes > ul > li > *:first-child {
+    margin: 0;
+    border: 0;
+    padding: 2px;
+    display: block;
+    }
+#global.scopes > ul > li > *:first-child {
+    background-color: #eee;
+    }
+#global.scopes > ul > li > ul > li > ul {
+    min-width: 16em;
+    }
+#perpage.scopes > ul > li > *:first-child {
+    background-color: #eef;
+    }
+#global.scopes > ul > li.scope > ul > li {
+    margin-left: 2em;
+    display: inline-block;
+    vertical-align: top;
+    }
+#global.scopes > ul > li.scope > ul > li:first-child {
+    margin-left: 0;
+    }
+.scopes > ul > li > .recipe {
+    margin: 1em 2px 2px 2px;
+    border: 1px solid #ddd;
+    padding: 1px;
+    font-size: 12px;
+    line-height: 110%;
+    display: inline-block;
+    vertical-align: bottom;
+    width: 20em;
+    height: 2em;
+    color: #888;
+    background-color: #f2f2f2;
+    white-space: pre;
+    overflow: hidden;
+    opacity: 0.25;
+    }
+.scopes > ul > li .recipe:hover {
+    opacity: 1.0;
+    }
+.scopes > ul > li > ul > li.white {
+    color: #080;
+    }
+.scopes > ul > li > ul > li.black {
+    color: #c00;
+    }
+.scopes > ul > li > ul > li.gray {
+    color: #aaa;
+    }
+.scopes > ul > li > ul > li > ul > li {
+    cursor: pointer;
+    }
+.scopes > ul > li > ul > li > ul > li:hover {
+    background-color: #eef;
+    }
+.scopes > ul > li > ul > li > ul > li > span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    float: right;
+    }
+.scopes > ul > li > ul > li > ul > li.rdp > span {
+    background: url('img/persist-rd.png') no-repeat;
+    }
+.scopes > ul > li > ul > li > ul > li.gdp > span {
+    background: url('img/persist-gd.png') no-repeat;
+    }
+.bad {
+    background-color: #fdd;
+    }
+</style>
+<link href='css/fonts.css' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+<h1>HTTP Switchboard &mdash; Rule manager</h1>
+<div>
+    <p>Consider this feature early <i>beta</i>, use at your own risk. Useful to backup
+    all of your rules.</p>
+    <h2>Recipe</h2>
+    <p>Hopefully geekier users will share their carefully crafted recipes
+    to help less geeky users.</p>
+    <div>
+        <textarea id="recipeUgly" class="recipe"></textarea>
+        <div>
+            <div>
+                <p>Decode recipe</p>
+                <div id="recipeDecode" title="Decode recipe"></div>
+            </div>
+            <div>
+                <div id="recipeEncode" title="Encode recipe"></div>
+                <p>Encode recipe</p>
+            </div>
+        </div>
+    </div>
+    <h2>Rules</h2>
+    <p>Syntax is very strict, only the most geeky users should risk editing here.
+    If you are importing a recipe from an untrusted source, be sure there is nothing
+    wrong with it (ex.: <b>* evil.com</b>)</p>
+    <div>
+        <textarea id="recipeBeautiful" class="recipe"></textarea>
+        <div>
+            <div>
+                <p>Import rules</p>
+                <div id="recipeImport" title="Import rules"></div>
+            </div>
+            <div>
+                <div id="recipeExport" title="Export rules"></div>
+                <p>Export rules</p>
+            </div>
+        </div>
+    </div>
+    <h2>Global permissions</h2>
+    <p>Here are the current rules which apply by default.</p>
+    <div class="scopes" id="global"></div>
+    <h2>Per-page permissions</h2>
+    <p>Here are the current rules which apply to specific web pages.</p>
+    <div class="scopes" id="perpage"></div>
+</div>
+
+<script src="lib/jquery-2.min.js"></script>
+<script src="js/rulemanager.js"></script>
+</body>
+</html>

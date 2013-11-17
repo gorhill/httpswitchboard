@@ -19,6 +19,12 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
+// TODO: cleanup
+
+/******************************************************************************/
+
+(function() {
+
 /******************************************************************************/
 
 function EntryStats() {
@@ -118,13 +124,38 @@ var HTTPSBPopup = {
     domainGroupsSnapshot: [],
     domainListSnapshot: 'do not leave this initial string empty',
 
+    mouseenterHandlers: {},
+
     dummy: 0
 };
 
 // Just so the background page will be notified when popup menu is closed
 var port = chrome.extension.connect();
 
-
+/******************************************************************************/
+/*
+function getSelectorFromElement(node) {
+    var path = [];
+    var tag, classes, parent, index;
+    while ( node ) {
+        if ( node.nodeType !== 1 ) {
+            break;
+        }
+        tag = node.localName;
+        if ( node.id ) {
+            path.unshift('#' + node.id);
+            break;
+        }
+        if ( node.className ) {
+            tag += '.' + node.className.split(/\s+/).sort().join('.');
+        }
+        parent = node.parentElement;
+        path.unshift(tag);
+        node = parent;
+    }
+    return path.join(' > ');
+}
+*/
 /******************************************************************************/
 
 // Don't hold permanently onto background page. I don't know if this help,
@@ -765,7 +796,7 @@ function makeMatrixGroup3(group) {
     if ( rootDomains.length ) {
         $('#templates .groupSeparator').clone()
             .addClass('g3Meta')
-            .toggleClass('hide', !!getUserSetting('popupHideBlacklisted'))
+            .toggleClass('g3Collapsed', !!getUserSetting('popupHideBlacklisted'))
             .appendTo('#matList');
         makeMatrixGroup3Section(Object.keys(group[rootDomains[0]].all).sort(domainNameCompare));
         for ( var iRoot = 1; iRoot < rootDomains.length; iRoot++ ) {
@@ -830,14 +861,12 @@ function initMenuEnvironment() {
 // Create page scopes for the web page
 
 function toggleScopePage() {
-    var toolbars = $('#toolbars');
-    var button = $('#buttonToggleScope');
-    button.tooltip('hide');
-    if ( toolbars.hasClass('scope-is-page') ) {
-        toolbars.removeClass('scope-is-page');
+    var toolbar = $('body');
+    if ( toolbar.hasClass('scope-is-page') ) {
+        toolbar.removeClass('scope-is-page');
         getHTTPSB().destroyPageScopeIfExists(HTTPSBPopup.pageURL);
     } else {
-        toolbars.addClass('scope-is-page');
+        toolbar.addClass('scope-is-page');
         getHTTPSB().createPageScopeIfNotExists(HTTPSBPopup.pageURL);
     }
     updateMatrixStats();
@@ -845,16 +874,12 @@ function toggleScopePage() {
 }
 
 function getScopePageButtonTip() {
-    var toolbars = $('#toolbars');
-    if ( toolbars.hasClass('scope-is-page') ) {
-        return 'Remove all permissions specific to <span style="border-bottom:1px dotted #aaa;">' +
-            HTTPSBPopup.scopeURL +
-            '</span>';
+    var toolbar = $('body');
+    if ( toolbar.hasClass('scope-is-page') ) {
+        return 'Remove all permissions specific to <b>' + HTTPSBPopup.scopeURL + '</b>';
     }
     return 'Create permissions specific to web pages which URL starts exactly with ' +
-        '<span style="border-bottom:1px dotted #aaa;">' +
-        HTTPSBPopup.scopeURL +
-        '</span>';
+        '<b>' + HTTPSBPopup.scopeURL + '</b>';
 }
 
 /******************************************************************************/
@@ -866,15 +891,15 @@ function getScopePageButtonTip() {
 var mouseOverPrompts = {
     '+**': 'Click to <span class="gdt">allow</span> all graylisted types and domains',
     '-**': 'Click to <span class="rdt">block</span> all graylisted types and domains',
-    '+?*': 'Click to <span class="gdt">allow</span> <strong>{{what}}</strong> from <strong>everywhere</strong> except blacklisted domains',
-    '+*?': 'Click to <span class="gdt">allow</span> <strong>everything</strong> from <strong>{{where}}</strong>',
-    '+??': 'Click to <span class="gdt">allow</span> <strong>{{what}}</strong> from <strong>{{where}}</strong>',
-    '-?*': 'Click to <span class="rdt">block</span> <strong>{{what}}</strong> from <strong>everywhere</strong> except whitelisted domains',
-    '-*?': 'Click to <span class="rdt">block</span> <strong>everything</strong> from <strong>{{where}}</strong>',
-    '-??': 'Click to <span class="rdt">block</span> <strong>{{what}}</strong> from <strong>{{where}}</strong>',
-    '.?*': 'Click to graylist <strong>{{what}}</strong> from <strong>everywhere</strong>',
-    '.*?': 'Click to graylist <strong>everything</strong> from <strong>{{where}}</strong>',
-    '.??': 'Click to graylist <strong>{{what}}</strong> from <strong>{{where}}</strong>'
+    '+?*': 'Click to <span class="gdt">allow</span> <b>{{what}}</b> from <b>everywhere</b> except blacklisted domains',
+    '+*?': 'Click to <span class="gdt">allow</span> <b>everything</b> from <b>{{where}}</b>',
+    '+??': 'Click to <span class="gdt">allow</span> <b>{{what}}</b> from <b>{{where}}</b>',
+    '-?*': 'Click to <span class="rdt">block</span> <b>{{what}}</b> from <b>everywhere</b> except whitelisted domains',
+    '-*?': 'Click to <span class="rdt">block</span> <b>everything</b> from <b>{{where}}</b>',
+    '-??': 'Click to <span class="rdt">block</span> <b>{{what}}</b> from <b>{{where}}</b>',
+    '.?*': 'Click to graylist <b>{{what}}</b> from <b>everywhere</b>',
+    '.*?': 'Click to graylist <b>everything</b> from <b>{{where}}</b>',
+    '.??': 'Click to graylist <b>{{what}}</b> from <b>{{where}}</b>'
 };
 
 function handleFilterMessage(hotspot, leaning) {
@@ -984,6 +1009,17 @@ function bindToTabHandler(tabs) {
 
 /******************************************************************************/
 
+function mouseenterHandler() {
+    var handler = mouseenterHandlers[this.id];
+    if ( handler ) {
+        handler(this);
+    } else {
+        blankMessage();
+    }
+}
+
+/******************************************************************************/
+
 // make menu only when popup html is fully loaded
 
 function initAll() {
@@ -1007,16 +1043,17 @@ function initAll() {
         handleUnpersistence($(this));
         return false;
     });
+
+    // '#persist'
     $('span:nth-of-type(1)', popup.matrixCellMenu).on('mouseenter', function() {
         handlePersistMessage($(this));
         return false;
     });
-    // to display useful message
+    // '#unpersist'
     $('span:nth-of-type(2)', popup.matrixCellMenu).on('mouseenter', function() {
         handleUnpersistMessage($(this));
         return false;
     });
-
 
     // We reuse for all cells the one and only cell hotspots.
     popup.matrixCellHotspots = $('#cellHotspots').detach();
@@ -1028,10 +1065,12 @@ function initAll() {
         handleBlacklistFilter($(this));
         return false;
     });
+    // '#whitelist'
     $('div:nth-of-type(1)', popup.matrixCellHotspots).on('mouseenter', function() {
         handleWhitelistFilterMessage($(this));
         return false;
     });
+    // '#blacklist'
     $('div:nth-of-type(2)', popup.matrixCellHotspots).on('mouseenter', function() {
         handleBlacklistFilterMessage($(this));
         return false;
@@ -1042,7 +1081,6 @@ function initAll() {
         popup.matrixCellHotspots.prependTo(this);
         popup.matrixCellMenu.prependTo(this);
     });
-
     // to detach widgets from matrix cell and blank message
     $('body').on('mouseleave', '.matCell', function() {
         popup.matrixCellHotspots.detach();
@@ -1050,52 +1088,27 @@ function initAll() {
         blankMessage();
     });
 
+    $('#buttonToggleScope').on('mouseenter', function() {
+        $('#message').html(getScopePageButtonTip());
+    });
+    $('#buttonToggleScope').on('mouseleave', blankMessage);
+    $('#buttonRevert').on('mouseenter', function() {
+        $('#message').html('Clear all temporary rules &mdash; those which are not padlocked');
+    });
+    $('#buttonRevert').on('mouseleave', blankMessage);
+
     $('#buttonToggleScope').on('click', toggleScopePage);
     $('#buttonRevert').on('click', revert);
-    $('#buttonInfo').on('click', function() {
-        chrome.runtime.sendMessage({ what: 'gotoExtensionUrl', url: 'info.html' });
-    });
-    $('#buttonSettings').on('click', function() {
-        chrome.runtime.sendMessage({ what: 'gotoExtensionUrl', url: 'settings.html' });
-    });
 
     $('#matList').on('click', '.groupSeparator.g3Meta', function() {
         var separator = $(this);
-        separator.toggleClass('hide');
+        separator.toggleClass('g3Collapsed');
         chrome.runtime.sendMessage({
             what: 'userSettings',
             name: 'popupHideBlacklisted',
-            value: separator.hasClass('hide')
+            value: separator.hasClass('g3Collapsed')
         });
     });
-
-    // Tooltips
-    // TODO: localize
-    var tips = [
-        {   sel: '#buttonToggleScope',
-            tip: getScopePageButtonTip
-            },
-        {   sel: '#buttonRevert',
-            tip: 'Undo all temporary changes &mdash; those which were not padlocked'
-            },
-        {   sel: '#buttonInfo',
-            tip: 'Statistics and detailed net requests'
-            },
-        {   sel: '#buttonSettings',
-            tip: 'Settings: how HTTP&nbsp;Switchboard behaves'
-            }
-        ];
-    var i = tips.length;
-    while ( i-- ) {
-        $(tips[i].sel).tooltip({
-            html: true,
-            placement: 'auto bottom',
-            trigger: 'hover',
-            delay: { show: 750, hide: 0 },
-            container: 'body',
-            title: tips[i].tip
-        });
-    }
 }
 
 /******************************************************************************/
@@ -1105,3 +1118,7 @@ function initAll() {
 $(function(){
     initAll();
 });
+
+/******************************************************************************/
+
+})();

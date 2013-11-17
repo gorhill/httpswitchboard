@@ -39,7 +39,10 @@ HTTPSB.normalizeScopeURL = function(url) {
 /******************************************************************************/
 
 HTTPSB.createPageScopeIfNotExists = function(url) {
-    if ( !url || url === '*' ) {
+    if ( url && url === '*' ) {
+        return true;
+    }
+    if ( !url ) {
         return false;
     }
     url = getRootURLFromURL(url);

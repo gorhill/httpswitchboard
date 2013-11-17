@@ -48,6 +48,21 @@ function getHostnameFromURL(url) {
 
 /******************************************************************************/
 
+// Validate hostname
+
+function isValidHostname(hostname) {
+    var r;
+    try {
+        r = globalURI.hostname(hostname).hostname() === hostname;
+    }
+    catch (e) {
+        return false;
+    }
+    return r;
+}
+
+/******************************************************************************/
+
 // extract domain from url
 
 function getDomainFromURL(url) {
@@ -78,6 +93,12 @@ function getUrlProtocol(url) {
 function getRootURLFromURL(url) {
     var uri = globalURI.href(url);
     return uri.scheme() + '://' + uri.hostname();
+}
+
+function isValidRootURL(url) {
+    var uri = globalURI.href(url);
+    var rootUrl = uri.scheme() + '://' + uri.hostname();
+    return url === rootUrl;
 }
 
 /******************************************************************************/
@@ -121,13 +142,14 @@ function setJavascriptCallback(windows, hostname, setting) {
 function setJavascript(hostname, state) {
     var hostname = '*://' + hostname + '/*';
     var setting = state ? 'allow' : 'block';
-    // https://github.com/gorhill/httpswitchboard/issues/53
-    // Until chromium fixes:
-    //   https://code.google.com/p/chromium/issues/detail?id=319400
     chrome.contentSettings.javascript.set({
         primaryPattern: hostname,
         setting: setting
     });
+    // Apply to incognito scope as well:
+    // https://github.com/gorhill/httpswitchboard/issues/53
+    // Until chromium fixes:
+    //   https://code.google.com/p/chromium/issues/detail?id=319400
     chrome.windows.getAll(function(windows) {
         setJavascriptCallback(windows, hostname, setting);
     });
