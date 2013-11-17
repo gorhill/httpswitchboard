@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>HTTP Switchboard &mdash; Settings</title>
+<title>HTTP Switchboard — Settings</title>
 <style>
 body {
     padding: 0 0 20em 0;
@@ -15,12 +16,39 @@ h3 + *, h1 + * {
     font-weight: 100;
     color: #888;
     }
+img {vertical-align: middle;}
+
+.divVisible {
+	display:block;
+	border-width: 1px;
+	border-color: black;
+	border-style: dotted;
+	background-color: #F8F8F8;
+	padding-left:15px;
+	}
+.divWarn {
+	background-color: #FEDAE0;
+	padding:10px 10px 10px 25px;
+	}
+.divHidden {display:none;}
 </style>
+<script language="javascript" type="text/javascript">
+
+function moreInfo(divID) {
+
+	var divObject = document.getElementById(divID);
+
+	if (divObject.className == "divVisible")
+		divObject.className = "divHidden";
+	else
+		divObject.className = "divVisible";
+}
+</script>
 <link href='css/fonts.css' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
-<h1>HTTP Switchboard &mdash; Settings</h1>
+<h1>HTTP Switchboard — Settings</h1>
 
 <div>
     Under construction.
@@ -34,7 +62,12 @@ h3 + *, h1 + * {
         </div>
 
     <h2>Strict blocking</h2>
-    <div>
+	<ul style="list-style-type:none">
+		<li>
+			<input id="strict-blocking" type="checkbox" value="">Enable strict blocking. <img src="data:image/gif;base64,R0lGODlhFwAXAPcAAP///z+HxUuf6r3N3ECHxkCIxkGKykCKyUt0oEOP0kqe6DF1s0KNz3+XwAk6hzyCwQlCfUGNzgo8iUKNzkGMzXyVvkWT2EOO0EaW3Emc5Eqe5w9CjkaU2ESR1Uue6ZCmyEqd5dzj7kSQ0kWT15mtzUiZ4FN0qkaY4xlYlejs9LPC2kmc5USS1wg4hkia4RhXlC5xrkOQ00CJx0ma4kCJyDpol0ptpkWU2vb4+0aV2zlfnZaqy4efxBdUkIqhxvz9/rnH3RhWkxhRnhlSn2SCsz6K0i1tsBtbmmuOsTl/vkqe6XCMuSVhp0ONzsjS5ECKyx9apEOO0YKawTBxtEKN0CtrrhlRmq291xpamUaX3tPc6Tl+vidnsyBbpTV5tyNjoDqDySNkoTN8vUeW219+sBlXlQ0/jDeByjZ6unmTvRhWkjl+wBhVkBBDjxtHj0SS2kGO1BFGkzV5ujuBwIynwihpth9fnDaBxydkqR5Yn0SR0xpbmTN5wRlYlkeZ4RhVkRBEkiFdo22Jt0eY4BpZlgs9ii1WmGGAsZyvzg1IhBpZmHyauhdOlyRPk7bE252zy0qc5StvrzJ5xTN2t1ByqTqCwkGMzDF2s+Xq8ihnrTZ/y1l5rQ9DkRxVnRlPhvDz+ClnrBVSkE1vp0eY3hFHlDBwtD2J0iViqDF1uzmF0Nng7DuBwRpbmg1AjDR5tzxhnzh9vTd6u3aQvGqHthVLlTqFzEGLyxpZlxpamERooxdPmC9ws87Z5cLO4SRgpu/y9jNamx5KkHOOuilorSNfpSpprQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAAAAAAALAAAAAAXABcAAAj/AAEIHAggBI9cOtzooIQoBcGHA50cilMnlak3tfh0MSMrBMSBDThJEiDAg4YMJcaMYJBJwoePS4ScICngDissisRwENFkzQYpDxsMUUJTwJEBSAlx0MPAwKoNJAYCATSzKISBEHZOMFBAjgOHAExoKkryqkAIIxJEOFAgALEKAFSRIksy0S8AvEJ1uEDhQIAADxzg8MFFgQeaHhTsGQBgAIoYVGzR+BtAlyMbZ0BoUMBZAwhcjAeUiRKBK+VTaQwVmZFhBaQVGWbcCv2CgaXJlI1sCgZnVAkXLvwMytIndJC+bSlPsQEMzI0cGKLnuIEitBoDMij/rULGBKoOLCyItWfR4QXjR3ayaw/gqwEJKBcSJIgh/0IkJIsQXFr/lxEQTK08EcEEDEwQAQWVhPEHGzDwl0QLPwAgyDAHGGDhAQd8QQdSNXhBwIcEBJAHDwJpIQEsBaTYVg+MAYDAAiASsAuEA33QxhzasSjQiyDGIoEKQW2ABmUw1IAAAp488GEphezw0Q4OBPLAX64ssICSW3QiCpAfAfBJBQ5YgUcxk4DCBC2N+NDlQzhcIQwRr8xSQS9dBgQAOw==" border=0 onclick="return moreInfo('ESB')"/>
+		</li>
+	</ul>
+    <div class="divHidden" id="ESB">
         <p><strong><a href="https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated">Strict blocking</a></strong>,
         introduced in <a href="https://github.com/gorhill/httpswitchboard/wiki/Change-log#036">version 0.3.6</a>,
         means that even
@@ -47,13 +80,20 @@ h3 + *, h1 + * {
         <p><strong>Strict blocking off</strong>: blacklisted types of request (if any)
         for a whitelisted hostname are allowed (unless you explicitly blacklist
         specifically these types of request for the whitelisted hostname.)</p>
-        <ul style="list-style-type:none">
-        <li><input id="strict-blocking" type="checkbox" value="">Enable strict blocking.
-        </ul>
-        </div>
+	</div>
 
     <h2>Cookies</h2>
-    <div>
+	<ul style="list-style-type:none">
+        <li>
+			<input id="delete-blacklisted-cookies" type="checkbox" value="">Delete cookies
+			<span class="dim">(<span id="cookie-removed-counter">0</span> cookie(s) removed so far).</span></li>
+		<li>
+			<input id="delete-blacklisted-localstorage" type="checkbox" value="">Delete contents of
+            <a href="http://en.wikipedia.org/wiki/Web_storage">local storage</a>
+            <span class="dim">(<span id="localstorage-removed-counter">0</span> local storage(s) emptied so far).</span> <img src="data:image/gif;base64,R0lGODlhFwAXAPcAAP///z+HxUuf6r3N3ECHxkCIxkGKykCKyUt0oEOP0kqe6DF1s0KNz3+XwAk6hzyCwQlCfUGNzgo8iUKNzkGMzXyVvkWT2EOO0EaW3Emc5Eqe5w9CjkaU2ESR1Uue6ZCmyEqd5dzj7kSQ0kWT15mtzUiZ4FN0qkaY4xlYlejs9LPC2kmc5USS1wg4hkia4RhXlC5xrkOQ00CJx0ma4kCJyDpol0ptpkWU2vb4+0aV2zlfnZaqy4efxBdUkIqhxvz9/rnH3RhWkxhRnhlSn2SCsz6K0i1tsBtbmmuOsTl/vkqe6XCMuSVhp0ONzsjS5ECKyx9apEOO0YKawTBxtEKN0CtrrhlRmq291xpamUaX3tPc6Tl+vidnsyBbpTV5tyNjoDqDySNkoTN8vUeW219+sBlXlQ0/jDeByjZ6unmTvRhWkjl+wBhVkBBDjxtHj0SS2kGO1BFGkzV5ujuBwIynwihpth9fnDaBxydkqR5Yn0SR0xpbmTN5wRlYlkeZ4RhVkRBEkiFdo22Jt0eY4BpZlgs9ii1WmGGAsZyvzg1IhBpZmHyauhdOlyRPk7bE252zy0qc5StvrzJ5xTN2t1ByqTqCwkGMzDF2s+Xq8ihnrTZ/y1l5rQ9DkRxVnRlPhvDz+ClnrBVSkE1vp0eY3hFHlDBwtD2J0iViqDF1uzmF0Nng7DuBwRpbmg1AjDR5tzxhnzh9vTd6u3aQvGqHthVLlTqFzEGLyxpZlxpamERooxdPmC9ws87Z5cLO4SRgpu/y9jNamx5KkHOOuilorSNfpSpprQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAAAAAAALAAAAAAXABcAAAj/AAEIHAggBI9cOtzooIQoBcGHA50cilMnlak3tfh0MSMrBMSBDThJEiDAg4YMJcaMYJBJwoePS4ScICngDissisRwENFkzQYpDxsMUUJTwJEBSAlx0MPAwKoNJAYCATSzKISBEHZOMFBAjgOHAExoKkryqkAIIxJEOFAgALEKAFSRIksy0S8AvEJ1uEDhQIAADxzg8MFFgQeaHhTsGQBgAIoYVGzR+BtAlyMbZ0BoUMBZAwhcjAeUiRKBK+VTaQwVmZFhBaQVGWbcCv2CgaXJlI1sCgZnVAkXLvwMytIndJC+bSlPsQEMzI0cGKLnuIEitBoDMij/rULGBKoOLCyItWfR4QXjR3ayaw/gqwEJKBcSJIgh/0IkJIsQXFr/lxEQTK08EcEEDEwQAQWVhPEHGzDwl0QLPwAgyDAHGGDhAQd8QQdSNXhBwIcEBJAHDwJpIQEsBaTYVg+MAYDAAiASsAuEA33QxhzasSjQiyDGIoEKQW2ABmUw1IAAAp488GEphezw0Q4OBPLAX64ssICSW3QiCpAfAfBJBQ5YgUcxk4DCBC2N+NDlQzhcIQwRr8xSQS9dBgQAOw==" border=0 onclick="return moreInfo('DCL')"/>
+        </li>
+	</ul>
+	<div id="DCL" class="divHidden">
         <p>Blacklisted cookies are not prevented by <i>HTTP Switchboard</i> from entering
         your browser. However they are prevented from leaving your browser, which
         is what really matters. Not blocking cookies before they enter your browser
@@ -61,17 +101,15 @@ h3 + *, h1 + * {
         and furthermore to inspect their contents if you wish.</p>
         <p>Once these blacklisted cookies have been accounted for by <i>HTTP Switchboard</i>,
         they can be removed from your browser if you wish so:</p>
-        <ul style="list-style-type:none">
-        <li><input id="delete-blacklisted-cookies" type="checkbox" value="">Delete cookies
-            <span class="dim">(<span id="cookie-removed-counter">0</span> cookie(s) removed so far).</span>
-        <li><input id="delete-blacklisted-localstorage" type="checkbox" value="">Delete contents of
-            <a href="http://en.wikipedia.org/wiki/Web_storage">local storage</a>
-            <span class="dim">(<span id="localstorage-removed-counter">0</span> local storage(s) emptied so far).</span>.
-        </ul>
-        </div>
+    </div>
 
     <h2>Chromium: behind-the-scene requests</h2>
-    <div>
+	<ul style="list-style-type:none">
+        <li>
+			<input id="process-behind-the-scene" type="checkbox" value="">Process <strong>behind-the-scene</strong> HTTP requests. <img src="data:image/gif;base64,R0lGODlhFwAXAPcAAP///z+HxUuf6r3N3ECHxkCIxkGKykCKyUt0oEOP0kqe6DF1s0KNz3+XwAk6hzyCwQlCfUGNzgo8iUKNzkGMzXyVvkWT2EOO0EaW3Emc5Eqe5w9CjkaU2ESR1Uue6ZCmyEqd5dzj7kSQ0kWT15mtzUiZ4FN0qkaY4xlYlejs9LPC2kmc5USS1wg4hkia4RhXlC5xrkOQ00CJx0ma4kCJyDpol0ptpkWU2vb4+0aV2zlfnZaqy4efxBdUkIqhxvz9/rnH3RhWkxhRnhlSn2SCsz6K0i1tsBtbmmuOsTl/vkqe6XCMuSVhp0ONzsjS5ECKyx9apEOO0YKawTBxtEKN0CtrrhlRmq291xpamUaX3tPc6Tl+vidnsyBbpTV5tyNjoDqDySNkoTN8vUeW219+sBlXlQ0/jDeByjZ6unmTvRhWkjl+wBhVkBBDjxtHj0SS2kGO1BFGkzV5ujuBwIynwihpth9fnDaBxydkqR5Yn0SR0xpbmTN5wRlYlkeZ4RhVkRBEkiFdo22Jt0eY4BpZlgs9ii1WmGGAsZyvzg1IhBpZmHyauhdOlyRPk7bE252zy0qc5StvrzJ5xTN2t1ByqTqCwkGMzDF2s+Xq8ihnrTZ/y1l5rQ9DkRxVnRlPhvDz+ClnrBVSkE1vp0eY3hFHlDBwtD2J0iViqDF1uzmF0Nng7DuBwRpbmg1AjDR5tzxhnzh9vTd6u3aQvGqHthVLlTqFzEGLyxpZlxpamERooxdPmC9ws87Z5cLO4SRgpu/y9jNamx5KkHOOuilorSNfpSpprQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAAAAAAALAAAAAAXABcAAAj/AAEIHAggBI9cOtzooIQoBcGHA50cilMnlak3tfh0MSMrBMSBDThJEiDAg4YMJcaMYJBJwoePS4ScICngDissisRwENFkzQYpDxsMUUJTwJEBSAlx0MPAwKoNJAYCATSzKISBEHZOMFBAjgOHAExoKkryqkAIIxJEOFAgALEKAFSRIksy0S8AvEJ1uEDhQIAADxzg8MFFgQeaHhTsGQBgAIoYVGzR+BtAlyMbZ0BoUMBZAwhcjAeUiRKBK+VTaQwVmZFhBaQVGWbcCv2CgaXJlI1sCgZnVAkXLvwMytIndJC+bSlPsQEMzI0cGKLnuIEitBoDMij/rULGBKoOLCyItWfR4QXjR3ayaw/gqwEJKBcSJIgh/0IkJIsQXFr/lxEQTK08EcEEDEwQAQWVhPEHGzDwl0QLPwAgyDAHGGDhAQd8QQdSNXhBwIcEBJAHDwJpIQEsBaTYVg+MAYDAAiASsAuEA33QxhzasSjQiyDGIoEKQW2ABmUw1IAAAp488GEphezw0Q4OBPLAX64ssICSW3QiCpAfAfBJBQ5YgUcxk4DCBC2N+NDlQzhcIQwRr8xSQS9dBgQAOw==" border=0 onclick="return moreInfo('BTSR')"/>
+		</li>
+	</ul>
+    <div id="BTSR" class="divHidden">
         <p>According to <a href="http://www.google.com/intl/en/chrome/browser/privacy/whitepaper.html">Google Chrome Privacy Whitepaper</a>,
         <i>Chromium</i> might send HTTP requests to <i>Google</i> without the user
         expressly visiting a web page. Let's call these special requests
@@ -81,9 +119,7 @@ h3 + *, h1 + * {
         <p><i>HTTP Switchboard</i> let you
         intercept and treat these requests like any other request: they can be
         processed in order to allow/block them as per your whitelist/blacklist.</p>
-        <ul style="list-style-type:none">
-        <li><input id="process-behind-the-scene" type="checkbox" value="">Process <strong>behind-the-scene</strong> HTTP requests.
-        </ul>
+    <div id="WARN" class="divWarn">
         <p><span style="color:red;font-weight:bold">Beware!</span> Potentially
         blocking <strong>behind-the-scene</strong> net requests is currently causing
         <a href="https://github.com/gorhill/httpswitchboard/issues/27">an issue</a>
@@ -93,10 +129,12 @@ h3 + *, h1 + * {
         installed extensions to not work properly (those querying for remote data).</p>
         <p>Even if this feature is not enabled, <strong>behind-the-scene</strong> requests
         are still logged by <i>HTTP Switchboard</i>, so that you can at least inspect them
-        (from the <a href="info.html" target="httpsb">Stats</a> page).
-        </div>
+        (from the <a href="chrome-extension://mghdpehejfekicfjcdbfofhcmnjhgaag/info.html">Stats</a> page).
+        </p>
+	</div></div>
 
-<script src="lib/jquery-2.min.js"></script>
-<script src="js/settings.js"></script>
-</body>
-</html>
+<script src="chrome-extension://mghdpehejfekicfjcdbfofhcmnjhgaag/lib/jquery-2.min.js"></script>
+<script src="chrome-extension://mghdpehejfekicfjcdbfofhcmnjhgaag/js/settings.js"></script>
+
+
+</div></body></html>
