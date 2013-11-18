@@ -1,26 +1,69 @@
 <!DOCTYPE html>
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>HTTP Switchboard &mdash; Settings</title>
+<title>HTTP Switchboard — Settings</title>
 <style>
 body {
     padding: 0 0 20em 0;
     font: 15px httpsb,sans-serif;
     width: 640px;
     }
-h3 + *, h1 + * {
-    margin-left: 2em;
+h2 + *, h1 + * {
+    margin: 0 0 0 1em;
+    padding: 0;
+    }
+div > p:first-child {
+    margin-top: 0;
+    }
+div > p:last-child {
+    margin-bottom: 0;
+    }
+ul {
+    padding: 0;
+    list-style-type: none;
+    }
+ul > li {
+    margin: 0 0 0 1em;
     }
 .dim {
     font-weight: 100;
     color: #888;
+    }
+.whatisthis {
+    margin: 0 0 0 8px;
+    border: 0;
+    padding: 0 0 4px 0;
+    width: 16px;
+    height: 16px;
+    background: url('img/help16.png') no-repeat right bottom 1px;
+    cursor: pointer;
+    opacity: 0.5;
+    }
+.whatisthis:hover {
+    opacity: 1.0;
+    }
+.expandable {
+    margin: 0.5em 0 1em 1.25em;
+    padding: 0.5em;
+    display: none;
+    border: 1px dotted black;
+    background-color: #F8F8F8;
+    }
+.expandable.expanded {
+    display: block;
+    }
+.warn {
+    margin: 0;
+    padding: 5px;
+    background-color: #FEDAE0;
     }
 </style>
 <link href='css/fonts.css' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
-<h1>HTTP Switchboard &mdash; Settings</h1>
+<h1>HTTP Switchboard — Settings</h1>
 
 <div>
     Under construction.
@@ -34,69 +77,77 @@ h3 + *, h1 + * {
         </div>
 
     <h2>Strict blocking</h2>
-    <div>
-        <p><strong><a href="https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated">Strict blocking</a></strong>,
-        introduced in <a href="https://github.com/gorhill/httpswitchboard/wiki/Change-log#036">version 0.3.6</a>,
-        means that even
-        if you whitelist a specific hostname, blacklisted type of requests (<i>plugins</i>,
-        <i>frames</i>, etc.) will remain blacklisted. For some users this maybe
-        too bothersome, hence this switch.</p>
-        <p><strong>Strict blocking on</strong>: blacklisted types of request (if any)
-        for a whitelisted hostname are blocked (unless you explicitly whitelist
-        specifically these types of request for the whitelisted hostname.)</p>
-        <p><strong>Strict blocking off</strong>: blacklisted types of request (if any)
-        for a whitelisted hostname are allowed (unless you explicitly blacklist
-        specifically these types of request for the whitelisted hostname.)</p>
-        <ul style="list-style-type:none">
-        <li><input id="strict-blocking" type="checkbox" value="">Enable strict blocking.
-        </ul>
-        </div>
+    <ul>
+        <li>
+            <input id="strict-blocking" type="checkbox" value="">Enable strict blocking. <button class="whatisthis"></button>
+            <div class="expandable">
+            <p><strong><a href="https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated">Strict blocking</a></strong>,
+            introduced in <a href="https://github.com/gorhill/httpswitchboard/wiki/Change-log#036">version 0.3.6</a>,
+            means that even
+            if you whitelist a specific hostname, blacklisted type of requests (<i>plugins</i>,
+            <i>frames</i>, etc.) will remain blacklisted. For some users this maybe
+            too bothersome, hence this switch.</p>
+            <p><strong>Strict blocking on</strong>: blacklisted types of request (if any)
+            for a whitelisted hostname are blocked (unless you explicitly whitelist
+            specifically these types of request for the whitelisted hostname.)</p>
+            <p><strong>Strict blocking off</strong>: blacklisted types of request (if any)
+            for a whitelisted hostname are allowed (unless you explicitly blacklist
+            specifically these types of request for the whitelisted hostname.)</p>
+            </div>
+    </ul>
 
     <h2>Cookies</h2>
-    <div>
-        <p>Blacklisted cookies are not prevented by <i>HTTP Switchboard</i> from entering
-        your browser. However they are prevented from leaving your browser, which
-        is what really matters. Not blocking cookies before they enter your browser
-        gives you the opportunity to be informed that a site tried to use cookies,
-        and furthermore to inspect their contents if you wish.</p>
-        <p>Once these blacklisted cookies have been accounted for by <i>HTTP Switchboard</i>,
-        they can be removed from your browser if you wish so:</p>
-        <ul style="list-style-type:none">
-        <li><input id="delete-blacklisted-cookies" type="checkbox" value="">Delete cookies
-            <span class="dim">(<span id="cookie-removed-counter">0</span> cookie(s) removed so far).</span>
-        <li><input id="delete-blacklisted-localstorage" type="checkbox" value="">Delete contents of
+    <ul>
+        <li>
+            <input id="delete-blacklisted-cookies" type="checkbox" value="">Delete cookies
+            <span class="dim">(<span id="cookie-removed-counter">0</span> cookie(s) removed so far).</span> <button class="whatisthis"></button>
+            <div class="expandable">
+                <p>Blacklisted cookies are not prevented by <i>HTTP Switchboard</i> from entering
+                your browser. However they are prevented from leaving your browser, which
+                is what really matters. Not blocking cookies before they enter your browser
+                gives you the opportunity to be informed that a site tried to use cookies,
+                and furthermore to inspect their contents if you wish.</p>
+                <p>Once these blacklisted cookies have been accounted for by <i>HTTP Switchboard</i>,
+                they can be removed from your browser if you wish so:</p>
+            </div>
+        <li>
+            <input id="delete-blacklisted-localstorage" type="checkbox" value="">Delete contents of
             <a href="http://en.wikipedia.org/wiki/Web_storage">local storage</a>
-            <span class="dim">(<span id="localstorage-removed-counter">0</span> local storage(s) emptied so far).</span>.
-        </ul>
-        </div>
+            <span class="dim">(<span id="localstorage-removed-counter">0</span> local storage(s) emptied so far).</span>
+    </ul>
 
     <h2>Chromium: behind-the-scene requests</h2>
-    <div>
-        <p>According to <a href="http://www.google.com/intl/en/chrome/browser/privacy/whitepaper.html">Google Chrome Privacy Whitepaper</a>,
-        <i>Chromium</i> might send HTTP requests to <i>Google</i> without the user
-        expressly visiting a web page. Let's call these special requests
-        <strong>behind-the-scene</strong>
-        requests. Also, other installed browser extensions can send 
-        <strong>behind-the-scene</strong> HTTP requests.</p>
-        <p><i>HTTP Switchboard</i> let you
-        intercept and treat these requests like any other request: they can be
-        processed in order to allow/block them as per your whitelist/blacklist.</p>
-        <ul style="list-style-type:none">
-        <li><input id="process-behind-the-scene" type="checkbox" value="">Process <strong>behind-the-scene</strong> HTTP requests.
-        </ul>
-        <p><span style="color:red;font-weight:bold">Beware!</span> Potentially
-        blocking <strong>behind-the-scene</strong> net requests is currently causing
-        <a href="https://github.com/gorhill/httpswitchboard/issues/27">an issue</a>
-        when the user wants to install an extension from the Chrome store (including
-        maybe preventing extensions from being updated), hence
-        the ability to disable the feature here. Blocking can also cause other
-        installed extensions to not work properly (those querying for remote data).</p>
-        <p>Even if this feature is not enabled, <strong>behind-the-scene</strong> requests
-        are still logged by <i>HTTP Switchboard</i>, so that you can at least inspect them
-        (from the <a href="info.html" target="httpsb">Stats</a> page).
-        </div>
-
+    <ul>
+        <li>
+            <input id="process-behind-the-scene" type="checkbox" value="">Process <strong>behind-the-scene</strong> HTTP requests. <button class="whatisthis"></button>
+            <div class="expandable">
+                <p>According to <a href="http://www.google.com/intl/en/chrome/browser/privacy/whitepaper.html">Google Chrome Privacy Whitepaper</a>,
+                <i>Chromium</i> might send HTTP requests to <i>Google</i> without the user
+                expressly visiting a web page. Let's call these special requests
+                <strong>behind-the-scene</strong>
+                requests. Also, other installed browser extensions can send 
+                <strong>behind-the-scene</strong> HTTP requests.</p>
+                <p><i>HTTP Switchboard</i> let you
+                intercept and treat these requests like any other request: they can be
+                processed in order to allow/block them as per your whitelist/blacklist.</p>
+                <div class="warn">
+                <p><span style="color:red; font-weight:bold">Beware!</span> Potentially
+                blocking <strong>behind-the-scene</strong> net requests is currently causing
+                <a href="https://github.com/gorhill/httpswitchboard/issues/27">an issue</a>
+                when the user wants to install an extension from the Chrome store (including
+                maybe preventing extensions from being updated), hence
+                the ability to disable the feature here. Blocking can also cause other
+                installed extensions to not work properly (those querying for remote data).</p>
+                <p>Even if this feature is not enabled, <strong>behind-the-scene</strong> requests
+                are still logged by <i>HTTP Switchboard</i>, so that you can at least inspect them
+                (from the <a href="info.html">Stats</a> page).
+                </p>
+                </div>
+            </div>
+    </ul>
 <script src="lib/jquery-2.min.js"></script>
 <script src="js/settings.js"></script>
+
+</div>
 </body>
 </html>

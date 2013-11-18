@@ -21,6 +21,10 @@
 
 /******************************************************************************/
 
+(function() {
+
+/******************************************************************************/
+
 function gethttpsb() {
     return chrome.extension.getBackgroundPage().HTTPSB;
 }
@@ -67,6 +71,14 @@ function initAll() {
     $('#strict-blocking').on('change', function(){
         changeUserSettings('strictBlocking', $(this).is(':checked'));
     });
+
+    $('.whatisthis').on('click', function() {
+        var help = $(this).parents('li')
+            .first()
+            .find('.expandable')
+            .first();
+        help.toggleClass('expanded', !help.hasClass('expanded'));
+    });
 }
 
 /******************************************************************************/
@@ -74,3 +86,7 @@ function initAll() {
 $(function() {
     initAll();
 });
+
+/******************************************************************************/
+
+})();
