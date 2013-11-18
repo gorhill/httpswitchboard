@@ -815,7 +815,7 @@ function makeMenu() {
     initMatrixStats();
     var groupStats = getGroupStats();
 
-    $('#message').html(formatHeader(HTTPSBPopup.pageURL));
+    showMessage(formatHeader(HTTPSBPopup.pageURL));
 
     if ( Object.keys(groupStats).length === 0 ) {
         return;
@@ -876,9 +876,9 @@ function toggleScopePage() {
 function getScopePageButtonTip() {
     var toolbar = $('body');
     if ( toolbar.hasClass('scope-is-page') ) {
-        return 'Remove all permissions specific to <b>' + HTTPSBPopup.scopeURL + '</b>';
+        return 'Remove all rules specific to <b>' + HTTPSBPopup.scopeURL + '</b>';
     }
-    return 'Create permissions specific to web pages which URL starts exactly with ' +
+    return 'Create rules specific to web pages which URL starts exactly with ' +
         '<b>' + HTTPSBPopup.scopeURL + '</b>';
 }
 
@@ -916,7 +916,7 @@ function handleFilterMessage(hotspot, leaning) {
     var prompt = mouseOverPrompts[action + what + where];
     prompt = prompt.replace('{{what}}', HTTPSBPopup.matrixHeaderPrettyNames[type]);
     prompt = prompt.replace('{{where}}', domain);
-    $('#message').html(prompt);
+    showMessage(prompt);
 }
 
 function handleWhitelistFilterMessage(hotspot) {
@@ -931,21 +931,25 @@ function handleBlacklistFilterMessage(hotspot) {
 
 function handlePersistMessage(button) {
     if ( button.closest('.rdt').length ) {
-        $('#message').html('Permanently <span class="rdt">blacklist</span> this cell');
+        showMessage('Permanently <span class="rdt">blacklist</span> this cell');
     } else if ( button.closest('.gdt').length ) {
-        $('#message').html('Permanently <span class="gdt">whitelist</span> this cell');
+        showMessage('Permanently <span class="gdt">whitelist</span> this cell');
     }
 }
 
 function handleUnpersistMessage(button) {
     if ( button.closest('.rdp').length ) {
-        $('#message').html('Cancel the permanent <span class="rdt">blacklist</span> status of this cell');
+        showMessage('Cancel the permanent <span class="rdt">blacklist</span> status of this cell');
     } else if ( button.closest('.gdp').length ) {
-        $('#message').html('Cancel the permanent <span class="gdt">whitelist</span> status of this cell');
+        showMessage('Cancel the permanent <span class="gdt">whitelist</span> status of this cell');
     }
 }
 
 /******************************************************************************/
+
+function showMessage(s) {
+    $('#message').html(s);
+}
 
 function blankMessage() {
     $('#message').html(formatHeader(HTTPSBPopup.pageURL));
@@ -1038,67 +1042,61 @@ function initAll() {
 
     // We reuse for all cells the one and only cell menu.
     popup.matrixCellMenu = $('#cellMenu').detach();
-    $('span:nth-of-type(1)', popup.matrixCellMenu).on('click', function() {
+    $('#persist', popup.matrixCellMenu).on('click', function() {
         handlePersistence($(this));
         return false;
     });
-    $('span:nth-of-type(2)', popup.matrixCellMenu).on('click', function() {
+    $('#unpersist', popup.matrixCellMenu).on('click', function() {
         handleUnpersistence($(this));
         return false;
     });
-
-    // '#persist'
-    $('span:nth-of-type(1)', popup.matrixCellMenu).on('mouseenter', function() {
+    $('#persist', popup.matrixCellMenu).on('mouseenter', function() {
         handlePersistMessage($(this));
         return false;
     });
-    // '#unpersist'
-    $('span:nth-of-type(2)', popup.matrixCellMenu).on('mouseenter', function() {
+    $('#unpersist', popup.matrixCellMenu).on('mouseenter', function() {
         handleUnpersistMessage($(this));
         return false;
     });
 
     // We reuse for all cells the one and only cell hotspots.
     popup.matrixCellHotspots = $('#cellHotspots').detach();
-    $('div:nth-of-type(1)', popup.matrixCellHotspots).on('click', function() {
+    $('#whitelist', popup.matrixCellHotspots).on('click', function() {
         handleWhitelistFilter($(this));
         return false;
     });
-    $('div:nth-of-type(2)', popup.matrixCellHotspots).on('click', function() {
+    $('#blacklist', popup.matrixCellHotspots).on('click', function() {
         handleBlacklistFilter($(this));
         return false;
     });
-    // '#whitelist'
-    $('div:nth-of-type(1)', popup.matrixCellHotspots).on('mouseenter', function() {
+    $('#whitelist', popup.matrixCellHotspots).on('mouseenter', function() {
         handleWhitelistFilterMessage($(this));
         return false;
     });
-    // '#blacklist'
-    $('div:nth-of-type(2)', popup.matrixCellHotspots).on('mouseenter', function() {
+    $('#blacklist', popup.matrixCellHotspots).on('mouseenter', function() {
         handleBlacklistFilterMessage($(this));
         return false;
     });
 
-    // to attach widgets to matrix cell
-    $('body').on('mouseenter', '.matCell', function() {
-        popup.matrixCellHotspots.prependTo(this);
-        popup.matrixCellMenu.prependTo(this);
-    });
-    // to detach widgets from matrix cell and blank message
-    $('body').on('mouseleave', '.matCell', function() {
-        popup.matrixCellHotspots.detach();
-        popup.matrixCellMenu.detach();
-        blankMessage();
-    });
+    // to attach/detach widgets to matrix cell
+    $('body')
+        .on('mouseenter', '.matCell', function() {
+            popup.matrixCellHotspots.prependTo(this);
+            popup.matrixCellMenu.prependTo(this);
+            })
+        .on('mouseleave', '.matCell', function() {
+            popup.matrixCellHotspots.detach();
+            popup.matrixCellMenu.detach();
+            blankMessage();
+            });
 
-    $('#buttonToggleScope').on('mouseenter', function() {
-        $('#message').html(getScopePageButtonTip());
-    });
-    $('#buttonToggleScope').on('mouseleave', blankMessage);
-    $('#buttonRevert').on('mouseenter', function() {
-        $('#message').html('Clear all temporary rules &mdash; those which are not padlocked');
-    });
-    $('#buttonRevert').on('mouseleave', blankMessage);
+    $('#buttonToggleScope')
+        .on('mouseenter', function() { showMessage(getScopePageButtonTip()); })
+        .on('mouseleave', blankMessage);
+        
+    $('#buttonRevert')
+        .on('mouseenter', function() { showMessage('Clear all temporary rules &mdash; those which are not padlocked'); })
+        .on('mouseleave', blankMessage);
 
     $('#buttonToggleScope').on('click', toggleScopePage);
     $('#buttonRevert').on('click', revert);

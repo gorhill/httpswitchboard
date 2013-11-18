@@ -26,6 +26,8 @@
 
 (function() {
 
+var recipeWidth = 40;
+
 /******************************************************************************/
 
 var friendlyTypeNames = {
@@ -184,8 +186,8 @@ function uglifyRecipe(recipe) {
     recipe = encodeURIComponent(recipe.replace(/    /g, '\t'));
     var s = '';
     while ( recipe.length ) {
-        s += recipe.slice(0,80) + '\n';
-        recipe = recipe.slice(80);
+        s += recipe.slice(0, recipeWidth) + '\n';
+        recipe = recipe.slice(recipeWidth);
     }
     return s;
 }
