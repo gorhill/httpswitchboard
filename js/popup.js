@@ -126,11 +126,11 @@ var HTTPSBPopup = {
 
     mouseenterHandlers: {},
 
+    // Just so the background page will be notified when popup menu is closed
+    port: chrome.runtime.connect(),
+
     dummy: 0
 };
-
-// Just so the background page will be notified when popup menu is closed
-var port = chrome.extension.connect();
 
 /******************************************************************************/
 /*
@@ -953,7 +953,15 @@ function blankMessage() {
 
 /******************************************************************************/
 
-function onMessage(request) {
+function revert() {
+    getHTTPSB().revertPermissions();
+    updateMatrixStats();
+    updateMatrixCells();
+}
+
+/******************************************************************************/
+
+function onMessageHandler(request) {
     if ( request.what === 'urlStatsChanged' ) {
         if ( HTTPSBPopup.pageURL === request.pageURL ) {
             makeMenu();
@@ -963,15 +971,8 @@ function onMessage(request) {
 
 /******************************************************************************/
 
-function revert() {
-    getHTTPSB().revertPermissions();
-    updateMatrixStats();
-    updateMatrixCells();
-}
-
-/******************************************************************************/
-
 // Because chrome.tabs.query() is async
+
 function bindToTabHandler(tabs) {
     // TODO: can tabs be empty?
     if ( !tabs.length ) {
@@ -1004,7 +1005,9 @@ function bindToTabHandler(tabs) {
     // To know when to rebuild the matrix
     // TODO: What if this event is triggered before bindToTabHandler()
     // is called?
-    chrome.runtime.onMessage.addListener(onMessage);
+    if ( HTTPSBPopup.port ) {
+        HTTPSBPopup.port.onMessage.addListener(onMessageHandler);
+    }
 }
 
 /******************************************************************************/

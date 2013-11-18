@@ -205,10 +205,12 @@ bindTabToPageStats(HTTPSB.behindTheSceneTabId, HTTPSB.behindTheSceneURL);
 // Listeners to let popup let us know when pages must be reloaded.
 
 function onConnectHandler(port) {
+    HTTPSB.port = port;
     port.onDisconnect.addListener(onDisconnectHandler);
 }
 
 function onDisconnectHandler() {
+    HTTPSB.port = null;
     smartReloadTabs();
 }
 

@@ -85,8 +85,8 @@ var HTTPSB = {
     behindTheSceneTabId: 0x7FFFFFFFFFFFFFFF,
     behindTheSceneMaxReq: 250,
 
-    // Icons, to be used in chrome.browserAction.setIcon() calls
-    icons: { },
+    // Popup menu
+    port: null,
 
     // so that I don't have to care for last comma
     dummy: 0

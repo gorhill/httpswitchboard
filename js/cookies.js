@@ -35,6 +35,12 @@ var cookieHunter = {
         // happens if a file:// ... makes an xmlHttpRequest
         if ( pageStats ) {
             this.queuePageRecord[pageUrlFromPageStats(pageStats)] = pageStats;
+            asyncJobQueue.add(
+                'cookieHunterPageRecord',
+                null,
+                function() { cookieHunter.processPageRecord(); },
+                500,
+                false);
         }
     },
 
@@ -46,6 +52,12 @@ var cookieHunter = {
         // happens if a file:// ... makes an xmlHttpRequest
         if ( pageStats ) {
             this.queuePageRemove[pageUrlFromPageStats(pageStats)] = pageStats;
+            asyncJobQueue.add(
+                'cookieHunterPageRemove',
+                null,
+                function() { cookieHunter.processPageRemove(); },
+                60 * 1000,
+                false);
         }
     },
 
@@ -221,16 +233,6 @@ var cookieHunter = {
         return false;
     }
 };
-
-function cookieHunterPageRecordCallback() {
-    cookieHunter.processPageRecord();
-}
-asyncJobQueue.add('cookieHunterPageRecord', null, cookieHunterPageRecordCallback, 500, true);
-
-function cookieHunterPageRemoveCallback() {
-    cookieHunter.processPageRemove();
-}
-asyncJobQueue.add('cookieHunterPageRemove', null, cookieHunterPageRemoveCallback, 60 * 1000, true);
 
 function cookieHunterRemoveCallback() {
     cookieHunter.processRemove();

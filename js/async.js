@@ -30,6 +30,7 @@ function asyncJobEntry(name) {
 }
 
 asyncJobEntry.prototype._nullify = function() {
+    this.name = '';
     this.data = null;
     this.callback = null;
 };
@@ -72,8 +73,8 @@ var asyncJobQueue = {
             if ( job.period ) {
                 job.when = Date.now() + job.period;
             } else {
-                job._nullify();
                 delete this.jobs[job.name];
+                job._nullify();
                 this.jobCount--;
                 this.junkyard.push(job);
             }
@@ -136,10 +137,15 @@ function permissionsChanged() {
 // rebuild their matrix).
 
 function urlStatsChangedCallback(pageUrl) {
-    chrome.runtime.sendMessage({
-        what: 'urlStatsChanged',
-        pageURL: pageUrl
-    });
+    // rhill 2013-11-17: No point in sending this message if the popup menu
+    // does not exist. I suspect this could be related to
+    // https://github.com/gorhill/httpswitchboard/issues/58
+    if ( HTTPSB.port ) {
+        HTTPSB.port.postMessage({
+            what: 'urlStatsChanged',
+            pageURL: pageUrl
+        });
+    }
 }
 
 function urlStatsChanged(pageUrl) {
