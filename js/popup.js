@@ -564,7 +564,7 @@ function renderMatrixCellSubdomain(cell, domain, subomain) {
 function renderMatrixCellType(cell, hostname, type, stats) {
     cell = $(cell);
     cell.prop({filterType: type, filterDomain: hostname})
-        .addClass(stats.temporaryColor);
+        .addClass(getCellClass(hostname, type));
     if ( stats.count ) {
         cell.text(stats.count);
     }
