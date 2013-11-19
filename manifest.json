@@ -1,8 +1,8 @@
 {
     "manifest_version": 2,
-    "name": "HTTP Switchboard",
+    "name": "__MSG_extName__",
     "version": "0.5.7",
-    "description": "Point & click to forbid/allow any class of requests made by your browser. Use it to block scripts, iframes, ads, facebook, etc.",
+    "description": "__MSG_extShortDesc__",
     "icons": {
         "128": "icon_128.png"
     },
@@ -10,7 +10,7 @@
         "default_icon": {
             "19": "img/browsericons/icon19.png"
         },
-        "default_title": "HTTP Switchboard",
+        "default_title": "__MSG_extName__",
         "default_popup": "popup.html"
     },
     "author": "Raymond Hill",
@@ -19,6 +19,7 @@
     },
     "homepage_url": "https://github.com/gorhill/httpswitchboard/wiki",
     "minimum_chrome_version": "22.0",
+    "default_locale": "en",
     "options_page": "settings.html",
     "permissions": [
         "contentSettings",

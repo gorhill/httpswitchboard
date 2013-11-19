@@ -8,7 +8,7 @@ body {
     padding: 0 0 20em 0;
     font: 15px httpsb,sans-serif;
     }
-h3 + *, h1 + * {
+h2 + *, h1 + * {
     margin-left: 2em;
     }
 select {
@@ -29,7 +29,6 @@ select {
     font-family: mono;
     background-color: white;
     overflow: scroll;
-    resize: vertical;
     }
 #requests table {
     border-collapse: collapse;
@@ -74,7 +73,7 @@ select {
 
 
 
-<h3>Whitelists/blacklists</h3>
+<h2>Whitelists/blacklists</h2>
 <div id="lists">
 <div style="white-space:nowrap;"> <!-- begin template 'stats' -->
 <div>
@@ -95,14 +94,14 @@ select {
 </div>
 
 
-<h3>Geeky stats</h3>
+<h2>Geeky stats</h2>
  <!-- start of geek stats --><div>For 
 <select id="selectPageUrls">
 <option value="All">All</option>
 <option id="selectPageUrlTemplate" value="http://chromium.behind.the.scene">Chromium: Behind the scene</option>
 </select>
 
-<h4>Overview</h4>
+<h3>Overview</h3>
 <div id="stats">
 <div style="white-space:nowrap;"> <!-- begin template 'stats' -->
 
@@ -147,10 +146,10 @@ select {
 </div>
 
 
-<h4>Detailed</h4>
+<h3>Detailed</h3>
 <div id="requests">
-<p><button id="refresh-requests">Refresh</button></p>
-<p>
+    <p><button id="refresh-requests">Refresh</button></p>
+    <p>
     Show: <input id="show-main_frame" type="checkbox" checked value="1">Pages&emsp;
           <input id="show-blocked" type="checkbox" checked value="1"><span style="color:#c00">Blocked</span>&emsp;
           <input id="show-allowed" type="checkbox" checked value="1"><span style="color:#070">Allowed</span>&emsp;
@@ -162,11 +161,11 @@ select {
           <input id="show-sub_frame" type="checkbox" checked value="1">Frames&emsp;
           <input id="show-other" type="checkbox" checked value="1">Others&emsp;
     </p>
-<div style="height: 400px">
-<table id="requestsTable">
-<tr id="requestRowTemplate"><td>...<td><td><a href="" style="display:none">&lt;a&gt;</a><td></tr>
-</table>
-</div>
+    <div>
+    <table id="requestsTable">
+    <tr id="requestRowTemplate"><td>...<td><td><a href="" style="display:none">&lt;a&gt;</a><td></tr>
+    </table>
+    </div>
 </div>
 
 </div> <!-- end of geek stats -->

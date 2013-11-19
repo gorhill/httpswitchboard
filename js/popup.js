@@ -114,7 +114,6 @@ var HTTPSBPopup = {
 
     matrixStats: MatrixStats.prototype.createMatrixStats(),
     matrixHeaderTypes: ['*'],
-    matrixHeaderPrettyNames: { },
     matrixCellMenu: null,
     matrixCellHotspots: null,
     matrixRowTemplate: null,
@@ -125,6 +124,17 @@ var HTTPSBPopup = {
     domainListSnapshot: 'do not leave this initial string empty',
 
     mouseenterHandlers: {},
+
+    matrixHeaderPrettyNames: {
+        'all': '',
+        'cookie': '',
+        'image': '',
+        'object': '',
+        'script': '',
+        'xmlhttprequest': '',
+        'sub_frame': '',
+        'other': ''
+    },
 
     // Just so the background page will be notified when popup menu is closed
     port: chrome.runtime.connect(),
@@ -846,13 +856,15 @@ function initMenuEnvironment() {
     HTTPSBPopup.matrixRowTemplate = $('#templates .matRow');
 
     var prettyNames = HTTPSBPopup.matrixHeaderPrettyNames;
-    var cells = $('#matHead .matRow .matCell').toArray();
-    var i = cells.length;
-    var cell, type;
+    var keys = Object.keys(prettyNames);
+    var i = keys.length;
+    var cell, key, text;
     while ( i-- ) {
-        cell = $(cells[i]);
-        type = cell.data('filterType');
-        prettyNames[type] = cell.text();
+        key = keys[i];
+        cell = $('#matHead .matCell[data-filter-type="'+ key +'"]');
+        text = chrome.i18n.getMessage(key + 'PrettyName');
+        cell.text(text);
+        prettyNames[key] = text;
     }
 }
 
@@ -876,30 +888,27 @@ function toggleScopePage() {
 function getScopePageButtonTip() {
     var toolbar = $('body');
     if ( toolbar.hasClass('scope-is-page') ) {
-        return 'Remove all rules specific to <b>' + HTTPSBPopup.scopeURL + '</b>';
+        return chrome.i18n.getMessage('matrixRemoveScope').replace('{{what}}',  '<b>' + HTTPSBPopup.scopeURL + '</b>');
     }
-    return 'Create rules specific to web pages which URL starts exactly with ' +
-        '<b>' + HTTPSBPopup.scopeURL + '</b>';
+    return chrome.i18n.getMessage('matrixCreateScope').replace('{{what}}', '<b>' + HTTPSBPopup.scopeURL + '</b>');
 }
 
 /******************************************************************************/
 
 // Handle user mouse over filter buttons
 
-// TODO: localize
-
 var mouseOverPrompts = {
-    '+**': 'Click to <span class="gdt">allow</span> all graylisted types and domains',
-    '-**': 'Click to <span class="rdt">block</span> all graylisted types and domains',
-    '+?*': 'Click to <span class="gdt">allow</span> <b>{{what}}</b> from <b>everywhere</b> except blacklisted domains',
-    '+*?': 'Click to <span class="gdt">allow</span> <b>everything</b> from <b>{{where}}</b>',
-    '+??': 'Click to <span class="gdt">allow</span> <b>{{what}}</b> from <b>{{where}}</b>',
-    '-?*': 'Click to <span class="rdt">block</span> <b>{{what}}</b> from <b>everywhere</b> except whitelisted domains',
-    '-*?': 'Click to <span class="rdt">block</span> <b>everything</b> from <b>{{where}}</b>',
-    '-??': 'Click to <span class="rdt">block</span> <b>{{what}}</b> from <b>{{where}}</b>',
-    '.?*': 'Click to graylist <b>{{what}}</b> from <b>everywhere</b>',
-    '.*?': 'Click to graylist <b>everything</b> from <b>{{where}}</b>',
-    '.??': 'Click to graylist <b>{{what}}</b> from <b>{{where}}</b>'
+    '+**': chrome.i18n.getMessage('matrixAllowAll'),
+    '-**': chrome.i18n.getMessage('matrixBlockAll'),
+    '+?*': chrome.i18n.getMessage('matrixAllowSomethingFromEverywhere'),
+    '+*?': chrome.i18n.getMessage('matrixAllowEverythingFromSomewhere'),
+    '+??': chrome.i18n.getMessage('matrixAllowSomethingFromSomewhere'),
+    '-?*': chrome.i18n.getMessage('matrixBlockSomethingFromEverywhere'),
+    '-*?': chrome.i18n.getMessage('matrixBlockEverythingFromSomewhere'),
+    '-??': chrome.i18n.getMessage('matrixBlockSomethingFromSomewhere'),
+    '.?*': chrome.i18n.getMessage('matrixGraylistSomethingFromEverywhere'),
+    '.*?': chrome.i18n.getMessage('matrixGraylistEverythingFromSomewhere'),
+    '.??': chrome.i18n.getMessage('matrixGraylistSomethingFromSomewhere')
 };
 
 function handleFilterMessage(hotspot, leaning) {
@@ -931,17 +940,17 @@ function handleBlacklistFilterMessage(hotspot) {
 
 function handlePersistMessage(button) {
     if ( button.closest('.rdt').length ) {
-        showMessage('Permanently <span class="rdt">blacklist</span> this cell');
+        showMessage(chrome.i18n.getMessage('matrixPersistBlock'));
     } else if ( button.closest('.gdt').length ) {
-        showMessage('Permanently <span class="gdt">whitelist</span> this cell');
+        showMessage(chrome.i18n.getMessage('matrixPersistAllow'));
     }
 }
 
 function handleUnpersistMessage(button) {
     if ( button.closest('.rdp').length ) {
-        showMessage('Cancel the permanent <span class="rdt">blacklist</span> status of this cell');
+        showMessage(chrome.i18n.getMessage('matrixUnpersistBlock'));
     } else if ( button.closest('.gdp').length ) {
-        showMessage('Cancel the permanent <span class="gdt">whitelist</span> status of this cell');
+        showMessage(chrome.i18n.getMessage('matrixUnpersistAllow'));
     }
 }
 
@@ -1095,11 +1104,15 @@ function initAll() {
         .on('mouseleave', blankMessage);
         
     $('#buttonRevert')
-        .on('mouseenter', function() { showMessage('Clear all temporary rules &mdash; those which are not padlocked'); })
+        .on('mouseenter', function() { showMessage(chrome.i18n.getMessage('matrixRevert')); })
         .on('mouseleave', blankMessage);
 
     $('#buttonToggleScope').on('click', toggleScopePage);
     $('#buttonRevert').on('click', revert);
+
+    $('#buttonRuleManager').text(chrome.i18n.getMessage('ruleManagerPageName'));
+    $('#buttonInfo').text(chrome.i18n.getMessage('statsPageName'));
+    $('#buttonSettings').text(chrome.i18n.getMessage('settingsPageName'));
 
     $('#matList').on('click', '.groupSeparator.g3Meta', function() {
         var separator = $(this);

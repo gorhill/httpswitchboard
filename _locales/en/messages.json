@@ -1,0 +1,165 @@
+{
+    "extName": {
+        "message": "HTTP Switchboard",
+        "description": "extension name."
+    },
+    "extShortDesc": {
+        "message": "Point & click to forbid/allow any class of requests made by your browser. Use it to block scripts, iframes, ads, facebook, etc.",
+        "description": "this will in chrome web store"
+    },
+    "ruleManagerPageName": {
+        "message": "Rule manager",
+        "description": "the name of Rule Manager page."
+    },
+    "statsPageName": {
+        "message": "Statistics",
+        "description": "the name of the Statistics page."
+    },
+    "settingsPageName": {
+        "message": "Settings",
+        "description": "the name of the Settings page."
+    },
+
+
+    "allPrettyName": {
+        "message": "all",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "cookiePrettyName": {
+        "message": "cookie",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "cookiePrettyNamePlural": {
+        "message": "cookies",
+        "description": "..."
+    },
+    "imagePrettyName": {
+        "message": "image",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "imagePrettyNamePlural": {
+        "message": "images",
+        "description": "..."
+    },
+    "objectPrettyName": {
+        "message": "plugin",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "objectPrettyNamePlural": {
+        "message": "plugins",
+        "description": "..."
+    },
+    "scriptPrettyName": {
+        "message": "script",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "scriptPrettyNamePlural": {
+        "message": "scripts",
+        "description": "..."
+    },
+    "xmlhttprequestPrettyName": {
+        "message": "XHR",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "xmlhttprequestPrettyNamePlural": {
+        "message": "XHR",
+        "description": "..."
+    },
+    "sub_framePrettyName": {
+        "message": "frame",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "sub_framePrettyNamePlural": {
+        "message": "frames",
+        "description": "..."
+    },
+    "otherPrettyName": {
+        "message": "other",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "otherPrettyNamePlural": {
+        "message": "others",
+        "description": "..."
+    },
+
+
+    "matrixRemoveScope" : {
+        "message": "Remove all rules specific to {{what}}",
+        "description": "hovering over the button to remove page scope"
+    },
+    "matrixCreateScope" : {
+        "message": "Create rules specific to web pages which URL starts exactly with {{what}}",
+        "description": "hovering over the button to add page scope"
+    },
+    "matrixRevert" : {
+        "message": "Clear all temporary rules &mdash; those which are not padlocked",
+        "description": "hovering over the button to clear temporary permissions"
+    },
+
+    "matrixAllowAll" : {
+        "message": "Click to <span class=\"gdt\">allow</span> all graylisted types and domains",
+        "description": "used in matrix as user hover cells"
+    },
+    "matrixBlockAll" : {
+        "message": "Click to <span class=\"rdt\">block</span> all graylisted types and domains",
+        "description": "used in matrix as user hover cells"
+    },
+    "matrixAllowSomethingFromEverywhere" : {
+        "message": "Click to <span class=\"gdt\">allow</span> <b>{{what}}</b> from <b>everywhere</b> except blacklisted hostnames",
+        "description": "used in matrix as user hover cells"
+    },
+    "matrixAllowEverythingFromSomewhere" : {
+        "message": "Click to <span class=\"gdt\">allow</span> <b>everything</b> from <b>{{where}}</b>",
+        "description": "used in matrix as user hover cells"
+    },
+    "matrixAllowSomethingFromSomewhere" : {
+        "message": "Click to <span class=\"gdt\">allow</span> <b>{{what}}</b> from <b>{{where}}</b>",
+        "description": "used in matrix as user hover cells"
+    },
+    "matrixBlockSomethingFromEverywhere" : {
+        "message": "Click to <span class=\"rdt\">block</span> <b>{{what}}</b> from <b>everywhere</b> except whitelisted hostnames",
+        "description": "used in matrix as user hover cells"
+    },
+    "matrixBlockEverythingFromSomewhere" : {
+        "message": "Click to <span class=\"rdt\">block</span> <b>everything</b> from <b>{{where}}</b>",
+        "description": "used in matrix as user hover cells"
+    },
+    "matrixBlockSomethingFromSomewhere" : {
+        "message": "Click to <span class=\"rdt\">block</span> <b>{{what}}</b> from <b>{{where}}</b>",
+        "description": "used in matrix as user hover cells"
+    },
+    "matrixGraylistSomethingFromEverywhere" : {
+        "message": "Click to graylist <b>{{what}}</b> from <b>everywhere</b>",
+        "description": "used in matrix as user hover cells"
+    },
+    "matrixGraylistEverythingFromSomewhere" : {
+        "message": "Click to graylist <b>everything</b> from <b>{{where}}</b>",
+        "description": "used in matrix as user hover cells"
+    },
+    "matrixGraylistSomethingFromSomewhere" : {
+        "message": "Click to graylist <b>{{what}}</b> from <b>{{where}}</b>",
+        "description": "used in matrix as user hover cells"
+    },
+    "matrixPersistBlock" : {
+        "message": "Permanently <span class=\"rdt\">blacklist</span> this cell",
+        "description": "when user hover over red unlocked padlock"
+    },
+    "matrixPersistAllow" : {
+        "message": "Permanently <span class=\"gdt\">whitelist</span> this cell",
+        "description": "when user hover over green unlocked padlock"
+    },
+    "matrixUnpersistBlock" : {
+        "message": "'Cancel the permanent <span class=\"rdt\">blacklist</span> status of this cell'",
+        "description": "when user hover over red locked padlock"
+    },
+    "matrixUnpersistAllow" : {
+        "message": "Cancel the permanent <span class=\"gdt\">whitelist</span> status of this cell",
+        "description": "when user hover over green locked padlock"
+    },
+
+
+    "dummy": {
+        "message": "This entry must be the last one",
+        "description": "so we dont need to deal with comma for last entry"
+    }
+}
