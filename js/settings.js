@@ -73,11 +73,10 @@ function initAll() {
     });
 
     $('.whatisthis').on('click', function() {
-        var help = $(this).parents('li')
-            .first()
-            .find('.expandable')
-            .first();
-        help.toggleClass('expanded', !help.hasClass('expanded'));
+        $(this).parents('li')
+        .first()
+        .find('.expandable')
+        .toggleClass('expanded');
     });
 }
 
