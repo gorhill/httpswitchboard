@@ -193,7 +193,10 @@ var cookieHunter = {
             block = httpsb.blacklisted(pageUrl, 'cookie', cookieDomain);
             rootUrl = (cookie.secure ? 'https://' : 'http://') + cookieDomain;
             if ( record ) {
-                pageStats.recordRequest('cookie', rootUrl + '/{cookie:' + cookie.name.toLowerCase() + '}', block);
+                // rhill 2013-11-20:
+                // https://github.com/gorhill/httpswitchboard/issues/60
+                // Need to URL-encode cookie name
+                pageStats.recordRequest('cookie', rootUrl + '/{cookie:' + encodeURIComponent(cookie.name.toLowerCase()) + '}', block);
                 httpsb.requestStats.record('cookie', block);
             }
             if ( block && deleteCookies ) {
