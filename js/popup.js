@@ -537,11 +537,11 @@ function updateMatrixCells() {
 function updateMatrixBehavior() {
     var sections = $('.matSection', HTTPSBPopup.matrixList);
     var i = sections.length;
-    var section, collapsible;
+    var section, subdomainRows;
     while ( i-- ) {
         section = $(sections[i]);
-        collapsible = !$('.l2 .gdt,.l2 .rdt', section).length;
-        section.toggleClass('collapsible', collapsible);
+        subdomainRows = section.children('.l2');
+        section.toggleClass('collapsible', subdomainRows.length > 0 && subdomainRows.children('.gdt,.rdt').length === 0);
     }
 }
 
@@ -725,7 +725,7 @@ function renderMatrixMetaCellType(cell, count) {
     }
 }
 
-function makeMatrixMetaRow(stats, groupClass) {
+function makeMatrixMetaRow(stats) {
     var typeStats = stats.types;
     var matrixRow = HTTPSBPopup.matrixRowTemplate.clone().addClass('ro');
     var cells = $('div', matrixRow);
