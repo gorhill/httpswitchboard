@@ -60,7 +60,7 @@ select {
 </head>
 
 <body>
-<h1>HTTP Switchboard &mdash; Info</h1>
+<h1 data-i18n="statsPageTitle"></h1>
 <div>
 <ul>
   <li>Version: <span id="version"></span> (<a href="https://github.com/gorhill/httpswitchboard/wiki/Change-log">change log</a>)
@@ -73,7 +73,7 @@ select {
 
 
 
-<h2>Whitelists/blacklists</h2>
+<h2 data-i18n="statsPageWhitelistsBlacklists"></h2>
 <div id="lists">
 <div style="white-space:nowrap;"> <!-- begin template 'stats' -->
 <div>
@@ -94,19 +94,19 @@ select {
 </div>
 
 
-<h2>Geeky stats</h2>
- <!-- start of geek stats --><div>For 
+<h2 data-i18n="statsPageGeekyStats"></h2>
+<div>For 
 <select id="selectPageUrls">
 <option value="All">All</option>
 <option id="selectPageUrlTemplate" value="http://chromium.behind.the.scene">Chromium: Behind the scene</option>
 </select>
 
-<h3>Overview</h3>
+<h3 data-i18n="statsPageOverview"></h3>
 <div id="stats">
-<div style="white-space:nowrap;"> <!-- begin template 'stats' -->
+<div style="white-space:nowrap;">
 
 <div>
-    Requests<br>
+    <span data-i18n="statsPageRequests"></span><br>
     All:<br>
     Pages:<br>
     <a href="http://en.wikipedia.org/wiki/Http_cookie">Cookies</a>:<br>
@@ -118,7 +118,7 @@ select {
     <a title="i.e. HTML5 audio, HTML5 video, HTML5 canvas, fonts, etc." href="https://github.com/gorhill/httpswitchboard/wiki/FAQ#in-the-top-left-of-the-matrix-what-is-other">Others</a>:<br>
     </div>
 <div style="color:#c00">
-    Blocked<br>
+    <span data-i18n="statsPageBlocked"></span><br>
     <span id="blockedAllCount"></span><br>
     <span id="blockedMainFrameCount"></span><br>
     <span id="blockedCookieCount"></span><br>
@@ -130,7 +130,7 @@ select {
     <span id="blockedOtherCount"></span><br>
     </div>
 <div style="color:#070">
-    Allowed<br>
+    <span data-i18n="statsPageAllowed"></span><br>
     <span id="allowedAllCount"></span><br>
     <span id="allowedMainFrameCount"></span><br>
     <span id="allowedCookieCount"></span><br>
@@ -142,17 +142,17 @@ select {
     <span id="allowedOtherCount"></span><br>
     </div>
 
-</div> <!-- end template 'stats' -->
+</div>
 </div>
 
 
-<h3>Detailed</h3>
+<h3 data-i18n="statsPageDetailed"></h3>
 <div id="requests">
-    <p><button id="refresh-requests">Refresh</button></p>
+    <p><button id="refresh-requests" data-i18n="statsPageRefresh"></button></p>
     <p>
     Show: <input id="show-main_frame" type="checkbox" checked value="1">Pages&emsp;
-          <input id="show-blocked" type="checkbox" checked value="1"><span style="color:#c00">Blocked</span>&emsp;
-          <input id="show-allowed" type="checkbox" checked value="1"><span style="color:#070">Allowed</span>&emsp;
+          <input id="show-blocked" type="checkbox" checked value="1"><span style="color:#c00" data-i18n="statsPageBlocked">Blocked</span>&emsp;
+          <input id="show-allowed" type="checkbox" checked value="1"><span style="color:#070" data-i18n="statsPageAllowed">Allowed</span>&emsp;
           <input id="show-cookie" type="checkbox" checked value="1">Cookies&emsp;
           <input id="show-image" type="checkbox" checked value="1">Images&emsp;
           <input id="show-object" type="checkbox" checked value="1">Objects&emsp;
@@ -171,6 +171,7 @@ select {
 </div> <!-- end of geek stats -->
 
 <script src="lib/jquery-2.min.js"></script>
+<script src="js/i18n.js"></script>
 <script src="js/info.js"></script>
 </body>
 </html>

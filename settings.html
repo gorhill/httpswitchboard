@@ -74,6 +74,24 @@ ul > li {
         <li><input type="radio" name="displayTextSize" value="13px">Normal
         <li><input type="radio" name="displayTextSize" value="16px">Large
         </ul>
+        Matrix options:
+        <ul style="list-style:none">
+        <li><input id="display-domain-only" type="checkbox" value="false">Display domain only by default <button class="whatisthis"></button>
+            <div class="expandable">
+                <p>When this option is checked, the matrix will 
+                show only domains, as opposed to domain and subdomains, 
+                <b>except</b> if at least one explicit rule &mdash; whether 
+                whitelist or blacklist &mdash; exist for at least one 
+                subdomain.</p>
+                <p>This might be useful to users who prefer lower level of 
+                information and also to reduce the size of the pop-up &mdash; 
+                which may cause an 
+                <a href="https://github.com/gorhill/httpswitchboard/issues/55" target="_blank">issue 
+                for smaller display<a> (there is an 
+                <a href="https://code.google.com/p/chromium/issues/detail?id=36080" target="_blank">active bug in chromium</a> 
+                about this).</p>
+            </div>
+        </ul>
         </div>
 
     <h2>Strict blocking</h2>
@@ -108,7 +126,7 @@ ul > li {
                 gives you the opportunity to be informed that a site tried to use cookies,
                 and furthermore to inspect their contents if you wish.</p>
                 <p>Once these blacklisted cookies have been accounted for by <i>HTTP Switchboard</i>,
-                they can be removed from your browser if you wish so:</p>
+                they can be removed from your browser if you wish so.</p>
             </div>
         <li>
             <input id="delete-blacklisted-localstorage" type="checkbox" value="">Delete contents of

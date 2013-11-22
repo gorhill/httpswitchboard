@@ -84,12 +84,12 @@
 
 
     "matrixRemoveScope" : {
-        "message": "Remove all rules specific to {{what}}",
-        "description": "hovering over the button to remove page scope"
+        "message": "Remove all rules specific to <b>$1</b>",
+        "description": "hovering over the button to remove page scope (identified by $1)"
     },
     "matrixCreateScope" : {
-        "message": "Create rules specific to web pages which URL starts exactly with {{what}}",
-        "description": "hovering over the button to add page scope"
+        "message": "Create rules specific to web pages which URL starts exactly with <b>$1</b>",
+        "description": "hovering over the button to add page scope (identified by $1)"
     },
     "matrixRevert" : {
         "message": "Clear all temporary rules &mdash; those which are not padlocked",
@@ -149,12 +149,50 @@
         "description": "when user hover over green unlocked padlock"
     },
     "matrixUnpersistBlock" : {
-        "message": "'Cancel the permanent <span class=\"rdt\">blacklist</span> status of this cell'",
+        "message": "Cancel the permanent <span class=\"rdt\">blacklist</span> status of this cell",
         "description": "when user hover over red locked padlock"
     },
     "matrixUnpersistAllow" : {
         "message": "Cancel the permanent <span class=\"gdt\">whitelist</span> status of this cell",
         "description": "when user hover over green locked padlock"
+    },
+
+
+    "statsPageTitle" : {
+        "message": "HTTP Switchboard &ndash; Statistics",
+        "description": "header for the whole stats page"
+    },
+    "statsPageWhitelistsBlacklists" : {
+        "message": "Whitelists/blacklists",
+        "description": "header for 'whitelists/blacklists' section"
+    },
+    "statsPageGeekyStats" : {
+        "message": "Geeky stats",
+        "description": "header for 'geeky stats' section"
+    },
+    "statsPageOverview" : {
+        "message": "Overview",
+        "description": "header for 'overview' section"
+    },
+    "statsPageRequests" : {
+        "message": "Requests",
+        "description": "in geeky stats section, header for the type of request"
+    },
+    "statsPageAllowed" : {
+        "message": "Allowed",
+        "description": "capitalized"
+    },
+    "statsPageBlocked" : {
+        "message": "Blocked",
+        "description": "capitalized"
+    },
+    "statsPageDetailed" : {
+        "message": "Detailed",
+        "description": "header for 'detailed' section"
+    },
+    "statsPageRefresh" : {
+        "message": "Refresh",
+        "description": "text for refresh button"
     },
 
 

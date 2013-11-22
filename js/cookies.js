@@ -199,7 +199,11 @@ var cookieHunter = {
                 pageStats.recordRequest('cookie', rootUrl + '/{cookie:' + encodeURIComponent(cookie.name.toLowerCase()) + '}', block);
                 httpsb.requestStats.record('cookie', block);
             }
-            if ( block && deleteCookies ) {
+            // rhill 2013-11-21:
+            // https://github.com/gorhill/httpswitchboard/issues/65
+            // Leave alone cookies from behind-the-scene requests if
+            // behind-the-scene processing is disabled.
+            if ( block && deleteCookies && (pageUrl !== httpsb.behindTheSceneURL || httpsb.userSettings.processBehindTheSceneRequests) ) {
                 this.remove({
                     url: rootUrl + cookie.path,
                     domain: cookie.domain,
@@ -245,7 +249,10 @@ asyncJobQueue.add('cookieHunterRemove', null, cookieHunterRemoveCallback, 5 * 60
 function cookieHunterCleanCallback() {
     cookieHunter.processClean();
 }
-asyncJobQueue.add('cookieHunterClean', null, cookieHunterCleanCallback, 15 * 60 * 1000, true);
+// rhill 2013-11-21:
+// https://github.com/gorhill/httpswitchboard/issues/65
+// TODO: Remove the unused code.
+// asyncJobQueue.add('cookieHunterClean', null, cookieHunterCleanCallback, 15 * 60 * 1000, true);
 
 /******************************************************************************/
 

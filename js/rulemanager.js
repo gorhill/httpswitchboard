@@ -38,7 +38,7 @@ var friendlyTypeNames = {
     'script': 'scripts',
     'xmlhttprequest': 'XMLHttpRequests',
     'sub_frame': 'frames',
-    'other': 'Other'
+    'other': 'other'
 };
 
 var hostileTypeNames = {

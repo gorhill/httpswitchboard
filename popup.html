@@ -26,7 +26,7 @@ div.paneHead {
     right: 0;
     background-color: white;
     z-index: 10;
-}
+    }
 body.scope-is-page div.paneHead {
     background-color: #f2f2ff;
     }
@@ -45,7 +45,7 @@ body.scope-is-page div.paneHead {
     }
 .btn-group.pull-right > .btn {
     float: left;
-}
+    }
 
 #buttonToggleScope {
     background-image: url('img/add-page-permissions.png');
@@ -84,127 +84,150 @@ body.scope-is-page div.paneHead {
     background-position: left 4px center;
     }
 
-div.paneContent {
+.paneContent {
     padding-top: 5.5em;
-}
-div.matrix {
+    }
+.matrix {
     text-align: left;
-}
-div.matrix > div {
+    }
+.matRow {
     white-space: nowrap;
-}
-div.matrix > div > div {
+    }
+.matCell {
     margin: 1px;
     border: 1px dotted #aaa;
     padding: 1px 1px 1px 6px;
     display: inline-block;
     box-sizing: content-box;
     width: 2.5em;
-    white-space:nowrap;
+    white-space: nowrap;
     text-align: center;
     position: relative;
-}
+    }
 
-/* domain section separator */
-.l2 + .l1 {
-    margin-top: 4px;
-}
-.l1 + .l1 {
-    margin-top: 4px;
-}
-
-.paneContent div.matrix > div.matRow > div:first-child {
+.paneContent .matrix .matRow > .matCell:first-child {
     font-weight: 100;
-}
-.paneContent div.matrix > div.matRow > div:first-child > b {
+    }
+.paneContent .matrix .matRow > .matCell:first-child > b {
     font-weight: normal;
-}
+    }
 
-div.matrix > div > div:first-child {
+.matrix .matRow > .matCell:first-child {
     width: 180px;
     text-align: right;
-}
-div.matrix > div > div:hover {
+    }
+.matrix .matRow > .matCell:hover {
     border-style: solid;
-}
-div.matrix > div.domainSeparator {
-    margin: 0;
+    }
+.matrix .matGroup .matSection {
+    margin: 4px 0 0 0;
     border: 0;
     padding: 0;
-    height: 4px;
-}
-div.matrix > div.groupSeparator {
+    }
+.matrix .matGroup .matSection:first-child {
+    margin-top: 4px 0 0 0;
+    border-top: 1px dotted #ccc;
+    padding-top: 4px;
+    }
+.matrix .matGroup.g0 .matSection:first-child {
+    margin-top: 0;
+    }
+.matrix .matGroup.g3 .matSection:first-child {
+    margin-top: 0;
+    }
+.matrix .matGroup .matSection.collapsed + .matSection.collapsed {
+    margin: 2px 0 0 0;
+    border: 0;
+    padding: 0;
+    }
+
+/* Collapsing of domains */
+.matrix .matSection .matRow.meta {
+    display: none;
+    }
+.matrix .matSection.collapsible.collapsed .matRow.meta {
+    display: block;
+    }
+.matrix .matSection.collapsible.collapsed .matRow:not(.meta) {
+    display: none;
+    }
+
+/* Collapsing of blacklisted */
+.matrix .g3Meta {
     margin: 0;
     padding: 0;
     border: 0;
     height: 9px;
-    background: url('img/matrix-group-hline.png') repeat-x center center;
-    opacity: 0.1;
-}
-div.matrix > div.groupSeparator.g3Meta {
-    background: url('img/matrix-group-hide.png') no-repeat center center,
-                url('img/matrix-group-hline.png') repeat-x center center;
+    background: url('img/matrix-group-hide.png') no-repeat center top 0,
+                url('img/matrix-group-hline.png') repeat-x center top 3px;
+    opacity: 0.2;
     cursor: pointer;
-}
-div.matrix > div.groupSeparator.g3Meta.g3Collapsed {
-    background: url('img/matrix-group-show.png') no-repeat center center,
-                url('img/matrix-group-hline.png') repeat-x center center;
-}
-div.matrix > div.groupSeparator.g3Meta.g3Collapsed ~ .matRow.rw {
+    }
+.matrix .g3Meta:hover {
+    opacity: 0.4;
+    }
+.matrix .g3Meta.g3Collapsed {
+    background: url('img/matrix-group-show.png') no-repeat center top 0,
+                url('img/matrix-group-hline.png') repeat-x center top 3px;
+    }
+.matrix .g3Meta.g3Collapsed ~ .matSection {
     display: none;
-}
-div.matrix > div.groupSeparator.g3Meta.g3Collapsed ~ .domainSeparator {
+    }
+.matrix .g3Meta ~ .matRow.ro {
     display: none;
-}
-div.matrix > div.groupSeparator.g3Meta ~ .matRow.ro {
-    display: none;
-}
-div.matrix > div.groupSeparator.g3Meta.g3Collapsed ~ .matRow.ro {
+    }
+.matrix .g3Meta.g3Collapsed ~ .matRow.ro {
     display: block;
-}
+    }
+.matrix .matGroup .g3Meta + *,.matrix .matGroup .g3Meta + * + * {
+    margin-top: 0;
+    padding-top: 0;
+    }
+
+/* Cell coloring */
 .rdt {
     color: white;
     background-color: #c00;
-}
+    }
 .gdt {
     color: white;
     background-color: #080;
-}
+    }
 .matRow.rw .matCell {
     cursor: pointer;
-}
+    }
 .rpt {
     color: black;
     background-color: #f8d0d0;
-}
+    }
 .gpt {
     color: black;
     background-color: #d0f0d0;
-}
+    }
 .matCell.rdp {
     background-image: url('img/permanent-black-small.png');
     background-repeat: no-repeat;
     background-position: -2px center;
-}
+    }
 .matCell.gdp {
     background-image: url('img/permanent-white-small.png');
     background-repeat: no-repeat;
     background-position: -2px center;
-}
+    }
 .matCell.rpp {
     background-image: url('img/permanent-black-small.png');
     background-repeat: no-repeat;
     background-position: -2px center;
-}
+    }
 .matCell.gpp {
     background-image: url('img/permanent-white-small.png');
     background-repeat: no-repeat;
     background-position: -2px center;
-}
+    }
 
 .top {
     font-weight: bold;
-}
+    }
 
 #message {
     margin: 0;
@@ -221,14 +244,14 @@ div.matrix > div.groupSeparator.g3Meta.g3Collapsed ~ .matRow.ro {
     overflow: hidden;
     text-align: center;
     background-color: transparent;
-}
+    }
 #message b {
     color: black;
     font-weight: normal;
-}
+    }
 #message .gdt, #message .rdt {
     padding: 0 4px;
-}
+    }
 
 #cellMenu {
     margin: 0;
@@ -239,25 +262,25 @@ div.matrix > div.groupSeparator.g3Meta.g3Collapsed ~ .matRow.ro {
     padding: 0;
     height: 18px;
     position: absolute;
-    left: 3px;
+    left: 2px;
     top: -19px;
     background: white;
     z-index: 20;
     display: none;
-}
+    }
 .matCell.rdp #cellMenu {
     display: block;
-}
+    }
 .matCell.gdp #cellMenu {
     display: block;
-}
+    }
 .matCell.rdt #cellMenu {
     display: block;
-}
+    }
 .matCell.gdt #cellMenu {
     display: block;
-}
-#cellMenu span {
+    }
+#persist, #unpersist {
     margin: 1px;
     border: 0;
     padding: 0;
@@ -266,31 +289,31 @@ div.matrix > div.groupSeparator.g3Meta.g3Collapsed ~ .matRow.ro {
     height: 16px;
     background-repeat: no-repeat;
     background-position: center center;
-}
-#cellMenu span:nth-of-type(1) {
+    }
+#persist {
     background-image: url('img/persist-dim.png');
-}
-#cellMenu span:nth-of-type(2) {
+    }
+#unpersist {
     background-image: url('img/unpersist-dim.png');
-}
-.matCell.rdt #cellMenu span:nth-of-type(1) {
+    }
+.matCell.rdt #persist {
     background-image: url('img/persist-rd.png');
-}
-.matCell.gdt #cellMenu span:nth-of-type(1) {
+    }
+.matCell.gdt #persist {
     background-image: url('img/persist-gd.png');
-}
-.matCell.rdp #cellMenu span:nth-of-type(2) {
+    }
+.matCell.rdp #unpersist {
     background-image: url('img/unpersist-rd.png');
-}
-.matCell.gdp #cellMenu span:nth-of-type(2) {
+    }
+.matCell.gdp #unpersist {
     background-image: url('img/unpersist-gd.png');
-}
-.matCell.rdt.rdp #cellMenu span:nth-of-type(1) {
+    }
+.matCell.rdt.rdp #persist {
     background-image: url('img/persist-dim.png');
-}
-.matCell.gdt.gdp #cellMenu span:nth-of-type(1) {
+    }
+.matCell.gdt.gdp #persist {
     background-image: url('img/persist-dim.png');
-}
+    }
 #cellHotspots {
     margin: 0;
     border: 0;
@@ -301,52 +324,74 @@ div.matrix > div.groupSeparator.g3Meta.g3Collapsed ~ .matRow.ro {
     width: 100%;
     height: 100%;
     z-index: 10;
-}
-#cellHotspots > div {
+    }
+#whitelist, #blacklist {
     margin: 0;
     border: 0;
     padding: 0;
     position: absolute;
     left: 0;
-    top: 0;
     width: 100%;
     height: 50%;
     background: transparent;
-}
-#cellHotspots > div:nth-of-type(1) {
+    }
+#whitelist {
     top: 0;
-}
-#cellHotspots > div:nth-of-type(2) {
+    }
+#blacklist {
     top: 50%;
-}
-.matCell.rpt #cellHotspots > div:nth-of-type(1):hover {
+    }
+.rw .matCell.rpt #whitelist:hover {
     background-color: #080;
     opacity: 0.25;
-}
-.matCell.gpt #cellHotspots > div:nth-of-type(1):hover {
+    }
+.rw .matCell.gpt #whitelist:hover {
     background-color: #080;
     opacity: 0.25;
-}
-.matCell.rdt #cellHotspots > div:nth-of-type(1):hover {
+    }
+.matCell.rdt #whitelist:hover {
     background-color: inherited;
-}
-.matCell.gdt #cellHotspots > div:nth-of-type(1):hover {
+    }
+.matCell.gdt #whitelist:hover {
     background-color: inherited;
-}
-.matCell.rpt #cellHotspots > div:nth-of-type(2):hover {
+    }
+.rw .matCell.rpt #blacklist:hover {
     background-color: #c00;
     opacity: 0.25;
-}
-.matCell.gpt #cellHotspots > div:nth-of-type(2):hover {
+    }
+.rw .matCell.gpt #blacklist:hover {
     background-color: #c00;
     opacity: 0.25;
-}
-.matCell.rdt #cellHotspots > div:nth-of-type(2):hover {
+    }
+.matCell.rdt #blacklist:hover {
     background-color: inherited;
-}
-.matCell.gdt #cellHotspots > div:nth-of-type(2):hover {
+    }
+.matCell.gdt #blacklist:hover {
     background-color: inherited;
-}
+    }
+#domainOnly {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    position: absolute;
+    left: 10%;
+    bottom: -3px;
+    width: 13px;
+    height: 13px;
+    visibility: hidden;
+    background: transparent url('img/domain-collapse.png') no-repeat;
+    opacity: 0.25;
+    z-index: 10000;
+    }
+.matSection.collapsed #domainOnly {
+    background: transparent url('img/domain-expand.png') no-repeat;
+    }
+.matSection.collapsible .matRow.l1 .matCell:nth-of-type(1):hover #domainOnly {
+    visibility: visible;
+    }
+#domainOnly:hover {
+    opacity: 1;
+    }
 </style>
 <title>HTTP Switchboard</title>
 </head>
@@ -358,7 +403,7 @@ div.matrix > div.groupSeparator.g3Meta.g3Collapsed ~ .matRow.ro {
     <div class="domainSeparator"></div>
     <div class="matRow"><div class="matCell"><b></b></div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div></div>
     <div id="cellMenu"><span id="persist"></span><span id="unpersist"></span></div>
-    <div id="cellHotspots"><div id="whitelist"></div><div id="blacklist"></div></div>
+    <div id="cellHotspots"><div id="whitelist"></div><div id="blacklist"></div><div id="domainOnly"></div></div>
 </div>
 
 <div class="paneHead">
@@ -381,7 +426,7 @@ div.matrix > div.groupSeparator.g3Meta.g3Collapsed ~ .matRow.ro {
     </div>
 
     <div id="matHead" class="matrix">
-        <div class="matRow rw" style="display:none"><div class="matCell" data-filter-type="all">all</div><div class="matCell" data-filter-type="cookie">cookie</div><div class="matCell" data-filter-type="image">image</div><div class="matCell" data-filter-type="object">plugin</div><div class="matCell" data-filter-type="script">script</div><div class="matCell" data-filter-type="xmlhttprequest">XHR</div><div class="matCell" data-filter-type="sub_frame">frame</div><div class="matCell" data-filter-type="other">other</div></div>
+        <div class="matRow rw" style="display:none"><div class="matCell" data-req-type="all">all</div><div class="matCell" data-req-type="cookie">cookie</div><div class="matCell" data-req-type="image">image</div><div class="matCell" data-req-type="object">plugin</div><div class="matCell" data-req-type="script">script</div><div class="matCell" data-req-type="xmlhttprequest">XHR</div><div class="matCell" data-req-type="sub_frame">frame</div><div class="matCell" data-req-type="other">other</div></div>
     </div>
 </div>
 
