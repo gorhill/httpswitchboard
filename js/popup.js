@@ -49,8 +49,8 @@ function getPageStats() {
 var userSettingsCached = {
 };
 
-function getUserSetting(setting) {
-    if ( userSettingsCached[setting] === undefined ) {
+function getUserSetting(setting, bypassCache) {
+    if ( bypassCache || userSettingsCached[setting] === undefined ) {
         userSettingsCached[setting] = getHTTPSB().userSettings[setting];
     }
     return userSettingsCached[setting];
@@ -514,6 +514,21 @@ function getNextAction(hostname, type, leaning) {
 
 /******************************************************************************/
 
+// This is required for when we update the matrix while it is open:
+// the user might have collapsed/expanded one or more domains, and we don't
+// want to lose all his hardwork.
+
+var explicitlyToggledDomains = {};
+
+function getCollapseState(domain) {
+    if ( explicitlyToggledDomains[domain] !== undefined ) {
+        return explicitlyToggledDomains[domain];
+    }
+    return getUserSetting('popupCollapseDomains');
+}
+
+/******************************************************************************/
+
 // Update visual of matrix cells(s)
 
 function updateMatrixCells() {
@@ -532,7 +547,8 @@ function updateMatrixCells() {
 // Update behavior of matrix:
 // - Whether a section is collapsible or not. It is collapsible if:
 //   - It has at least one subdomain AND
-//   - There is no explicit rule anywhere in the subdomain cells
+//   - There is no explicit rule anywhere in the subdomain cells AND
+//   - It is not part of group 3 (blacklisted hostnames)
 
 function updateMatrixBehavior() {
     var sections = $('.matSection', HTTPSBPopup.matrixList);
@@ -540,7 +556,7 @@ function updateMatrixBehavior() {
     var section, subdomainRows;
     while ( i-- ) {
         section = $(sections[i]);
-        subdomainRows = section.children('.l2');
+        subdomainRows = section.children('.l2:not(.g3)');
         section.toggleClass('collapsible', subdomainRows.length > 0 && subdomainRows.children('.gdt,.rdt').length === 0);
     }
 }
@@ -810,7 +826,8 @@ function makeMatrixGroup0Section(hostnames) {
     var domain = hostnames[0];
     var domainDiv = $('<div>')
         .addClass('matSection')
-        .toggleClass('collapsed', getUserSetting('popupCollapseDomains'));
+        .toggleClass('collapsed', getCollapseState(domain))
+        .prop('domain', domain);
     if ( hostnames.length > 1 ) {
         makeMatrixGroup0SectionMetaDomain(hostnames)
             .appendTo(domainDiv);
@@ -865,7 +882,8 @@ function makeMatrixGroup1Section(hostnames) {
     var domain = hostnames[0];
     var domainDiv = $('<div>')
         .addClass('matSection')
-        .toggleClass('collapsed', getUserSetting('popupCollapseDomains'));
+        .toggleClass('collapsed', getCollapseState(domain))
+        .prop('domain', domain);
     if ( hostnames.length > 1 ) {
         makeMatrixGroup1SectionMetaDomain(hostnames)
             .appendTo(domainDiv);
@@ -920,7 +938,8 @@ function makeMatrixGroup2Section(hostnames) {
     var domain = hostnames[0];
     var domainDiv = $('<div>')
         .addClass('matSection')
-        .toggleClass('collapsed', getUserSetting('popupCollapseDomains'));
+        .toggleClass('collapsed', getCollapseState(domain))
+        .prop('domain', domain);
     if ( hostnames.length > 1 ) {
         makeMatrixGroup2SectionMetaDomain(hostnames)
             .appendTo(domainDiv);
@@ -964,7 +983,8 @@ function makeMatrixGroup3SectionSubomain(domain, subdomain) {
 function makeMatrixGroup3Section(hostnames) {
     var domain = hostnames[0];
     var domainDiv = $('<div>')
-        .addClass('matSection');
+        .addClass('matSection')
+        .prop('domain', domain);
     makeMatrixGroup3SectionDomain(domain)
         .appendTo(domainDiv);
     for ( var i = 1; i < hostnames.length; i++ ) {
@@ -981,7 +1001,7 @@ function makeMatrixGroup3(group) {
             .addClass('matGroup g3');
         $('<div>')
             .addClass('matSection g3Meta')
-            .toggleClass('g3Collapsed', !!getUserSetting('popupHideBlacklisted'))
+            .toggleClass('g3Collapsed', !!getUserSetting('popupHideBlacklisted', true))
             .appendTo(groupDiv);
         makeMatrixMetaRow(computeMatrixGroupMetaStats(group), 'g3')
             .appendTo(groupDiv);
@@ -1284,8 +1304,11 @@ function initAll() {
             });
     $('#domainOnly', popup.matrixCellHotspots)
         .on('click', function() {
-                var section = $(this).parents('.matSection.collapsible');
-                section.toggleClass('collapsed');
+                var section = $(this)
+                    .parents('.matSection.collapsible')
+                    .toggleClass('collapsed');
+                explicitlyToggledDomains[section.prop('domain')] =
+                    section.hasClass('collapsed');
                 return false;
             });
 
