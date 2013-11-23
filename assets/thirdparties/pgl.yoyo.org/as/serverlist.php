@@ -557,7 +557,6 @@ ads.motormedia.nl
 ads.movieflix.com
 ads.msn.com
 ads.multimania.lycos.fr
-ads.my3whost.com
 ads.nationalgeographic.com
 ads.ncm.com
 ads.netclusive.de
@@ -566,7 +565,6 @@ ads.networksolutions.com
 ads.newdream.net
 ads.newgrounds.com
 ads.newmedia.cz
-ads.newsarama.com
 ads.newsint.co.uk
 ads.newsquest.co.uk
 ads.newtention.net
@@ -853,6 +851,7 @@ adsfac.net
 adsfac.us
 adshost1.com
 adshuffle.com
+adside.com
 adskape.ru
 adsklick.de
 adsmarket.com
@@ -935,6 +934,7 @@ advisormedia.cz
 adviva.com
 adviva.net
 advnt.com
+advprotraffic.com
 adware.hu
 adwareremovergold.com
 adwhirl.com
@@ -1011,7 +1011,6 @@ anm.intelli-direct.com
 annonser.dagbladet.no
 apex-ad.com
 api.intensifier.de
-app.lstdesign.com
 apture.com
 arc1.msn.com
 arcadebanners.com
@@ -1608,6 +1607,7 @@ hydramedia.com
 hyperbanner.net
 hypertracker.com
 i-clicks.net
+i-lookup.com
 i.xx.openx.com
 i1img.com
 i1media.no
@@ -1786,7 +1786,6 @@ mediax.angloinfo.com
 mediaz.angloinfo.com
 medleyads.com
 megacash.de
-megaclick.com
 megago.com
 megastats.com
 megawerbung.de
@@ -1872,7 +1871,6 @@ nitroclicks.com
 novem.pl
 numax.nu-1.com
 nuseek.com
-oa.techcrunch.com
 oas-central.realmedia.com
 oas.benchmark.fr
 oas.foxnews.com
@@ -2412,7 +2410,6 @@ viewpoint.com
 visistat.com
 visit.webhosting.yahoo.com
 visitbox.de
-visitorprofiler.com
 visual-pagerank.fr
 visualrevenue.com
 voicefive.com
