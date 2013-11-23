@@ -47,7 +47,6 @@ function initAll() {
     $('input[name="displayTextSize"]').attr('checked', function(){
         return $(this).attr('value') === httpsb.userSettings.displayTextSize;
         });
-    $('#display-domain-only').attr('checked', httpsb.userSettings.popupCollapseDomains);
     $('#delete-blacklisted-cookies').attr('checked', httpsb.userSettings.deleteCookies);
     $('#delete-blacklisted-localstorage').attr('checked', httpsb.userSettings.deleteLocalStorage);
     $('#cookie-removed-counter').html(httpsb.cookieRemovedCounter);
@@ -59,9 +58,6 @@ function initAll() {
 
     $('input[name="displayTextSize"]').on('change', function(){
         changeUserSettings('displayTextSize', $(this).attr('value'));
-    });
-    $('#display-domain-only').on('change', function(){
-        changeUserSettings('popupCollapseDomains', $(this).is(':checked'));
     });
     $('#delete-blacklisted-cookies').on('change', function(){
         changeUserSettings('deleteCookies', $(this).is(':checked'));

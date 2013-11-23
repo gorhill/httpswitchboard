@@ -374,19 +374,25 @@ body.scope-is-page div.paneHead {
     border: 0;
     padding: 0;
     position: absolute;
-    left: calc(50% - 6px);
-    bottom: -4px;
+    left: 20%;
+    bottom: -3px;
     width: 13px;
     height: 13px;
     visibility: hidden;
     background: transparent url('img/domain-collapse.png') no-repeat;
-    opacity: 0.2;
+    opacity: 0.25;
     z-index: 10000;
     }
 .matSection.collapsed #domainOnly {
     background: transparent url('img/domain-expand.png') no-repeat;
     }
 .matSection.collapsible .matRow.l1 .matCell:nth-of-type(1):hover #domainOnly {
+    visibility: visible;
+    }
+#matHead.collapsed #domainOnly {
+    background: transparent url('img/domain-expand.png') no-repeat;
+    }
+#matHead.collapsible .matRow .matCell:nth-of-type(1):hover #domainOnly {
     visibility: visible;
     }
 #domainOnly:hover {
@@ -425,7 +431,7 @@ body.scope-is-page div.paneHead {
         <div id="message"></div>
     </div>
 
-    <div id="matHead" class="matrix">
+    <div id="matHead" class="matrix collapsible">
         <div class="matRow rw" style="display:none"><div class="matCell" data-req-type="all">all</div><div class="matCell" data-req-type="cookie">cookie</div><div class="matCell" data-req-type="image">image</div><div class="matCell" data-req-type="object">plugin</div><div class="matCell" data-req-type="script">script</div><div class="matCell" data-req-type="xmlhttprequest">XHR</div><div class="matCell" data-req-type="sub_frame">frame</div><div class="matCell" data-req-type="other">other</div></div>
     </div>
 </div>

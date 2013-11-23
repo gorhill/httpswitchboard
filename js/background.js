@@ -31,7 +31,8 @@ var HTTPSB = {
         strictBlocking: false,
         displayTextSize: '13px',
         popupHideBlacklisted: false,
-        popupCollapseDomains: false
+        popupCollapseDomains: false,
+        popupCollapseSpecificDomains: {}
     },
 
     runtimeId: 1,

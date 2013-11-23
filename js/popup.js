@@ -46,14 +46,16 @@ function getPageStats() {
 
 /******************************************************************************/
 
-var userSettingsCached = {
-};
+function getUserSetting(setting) {
+    return getHTTPSB().userSettings[setting];
+}
 
-function getUserSetting(setting, bypassCache) {
-    if ( bypassCache || userSettingsCached[setting] === undefined ) {
-        userSettingsCached[setting] = getHTTPSB().userSettings[setting];
-    }
-    return userSettingsCached[setting];
+function setUserSetting(setting, value) {
+    chrome.runtime.sendMessage({
+        what: 'userSettings',
+        name: setting,
+        value: value
+    });
 }
 
 /******************************************************************************/
@@ -83,10 +85,6 @@ EntryStats.prototype.colourize = function(httpsb, scopeURL) {
     }
     this.temporaryColor = httpsb.getTemporaryColor(scopeURL, this.type, this.hostname);
     this.permanentColor = httpsb.getPermanentColor(scopeURL, this.type, this.hostname);
-};
-
-EntryStats.prototype.hasTemporaryRule = function() {
-    return this.temporaryColor.length > 1 && this.temporaryColor.charAt(1) === 'd';
 };
 
 EntryStats.prototype.add = function(other) {
@@ -156,22 +154,6 @@ HostnameStats.prototype.colourize = function(httpsb, scopeURL) {
     this.types.xmlhttprequest.colourize(httpsb, scopeURL);
     this.types.sub_frame.colourize(httpsb, scopeURL);
     this.types.other.colourize(httpsb, scopeURL);
-};
-
-HostnameStats.prototype.hasTemporaryRule = function() {
-    if ( this.hasRule === undefined ) {
-        this.hasRule =
-            this.types['*'].hasTemporaryRule() ||
-            this.types.main_frame.hasTemporaryRule() ||
-            this.types.cookie.hasTemporaryRule() ||
-            this.types.image.hasTemporaryRule() ||
-            this.types.object.hasTemporaryRule() ||
-            this.types.script.hasTemporaryRule() ||
-            this.types.xmlhttprequest.hasTemporaryRule() ||
-            this.types.sub_frame.hasTemporaryRule() ||
-            this.types.other.hasTemporaryRule();
-    }
-    return this.hasRule;
 };
 
 HostnameStats.prototype.add = function(other) {
@@ -518,13 +500,60 @@ function getNextAction(hostname, type, leaning) {
 // the user might have collapsed/expanded one or more domains, and we don't
 // want to lose all his hardwork.
 
-var explicitlyToggledDomains = {};
-
 function getCollapseState(domain) {
-    if ( explicitlyToggledDomains[domain] !== undefined ) {
-        return explicitlyToggledDomains[domain];
+    var states = getUserSetting('popupCollapseSpecificDomains');
+    if ( states !== undefined && states[domain] !== undefined ) {
+        return states[domain];
     }
     return getUserSetting('popupCollapseDomains');
+}
+
+function toggleCollapseState(element) {
+    var element = $(element);
+    if ( element.parents('#matHead.collapsible').length > 0 ) {
+        toggleMainCollapseState(element);
+    } else {
+        toggleSpecificCollapseState(element);
+    }
+}
+
+function toggleMainCollapseState(element) {
+    var matHead = element.parents('#matHead.collapsible')
+        .toggleClass('collapsed');
+    var collapsed = matHead.hasClass('collapsed');
+    $('#matList .matSection.collapsible').toggleClass('collapsed', collapsed);
+    setUserSetting('popupCollapseDomains', collapsed);
+
+    var mainCollapseState = getUserSetting('popupCollapseDomains');
+    var specificCollapseStates = getUserSetting('popupCollapseSpecificDomains') || {};
+    var domains = Object.keys(specificCollapseStates);
+    var i = domains.length;
+    var domain;
+    while ( i-- ) {
+        domain = domains[i];
+        if ( specificCollapseStates[domain] === collapsed ) {
+            delete specificCollapseStates[domain];
+        }
+    }
+    setUserSetting('popupCollapseSpecificDomains', specificCollapseStates);
+}
+
+function toggleSpecificCollapseState(element) {
+    // Remember collapse state forever, but only if it is different
+    // from main collapse switch.
+    var section = element.parents('.matSection.collapsible')
+        .toggleClass('collapsed');
+    var domain = section.prop('domain');
+    var collapsed = section.hasClass('collapsed');
+    var mainCollapseState = getUserSetting('popupCollapseDomains');
+    var specificCollapseStates = getUserSetting('popupCollapseSpecificDomains') || {};
+    if ( collapsed !== mainCollapseState ) {
+        specificCollapseStates[domain] = collapsed;
+        setUserSetting('popupCollapseSpecificDomains', specificCollapseStates);
+    } else if ( specificCollapseStates[domain] !== undefined ) {
+        delete specificCollapseStates[domain];
+        setUserSetting('popupCollapseSpecificDomains', specificCollapseStates);
+    }
 }
 
 /******************************************************************************/
@@ -657,7 +686,9 @@ function formatHeader(s) {
 /******************************************************************************/
 
 function renderMatrixHeaderRow() {
-    var cells = $('#matHead .matRow .matCell');
+    var matHead = $('#matHead.collapsible');
+    matHead.toggleClass('collapsed', getUserSetting('popupCollapseDomains'));
+    var cells = matHead.find('.matCell');
     $(cells[0]).prop({reqType: '*', hostname: '*'}).addClass(getCellClass('*', '*'));
     $(cells[1]).prop({reqType: 'cookie', hostname: '*'}).addClass(getCellClass('*', 'cookie'));
     $(cells[2]).prop({reqType: 'image', hostname: '*'}).addClass(getCellClass('*', 'image'));
@@ -684,6 +715,14 @@ function renderMatrixCellSubdomain(cell, domain, subomain) {
         .children('b')
         .text(subomain.slice(0, subomain.lastIndexOf(domain)-1) + '.')
         .after(domain);
+}
+
+function renderMatrixMetaCellDomain(cell, domain) {
+    $(cell).prop({reqType: '*', hostname: domain})
+        .addClass(getCellClass(domain, '*'))
+        .children('b')
+        .text(domain)
+        .before('\u2217.');
 }
 
 function renderMatrixCellType(cell, hostname, type, stats) {
@@ -726,7 +765,7 @@ function makeMatrixRowSubdomain(domain, subdomain) {
 function makeMatrixMetaRowDomain(domain, stats) {
     var matrixRow = HTTPSBPopup.matrixRowTemplate.clone().addClass('rw');
     var cells = $('.matCell', matrixRow);
-    renderMatrixCellDomain(cells[0], domain);
+    renderMatrixMetaCellDomain(cells[0], domain);
     renderMatrixCellTypes(cells, domain, stats);
     return matrixRow;
 }
@@ -1001,7 +1040,7 @@ function makeMatrixGroup3(group) {
             .addClass('matGroup g3');
         $('<div>')
             .addClass('matSection g3Meta')
-            .toggleClass('g3Collapsed', !!getUserSetting('popupHideBlacklisted', true))
+            .toggleClass('g3Collapsed', !!getUserSetting('popupHideBlacklisted'))
             .appendTo(groupDiv);
         makeMatrixMetaRow(computeMatrixGroupMetaStats(group), 'g3')
             .appendTo(groupDiv);
@@ -1265,52 +1304,48 @@ function initAll() {
     popup.matrixCellMenu = $('#cellMenu').detach();
     $('#persist', popup.matrixCellMenu)
         .on('click', function() {
-                handlePersistence($(this));
-                return false;
-            })
+            handlePersistence($(this));
+            return false;
+        })
         .on('mouseenter', function() {
-                handlePersistMessage($(this));
-                return false;
-            });
+            handlePersistMessage($(this));
+            return false;
+        });
     $('#unpersist', popup.matrixCellMenu)
         .on('click', function() {
-                handleUnpersistence($(this));
-                return false;
-            })
+            handleUnpersistence($(this));
+            return false;
+        })
         .on('mouseenter', function() {
-                handleUnpersistMessage($(this));
-                return false;
-            });
+            handleUnpersistMessage($(this));
+            return false;
+        });
 
     // We reuse for all cells the one and only cell hotspots.
     popup.matrixCellHotspots = $('#cellHotspots').detach();
     $('#whitelist', popup.matrixCellHotspots)
         .on('click', function() {
-                handleWhitelistFilter($(this));
-                return false;
-            })
+            handleWhitelistFilter($(this));
+            return false;
+        })
         .on('mouseenter', function() {
-                handleWhitelistFilterMessage($(this));
-                return false;
-            });
+            handleWhitelistFilterMessage($(this));
+            return false;
+        });
     $('#blacklist', popup.matrixCellHotspots)
         .on('click', function() {
-                handleBlacklistFilter($(this));
-                return false;
-            })
+            handleBlacklistFilter($(this));
+            return false;
+        })
         .on('mouseenter', function() {
                 handleBlacklistFilterMessage($(this));
                 return false;
-            });
+        });
     $('#domainOnly', popup.matrixCellHotspots)
         .on('click', function() {
-                var section = $(this)
-                    .parents('.matSection.collapsible')
-                    .toggleClass('collapsed');
-                explicitlyToggledDomains[section.prop('domain')] =
-                    section.hasClass('collapsed');
-                return false;
-            });
+            toggleCollapseState(this);
+            return false;
+        });
 
     // to attach/detach widgets to matrix cell
     $('body')
