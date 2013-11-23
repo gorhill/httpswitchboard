@@ -16,6 +16,7 @@ bkrtx.com
 # "The BounceX software is tracking all the cursor movements of every visitor in real-time" (yikes!)
 bounceexchange.com
 
+clicktale.com       # "See absolutely everything your visitors do on your webpage ... See their every mouse move, click and keystroke"
 crosspixel.net      # (cookies, localStorage) "leading provider of high performance audience data and information for the real-time advertising industry"
 crsspxl.com         # Related to crosspixel.net
 displaymarketplace.com
