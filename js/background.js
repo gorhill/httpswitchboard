@@ -84,7 +84,7 @@ var HTTPSB = {
 
     // record what chromium is soing behind the scene
     behindTheSceneURL: 'http://chromium.behind.the.scene',
-    behindTheSceneTabId: 0x7FFFFFFFFFFFFFFF,
+    behindTheSceneTabId: 0x7FFFFFFF,
     behindTheSceneMaxReq: 250,
 
     // Popup menu

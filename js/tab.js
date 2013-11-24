@@ -305,10 +305,17 @@ function bindTabToPageStats(tabId, pageUrl) {
     if ( !pageStats ) {
         return undefined;
     }
+
     // console.debug('bindTabToPageStats > dispatching traffic in tab id %d to url stats store "%s"', tabId, pageUrl);
-    unbindTabFromPageStats(tabId);
-    HTTPSB.pageUrlToTabId[pageUrl] = tabId;
-    HTTPSB.tabIdToPageUrl[tabId] = pageUrl;
+    // rhill 2013-11-24: Never ever rebind chromium-behind-the-scene
+    // virtual tab.
+    // https://github.com/gorhill/httpswitchboard/issues/67
+    if ( tabId !== HTTPSB.behindTheSceneTabId ) {
+        unbindTabFromPageStats(tabId);
+        HTTPSB.pageUrlToTabId[pageUrl] = tabId;
+        HTTPSB.tabIdToPageUrl[tabId] = pageUrl;
+    }
+
     return pageStats;
 }
 

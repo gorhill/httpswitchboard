@@ -107,7 +107,7 @@ function onUpdatedTabsHandler(tabId, changeInfo, tab) {
     // Ensure we have a url stats store and that the tab is bound to it.
     var pageStats = pageStatsFromTabId(tab.id);
     if ( !pageStats ) {
-        return;
+        pageStats = bindTabToPageStats(tab.id, pageUrl);
     }
 
     // Chrome webstore can't be injected with foreign code, following is to
@@ -173,10 +173,15 @@ load();
 
 /******************************************************************************/
 
-// Virtual tab to collect behind the scene traffic: we want to know what is
-// going on in there.
+// rhill 2013-11-24: bind behind-the-scene virtual tab/url manually, since the
+// normal way forbid binding behind the scene tab.
+// https://github.com/gorhill/httpswitchboard/issues/67
 
-bindTabToPageStats(HTTPSB.behindTheSceneTabId, HTTPSB.behindTheSceneURL);
+(function(tabId, pageUrl) {
+    var pageStats = createPageStats(pageUrl);
+    HTTPSB.pageUrlToTabId[pageUrl] = tabId;
+    HTTPSB.tabIdToPageUrl[tabId] = pageUrl;
+})(HTTPSB.behindTheSceneTabId, HTTPSB.behindTheSceneURL);
 
 /******************************************************************************/
 
