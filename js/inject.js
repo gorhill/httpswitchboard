@@ -36,7 +36,8 @@ if ( window.location.href.match(/^https?:\/\//) ) {
         pageUrl: window.location.href,
         scriptSources: {}, // to avoid duplicates
         pluginSources: {}, // to avoid duplicates
-        localStorage: false
+        localStorage: false,
+        indexedDB: false
     };
     var i, elem, elems;
     // https://github.com/gorhill/httpswitchboard/issues/25
@@ -83,7 +84,17 @@ if ( window.location.href.match(/^https?:\/\//) ) {
         });
     }
     // TODO: indexedDB
-    // Doesn't seem possible as of 2013-11-09
+    if ( window.indexedDB && !!window.indexedDB.webkitGetDatabaseNames ) {
+        // var db = window.indexedDB.webkitGetDatabaseNames().onsuccess = function(sender) {
+        //    console.debug('webkitGetDatabaseNames(): result=%o', sender.target.result);
+        // };
+    }
+    // TODO: Web SQL
+    if ( window.openDatabase ) {
+        // Sad:
+        // "There is no way to enumerate or delete the databases available for an origin from this API."
+        // Ref.: http://www.w3.org/TR/webdatabase/#databases
+    }
 
     // Important!!
     return r;
