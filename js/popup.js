@@ -218,8 +218,6 @@ var HTTPSBPopup = {
     groupsSnapshot: [],
     domainListSnapshot: 'do not leave this initial string empty',
 
-    mouseenterHandlers: {},
-
     matrixHeaderPrettyNames: {
         'all': '',
         'cookie': '',
@@ -509,7 +507,7 @@ function getCollapseState(domain) {
 }
 
 function toggleCollapseState(element) {
-    var element = $(element);
+    element = $(element);
     if ( element.parents('#matHead.collapsible').length > 0 ) {
         toggleMainCollapseState(element);
     } else {
@@ -524,7 +522,6 @@ function toggleMainCollapseState(element) {
     $('#matList .matSection.collapsible').toggleClass('collapsed', collapsed);
     setUserSetting('popupCollapseDomains', collapsed);
 
-    var mainCollapseState = getUserSetting('popupCollapseDomains');
     var specificCollapseStates = getUserSetting('popupCollapseSpecificDomains') || {};
     var domains = Object.keys(specificCollapseStates);
     var i = domains.length;
@@ -558,9 +555,10 @@ function toggleSpecificCollapseState(element) {
 
 /******************************************************************************/
 
-// Update visual of matrix cells(s)
+// Update color of matrix cells(s)
+// Color changes when rules change
 
-function updateMatrixCells() {
+function updateMatrixColors() {
     var cells = $('.matrix .matRow.rw > .matCell');
     var i = cells.length;
     var cell;
@@ -569,6 +567,14 @@ function updateMatrixCells() {
         cell.removeClass()
             .addClass('matCell ' + getCellClass(cell.prop('hostname'), cell.prop('reqType')));
     }
+}
+
+/******************************************************************************/
+
+// Update request count of matrix cells(s)
+// Count changes when number of distinct requests changes
+
+function updateMatrixCounts() {
 }
 
 /******************************************************************************/
@@ -582,11 +588,16 @@ function updateMatrixCells() {
 function updateMatrixBehavior() {
     var sections = $('.matSection', HTTPSBPopup.matrixList);
     var i = sections.length;
-    var section, subdomainRows;
+    var section, subdomainRows, j, subdomainRow;
     while ( i-- ) {
         section = $(sections[i]);
         subdomainRows = section.children('.l2:not(.g3)');
-        section.toggleClass('collapsible', subdomainRows.length > 0 && subdomainRows.children('.gdt,.rdt').length === 0);
+        j = subdomainRows.length;
+        while ( j-- ) {
+            subdomainRow = $(subdomainRows[j]);
+            subdomainRow.toggleClass('collapsible', subdomainRow.children('.gdt,.rdt').length === 0);
+        }
+        section.toggleClass('collapsible', subdomainRows.filter('.collapsible').length > 0);
     }
 }
 
@@ -609,7 +620,7 @@ function handleFilter(button, leaning) {
         httpsb.graylistTemporarily(HTTPSBPopup.scopeURL, type, hostname);
     }
     updateMatrixStats();
-    updateMatrixCells();
+    updateMatrixColors();
     updateMatrixBehavior();
     handleFilterMessage(button, leaning);
 }
@@ -1127,7 +1138,7 @@ function toggleScopePage() {
         getHTTPSB().createPageScopeIfNotExists(HTTPSBPopup.pageURL);
     }
     updateMatrixStats();
-    updateMatrixCells();
+    updateMatrixColors();
     updateMatrixBehavior();
 }
 
@@ -1219,7 +1230,7 @@ function blankMessage() {
 function revert() {
     getHTTPSB().revertPermissions();
     updateMatrixStats();
-    updateMatrixCells();
+    updateMatrixColors();
     updateMatrixBehavior();
 }
 
@@ -1271,17 +1282,6 @@ function bindToTabHandler(tabs) {
     // is called?
     if ( HTTPSBPopup.port ) {
         HTTPSBPopup.port.onMessage.addListener(onMessageHandler);
-    }
-}
-
-/******************************************************************************/
-
-function mouseenterHandler() {
-    var handler = mouseenterHandlers[this.id];
-    if ( handler ) {
-        handler(this);
-    } else {
-        blankMessage();
     }
 }
 
