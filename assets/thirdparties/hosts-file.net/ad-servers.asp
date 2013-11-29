@@ -208,7 +208,6 @@
 127.0.0.1	111.6.87.194.dynamic.dol.ru
 127.0.0.1	11163751.p.waymailtracker.com
 127.0.0.1	112.6.87.194.dynamic.dol.ru
-127.0.0.1	11233.bodisparking.com
 127.0.0.1	113.6.87.194.dynamic.dol.ru
 127.0.0.1	114.6.87.194.dynamic.dol.ru
 127.0.0.1	115.6.87.194.dynamic.dol.ru
@@ -769,6 +768,7 @@
 127.0.0.1	a.ctasnet.com
 127.0.0.1	a.facdn.net
 127.0.0.1	a.fandango.com
+127.0.0.1	a.mologiq.net
 127.0.0.1	a.networkworld.com
 127.0.0.1	a.oix.net
 127.0.0.1	a.playlistmag.com
@@ -2368,7 +2368,6 @@
 127.0.0.1	ads.medscape.com
 127.0.0.1	ads.metromanager.com
 127.0.0.1	ads.mgnetwork.com
-127.0.0.1	ads.mh5.com
 127.0.0.1	ads.mindsetnetwork.com
 127.0.0.1	ads.miniclip.com
 127.0.0.1	ads.mixtraffic.com
@@ -2956,7 +2955,6 @@
 127.0.0.1	ads52.hpg.com.br
 127.0.0.1	ads53.hpg.com.br
 127.0.0.1	ads54.hpg.com.br
-127.0.0.1	ads55.com
 127.0.0.1	ads55.hpg.com.br
 127.0.0.1	ads56.hpg.com.br
 127.0.0.1	ads57.hpg.com.br
@@ -3708,6 +3706,7 @@
 127.0.0.1	aolwpnswhatsnew.112.2o7.net
 127.0.0.1	ap.adoori.com
 127.0.0.1	ap.lookout.com
+127.0.0.1	ap.xad.com
 127.0.0.1	apachestat.cimedia.net
 127.0.0.1	apdigitalorg.112.2o7.net
 127.0.0.1	api-tansoapps.com
@@ -3755,7 +3754,6 @@
 127.0.0.1	appleglobal.112.2o7.net
 127.0.0.1	applestoreus.112.2o7.net
 127.0.0.1	appliedsemantics.com
-127.0.0.1	aprombz.com
 127.0.0.1	apromoweb.com
 127.0.0.1	apture.com
 127.0.0.1	apu04c0.audientia.net
@@ -4160,7 +4158,6 @@
 127.0.0.1	bannerbank.com
 127.0.0.1	bannerbank.hu
 127.0.0.1	bannerbank.ru
-127.0.0.1	bannerboxes.com
 127.0.0.1	bannercampaign.com
 127.0.0.1	bannercash.com.cz
 127.0.0.1	bannercash.de
@@ -4176,7 +4173,6 @@
 127.0.0.1	bannerexchange.klikklik.nl
 127.0.0.1	bannerexchange.mycomputer.com
 127.0.0.1	bannerforge.com
-127.0.0.1	bannerhost.com
 127.0.0.1	bannerimages.0catch.com
 127.0.0.1	bannerlandia.com
 127.0.0.1	bannerlandia.com.ar
@@ -4285,6 +4281,7 @@
 127.0.0.1	banners.toteme.com
 127.0.0.1	banners.truecash.com
 127.0.0.1	banners.valuead.com
+127.0.0.1	banners.victor.com
 127.0.0.1	banners.webmasterplan.com
 127.0.0.1	banners.winanylotto.com
 127.0.0.1	banners.winfire.com
@@ -4586,6 +4583,7 @@
 127.0.0.1	bcp.crwdcntrl.net
 127.0.0.1	be.nedstat.net
 127.0.0.1	be.sitestat.com
+127.0.0.1	bea4.v.fwmrm.net
 127.0.0.1	becontext.com
 127.0.0.1	bellca.112.2o7.net
 127.0.0.1	bellevue.ivwbox.de
@@ -4700,6 +4698,7 @@
 127.0.0.1	bullseye-network.com
 127.0.0.1	bullseye-network.net
 127.0.0.1	bumerang.hurriyet.com.tr
+127.0.0.1	bunitd.com
 127.0.0.1	burns.adtech.fr
 127.0.0.1	burstly.com
 127.0.0.1	burstmedia.com
@@ -4905,6 +4904,7 @@
 127.0.0.1	cdn.insights.gravity.com
 127.0.0.1	cdn.jquerytools.org
 127.0.0.1	cdn.jsdelivr.net
+127.0.0.1	cdn.livechatinc.com
 127.0.0.1	cdn.onescreen.net
 127.0.0.1	cdn.onlinecountdowns.com
 127.0.0.1	cdn.optimizely.com
@@ -6482,6 +6482,7 @@
 127.0.0.1	cpaway.afftrack.com
 127.0.0.1	cpcserve.clickbooth.com
 127.0.0.1	cpd8.net
+127.0.0.1	cpm-plus.com
 127.0.0.1	cpm.biz
 127.0.0.1	cpm.tz4.com
 127.0.0.1	cpmfun.com
@@ -6681,6 +6682,7 @@
 127.0.0.1	delishows.com
 127.0.0.1	deliver.aadsrv.com
 127.0.0.1	delivere.com
+127.0.0.1	delivery.hornyspots.com
 127.0.0.1	delivery.sid-ads.com
 127.0.0.1	delivery.trafficbroker.com
 127.0.0.1	delivery.trafficforce.com
@@ -6795,6 +6797,7 @@
 127.0.0.1	doubleclick.ne.jp
 127.0.0.1	doubleclick.net
 127.0.0.1	doubleclick.shockwave.com
+127.0.0.1	download-manager--installation.com
 127.0.0.1	download.templatemo.com
 127.0.0.1	downloadcounter.de
 127.0.0.1	downloads.default-homepage-network.com
@@ -7047,6 +7050,7 @@
 127.0.0.1	ezcybersearch.com
 127.0.0.1	ezpoll.superstats.com
 127.0.0.1	ezpolls.superstats.com
+127.0.0.1	f-js1.spotsniper.ru
 127.0.0.1	f.about.com
 127.0.0.1	f.rmgserving.com
 127.0.0.1	f.zeroredirect.com
@@ -7940,7 +7944,6 @@
 127.0.0.1	get2buynow.com
 127.0.0.1	getfreebl.com
 127.0.0.1	gethotresults.com
-127.0.0.1	getmonetized.net
 127.0.0.1	getmycell.com
 127.0.0.1	getpaidtosurfthenetmoney.homestead.com
 127.0.0.1	getrank.ciki.me
@@ -7967,18 +7970,19 @@
 127.0.0.1	go.coxds.com
 127.0.0.1	go.cpmadvisors.com
 127.0.0.1	go.freeanalyzer.ru
+127.0.0.1	go.jetswap.hs5.ru
 127.0.0.1	go.madmimi.com
 127.0.0.1	go.pardot.com
 127.0.0.1	go.promojet.ru
 127.0.0.1	go.trafficshop.com
 127.0.0.1	go.voice2page.com
+127.0.0.1	go.youlamedia.com
 127.0.0.1	go2.trekaklik.com
 127.0.0.1	go2web20.net
 127.0.0.1	go3.trekaklik.com
 127.0.0.1	gogousenet.com
 127.0.0.1	goldenadsf1eed.com
 127.0.0.1	golds.lp.mydas.mobi
-127.0.0.1	goldstats.com
 127.0.0.1	golem.met.vgwort.de
 127.0.0.1	golfcountryhomes.com
 127.0.0.1	gomovies.track.clicksure.com
@@ -8864,6 +8868,7 @@
 127.0.0.1	lifeserv.com
 127.0.0.1	likebtn.com
 127.0.0.1	link.belati.net
+127.0.0.1	link.email.dynect.net
 127.0.0.1	link.net
 127.0.0.1	link.p0.com
 127.0.0.1	link.profitreload.com
@@ -10816,6 +10821,7 @@
 127.0.0.1	server3.web-stat.com
 127.0.0.1	serverwatch.de.intellitxt.com
 127.0.0.1	service.adtech.fr
+127.0.0.1	service.clicksvenue.com
 127.0.0.1	service.optify.net
 127.0.0.1	service.sponsorpay.com
 127.0.0.1	service.urchin.com
@@ -10979,6 +10985,7 @@
 127.0.0.1	sport.xoomcounter.com
 127.0.0.1	sport1.ivwbox.de
 127.0.0.1	sports.ign.us.intellitxt.com
+127.0.0.1	spotsniper.ru
 127.0.0.1	spycash.biz
 127.0.0.1	spylog.com
 127.0.0.1	spylog.ru
@@ -11088,6 +11095,7 @@
 127.0.0.1	static.pixazza.com
 127.0.0.1	static.qweery.nl
 127.0.0.1	static.rpxnow.com
+127.0.0.1	static.salesresourcepartners.com
 127.0.0.1	static.smsac.net.edgesuite.net
 127.0.0.1	static.thumbr.com
 127.0.0.1	static.vpptechnologies.com
@@ -11242,7 +11250,6 @@
 127.0.0.1	superstats.com
 127.0.0.1	superstats.de
 127.0.0.1	superstats.nl
-127.0.0.1	supersurvey.aprombz.com
 127.0.0.1	surebaby.us.intellitxt.com
 127.0.0.1	surehits.com
 127.0.0.1	sureonlinefind.com
@@ -11547,6 +11554,7 @@
 127.0.0.1	trackalyzer.com
 127.0.0.1	trackbacksecure.com
 127.0.0.1	trackedclicks.com
+127.0.0.1	tracker.cedarfinance.com
 127.0.0.1	tracker.celebtaboo.com
 127.0.0.1	tracker.clicktrade.com
 127.0.0.1	tracker.com
@@ -12102,6 +12110,7 @@
 127.0.0.1	vimages.videoprofessor.com
 127.0.0.1	vintacom.112.2o7.net
 127.0.0.1	vip-marketplace.com
+127.0.0.1	vipadshares.com
 127.0.0.1	viplogin.553.clicksurecpa.com
 127.0.0.1	virads.com
 127.0.0.1	virtual-person.com
@@ -12510,7 +12519,6 @@
 127.0.0.1	www.ads3.advance.de
 127.0.0.1	www.ads4.advance.de
 127.0.0.1	www.ads4links.com
-127.0.0.1	www.ads55.com
 127.0.0.1	www.adsalvo.com
 127.0.0.1	www.adsbookie.com
 127.0.0.1	www.adsbrokermirror1.info
@@ -12615,7 +12623,6 @@
 127.0.0.1	www.apmebf.com
 127.0.0.1	www.app-authority.com
 127.0.0.1	www.appliedsemantics.com
-127.0.0.1	www.aprombz.com
 127.0.0.1	www.apture.com
 127.0.0.1	www.areasnap.com
 127.0.0.1	www.arizona-marketplace.com
@@ -12842,6 +12849,7 @@
 127.0.0.1	www.cpatrac.com
 127.0.0.1	www.cpatrackr.com
 127.0.0.1	www.cpd8.net
+127.0.0.1	www.cpm-plus.com
 127.0.0.1	www.cpm.biz
 127.0.0.1	www.cpmfun.com
 127.0.0.1	www.cpxcenter.com
@@ -13130,7 +13138,6 @@
 127.0.0.1	www.get-search-results.com
 127.0.0.1	www.getfreebl.com
 127.0.0.1	www.gethotresults.com
-127.0.0.1	www.getmonetized.net
 127.0.0.1	www.getmycell.com
 127.0.0.1	www.getsatisfaction.com
 127.0.0.1	www.getxpay.biz
@@ -13802,6 +13809,7 @@
 127.0.0.1	www.spinbox.net
 127.0.0.1	www.splashpageadvertising.com
 127.0.0.1	www.sponsorads.de
+127.0.0.1	www.spotsniper.ru
 127.0.0.1	www.spycash.biz
 127.0.0.1	www.spylog.com
 127.0.0.1	www.spylog.ru
@@ -13956,6 +13964,7 @@
 127.0.0.1	www.viglink.com
 127.0.0.1	www.vignette.com
 127.0.0.1	www.vinceandjoesmarket.com
+127.0.0.1	www.vipadshares.com
 127.0.0.1	www.virads.com
 127.0.0.1	www.virtual-person.com
 127.0.0.1	www.visitorpath.com
@@ -14331,4 +14340,4 @@
 127.0.0.1	zxypenguin.people-group.su
 127.0.0.1	zz.cqcounter.com
 127.0.0.1	_thums.ero-advertising.com
-# Hosts: 14326
+# Hosts: 14335
