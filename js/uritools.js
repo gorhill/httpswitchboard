@@ -29,8 +29,6 @@
 
 /******************************************************************************/
 
-var uriTools = (function() {
-
 /******************************************************************************/
 
 var uriTools = {
@@ -438,7 +436,8 @@ var uriTools = {
     _path: '',
     _query: '',
     _fragment: '',
-    _publicSuffixList: null,
+
+    _publicSuffixList: publicSuffixList,
 
     /*--------------------------------------------------------------------*/
 
@@ -474,15 +473,5 @@ var uriTools = {
 uriTools.authorityBit =  (uriTools.userBit | uriTools.passwordBit | uriTools.hostnameBit | uriTools.portBit);
 uriTools.normalizeBits = (uriTools.schemeBit | uriTools.hostnameBit | uriTools.pathBit | uriTools.queryBit);
 
-if ( !publicSuffixList ) {
-    throw 'publicSuffixList not defined!';
-}
-
-uriTools._publicSuffixList = publicSuffixList;
-
 /******************************************************************************/
-
-return uriTools;
-
-})();
 
