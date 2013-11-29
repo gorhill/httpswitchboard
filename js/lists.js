@@ -225,7 +225,8 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
     var blacklist = this.black.list;
     var whitelist = this.white.list;
     var graylist = this.gray.list;
-    var typeKey, cellKey, parent;
+    var typeKey, cellKey;
+    var parents, parent;
 
     // Pick proper entry point
 
@@ -243,6 +244,7 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
         }
         // indirect: any type, specific hostname
         cellKey = '*|' + hostname;
+
         // rhill 2013-10-26: Whitelist MUST be checked before blacklist,
         // because read-only blacklists are, hum... read-only? (which means
         // they can only be overriden through occultation, which means
@@ -261,9 +263,9 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
         }
 
         // indirect: parent hostname nodes
-        parent = hostname;
+        parents = uriTools.parentHostnamesFromHostname(hostname);
         while ( true ) {
-            parent = getParentHostnameFromHostname(parent);
+            parent = parents.shift();
             if ( !parent ) {
                 break;
             }
@@ -277,12 +279,13 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
             }
             // any type, specific parent
             cellKey = '*|' + parent;
+
             // rhill 2013-10-26: Whitelist MUST be checked before blacklist,
             // because read-only blacklists are, hum... read-only?
             if ( whitelist[cellKey] ) {
                 // https://github.com/gorhill/httpswitchboard/issues/29
                 // The cell is indirectly whitelisted because of hostname, type
-                // must nOT be blacklisted.
+                // must NOT be blacklisted.
                 if ( this.httpsb.userSettings.strictBlocking && blacklist[typeKey] ) {
                     return 'rpt';
                 }
@@ -315,9 +318,9 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
             return 'rdt';
         }
         // indirect: parent hostname nodes
-        parent = hostname;
+        parents = uriTools.parentHostnamesFromHostname(hostname);
         while ( true ) {
-            parent = getParentHostnameFromHostname(parent);
+            parent = parents.shift();
             if ( !parent ) {
                 break;
             }
@@ -482,7 +485,7 @@ PermissionScopes.prototype.normalizeScopeURL = function(url) {
         return null;
     }
     if ( url !== '*' ) {
-        url = getRootURLFromURL(url);
+        url = uriTools.rootURLFromURI(url);
     }
     return url;
 };
@@ -494,7 +497,7 @@ PermissionScopes.prototype.scopeFromURL = function(url) {
         return this.scopes['*'];
     }
     if ( url !== '*' ) {
-        url = getRootURLFromURL(url);
+        url = uriTools.rootURLFromURI(url);
     }
     return this.scopes[url];
 };

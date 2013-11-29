@@ -31,7 +31,7 @@ HTTPSB.normalizeScopeURL = function(url) {
         return null;
     }
     if ( url !== '*' ) {
-        url = getRootURLFromURL(url);
+        url = uriTools.rootURLFromURI(url);
     }
     return url;
 };
@@ -45,7 +45,7 @@ HTTPSB.createPageScopeIfNotExists = function(url) {
     if ( !url ) {
         return false;
     }
-    url = getRootURLFromURL(url);
+    url = uriTools.rootURLFromURI(url);
     var tscope = this.temporaryScopes.scopes[url];
     var pscope = this.permanentScopes.scopes[url];
     if ( !tscope !== !pscope ) {
@@ -88,7 +88,7 @@ HTTPSB.destroyPageScopeIfExists = function(url) {
     if ( !url || url === '*' ) {
         return false;
     }
-    url = getRootURLFromURL(url);
+    url = uriTools.rootURLFromURI(url);
     var tscope = this.temporaryScopes.scopes[url];
     var pscope = this.permanentScopes.scopes[url];
     if ( !tscope !== !pscope ) {
@@ -119,7 +119,7 @@ HTTPSB.scopePageExists = function(url) {
     if ( url === '*' ) {
         return true;
     }
-    url = getRootURLFromURL(url);
+    url = uriTools.rootURLFromURI(url);
     var tscope = this.temporaryScopes.scopes[url];
     var pscope = this.permanentScopes.scopes[url];
     if ( !tscope !== !pscope ) {

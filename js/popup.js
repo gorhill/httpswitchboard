@@ -276,7 +276,7 @@ function initMatrixStats() {
     // collect all hostnames and ancestors from net traffic
     var background = getBackgroundPage();
     var pageUrl = pageStats.pageUrl;
-    var url, hostname, reqType, root, parent, reqKey;
+    var url, hostname, reqType, nodes, node, reqKey;
     var reqKeys = Object.keys(pageStats.requests);
     var iReqKeys = reqKeys.length;
 
@@ -285,25 +285,31 @@ function initMatrixStats() {
     while ( iReqKeys-- ) {
         reqKey = reqKeys[iReqKeys];
         url = background.urlFromReqKey(reqKey);
-        hostname = background.getHostnameFromURL(url);
+        hostname = background.uriTools.hostnameFromURI(url);
+
         // rhill 2013-10-23: hostname can be empty if the request is a data url
         // https://github.com/gorhill/httpswitchboard/issues/26
         if ( hostname === '' ) {
-            hostname = background.getHostnameFromURL(pageUrl);
+            hostname = background.uriTools.hostnameFromURI(pageUrl);
         }
         reqType = background.typeFromReqKey(reqKey);
+
         // we want a row for self and ancestors
-        parent = hostname;
-        while ( parent ) {
-            root = parent;
-            if ( !matrixStats[parent] ) {
-                matrixStats[parent] = HostnameStats.prototype.factory(parent);
+        nodes = background.uriTools.allHostnamesFromHostname(hostname);
+
+        while ( true ) {
+            node = nodes.shift();
+            if ( !node ) {
+                break;
             }
-            parent = background.getParentHostnameFromHostname(parent);
+            if ( !matrixStats[node] ) {
+                matrixStats[node] = HostnameStats.prototype.factory(node);
+            }
         }
         matrixStats[hostname].types[reqType].count += 1;
         // https://github.com/gorhill/httpswitchboard/issues/12
         // Count requests for whole row.
+
         matrixStats[hostname].types['*'].count += 1;
         // meta row for domain, only:
         // - there are subdomains
@@ -358,8 +364,8 @@ function getGroupStats() {
     // First, group according to whether at least one node in the domain
     // hierarchy is white or blacklisted
     var background = getBackgroundPage();
-    var pageDomain = background.getDomainFromURL(HTTPSBPopup.pageURL);
-    var hostname, domain, parent;
+    var pageDomain = background.uriTools.domainFromURI(HTTPSBPopup.pageURL);
+    var hostname, domain, nodes, node;
     var temporaryColor;
     var dark, group;
     var hostnames = Object.keys(matrixStats);
@@ -377,17 +383,22 @@ function getGroupStats() {
         }
         // Walk upward the chain of hostname and find at least one which
         // is expressly whitelisted or blacklisted.
-        parent = hostname;
-        while ( parent ) {
-            temporaryColor = matrixStats[parent].types['*'].temporaryColor;
+        nodes = background.uriTools.allHostnamesFromHostname(hostname);
+        domain = nodes[nodes.length-1];
+
+        while ( true ) {
+            node = nodes.shift();
+            if ( !node ) {
+                break;
+            }
+            temporaryColor = matrixStats[node].types['*'].temporaryColor;
             dark = temporaryColor.charAt(1) === 'd';
             if ( dark ) {
                 break;
             }
-            parent = background.getParentHostnameFromHostname(parent);
         }
         // Domain of the page comes first
-        if ( background.getDomainFromHostname(hostname) === pageDomain ) {
+        if ( domain === pageDomain ) {
             group = 0;
         }
         // Whitelisted hostnames are second, blacklisted are fourth
@@ -397,7 +408,6 @@ function getGroupStats() {
         } else {
             group = 2;
         }
-        domain = background.getDomainFromHostname(hostname);
         if ( !groups[group][domain] ) {
             groups[group][domain] = { all: {}, withRules: {} };
         }
@@ -410,6 +420,7 @@ function getGroupStats() {
     // which are not explicitly part of the web page.
     var iGroup = groups.length;
     var domains, iDomain;
+    var nodes;
     while ( iGroup-- ) {
         group = groups[iGroup];
         domains = Object.keys(group);
@@ -419,10 +430,13 @@ function getGroupStats() {
             hostnames = Object.keys(group[domain].withRules);
             iHostname = hostnames.length;
             while ( iHostname-- ) {
-                hostname = hostnames[iHostname];
-                while ( hostname ) {
-                    group[domain].all[hostname] = group[domain].withRules[hostname];
-                    hostname = background.getParentHostnameFromHostname(hostname);
+                nodes = background.uriTools.allHostnamesFromHostname(hostnames[iHostname]);
+                while ( true ) {
+                    node = nodes.shift();
+                    if ( !node ) {
+                        break;
+                    }
+                    group[domain].all[node] = group[domain].withRules[node];
                 }
             }
         }
@@ -717,22 +731,22 @@ function renderMatrixCellDomain(cell, domain) {
     $(cell).prop({reqType: '*', hostname: domain})
         .addClass(getCellClass(domain, '*'))
         .children('b')
-        .text(domain);
+        .text(punycode.toUnicode(domain));
 }
 
 function renderMatrixCellSubdomain(cell, domain, subomain) {
     $(cell).prop({reqType: '*', hostname: subomain})
         .addClass(getCellClass(subomain, '*'))
         .children('b')
-        .text(subomain.slice(0, subomain.lastIndexOf(domain)-1) + '.')
-        .after(domain);
+        .text(punycode.toUnicode(subomain.slice(0, subomain.lastIndexOf(domain)-1)) + '.')
+        .after(punycode.toUnicode(domain));
 }
 
 function renderMatrixMetaCellDomain(cell, domain) {
     $(cell).prop({reqType: '*', hostname: domain})
         .addClass(getCellClass(domain, '*'))
         .children('b')
-        .text(domain)
+        .text(punycode.toUnicode(domain))
         .before('\u2217.');
 }
 

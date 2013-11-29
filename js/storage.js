@@ -379,10 +379,42 @@ function mergeRemoteBlacklist(list) {
 
 /******************************************************************************/
 
-// load white/blacklist
+function loadPublicSuffixList() {
+    var list = readLocalTextFile('assets/thirdparties/mxr.mozilla.org/effective_tld_names.dat');
+    publicSuffixList.parse(list, punycode.toASCII);
+}
+
+/******************************************************************************/
+
+function readLocalTextFile(path) {
+    // If location is local, assume local directory
+    var url = path;
+    if ( url.search(/^https?:\/\//) < 0 ) {
+        url = chrome.runtime.getURL(path);
+    }
+    console.log('HTTP Switchboard > readLocalTextFile > "%s"', url);
+
+    // rhill 2013-10-24: Beware, our own requests could be blocked by our own
+    // behind-the-scene requests processor.
+    var text = null;
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'text';
+    xhr.open('GET', url, false);
+    xhr.send();
+    if ( xhr.status === 200 ) {
+        text = xhr.responseText;
+    }
+    return text;
+}
+
+/******************************************************************************/
+
+// Load white/blacklist
+
 function load() {
     loadUserSettings();
     loadUserLists();
     loadRemoteBlacklists();
+    loadPublicSuffixList();
 }
 

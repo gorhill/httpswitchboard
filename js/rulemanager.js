@@ -83,7 +83,7 @@ function renderRecipeStringToRule(recipe) {
     }
     // Validate hostname
     var hostname = parts[2];
-    if ( hostname !== '*' && !getBackground().isValidHostname(hostname) ) {
+    if ( hostname !== '*' && !getBackground().uriTools.isValidHostname(hostname) ) {
         return false;
     }
     // Validate type
@@ -139,7 +139,7 @@ function renderRecipeStringToScopeKey(recipe) {
         return false;
     }
     var scopeKey = parts[1];
-    if ( scopeKey !== '*' && !getBackground().isValidRootURL(scopeKey) ) {
+    if ( scopeKey !== '*' && !getBackground().uriTools.isValidRootURL(scopeKey) ) {
         return false;
     }
     return scopeKey;

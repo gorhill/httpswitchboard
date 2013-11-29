@@ -198,8 +198,8 @@ function onMessageHandler(request, sender, callback) {
 
         case 'contentHasLocalStorage':
             // `blocked` aka `response`
-            response = HTTPSB.blacklisted(request.url, 'cookie', getHostnameFromURL(request.url));
-            recordFromPageUrl(request.url, 'cookie', getRootURLFromURL(request.url) + '/{localStorage}', response);
+            response = HTTPSB.blacklisted(request.url, 'cookie', uriTools.hostnameFromURI(request.url));
+            recordFromPageUrl(request.url, 'cookie', uriTools.rootURLFromURI(request.url) + '/{localStorage}', response);
             response = response && HTTPSB.userSettings.deleteLocalStorage;
             if ( response ) {
                 HTTPSB.localStorageRemovedCounter++;

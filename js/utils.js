@@ -19,106 +19,6 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
-var globalURI = new URI();
-
-/******************************************************************************/
-
-// Normalize a URL passed by chromium
-
-function normalizeChromiumUrl(url) {
-    // remove fragment...
-    return globalURI.href(url).fragment('').href();
-}
-
-/******************************************************************************/
-
-// extract everything from url
-
-function getUrlParts(url) {
-    return URI.parse(url);
-}
-
-/******************************************************************************/
-
-// extract hostname from url
-
-function getHostnameFromURL(url) {
-    return globalURI.href(url).hostname();
-}
-
-/******************************************************************************/
-
-// Validate hostname
-
-function isValidHostname(hostname) {
-    var r;
-    try {
-        r = globalURI.hostname(hostname).hostname() === hostname;
-    }
-    catch (e) {
-        return false;
-    }
-    return r;
-}
-
-/******************************************************************************/
-
-// extract domain from url
-
-function getDomainFromURL(url) {
-    if ( !url ) {
-        return '';
-    }
-    return globalURI.href(url).domain();
-}
-
-/******************************************************************************/
-
-// extract domain from hostname
-
-function getDomainFromHostname(hostname) {
-    return globalURI.hostname(hostname).domain();
-}
-
-/******************************************************************************/
-
-// extract domain from url
-
-function getUrlProtocol(url) {
-    return globalURI.href(url).protocol();
-}
-
-/******************************************************************************/
-
-function getRootURLFromURL(url) {
-    var uri = globalURI.href(url);
-    return uri.scheme() + '://' + uri.hostname();
-}
-
-function isValidRootURL(url) {
-    var uri = globalURI.href(url);
-    var rootUrl = uri.scheme() + '://' + uri.hostname();
-    return url === rootUrl;
-}
-
-/******************************************************************************/
-
-// Return the parent domain. For IP address, there is no parent domain.
-
-function getParentHostnameFromHostname(hostname) {
-    var uri = globalURI;
-    var subdomain = uri.hostname(hostname).subdomain();
-    if ( subdomain === '' ) {
-        return undefined;
-    }
-    var domain = uri.domain();
-    var dot = subdomain.indexOf('.');
-    if ( dot < 0 ) {
-        return domain;
-    }
-    return subdomain.slice(dot+1) + '.' + domain;
-}
-
 /******************************************************************************/
 
 // Enable/disable javascript for a specific hostname.
@@ -154,4 +54,59 @@ function setJavascript(hostname, state) {
         setJavascriptCallback(windows, hostname, setting);
     });
 }
+
+/******************************************************************************/
+
+// Ref: Given a URL, returns a unique 7-character long hash string
+
+function requestHash(url, reqtype) {
+
+    // FNV32a
+    // http://www.isthe.com/chongo/tech/comp/fnv/index.html#FNV-reference-source
+    var hint = 0x811c9dc5;
+    var i = s.length;
+    while ( i-- ) {
+        hint ^= s.charCodeAt(i);
+        hint += hint<<1 + hint<<4 + hint<<7 + hint<<8 + hint<<24;
+    }
+    hint = hint >>> 0;
+
+    var hstr = requestHash.typeToCode[reqtype] || 'z';
+    var i = 6;
+    while ( i-- ) {
+        hstr += requestHash.charCodes.charAt(hint & 0x3F);
+        hint >>= 6;
+    }
+    return hstr;
+}
+
+requestHash.charCodes = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+
+requestHash.typeToCode = {
+    'main_frame'    : 'a',
+    'sub_frame'     : 'b',
+    'stylesheet'    : 'c',
+    'script'        : 'd',
+    'image'         : 'e',
+    'object'        : 'f',
+    'xmlhttprequest': 'g',
+    'other'         : 'h',
+    'cookie'        : 'i'
+};
+requestHash.codeToType = {
+    'a': 'main_frame',
+    'b': 'sub_frame',
+    'c': 'stylesheet',
+    'd': 'script',
+    'e': 'image',
+    'f': 'object',
+    'g': 'xmlhttprequest',
+    'h': 'other',
+    'i': 'cookie',
+    'z': 'unknown'
+};
+
+requestHash.typeFromHash = function(hstr) {
+    return requestHash.codeToType[hstr.charAt(0)];
+};
 

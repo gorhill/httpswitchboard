@@ -103,7 +103,7 @@ PageStatsEntry.prototype.recordRequest = function(type, url, block) {
     // page is no longer in the browser.
     updateBadge(this.pageUrl);
 
-    var hostname = getHostnameFromURL(url);
+    var hostname = uriTools.hostnameFromURI(url);
 
     // remember this blacklisting, used to create a snapshot of the state
     // of the page, which is useful for smart reload of the page (reload the
@@ -399,7 +399,7 @@ function smartReloadTab(tabId) {
     if ( getStateHash(newState) != getStateHash(pageStats.state) ) {
         // Appears to help.
         //   https://github.com/gorhill/httpswitchboard/issues/35
-        var hostname = getHostnameFromURL(pageUrl);
+        var hostname = uriTools.hostnameFromURI(pageUrl);
         setJavascript(hostname, HTTPSB.whitelisted(pageUrl, 'script', hostname));
         // console.debug('reloaded content of tab id %d', tabId);
         // console.debug('old="%s"\nnew="%s"', getStateHash(pageStats.state), getStateHash(newState));
@@ -462,7 +462,7 @@ function computeTabState(tabId) {
     while ( i-- ) {
         reqKey = reqKeys[i];
         url = urlFromReqKey(reqKey);
-        domain = getHostnameFromURL(url);
+        domain = uriTools.hostnameFromURI(url);
         type = typeFromReqKey(reqKey);
         if ( httpsb.blacklisted(pageUrl, type, domain) ) {
             computedState[type +  '|' + domain] = true;

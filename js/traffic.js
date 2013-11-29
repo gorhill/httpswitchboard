@@ -108,7 +108,7 @@ function webRequestHandler(details) {
         tabId = httpsb.behindTheSceneTabId;
     }
 
-    var url = normalizeChromiumUrl(details.url);
+    var url = uriTools.normalizeURI(details.url);
     var hostname, pageURL;
 
     // Don't block chrome extensions
@@ -153,7 +153,7 @@ function webRequestHandler(details) {
     }
 
     var pageStats = pageStatsFromTabId(tabId);
-    hostname = getHostnameFromURL(url);
+    hostname = uriTools.hostnameFromURI(url);
     pageURL = pageUrlFromPageStats(pageStats) || '*';
 
     // Block request?
@@ -257,7 +257,7 @@ function webHeaderRequestHandler(details) {
     }
 
     // Any cookie in there?
-    var hostname = getHostnameFromURL(details.url);
+    var hostname = uriTools.hostnameFromURI(details.url);
     var blacklistCookie = HTTPSB.blacklisted(pageUrlFromTabId(details.tabId), 'cookie', hostname);
     var headers = details.requestHeaders;
     var i = details.requestHeaders.length;

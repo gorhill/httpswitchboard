@@ -50,8 +50,8 @@ function injectedCodeCallback(r) {
         return;
     }
     var httpsb = HTTPSB;
-    var pageUrl = normalizeChromiumUrl(r.pageUrl);
-    var pageHostname = getHostnameFromURL(pageUrl);
+    var pageUrl = uriTools.normalizeURI(r.pageUrl);
+    var pageHostname = uriTools.hostnameFromURI(pageUrl);
     var sources, i;
     var url, domain, block;
     // scripts
@@ -64,8 +64,8 @@ function injectedCodeCallback(r) {
             domain = pageHostname;
             url = pageUrl + '{inline_script}';
         } else {
-            url = normalizeChromiumUrl(url);
-            domain = getHostnameFromURL(url);
+            url = uriTools.normalizeURI(url);
+            domain = uriTools.hostnameFromURI(url);
         }
         block = httpsb.blacklisted(pageUrl, 'script', domain);
         recordFromPageUrl(pageUrl, 'script', url, block);
@@ -75,8 +75,8 @@ function injectedCodeCallback(r) {
     sources = Object.keys(r.pluginSources);
     i = sources.length;
     while ( i-- ) {
-        url = normalizeChromiumUrl(sources[i]);
-        domain = getHostnameFromURL(url);
+        url = uriTools.normalizeURI(sources[i]);
+        domain = uriTools.hostnameFromURI(url);
         block = httpsb.blacklisted(pageUrl, 'object', domain);
         recordFromPageUrl(pageUrl, 'object', url, block);
     }
@@ -90,10 +90,10 @@ function onUpdatedTabsHandler(tabId, changeInfo, tab) {
         return;
     }
 
-    var pageUrl = normalizeChromiumUrl(tab.url);
+    var pageUrl = uriTools.normalizeURI(tab.url);
 
     // console.debug('tabs.onUpdated > tabId=%d changeInfo=%o tab=%o', tabId, changeInfo, tab);
-    var protocol = getUrlProtocol(pageUrl);
+    var protocol = uriTools.schemeFromURI(pageUrl);
     if ( protocol !== 'http' && protocol !== 'https' ) {
         return;
     }
@@ -159,7 +159,7 @@ function onBeforeNavigateCallback(details) {
     if ( HTTPSB.excludeRegex.test(details.url) ) {
         return;
     }
-    var hostname = getHostnameFromURL(details.url);
+    var hostname = uriTools.hostnameFromURI(details.url);
     setJavascript(hostname, HTTPSB.whitelisted(details.url, 'script', hostname));
 }
 
@@ -194,7 +194,7 @@ load();
         var tab;
         while ( i-- ) {
             tab = tabs[i];
-            bindTabToPageStats(tab.id, normalizeChromiumUrl(tab.url));
+            bindTabToPageStats(tab.id, uriTools.normalizeURI(tab.url));
         }
         // Tabs are now bound to url stats stores, therefore it is now safe
         // to handle net traffic.
