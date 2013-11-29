@@ -7,6 +7,7 @@ adgear.com          # "AdGear is an online advertising technologies company base
 adnxs.com           # "Adnxs.com is run by AppNexus, a company that provides technology, data and analytics to help companies buy and sell online display advertising" (Ref.: http://www.theguardian.com/technology/2012/apr/23/adnxs-tracking-trackers-cookies-web-monitoring)
 adobetag.com        # "Adobe Announces Adobe Tag Manager for the Online Marketing Suite"
 aimatch.com         # "Ad Server, SAS® Intelligent Advertising for Publishers"
+atedra.com          # "Atedra est un réseau de publicité Internet francophone au Canada"
 axf8.net            # https://www.eff.org/deeplinks/2013/06/third-party-resources-nsa-leaks
 betrad.com          # "Evidon: Home | Online Marketing Intelligence, Web Analytics, Privacy" (which also publishes "Ghostery" add-on..)
 bizographics.com    # "Business Audience Marketing"
@@ -17,6 +18,7 @@ bkrtx.com
 bounceexchange.com
 
 clicktale.com       # "See absolutely everything your visitors do on your webpage ... See their every mouse move, click and keystroke"
+clicktale.net       # Redirect to `clicktale.com`
 crosspixel.net      # (cookies, localStorage) "leading provider of high performance audience data and information for the real-time advertising industry"
 crsspxl.com         # Related to crosspixel.net
 displaymarketplace.com
