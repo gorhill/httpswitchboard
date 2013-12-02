@@ -58,7 +58,7 @@ The extension is also useful to see what the web page in your browser
 is doing (or trying to do) behind the scene.
 
 The number which appear in the extension icon correspond to the total number
-of requests attempted (successfully or not depending on whether it was
+of **distinct** requests attempted (successfully or not depending on whether it was
 whitelisted/blacklisted) behind the scene.
 
 Simply click on the appropriate entry in the matrix in order to whitelist,
