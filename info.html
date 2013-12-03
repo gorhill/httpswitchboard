@@ -94,7 +94,7 @@ select {
 </div>
 
 
-<h2 data-i18n="statsPageGeekyStats"></h2>
+<h2 data-i18n="statsPageGeekyStats" id="geeky-stats"></h2>
 <div>For 
 <select id="selectPageUrls">
 <option value="All">All</option>
@@ -148,6 +148,7 @@ select {
 
 <h3 data-i18n="statsPageDetailed"></h3>
 <div id="requests">
+    <p style="font-size:small">You can change the maximum number of most recent HTTP requests to log (currently set at <span id="maxLoggedRequests"></span> per page) on the <a href="settings.html">Settings</a> page.</p>
     <p><button id="refresh-requests" data-i18n="statsPageRefresh"></button></p>
     <p>
     Show: <input id="show-main_frame" type="checkbox" checked value="1">Pages&emsp;

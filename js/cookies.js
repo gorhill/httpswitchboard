@@ -34,12 +34,13 @@ var cookieHunter = {
         // rhill 2013-10-19: pageStats could be nil, for example, this can
         // happens if a file:// ... makes an xmlHttpRequest
         if ( pageStats ) {
-            this.queuePageRecord[pageUrlFromPageStats(pageStats)] = pageStats;
+            var pageURL = pageUrlFromPageStats(pageStats);
+            cookieHunter.queuePageRecord[pageURL] = pageStats;
             asyncJobQueue.add(
                 'cookieHunterPageRecord',
                 null,
                 function() { cookieHunter.processPageRecord(); },
-                500,
+                1000,
                 false);
         }
     },
@@ -51,7 +52,8 @@ var cookieHunter = {
         // rhill 2013-10-19: pageStats could be nil, for example, this can
         // happens if a file:// ... makes an xmlHttpRequest
         if ( pageStats ) {
-            this.queuePageRemove[pageUrlFromPageStats(pageStats)] = pageStats;
+            var pageURL = pageUrlFromPageStats(pageStats);
+            cookieHunter.queuePageRemove[pageURL] = pageStats;
             asyncJobQueue.add(
                 'cookieHunterPageRemove',
                 null,
@@ -63,40 +65,38 @@ var cookieHunter = {
 
     // Candidate for removal
     remove: function(cookie) {
-        this.queueRemove[cookie.url + '|' + cookie.name] = cookie;
+        cookieHunter.queueRemove[cookie.url + '|' + cookie.name] = cookie;
     },
 
     processPageRecord: function() {
         // record cookies from a specific page
-        var pageUrls = Object.keys(this.queuePageRecord);
+        var pageUrls = Object.keys(cookieHunter.queuePageRecord);
         var i = pageUrls.length;
         while ( i-- ) {
-            this._processPageRecord(pageUrls[i]);
+            cookieHunter._processPageRecord(pageUrls[i]);
         }
     },
 
     _processPageRecord: function(pageUrl) {
-        var me = this;
         chrome.cookies.getAll({}, function(cookies) {
-            me._hunt(me.queuePageRecord[pageUrl], cookies, true);
-            delete me.queuePageRecord[pageUrl];
+            cookieHunter._hunt(cookieHunter.queuePageRecord[pageUrl], cookies, true);
+            delete cookieHunter.queuePageRecord[pageUrl];
         });
     },
 
     processPageRemove: function() {
         // erase cookies from a specific page
-        var pageUrls = Object.keys(this.queuePageRemove);
+        var pageUrls = Object.keys(cookieHunter.queuePageRemove);
         var i = pageUrls.length;
         while ( i-- ) {
-            this._processPageRemove(pageUrls[i]);
+            cookieHunter._processPageRemove(pageUrls[i]);
         }
     },
 
     _processPageRemove: function(pageUrl) {
-        var me = this;
         chrome.cookies.getAll({}, function(cookies) {
-            me._hunt(me.queuePageRemove[pageUrl], cookies, false);
-            delete me.queuePageRemove[pageUrl];
+            cookieHunter._hunt(cookieHunter.queuePageRemove[pageUrl], cookies, false);
+            delete cookieHunter.queuePageRemove[pageUrl];
         });
     },
 
@@ -108,7 +108,6 @@ var cookieHunter = {
         if ( !httpsb.userSettings.deleteCookies ) {
             return;
         }
-        var me = this;
         chrome.cookies.getAll({}, function(cookies) {
             // quickProfiler.start();
             var i = cookies.length;
@@ -121,7 +120,7 @@ var cookieHunter = {
                     cookieUrl = (cookie.secure ? 'https://' : 'http://') + domain + cookie.path;
                     // be mindful of https://github.com/gorhill/httpswitchboard/issues/19
                     if ( !httpsb.excludeRegex.test(cookieUrl) ) {
-                        me.remove({
+                        cookieHunter.remove({
                             url: cookieUrl,
                             domain: cookie.domain,
                             name: cookie.name
@@ -139,14 +138,14 @@ var cookieHunter = {
         // Remove only some of the cookies which are candidate for removal:
         // who knows, maybe a user has 1000s of cookies sitting in his
         // browser...
-        var cookieKeys = Object.keys(this.queueRemove);
+        var cookieKeys = Object.keys(cookieHunter.queueRemove);
         if ( cookieKeys.length > 50 ) {
             cookieKeys = cookieKeys.sort(function(){return Math.random() < Math.random();}).splice(0, 50);
         }
         var cookieKey, cookie;
         while ( cookieKey = cookieKeys.pop() ) {
-            cookie = this.queueRemove[cookieKey];
-            delete this.queueRemove[cookieKey];
+            cookie = cookieHunter.queueRemove[cookieKey];
+            delete cookieHunter.queueRemove[cookieKey];
             // Just in case setting was changed after cookie was put in queue.
             if ( !httpsb.userSettings.deleteCookies ) {
                 continue;
@@ -154,7 +153,7 @@ var cookieHunter = {
             // Ensure cookie is not allowed on ALL current web pages: It can
             // happen that a cookie is blacklisted on one web page while
             // being whitelisted on another (because of per-page permissions).
-            if ( this._dontRemoveCookie(cookie) ) {
+            if ( cookieHunter._dontRemoveCookie(cookie) ) {
                 // console.debug('HTTP Switchboard > cookieHunter.processRemove(): Will NOT remove cookie %s/{%s}', cookie.url, cookie.name);
                 continue;
             }
@@ -204,7 +203,7 @@ var cookieHunter = {
             // Leave alone cookies from behind-the-scene requests if
             // behind-the-scene processing is disabled.
             if ( block && deleteCookies && (pageUrl !== httpsb.behindTheSceneURL || httpsb.userSettings.processBehindTheSceneRequests) ) {
-                this.remove({
+                cookieHunter.remove({
                     url: rootUrl + cookie.path,
                     domain: cookie.domain,
                     name: cookie.name

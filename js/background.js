@@ -32,7 +32,10 @@ var HTTPSB = {
         displayTextSize: '13px',
         popupHideBlacklisted: false,
         popupCollapseDomains: false,
-        popupCollapseSpecificDomains: {}
+        popupCollapseSpecificDomains: {},
+        maxLoggedRequests: 250,
+        statsFilters: {
+        }
     },
 
     runtimeId: 1,
@@ -60,8 +63,11 @@ var HTTPSB = {
 
     // tabs are used to redirect stats collection to a specific url stats
     // structure.
-    pageUrlToTabId: { },
-    tabIdToPageUrl: { },
+    pageUrlToTabId: {},
+    tabIdToPageUrl: {},
+
+    // Power switch to disengage HTTPSB
+    off: false,
 
     // page url => permission scope
     temporaryScopes: null,
@@ -69,7 +75,7 @@ var HTTPSB = {
 
     // Current entries from remote blacklists --
     // just hostnames, '*/' is implied, this saves significantly on memory.
-    blacklistReadonly: { },
+    blacklistReadonly: {},
 
     // https://github.com/gorhill/httpswitchboard/issues/19
     excludeRegex: /^https?:\/\/chrome\.google\.com\/(extensions|webstore)/,

@@ -188,11 +188,7 @@ function onMessageHandler(request, sender, callback) {
 
         case 'userSettings':
             if ( typeof request.name === 'string' && request.name !== '' ) {
-                if ( HTTPSB.userSettings[request.name] !== undefined && request.value !== undefined ) {
-                    HTTPSB.userSettings[request.name] = request.value;
-                }
-                response = HTTPSB.userSettings[request.name];
-                saveUserSettings();
+                response = changeUserSettings(request.name, request.value);
             }
             break;
 
@@ -212,7 +208,7 @@ function onMessageHandler(request, sender, callback) {
         }
     }
 
-    if ( callback ) {
+    if ( response && callback ) {
         callback(response);
     }
 }

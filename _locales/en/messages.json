@@ -196,6 +196,12 @@
     },
 
 
+    "settingsStrictBlockingInfo": {
+        "message": "<p><strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Strict\nblocking</a></strong>,\nintroduced in <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log#036\">version 0.3.6</a>,\nmeans that even\nif you whitelist a specific hostname, blacklisted type of requests (<i>plugins</i>,\n<i>frames</i>, etc.) will remain blacklisted. For some users this maybe\ntoo bothersome, hence this switch.</p>\n<p><strong>Strict blocking on</strong>: blacklisted types of request (if any)\nfor a whitelisted hostname are blocked (unless you explicitly whitelist\nspecifically these types of request for the whitelisted hostname.)</p>\n<p><strong>Strict blocking off</strong>: blacklisted types of request (if any)\nfor a whitelisted hostname are allowed (unless you explicitly blacklist\nspecifically these types of request for the whitelisted hostname.)</p>",
+        "description": ""
+    },
+
+
     "dummy": {
         "message": "This entry must be the last one",
         "description": "so we dont need to deal with comma for last entry"

@@ -153,7 +153,7 @@ var uriTools = {
 
         var pos = s.indexOf('@');
         if ( pos >= 0 ) {
-            s = s.slice(0, pos+ 1);
+            s = s.slice(0, pos + 1);
         }
 
         // authority =                  host [ ":" port ]
@@ -185,12 +185,8 @@ var uriTools = {
 
     /*--------------------------------------------------------------------*/
 
-    fragment: function(fragment) {
-        if ( fragment === undefined ) {
-            return this._fragment;
-        }
-        this._fragment = fragment;
-        return this;
+    query: function() {
+        return this._query;
     },
 
     /*--------------------------------------------------------------------*/
@@ -229,6 +225,35 @@ var uriTools = {
         // http://publicsuffix.org/list/
 
         return this;
+    },
+
+    /*--------------------------------------------------------------------*/
+
+    directory: function() {
+        if ( this._hostname !== '' ) {
+            var pos = this._path.lastIndexOf('/');
+            if ( pos === 0 ) {
+                return '';
+            }
+            return this._path.slice(1, pos);
+        }
+        return '';
+    },
+
+    /*--------------------------------------------------------------------*/
+
+    filename: function() {
+        if ( this._hostname !== '' ) {
+            var pos = this._path.lastIndexOf('/');
+            return this._path.slice(pos + 1);
+        }
+        return this._path;
+    },
+
+    /*--------------------------------------------------------------------*/
+
+    fragment: function() {
+        return this._fragment;
     },
 
     /*--------------------------------------------------------------------*/
@@ -428,6 +453,7 @@ var uriTools = {
     },
 
     /*--------------------------------------------------------------------*/
+
     _scheme: '',
     _hostname: '',
     _ipv4: undefined,
@@ -472,6 +498,4 @@ var uriTools = {
 
 uriTools.authorityBit =  (uriTools.userBit | uriTools.passwordBit | uriTools.hostnameBit | uriTools.portBit);
 uriTools.normalizeBits = (uriTools.schemeBit | uriTools.hostnameBit | uriTools.pathBit | uriTools.queryBit);
-
-/******************************************************************************/
 

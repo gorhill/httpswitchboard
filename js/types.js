@@ -60,15 +60,20 @@ function PermissionScopes(httpsb) {
     this.scopes['*'] = new PermissionScope(httpsb);
 }
 
-function RequestStatsEntry() {
+function PageStatsRequestEntry() {
     this.when = 0;
     this.blocked = false;
 }
 
+function PageStatsRequests() {
+    this.requests = {};
+    this.ringBuffer = null;
+    this.ringBufferPointer = 0;
+}
+
 function PageStatsEntry(pageUrl) {
     this.pageUrl = '';
-    this.requests = {};
-    this.packedRequests = null;
+    this.requests = PageStatsRequests.factory();
     this.domains = {};
     this.state = {};
     this.visible = false;
@@ -77,6 +82,7 @@ function PageStatsEntry(pageUrl) {
     this.distinctRequestCount = 0;
     this.perLoadAllowedRequestCount = 0;
     this.perLoadBlockedRequestCount = 0;
+    this.off = false;
     this.init(pageUrl);
 }
 

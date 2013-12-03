@@ -13,7 +13,7 @@ body {
     font: 13px httpsb,sans-serif;
     background-color: white;
     min-width: 32em;
-    min-height: 10em;
+    min-height: 15em;
     }
 body.scope-is-page {
     background-color: #f2f2ff;
@@ -53,8 +53,14 @@ body.scope-is-page div.paneHead {
 .scope-is-page #buttonToggleScope {
     background-image: url('img/remove-page-permissions.png');
     }
+body.powerOff #buttonToggleScope {
+    display: none;
+    }
 #buttonRevert {
     background-image: url('img/clear-temporary-rules.png');
+    }
+body.powerOff #buttonRevert {
+    display: none;
     }
 #buttonDropdown {
     background-image: url('img/dropdown.png');
@@ -83,6 +89,9 @@ body.scope-is-page div.paneHead {
     background-repeat: no-repeat;
     background-position: left 4px center;
     }
+body.powerOff #buttonPower {
+    background-image: url('img/system-shutdown-symbolic-off.png');
+}
 
 .paneContent {
     padding-top: 5.5em;
@@ -176,11 +185,17 @@ body.scope-is-page div.paneHead {
 .matrix .g3Meta.g3Collapsed ~ .matSection {
     display: none;
     }
+body.powerOff .matrix .g3Meta.g3Collapsed ~ .matSection {
+    display: block;
+    }
 .matrix .g3Meta ~ .matRow.ro {
     display: none;
     }
 .matrix .g3Meta.g3Collapsed ~ .matRow.ro {
     display: block;
+    }
+body.powerOff .matrix .g3Meta.g3Collapsed ~ .matRow.ro {
+    display: none;
     }
 .matrix .matGroup .g3Meta + *,.matrix .matGroup .g3Meta + * + * {
     margin-top: 0;
@@ -198,6 +213,10 @@ body.scope-is-page div.paneHead {
     }
 .matRow.rw .matCell {
     cursor: pointer;
+    }
+body.powerOff .matRow.rw .matCell {
+    cursor: auto;
+    opacity: 0.6;
     }
 .rpt {
     color: black;
@@ -283,6 +302,10 @@ body.scope-is-page div.paneHead {
 .matCell.gdt #cellMenu {
     display: block;
     }
+body.powerOff .matCell #cellMenu {
+    display: none;
+    }
+
 #persist, #unpersist {
     margin: 1px;
     border: 0;
@@ -344,6 +367,9 @@ body.scope-is-page div.paneHead {
 #blacklist {
     top: 50%;
     }
+body.powerOff #whitelist, body.powerOff #blacklist {
+    display: none;
+    }
 .rw .matCell.rpt #whitelist:hover {
     background-color: #080;
     opacity: 0.25;
@@ -385,6 +411,7 @@ body.scope-is-page div.paneHead {
     background: transparent url('img/domain-collapse.png') no-repeat;
     opacity: 0.25;
     z-index: 10000;
+    cursor: pointer;
     }
 .matSection.collapsed #domainOnly {
     background: transparent url('img/domain-expand.png') no-repeat;
@@ -428,7 +455,7 @@ body.scope-is-page div.paneHead {
                 <li><a id="buttonInfo" href="info.html" target="httpsb">Statistics...</a></li>
                 <li><a id="buttonSettings" href="settings.html" target="httpsb">Settings...</a></li>
                 <li class="divider"></li>
-                <li><a id="buttonPower" href="#">On/off [nyi]</a></li>
+                <li><a id="buttonPower" href="#">HTTPSB on/off</a></li>
             </ul>
         </div>
         <div id="message"></div>

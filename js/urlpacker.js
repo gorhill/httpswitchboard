@@ -24,104 +24,181 @@
 // Experimental
 
 function UrlPackerEntry(code) {
-    this.count = 1;
+    this.count = 0;
     this.code = code;
 }
 
-var urlPacker = {
-    uri: new URI(),
-    codeGenerator: 0,
-    codeJunkyard: [],
-    fragmentToCode: {},
-    codeToFragment: {},
-    codeDigits: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_',
+var uriPacker = {
+    codeGenerator: 1,
+    codeJunkyard: [], // once "released", candidates for "recycling"
+    mapSegmentToCode: {},
+    mapCodeToSegment: {},
+    base64Chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_',
 
-    remember: function(url) {
-        this.uri.href(url);
-        var scheme = this.uri.scheme();
-        var hostname = this.uri.hostname();
-        var directory = this.uri.directory();
-        var leaf = this.uri.filename() + this.uri.search();
-        var entry;
-        var packedScheme;
-        if ( scheme !== '' ) {
-            entry = this.fragmentToCode[scheme];
-            if ( !entry ) {
-                entry = this.codeJunkyard.pop();
-                packedScheme = this.strFromCode(this.codeGenerator++);
-                if ( !entry ) {
-                    entry = new UrlPackerEntry(packedScheme);
-                } else {
-                    entry.code = packedScheme;
-                    entry.count = 1;
-                }
-                this.fragmentToCode[scheme] = entry;
-                this.codeToFragment[packedScheme] = scheme;
-            } else {
-                packedScheme = entry.code;
-                entry.count++;
-            }
-        } else {
-            packedScheme = '';
-        }
-        var packedHostname;
-        if ( hostname !== '' ) {
-            entry = this.fragmentToCode[hostname];
-            if ( !entry ) {
-                entry = this.codeJunkyard.pop();
-                packedHostname = this.strFromCode(this.codeGenerator++);
-                if ( !entry ) {
-                    entry = new UrlPackerEntry(packedHostname);
-                } else {
-                    entry.code = packedHostname;
-                    entry.count = 1;
-                }
-                this.fragmentToCode[hostname] = entry;
-                this.codeToFragment[packedHostname] = hostname;
-            } else {
-                packedHostname = entry.code;
-                entry.count++;
-            }
-        } else {
-            packedHostname = '';
-        }
-        var packedDirectory;
-        if ( directory !== '' ) {
-            entry = this.fragmentToCode[directory];
-            if ( !entry ) {
-                packedDirectory = this.strFromCode(this.codeGenerator++);
-                entry = this.codeJunkyard.pop();
-                if ( !entry ) {
-                    entry = new UrlPackerEntry(packedDirectory);
-                } else {
-                    entry.code = packedDirectory;
-                    entry.count = 1;
-                }
-                this.fragmentToCode[directory] = entry;
-                this.codeToFragment[packedDirectory] = directory;
-            } else {
-                packedDirectory = entry.code;
-                entry.count++;
-            }
-        } else {
-            packedDirectory = '';
-        }
-        // Return assembled packed fragments
-        return packedScheme + '/' + packedHostname + '/' + packedDirectory + '/' + leaf;
+    remember: function(packedURL) {
+        // {scheme}/{hostname}/{directory}/filename?query#{fragment}
+        // {scheme}
+        var end = packedURL.indexOf('/');
+        this.acquireCode(packedURL.slice(0, end));
+        // {hostname}
+        var beg = end + 1;
+        end = packedURL.indexOf('/', beg);
+        this.acquireCode(packedURL.slice(beg, end));
+        // {directory}
+        beg = end + 1;
+        end = packedURL.indexOf('/', beg);
+        this.acquireCode(packedURL.slice(beg, end));
+        // {fragment}
+        beg = end + 1;
+        end = packedURL.indexOf('#', beg);
+        this.acquireCode(packedURL.slice(end + 1));
     },
 
-    forget: function() {
+    forget: function(packedURL) {
+        // {scheme}/{hostname}/{directory}/filename?query#{fragment}
+        // {scheme}
+        var end = packedURL.indexOf('/');
+        this.releaseCode(packedURL.slice(0, end));
+        // {hostname}
+        var beg = end + 1;
+        end = packedURL.indexOf('/', beg);
+        this.releaseCode(packedURL.slice(beg, end));
+        // {directory}
+        beg = end + 1;
+        end = packedURL.indexOf('/', beg);
+        this.releaseCode(packedURL.slice(beg, end));
+        // {fragment}
+        beg = end + 1;
+        end = packedURL.indexOf('#', beg);
+        this.releaseCode(packedURL.slice(end + 1));
     },
 
-    strFromCode: function(code) {
+    pack: function(url) {
+        var ut = uriTools;
+        ut.uri(url);
+        return this.codeFromSegment(ut.scheme()) + '/' +
+               this.codeFromSegment(ut.hostname()) + '/' +
+               this.codeFromSegment(ut.directory()) + '/' +
+               ut.filename() + '?' + ut.query() + '#' +
+               this.codeFromSegment(ut.fragment());
+    },
+
+    unpack: function(packedURL) {
+        // {scheme}/{hostname}/{directory}/filename?query#{fragment}
+        // {scheme}
+        var end = packedURL.indexOf('/');
+        var uri = this.mapCodeToSegment[packedURL.slice(0, end)] + ':';
+        // {hostname}
+        var beg = end + 1;
+        end = packedURL.indexOf('/', beg);
+        var segment = this.mapCodeToSegment[packedURL.slice(beg, end)];
+        if ( segment ) {
+            uri += '//' + segment + '/';
+        }
+        // {directory}
+        beg = end + 1;
+        end = packedURL.indexOf('/', beg);
+        segment = this.mapCodeToSegment[packedURL.slice(beg, end)];
+        if ( segment ) {
+            uri += segment;
+        }
+        // filename
+        beg = end + 1;
+        end = packedURL.indexOf('?', beg);
+        segment = packedURL.slice(beg, end);
+        if ( segment !== '' ) {
+            uri += segment;
+        }
+        // query
+        beg = end + 1;
+        end = packedURL.indexOf('#', beg);
+        segment = packedURL.slice(beg, end);
+        if ( segment !== '' ) {
+            uri += '?' + segment;
+        }
+        // {fragment}
+        beg = end + 1;
+        segment = this.mapCodeToSegment[packedURL.slice(beg)];
+        if ( segment ) {
+            uri += '#' + segment;
+        }
+        return uri;
+    },
+
+    unpackHostname: function(packedURL) {
+        // {scheme}/{hostname}/{directory}/filename?query#{fragment}
+        var beg = packedURL.indexOf('/') + 1;
+        var end = packedURL.indexOf('/', beg);
+        var code = packedURL.slice(beg, end);
+        if ( code ) {
+            return this.mapCodeToSegment[code];
+        }
+        return '';
+    },
+
+    unpackFragment: function(packedURL) {
+        // {scheme}/{hostname}/{directory}/filename?query#{fragment}
+        var beg = packedURL.lastIndexOf('#') + 1;
+        var code = packedURL.slice(beg);
+        if ( code ) {
+            return this.mapCodeToSegment[code];
+        }
+        return '';
+    },
+
+    base64: function(code) {
         var s = '';
-        var codeDigits = this.codeDigits;
+        var base64Chars = this.base64Chars;
         while ( code ) {
-            s = s + String.fromCharCode(codeDigits.charCodeAt(code & 63));
-            code = code >> 6;
+            s += String.fromCharCode(base64Chars.charCodeAt(code & 63));
+            code >>>= 6;
         }
         return s;
     },
 
+    codeFromSegment: function(segment) {
+        if ( segment === '' ) {
+            return '';
+        }
+        var entry = this.mapSegmentToCode[segment];
+        if ( !entry ) {
+            entry = this.codeJunkyard.pop();
+            if ( !entry ) {
+                entry = new UrlPackerEntry(this.base64(this.codeGenerator++));
+            } else {
+                console.debug('uriPacker > recycling code "%s" (aka "%s")', entry.code, segment);
+                entry.count = 0;
+            }
+            var code = entry.code;
+            this.mapSegmentToCode[segment] = entry;
+            this.mapCodeToSegment[code] = segment;
+            return code;
+        }
+        return entry.code;
+    },
+
+    acquireCode: function(code) {
+        if ( code === '' ) {
+            return;
+        }
+        var segment = this.mapCodeToSegment[code];
+        var entry = this.mapSegmentToCode[segment];
+        entry.count++;
+    },
+
+    releaseCode: function(code) {
+        if ( code === '' ) {
+            return;
+        }
+        var segment = this.mapCodeToSegment[code];
+        var entry = this.mapSegmentToCode[segment];
+        entry.count--;
+        if ( !entry.count ) {
+            console.debug('uriPacker > releasing code "%s" (aka "%s")', code, segment);
+            this.codeJunkyard.push(entry);
+            delete this.mapCodeToSegment[code];
+            delete this.mapSegmentToCode[segment];
+        }
+    }
 };
 

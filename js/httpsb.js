@@ -131,6 +131,9 @@ HTTPSB.scopePageExists = function(url) {
 /******************************************************************************/
 
 HTTPSB.evaluate = function(src, type, hostname) {
+    if ( this.off ) {
+        return 'gpt';
+    }
     return this.temporaryScopes.evaluate(src, type, hostname);
 };
 

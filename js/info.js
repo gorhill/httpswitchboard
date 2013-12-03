@@ -52,12 +52,12 @@ function requestDetails(url, type, when, blocked) {
 function updateRequestData() {
     var requests = [];
     var pageUrls = targetUrl === 'All' ?
-        Object.keys(gethttpsb().pageStats) :
-        [targetUrl];
+          Object.keys(gethttpsb().pageStats) :
+          [targetUrl];
     var iPageUrl, nPageUrls, pageUrl;
     var reqKeys, iReqKey, nReqKeys, reqKey;
     var pageStats, pageRequests;
-    var i, entry;
+    var pos, reqURL, reqType, entry;
 
     nPageUrls = pageUrls.length;
     for ( iPageUrl = 0; iPageUrl < nPageUrls; iPageUrl++ ) {
@@ -68,18 +68,24 @@ function updateRequestData() {
             continue;
         }
         pageRequests = pageStats.requests;
-        reqKeys = Object.keys(pageRequests);
+        reqKeys = pageRequests.getLoggedRequests();
         nReqKeys = reqKeys.length;
         for ( iReqKey = 0; iReqKey < nReqKeys; iReqKey++ ) {
             reqKey = reqKeys[iReqKey];
-            entry = pageRequests[reqKey];
-            i = reqKey.indexOf('#');
-            // Using parseFloat because of
-            // http://jsperf.com/performance-of-parseint
+            if ( !reqKey ) {
+                continue;
+            }
+            pos = reqKey.indexOf('#');
+            reqURL = reqKey.slice(0, pos);
+            reqType = reqKey.slice(pos + 1);
+            entry = pageRequests.getLoggedRequestEntry(reqURL, reqType);
+            if ( !entry ) {
+                continue;
+            }
             requests.push(new requestDetails(
-                reqKey.slice(0, i),
+                reqURL,
                 entry.when,
-                reqKey.slice(i+1),
+                reqType,
                 entry.blocked
             ));
         }
@@ -205,7 +211,8 @@ function renderStats() {
         '#allowedScriptCount': allowedStats.script,
         '#allowedXHRCount': allowedStats.xmlhttprequest,
         '#allowedSubFrameCount': allowedStats.sub_frame,
-        '#allowedOtherCount': allowedStats.other
+        '#allowedOtherCount': allowedStats.other,
+        '#maxLoggedRequests': httpsb.userSettings.maxLoggedRequests
     });
 }
 
@@ -240,7 +247,7 @@ function renderRequestRow(row, request) {
     $(cells[3]).text(request.url);
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*----------------------------------------------------------------------------*/
 
 function renderRequests() {
     var table = $('#requestsTable tbody');
@@ -269,6 +276,27 @@ function renderRequests() {
     else if ( rows.length ) {
         $(rows).remove();
     }
+
+    syncWithFilters();
+}
+
+/******************************************************************************/
+
+function changeFilterHandler() {
+    // Save new state of filters in user settings
+    // Initialize request filters as per user settings:
+    // https://github.com/gorhill/httpswitchboard/issues/49
+    var statsFilters = gethttpsb().userSettings.statsFilters;
+    $('input[id^="show-"][type="checkbox"]').each(function() {
+        var input = $(this);
+        statsFilters[input.attr('id')] = !!input.prop('checked');
+    });
+
+    chrome.runtime.sendMessage({
+        what: 'userSettings',
+        name: 'statsFilters',
+        value: statsFilters
+    });
 
     syncWithFilters();
 }
@@ -322,9 +350,18 @@ function initAll() {
     $('#version').html(gethttpsb().manifest.version);
     $('a:not([target])').prop('target', '_blank');
 
+    // Initialize request filters as per user settings:
+    // https://github.com/gorhill/httpswitchboard/issues/49
+    $('input[id^="show-"][type="checkbox"]').each(function() {
+        var statsFilters = gethttpsb().userSettings.statsFilters;
+        var input = $(this);
+        var filter = statsFilters[input.attr('id')];
+        input.prop('checked', filter === undefined || filter === true);
+    });
+
     // Event handlers
     $('#refresh-requests').on('click', renderRequests);
-    $('input[id^="show-"][type="checkbox"]').on('change', syncWithFilters);
+    $('input[id^="show-"][type="checkbox"]').on('change', changeFilterHandler);
     $('#selectPageUrls').on('change', targetUrlChangeHandler);
 
     renderTransientData(true);

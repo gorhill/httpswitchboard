@@ -99,7 +99,7 @@ background: #c00; \
 
 // Intercept and filter web requests according to white and black lists.
 
-function webRequestHandler(details) {
+function beforeRequestHandler(details) {
     var httpsb = HTTPSB;
     var tabId = details.tabId;
 
@@ -180,7 +180,7 @@ function webRequestHandler(details) {
         }
     }
 
-    // quickProfiler.stop('webRequestHandler | evaluate&record');
+    // quickProfiler.stop('beforeRequestHandler | evaluate&record');
 
     // If it is a frame and scripts are blacklisted for the
     // hostname, disable scripts for this hostname, necessary since inline
@@ -197,7 +197,7 @@ function webRequestHandler(details) {
 
     // whitelisted?
     if ( !block ) {
-        // console.debug('webRequestHandler > allowing %s from %s', type, hostname);
+        // console.debug('beforeRequestHandler > allowing %s from %s', type, hostname);
 
         // If the request is not blocked, this means the response could contain
         // cookies. Thus, we go cookie hunting for this page url and record all
@@ -206,17 +206,20 @@ function webRequestHandler(details) {
 
         // rhill 2013-11-07: Senseless to do this for behind-the-scene
         // requests.
-        if ( tabId !== httpsb.behindTheSceneTabId ) {
+        // rhill 2013-12-03: Do this here only for root frames. This is also
+        // done in `onHeadersReceived` when a `Set-cookie` directive is
+        // received.
+        if ( isRootFrame && tabId !== httpsb.behindTheSceneTabId ) {
             cookieHunter.record(pageStats);
         }
 
-        // quickProfiler.stop('webRequestHandler');
+        // quickProfiler.stop('beforeRequestHandler');
         // console.log("HTTPSB > %s @ url=%s", details.type, details.url);
         return;
     }
 
     // blacklisted
-    // console.debug('webRequestHandler > blocking %s from %s', type, hostname);
+    // console.debug('beforeRequestHandler > blocking %s from %s', type, hostname);
 
     // If it's a blacklisted frame, redirect to frame.html
     // rhill 2013-11-05: The root frame contains a link to noop.css, this
@@ -240,7 +243,7 @@ function webRequestHandler(details) {
         return { "redirectUrl": dataURI };
     }
 
-    // quickProfiler.stop('webRequestHandler');
+    // quickProfiler.stop('beforeRequestHandler');
 
     return { "cancel": true };
 }
@@ -249,7 +252,7 @@ function webRequestHandler(details) {
 
 // This is to handle cookies leaving the browser.
 
-function webHeaderRequestHandler(details) {
+function beforeSendHeadersHandler(details) {
 
     // Ignore traffic outside tabs
     if ( details.tabId < 0 ) {
@@ -260,7 +263,7 @@ function webHeaderRequestHandler(details) {
     var hostname = uriTools.hostnameFromURI(details.url);
     var blacklistCookie = HTTPSB.blacklisted(pageUrlFromTabId(details.tabId), 'cookie', hostname);
     var headers = details.requestHeaders;
-    var i = details.requestHeaders.length;
+    var i = headers.length;
     while ( i-- ) {
         if ( headers[i].name.toLowerCase() !== 'cookie' ) {
             continue;
@@ -272,7 +275,35 @@ function webHeaderRequestHandler(details) {
     }
 
     if ( blacklistCookie ) {
-        return { requestHeaders: details.requestHeaders };
+        return { requestHeaders: headers };
+    }
+}
+
+/******************************************************************************/
+
+// This is to handle cookies arriving in the browser.
+
+function headersReceivedHandler(details) {
+
+    // Ignore traffic outside tabs
+    var tabId = details.tabId;
+    if ( tabId < 0 || tabId === HTTPSB.behindTheSceneTabId ) {
+        return;
+    }
+
+    var pageStats = pageStatsFromTabId(tabId);
+    if ( !pageStats ) {
+        return;
+    }
+
+    // Any `set-cookie` directive in there?
+    var headers = details.responseHeaders;
+    var i = headers.length;
+    while ( i-- ) {
+        if ( headers[i].name.toLowerCase() === 'set-cookie' ) {
+            cookieHunter.record(pageStats);
+            break;
+        }
     }
 }
 
@@ -294,7 +325,7 @@ function startWebRequestHandler(from) {
     }
 
     chrome.webRequest.onBeforeRequest.addListener(
-        webRequestHandler,
+        beforeRequestHandler,
         {
             "urls": [
                 "http://*/*",
@@ -316,7 +347,7 @@ function startWebRequestHandler(from) {
     );
 
     chrome.webRequest.onBeforeSendHeaders.addListener(
-        webHeaderRequestHandler,
+        beforeSendHeadersHandler,
         {
             'urls': [
                 "http://*/*",
@@ -324,6 +355,17 @@ function startWebRequestHandler(from) {
             ]
         },
         ['blocking', 'requestHeaders']
+    );
+
+    chrome.webRequest.onHeadersReceived.addListener(
+        headersReceivedHandler,
+        {
+            'urls': [
+                "http://*/*",
+                "https://*/*"
+            ]
+        },
+        ['responseHeaders']
     );
 
     HTTPSB.webRequestHandler = true;

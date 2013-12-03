@@ -80,19 +80,7 @@ ul > li {
     <ul>
         <li>
             <input id="strict-blocking" type="checkbox" value="">Enable strict blocking. <button class="whatisthis"></button>
-            <div class="expandable">
-            <p><strong><a href="https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated">Strict blocking</a></strong>,
-            introduced in <a href="https://github.com/gorhill/httpswitchboard/wiki/Change-log#036">version 0.3.6</a>,
-            means that even
-            if you whitelist a specific hostname, blacklisted type of requests (<i>plugins</i>,
-            <i>frames</i>, etc.) will remain blacklisted. For some users this maybe
-            too bothersome, hence this switch.</p>
-            <p><strong>Strict blocking on</strong>: blacklisted types of request (if any)
-            for a whitelisted hostname are blocked (unless you explicitly whitelist
-            specifically these types of request for the whitelisted hostname.)</p>
-            <p><strong>Strict blocking off</strong>: blacklisted types of request (if any)
-            for a whitelisted hostname are allowed (unless you explicitly blacklist
-            specifically these types of request for the whitelisted hostname.)</p>
+            <div class="expandable" data-i18n="settingsStrictBlockingInfo">
             </div>
     </ul>
 
@@ -145,7 +133,25 @@ ul > li {
                 </div>
             </div>
     </ul>
+
+    <h2>Detailed requests log</h2>
+    <ul>
+        <li>Remember the last <input id="max-logged-requests" type="text" value="250" size="3"> HTTP requests per page.<button class="whatisthis"></button>
+        <div class="expandable">
+        <p>You can inspect details of the most recent raw HTTP requests which have been made by
+        a web page in the <a href="info.html#geeky-stats" stle="font-style:italic">Statistics</a>
+        page (at the bottom).</p>
+        <p>This is mostly useful to geeky users who want to investigate exactly what a web page has been
+        doing. But logging these HTTP requests requires memory, and if you don't care about this geeky
+        information, then memory is being wasted.</p>
+        <p>Hence this field which lets you adjust the maximum number of the most recent HTTP requests
+        which are to be logged for further inspection.<p>
+        <p>Enter &ldquo;<code>0</code>&rdquo; to turn off detailed logging (and consequently reduce
+        the memory footprint of <i>HTTP Switchboard</i>).</p>
+        </div>
+    </ul>
 <script src="lib/jquery-2.min.js"></script>
+<script src="js/i18n.js"></script>
 <script src="js/settings.js"></script>
 
 </div>

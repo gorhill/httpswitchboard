@@ -275,27 +275,27 @@ function initMatrixStats() {
 
     // collect all hostnames and ancestors from net traffic
     var background = getBackgroundPage();
+    var uriTools = background.uriTools;
     var pageUrl = pageStats.pageUrl;
-    var url, hostname, reqType, nodes, node, reqKey;
-    var reqKeys = Object.keys(pageStats.requests);
+    var hostname, reqType, nodes, node, reqKey;
+    var reqKeys = pageStats.requests.getRequestKeys();
     var iReqKeys = reqKeys.length;
 
     HTTPSBPopup.matrixHasRows = iReqKeys > 0;
 
     while ( iReqKeys-- ) {
         reqKey = reqKeys[iReqKeys];
-        url = background.urlFromReqKey(reqKey);
-        hostname = background.uriTools.hostnameFromURI(url);
+        hostname = pageStats.requests.hostnameFromRequestKey(reqKey);
 
         // rhill 2013-10-23: hostname can be empty if the request is a data url
         // https://github.com/gorhill/httpswitchboard/issues/26
         if ( hostname === '' ) {
-            hostname = background.uriTools.hostnameFromURI(pageUrl);
+            hostname = uriTools.hostnameFromURI(pageUrl);
         }
-        reqType = background.typeFromReqKey(reqKey);
+        reqType = pageStats.requests.typeFromRequestKey(reqKey);
 
         // we want a row for self and ancestors
-        nodes = background.uriTools.allHostnamesFromHostname(hostname);
+        nodes = uriTools.allHostnamesFromHostname(hostname);
 
         while ( true ) {
             node = nodes.shift();
@@ -1268,9 +1268,12 @@ function bindToTabHandler(tabs) {
         return;
     }
 
-    // Important! Before calling makeMenu()
     var background = getBackgroundPage();
     var httpsb = getHTTPSB();
+
+    $('body').toggleClass('powerOff', httpsb.off);
+
+    // Important! Before calling makeMenu()
     HTTPSBPopup.tabId = tabs[0].id;
     HTTPSBPopup.pageURL = background.pageUrlFromTabId(HTTPSBPopup.tabId);
     HTTPSBPopup.scopeURL = httpsb.normalizeScopeURL(HTTPSBPopup.pageURL);
@@ -1297,6 +1300,22 @@ function bindToTabHandler(tabs) {
     if ( HTTPSBPopup.port ) {
         HTTPSBPopup.port.onMessage.addListener(onMessageHandler);
     }
+}
+
+/******************************************************************************/
+
+function togglePower(force) {
+    var httpsb = getHTTPSB();
+    var off;
+    if ( typeof force === 'boolean' ) {
+        off = force;
+    } else {
+        off = !httpsb.off;
+    }
+    httpsb.off = off;
+    $('body').toggleClass('powerOff', off);
+    updateMatrixStats();
+    updateMatrixColors();
 }
 
 /******************************************************************************/
@@ -1387,6 +1406,7 @@ function initAll() {
     $('#buttonRuleManager').text(chrome.i18n.getMessage('ruleManagerPageName'));
     $('#buttonInfo').text(chrome.i18n.getMessage('statsPageName'));
     $('#buttonSettings').text(chrome.i18n.getMessage('settingsPageName'));
+    $('#buttonPower').on('click', togglePower);
 
     $('#matList').on('click', '.g3Meta', function() {
         var separator = $(this);

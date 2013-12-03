@@ -4,7 +4,7 @@
         "description": "extension name."
     },
     "extShortDesc": {
-        "message": "Simplement un clic pour interdire ou permettre n'importe quel types de requête faites par votre fureteur. Bloquez les scripts, iframes, pubs, facebook, etc.",
+        "message": "Un simple clic pour interdire ou permettre n'importe quel types de requête faites par votre fureteur. Bloquez les scripts, iframes, pubs, facebook, etc.",
         "description": "this will in chrome web store"
     },
     "ruleManagerPageName": {
@@ -193,6 +193,12 @@
     "statsPageRefresh" : {
         "message": "Rafraîchir",
         "description": "text for refresh button"
+    },
+
+
+    "settingsStrictBlockingInfo": {
+        "message": "<strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Blocage strict</a></strong>, introduit dans la <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log#036\">version 0.3.6</a>, signifie que même si vous allouez un nom d'hôte spécifique, une requête restera bloquée si le type d'objet à requérir (plugins, iframes, etc) est lui-même bloqué. Pour certains utilisateurs, ce peut-être trop restrictif, d'où la possibilité de choisir la logique de blocage ici.\n<strong>Blocage strict</strong>: pour qu'une requête ne soit pas bloquée, le nom d'hôte ET le type de requête doivent être alloués.\n</strong>Blocage non strict</strong>: pour qu'une requête ne soit pas bloquée, seul le nom d'hôte doir être alloué.",
+        "description": ""
     },
 
 
