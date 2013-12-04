@@ -4,7 +4,7 @@
         "description": "extension name."
     },
     "extShortDesc": {
-        "message": "Un simple clic pour interdire ou permettre n'importe quel types de requête faites par votre fureteur. Bloquez les scripts, iframes, pubs, facebook, etc.",
+        "message": "Un simple clic pour interdire ou permettre n'importe quel types de requête faites par votre navigateur. Bloquez scripts, iframes, pubs, facebook, etc.",
         "description": "this will in chrome web store"
     },
     "ruleManagerPageName": {
