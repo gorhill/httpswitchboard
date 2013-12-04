@@ -1,9 +1,10 @@
 {
     "manifest_version": 2,
     "name": "__MSG_extName__",
-    "version": "0.6.2",
+    "version": "0.6.3",
     "description": "__MSG_extShortDesc__",
     "icons": {
+        "16": "icon_16.png",
         "128": "icon_128.png"
     },
     "browser_action": {
@@ -23,6 +24,7 @@
     "options_page": "settings.html",
     "permissions": [
         "contentSettings",
+        "contextMenus",
         "cookies",
         "storage",
         "tabs",

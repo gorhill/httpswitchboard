@@ -130,6 +130,8 @@ function onUpdatedTabsHandler(tabId, changeInfo, tab) {
         },
         injectedCodeCallback
     );
+
+    updateContextMenu();
 }
 
 chrome.tabs.onUpdated.addListener(onUpdatedTabsHandler);
@@ -146,6 +148,10 @@ function onRemovedTabHandler(tabId) {
 }
 
 chrome.tabs.onRemoved.addListener(onRemovedTabHandler);
+
+/******************************************************************************/
+
+chrome.tabs.onActivated.addListener(updateContextMenu)
 
 /******************************************************************************/
 
@@ -220,4 +226,79 @@ function onDisconnectHandler() {
 }
 
 chrome.extension.onConnect.addListener(onConnectHandler);
+
+/******************************************************************************/
+
+chrome.contextMenus.create({
+    type: 'normal',
+    id: 'gdt-group0',
+    title: 'Temporarily whitelist ...',
+    documentUrlPatterns: ['http://*/*', 'https://*/*']
+    },
+    function(){}
+);
+
+chrome.contextMenus.create({
+    type: 'normal',
+    id: 'revertPermissions',
+    title: 'Remove all temporary permissions',
+    documentUrlPatterns: ['http://*/*', 'https://*/*']
+    },
+    function(){}
+);
+
+function contextMenuClickHandler(info, tab) {
+    // "If the click did not take place in a tab,
+    // "this parameter will be missing"
+    if ( !tab ) {
+        return;
+    }
+
+    var pageURL = uriTools.normalizeURI(tab.url);
+    var pageDomain = uriTools.domainFromURI(pageURL);
+
+    if ( !pageDomain ) {
+        return;
+    }
+
+    switch ( info.menuItemId ) {
+        case 'gdt-group0':
+            HTTPSB.whitelistTemporarily(pageURL, '*', pageDomain);
+            smartReloadTab(tab.id);
+            break;
+
+        case 'revertPermissions':
+            HTTPSB.revertPermissions();
+            smartReloadTabs();
+            break;
+    }
+}
+
+chrome.contextMenus.onClicked.addListener(contextMenuClickHandler);
+
+/******************************************************************************/
+
+function updateContextMenuHandler(tabs) {
+    if ( !tabs.length ) {
+        return;
+    }
+    var tab = tabs[0];
+    if ( !tab.url || !tab.url.length ) {
+        return;
+    }
+    var pageUrl = uriTools.normalizeURI(tab.url);
+    var pageDomain = uriTools.domainFromURI(pageUrl);
+    var color = HTTPSB.evaluate(pageUrl, '*', pageDomain);
+    chrome.contextMenus.update('gdt-group0', {
+        title: 'Temporarily whitelist *.' + pageDomain,
+        enabled: color.charAt(0) !== 'g' && !HTTPSB.off
+    });
+    chrome.contextMenus.update('revertPermissions', {
+        enabled: !HTTPSB.off
+    });
+}
+
+function updateContextMenu() {
+    chrome.tabs.query({ active: true }, updateContextMenuHandler);
+}
 
