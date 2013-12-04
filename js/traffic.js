@@ -281,34 +281,6 @@ function beforeSendHeadersHandler(details) {
 
 /******************************************************************************/
 
-// This is to handle cookies arriving in the browser.
-
-function headersReceivedHandler(details) {
-
-    // Ignore traffic outside tabs
-    var tabId = details.tabId;
-    if ( tabId < 0 || tabId === HTTPSB.behindTheSceneTabId ) {
-        return;
-    }
-
-    var pageStats = pageStatsFromTabId(tabId);
-    if ( !pageStats ) {
-        return;
-    }
-
-    // Any `set-cookie` directive in there?
-    var headers = details.responseHeaders;
-    var i = headers.length;
-    while ( i-- ) {
-        if ( headers[i].name.toLowerCase() === 'set-cookie' ) {
-            cookieHunter.record(pageStats);
-            break;
-        }
-    }
-}
-
-/******************************************************************************/
-
 var webRequestHandlerRequirements = {
     'tabsBound': 0,
     'listsLoaded': 0
@@ -356,17 +328,4 @@ function startWebRequestHandler(from) {
         },
         ['blocking', 'requestHeaders']
     );
-
-    chrome.webRequest.onHeadersReceived.addListener(
-        headersReceivedHandler,
-        {
-            'urls': [
-                "http://*/*",
-                "https://*/*"
-            ]
-        },
-        ['responseHeaders']
-    );
-
-    HTTPSB.webRequestHandler = true;
 }
