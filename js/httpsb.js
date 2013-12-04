@@ -131,6 +131,8 @@ HTTPSB.scopePageExists = function(url) {
 /******************************************************************************/
 
 HTTPSB.evaluate = function(src, type, hostname) {
+    // rhill 2013-12-03: When HTTPSB is disengaged, all requests are
+    // considered being "allowed temporarily".
     if ( this.off ) {
         return 'gpt';
     }

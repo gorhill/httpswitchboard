@@ -72,6 +72,8 @@ function updateRequestData() {
         nReqKeys = reqKeys.length;
         for ( iReqKey = 0; iReqKey < nReqKeys; iReqKey++ ) {
             reqKey = reqKeys[iReqKey];
+            // rhill 2013-12-04: `reqKey` can be null since a ring buffer is
+            // now used, and it might not have been filled yet.
             if ( !reqKey ) {
                 continue;
             }
