@@ -11,27 +11,6 @@ as per domain name.
 Available on Chrome web store (<a href="https://chrome.google.com/webstore/detail/httpswitchboard/mghdpehejfekicfjcdbfofhcmnjhgaag">HTTP Switchboard</a>),
 or you can [install manually](https://github.com/gorhill/httpswitchboard/tree/master/dist).
 
-###IMPORTANT
-
-Because of [issue #35](https://github.com/gorhill/httpswitchboard/issues/35), it is best to disable javascript by default. To do so:
-
-- Go to chrome/chromium *Settings*.
-- You might need to click *Show advanced settings*.
-- In *Privacy* section, click *Content settings...* button.
-- In the *Javascript* section, click "Do not allow any site to run JavaScript".
-
-HTTP Switchboard will continue to disable/enable javascript just as before, according to whether
-the hostname is black or whitelisted, except that now, since javascript is turned off by default,
-there is no opportunity for inline scripts to be executed before the asynchronous command
-([as per chromium API](http://developer.chrome.com/extensions/overview.html#sync)) to disable them takes effect.
-
-Sadly, a side-effect of doing the above steps is that it may happen that inline scripts are not
-executed the first time you visit a site for which scripts are whitelisted. Forcing a reload of the
-page fix this.
-
-The only way to resolve this annoyance is for [chromium developers to
-come up with a solution](https://groups.google.com/a/chromium.org/forum/#!topic/chromium-extensions/AOAlQyQmbBI).
-
 ##Documentation
 
 ![HTTP Switchboard](doc/img/screenshot1.png)
