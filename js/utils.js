@@ -23,6 +23,7 @@
 
 // Enable/disable javascript for a specific hostname.
 
+/*
 function setJavascriptCallback(windows, hostname, setting) {
     // Need to do this to avoid "You cannot set a preference with scope
     // 'incognito_session_only' when no incognito window is open."
@@ -54,4 +55,4 @@ function setJavascript(hostname, state) {
         setJavascriptCallback(windows, hostname, setting);
     });
 }
-
+*/

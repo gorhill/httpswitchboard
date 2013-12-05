@@ -510,8 +510,8 @@ function createPageStats(pageUrl) {
 
 // Create an entry for the tab if it doesn't exist
 
-function bindTabToPageStats(tabId, pageUrl) {
-    var pageStats = createPageStats(pageUrl);
+function bindTabToPageStats(tabId, pageURL) {
+    var pageStats = createPageStats(pageURL);
     if ( !pageStats ) {
         return undefined;
     }
@@ -522,8 +522,8 @@ function bindTabToPageStats(tabId, pageUrl) {
     // https://github.com/gorhill/httpswitchboard/issues/67
     if ( tabId !== HTTPSB.behindTheSceneTabId ) {
         unbindTabFromPageStats(tabId);
-        HTTPSB.pageUrlToTabId[pageUrl] = tabId;
-        HTTPSB.tabIdToPageUrl[tabId] = pageUrl;
+        HTTPSB.pageUrlToTabId[pageURL] = tabId;
+        HTTPSB.tabIdToPageUrl[tabId] = pageURL;
     }
 
     return pageStats;
@@ -609,8 +609,10 @@ function smartReloadTab(tabId) {
     if ( getStateHash(newState) != getStateHash(pageStats.state) ) {
         // Appears to help.
         //   https://github.com/gorhill/httpswitchboard/issues/35
-        var hostname = uriTools.hostnameFromURI(pageUrl);
-        setJavascript(hostname, HTTPSB.whitelisted(pageUrl, 'script', hostname));
+        // No longer needed, but I will just comment out for now.
+        //   https://github.com/gorhill/httpswitchboard/issues/35
+        // var hostname = uriTools.hostnameFromURI(pageUrl);
+        // setJavascript(hostname, HTTPSB.whitelisted(pageUrl, 'script', hostname));
         // console.debug('reloaded content of tab id %d', tabId);
         // console.debug('old="%s"\nnew="%s"', getStateHash(pageStats.state), getStateHash(newState));
         pageStats.state = newState;

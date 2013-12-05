@@ -29,8 +29,6 @@ if ( window.location.href.match(/^https?:\/\//) ) {
 // This must be last, so that result is returned to extension.
 // This is used so that inline script tags and preemptively blocked scripts
 // (which won't generate web requests) are logged in the stats.
-// TODO: Do same with <object>, <embed>, they are currently underreported
-// when preemptively blocked.
 (function() {
     var r = {
         pageUrl: window.location.href,

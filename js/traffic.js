@@ -180,13 +180,14 @@ function beforeRequestHandler(details) {
         }
     }
 
-    // quickProfiler.stop('beforeRequestHandler | evaluate&record');
-
     // If it is a frame and scripts are blacklisted for the
     // hostname, disable scripts for this hostname, necessary since inline
     // script tags are not passed through web request handler.
     if ( isMainFrame ) {
-        setJavascript(hostname, httpsb.whitelisted(pageURL, 'script', hostname));
+        // No longer needed, but I will just comment out for now.
+        //   https://github.com/gorhill/httpswitchboard/issues/35
+        // setJavascript(hostname, httpsb.whitelisted(pageURL, 'script', hostname));
+
         // when the tab is updated, we will check if page has at least one
         // script tag, this takes care of inline scripting, which doesn't
         // generate 'script' type web requests.
@@ -194,6 +195,8 @@ function beforeRequestHandler(details) {
 
     // Collect global stats
     httpsb.requestStats.record(type, block);
+
+    // quickProfiler.stop('beforeRequestHandler | evaluate&record');
 
     // whitelisted?
     if ( !block ) {
@@ -281,6 +284,50 @@ function beforeSendHeadersHandler(details) {
 
 /******************************************************************************/
 
+// To prevent inline javascript from being executed.
+
+// Prevent inline scripting using `Content-Security-Policy`:
+// https://dvcs.w3.org/hg/content-security-policy/raw-file/tip/csp-specification.dev.html
+
+// This fixes:
+// https://github.com/gorhill/httpswitchboard/issues/35
+
+function headersReceivedHandler(details) {
+
+    // Ignore anything which is not top frame
+    var type = details.type;
+    if ( type !== 'main_frame' && type !== 'sub_frame' ) {
+        return;
+    }
+
+    // Ignore traffic outside tabs
+    var tabId = details.tabId;
+    if ( tabId < 0 ) {
+        return;
+    }
+
+    var pageStats = pageStatsFromTabId(tabId);
+    // Can happen I suppose...
+    if ( !pageStats ) {
+        return;
+    }
+
+    // Evaluate according to scope
+    var pageURL = pageUrlFromPageStats(pageStats);
+    var hostname = uriTools.hostnameFromURI(details.url);
+    var noScript = HTTPSB.blacklisted(pageURL, 'script', hostname);
+    if ( !noScript ) {
+        return;
+    }
+
+    // If javascript not allowed, say so through a `Content-Security-Policy`
+    // directive.
+    details.responseHeaders.push({ 'name': 'Content-Security-Policy', 'value': "script-src 'none'" });
+    return { responseHeaders: details.responseHeaders };
+}
+
+/******************************************************************************/
+
 var webRequestHandlerRequirements = {
     'tabsBound': 0,
     'listsLoaded': 0
@@ -327,5 +374,16 @@ function startWebRequestHandler(from) {
             ]
         },
         ['blocking', 'requestHeaders']
+    );
+
+    chrome.webRequest.onHeadersReceived.addListener(
+        headersReceivedHandler,
+        {
+            'urls': [
+                "http://*/*",
+                "https://*/*"
+            ]
+        },
+        ['blocking', 'responseHeaders']
     );
 }

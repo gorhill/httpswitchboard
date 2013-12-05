@@ -35,6 +35,16 @@ chrome.contentSettings.plugins.clear({});
 // For privacy reasons, ensure all exceptions are removed from settings.
 chrome.contentSettings.javascript.clear({});
 
+// rhill 2013-12-05: now we allow all by default, and insert a
+// `Content-Policy-Directive` header to disable inline javascript.
+// External javascript will still be blocked the old way, by preventing the
+// resource from being fetched.
+//   https://github.com/gorhill/httpswitchboard/issues/35
+chrome.contentSettings.javascript.set({
+    primaryPattern: '*://*/*',
+    setting: 'allow'
+});
+
 /******************************************************************************/
 
 function injectedCodeCallback(r) {
@@ -166,7 +176,10 @@ function onBeforeNavigateCallback(details) {
         return;
     }
     var hostname = uriTools.hostnameFromURI(details.url);
-    setJavascript(hostname, HTTPSB.whitelisted(details.url, 'script', hostname));
+
+    // No longer needed, but I will just comment out for now.
+    //   https://github.com/gorhill/httpswitchboard/issues/35
+    // setJavascript(hostname, HTTPSB.whitelisted(details.url, 'script', hostname));
 }
 
 chrome.webNavigation.onBeforeNavigate.addListener(onBeforeNavigateCallback);
@@ -226,79 +239,4 @@ function onDisconnectHandler() {
 }
 
 chrome.extension.onConnect.addListener(onConnectHandler);
-
-/******************************************************************************/
-
-chrome.contextMenus.create({
-    type: 'normal',
-    id: 'gdt-group0',
-    title: 'Temporarily whitelist ...',
-    documentUrlPatterns: ['http://*/*', 'https://*/*']
-    },
-    function(){}
-);
-
-chrome.contextMenus.create({
-    type: 'normal',
-    id: 'revertPermissions',
-    title: 'Remove all temporary permissions',
-    documentUrlPatterns: ['http://*/*', 'https://*/*']
-    },
-    function(){}
-);
-
-function contextMenuClickHandler(info, tab) {
-    // "If the click did not take place in a tab,
-    // "this parameter will be missing"
-    if ( !tab ) {
-        return;
-    }
-
-    var pageURL = uriTools.normalizeURI(tab.url);
-    var pageDomain = uriTools.domainFromURI(pageURL);
-
-    if ( !pageDomain ) {
-        return;
-    }
-
-    switch ( info.menuItemId ) {
-        case 'gdt-group0':
-            HTTPSB.whitelistTemporarily(pageURL, '*', pageDomain);
-            smartReloadTab(tab.id);
-            break;
-
-        case 'revertPermissions':
-            HTTPSB.revertPermissions();
-            smartReloadTabs();
-            break;
-    }
-}
-
-chrome.contextMenus.onClicked.addListener(contextMenuClickHandler);
-
-/******************************************************************************/
-
-function updateContextMenuHandler(tabs) {
-    if ( !tabs.length ) {
-        return;
-    }
-    var tab = tabs[0];
-    if ( !tab.url || !tab.url.length ) {
-        return;
-    }
-    var pageUrl = uriTools.normalizeURI(tab.url);
-    var pageDomain = uriTools.domainFromURI(pageUrl);
-    var color = HTTPSB.evaluate(pageUrl, '*', pageDomain);
-    chrome.contextMenus.update('gdt-group0', {
-        title: 'Temporarily whitelist *.' + pageDomain,
-        enabled: color.charAt(0) !== 'g' && !HTTPSB.off
-    });
-    chrome.contextMenus.update('revertPermissions', {
-        enabled: !HTTPSB.off
-    });
-}
-
-function updateContextMenu() {
-    chrome.tabs.query({ active: true }, updateContextMenuHandler);
-}
 
