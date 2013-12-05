@@ -41,7 +41,11 @@ chrome.contentSettings.javascript.clear({});
 // resource from being fetched.
 //   https://github.com/gorhill/httpswitchboard/issues/35
 chrome.contentSettings.javascript.set({
-    primaryPattern: '*://*/*',
+    primaryPattern: 'https://*/*',
+    setting: 'allow'
+});
+chrome.contentSettings.javascript.set({
+    primaryPattern: 'http://*/*',
     setting: 'allow'
 });
 
