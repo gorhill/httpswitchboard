@@ -24,6 +24,7 @@
 function _WebRequestStats() {
     this.all =
     this.main_frame =
+    this.stylesheet =
     this.sub_frame =
     this.script =
     this.image =
@@ -47,7 +48,6 @@ function PermissionList(filters) {
 }
 
 function PermissionScope(httpsb) {
-    this.httpsb = httpsb;
     this.off = false;
     this.white = new PermissionList();
     this.black = new PermissionList(['*|*']);
@@ -55,7 +55,6 @@ function PermissionScope(httpsb) {
 }
 
 function PermissionScopes(httpsb) {
-    this.httpsb = httpsb;
     this.scopes = {};
     this.scopes['*'] = new PermissionScope(httpsb);
 }

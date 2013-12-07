@@ -136,6 +136,11 @@ HTTPSB.evaluate = function(src, type, hostname) {
     if ( this.off ) {
         return 'gpt';
     }
+    // rhill 2013-12-07:
+    // stylesheets are evaluated as `main_frame`.
+    if ( type === 'stylesheet' ) {
+        type = 'main_frame';
+    }
     return this.temporaryScopes.evaluate(src, type, hostname);
 };
 
@@ -278,3 +283,29 @@ HTTPSB.savePermissions = function() {
 
 /******************************************************************************/
 
+HTTPSB.turnOff = function() {
+    this.off = true;
+    // rhill 2013-12-07:
+    // Relinquish control over javascript execution to the user.
+    //   https://github.com/gorhill/httpswitchboard/issues/74
+    chrome.contentSettings.javascript.clear({});
+}
+
+HTTPSB.turnOn = function() {
+    chrome.contentSettings.javascript.clear({});
+
+    // rhill 2013-12-07:
+    // Tell Chromium to all javascript: HTTPSB will control whether
+    // javascript execute through `Content-Policy-Directive` and webRequest.
+    //   https://github.com/gorhill/httpswitchboard/issues/74
+    chrome.contentSettings.javascript.set({
+        primaryPattern: 'https://*/*',
+        setting: 'allow'
+    });
+    chrome.contentSettings.javascript.set({
+        primaryPattern: 'http://*/*',
+        setting: 'allow'
+    });
+
+    this.off = false;
+}

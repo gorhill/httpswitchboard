@@ -82,7 +82,7 @@ function updateContextMenuHandler(tabs) {
     var pageDomain = uriTools.domainFromURI(pageUrl);
     var color = HTTPSB.evaluate(pageUrl, '*', pageDomain);
     chrome.contextMenus.update('gdt-group0', {
-        title: 'Temporarily whitelist *.' + pageDomain,
+        title: 'Temporarily whitelist *.' + punycode.toUnicode(pageDomain),
         enabled: color.charAt(0) !== 'g' && !HTTPSB.off
     });
     chrome.contextMenus.update('revertPermissions', {

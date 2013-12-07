@@ -221,7 +221,7 @@ PermissionScope.prototype.assign = function(other) {
 // otherwise.
 
 PermissionScope.prototype.evaluate = function(type, hostname) {
-    var blacklistReadonly = this.httpsb.blacklistReadonly;
+    var blacklistReadonly = HTTPSB.blacklistReadonly;
     var blacklist = this.black.list;
     var whitelist = this.white.list;
     var graylist = this.gray.list;
@@ -245,6 +245,8 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
         // indirect: any type, specific hostname
         cellKey = '*|' + hostname;
 
+        var strictBlocking = HTTPSB.userSettings.strictBlocking;
+
         // rhill 2013-10-26: Whitelist MUST be checked before blacklist,
         // because read-only blacklists are, hum... read-only? (which means
         // they can only be overriden through occultation, which means
@@ -253,7 +255,7 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
             // https://github.com/gorhill/httpswitchboard/issues/29
             // The cell is indirectly whitelisted because of hostname, type
             // must NOT be blacklisted.
-            if ( this.httpsb.userSettings.strictBlocking && blacklist[typeKey] ) {
+            if ( strictBlocking && blacklist[typeKey] ) {
                 return 'rpt';
             }
             return 'gpt';
@@ -286,7 +288,7 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
                 // https://github.com/gorhill/httpswitchboard/issues/29
                 // The cell is indirectly whitelisted because of hostname, type
                 // must NOT be blacklisted.
-                if ( this.httpsb.userSettings.strictBlocking && blacklist[typeKey] ) {
+                if ( strictBlocking && blacklist[typeKey] ) {
                     return 'rpt';
                 }
                 return 'gpt';
@@ -383,7 +385,7 @@ PermissionScope.prototype.blacklist = function(type, hostname) {
     // which is already in read-only blacklist (after graylisting or
     // whitelisting it), user expects entry to still be blacklisted if ever
     // same entry is removed from read-only blacklist.
-    if ( type !== '*' || !this.httpsb.blacklistReadonly[hostname] ) {
+    if ( type !== '*' || !HTTPSB.blacklistReadonly[hostname] ) {
         changed = this.black.addOne(key) || changed;
     }
     return changed;
@@ -402,7 +404,7 @@ PermissionScope.prototype.graylist = function(type, hostname) {
     // rhill 2013-10-25: special case, we expressly graylist only if the
     // key is '*' and hostname is found in read-only blacklist, so that the
     // express graylisting occults the read-only blacklist status.
-    if ( type === '*' && this.httpsb.blacklistReadonly[hostname] ) {
+    if ( type === '*' && HTTPSB.blacklistReadonly[hostname] ) {
         changed = this.gray.addOne(key) || changed;
     }
     return changed;
@@ -441,7 +443,7 @@ PermissionScopes.prototype.fromString = function(s) {
     var i = bin.scopes.length;
     var scope, scopeBin;
     while ( i-- ) {
-        scope = new PermissionScope(this.httpsb);
+        scope = new PermissionScope();
         scopeBin = bin.scopes[i];
         scope.fromString(scopeBin.scopeStr);
         this.scopes[scopeBin.scopeKey] = scope;
@@ -472,7 +474,7 @@ PermissionScopes.prototype.assign = function(other) {
     while ( i-- ) {
         scopeKey = scopeKeys[i];
         if ( !this.scopes[scopeKey] ) {
-            this.scopes[scopeKey] = new PermissionScope(this.httpsb);
+            this.scopes[scopeKey] = new PermissionScope();
             this.scopes[scopeKey].assign(other.scopes[scopeKey]);
         }
     }

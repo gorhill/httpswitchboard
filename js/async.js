@@ -113,7 +113,7 @@ function updateBadgeCallback(pageUrl) {
 }
 
 function updateBadge(pageUrl) {
-    asyncJobQueue.add('updateBadge ' + pageUrl, pageUrl, updateBadgeCallback, 250);
+    asyncJobQueue.add('updateBadge ' + pageUrl, pageUrl, updateBadgeCallback, 500);
 }
 
 /******************************************************************************/
@@ -192,23 +192,21 @@ function onMessageHandler(request, sender, callback) {
             }
             break;
 
-        case 'contentHasLocalStorage':
-            // `blocked` aka `response`
-            response = HTTPSB.blacklisted(request.url, 'cookie', uriTools.hostnameFromURI(request.url));
-            recordFromPageUrl(request.url, 'cookie', uriTools.rootURLFromURI(request.url) + '/{localStorage}', response);
-            response = response && HTTPSB.userSettings.deleteLocalStorage;
-            if ( response ) {
-                HTTPSB.localStorageRemovedCounter++;
-            }
+        case 'contentScriptHasLocalStorage':
+            response = contentScriptLocalStorageHandler(request.url)
             break;
 
-        default:
+         case 'contentScriptSummary':
+            contentScriptSummaryHandler(request.details);
+            break;
+
+       default:
              // console.error('HTTP Switchboard > onMessage > unknown request: %o', request);
             break;
         }
     }
 
-    if ( response && callback ) {
+    if ( response !== undefined && callback ) {
         callback(response);
     }
 }

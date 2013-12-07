@@ -138,10 +138,10 @@ function beforeRequestHandler(details) {
     // of the root frame. If root frame is blocked, stylesheets will never
     // be requested.
     var type = details.type;
-    if ( type === 'stylesheet' ) {
+//    if ( type === 'stylesheet' ) {
         // console.log("HTTPSB > %s @ url=%s", details.type, details.url);
-        return;
-    }
+//        return;
+//    }
 
     // quickProfiler.start();
 
@@ -296,6 +296,7 @@ function headersReceivedHandler(details) {
 
     // Ignore anything which is not top frame
     var type = details.type;
+    var isMainFrame = type === 'main_frame';
     if ( type !== 'main_frame' && type !== 'sub_frame' ) {
         return;
     }
@@ -306,17 +307,26 @@ function headersReceivedHandler(details) {
         return;
     }
 
-    var pageStats = pageStatsFromTabId(tabId);
-    // Can happen I suppose...
-    if ( !pageStats ) {
-        return;
+    // rhill 2013-12-07:
+    // Apparently in Opera, onBeforeRequest() is triggered while the
+    // URL is not yet bound to a tab (-1), which caused the code here
+    // to not be able to lookup the pageStats. So let the code here bind
+    // the page to a tab if not done yet.
+    if ( isMainFrame && details.parentFrameId < 0 ) {
+        bindTabToPageStats(tabId, uriTools.normalizeURI(details.url));
     }
 
+    var pageStats = pageStatsFromTabId(tabId);
+
     // Evaluate according to scope
-    var pageURL = pageUrlFromPageStats(pageStats);
+    // rhill 2013-12-07:
+    // Worst case scenario, if no pageURL can be found for this
+    // request, use global scope to evaluate whether it should be blocked
+    // or allowed.
+    var pageURL = pageStats ? pageUrlFromPageStats(pageStats) : '*';
     var hostname = uriTools.hostnameFromURI(details.url);
-    var noScript = HTTPSB.blacklisted(pageURL, 'script', hostname);
-    if ( !noScript ) {
+
+    if ( HTTPSB.whitelisted(pageURL, 'script', hostname) ) {
         return;
     }
 

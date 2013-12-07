@@ -587,7 +587,7 @@ function smartReloadTabsCallback() {
 }
 
 function smartReloadTabs() {
-    asyncJobQueue.add('smartReloadTabs', null, smartReloadTabsCallback, 250);
+    asyncJobQueue.add('smartReloadTabs', null, smartReloadTabsCallback, 500);
 }
 
 /******************************************************************************/
@@ -607,16 +607,10 @@ function smartReloadTab(tabId) {
     }
     var newState = computeTabState(tabId);
     if ( getStateHash(newState) != getStateHash(pageStats.state) ) {
-        // Appears to help.
-        //   https://github.com/gorhill/httpswitchboard/issues/35
-        // No longer needed, but I will just comment out for now.
-        //   https://github.com/gorhill/httpswitchboard/issues/35
-        // var hostname = uriTools.hostnameFromURI(pageUrl);
-        // setJavascript(hostname, HTTPSB.whitelisted(pageUrl, 'script', hostname));
         // console.debug('reloaded content of tab id %d', tabId);
         // console.debug('old="%s"\nnew="%s"', getStateHash(pageStats.state), getStateHash(newState));
         pageStats.state = newState;
-        chrome.tabs.reload(tabId);
+        chrome.tabs.reload(tabId, { bypassCache: true });
     }
 }
 

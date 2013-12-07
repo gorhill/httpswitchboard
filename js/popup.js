@@ -98,6 +98,7 @@ function HostnameStats(hostname) {
     this.types = {
         '*': new EntryStats(hostname, '*'),
         main_frame: new EntryStats(hostname, 'main_frame'),
+        stylesheet: new EntryStats(hostname, 'stylesheet'),
         cookie: new EntryStats(hostname, 'cookie'),
         image: new EntryStats(hostname, 'image'),
         object: new EntryStats(hostname, 'object'),
@@ -129,6 +130,7 @@ HostnameStats.prototype.reset = function(hostname) {
     }
     this.types['*'].reset(hostname);
     this.types.main_frame.reset(hostname);
+    this.types.stylesheet.reset(hostname);
     this.types.cookie.reset(hostname);
     this.types.image.reset(hostname);
     this.types.object.reset(hostname);
@@ -161,6 +163,7 @@ HostnameStats.prototype.add = function(other) {
     var otherTypes = other.types;
     thisTypes['*'].add(otherTypes['*']);
     thisTypes.main_frame.add(otherTypes.main_frame);
+    thisTypes.stylesheet.add(otherTypes.stylesheet);
     thisTypes.cookie.add(otherTypes.cookie);
     thisTypes.image.add(otherTypes.image);
     thisTypes.object.add(otherTypes.object);
@@ -1312,7 +1315,11 @@ function togglePower(force) {
     } else {
         off = !httpsb.off;
     }
-    httpsb.off = off;
+    if ( off ) {
+        httpsb.turnOff();
+    } else {
+        httpsb.turnOn();
+    }
     $('body').toggleClass('powerOff', off);
     updateMatrixStats();
     updateMatrixColors();
