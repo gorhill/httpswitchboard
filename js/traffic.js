@@ -158,11 +158,12 @@ function beforeRequestHandler(details) {
     // specific IP address has been visiting one specific website.
     // We don't want that.
     var typeToEval = type;
+    var typeToRecord = type;
     if ( type === 'stylesheet' ) {
         if ( uriTools.domainFromHostname(hostname) === pageStats.pageDomain ) {
             typeToEval = 'main_frame';
         } else {
-            typeToEval = 'other';
+            typeToEval = typeToRecord = 'other';
         }
     }
 
@@ -180,8 +181,9 @@ function beforeRequestHandler(details) {
             pageStats.perLoadAllowedRequestCount =
             pageStats.perLoadBlockedRequestCount = 0;
         }
+
         // Log request
-        pageStats.recordRequest(type, url, block);
+        pageStats.recordRequest(typeToRecord, url, block);
 
         // rhill 2013-10-20:
         // https://github.com/gorhill/httpswitchboard/issues/19
@@ -204,7 +206,7 @@ function beforeRequestHandler(details) {
     }
 
     // Collect global stats
-    httpsb.requestStats.record(type, block);
+    httpsb.requestStats.record(typeToRecord, block);
 
     // quickProfiler.stop('beforeRequestHandler | evaluate&record');
 
