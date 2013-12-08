@@ -134,18 +134,10 @@ function beforeRequestHandler(details) {
         return;
     }
 
-    // Don't block stylesheet requests, these are considered has being parts
-    // of the root frame. If root frame is blocked, stylesheets will never
-    // be requested.
-    var type = details.type;
-//    if ( type === 'stylesheet' ) {
-        // console.log("HTTPSB > %s @ url=%s", details.type, details.url);
-//        return;
-//    }
-
     // quickProfiler.start();
 
     // If it's a top frame, bind to a new page stats store
+    var type = details.type;
     var isMainFrame = type === 'main_frame';
     var isRootFrame = isMainFrame && details.parentFrameId < 0;
     if ( isRootFrame ) {
@@ -156,11 +148,29 @@ function beforeRequestHandler(details) {
     hostname = uriTools.hostnameFromURI(url);
     pageURL = pageUrlFromPageStats(pageStats) || '*';
 
+    // rhill 2013-12-08:
+    // Better handling of stylesheet requests: if domain of `stylesheet` object
+    // is same as domain of `main_frame`, the `stylesheet` is evaluated as if
+    // it is `main_frame` (permissive), else it is evaluated as `other`,
+    // i.e. an external resources (restrictive).
+    // This is for privacy reasons: a whole lot of web sites pull their fonts
+    // from, say, `fonts.googleapis.com`, thus giving Google log data that one
+    // specific IP address has been visiting one specific website.
+    // We don't want that.
+    var typeToEval = type;
+    if ( type === 'stylesheet' ) {
+        if ( uriTools.domainFromHostname(hostname) === pageStats.pageDomain ) {
+            typeToEval = 'main_frame';
+        } else {
+            typeToEval = 'other';
+        }
+    }
+
     // Block request?
     // https://github.com/gorhill/httpswitchboard/issues/27
     var block = false; // By default, don't block behind-the-scene requests
     if ( tabId !== httpsb.behindTheSceneTabId || httpsb.userSettings.processBehindTheSceneRequests ) {
-        block = httpsb.blacklisted(pageURL, type, hostname);
+        block = httpsb.blacklisted(pageURL, typeToEval, hostname);
     }
 
     if ( pageStats ) {
@@ -301,18 +311,18 @@ function headersReceivedHandler(details) {
         return;
     }
 
-    // Ignore traffic outside tabs
+    // rhill 2013-12-08: ALWAYS evaluate for javascript, do not rely too much
+    // on the top page to be bound to a tab.
+    // https://github.com/gorhill/httpswitchboard/issues/75
     var tabId = details.tabId;
-    if ( tabId < 0 ) {
-        return;
-    }
 
     // rhill 2013-12-07:
     // Apparently in Opera, onBeforeRequest() is triggered while the
     // URL is not yet bound to a tab (-1), which caused the code here
     // to not be able to lookup the pageStats. So let the code here bind
     // the page to a tab if not done yet.
-    if ( isMainFrame && details.parentFrameId < 0 ) {
+    // https://github.com/gorhill/httpswitchboard/issues/75
+    if ( tabId >= 0 && isMainFrame && details.parentFrameId < 0 ) {
         bindTabToPageStats(tabId, uriTools.normalizeURI(details.url));
     }
 
@@ -323,6 +333,7 @@ function headersReceivedHandler(details) {
     // Worst case scenario, if no pageURL can be found for this
     // request, use global scope to evaluate whether it should be blocked
     // or allowed.
+    // https://github.com/gorhill/httpswitchboard/issues/75
     var pageURL = pageStats ? pageUrlFromPageStats(pageStats) : '*';
     var hostname = uriTools.hostnameFromURI(details.url);
 

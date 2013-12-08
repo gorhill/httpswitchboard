@@ -72,6 +72,8 @@ function PageStatsRequests() {
 
 function PageStatsEntry(pageUrl) {
     this.pageUrl = '';
+    this.pageHostname = '';
+    this.pageDomain = '';
     this.requests = PageStatsRequests.factory();
     this.domains = {};
     this.state = {};

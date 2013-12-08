@@ -136,11 +136,6 @@ HTTPSB.evaluate = function(src, type, hostname) {
     if ( this.off ) {
         return 'gpt';
     }
-    // rhill 2013-12-07:
-    // stylesheets are evaluated as `main_frame`.
-    if ( type === 'stylesheet' ) {
-        type = 'main_frame';
-    }
     return this.temporaryScopes.evaluate(src, type, hostname);
 };
 

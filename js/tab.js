@@ -281,6 +281,8 @@ PageStatsEntry.factory = function(pageUrl) {
 
 PageStatsEntry.prototype.init = function(pageUrl) {
     this.pageUrl = pageUrl;
+    this.pageHostname = uriTools.uri(pageUrl).hostname();
+    this.pageDomain = uriTools.domainFromHostname(this.pageHostname);
     this.requests = PageStatsRequests.factory();
     this.domains = {};
     this.state = {};
@@ -302,6 +304,8 @@ PageStatsEntry.prototype.dispose = function() {
     // sizeable enough chunks (especially requests, through the request URL
     // used as a key).
     this.pageUrl = '';
+    this.pageHostname = '';
+    this.pageDomain = '';
     this.domains = {};
     this.state = {};
 
