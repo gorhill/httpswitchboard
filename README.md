@@ -37,8 +37,8 @@ The extension is also useful to see what the web page in your browser
 is doing (or trying to do) behind the scene.
 
 The number which appear in the extension icon correspond to the total number
-of **distinct** requests attempted (successfully or not depending on whether it was
-whitelisted/blacklisted) behind the scene.
+of **distinct** requests attempted (successfully or not depending on whether a
+request was allowed/blocked) behind the scene.
 
 Simply click on the appropriate entry in the matrix in order to whitelist,
 blacklist or graylist a component. *Graylisting* means the blocked or allowed
@@ -48,13 +48,13 @@ status will be inherited from another entry in the matrix.
 reaching their destination:
     * Dark red square: the specific domain name and/or type of request is
 specifically blacklisted.
-    * Pale red square: the blacklist status in inherited because the entry is
+    * Pale red square: the blacklist status is inherited because the entry is
 graylisted.
 - Greenish square = effectively whitelisted, i.e. requests are allowed to reach
 their intended destination:
     * Bright green square = the specific domain name and/or type of request is
 specifically whitelisted.
-    * Pale green square = the whitelist status in inherited because the entry is
+    * Pale green square = the whitelist status is inherited because the entry is
 graylisted.
 
 The top-left cell in the matrix represents the default global setting (the
