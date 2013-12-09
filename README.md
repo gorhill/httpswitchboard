@@ -31,7 +31,7 @@ HTTP Switchboard let you easily whitelist/blacklist net requests which originate
   * other
 
 The goal of this extension is to make allowing or blocking of web sites,
-wholly of partly, as straightforward as possible, so as to not discourage
+wholly or partly, as straightforward as possible, so as to not discourage
 those users who give up easily on good security and privacy habits.
 
 The extension is also useful to see what the web page in your browser
