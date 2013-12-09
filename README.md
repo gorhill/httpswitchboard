@@ -25,7 +25,7 @@ HTTP Switchboard let you easily whitelist/blacklist net requests which originate
   * image
   * object
   * script
-  * XMR (abbreviation for XMLHttpRequest)
+  * XHR (abbreviation for XMLHttpRequest)
   * frame
   * other
 
