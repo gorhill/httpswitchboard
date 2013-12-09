@@ -1,17 +1,18 @@
-#HTTP Switchboard for Chromium
+# HTTP Switchboard for Chromium
 
 See [Change log](https://github.com/gorhill/httpswitchboard/wiki/Change-log) for latest changes.
 
 A Chromium browser extension which let you white- or blacklist requests
 originating from within a web page according to their type and/or destination
-as per domain name.
+as per domain name. As of December 2013, the extension comes with preset
+blacklists totalling over 45,000 distinct hostnames.
 
-##Installation
+## Installation
 
 Available on Chrome web store (<a href="https://chrome.google.com/webstore/detail/httpswitchboard/mghdpehejfekicfjcdbfofhcmnjhgaag">HTTP Switchboard</a>),
 or you can [install manually](https://github.com/gorhill/httpswitchboard/tree/master/dist).
 
-##Documentation
+## Documentation
 
 ![HTTP Switchboard](doc/img/screenshot1.png)
 
@@ -80,6 +81,6 @@ blocking all requests for images as an example.
 This is a very early draft, but it does the job. I intend to keep working on
 it until I am satisfied that it can be tagged as version 1.0.
 
-##License
+## License
 
 <a href="https://github.com/gorhill/httpswitchboard/blob/master/LICENSE.txt">GPLv3</a>.
