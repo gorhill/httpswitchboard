@@ -50,6 +50,7 @@ var HTTPSB = {
         'assets/thirdparties/pgl.yoyo.org/as/serverlist.php': {},
         'assets/thirdparties/www.malwaredomainlist.com/hostslist/hosts.txt': {},
         'assets/thirdparties/hosts-file.net/ad-servers.asp': {}
+        'assets/thirdparties/someonewhocares.org/hosts': {}
         // 'assets/thirdparties/hosts-file.net/hosts.txt': {} // Huge!
         },
     // remoteBlacklistLocalCopyTTL: 10 * 1000, // for debugging
