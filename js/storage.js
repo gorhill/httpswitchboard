@@ -133,6 +133,8 @@ function loadUserLists() {
             httpsb.blacklistPermanently('*', 'object', '*');
             httpsb.blacklistTemporarily('*', 'sub_frame', '*');
             httpsb.blacklistPermanently('*', 'sub_frame', '*');
+            httpsb.whitelistTemporarily('*', 'other', '*');
+            httpsb.whitelistPermanently('*', 'other', '*');
         }
 
         // rhill 2013-09-23: ok, there is no point in blacklisting
