@@ -5,7 +5,7 @@ See [Change log](https://github.com/gorhill/httpswitchboard/wiki/Change-log) for
 A Chromium browser extension which let you white- or blacklist requests
 originating from within a web page according to their type and/or destination
 as per domain name. As of December 2013, the extension comes with preset
-blacklists totalling over 45,000 distinct hostnames.
+blacklists totaling over 45,000 distinct hostnames (each list can be disabled/enabled).
 
 ## Installation
 

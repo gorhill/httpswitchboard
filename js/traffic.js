@@ -112,13 +112,15 @@ function beforeRequestHandler(details) {
     var hostname, pageURL;
 
     // Don't block chrome extensions
-    var matches = url.match(/^chrome-extension:\/\/([^\/]+)\/(.+)$/);
-    if ( matches ) {
+    // rhill 2013-12-10: Avoid regex whenever a faster indexOf() can be used:
+    // here we can use fast indexOf() as a first filter -- which is executed
+    // for every single request (so speed matters).
+    if ( url.indexOf(httpsb.chromeExtensionURLPrefix) === 0 ) {
         // If it is HTTP Switchboard's root frame replacement URL, verify that
         // the page that was blacklisted is still blacklisted, and if not,
         // redirect to the previously blacklisted page.
-        if ( details.parentFrameId < 0 && matches[1] === chrome.runtime.id ) {
-            matches = matches[2].match(/^css\/noop\.css\?url=([^&]+)&hostname=([^&]+).*$/);
+        if ( details.parentFrameId < 0 && url.indexOf(httpsb.noopCSSURL) === 0 ) {
+            var matches = url.match(/url=([^&]+)&hostname=([^&]+)/);
             if ( matches ) {
                 pageURL = decodeURIComponent(matches[1]);
                 hostname = decodeURIComponent(matches[2]);
@@ -131,6 +133,7 @@ function beforeRequestHandler(details) {
                 }
             }
         }
+        // Chrome extensions are not processed further
         return;
     }
 
@@ -243,8 +246,8 @@ function beforeRequestHandler(details) {
     var html, dataURI;
     if ( isRootFrame ) {
         html = rootFrameReplacement;
-        html = html.replace(/{{fontUrl}}/g, chrome.runtime.getURL('css/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf'));
-        html = html.replace(/{{cssURL}}/g, chrome.runtime.getURL('css/noop.css'));
+        html = html.replace(/{{fontUrl}}/g, httpsb.fontCSSURL);
+        html = html.replace(/{{cssURL}}/g, httpsb.noopCSSURL);
         html = html.replace(/{{hostname}}/g, encodeURIComponent(hostname));
         html = html.replace(/{{originalURL}}/g, encodeURIComponent(url));
         html = html.replace(/{{now}}/g, String(Date.now()));
@@ -252,7 +255,7 @@ function beforeRequestHandler(details) {
         return { "redirectUrl": dataURI };
     } else if ( isMainFrame || type === 'sub_frame' ) {
         html = subFrameReplacement;
-        html = html.replace(/{{fontUrl}}/g, chrome.runtime.getURL('css/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf'));
+        html = html.replace(/{{fontUrl}}/g, httpsb.fontCSSURL);
         html = html.replace(/{{hostname}}/g, hostname);
         dataURI = 'data:text/html;base64,' + btoa(html);
         return { "redirectUrl": dataURI };

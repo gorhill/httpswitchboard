@@ -162,16 +162,16 @@ function onMessageHandler(request, sender, callback) {
     if ( request && request.what ) {
         switch ( request.what ) {
 
-        case 'parseRemoteBlacklist':
-            parseRemoteBlacklist(request.list);
-            break;
-
-        case 'queryRemoteBlacklist':
-            queryRemoteBlacklist(request.location);
+        case 'mergeRemoteBlacklist':
+            mergeRemoteBlacklist(request.list);
             break;
 
         case 'localRemoveRemoteBlacklist':
             localRemoveRemoteBlacklist(request.location);
+            break;
+
+         case 'reloadPresetBlacklists':
+            reloadPresetBlacklists(request.switches);
             break;
 
         case 'startWebRequestHandler':

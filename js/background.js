@@ -47,15 +47,13 @@ var HTTPSB = {
         'assets/httpsb-blacklist.txt': {},
         'assets/thirdparties/mirror1.malwaredomains.com/files/immortal_domains.txt': {},
         'assets/thirdparties/mirror1.malwaredomains.com/files/justdomains': {},
-        'assets/thirdparties/pgl.yoyo.org/as/serverlist.php': {},
+        'assets/thirdparties/pgl.yoyo.org/as/serverlist': {},
         'assets/thirdparties/www.malwaredomainlist.com/hostslist/hosts.txt': {},
-        'assets/thirdparties/hosts-file.net/ad-servers.asp': {}
-        // 'assets/thirdparties/hosts-file.net/hosts.txt': {} // Huge!
+        'assets/thirdparties/hosts-file.net/ad-servers': {},
+        // From here on, any new list is 'off' by default
+        'assets/thirdparties/hosts-file.net/hosts.txt': { off: true },
+        'assets/thirdparties/someonewhocares.org/hosts/hosts': { off: true }
         },
-    // remoteBlacklistLocalCopyTTL: 10 * 1000, // for debugging
-    // Look for new version every 7 days
-    remoteBlacklistLocalCopyTTL: 7 * 24 * 60 * 60 * 1000,
-    remoteBlacklistMergeCounter: 0,
 
     // urls stats are kept on the back burner while waiting to be reactivated
     // in a tab or another.
@@ -95,6 +93,11 @@ var HTTPSB = {
 
     // Popup menu
     port: null,
+
+    // Commonly encountered strings
+    chromeExtensionURLPrefix: 'chrome-extension://',
+    noopCSSURL: chrome.runtime.getURL('css/noop.css'),
+    fontCSSURL: chrome.runtime.getURL('css/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf'),
 
     // so that I don't have to care for last comma
     dummy: 0
