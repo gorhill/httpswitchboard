@@ -74,6 +74,7 @@ var HTTPSB = {
     // Current entries from remote blacklists --
     // just hostnames, '*/' is implied, this saves significantly on memory.
     blacklistReadonly: {},
+    blacklistReadonlyCount: 0,
 
     // https://github.com/gorhill/httpswitchboard/issues/19
     excludeRegex: /^https?:\/\/chrome\.google\.com\/(extensions|webstore)/,

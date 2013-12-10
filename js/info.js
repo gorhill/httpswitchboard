@@ -202,7 +202,7 @@ function renderStats() {
     renderNumbers({
         '#whitelistCount': httpsb.temporaryScopes.scopes['*'].white.count,
         '#blacklistCount': httpsb.temporaryScopes.scopes['*'].black.count,
-        '#blacklistReadonlyCount': httpsb.blacklistReadonly.count,
+        '#blacklistReadonlyCount': httpsb.blacklistReadonlyCount,
         '#blockedAllCount': requestStats.blocked.all,
         '#blockedMainFrameCount': blockedStats.main_frame,
         '#blockedCookieCount': blockedStats.cookie,

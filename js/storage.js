@@ -219,8 +219,8 @@ function loadRemoteBlacklistsHandler(store) {
             continue;
         }
 
-        // If loaded list location is not part of default list location,
-        // remove its content from local storage.
+        // If loaded list location is not part of default list locations,
+        // remove its entry from local storage.
         if ( !httpsb.remoteBlacklists[location] ) {
             chrome.runtime.sendMessage({
                 what: 'localRemoveRemoteBlacklist',
@@ -282,9 +282,6 @@ function mergeRemoteBlacklist(list) {
     // used as a filter in temporary blacklist.
 
     var blacklistReadonly = httpsb.blacklistReadonly;
-    if ( blacklistReadonly.count === undefined ) {
-        blacklistReadonly.count = 0;
-    }
     var thisListCount = 0;
     var localhostRegex = /(^|\b)(localhost\.localdomain|localhost|local|broadcasthost|127\.0\.0\.1|::1|fe80::1%lo0)(\b|$)/g;
     var raw = list.raw;
@@ -314,7 +311,7 @@ function mergeRemoteBlacklist(list) {
         thisListCount++;
         if ( !blacklistReadonly[key] ) {
             blacklistReadonly[key] = true;
-            blacklistReadonly.count++;
+            httpsb.blacklistReadonlyCount++;
         }
     }
 
@@ -357,18 +354,13 @@ function reloadPresetBlacklists(switches) {
 
 function disableAllPresetBlacklistEntries() {
     var blacklistReadonly = HTTPSB.blacklistReadonly;
-    var hostname;
-    for ( hostname in blacklistReadonly ) {
+    for ( var hostname in blacklistReadonly ) {
         if ( !blacklistReadonly.hasOwnProperty(hostname) ) {
-            continue;
-        }
-        // Hum yeah, count is kept on same level as hostnames
-        if ( hostname === 'count' ) {
             continue;
         }
         blacklistReadonly[hostname] = false;
     }
-    blacklistReadonly.count = 0;
+    HTTPSB.blacklistReadonlyCount = 0;
 }
 
 /******************************************************************************/
@@ -379,16 +371,8 @@ function disableAllPresetBlacklistEntries() {
 
 function prunePresetBlacklistEntries() {
     var blacklistReadonly = HTTPSB.blacklistReadonly;
-    var hostname;
-    for ( hostname in blacklistReadonly ) {
-        if ( !blacklistReadonly.hasOwnProperty(hostname) ) {
-            continue;
-        }
-        // Hum yeah, count is kept on same level as hostnames
-        if ( hostname === 'count' ) {
-            continue;
-        }
-        if ( blacklistReadonly[hostname] == false ) {
+    for ( var hostname in blacklistReadonly ) {
+        if ( blacklistReadonly[hostname] === false && blacklistReadonly.hasOwnProperty(hostname) ) {
             delete blacklistReadonly[hostname];
         }
     }
