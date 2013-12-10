@@ -667,19 +667,30 @@ function computeTabState(tabId) {
     var reqKeys = pageStats.requests.getRequestKeys();
     var i = reqKeys.length;
     var computedState = {};
-    var hostname, type, reqKey;
+    var hostname, reqKey;
+    var type, typeToEval, typeToRecord;
     while ( i-- ) {
         reqKey = reqKeys[i];
+
+        // The evaluation code here needs to reflect the evaluation code in
+        // beforeRequestHandler()
         hostname = PageStatsRequests.hostnameFromRequestKey(reqKey);
-        type = PageStatsRequests.typeFromRequestKey(reqKey);
+
         // rhill 2013-12-10: mind how stylesheets are to be evaluated:
         // `stylesheet` or `other`? Depends of domain of request.
         // https://github.com/gorhill/httpswitchboard/issues/85
+        type = PageStatsRequests.typeFromRequestKey(reqKey);
+        typeToEval = typeToRecord = type;
         if ( type === 'stylesheet' ) {
-            type = uriTools.domainFromHostname(hostname) === pageStats.pageDomain ? 'main_frame' : 'other';
+            if ( uriTools.domainFromHostname(hostname) === pageStats.pageDomain ) {
+                typeToEval = 'main_frame';
+            } else {
+                typeToEval = typeToRecord = 'other';
+            }
         }
-        if ( httpsb.blacklisted(pageUrl, type, hostname) ) {
-            computedState[type +  '|' + hostname] = true;
+
+        if ( httpsb.blacklisted(pageUrl, typeToEval, hostname) ) {
+            computedState[typeToRecord +  '|' + hostname] = true;
         }
     }
     return computedState;
