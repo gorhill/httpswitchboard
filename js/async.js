@@ -193,7 +193,7 @@ function onMessageHandler(request, sender, callback) {
             break;
 
         case 'contentScriptHasLocalStorage':
-            response = contentScriptLocalStorageHandler(request.url)
+            response = contentScriptLocalStorageHandler(request.url);
             break;
 
          case 'contentScriptSummary':
