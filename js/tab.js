@@ -672,6 +672,12 @@ function computeTabState(tabId) {
         reqKey = reqKeys[i];
         hostname = PageStatsRequests.hostnameFromRequestKey(reqKey);
         type = PageStatsRequests.typeFromRequestKey(reqKey);
+        // rhill 2013-12-10: mind how stylesheets are to be evaluated:
+        // `stylesheet` or `other`? Depends of domain of request.
+        // https://github.com/gorhill/httpswitchboard/issues/85
+        if ( type === 'stylesheet' ) {
+            type = uriTools.domainFromHostname(hostname) === pageStats.pageDomain ? 'main_frame' : 'other';
+        }
         if ( httpsb.blacklisted(pageUrl, type, hostname) ) {
             computedState[type +  '|' + hostname] = true;
         }
