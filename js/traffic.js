@@ -100,6 +100,8 @@ background: #c00; \
 // Intercept and filter web requests according to white and black lists.
 
 function beforeRequestHandler(details) {
+    // quickProfiler.start();
+
     var httpsb = HTTPSB;
     var tabId = details.tabId;
 
@@ -134,6 +136,7 @@ function beforeRequestHandler(details) {
             }
         }
         // Chrome extensions are not processed further
+        // quickProfiler.stop('beforeRequestHandler');
         return;
     }
 
@@ -191,21 +194,9 @@ function beforeRequestHandler(details) {
         // rhill 2013-10-20:
         // https://github.com/gorhill/httpswitchboard/issues/19
         if ( pageStats.ignore ) {
+            // quickProfiler.stop('beforeRequestHandler');
             return;
         }
-    }
-
-    // If it is a frame and scripts are blacklisted for the
-    // hostname, disable scripts for this hostname, necessary since inline
-    // script tags are not passed through web request handler.
-    if ( isMainFrame ) {
-        // No longer needed, but I will just comment out for now.
-        //   https://github.com/gorhill/httpswitchboard/issues/35
-        // setJavascript(hostname, httpsb.whitelisted(pageURL, 'script', hostname));
-
-        // when the tab is updated, we will check if page has at least one
-        // script tag, this takes care of inline scripting, which doesn't
-        // generate 'script' type web requests.
     }
 
     // Collect global stats
@@ -224,9 +215,7 @@ function beforeRequestHandler(details) {
 
         // rhill 2013-11-07: Senseless to do this for behind-the-scene
         // requests.
-        // rhill 2013-12-03: Do this here only for root frames. This is also
-        // done in `onHeadersReceived` when a `Set-cookie` directive is
-        // received.
+        // rhill 2013-12-03: Do this here only for root frames.
         if ( isRootFrame && tabId !== httpsb.behindTheSceneTabId ) {
             cookieHunter.record(pageStats);
         }
@@ -235,6 +224,8 @@ function beforeRequestHandler(details) {
         // console.log("HTTPSB > %s @ url=%s", details.type, details.url);
         return;
     }
+
+    // quickProfiler.stop('beforeRequestHandler');
 
     // blacklisted
     // console.debug('beforeRequestHandler > blocking %s from %s', type, hostname);
@@ -280,19 +271,26 @@ function beforeSendHeadersHandler(details) {
     // Any cookie in there?
     var hostname = uriTools.hostnameFromURI(details.url);
     var blacklistCookie = HTTPSB.blacklisted(pageUrlFromTabId(details.tabId), 'cookie', hostname);
+
+    // rhill 2013-12-11: If cookies are not blacklisted, headers won't be
+    // modified, so leave now.
+    if ( !blacklistCookie ) {
+        return;
+    }
+
     var headers = details.requestHeaders;
     var i = headers.length;
+    var foiled = false;
     while ( i-- ) {
         if ( headers[i].name.toLowerCase() !== 'cookie' ) {
             continue;
         }
-        if ( blacklistCookie ) {
-            // console.debug('HTTP Switchboard > foiled browser attempt to send cookie(s) to %s', details.url);
-            headers.splice(i, 1);
-        }
+        // console.debug('HTTP Switchboard > foiled browser attempt to send cookie(s) to %s', details.url);
+        headers.splice(i, 1);
+        foiled = true
     }
 
-    if ( blacklistCookie ) {
+    if ( foiled ) {
         return { requestHeaders: headers };
     }
 }
