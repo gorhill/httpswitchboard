@@ -113,7 +113,7 @@ function updateBadgeCallback(pageUrl) {
 }
 
 function updateBadge(pageUrl) {
-    asyncJobQueue.add('updateBadge ' + pageUrl, pageUrl, updateBadgeCallback, 500);
+    asyncJobQueue.add('updateBadge ' + pageUrl, pageUrl, updateBadgeCallback, 250);
 }
 
 /******************************************************************************/

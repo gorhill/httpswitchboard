@@ -217,7 +217,7 @@ function beforeRequestHandler(details) {
         // requests.
         // rhill 2013-12-03: Do this here only for root frames.
         if ( isRootFrame && tabId !== httpsb.behindTheSceneTabId ) {
-            cookieHunter.record(pageStats);
+            cookieHunter.recordPageCookiesAsync(pageStats);
         }
 
         // quickProfiler.stop('beforeRequestHandler');

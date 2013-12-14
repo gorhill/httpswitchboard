@@ -87,7 +87,7 @@ ul > li {
     <h2>Cookies</h2>
     <ul>
         <li>
-            <input id="delete-blacklisted-cookies" type="checkbox" value="">Delete cookies
+            <input id="delete-blacklisted-cookies" type="checkbox" value="">Delete blocked cookies
             <span class="dim">(<span id="cookie-removed-counter">0</span> cookie(s) removed so far).</span> <button class="whatisthis"></button>
             <div class="expandable">
                 <p>Blacklisted cookies are not prevented by <i>HTTP Switchboard</i> from entering
@@ -97,10 +97,30 @@ ul > li {
                 and furthermore to inspect their contents if you wish.</p>
                 <p>Once these blacklisted cookies have been accounted for by <i>HTTP Switchboard</i>,
                 they can be removed from your browser if you wish so.</p>
+                <p><b>Important note:</b> Extensions can make web requests during the course of their
+                normal operation. These requests can result in cookies being created in the
+                browser. If the hostname from where a cookie originate is not whitelisted,
+                the cookie will be removed from the browser by <i>HTTP Switchboard</i> if this
+                option is checked. So be sure that the hostname(s) with which an extension
+                communicate is whitelisted.</p>
+            </div>
+        <li>
+            <input id="delete-unused-session-cookies" type="checkbox" value="">Delete non-blocked session cookies
+            <input id="delete-unused-session-cookies-after" type="text" value="60" size="3">minutes after
+            last time they have been used.
+            <button class="whatisthis"></button>
+            <div class="expandable">
+            <p><a href="http://www.w3.org/2001/tag/2010/09/ClientSideStorage.html">W3C</a>:
+            "A session cookie ... is erased when you end the browser session. The session cookie is
+            stored in temporary memory and is not retained after the browser is closed.</p>
+            <p>Except that this <a href="https://code.google.com/p/chromium/issues/detail?id=128513">might
+            not be happening</a> when using a Chromium-based browser. Also, to some,
+            having to close the browser in order for the session cookies to clear might not
+            be early enough.</p>
             </div>
         <li>
             <input id="delete-blacklisted-localstorage" type="checkbox" value="">Delete contents of
-            <a href="http://en.wikipedia.org/wiki/Web_storage">local storage</a>
+            <a href="http://en.wikipedia.org/wiki/Web_storage">local storage</a> of blocked hostnames
             <span class="dim">(<span id="localstorage-removed-counter">0</span> local storage(s) emptied so far).</span>
     </ul>
 
@@ -150,6 +170,9 @@ ul > li {
         the memory footprint of <i>HTTP Switchboard</i>).</p>
         </div>
     </ul>
+    <p style="border-top:1px solid #ccc;padding-top:1em;">
+    <button id="bye">Done</button>
+    </p>
 <script src="lib/jquery-2.min.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/settings.js"></script>

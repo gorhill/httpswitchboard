@@ -41,19 +41,39 @@ function changeUserSettings(name, value) {
 
 /******************************************************************************/
 
+function onChangeValueHandler(elem, setting, min, max) {
+    var oldVal = gethttpsb().userSettings[setting];
+    var newVal = Math.round(parseFloat(elem.val()));
+    if ( typeof newVal !== 'number' ) {
+        newVal = oldVal;
+    } else {
+        newVal = Math.max(newVal, min);
+        newVal = Math.min(newVal, max);
+    }
+    elem.val(newVal);
+    if ( newVal !== oldVal ) {
+        changeUserSettings(setting, newVal);
+    }
+}
+
+/******************************************************************************/
+
 function initAll() {
     var httpsb = gethttpsb();
+    var userSettings = httpsb.userSettings;
 
     $('input[name="displayTextSize"]').attr('checked', function(){
-        return $(this).attr('value') === httpsb.userSettings.displayTextSize;
+        return $(this).attr('value') === userSettings.displayTextSize;
         });
-    $('#strict-blocking').attr('checked', httpsb.userSettings.strictBlocking);
-    $('#delete-blacklisted-cookies').attr('checked', httpsb.userSettings.deleteCookies);
-    $('#delete-blacklisted-localstorage').attr('checked', httpsb.userSettings.deleteLocalStorage);
+    $('#strict-blocking').attr('checked', userSettings.strictBlocking === true);
+    $('#delete-unused-session-cookies').attr('checked', userSettings.deleteUnusedSessionCookies === true);
+    $('#delete-unused-session-cookies-after').val(userSettings.deleteUnusedSessionCookiesAfter);
+    $('#delete-blacklisted-cookies').attr('checked', userSettings.deleteCookies === true);
+    $('#delete-blacklisted-localstorage').attr('checked', userSettings.deleteLocalStorage);
     $('#cookie-removed-counter').html(httpsb.cookieRemovedCounter);
     $('#localstorage-removed-counter').html(httpsb.localStorageRemovedCounter);
-    $('#process-behind-the-scene').attr('checked', httpsb.userSettings.processBehindTheSceneRequests);
-    $('#max-logged-requests').val(httpsb.userSettings.maxLoggedRequests);
+    $('#process-behind-the-scene').attr('checked', userSettings.processBehindTheSceneRequests);
+    $('#max-logged-requests').val(userSettings.maxLoggedRequests);
 
     // Handle user interaction
 
@@ -62,6 +82,12 @@ function initAll() {
     });
     $('#strict-blocking').on('change', function(){
         changeUserSettings('strictBlocking', $(this).is(':checked'));
+    });
+    $('#delete-unused-session-cookies').on('change', function(){
+        changeUserSettings('deleteUnusedSessionCookies', $(this).is(':checked'));
+    });
+    $('#delete-unused-session-cookies-after').on('change', function(){
+        onChangeValueHandler($(this), 'deleteUnusedSessionCookiesAfter', 0, 1440);
     });
     $('#delete-blacklisted-cookies').on('change', function(){
         changeUserSettings('deleteCookies', $(this).is(':checked'));
@@ -73,18 +99,7 @@ function initAll() {
         changeUserSettings('processBehindTheSceneRequests', $(this).is(':checked'));
     });
     $('#max-logged-requests').on('change', function(){
-        var oldVal = gethttpsb().userSettings.maxLoggedRequests;
-        var newVal = Math.round(parseFloat($(this).val()));
-        if ( typeof newVal !== 'number' ) {
-            newVal = oldVal;
-        } else {
-            newVal = Math.max(newVal, 0);
-            newVal = Math.min(newVal, 999);
-        }
-        $(this).val(newVal);
-        if ( newVal !== oldVal ) {
-            changeUserSettings('maxLoggedRequests', newVal);
-        }
+        onChangeValueHandler($(this), 'maxLoggedRequests', 0, 999);
     });
 
     $('.whatisthis').on('click', function() {
@@ -92,6 +107,12 @@ function initAll() {
         .first()
         .find('.expandable')
         .toggleClass('expanded');
+    });
+
+    $('#bye').on('click', function() {
+        onChangeValueHandler($('#delete-unused-session-cookies-after'), 'deleteUnusedSessionCookiesAfter', 0, 1440);
+        onChangeValueHandler($('#max-logged-requests'), 'maxLoggedRequests', 0, 999);
+        window.open('','_self').close();
     });
 }
 

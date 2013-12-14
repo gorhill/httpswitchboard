@@ -26,6 +26,8 @@ var HTTPSB = {
 
     userSettings: {
         deleteCookies: false,
+        deleteUnusedSessionCookies: false,
+        deleteUnusedSessionCookiesAfter: 60,
         deleteLocalStorage: false,
         processBehindTheSceneRequests: false,
         strictBlocking: false,
