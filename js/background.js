@@ -102,6 +102,9 @@ var HTTPSB = {
     noopCSSURL: chrome.runtime.getURL('css/noop.css'),
     fontCSSURL: chrome.runtime.getURL('css/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf'),
 
+    // Extension tab (reuse this tab for extension pages)
+    extensionTabId: 0,
+
     // so that I don't have to care for last comma
     dummy: 0
 };

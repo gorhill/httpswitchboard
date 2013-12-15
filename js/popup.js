@@ -694,9 +694,6 @@ function handleUnpersistence(button) {
 
 /******************************************************************************/
 
-// build menu according to white and black lists
-// TODO: update incrementally
-
 function formatHeader(s) {
     var maxLength = 80;
     var msg = '&nbsp;';
@@ -1107,9 +1104,12 @@ function makeMenu() {
 
     renderMatrixHeaderRow();
 
+    // Building outside the DOM is more efficient
     HTTPSBPopup.matrixList.detach();
+
     // TODO: reuse elements
     HTTPSBPopup.matrixList.empty();
+
     makeMatrixGroup0(groupStats[0]);
     makeMatrixGroup1(groupStats[1]);
     makeMatrixGroup2(groupStats[2]);
@@ -1327,6 +1327,18 @@ function togglePower(force) {
 
 /******************************************************************************/
 
+function gotoExtensionURL() {
+    var url = $(this).data('extensionUrl');
+    if ( url ) {
+        chrome.runtime.sendMessage({
+            what: 'gotoExtensionURL',
+            url: url
+        });
+    }
+}
+
+/******************************************************************************/
+
 // make menu only when popup html is fully loaded
 
 function initAll() {
@@ -1413,6 +1425,8 @@ function initAll() {
     $('#buttonRuleManager').text(chrome.i18n.getMessage('ruleManagerPageName'));
     $('#buttonInfo').text(chrome.i18n.getMessage('statsPageName'));
     $('#buttonSettings').text(chrome.i18n.getMessage('settingsPageName'));
+    $('.extensionURL').on('click', gotoExtensionURL);
+
     $('#buttonPower').on('click', togglePower);
 
     $('#matList').on('click', '.g3Meta', function() {

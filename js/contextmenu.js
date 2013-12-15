@@ -26,8 +26,7 @@ chrome.contextMenus.create({
     id: 'gdt-group0',
     title: 'Temporarily whitelist ...',
     documentUrlPatterns: ['http://*/*', 'https://*/*']
-    },
-    function(){}
+    }
 );
 
 chrome.contextMenus.create({
@@ -35,8 +34,37 @@ chrome.contextMenus.create({
     id: 'revertPermissions',
     title: 'Remove all temporary permissions',
     documentUrlPatterns: ['http://*/*', 'https://*/*']
-    },
-    function(){}
+    }
+);
+
+chrome.contextMenus.create({
+    type: 'separator',
+    documentUrlPatterns: ['http://*/*', 'https://*/*']
+    }
+);
+
+chrome.contextMenus.create({
+    type: 'normal',
+    id: 'gotoPageRuleManager',
+    title: 'Rule manager...',
+    documentUrlPatterns: ['http://*/*', 'https://*/*']
+    }
+);
+
+chrome.contextMenus.create({
+    type: 'normal',
+    id: 'gotoPageStatistics',
+    title: 'Statistics...',
+    documentUrlPatterns: ['http://*/*', 'https://*/*']
+    }
+);
+
+chrome.contextMenus.create({
+    type: 'normal',
+    id: 'gotoPageSettings',
+    title: 'Settings...',
+    documentUrlPatterns: ['http://*/*', 'https://*/*']
+    }
 );
 
 function contextMenuClickHandler(info, tab) {
@@ -62,6 +90,27 @@ function contextMenuClickHandler(info, tab) {
         case 'revertPermissions':
             HTTPSB.revertPermissions();
             smartReloadTabs();
+            break;
+
+        case 'gotoPageRuleManager':
+            chrome.runtime.sendMessage({
+                what: 'gotoExtensionURL',
+                url: 'rulemanager.html'
+            });
+            break;
+
+        case 'gotoPageStatistics':
+            chrome.runtime.sendMessage({
+                what: 'gotoExtensionURL',
+                url: 'info.html'
+            });
+            break;
+
+        case 'gotoPageSettings':
+            chrome.runtime.sendMessage({
+                what: 'gotoExtensionURL',
+                url: 'settings.html'
+            });
             break;
     }
 }

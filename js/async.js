@@ -133,6 +133,27 @@ function permissionsChanged() {
 
 /******************************************************************************/
 
+function extensionTabCreateCallback(tab) {
+    HTTPSB.extensionTabId = tab.id;
+}
+
+function gotoExtensionURL(url) {
+    url = chrome.extension.getURL(url);
+    if ( HTTPSB.extensionTabId ) {
+        chrome.tabs.get(HTTPSB.extensionTabId, function(tab) {
+            if ( tab ) {
+                chrome.tabs.update(HTTPSB.extensionTabId, { 'url': url, active: true });
+            } else {
+                chrome.tabs.create({ 'url': url }, extensionTabCreateCallback);
+            }
+        })
+    } else {
+        chrome.tabs.create({ 'url': url }, extensionTabCreateCallback);
+    }
+}
+
+/******************************************************************************/
+
 // Notify whoever care that url stats have changed (they need to
 // rebuild their matrix).
 
@@ -182,8 +203,8 @@ function onMessageHandler(request, sender, callback) {
             chrome.tabs.update(request.tabId, { url: request.url });
             break;
 
-        case 'gotoExtensionUrl':
-            chrome.tabs.create({'url': chrome.extension.getURL(request.url)});
+        case 'gotoExtensionURL':
+            gotoExtensionURL(request.url);
             break;
 
         case 'userSettings':
