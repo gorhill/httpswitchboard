@@ -8,7 +8,7 @@ HTTP Switchboard (FOSS) put you in FULL control of where your browser is allowed
 
 * You do not have to solely rely on just one particular curated blacklist (arguably with many missing entries) outside which nothing else can be blocked.
 
-* Ease of use: HTTP Switchboard let you easily whitelist/blacklist net requests which originate from within a web page according to a point-and-click matrix:
+* Ease of use: HTTP Switchboard lets you easily whitelist/blacklist net requests which originate from within a web page according to a point-and-click matrix:
 
 - domain names (left column)
   * from very specific
@@ -43,7 +43,7 @@ Either way, you still benefit from the preset blacklists so that at least you ge
 
 Your choice.
 
-Quick tour:https://github.com/gorhill/httpswitchboard/wiki/Quick-tour
+Randomly assembled documentation: https://github.com/gorhill/httpswitchboard/wiki
 
 HTTP Switchboard is the fruit of a personal project, there no company of any kind involved, therefore no agenda other than giving users the tools to be in complete control of their browser (I appreciate the thought, but I do not want donation, now or in the future.)
 
@@ -53,9 +53,11 @@ FEEDBACK: For any question/issue you might have, use the "Send Feedback" button 
 
 =====
 
-This is pre-version 1.0, much more work is intended. Bugs/issues are addressed as quickly as possible (see: https://github.com/gorhill/httpswitchboard/issues?state=open)
+This is pre-version 1.0, more work is intended. Bugs/issues/suggestions are addressed as quickly as possible. See: https://github.com/gorhill/httpswitchboard/issues?state=open
 
-Informal discussions: https://groups.google.com/forum/?hl=en#!forum/httpsb
+You are very welcomed to contribute your views on open issues and suggestions, various arguments for/against help me in deciding what is needed to improve the extension.
+
+Ready to use ruleset recipes: https://groups.google.com/forum/?hl=en#!forum/httpsb
 
 Ease of use is the primary goal. I've seen users give up on Firefox's NoScript because it gets too much in the way according to them, so rather than blame these users for poor security habits, I prefer to blame developers and this project is a tentative to address the issues which cause some users to give up on basic security.
 
