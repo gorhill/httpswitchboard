@@ -20,7 +20,7 @@
 */
 
 // rhill 2013-12-14: the whole cookie management has been rewritten so as
-// to avoid having to call chrome API whenever a single cookie change, and
+// to avoid having to call chrome API whenever a single cookie changes, and
 // to record cookie for a web page *only* when its value changes.
 // https://github.com/gorhill/httpswitchboard/issues/79
 
@@ -290,7 +290,14 @@ var cookieHunter = {
             if ( entry.ignore ) {
                 continue;
             }
-            if ( httpsb.whitelisted('*', 'cookie', entry.domain) ) {
+            // User might want session cookies to be deleted, even if they are
+            // whitelisted.
+            // rhill 2013-12-15: use global scope, or else if a cookie was
+            // created from a site-scoped hostname, the cookie will never be
+            // deleted when the site-scope no longer exists.
+            // Ultimately, canRemoveCookie() will prevent deletion if the
+            // site-scope still exists.
+            if ( httpsb.whitelisted('*' /* this.cookieURLFromCookieEntry(entry) */, 'cookie', entry.domain) ) {
                 if ( !entry.session ) {
                     continue;
                 }
@@ -300,7 +307,15 @@ var cookieHunter = {
                 if ( (now - entry.session.tstamp) < deleteUnusedSessionCookiesAfter ) {
                     continue;
                 }
-            } else if ( !deleteCookies ) {
+            }
+            // User doesn't want HTTPSB to delete cookies.
+            else if ( !deleteCookies ) {
+                continue;
+            }
+            // This takes care of stale cookies which are left unattended for more
+            // than 2hr, so at least we give a chance to extensions which might
+            // rely on some cookies.
+            else if ( (now - entry.session.tstamp) < 7200000 /* 2hr */ ) {
                 continue;
             }
             this.removeCookieAsync(cookieKey);
@@ -337,6 +352,8 @@ var cookieHunter = {
     // - refers to the target cookie
     // - the target cookie is not blacklisted
     // If a page fills these conditions, cookie can't be removed.
+    // TODO: cache the joining of hostnames into a single string for search
+    // purpose. 
     canRemoveCookie: function(cookieKey) {
         var entry = this.cookieEntryFromCookieKey(cookieKey);
         if ( !entry ) {
