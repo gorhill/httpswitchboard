@@ -114,6 +114,7 @@ select {
     All:<br>
     Pages:<br>
     <a href="http://en.wikipedia.org/wiki/Http_cookie">Cookies</a>:<br>
+    <a href="https://en.wikipedia.org/wiki/Cascading_Style_Sheets">CSS</a>:<br>
     Images:<br>
     <span title="i.e. Flash, ActiveX, Java applets, etc.">Plugins</span>:<br>
     <a href="http://en.wikipedia.org/wiki/HTML_scripting">Scripts</a>:<br>
@@ -126,6 +127,7 @@ select {
     <span id="blockedAllCount"></span><br>
     <span id="blockedMainFrameCount"></span><br>
     <span id="blockedCookieCount"></span><br>
+    <span id="blockedStylesheetCount"></span><br>
     <span id="blockedImageCount"></span><br>
     <span id="blockedObjectCount"></span><br>
     <span id="blockedScriptCount"></span><br>
@@ -138,6 +140,7 @@ select {
     <span id="allowedAllCount"></span><br>
     <span id="allowedMainFrameCount"></span><br>
     <span id="allowedCookieCount"></span><br>
+    <span id="allowedStylesheetCount"></span><br>
     <span id="allowedImageCount"></span><br>
     <span id="allowedObjectCount"></span><br>
     <span id="allowedScriptCount"></span><br>
@@ -160,6 +163,7 @@ select {
           <input id="show-allowed" type="checkbox" checked value="1"><span style="color:#070" data-i18n="statsPageAllowed">Allowed</span>&emsp;
           <input id="show-cookie" type="checkbox" checked value="1">Cookies&emsp;
           <input id="show-image" type="checkbox" checked value="1">Images&emsp;
+          <input id="show-stylesheet" type="checkbox" checked value="1">CSS&emsp;
           <input id="show-object" type="checkbox" checked value="1">Objects&emsp;
           <input id="show-script" type="checkbox" checked value="1">Scripts&emsp;
           <input id="show-xmlhttprequest" type="checkbox" checked value="1">XHRs&emsp;

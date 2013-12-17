@@ -457,6 +457,8 @@ function garbageCollectStalePageStatsCallback() {
     chrome.tabs.query({ 'url': '<all_urls>' }, garbageCollectStalePageStatsWithNoTabsCallback);
 
     // Prune content of chromium-behind-the-scene virtual tab
+    // When `suggest-as-you-type` is on in Chromium, this can lead to a
+    // LOT of uninteresting behind the scene requests.
     var pageStats = httpsb.pageStats[httpsb.behindTheSceneURL];
     if ( pageStats ) {
         var reqKeys = pageStats.requests.getRequestKeys();
@@ -502,6 +504,10 @@ function createPageStats(pageUrl) {
     var pageStats = httpsb.pageStats[pageUrl];
     if ( !pageStats ) {
         pageStats = PageStatsEntry.factory(pageUrl);
+        // These counters are used so that icon presents an overview of how
+        // much allowed/blocked.
+        pageStats.perLoadAllowedRequestCount =
+        pageStats.perLoadBlockedRequestCount = 0;
         httpsb.pageStats[pageUrl] = pageStats;
     } else if ( pageStats.pageUrl !== pageUrl ) {
         pageStats.init(pageUrl);
@@ -680,17 +686,8 @@ function computeTabState(tabId) {
         // `stylesheet` or `other`? Depends of domain of request.
         // https://github.com/gorhill/httpswitchboard/issues/85
         type = PageStatsRequests.typeFromRequestKey(reqKey);
-        typeToEval = typeToRecord = type;
-        if ( type === 'stylesheet' ) {
-            if ( uriTools.domainFromHostname(hostname) === pageStats.pageDomain ) {
-                typeToEval = 'main_frame';
-            } else {
-                typeToEval = typeToRecord = 'other';
-            }
-        }
-
-        if ( httpsb.blacklisted(pageUrl, typeToEval, hostname) ) {
-            computedState[typeToRecord +  '|' + hostname] = true;
+        if ( httpsb.blacklisted(pageUrl, type, hostname) ) {
+            computedState[type +  '|' + hostname] = true;
         }
     }
     return computedState;

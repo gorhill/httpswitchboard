@@ -141,6 +141,19 @@ HTTPSB.evaluate = function(src, type, hostname) {
 
 /******************************************************************************/
 
+HTTPSB.transposeType = function(type, url) {
+    if ( type === 'other' ) {
+        var path = uriTools.uri(url).path();
+        var pos = path.lastIndexOf('.');
+        if ( pos > 0 && path.slice(pos+1).search(/^eot|ttf|otf|svg|woff$/i) === 0 ) {
+            return 'stylesheet';
+        }
+    }
+    return type;
+}
+
+/******************************************************************************/
+
 // Whitelist something
 
 HTTPSB.whitelistTemporarily = function(src, type, hostname) {

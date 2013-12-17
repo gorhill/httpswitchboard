@@ -142,67 +142,62 @@ function beforeRequestHandler(details) {
 
     // quickProfiler.start();
 
-    // If it's a top frame, bind to a new page stats store
+    // If it's a root frame or an app, bind to a new page stats store
     var type = details.type;
+    var isSubFrame = type === 'sub_frame';
     var isMainFrame = type === 'main_frame';
     var isRootFrame = isMainFrame && details.parentFrameId < 0;
-    if ( isRootFrame ) {
+    var pageStats = pageStatsFromTabId(tabId);
+
+    // rhill 2013-12-16: Do not interfere with apps. For now the heuristic is:
+    // If we have a `sub_frame` and no pageStats store, this is an app.
+    // https://github.com/gorhill/httpswitchboard/issues/91
+    var isApp = isSubFrame && !pageStats;
+    var isWebPage = isRootFrame;
+
+    if ( isWebPage || isApp ) {
         bindTabToPageStats(tabId, url);
     }
 
-    var pageStats = pageStatsFromTabId(tabId);
+    pageStats = pageStatsFromTabId(tabId);
+
+    // rhill 2013-12-16: I don't remember... Can pageStats still be nil at
+    // this point?
+    // Answer: Yes. Requests might still be dispatched after
+    // closing a tab it appears.
+    // if ( !pageStats ) {
+    //    console.error('beforeRequestHandler() > no pageStats: %o', details);
+    // }
+
+    if ( isApp && pageStats ) {
+        pageStats.ignore = true;
+    }
+
     hostname = uriTools.hostnameFromURI(url);
     pageURL = pageUrlFromPageStats(pageStats) || '*';
 
-    // rhill 2013-12-08:
-    // Better handling of stylesheet requests: if domain of `stylesheet` object
-    // is same as domain of `main_frame`, the `stylesheet` is evaluated as if
-    // it is `main_frame` (permissive), else it is evaluated as `other`,
-    // i.e. an external resources (restrictive).
-    // This is for privacy reasons: a whole lot of web sites pull their fonts
-    // from, say, `fonts.googleapis.com`, thus giving Google log data that one
-    // specific IP address has been visiting one specific website.
-    // We don't want that.
-    var typeToEval = type;
-    var typeToRecord = type;
-    if ( type === 'stylesheet' ) {
-        if ( uriTools.domainFromHostname(hostname) === pageStats.pageDomain ) {
-            typeToEval = 'main_frame';
-        } else {
-            typeToEval = typeToRecord = 'other';
-        }
+    // rhill 2013-12-15:
+    // Try to transpose generic `other` category into something more
+    // meaningful.
+    if ( type === 'other' ) {
+        type = httpsb.transposeType(type, url);
     }
 
     // Block request?
     // https://github.com/gorhill/httpswitchboard/issues/27
-    var block = false; // By default, don't block behind-the-scene requests
-    if ( tabId !== httpsb.behindTheSceneTabId || httpsb.userSettings.processBehindTheSceneRequests ) {
-        block = httpsb.blacklisted(pageURL, typeToEval, hostname);
+    var block = false;
+    if ( !pageStats || !pageStats.ignore ) {
+        if ( tabId !== httpsb.behindTheSceneTabId || httpsb.userSettings.processBehindTheSceneRequests ) {
+            block = httpsb.blacklisted(pageURL, type, hostname);
+        }
     }
 
     if ( pageStats ) {
-        // These counters are used so that icon presents an overview of how
-        // much allowed/blocked.
-        if ( isRootFrame ) {
-            pageStats.perLoadAllowedRequestCount =
-            pageStats.perLoadBlockedRequestCount = 0;
-        }
-
-        // Log request
-        pageStats.recordRequest(typeToRecord, url, block);
-
-        // rhill 2013-10-20:
-        // https://github.com/gorhill/httpswitchboard/issues/19
-        if ( pageStats.ignore ) {
-            // quickProfiler.stop('beforeRequestHandler');
-            return;
-        }
+        pageStats.recordRequest(type, url, block);
     }
 
     // Collect global stats
-    httpsb.requestStats.record(typeToRecord, block);
-
-    // quickProfiler.stop('beforeRequestHandler | evaluate&record');
+    httpsb.requestStats.record(type, block);
 
     // whitelisted?
     if ( !block ) {
@@ -221,11 +216,8 @@ function beforeRequestHandler(details) {
         }
 
         // quickProfiler.stop('beforeRequestHandler');
-        // console.log("HTTPSB > %s @ url=%s", details.type, details.url);
         return;
     }
-
-    // quickProfiler.stop('beforeRequestHandler');
 
     // blacklisted
     // console.debug('beforeRequestHandler > blocking %s from %s', type, hostname);
@@ -243,12 +235,14 @@ function beforeRequestHandler(details) {
         html = html.replace(/{{originalURL}}/g, encodeURIComponent(url));
         html = html.replace(/{{now}}/g, String(Date.now()));
         dataURI = 'data:text/html;base64,' + btoa(html);
+        // quickProfiler.stop('beforeRequestHandler');
         return { "redirectUrl": dataURI };
-    } else if ( isMainFrame || type === 'sub_frame' ) {
+    } else if ( isSubFrame ) {
         html = subFrameReplacement;
         html = html.replace(/{{fontUrl}}/g, httpsb.fontCSSURL);
         html = html.replace(/{{hostname}}/g, hostname);
         dataURI = 'data:text/html;base64,' + btoa(html);
+        // quickProfiler.stop('beforeRequestHandler');
         return { "redirectUrl": dataURI };
     }
 
@@ -263,14 +257,27 @@ function beforeRequestHandler(details) {
 
 function beforeSendHeadersHandler(details) {
 
-    // Ignore traffic outside tabs
-    if ( details.tabId < 0 ) {
+    var httpsb = HTTPSB;
+
+    // Do not ignore traffic outside tabs
+    var tabId = details.tabId;
+    if ( tabId < 0 ) {
+        if ( !httpsb.userSettings.processBehindTheSceneRequests ) {
+            return;
+        }
+        tabId = httpsb.behindTheSceneTabId;
+    }
+
+    // rhill 2013-12-16: do not interfere with apps.
+    // https://github.com/gorhill/httpswitchboard/issues/91
+    var pageStats = pageStatsFromTabId(tabId);
+    if ( pageStats && pageStats.ignore ) {
         return;
     }
 
     // Any cookie in there?
     var hostname = uriTools.hostnameFromURI(details.url);
-    var blacklistCookie = HTTPSB.blacklisted(pageUrlFromTabId(details.tabId), 'cookie', hostname);
+    var blacklistCookie = httpsb.blacklisted(pageUrlFromTabId(tabId), 'cookie', hostname);
 
     // rhill 2013-12-11: If cookies are not blacklisted, headers won't be
     // modified, so leave now.
@@ -285,7 +292,7 @@ function beforeSendHeadersHandler(details) {
         if ( headers[i].name.toLowerCase() !== 'cookie' ) {
             continue;
         }
-        // console.debug('HTTP Switchboard > foiled browser attempt to send cookie(s) to %s', details.url);
+        // console.debug('HTTP Switchboard > foiled browser attempt to send cookie(s) to %o', details);
         headers.splice(i, 1);
         foiled = true
     }
@@ -307,10 +314,8 @@ function beforeSendHeadersHandler(details) {
 
 function headersReceivedHandler(details) {
 
-    // Ignore anything which is not top frame
-    var type = details.type;
-    var isMainFrame = type === 'main_frame';
-    if ( type !== 'main_frame' && type !== 'sub_frame' ) {
+    // Ignore anything which is not an html doc
+    if ( details.type !== 'main_frame' ) {
         return;
     }
 
@@ -325,7 +330,7 @@ function headersReceivedHandler(details) {
     // to not be able to lookup the pageStats. So let the code here bind
     // the page to a tab if not done yet.
     // https://github.com/gorhill/httpswitchboard/issues/75
-    if ( tabId >= 0 && isMainFrame && details.parentFrameId < 0 ) {
+    if ( tabId >= 0 && details.parentFrameId < 0 ) {
         bindTabToPageStats(tabId, uriTools.normalizeURI(details.url));
     }
 

@@ -26,6 +26,7 @@ _WebRequestStats.prototype.reset = function() {
     this.main_frame =
     this.sub_frame =
     this.script =
+    this.stylesheet =
     this.image =
     this.object =
     this.xmlhttprequest =

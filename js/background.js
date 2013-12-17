@@ -79,7 +79,8 @@ var HTTPSB = {
     blacklistReadonlyCount: 0,
 
     // https://github.com/gorhill/httpswitchboard/issues/19
-    excludeRegex: /^https?:\/\/chrome\.google\.com\/(extensions|webstore)/,
+    // https://github.com/gorhill/httpswitchboard/issues/91
+    excludeRegex: /^https:\/\/(chrome\.google\.com\/(extensions|webstore)|talkgadget\.google\.com\/talkgadget)/,
 
     // various stats
     requestStats: new WebRequestStats(),

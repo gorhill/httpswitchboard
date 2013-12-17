@@ -98,8 +98,8 @@ function HostnameStats(hostname) {
     this.types = {
         '*': new EntryStats(hostname, '*'),
         main_frame: new EntryStats(hostname, 'main_frame'),
-        stylesheet: new EntryStats(hostname, 'stylesheet'),
         cookie: new EntryStats(hostname, 'cookie'),
+        stylesheet: new EntryStats(hostname, 'stylesheet'),
         image: new EntryStats(hostname, 'image'),
         object: new EntryStats(hostname, 'object'),
         script: new EntryStats(hostname, 'script'),
@@ -130,8 +130,8 @@ HostnameStats.prototype.reset = function(hostname) {
     }
     this.types['*'].reset(hostname);
     this.types.main_frame.reset(hostname);
-    this.types.stylesheet.reset(hostname);
     this.types.cookie.reset(hostname);
+    this.types.stylesheet.reset(hostname);
     this.types.image.reset(hostname);
     this.types.object.reset(hostname);
     this.types.script.reset(hostname);
@@ -150,6 +150,7 @@ HostnameStats.prototype.colourize = function(httpsb, scopeURL) {
     this.types['*'].colourize(httpsb, scopeURL);
     this.types.main_frame.colourize(httpsb, scopeURL);
     this.types.cookie.colourize(httpsb, scopeURL);
+    this.types.stylesheet.colourize(httpsb, scopeURL);
     this.types.image.colourize(httpsb, scopeURL);
     this.types.object.colourize(httpsb, scopeURL);
     this.types.script.colourize(httpsb, scopeURL);
@@ -163,8 +164,8 @@ HostnameStats.prototype.add = function(other) {
     var otherTypes = other.types;
     thisTypes['*'].add(otherTypes['*']);
     thisTypes.main_frame.add(otherTypes.main_frame);
-    thisTypes.stylesheet.add(otherTypes.stylesheet);
     thisTypes.cookie.add(otherTypes.cookie);
+    thisTypes.stylesheet.add(otherTypes.stylesheet);
     thisTypes.image.add(otherTypes.image);
     thisTypes.object.add(otherTypes.object);
     thisTypes.script.add(otherTypes.script);
@@ -224,6 +225,7 @@ var HTTPSBPopup = {
     matrixHeaderPrettyNames: {
         'all': '',
         'cookie': '',
+        'stylesheet': '',
         'image': '',
         'object': '',
         'script': '',
@@ -716,12 +718,13 @@ function renderMatrixHeaderRow() {
     var cells = matHead.find('.matCell');
     $(cells[0]).prop({reqType: '*', hostname: '*'}).addClass(getCellClass('*', '*'));
     $(cells[1]).prop({reqType: 'cookie', hostname: '*'}).addClass(getCellClass('*', 'cookie'));
-    $(cells[2]).prop({reqType: 'image', hostname: '*'}).addClass(getCellClass('*', 'image'));
-    $(cells[3]).prop({reqType: 'object', hostname: '*'}).addClass(getCellClass('*', 'object'));
-    $(cells[4]).prop({reqType: 'script', hostname: '*'}).addClass(getCellClass('*', 'script'));
-    $(cells[5]).prop({reqType: 'xmlhttprequest', hostname: '*'}).addClass(getCellClass('*', 'xmlhttprequest'));
-    $(cells[6]).prop({reqType: 'sub_frame', hostname: '*'}).addClass(getCellClass('*', 'sub_frame'));
-    $(cells[7]).prop({reqType: 'other', hostname: '*'}).addClass(getCellClass('*', 'other'));
+    $(cells[2]).prop({reqType: 'stylesheet', hostname: '*'}).addClass(getCellClass('*', 'stylesheet'));
+    $(cells[3]).prop({reqType: 'image', hostname: '*'}).addClass(getCellClass('*', 'image'));
+    $(cells[4]).prop({reqType: 'object', hostname: '*'}).addClass(getCellClass('*', 'object'));
+    $(cells[5]).prop({reqType: 'script', hostname: '*'}).addClass(getCellClass('*', 'script'));
+    $(cells[6]).prop({reqType: 'xmlhttprequest', hostname: '*'}).addClass(getCellClass('*', 'xmlhttprequest'));
+    $(cells[7]).prop({reqType: 'sub_frame', hostname: '*'}).addClass(getCellClass('*', 'sub_frame'));
+    $(cells[8]).prop({reqType: 'other', hostname: '*'}).addClass(getCellClass('*', 'other'));
     $('#matHead .matRow').css('display', '');
 }
 
@@ -761,12 +764,13 @@ function renderMatrixCellType(cell, hostname, type, stats) {
 
 function renderMatrixCellTypes(cells, hostname, stats) {
     renderMatrixCellType(cells[1], hostname, 'cookie', stats.cookie);
-    renderMatrixCellType(cells[2], hostname, 'image', stats.image);
-    renderMatrixCellType(cells[3], hostname, 'object', stats.object);
-    renderMatrixCellType(cells[4], hostname, 'script', stats.script);
-    renderMatrixCellType(cells[5], hostname, 'xmlhttprequest', stats.xmlhttprequest);
-    renderMatrixCellType(cells[6], hostname, 'sub_frame', stats.sub_frame);
-    renderMatrixCellType(cells[7], hostname, 'other', stats.other);
+    renderMatrixCellType(cells[2], hostname, 'stylesheet', stats.stylesheet);
+    renderMatrixCellType(cells[3], hostname, 'image', stats.image);
+    renderMatrixCellType(cells[4], hostname, 'object', stats.object);
+    renderMatrixCellType(cells[5], hostname, 'script', stats.script);
+    renderMatrixCellType(cells[6], hostname, 'xmlhttprequest', stats.xmlhttprequest);
+    renderMatrixCellType(cells[7], hostname, 'sub_frame', stats.sub_frame);
+    renderMatrixCellType(cells[8], hostname, 'other', stats.other);
 }
 
 /******************************************************************************/
@@ -813,12 +817,13 @@ function makeMatrixMetaRow(stats) {
         .addClass('matCell rdt')
         .html('<i>' + typeStats['*'].count + ' blacklisted hostname(s)</i>');
     renderMatrixMetaCellType(cells[1], typeStats.cookie.count);
-    renderMatrixMetaCellType(cells[2], typeStats.image.count);
-    renderMatrixMetaCellType(cells[3], typeStats.object.count);
-    renderMatrixMetaCellType(cells[4], typeStats.script.count);
-    renderMatrixMetaCellType(cells[5], typeStats.xmlhttprequest.count);
-    renderMatrixMetaCellType(cells[6], typeStats.sub_frame.count);
-    renderMatrixMetaCellType(cells[7], typeStats.other.count);
+    renderMatrixMetaCellType(cells[2], typeStats.stylesheet.count);
+    renderMatrixMetaCellType(cells[3], typeStats.image.count);
+    renderMatrixMetaCellType(cells[4], typeStats.object.count);
+    renderMatrixMetaCellType(cells[5], typeStats.script.count);
+    renderMatrixMetaCellType(cells[6], typeStats.xmlhttprequest.count);
+    renderMatrixMetaCellType(cells[7], typeStats.sub_frame.count);
+    renderMatrixMetaCellType(cells[8], typeStats.other.count);
     return matrixRow;
 }
 

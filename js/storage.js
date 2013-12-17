@@ -92,7 +92,7 @@ function readLocalTextFile(path) {
     if ( url.search(/^https?:\/\//) < 0 ) {
         url = chrome.runtime.getURL(path);
     }
-    console.log('HTTP Switchboard > readLocalTextFile > "%s"', url);
+    // console.log('HTTP Switchboard > readLocalTextFile > "%s"', url);
 
     // rhill 2013-10-24: Beware, our own requests could be blocked by our own
     // behind-the-scene requests processor.
@@ -111,7 +111,7 @@ function readLocalTextFile(path) {
 
 function saveUserSettings() {
     chrome.storage.local.set(HTTPSB.userSettings, function() {
-        console.log('HTTP Switchboard > saved user settings');
+        // console.log('HTTP Switchboard > saved user settings');
     });
 }
 
@@ -120,7 +120,7 @@ function saveUserSettings() {
 function loadUserSettings() {
     chrome.storage.local.get(HTTPSB.userSettings, function(store) {
         HTTPSB.userSettings = store;
-        console.log('HTTP Switchboard > loaded user settings');
+        // console.log('HTTP Switchboard > loaded user settings');
     });
 }
 
@@ -139,6 +139,12 @@ function loadUserLists() {
         if ( store.scopes !== '' ) {
             httpsb.permanentScopes.fromString(store.scopes);
             httpsb.temporaryScopes.fromString(store.scopes);
+            // rhill 2013-12-15: New type `stylesheet`. Sensible default:
+            // - If `stylesheet` is graylisted, whitelist `stylesheet`
+            if ( store.version.slice(5) < '0.7.0' ) {
+                httpsb.whitelistTemporarily('*', 'stylesheet', '*');
+                httpsb.whitelistPermanently('*', 'stylesheet', '*');
+            }
         } else if ( store.whitelist !== '' || store.blacklist !== '' || store.graylist !== '') {
             // Pre v0.5.0
             console.log('HTTP Switchboard > loadUserLists > using default white/black/gray lists');
@@ -150,6 +156,8 @@ function loadUserLists() {
             httpsb.temporaryScopes.scopes['*'].white.fromString(store.whitelist);
         } else {
             // Sensible defaults
+            httpsb.whitelistTemporarily('*', 'stylesheet', '*');
+            httpsb.whitelistPermanently('*', 'stylesheet', '*');
             httpsb.whitelistTemporarily('*', 'image', '*');
             httpsb.whitelistPermanently('*', 'image', '*');
             httpsb.blacklistTemporarily('*', 'object', '*');
@@ -163,7 +171,7 @@ function loadUserLists() {
         // rhill 2013-09-23: ok, there is no point in blacklisting
         // 'main_frame|*', since there is only one such page per tab. It is
         // reasonable to whitelist by default 'main_frame|*', and top page of
-        // blacklisted domain name will not be loaded anyways (because domain
+        // blacklisted domain name will not load anyways (because domain
         // name has precedence over type). Now this way we save precious real
         // estate pixels in popup menu.
         httpsb.whitelistTemporarily('*', 'main_frame', '*');

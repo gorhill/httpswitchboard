@@ -103,15 +103,19 @@ body.powerOff #buttonPower {
     white-space: nowrap;
     }
 .matCell {
-    margin: 1px;
-    border: 1px dotted #aaa;
-    padding: 1px 1px 1px 6px;
+    margin: 1px 1px 0 0;
+    border: 1px dotted rgba(0,0,0,0.2);
+    padding: 6px 1px 3px 1px;
     display: inline-block;
     box-sizing: content-box;
-    width: 2.5em;
+    width: 2.4em;
     white-space: nowrap;
     text-align: center;
+    line-height: 100%;
     position: relative;
+    }
+.paneHead .matCell:nth-child(2) {
+    letter-spacing: -0.3px;
     }
 
 .paneContent .matrix .matRow > .matCell:first-child {
@@ -122,7 +126,7 @@ body.powerOff #buttonPower {
     }
 
 .matrix .matRow > .matCell:first-child {
-    width: 190px;
+    width: 18em;
     text-align: right;
     }
 .matrix .matRow > .matCell:hover {
@@ -229,22 +233,22 @@ body.powerOff .matRow.rw .matCell {
 .matCell.rdp {
     background-image: url('img/permanent-black-small.png');
     background-repeat: no-repeat;
-    background-position: -2px center;
+    background-position: -1px -1px;
     }
 .matCell.gdp {
     background-image: url('img/permanent-white-small.png');
     background-repeat: no-repeat;
-    background-position: -2px center;
+    background-position: -1px -1px;
     }
 .matCell.rpp {
     background-image: url('img/permanent-black-small.png');
     background-repeat: no-repeat;
-    background-position: -2px center;
+    background-position: -1px -1px;
     }
 .matCell.gpp {
     background-image: url('img/permanent-white-small.png');
     background-repeat: no-repeat;
-    background-position: -2px center;
+    background-position: -1px -1px;
     }
 
 .top {
@@ -282,24 +286,24 @@ body.powerOff .matRow.rw .matCell {
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     padding: 0;
-    height: 18px;
+    height: 19px;
     position: absolute;
-    left: 2px;
-    top: -19px;
+    left: -1px;
+    top: -20px;
     background: white;
     z-index: 20;
     display: none;
     }
-.matCell.rdp #cellMenu {
+.matRow.rw .matCell.rdp #cellMenu {
     display: block;
     }
-.matCell.gdp #cellMenu {
+.matRow.rw .matCell.gdp #cellMenu {
     display: block;
     }
-.matCell.rdt #cellMenu {
+.matRow.rw .matCell.rdt #cellMenu {
     display: block;
     }
-.matCell.gdt #cellMenu {
+.matRow.rw .matCell.gdt #cellMenu {
     display: block;
     }
 body.powerOff .matCell #cellMenu {
@@ -437,7 +441,7 @@ body.powerOff #whitelist, body.powerOff #blacklist {
 <div id="templates" style="display:none">
     <div class="groupSeparator"></div>
     <div class="domainSeparator"></div>
-    <div class="matRow"><div class="matCell"><b></b></div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div></div>
+    <div class="matRow"><div class="matCell"><b></b></div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div><div class="matCell">&nbsp;</div></div>
     <div id="cellMenu"><span id="persist"></span><span id="unpersist"></span></div>
     <div id="cellHotspots"><div id="whitelist"></div><div id="blacklist"></div><div id="domainOnly"></div></div>
 </div>
@@ -462,9 +466,7 @@ body.powerOff #whitelist, body.powerOff #blacklist {
     </div>
 
     <div id="matHead" class="matrix collapsible">
-        <div class="matRow rw" style="display:none"><div class="matCell" data-req-type="all">all</div><div class="matCell" data-req-type="cookie">cookie</div><div class="matCell" data-req-type="image">image</div><div class="matCell" data-req-type="object">plugin</div><div class="matCell" data-req-type="script">script</div><div class="matCell" data-req-type="xmlhttprequest">XHR</div><div class="matCell" data-req-type="sub_frame">frame</div><div class="matCell" data-req-type="other" title="3rd-party CSS,
-fonts, <svg>,
-<video>, <audio>">other</div></div>
+        <div class="matRow rw" style="display:none"><div class="matCell" data-req-type="all">all</div><div class="matCell" data-req-type="cookie">cookie</div><div class="matCell" data-req-type="stylesheet">css</div><div class="matCell" data-req-type="image">img</div><div class="matCell" data-req-type="object">plugin</div><div class="matCell" data-req-type="script">script</div><div class="matCell" data-req-type="xmlhttprequest">XHR</div><div class="matCell" data-req-type="sub_frame">frame</div><div class="matCell" data-req-type="other" title="<video>&#13;<audio>">other</div></div>
     </div>
 </div>
 

@@ -369,6 +369,12 @@ var cookieHunter = {
             if ( !this.cookieMatchDomains(cookieKey, ' ' + Object.keys(pageStats[pageURL].domains).join(' ') + ' ') ) {
                 continue;
             }
+            // rhill 2013-12-16: it's an app, do not delete the cookie it
+            // might be using.
+            // https://github.com/gorhill/httpswitchboard/issues/91
+            if ( pageStats.ignore ) {
+                return false;
+            }
             if ( httpsb.whitelisted(pageURL, 'cookie', cookieDomain) ) {
                 return false;
             }

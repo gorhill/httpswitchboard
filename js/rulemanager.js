@@ -32,7 +32,8 @@ var recipeWidth = 40;
 
 var friendlyTypeNames = {
     '*': '*',
-    'cookie': 'cookies/local storages',
+    'cookie': 'cookies',
+    'stylesheet': 'css',
     'image': 'images',
     'object': 'plugins',
     'script': 'scripts',
@@ -43,7 +44,8 @@ var friendlyTypeNames = {
 
 var hostileTypeNames = {
     '*': '*',
-    'cookies/local storages': 'cookie',
+    'cookies': 'cookie',
+    'css': 'stylesheet',
     'images': 'image',
     'plugins': 'object',
     'scripts': 'script',
@@ -301,7 +303,7 @@ function renderScopeToHTML(scopeKey) {
 
 /******************************************************************************/
 
-function renderPerpageScopes() {
+function renderPersiteScopes() {
     var httpsb = getHTTPSB();
     var ulRoot = $('<ul>');
     // Iterate scopes
@@ -321,7 +323,7 @@ function renderPerpageScopes() {
         liScope = renderScopeToHTML(scopeKey);
         liScope.appendTo(ulRoot);
     }
-    $('#perpage').empty().append(ulRoot);
+    $('#persite').empty().append(ulRoot);
 }
 
 /******************************************************************************/
@@ -343,7 +345,7 @@ function renderRecipe() {
 
 function renderAll() {
     renderGlobalScope();
-    renderPerpageScopes();
+    renderPersiteScopes();
 }
 
 /******************************************************************************/

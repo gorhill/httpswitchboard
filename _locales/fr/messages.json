@@ -33,6 +33,14 @@
         "message": "cookies",
         "description": "..."
     },
+    "stylesheetPrettyName": {
+        "message": "css",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "stylesheetPrettyNamePlural": {
+        "message": "css",
+        "description": "..."
+    },
     "imagePrettyName": {
         "message": "image",
         "description": "HAS TO FIT IN MATRIX HEADER!"
