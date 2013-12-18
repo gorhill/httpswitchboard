@@ -243,39 +243,29 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
             return 'rdt';
         }
 
-        parents = uriTools.parentHostnamesFromHostname(hostname);
+        var strictBlocking = HTTPSB.userSettings.strictBlocking;
 
-        // indirect: specific type, specific parent
-        // rhill 2013-12-17: Specific type/specific parent has priority
-        // over any type/specific parent.
-        // https://github.com/gorhill/httpswitchboard/issues/92
-        i = 0;
-        while ( parent = parents[i] ) {
-            cellKey = type + '|' + parent;
-            // specific type, specific parent
-            if ( whitelist[cellKey] ) {
-                return 'gpt';
-            }
-            if ( blacklist[cellKey] ) {
-                return 'rpt';
-            }
-            i++;
-        }
+        parents = uriTools.parentHostnamesFromHostname(hostname);
 
         // indirect: any type, specific hostname
         cellKey = '*|' + hostname;
 
-        var strictBlocking = HTTPSB.userSettings.strictBlocking;
-
-        // rhill 2013-10-26: Whitelist MUST be checked before blacklist,
-        // because read-only blacklists are, hum... read-only? (which means
-        // they can only be overriden through occultation, which means
-        // whitelists has to be checked first).
+        // Has this hostname been whitelisted?
+        // rhill 2013-10-26: Whitelist MUST be checked before blacklist.
         if ( whitelist[cellKey] ) {
             // https://github.com/gorhill/httpswitchboard/issues/29
-            // The cell is indirectly whitelisted because of hostname, type
-            // must NOT be blacklisted.
+            // But then, maybe the type is blacklisted and strict blocking
+            // is on.
             if ( strictBlocking && blacklist[typeKey] ) {
+                // rhill 2013-12-18: But then, maybe an ancestor hostname has
+                // been expressly whitelisted for this type.
+                // https://github.com/gorhill/httpswitchboard/issues/92
+                i = 0;
+                while ( parent = parents[i++] ) {
+                    if ( whitelist[type + '|' + parent] ) {
+                        return 'gpt';
+                    }
+                }
                 return 'rpt';
             }
             return 'gpt';
@@ -286,7 +276,7 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
 
         // indirect: any type, specific parent
         i = 0;
-        while ( parent = parents[i] ) {
+        while ( parent = parents[i++] ) {
             cellKey = type + '|' + parent;
             // specific type, specific parent
             if ( whitelist[cellKey] ) {
@@ -298,13 +288,21 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
             // any type, specific parent
             cellKey = '*|' + parent;
 
-            // rhill 2013-10-26: Whitelist MUST be checked before blacklist,
-            // because read-only blacklists are, hum... read-only?
+            // Has this parent hostname been whitelisted?
+            // rhill 2013-10-26: Whitelist MUST be checked before blacklist.
             if ( whitelist[cellKey] ) {
                 // https://github.com/gorhill/httpswitchboard/issues/29
-                // The cell is indirectly whitelisted because of hostname, type
-                // must NOT be blacklisted.
+                // But then, maybe the type is blacklisted and strict blocking
+                // is on.
                 if ( strictBlocking && blacklist[typeKey] ) {
+                    // rhill 2013-12-18: But then, maybe an ancestor hostname has
+                    // been expressly whitelisted for this type.
+                    // https://github.com/gorhill/httpswitchboard/issues/92
+                    while ( parent = parents[i++] ) {
+                        if ( whitelist[type + '|' + parent] ) {
+                            return 'gpt';
+                        }
+                    }
                     return 'rpt';
                 }
                 return 'gpt';
@@ -312,7 +310,6 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
             if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[parent]) ) {
                 return 'rpt';
             }
-            i++;
         }
         // indirect: specific type, any hostname
         if ( whitelist[typeKey] ) {
