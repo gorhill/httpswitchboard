@@ -242,6 +242,29 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
         if ( blacklist[cellKey] ) {
             return 'rdt';
         }
+
+        var roParents = uriTools.parentHostnamesFromHostname(hostname);
+
+        // rhill 2013-12-17: Specific type/specific parent has priority
+        // over any type/specific parent.
+        // indirect: specific type, specific parent
+        // https://github.com/gorhill/httpswitchboard/issues/92
+        parents = roParents.slice(0);
+        while ( true ) {
+            parent = parents.shift();
+            if ( !parent ) {
+                break;
+            }
+            cellKey = type + '|' + parent;
+            // specific type, specific parent
+            if ( whitelist[cellKey] ) {
+                return 'gpt';
+            }
+            if ( blacklist[cellKey] ) {
+                return 'rpt';
+            }
+        }
+
         // indirect: any type, specific hostname
         cellKey = '*|' + hostname;
 
@@ -264,8 +287,8 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
             return 'rpt';
         }
 
-        // indirect: parent hostname nodes
-        parents = uriTools.parentHostnamesFromHostname(hostname);
+        // indirect: any type, specific parent
+        parents = roParents.slice(0);
         while ( true ) {
             parent = parents.shift();
             if ( !parent ) {
