@@ -226,7 +226,7 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
     var whitelist = this.white.list;
     var graylist = this.gray.list;
     var typeKey, cellKey;
-    var parents, parent;
+    var parents, parent, i;
 
     // Pick proper entry point
 
@@ -243,18 +243,14 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
             return 'rdt';
         }
 
-        var roParents = uriTools.parentHostnamesFromHostname(hostname);
+        parents = uriTools.parentHostnamesFromHostname(hostname);
 
+        // indirect: specific type, specific parent
         // rhill 2013-12-17: Specific type/specific parent has priority
         // over any type/specific parent.
-        // indirect: specific type, specific parent
         // https://github.com/gorhill/httpswitchboard/issues/92
-        parents = roParents.slice(0);
-        while ( true ) {
-            parent = parents.shift();
-            if ( !parent ) {
-                break;
-            }
+        i = 0;
+        while ( parent = parents[i] ) {
             cellKey = type + '|' + parent;
             // specific type, specific parent
             if ( whitelist[cellKey] ) {
@@ -263,6 +259,7 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
             if ( blacklist[cellKey] ) {
                 return 'rpt';
             }
+            i++;
         }
 
         // indirect: any type, specific hostname
@@ -288,12 +285,8 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
         }
 
         // indirect: any type, specific parent
-        parents = roParents.slice(0);
-        while ( true ) {
-            parent = parents.shift();
-            if ( !parent ) {
-                break;
-            }
+        i = 0;
+        while ( parent = parents[i] ) {
             cellKey = type + '|' + parent;
             // specific type, specific parent
             if ( whitelist[cellKey] ) {
@@ -319,6 +312,7 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
             if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[parent]) ) {
                 return 'rpt';
             }
+            i++;
         }
         // indirect: specific type, any hostname
         if ( whitelist[typeKey] ) {
@@ -344,11 +338,8 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
         }
         // indirect: parent hostname nodes
         parents = uriTools.parentHostnamesFromHostname(hostname);
-        while ( true ) {
-            parent = parents.shift();
-            if ( !parent ) {
-                break;
-            }
+        i = 0;
+        while ( parent = parents[i] ) {
             // any type, specific hostname
             cellKey = '*|' + parent;
             if ( whitelist[cellKey] ) {
@@ -357,6 +348,7 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
             if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[parent]) ) {
                 return 'rpt';
             }
+            i++;
         }
         // indirect: any type, any hostname
         if ( whitelist['*|*'] ) {
