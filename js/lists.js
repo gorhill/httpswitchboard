@@ -226,14 +226,14 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
     var blacklist = this.black.list;
     var whitelist = this.white.list;
     var graylist = this.gray.list;
-    var typeKey, cellKey;
+    var cellKey;
     var parents, parent, i;
 
     // Pick proper entry point
 
     if ( type !== '*' && hostname !== '*' ) {
         // https://github.com/gorhill/httpswitchboard/issues/29
-        typeKey = type + '|*';
+        var typeKey = type + '|*';
 
         // direct: specific type, specific hostname
         cellKey = type + '|' + hostname;
@@ -244,11 +244,41 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
             return 'rdt';
         }
 
+        var strictBlocking = httpsb.userSettings.strictBlocking;
+        parents = uriTools.parentHostnamesFromHostname(hostname);
+
+        cellKey = '*|' + hostname;
+        if ( whitelist[cellKey] ) {
+            // If strict blocking, the type column must not be
+            // blacklisted
+            if ( strictBlocking ) {
+                i = 0;
+                while ( parent = parents[i++] ) {
+                    cellKey = type + '|' + parent;
+                    if ( whitelist[cellKey] ) {
+                        return 'gpt';
+                    }
+                    if ( blacklist[cellKey] ) {
+                        return 'rpt';
+                    }
+                }
+                if ( whitelist[typeKey] ) {
+                    return 'gpt';
+                }
+                if ( blacklist[typeKey] ) {
+                    return 'rpt';
+                }
+            }
+            return 'gpt';
+        }
+        if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[hostname]) ) {
+            return 'rpt';
+        }
+
         // rhill 2013-12-18:
         // If the type is blocked and strict blocking is on,
         // than the only way for the cell to be whitelisted is
         // by having an ancestor explicitly whitelisted
-        parents = uriTools.parentHostnamesFromHostname(hostname);
         i = 0;
         while ( parent = parents[i++] ) {
             cellKey = type + '|' + parent;
@@ -258,35 +288,34 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
             if ( blacklist[cellKey] ) {
                 return 'rpt';
             }
-        }
-
-        // if we reach this point and the type is blacklisted and strict
-        // blocking is on, the cell can't be green.
-        if ( blacklist[typeKey] && httpsb.userSettings.strictBlocking ) {
-            return 'rpt';
-        }
-
-        // if we reach this point, strict blocking is off or the type
-        // is not blacklisted, which means that we can meaningfully evaluate
-        // hostname or ancestor hostnames.
-        cellKey = '*|' + hostname;
-        if ( whitelist[cellKey] ) {
-            return 'gpt';
-        }
-        if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[hostname]) ) {
-            return 'rpt';
-        }
-        i = 0;
-        while ( parent = parents[i++] ) {
             cellKey = '*|' + parent;
-            // specific type, specific parent
             if ( whitelist[cellKey] ) {
+                // If strict blocking, the type column must not be
+                // blacklisted
+                if ( strictBlocking ) {
+                    while ( parent = parents[i++] ) {
+                        cellKey = type + '|' + parent;
+                        if ( whitelist[cellKey] ) {
+                            return 'gpt';
+                        }
+                        if ( blacklist[cellKey] ) {
+                            return 'rpt';
+                        }
+                    }
+                    if ( whitelist[typeKey] ) {
+                        return 'gpt';
+                    }
+                    if ( blacklist[typeKey] ) {
+                        return 'rpt';
+                    }
+                }
                 return 'gpt';
             }
             if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[parent]) ) {
                 return 'rpt';
             }
         }
+
         // indirect: specific type, any hostname
         if ( whitelist[typeKey] ) {
             return 'gpt';
