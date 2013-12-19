@@ -221,7 +221,8 @@ PermissionScope.prototype.assign = function(other) {
 // otherwise.
 
 PermissionScope.prototype.evaluate = function(type, hostname) {
-    var blacklistReadonly = HTTPSB.blacklistReadonly;
+    var httpsb = HTTPSB;
+    var blacklistReadonly = httpsb.blacklistReadonly;
     var blacklist = this.black.list;
     var whitelist = this.white.list;
     var graylist = this.gray.list;
@@ -243,68 +244,43 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
             return 'rdt';
         }
 
-        var strictBlocking = HTTPSB.userSettings.strictBlocking;
-
+        // rhill 2013-12-18:
+        // If the type is blocked and strict blocking is on,
+        // than the only way for the cell to be whitelisted is
+        // by having an ancestor explicitly whitelisted
         parents = uriTools.parentHostnamesFromHostname(hostname);
-
-        // indirect: any type, specific hostname
-        cellKey = '*|' + hostname;
-
-        // Has this hostname been whitelisted?
-        // rhill 2013-10-26: Whitelist MUST be checked before blacklist.
-        if ( whitelist[cellKey] ) {
-            // https://github.com/gorhill/httpswitchboard/issues/29
-            // But then, maybe the type is blacklisted and strict blocking
-            // is on.
-            if ( strictBlocking && blacklist[typeKey] ) {
-                // rhill 2013-12-18: But then, maybe an ancestor hostname has
-                // been expressly whitelisted for this type.
-                // https://github.com/gorhill/httpswitchboard/issues/92
-                i = 0;
-                while ( parent = parents[i++] ) {
-                    if ( whitelist[type + '|' + parent] ) {
-                        return 'gpt';
-                    }
-                }
-                return 'rpt';
-            }
-            return 'gpt';
-        }
-        if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[hostname]) ) {
-            return 'rpt';
-        }
-
-        // indirect: any type, specific parent
         i = 0;
         while ( parent = parents[i++] ) {
             cellKey = type + '|' + parent;
-            // specific type, specific parent
             if ( whitelist[cellKey] ) {
                 return 'gpt';
             }
             if ( blacklist[cellKey] ) {
                 return 'rpt';
             }
-            // any type, specific parent
-            cellKey = '*|' + parent;
+        }
 
-            // Has this parent hostname been whitelisted?
-            // rhill 2013-10-26: Whitelist MUST be checked before blacklist.
+        // if we reach this point and the type is blacklisted and strict
+        // blocking is on, the cell can't be green.
+        if ( blacklist[typeKey] && httpsb.userSettings.strictBlocking ) {
+            return 'rpt';
+        }
+
+        // if we reach this point, strict blocking is off or the type
+        // is not blacklisted, which means that we can meaningfully evaluate
+        // hostname or ancestor hostnames.
+        cellKey = '*|' + hostname;
+        if ( whitelist[cellKey] ) {
+            return 'gpt';
+        }
+        if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[hostname]) ) {
+            return 'rpt';
+        }
+        i = 0;
+        while ( parent = parents[i++] ) {
+            cellKey = '*|' + parent;
+            // specific type, specific parent
             if ( whitelist[cellKey] ) {
-                // https://github.com/gorhill/httpswitchboard/issues/29
-                // But then, maybe the type is blacklisted and strict blocking
-                // is on.
-                if ( strictBlocking && blacklist[typeKey] ) {
-                    // rhill 2013-12-18: But then, maybe an ancestor hostname has
-                    // been expressly whitelisted for this type.
-                    // https://github.com/gorhill/httpswitchboard/issues/92
-                    while ( parent = parents[i++] ) {
-                        if ( whitelist[type + '|' + parent] ) {
-                            return 'gpt';
-                        }
-                    }
-                    return 'rpt';
-                }
                 return 'gpt';
             }
             if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[parent]) ) {
@@ -336,7 +312,7 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
         // indirect: parent hostname nodes
         parents = uriTools.parentHostnamesFromHostname(hostname);
         i = 0;
-        while ( parent = parents[i] ) {
+        while ( parent = parents[i++] ) {
             // any type, specific hostname
             cellKey = '*|' + parent;
             if ( whitelist[cellKey] ) {
@@ -345,7 +321,6 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
             if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[parent]) ) {
                 return 'rpt';
             }
-            i++;
         }
         // indirect: any type, any hostname
         if ( whitelist['*|*'] ) {
