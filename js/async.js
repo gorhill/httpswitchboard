@@ -217,11 +217,15 @@ function onMessageHandler(request, sender, callback) {
             response = contentScriptLocalStorageHandler(request.url);
             break;
 
-         case 'contentScriptSummary':
+        case 'contentScriptSummary':
             contentScriptSummaryHandler(request.details);
             break;
 
-       default:
+        case 'forceReloadTab':
+            forceReload(request.pageURL);
+            break;
+
+        default:
              // console.error('HTTP Switchboard > onMessage > unknown request: %o', request);
             break;
         }

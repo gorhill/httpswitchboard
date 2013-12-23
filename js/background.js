@@ -25,6 +25,7 @@ var HTTPSB = {
     manifest: chrome.runtime.getManifest(),
 
     userSettings: {
+        autoWhitelistPageDomain: false,
         deleteCookies: false,
         deleteUnusedSessionCookies: false,
         deleteUnusedSessionCookiesAfter: 60,
@@ -72,6 +73,8 @@ var HTTPSB = {
     // page url => permission scope
     temporaryScopes: null,
     permanentScopes: null,
+
+    temporaryScopeJunkyard: {},
 
     // Current entries from remote blacklists --
     // just hostnames, '*/' is implied, this saves significantly on memory.

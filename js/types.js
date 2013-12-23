@@ -47,16 +47,16 @@ function PermissionList(filters) {
     }
 }
 
-function PermissionScope(httpsb) {
+function PermissionScope() {
     this.off = false;
     this.white = new PermissionList();
     this.black = new PermissionList(['*|*']);
     this.gray = new PermissionList();
 }
 
-function PermissionScopes(httpsb) {
+function PermissionScopes() {
     this.scopes = {};
-    this.scopes['*'] = new PermissionScope(httpsb);
+    this.scopes['*'] = new PermissionScope();
 }
 
 function PageStatsRequestEntry() {

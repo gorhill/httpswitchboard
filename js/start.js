@@ -44,10 +44,10 @@ function onUpdatedTabsHandler(tabId, changeInfo, tab) {
         return;
     }
 
-    var pageUrl = uriTools.normalizeURI(tab.url);
+    var pageURL = uriTools.normalizeURI(tab.url);
 
     // console.debug('tabs.onUpdated > tabId=%d changeInfo=%o tab=%o', tabId, changeInfo, tab);
-    var protocol = uriTools.schemeFromURI(pageUrl);
+    var protocol = uriTools.schemeFromURI(pageURL);
     if ( protocol !== 'http' && protocol !== 'https' ) {
         return;
     }
@@ -56,6 +56,15 @@ function onUpdatedTabsHandler(tabId, changeInfo, tab) {
     // web page in tab is completely loaded.
     if ( changeInfo.status !== 'complete' ) {
         return;
+    }
+
+    // rhill 2013-12-23: Compute state after whole page is loaded. This is
+    // better than building a state snapshot dynamically when requests are
+    // recorded, because here we are not afflicted by the browser cache
+    // mechanism.
+    var pageStats = pageStatsFromPageUrl(pageURL);
+    if ( pageStats ) {
+        pageStats.state = computeTabState(tabId);
     }
 
     updateContextMenu();

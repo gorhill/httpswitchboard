@@ -141,19 +141,10 @@ function loadUserLists() {
             httpsb.temporaryScopes.fromString(store.scopes);
             // rhill 2013-12-15: New type `stylesheet`. Sensible default:
             // - If `stylesheet` is graylisted, whitelist `stylesheet`
-            if ( store.version.slice(5) < '0.7.0' ) {
+            if ( store.version.slice(0, 5).localeCompare('0.7.0') < 0 ) {
                 httpsb.whitelistTemporarily('*', 'stylesheet', '*');
                 httpsb.whitelistPermanently('*', 'stylesheet', '*');
             }
-        } else if ( store.whitelist !== '' || store.blacklist !== '' || store.graylist !== '') {
-            // Pre v0.5.0
-            console.log('HTTP Switchboard > loadUserLists > using default white/black/gray lists');
-            httpsb.permanentScopes.scopes['*'].black.fromString(store.blacklist);
-            httpsb.temporaryScopes.scopes['*'].black.fromString(store.blacklist);
-            httpsb.permanentScopes.scopes['*'].gray.fromString(store.graylist);
-            httpsb.temporaryScopes.scopes['*'].gray.fromString(store.graylist);
-            httpsb.permanentScopes.scopes['*'].white.fromString(store.whitelist);
-            httpsb.temporaryScopes.scopes['*'].white.fromString(store.whitelist);
         } else {
             // Sensible defaults
             httpsb.whitelistTemporarily('*', 'stylesheet', '*');

@@ -102,16 +102,18 @@ background: #c00; \
 function beforeRequestHandler(details) {
     // quickProfiler.start();
 
+    var canEvaluate = true;
     var httpsb = HTTPSB;
     var tabId = details.tabId;
 
     // Do not ignore traffic outside tabs
     if ( tabId < 0 ) {
         tabId = httpsb.behindTheSceneTabId;
+        canEvaluate = httpsb.userSettings.processBehindTheSceneRequests;
     }
 
     var url = uriTools.normalizeURI(details.url);
-    var hostname, pageURL;
+    var hostname, pageURL, scopeKey;
 
     // Don't block chrome extensions
     // rhill 2013-12-10: Avoid regex whenever a faster indexOf() can be used:
@@ -140,20 +142,17 @@ function beforeRequestHandler(details) {
         return;
     }
 
-    // quickProfiler.start();
-
     // If it's a root frame or an app, bind to a new page stats store
     var type = details.type;
     var isSubFrame = type === 'sub_frame';
     var isMainFrame = type === 'main_frame';
-    var isRootFrame = isMainFrame && details.parentFrameId < 0;
+    var isWebPage = isMainFrame && details.parentFrameId < 0;
     var pageStats = pageStatsFromTabId(tabId);
 
     // rhill 2013-12-16: Do not interfere with apps. For now the heuristic is:
     // If we have a `sub_frame` and no pageStats store, this is an app.
     // https://github.com/gorhill/httpswitchboard/issues/91
     var isApp = isSubFrame && !pageStats;
-    var isWebPage = isRootFrame;
 
     if ( isWebPage || isApp ) {
         bindTabToPageStats(tabId, url);
@@ -174,7 +173,7 @@ function beforeRequestHandler(details) {
     }
 
     hostname = uriTools.hostnameFromURI(url);
-    pageURL = pageUrlFromPageStats(pageStats) || '*';
+    pageURL = pageUrlFromPageStats(pageStats);
 
     // rhill 2013-12-15:
     // Try to transpose generic `other` category into something more
@@ -183,13 +182,20 @@ function beforeRequestHandler(details) {
         type = httpsb.transposeType(type, url);
     }
 
+    if ( pageStats && pageStats.ignore ) {
+        canEvaluate = false;
+    }
+
     // Block request?
     // https://github.com/gorhill/httpswitchboard/issues/27
     var block = false;
-    if ( !pageStats || !pageStats.ignore ) {
-        if ( tabId !== httpsb.behindTheSceneTabId || httpsb.userSettings.processBehindTheSceneRequests ) {
-            block = httpsb.blacklisted(pageURL, type, hostname);
+    if ( canEvaluate ) {
+        // rhill 2013-12-23: Auto-whitelist page domain?
+        // - Allowed only if it is graylisted
+        if ( isWebPage ) {
+            httpsb.autoWhitelistTemporarilyPageDomain(pageURL, hostname);
         }
+        block = httpsb.blacklisted(pageURL, type, hostname);
     }
 
     if ( pageStats ) {
@@ -211,7 +217,7 @@ function beforeRequestHandler(details) {
         // rhill 2013-11-07: Senseless to do this for behind-the-scene
         // requests.
         // rhill 2013-12-03: Do this here only for root frames.
-        if ( isRootFrame && tabId !== httpsb.behindTheSceneTabId ) {
+        if ( isWebPage && tabId !== httpsb.behindTheSceneTabId ) {
             cookieHunter.recordPageCookiesAsync(pageStats);
         }
 
@@ -227,7 +233,7 @@ function beforeRequestHandler(details) {
     // allows to later check whether the root frame has been unblocked by the
     // user, in which case we are able to force a reload using a redirect.
     var html, dataURI;
-    if ( isRootFrame ) {
+    if ( isWebPage ) {
         html = rootFrameReplacement;
         html = html.replace(/{{fontUrl}}/g, httpsb.fontCSSURL);
         html = html.replace(/{{cssURL}}/g, httpsb.noopCSSURL);
@@ -247,7 +253,6 @@ function beforeRequestHandler(details) {
     }
 
     // quickProfiler.stop('beforeRequestHandler');
-
     return { "cancel": true };
 }
 

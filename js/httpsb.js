@@ -21,8 +21,8 @@
 
 /******************************************************************************/
 
-HTTPSB.temporaryScopes = new PermissionScopes(HTTPSB);
-HTTPSB.permanentScopes = new PermissionScopes(HTTPSB);
+HTTPSB.temporaryScopes = new PermissionScopes();
+HTTPSB.permanentScopes = new PermissionScopes();
 
 /******************************************************************************/
 
@@ -57,8 +57,9 @@ HTTPSB.createPageScopeIfNotExists = function(url) {
     }
     // Create temporary scope or switch it on
     if ( !tscope ) {
-        tscope = new PermissionScope(this);
+        tscope = new PermissionScope();
         tscope.whitelist('main_frame', '*');
+        tscope.whitelist('stylesheet', '*');
         tscope.whitelist('image', '*');
         this.temporaryScopes.scopes[url] = tscope;
     } else {
@@ -66,8 +67,9 @@ HTTPSB.createPageScopeIfNotExists = function(url) {
     }
     // Create permanent scope or switch it on
     if ( !pscope ) {
-        pscope = new PermissionScope(this);
+        pscope = new PermissionScope();
         pscope.whitelist('main_frame', '*');
+        pscope.whitelist('stylesheet', '*');
         pscope.whitelist('image', '*');
         this.permanentScopes.scopes[url] = pscope;
     } else {
@@ -130,13 +132,234 @@ HTTPSB.scopePageExists = function(url) {
 
 /******************************************************************************/
 
+HTTPSB.globalScopeKey = function() {
+    return '*';
+};
+
+HTTPSB.siteScopeKeyFromURL = function(url) {
+    return uriTools.rootURLFromURI(url);
+};
+
+HTTPSB.domainScopeKeyFromURL = function(url) {
+    var ut = uriTools.uri(url);
+    var scheme = ut.scheme();
+    if ( scheme.indexOf('http') !== 0 ) {
+        return '';
+    }
+    var hostname = ut.hostname();
+    var domain = ut.domainFromHostname(hostname);
+    if ( domain === '' ) {
+        domain = hostname;
+    }
+    return scheme + '://*.' + domain;
+};
+
+/******************************************************************************/
+
+HTTPSB.isGlobalScopeKey = function(scopeKey) {
+    return scopeKey === '*';
+};
+
+HTTPSB.isDomainScopeKey = function(scopeKey) {
+    return (/^https?:\/\/[*]/).test(scopeKey);
+};
+
+HTTPSB.isSiteScopeKey = function(scopeKey) {
+    return (/^https?:\/\/[^*]/).test(scopeKey);
+};
+
+HTTPSB.isValidScopeKey = function(scopeKey) {
+    return this.isGlobalScopeKey(scopeKey) ||
+           this.isDomainScopeKey(scopeKey) ||
+           this.isSiteScopeKey(scopeKey);
+}
+
+/******************************************************************************/
+
+// Of course this doesn't make sense as there is always a global scope, but
+// what makes sense is that we need to remove site and domain scopes for
+// global scope to take effect.
+
+HTTPSB.createTemporaryGlobalScope = function(url) {
+    var scopeKey, scope;
+    scopeKey = this.siteScopeKeyFromURL(url);
+    scope = this.removeTemporaryScope(scopeKey);
+    if ( scope ) {
+        this.temporaryScopeJunkyard[scopeKey] = scope;
+    }
+    scopeKey = this.domainScopeKeyFromURL(url);
+    scope = this.removeTemporaryScope(scopeKey);
+    if ( scope ) {
+        this.temporaryScopeJunkyard[scopeKey] = scope;
+    }
+};
+
+HTTPSB.createPermanentGlobalScope = function(url) {
+    var changed = false;
+    // Remove potentially occulting domain/site scopes.
+    var scopeKey = this.siteScopeKeyFromURL(url);
+    var scope = this.removePermanentScope(scopeKey);
+    if ( scope ) {
+        changed = true;
+    }
+    scopeKey = this.domainScopeKeyFromURL(url);
+    scope = this.removePermanentScope(scopeKey);
+    if ( scope ) {
+        changed = true;
+    }
+    if ( changed ) {
+        this.savePermissions();
+    }
+    return changed;
+};
+
+/******************************************************************************/
+
+HTTPSB.createTemporaryDomainScope = function(url) {
+    var scopeKey, scope;
+
+    // Already created?
+    scopeKey = this.domainScopeKeyFromURL(url);
+    if ( !this.temporaryScopes.scopes[scopeKey] ) {
+        // See if there is a match in junkyard
+        scope = this.temporaryScopeJunkyard[scopeKey];
+        if ( !scope ) {
+            scope = new PermissionScope();
+            scope.whitelist('main_frame', '*');
+        } else {
+            delete this.temporaryScopeJunkyard[scopeKey];
+        }
+        this.temporaryScopes.scopes[scopeKey] = scope;
+    }
+
+    // Remove potentially occulting site scope.
+    scopeKey = this.siteScopeKeyFromURL(url);
+    scope = this.removeTemporaryScope(scopeKey);
+    if ( scope ) {
+        this.temporaryScopeJunkyard[scopeKey] = scope;
+    }
+};
+
+HTTPSB.createPermanentDomainScope = function(url) {
+    var changed = false;
+    var scopeKey = this.domainScopeKeyFromURL(url);
+    var scope = this.permanentScopes.scopes[scopeKey];
+    if ( !scope ) {
+        scope = new PermissionScope();
+        scope.whitelist('main_frame', '*');
+        this.permanentScopes.scopes[scopeKey] = scope;
+        changed = true;
+    }
+
+    // Remove potentially existing site scope: it would occlude domain scope.
+    scopeKey = this.siteScopeKeyFromURL(url);
+    scope = this.removePermanentScope(scopeKey);
+    if ( scope ) {
+        changed = true;
+    }
+
+    if ( changed ) {
+        this.savePermissions();
+    }
+    return changed;
+};
+
+/******************************************************************************/
+
+HTTPSB.createTemporarySiteScope = function(url) {
+    var scopeKey, scope;
+
+    // Already created?
+    scopeKey = this.siteScopeKeyFromURL(url);
+    if ( this.temporaryScopes.scopes[scopeKey] ) {
+        return false;
+    }
+
+    // See if there is a match in junkyard
+    scope = this.temporaryScopeJunkyard[scopeKey];
+    if ( !scope ) {
+        scope = new PermissionScope();
+        scope.whitelist('main_frame', '*');
+    } else {
+        delete this.temporaryScopeJunkyard[scopeKey];
+    }
+    this.temporaryScopes.scopes[scopeKey] = scope;
+    return true;
+};
+
+HTTPSB.createPermanentSiteScope = function(url) {
+    var scopeKey = this.siteScopeKeyFromURL(url);
+    var scope = this.permanentScopes.scopes[scopeKey];
+    if ( scope ) {
+        return false;
+    }
+    scope = new PermissionScope();
+    scope.whitelist('main_frame', '*');
+    this.permanentScopes.scopes[scopeKey] = scope;
+    this.savePermissions();
+    return true;
+};
+
+/******************************************************************************/
+
+HTTPSB.removeTemporaryScope = function(scopeKey) {
+    var scope = this.temporaryScopes.scopes[scopeKey];
+    if ( scope ) {
+        delete this.temporaryScopes.scopes[scopeKey];
+    }
+    return scope;
+};
+
+HTTPSB.removePermanentScope = function(scopeKey) {
+    var scope = this.permanentScopes.scopes[scopeKey];
+    if ( scope ) {
+        delete this.permanentScopes.scopes[scopeKey];
+    }
+    return scope;
+};
+
+/******************************************************************************/
+
+HTTPSB.removePermanentScope = function(scopeKey) {
+    var scope = this.permanentScopes.scopes[scopeKey];
+    if ( !scope ) {
+        return null;
+    }
+    delete this.permanentScopes.scopes[scopeKey];
+    return scope;
+};
+
+/******************************************************************************/
+
+HTTPSB.temporaryScopeKeyFromPageURL = function(url) {
+    return this.temporaryScopes.scopeKeyFromPageURL(url);
+};
+
+HTTPSB.permanentScopeKeyFromPageURL = function(url) {
+    return this.permanentScopes.scopeKeyFromPageURL(url);
+};
+
+/******************************************************************************/
+
 HTTPSB.evaluate = function(src, type, hostname) {
     // rhill 2013-12-03: When HTTPSB is disengaged, all requests are
     // considered being "allowed temporarily".
     if ( this.off ) {
         return 'gpt';
     }
-    return this.temporaryScopes.evaluate(src, type, hostname);
+    return this.temporaryScopes.evaluate(
+        this.temporaryScopes.scopeKeyFromPageURL(src),
+        type,
+        hostname);
+};
+
+HTTPSB.evaluateFromScopeKey = function(scopeKey, type, hostname) {
+    // rhill 2013-12-03: When HTTPSB is disengaged, all requests are
+    // considered being "allowed temporarily".
+    if ( this.off ) {
+        return 'gpt';
+    }
+    return this.temporaryScopes.evaluate(scopeKey, type, hostname);
 };
 
 /******************************************************************************/
@@ -150,19 +373,30 @@ HTTPSB.transposeType = function(type, url) {
         }
     }
     return type;
-}
+};
 
 /******************************************************************************/
 
 // Whitelist something
 
-HTTPSB.whitelistTemporarily = function(src, type, hostname) {
-    this.temporaryScopes.whitelist(src, type, hostname);
+HTTPSB.whitelistTemporarily = function(scopeKey, type, hostname) {
+    this.temporaryScopes.whitelist(scopeKey, type, hostname);
 };
 
-HTTPSB.whitelistPermanently = function(src, type, hostname) {
-    if ( this.permanentScopes.whitelist(src, type, hostname) ) {
+HTTPSB.whitelistPermanently = function(scopeKey, type, hostname) {
+    if ( this.permanentScopes.whitelist(scopeKey, type, hostname) ) {
         this.savePermissions();
+    }
+};
+
+HTTPSB.autoWhitelistTemporarilyPageDomain = function(pageURL, pageHostname) {
+    if ( this.userSettings.autoWhitelistPageDomain ) {
+        var scopeKey = this.temporaryScopeKeyFromPageURL(pageURL);
+        var domain = uriTools.domainFromHostname(pageHostname);
+        // 'p' as in 'pale' (green or red), i.e. graylisted
+        if ( this.evaluateFromScopeKey(scopeKey, '*', domain).charAt(1) === 'p' ) {
+            this.whitelistTemporarily(scopeKey, '*', domain);
+        }
     }
 };
 
@@ -170,12 +404,12 @@ HTTPSB.whitelistPermanently = function(src, type, hostname) {
 
 // Blacklist something
 
-HTTPSB.blacklistTemporarily = function(src, type, hostname) {
-    this.temporaryScopes.blacklist(src, type, hostname);
+HTTPSB.blacklistTemporarily = function(scopeKey, type, hostname) {
+    this.temporaryScopes.blacklist(scopeKey, type, hostname);
 };
 
-HTTPSB.blacklistPermanently = function(src, type, hostname) {
-    if ( this.permanentScopes.blacklist(src, type, hostname) ) {
+HTTPSB.blacklistPermanently = function(scopeKey, type, hostname) {
+    if ( this.permanentScopes.blacklist(scopeKey, type, hostname) ) {
         this.savePermissions();
     }
 };
@@ -187,13 +421,23 @@ HTTPSB.blacklistPermanently = function(src, type, hostname) {
 // If key is [specific hostname]/[any type], remove also any existing
 // auto-blacklisted types for the specific hostname.
 
-HTTPSB.graylistTemporarily = function(src, type, hostname) {
-    this.temporaryScopes.graylist(src, type, hostname);
+HTTPSB.graylistTemporarily = function(scopeKey, type, hostname) {
+    this.temporaryScopes.graylist(scopeKey, type, hostname);
 };
 
-HTTPSB.graylistPermanently = function(src, type, hostname) {
-    if ( this.permanentScopes.graylist(src, type, hostname) ) {
+HTTPSB.graylistPermanently = function(scopeKey, type, hostname) {
+    if ( this.permanentScopes.graylist(scopeKey, type, hostname) ) {
         // console.log('HTTP Switchboard > permanent graylisting %s from %s', type, hostname);
+        this.savePermissions();
+    }
+};
+
+/******************************************************************************/
+
+// Apply a set of rules
+
+HTTPSB.applyRulesetPermanently = function(scopeKey, rules) {
+    if ( this.permanentScopes.applyRuleset(scopeKey, rules) ) {
         this.savePermissions();
     }
 };
@@ -205,44 +449,46 @@ HTTPSB.blacklisted = function(src, type, hostname) {
     return this.evaluate(src, type, hostname).charAt(0) === 'r';
 };
 
+HTTPSB.blacklistedFromScopeKey = function(scopeKey, type, hostname) {
+    return this.evaluateFromScopeKey(scopeKey, type, hostname).charAt(0) === 'r';
+};
+
 // check whether something is whitelisted
 HTTPSB.whitelisted = function(src, type, hostname) {
     return this.evaluate(src, type, hostname).charAt(0) === 'g';
 };
 
-/******************************************************************************/
-
-HTTPSB.getTemporaryColor = function(src, type, hostname) {
-    // console.debug('HTTP Switchboard > getTemporaryColor(%s, %s, %s) = %s', src, type, hostname, evaluate(src, type, hostname));
-    return this.evaluate(src, type, hostname);
+HTTPSB.whitelistedFromScopeKey = function(scopeKey, type, hostname) {
+    return this.evaluateFromScopeKey(scopeKey, type, hostname).charAt(0) === 'g';
 };
 
 /******************************************************************************/
 
-HTTPSB.getPermanentColor = function(src, type, hostname) {
-    var key = type + '|' + hostname;
-    var scope = this.permanentScopes.scopeFromURL(src);
-    if ( !scope || scope.off ) {
-        scope = this.permanentScopes.scopes['*'];
+HTTPSB.getTemporaryColor = function(scopeKey, type, hostname) {
+    // console.debug('HTTP Switchboard > getTemporaryColor(%s, %s, %s) = %s', src, type, hostname, evaluate(src, type, hostname));
+    // rhill 2013-12-03: When HTTPSB is disengaged, all requests are
+    // considered being "allowed temporarily".
+    if ( this.off ) {
+        return 'gpt';
     }
-    if ( scope.white.list[key] ) {
-        return 'gdp';
+    return this.temporaryScopes.evaluate(scopeKey, type, hostname);
+};
+
+HTTPSB.getPermanentColor = function(scopeKey, type, hostname) {
+    var scope = this.permanentScopes.scopes[scopeKey];
+    if ( scope ) {
+        var key = type + '|' + hostname;
+        if ( scope.white.list[key] ) {
+            return 'gdp';
+        }
+        if ( scope.black.list[key] ) {
+            return 'rdp';
+        }
+        if ( type !== '*' || scope.gray.list[key] ) {
+            return 'xxx';
+        }
     }
-    if ( scope.black.list[key] ) {
-        return 'rdp';
-    }
-    // rhill 2013-10-13: optimization: if type is not '*', hostname is not
-    // in the remote blacklists.
-    if ( type !== '*' ) {
-        return 'xxx';
-    }
-    // rhill 2013-11-07: if in the graylist, this means a read-only blacklist
-    // entry is occulted.
-    if ( scope.gray.list[key] ) {
-        return 'xxx';
-    }
-    // console.debug('this.blacklistReadonly[%s] = %o', hostname, this.blacklistReadonly[hostname]);
-    if ( this.blacklistReadonly[hostname] ) {
+    if ( type === '*' && this.blacklistReadonly[hostname] ) {
         return 'rdp';
     }
     return 'xxx';
@@ -278,7 +524,7 @@ HTTPSB.savePermissions = function() {
     // console.debug('HTTP Switchboard > HTTPSB.savePermissions(): persisting %o', bin);
     chrome.storage.local.set(bin, function() {
         if ( chrome.runtime.lastError ) {
-            // console.log('HTTP Switchboard > saved permissions: %s', chrome.runtime.lastError.message());
+            console.error('HTTP Switchboard > saved permissions: %s', chrome.runtime.lastError.message());
         }
         chrome.storage.local.getBytesInUse('scopes', function(bytesInUse) {
             // console.log('HTTP Switchboard > saved permissions: %d bytes used', bytesInUse);
@@ -297,7 +543,7 @@ HTTPSB.turnOff = function() {
     // Relinquish control over javascript execution to the user.
     //   https://github.com/gorhill/httpswitchboard/issues/74
     chrome.contentSettings.javascript.clear({});
-}
+};
 
 HTTPSB.turnOn = function() {
     chrome.contentSettings.javascript.clear({});
@@ -316,4 +562,4 @@ HTTPSB.turnOn = function() {
     });
 
     this.off = false;
-}
+};
