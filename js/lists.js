@@ -498,69 +498,106 @@ PermissionScopes.prototype.assign = function(other) {
 
 /******************************************************************************/
 
-PermissionScopes.prototype.normalizeScopeURL = function(url) {
-    if ( !url ) {
-        return null;
+PermissionScopes.prototype.scopeKeyFromPageURL = function(url) {
+    if ( !url || url === '*' ) {
+        return '*';
     }
-    if ( url !== '*' ) {
-        url = uriTools.rootURLFromURI(url);
+    var ut = uriTools.uri(url);
+    var scheme = ut.scheme();
+    var hostname = ut.hostname();
+    if ( !hostname ) {
+        return '*';
     }
-    return url;
+    // if ( (/[^a-z0-9.-])/.test(hostname) ) {
+    //    throw new Error('Invalid URL: ' + url);
+    // }
+    // From narrowest scope to broadest scope
+    // Try site scope
+    var scopeKey = scheme + '://' + hostname;
+    if ( this.scopes[scopeKey] ) {
+        return scopeKey;
+    }
+    var secure = scheme === 'https';
+    if ( secure ) {
+        scopeKey = 'http://' + hostname;
+        if ( this.scopes[scopeKey] ) {
+            return scopeKey;
+        }
+    }
+    // Try domain scope
+    var domain = ut.domainFromHostname(hostname);
+    if ( !domain ) {
+        return '*';
+    }
+    scopeKey = scheme + '://*.' + domain;
+    if ( this.scopes[scopeKey] ) {
+        return scopeKey;
+    }
+    if ( secure ) {
+        scopeKey = 'http://*.' + domain;
+        if ( this.scopes[scopeKey] ) {
+            return scopeKey;
+        }
+    }
+    return '*';
 };
 
 /******************************************************************************/
 
-PermissionScopes.prototype.scopeFromURL = function(url) {
-    if ( !url ) {
-        return this.scopes['*'];
+PermissionScopes.prototype.scopeFromScopeKey = function(scopeKey) {
+    var scope = this.scopes[scopeKey];
+    if ( scope ) {
+        return scope;
     }
-    if ( url !== '*' ) {
-        url = uriTools.rootURLFromURI(url);
-    }
-    return this.scopes[url];
+    return this.scopes['*'];
 };
 
 /******************************************************************************/
 
-PermissionScopes.prototype.evaluate = function(url, type, hostname) {
-    var scope = this.scopeFromURL(url);
+PermissionScopes.prototype.evaluate = function(scopeKey, type, hostname) {
     // rhill 2013-11-04: A caller which does not want an inexistant scope
     // to fall back on global scope will have to create explicitly the
     // inexistant scope before calling.
-    if ( !scope || scope.off ) {
-        scope = this.scopes['*'];
-    }
-    return scope.evaluate(type, hostname);
+    return this.scopeFromScopeKey(scopeKey).evaluate(type, hostname);
 };
 
 /******************************************************************************/
 
-PermissionScopes.prototype.whitelist = function(url, type, hostname) {
-    var scope = this.scopeFromURL(url);
-    if ( !scope || scope.off ) {
-        scope = this.scopes['*'];
-    }
-    return scope.whitelist(type, hostname);
+PermissionScopes.prototype.whitelist = function(scopeKey, type, hostname) {
+    return this.scopeFromScopeKey(scopeKey).whitelist(type, hostname);
+};
+
+PermissionScopes.prototype.blacklist = function(scopeKey, type, hostname) {
+    return this.scopeFromScopeKey(scopeKey).blacklist(type, hostname);
+};
+
+PermissionScopes.prototype.graylist = function(scopeKey, type, hostname) {
+    return this.scopeFromScopeKey(scopeKey).graylist(type, hostname);
 };
 
 /******************************************************************************/
 
-PermissionScopes.prototype.blacklist = function(url, type, hostname) {
-    var scope = this.scopeFromURL(url);
-    if ( !scope || scope.off ) {
-        scope = this.scopes['*'];
+PermissionScopes.prototype.applyRuleset = function(scopeKey, rules) {
+    var rule, i;
+    var changed = false;
+    var scope = this.scopeFromScopeKey(scopeKey);
+    if ( !scope ) {
+        throw new Error('PermissionScopes.applyRuleset() > scope not found');
     }
-    return scope.blacklist(type, hostname);
-};
-
-/******************************************************************************/
-
-PermissionScopes.prototype.graylist = function(url, type, hostname) {
-    var scope = this.scopeFromURL(url);
-    if ( !scope || scope.off ) {
-        scope = this.scopes['*'];
+    i = rules.white.length;
+    while ( i-- ) {
+        rule = rules.white[i];
+        changed = scope.whitelist(rule.type, rule.hostname) || changed;
     }
-    return scope.graylist(type, hostname);
+    i = rules.black.length;
+    while ( i-- ) {
+        rule = rules.black[i];
+        changed = scope.blacklist(rule.type, rule.hostname) || changed;
+    }
+    i = rules.gray.length;
+    while ( i-- ) {
+        rule = rules.gray[i];
+        changed = scope.graylist(rule.type, rule.hostname) || changed;
+    }
+    return changed;
 };
-
-/******************************************************************************/

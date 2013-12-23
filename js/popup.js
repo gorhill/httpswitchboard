@@ -78,13 +78,13 @@ EntryStats.prototype.reset = function(hostname, type) {
     this.count = 0;
 };
 
-EntryStats.prototype.colourize = function(httpsb, scopeURL) {
+EntryStats.prototype.colourize = function(httpsb, scopeKey) {
     httpsb = httpsb || getHTTPSB();
     if ( !this.hostname || !this.type ) {
         return;
     }
-    this.temporaryColor = httpsb.getTemporaryColor(scopeURL, this.type, this.hostname);
-    this.permanentColor = httpsb.getPermanentColor(scopeURL, this.type, this.hostname);
+    this.temporaryColor = httpsb.getTemporaryColor(scopeKey, this.type, this.hostname);
+    this.permanentColor = httpsb.getPermanentColor(scopeKey, this.type, this.hostname);
 };
 
 EntryStats.prototype.add = function(other) {
@@ -145,18 +145,18 @@ HostnameStats.prototype.dispose = function() {
     HostnameStats.prototype.junkyard.push(this);
 };
 
-HostnameStats.prototype.colourize = function(httpsb, scopeURL) {
+HostnameStats.prototype.colourize = function(httpsb, scopeKey) {
     httpsb = httpsb || getHTTPSB();
-    this.types['*'].colourize(httpsb, scopeURL);
-    this.types.main_frame.colourize(httpsb, scopeURL);
-    this.types.cookie.colourize(httpsb, scopeURL);
-    this.types.stylesheet.colourize(httpsb, scopeURL);
-    this.types.image.colourize(httpsb, scopeURL);
-    this.types.object.colourize(httpsb, scopeURL);
-    this.types.script.colourize(httpsb, scopeURL);
-    this.types.xmlhttprequest.colourize(httpsb, scopeURL);
-    this.types.sub_frame.colourize(httpsb, scopeURL);
-    this.types.other.colourize(httpsb, scopeURL);
+    this.types['*'].colourize(httpsb, scopeKey);
+    this.types.main_frame.colourize(httpsb, scopeKey);
+    this.types.cookie.colourize(httpsb, scopeKey);
+    this.types.stylesheet.colourize(httpsb, scopeKey);
+    this.types.image.colourize(httpsb, scopeKey);
+    this.types.object.colourize(httpsb, scopeKey);
+    this.types.script.colourize(httpsb, scopeKey);
+    this.types.xmlhttprequest.colourize(httpsb, scopeKey);
+    this.types.sub_frame.colourize(httpsb, scopeKey);
+    this.types.other.colourize(httpsb, scopeKey);
 };
 
 HostnameStats.prototype.add = function(other) {
@@ -205,14 +205,13 @@ MatrixStats.prototype.reset = function() {
 var HTTPSBPopup = {
     tabId: -1,
     pageURL: '',
-    scopeURL: '*',
+    scopeKey: '*',
 
     
     matrixDomains: {},
 
     matrixStats: MatrixStats.prototype.createMatrixStats(),
     matrixHeaderTypes: ['*'],
-    matrixCellMenu: null,
     matrixCellHotspots: null,
     matrixRowTemplate: null,
     matrixHasRows: false,
@@ -239,31 +238,6 @@ var HTTPSBPopup = {
 
     dummy: 0
 };
-
-/******************************************************************************/
-/*
-function getSelectorFromElement(node) {
-    var path = [];
-    var tag, classes, parent, index;
-    while ( node ) {
-        if ( node.nodeType !== 1 ) {
-            break;
-        }
-        tag = node.localName;
-        if ( node.id ) {
-            path.unshift('#' + node.id);
-            break;
-        }
-        if ( node.className ) {
-            tag += '.' + node.className.split(/\s+/).sort().join('.');
-        }
-        parent = node.parentElement;
-        path.unshift(tag);
-        node = parent;
-    }
-    return path.join(' > ');
-}
-*/
 
 /******************************************************************************/
 
@@ -331,12 +305,12 @@ function initMatrixStats() {
 function updateMatrixStats() {
     // For each hostname/type occurrence, evaluate colors
     var httpsb = getHTTPSB();
-    var scopeURL = HTTPSBPopup.scopeURL;
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
     var matrixStats = HTTPSBPopup.matrixStats;
     var hostnames = Object.keys(matrixStats);
     var i = hostnames.length;
     while ( i-- ) {
-        matrixStats[hostnames[i]].colourize(httpsb, scopeURL);
+        matrixStats[hostnames[i]].colourize(httpsb, scopeKey);
     }
 }
 
@@ -626,17 +600,18 @@ function updateMatrixBehavior() {
 
 function handleFilter(button, leaning) {
     var httpsb = getHTTPSB();
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
     // our parent cell knows who we are
     var cell = button.closest('div.matCell');
     var type = cell.prop('reqType');
     var hostname = cell.prop('hostname');
     var nextAction = getNextAction(hostname, type, leaning);
     if ( nextAction === 'blacklist' ) {
-        httpsb.blacklistTemporarily(HTTPSBPopup.scopeURL, type, hostname);
+        httpsb.blacklistTemporarily(scopeKey, type, hostname);
     } else if ( nextAction === 'whitelist' ) {
-        httpsb.whitelistTemporarily(HTTPSBPopup.scopeURL, type, hostname);
+        httpsb.whitelistTemporarily(scopeKey, type, hostname);
     } else {
-        httpsb.graylistTemporarily(HTTPSBPopup.scopeURL, type, hostname);
+        httpsb.graylistTemporarily(scopeKey, type, hostname);
     }
     updateMatrixStats();
     updateMatrixColors();
@@ -654,44 +629,75 @@ function handleBlacklistFilter(button) {
 
 /******************************************************************************/
 
-// handle user interaction with persistence buttons
-
-function handlePersistence(button) {
-    var httpsb = getHTTPSB();
-    // our parent cell knows who we are
-    var cell = button.closest('div.matCell');
-    var type = cell.prop('reqType');
-    var hostname = cell.prop('hostname');
-    var entry = getCellStats(hostname, type);
-    if ( !entry ) { return; }
-    if ( entry.temporaryColor.charAt(1) === 'd' && entry.temporaryColor !== entry.permanentColor ) {
-        if ( entry.temporaryColor === 'rdt' ) {
-            httpsb.blacklistPermanently(HTTPSBPopup.scopeURL, type, hostname);
-        } else if ( entry.temporaryColor === 'gdt' ) {
-            httpsb.whitelistPermanently(HTTPSBPopup.scopeURL, type, hostname);
-        }
-        entry.permanentColor = httpsb.getPermanentColor(HTTPSBPopup.scopeURL, type, hostname);
-        var newClass = getCellClass(hostname, type);
-        cell.removeClass('rdt gdt rpt gpt rdp gdp rpp gpp');
-        cell.addClass(newClass);
+function getTemporaryRuleset() {
+    var cells, i, cell;
+    var rules = {
+        white: null,
+        black: null,
+        gray: null
+    };
+    cells = $('.matRow.rw:not(.meta) .matCell.gdt');
+    i = cells.length;
+    rules.white = new Array(i);
+    while ( i-- ) {
+        cell = $(cells[i]);
+        rules.white[i] = {
+            hostname: cell.prop('hostname'),
+            type: cell.prop('reqType')
+        };
     }
+    cells = $('.matRow.rw:not(.meta) .matCell.rdt');
+    i = cells.length;
+    rules.black = new Array(i);
+    while ( i-- ) {
+        cell = $(cells[i]);
+        rules.black[i] = {
+            hostname: cell.prop('hostname'),
+            type: cell.prop('reqType')
+        };
+    }
+    // Only the graylisted state of hostname is of interest, since only these
+    // can be preset-blacklisted.
+    cells = $('.matRow.rw:not(.meta) .matCell.gpt:first-child, .matRow.rw:not(.meta) .matCell.rpt:first-child');
+    i = cells.length;
+    rules.gray = new Array(i);
+    while ( i-- ) {
+        cell = $(cells[i]);
+        rules.gray[i] = {
+            hostname: cell.prop('hostname'),
+            type: cell.prop('reqType')
+        };
+    }
+    return rules;
 }
 
-function handleUnpersistence(button) {
+/******************************************************************************/
+
+// Handle user interaction with persistence buttons
+
+function persistScope() {
     var httpsb = getHTTPSB();
-    // our parent cell knows who we are
-    var cell = button.closest('div.matCell');
-    var type = cell.prop('reqType');
-    var hostname = cell.prop('hostname');
-    var entry = getCellStats(hostname, type);
-    if ( !entry ) { return; }
-    if ( entry.permanentColor.charAt(1) === 'd' ) {
-        httpsb.graylistPermanently(HTTPSBPopup.scopeURL, type, hostname);
-        entry.permanentColor = httpsb.getPermanentColor(HTTPSBPopup.scopeURL, type, hostname);
-        var newClass = getCellClass(hostname, type);
-        cell.removeClass('rdt gdt rpt gpt rdp gdp rpp gpp');
-        cell.addClass(newClass);
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
+    if ( httpsb.isGlobalScopeKey(scopeKey) ) {
+        httpsb.createPermanentGlobalScope(HTTPSBPopup.pageURL);
+    } else if ( httpsb.isDomainScopeKey(scopeKey) ) {
+        httpsb.createPermanentDomainScope(HTTPSBPopup.pageURL);
+    } else if ( httpsb.isSiteScopeKey(scopeKey) ) {
+        httpsb.createPermanentSiteScope(HTTPSBPopup.pageURL);
     }
+    httpsb.applyRulesetPermanently(scopeKey, getTemporaryRuleset());
+    updateMatrixStats();
+    updateScopeCell();
+    updateMatrixColors();
+    updateMatrixBehavior();
+}
+
+function revert() {
+    getHTTPSB().revertPermissions();
+    updateScopeCell();
+    updateMatrixStats();
+    updateMatrixColors();
+    updateMatrixBehavior();
 }
 
 /******************************************************************************/
@@ -1103,9 +1109,6 @@ function makeMenu() {
     if ( HTTPSBPopup.matrixCellHotspots ) {
         HTTPSBPopup.matrixCellHotspots.detach();
     }
-    if ( HTTPSBPopup.matrixCellMenu ) {
-        HTTPSBPopup.matrixCellMenu.detach();
-    }
 
     renderMatrixHeaderRow();
 
@@ -1150,26 +1153,103 @@ function initMenuEnvironment() {
 
 // Create page scopes for the web page
 
-function toggleScopePage() {
-    var toolbar = $('body');
-    if ( toolbar.hasClass('scope-is-page') ) {
-        toolbar.removeClass('scope-is-page');
-        getHTTPSB().destroyPageScopeIfExists(HTTPSBPopup.pageURL);
-    } else {
-        toolbar.addClass('scope-is-page');
-        getHTTPSB().createPageScopeIfNotExists(HTTPSBPopup.pageURL);
-    }
+function createGlobalScope() {
+    var httpsb = getHTTPSB();
+    httpsb.createTemporaryGlobalScope(HTTPSBPopup.pageURL);
     updateMatrixStats();
+    updateScopeCell();
+    updateMatrixColors();
+    updateMatrixBehavior();
+}
+
+function createDomainScope() {
+    var httpsb = getHTTPSB();
+    httpsb.createTemporaryDomainScope(HTTPSBPopup.pageURL);
+    updateMatrixStats();
+    updateScopeCell();
+    updateMatrixColors();
+    updateMatrixBehavior();
+}
+
+function createSiteScope() {
+    var httpsb = getHTTPSB();
+    httpsb.createTemporarySiteScope(HTTPSBPopup.pageURL);
+    updateMatrixStats();
+    updateScopeCell();
     updateMatrixColors();
     updateMatrixBehavior();
 }
 
 function getScopePageButtonTip() {
+    var httpsb = getHTTPSB();
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
     var toolbar = $('body');
-    if ( toolbar.hasClass('scope-is-page') ) {
-        return chrome.i18n.getMessage('matrixRemoveScope', HTTPSBPopup.scopeURL);
+    if ( toolbar.hasClass('scopeSite') ) {
+        return chrome.i18n.getMessage('matrixRemoveScope', scopeKey);
     }
-    return chrome.i18n.getMessage('matrixCreateScope', HTTPSBPopup.scopeURL);
+    return chrome.i18n.getMessage('matrixCreateScope', scopeKey);
+}
+
+function getClassSuffixFromScopeKey(scopeKey) {
+    if ( scopeKey === '*' ) {
+        return 'ScopeGlobal';
+    }
+    if ( /^https?:\/\/\*\./.test(scopeKey) ) {
+        return 'ScopeDomain';
+    }
+    return 'ScopeSite';
+}
+
+function getClassFromTemporaryScopeKey(scopeKey) {
+    return 't' + getClassSuffixFromScopeKey(scopeKey);
+}
+
+function getClassFromPermanentScopeKey(scopeKey) {
+    return 'p' + getClassSuffixFromScopeKey(scopeKey);
+}
+
+function initScopeCell() {
+    // It's possible there is no page URL at this point: some pages cannot
+    // be filtered by HTTPSB.
+    if ( !HTTPSBPopup.pageURL ) {
+        return;
+    }
+    // Fill in the scope menu entries
+    var httpsb = getHTTPSB();
+    $('#scopeKeyDomain').text(httpsb.domainScopeKeyFromURL(HTTPSBPopup.pageURL).replace('*', '\u2217'));
+    $('#scopeKeySite').text(httpsb.siteScopeKeyFromURL(HTTPSBPopup.pageURL));
+    updateScopeCell();
+}
+
+function updateScopeCell() {
+    var httpsb = getHTTPSB();
+    var temporaryScopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
+    var permanentScopeKey = httpsb.permanentScopeKeyFromPageURL(HTTPSBPopup.pageURL);
+    $('body')
+        .removeClass('tScopeGlobal tScopeDomain tScopeSite pScopeGlobal pScopeDomain pScopeSite')
+        .addClass(getClassFromTemporaryScopeKey(temporaryScopeKey))
+        .addClass(getClassFromPermanentScopeKey(permanentScopeKey));
+    $('#scopeCell').text(temporaryScopeKey.replace('*', '\u2217'));
+}
+
+/******************************************************************************/
+
+function forceReload() {
+    chrome.runtime.sendMessage({
+        what: 'forceReloadTab',
+        pageURL: HTTPSBPopup.pageURL
+    });
+}
+
+/******************************************************************************/
+
+function mouseenterMatrixCellHandler(event) {
+    HTTPSBPopup.matrixCellHotspots.prependTo(this);
+}
+
+function mouseleaveMatrixCellHandler() {
+    HTTPSBPopup.matrixCellHotspots.detach();
+    blankMessage();
 }
 
 /******************************************************************************/
@@ -1249,15 +1329,6 @@ function blankMessage() {
 
 /******************************************************************************/
 
-function revert() {
-    getHTTPSB().revertPermissions();
-    updateMatrixStats();
-    updateMatrixColors();
-    updateMatrixBehavior();
-}
-
-/******************************************************************************/
-
 function onMessageHandler(request) {
     if ( request.what === 'urlStatsChanged' ) {
         if ( HTTPSBPopup.pageURL === request.pageURL ) {
@@ -1284,7 +1355,6 @@ function bindToTabHandler(tabs) {
     // Important! Before calling makeMenu()
     HTTPSBPopup.tabId = tabs[0].id;
     HTTPSBPopup.pageURL = background.pageUrlFromTabId(HTTPSBPopup.tabId);
-    HTTPSBPopup.scopeURL = httpsb.normalizeScopeURL(HTTPSBPopup.pageURL);
 
     // Now that tabId and pageURL are set, we can build our menu
     initMenuEnvironment();
@@ -1293,14 +1363,15 @@ function bindToTabHandler(tabs) {
     // After popup menu is built, check whether there is a non-empty matrix
     if ( !HTTPSBPopup.matrixHasRows ) {
         $('#no-traffic').css('display', '');
-        $('#matHead').css('display', 'none');
-        $('#scopeToolbar').css('display', 'none');
+        $('#matHead').remove();
+        $('#scopeMenu').remove();
+        $('#scopePersist').remove();
+        $('#buttonReload').remove();
+        $('#buttonRevert').remove();
     }
 
     // Activate page scope if there is one
-    if ( httpsb.scopePageExists(HTTPSBPopup.scopeURL) ) {
-        toggleScopePage();
-    }
+    initScopeCell();
 
     // To know when to rebuild the matrix
     // TODO: What if this event is triggered before bindToTabHandler()
@@ -1357,27 +1428,6 @@ function initAll() {
     // Display size
     $('body').css('font-size', getUserSetting('displayTextSize'));
 
-    // We reuse for all cells the one and only cell menu.
-    popup.matrixCellMenu = $('#cellMenu').detach();
-    $('#persist', popup.matrixCellMenu)
-        .on('click', function() {
-            handlePersistence($(this));
-            return false;
-        })
-        .on('mouseenter', function() {
-            handlePersistMessage($(this));
-            return false;
-        });
-    $('#unpersist', popup.matrixCellMenu)
-        .on('click', function() {
-            handleUnpersistence($(this));
-            return false;
-        })
-        .on('mouseenter', function() {
-            handleUnpersistMessage($(this));
-            return false;
-        });
-
     // We reuse for all cells the one and only cell hotspots.
     popup.matrixCellHotspots = $('#cellHotspots').detach();
     $('#whitelist', popup.matrixCellHotspots)
@@ -1403,37 +1453,23 @@ function initAll() {
             toggleCollapseState(this);
             return false;
         });
-
-    // to attach/detach widgets to matrix cell
     $('body')
-        .on('mouseenter', '.matCell', function() {
-            popup.matrixCellHotspots.prependTo(this);
-            popup.matrixCellMenu.prependTo(this);
-            })
-        .on('mouseleave', '.matCell', function() {
-            popup.matrixCellHotspots.detach();
-            popup.matrixCellMenu.detach();
-            blankMessage();
-            });
-
-    $('#buttonToggleScope')
-        .on('mouseenter', function() { showMessage(getScopePageButtonTip()); })
-        .on('mouseleave', blankMessage);
-        
+        .on('mouseenter', '.matCell', mouseenterMatrixCellHandler)
+        .on('mouseleave', '.matCell', mouseleaveMatrixCellHandler);
+    $('#scopePersist').on('click', persistScope);
+    $('#scopeKeyGlobal').on('mousedown', createGlobalScope);
+    $('#scopeKeyDomain').on('mousedown', createDomainScope);
+    $('#scopeKeySite').on('mousedown', createSiteScope);
+    $('#buttonReload').on('click', forceReload);
     $('#buttonRevert')
         .on('mouseenter', function() { showMessage(chrome.i18n.getMessage('matrixRevert')); })
         .on('mouseleave', blankMessage);
-
-    $('#buttonToggleScope').on('click', toggleScopePage);
     $('#buttonRevert').on('click', revert);
-
-    $('#buttonRuleManager').text(chrome.i18n.getMessage('ruleManagerPageName'));
-    $('#buttonInfo').text(chrome.i18n.getMessage('statsPageName'));
-    $('#buttonSettings').text(chrome.i18n.getMessage('settingsPageName'));
+    $('#buttonRuleManager span').text(chrome.i18n.getMessage('ruleManagerPageName'));
+    $('#buttonInfo span').text(chrome.i18n.getMessage('statsPageName'));
+    $('#buttonSettings span').text(chrome.i18n.getMessage('settingsPageName'));
     $('.extensionURL').on('click', gotoExtensionURL);
-
     $('#buttonPower').on('click', togglePower);
-
     $('#matList').on('click', '.g3Meta', function() {
         var separator = $(this);
         separator.toggleClass('g3Collapsed');

@@ -136,12 +136,13 @@ function renderScopeToRecipeString(scopeKey, scope) {
 }
 
 function renderRecipeStringToScopeKey(recipe) {
-    var parts = recipe.match(/^(\*|https?:\/\/[-.:a-z0-9]+)$/);
+    var parts = recipe.match(/^(\*|https?:\/\/(\*\.)?[-.:a-z0-9]+)$/);
     if ( !parts ) {
         return false;
     }
+    var httpsb = getHTTPSB();
     var scopeKey = parts[1];
-    if ( scopeKey !== '*' && !getBackground().uriTools.isValidRootURL(scopeKey) ) {
+    if ( !httpsb.isValidScopeKey(scopeKey) ) {
         return false;
     }
     return scopeKey;

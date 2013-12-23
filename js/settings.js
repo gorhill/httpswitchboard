@@ -66,6 +66,7 @@ function initAll() {
         return $(this).attr('value') === userSettings.displayTextSize;
         });
     $('#strict-blocking').attr('checked', userSettings.strictBlocking === true);
+    $('#auto-whitelist-page-domain').attr('checked', userSettings.autoWhitelistPageDomain === true);
     $('#delete-unused-session-cookies').attr('checked', userSettings.deleteUnusedSessionCookies === true);
     $('#delete-unused-session-cookies-after').val(userSettings.deleteUnusedSessionCookiesAfter);
     $('#delete-blacklisted-cookies').attr('checked', userSettings.deleteCookies === true);
@@ -82,6 +83,9 @@ function initAll() {
     });
     $('#strict-blocking').on('change', function(){
         changeUserSettings('strictBlocking', $(this).is(':checked'));
+    });
+    $('#auto-whitelist-page-domain').on('change', function(){
+        changeUserSettings('autoWhitelistPageDomain', $(this).is(':checked'));
     });
     $('#delete-unused-session-cookies').on('change', function(){
         changeUserSettings('deleteUnusedSessionCookies', $(this).is(':checked'));

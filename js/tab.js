@@ -233,6 +233,11 @@ PageStatsRequests.prototype.getRequestKeys = function() {
 
 /*----------------------------------------------------------------------------*/
 
+PageStatsRequests.prototype.getRequestDict = function() {
+    return this.requests;
+};
+/*----------------------------------------------------------------------------*/
+
 PageStatsRequests.prototype.getEntry = function(reqKey) {
     return this.requests[reqKey];
 };
@@ -327,13 +332,6 @@ PageStatsEntry.prototype.recordRequest = function(type, url, block) {
 
     var hostname = uriTools.hostnameFromURI(url);
 
-    // remember this blacklisting, used to create a snapshot of the state
-    // of the page, which is useful for smart reload of the page (reload the
-    // page only when permissions effectively change)
-    if ( block ) {
-        this.state[type +  '|' + hostname] = true;
-    }
-
     // Count blocked/allowed requests
     this.requestStats.record(type, block);
 
@@ -406,7 +404,14 @@ PageStatsEntry.prototype.updateBadge = function(tabId) {
                 badgeStr = badgeStr.slice(0,-6) + 'M';
             }
         }
-        badgeColor = httpsb.scopePageExists(this.pageUrl) ? '#66F' : '#000';
+        var scopeKey = httpsb.temporaryScopeKeyFromPageURL(this.pageUrl);
+        if ( httpsb.isDomainScopeKey(scopeKey) ) {
+            badgeColor = '#24c';
+        } else if ( httpsb.isSiteScopeKey(scopeKey) ) {
+            badgeColor = '#48c';
+        } else {
+            badgeColor = '#000';
+        }
     }
 
     chrome.browserAction.setBadgeText({ tabId: tabId, text: badgeStr });
@@ -602,7 +607,7 @@ function smartReloadTabs() {
 
 /******************************************************************************/
 
-// reload content of a tab
+// Reload content of a tab
 
 function smartReloadTab(tabId) {
     var pageStats = pageStatsFromTabId(tabId);
@@ -610,18 +615,48 @@ function smartReloadTab(tabId) {
         //console.error('HTTP Switchboard > smartReloadTab > page stats for tab id %d not found', tabId);
         return;
     }
-    var pageUrl = pageUrlFromPageStats(pageStats);
-    if ( !pageUrl ) {
-        //console.error('HTTP Switchboard > smartReloadTab > page url for tab id %d not found', tabId);
-        return;
-    }
+
+    // rhill 2013-12-23: Reload only if something previously blocked is now
+    // unblocked.
+    var blockRule;
+    var oldState = pageStats.state;
     var newState = computeTabState(tabId);
-    if ( getStateHash(newState) != getStateHash(pageStats.state) ) {
-        // console.debug('reloaded content of tab id %d', tabId);
-        // console.debug('old="%s"\nnew="%s"', getStateHash(pageStats.state), getStateHash(newState));
-        pageStats.state = newState;
-        chrome.tabs.reload(tabId, { bypassCache: true });
+    var mustReload = false;
+    for ( blockRule in oldState ) {
+        if ( !oldState.hasOwnProperty(blockRule) ) {
+            continue;
+        }
+        // General rule, reload...
+        // If something previously blocked is no longer blocked.
+        if ( !newState[blockRule] ) {
+            // console.debug('smartReloadTab() > will reload because "%s" is no longer blocked', blockRule);
+            mustReload = true;
+            break;
+        }
     }
+    // Exception: a script which was not blocked and which is now blocked
+    // must result in the page being reloaded, to ensure scripts are
+    // effectively disabled.
+    if ( !mustReload ) {
+        for ( blockRule in newState ) {
+            if ( !newState.hasOwnProperty(blockRule) ) {
+                continue;
+            }
+            if ( blockRule.indexOf('script|') !== 0 ) {
+                continue;
+            }
+            if ( !oldState[blockRule] ) {
+                // console.debug('smartReloadTab() > will reload because "%s" is now blocked', blockRule);
+                mustReload = true;
+                break;
+            }
+        }
+    }
+
+    if ( mustReload ) {
+        chrome.tabs.reload(tabId);
+    }
+    // pageStats.state = newState;
 }
 
 /******************************************************************************/
@@ -638,28 +673,6 @@ function tabExists(tabId) {
 
 /******************************************************************************/
 
-function getTabStateHash(tabId) {
-    var pageStats = pageStatsFromTabId(tabId);
-    if ( pageStats ) {
-        return getStateHash(pageStats.state);
-    }
-    console.error('HTTP Switchboard > getTabStateHash > page stats for tab id %d not found', tabId);
-    return '';
-}
-
-/******************************************************************************/
-
-function getStateHash(state) {
-    var keys = Object.keys(state);
-    if ( !keys.length ) {
-        return '';
-    }
-    keys.sort();
-    return keys.join();
-}
-
-/******************************************************************************/
-
 function computeTabState(tabId) {
     var pageStats = pageStatsFromTabId(tabId);
     if ( !pageStats ) {
@@ -669,14 +682,15 @@ function computeTabState(tabId) {
     // Go through all recorded requests, apply filters to create state
     // It is a critical error for a tab to not be defined here
     var httpsb = HTTPSB;
-    var pageUrl = pageStats.pageUrl;
-    var reqKeys = pageStats.requests.getRequestKeys();
-    var i = reqKeys.length;
+    var pageURL = pageStats.pageUrl;
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(pageURL);
+    var requestDict = pageStats.requests.getRequestDict();
     var computedState = {};
-    var hostname, reqKey;
-    var type, typeToEval, typeToRecord;
-    while ( i-- ) {
-        reqKey = reqKeys[i];
+    var hostname, type;
+    for ( var reqKey in requestDict ) {
+        if ( !requestDict.hasOwnProperty(reqKey) ) {
+            continue;
+        }
 
         // The evaluation code here needs to reflect the evaluation code in
         // beforeRequestHandler()
@@ -686,22 +700,11 @@ function computeTabState(tabId) {
         // `stylesheet` or `other`? Depends of domain of request.
         // https://github.com/gorhill/httpswitchboard/issues/85
         type = PageStatsRequests.typeFromRequestKey(reqKey);
-        if ( httpsb.blacklisted(pageUrl, type, hostname) ) {
+        if ( httpsb.blacklistedFromScopeKey(scopeKey, type, hostname) ) {
             computedState[type +  '|' + hostname] = true;
         }
     }
     return computedState;
-}
-
-/******************************************************************************/
-
-function tabStateChanged(tabId) {
-    var pageStats = pageStatsFromTabId(tabId);
-    if ( pageStats ) {
-        return getStateHash(computeTabState(tabId)) != getStateHash(pageStats.state);
-    }
-    console.error('HTTP Switchboard > tabStateChanged > page stats for tab id %d not found', tabId);
-    return false;
 }
 
 /******************************************************************************/
@@ -735,5 +738,14 @@ function pageStatsFromTabId(tabId) {
 
 function pageStatsFromPageUrl(pageUrl) {
     return HTTPSB.pageStats[pageUrl];
+}
+
+/******************************************************************************/
+
+function forceReload(pageURL) {
+    var tabId = tabIdFromPageUrl(pageURL);
+    if ( tabId ) {
+        chrome.tabs.reload(tabId, { bypassCache: true });
+    }
 }
 

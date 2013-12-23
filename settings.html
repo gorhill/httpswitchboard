@@ -76,11 +76,24 @@ ul > li {
         </ul>
     </div>
 
-    <h2>Strict blocking</h2>
+    <h2>Matrix behavior</h2>
     <ul>
         <li>
             <input id="strict-blocking" type="checkbox" value="">Enable strict blocking. <button class="whatisthis"></button>
             <div class="expandable" data-i18n="settingsStrictBlockingInfo">
+            </div>
+        <li>
+            <input id="auto-whitelist-page-domain" type="checkbox" value="">Auto whitelist page domain. <button class="whatisthis"></button>
+            <div class="expandable">
+                <p>Some users do not like to constantly whitelist the domain of the page by default.
+                This feature allows to automatically whitelist temporarily the whole domain of a
+                page whenever it is first loaded in the browser. The temporary auto-whitelisting will
+                occur <b>only</b> if the page domain is currently graylisted.</p>
+                <p>Although security-wise it is not a recommanded feature to use, it has been included due
+                to popular demand -- I rather give users this feature than see them give up completely
+                on a blocker.</p>
+                <p>If you use this feature, I advise that you at least blacklist <b>frame</b> requests
+                and turn on <b>strict blocking</b>.</p>
             </div>
     </ul>
 
