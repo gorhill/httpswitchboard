@@ -2,8 +2,8 @@
 #
 # For more information about this list, see: http://pgl.yoyo.org/adservers/
 # ----
-# last updated:   Wed, 04 Dec 2013 08:13:29 GMT
-# entries:        2522
+# last updated:   Mon, 23 Dec 2013 10:40:38 GMT
+# entries:        2521
 # format:         hosts (hosts -- in hosts file format)
 # credits:        Peter Lowe - pgl@yoyo.org - http://pgl.yoyo.org/
 # this URL:       http://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext
@@ -659,7 +659,6 @@
 127.0.0.1 ads.switchboard.com
 127.0.0.1 ads.t-online.de
 127.0.0.1 ads.tahono.com
-127.0.0.1 ads.techmediapartners.co.uk
 127.0.0.1 ads.technoratimedia.com
 127.0.0.1 ads.techtv.com
 127.0.0.1 ads.techweb.com
@@ -709,7 +708,6 @@
 127.0.0.1 ads.web.de
 127.0.0.1 ads.webmasterpoint.org
 127.0.0.1 ads.websiteservices.com
-127.0.0.1 ads.whatsonstage.com
 127.0.0.1 ads.whi.co.nz
 127.0.0.1 ads.whoishostingthis.com
 127.0.0.1 ads.wiezoekje.nl
@@ -865,7 +863,6 @@
 127.0.0.1 adskape.ru
 127.0.0.1 adsklick.de
 127.0.0.1 adsmarket.com
-127.0.0.1 adsmart.co.uk
 127.0.0.1 adsmart.com
 127.0.0.1 adsmart.net
 127.0.0.1 adsmusic.com
@@ -1191,6 +1188,7 @@
 127.0.0.1 blueadvertise.com
 127.0.0.1 bluehornet.com
 127.0.0.1 bluekai.com
+127.0.0.1 bluelithium.com
 127.0.0.1 bluewhaleweb.com
 127.0.0.1 bm.annonce.cz
 127.0.0.1 bn.bfast.com
@@ -1455,7 +1453,6 @@
 127.0.0.1 epiccash.com
 127.0.0.1 ero-advertising.com
 127.0.0.1 esellerate.net
-127.0.0.1 eshopads2.com
 127.0.0.1 estat.com
 127.0.0.1 etargetnet.com
 127.0.0.1 ethicalads.net
@@ -2193,6 +2190,7 @@
 127.0.0.1 smartbase.cdnservices.com
 127.0.0.1 smile.modchipstore.com
 127.0.0.1 smowtion.com
+127.0.0.1 snapads.com
 127.0.0.1 snoobi.com
 127.0.0.1 socialspark.com
 127.0.0.1 softclick.com.br
@@ -2527,6 +2525,7 @@
 127.0.0.1 zde-affinity.edgecaching.net
 127.0.0.1 zedo.com
 127.0.0.1 zencudo.co.uk
+127.0.0.1 zenzuu.com
 127.0.0.1 zeus.developershed.com
 127.0.0.1 zeusclicks.com
 127.0.0.1 zintext.com

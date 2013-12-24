@@ -48,14 +48,14 @@ var HTTPSB = {
     // list of remote blacklist locations
     remoteBlacklists: {
         'assets/httpsb-blacklist.txt': {},
-        'assets/thirdparties/mirror1.malwaredomains.com/files/immortal_domains.txt': {},
+        'assets/thirdparties/mirror1.malwaredomains.com/files/immortal_domains.txt': { off: true },
         'assets/thirdparties/mirror1.malwaredomains.com/files/justdomains': {},
         'assets/thirdparties/pgl.yoyo.org/as/serverlist': {},
         'assets/thirdparties/www.malwaredomainlist.com/hostslist/hosts.txt': {},
         'assets/thirdparties/hosts-file.net/ad-servers': {},
+        'assets/thirdparties/someonewhocares.org/hosts/hosts': {}
         // From here on, any new list is 'off' by default
         'assets/thirdparties/hosts-file.net/hosts.txt': { off: true },
-        'assets/thirdparties/someonewhocares.org/hosts/hosts': { off: true }
         },
 
     // urls stats are kept on the back burner while waiting to be reactivated
