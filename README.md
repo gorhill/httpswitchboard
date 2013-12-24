@@ -15,6 +15,8 @@ or you can [install manually](https://github.com/gorhill/httpswitchboard/tree/ma
 
 ## Documentation
 
+[More at the wiki](/gorhill/httpswitchboard/wiki)
+
 ![HTTP Switchboard](doc/img/screenshot1.png)
 
 HTTP Switchboard let you easily whitelist/blacklist net requests which originate from
