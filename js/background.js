@@ -36,7 +36,7 @@ var HTTPSB = {
         popupHideBlacklisted: false,
         popupCollapseDomains: false,
         popupCollapseSpecificDomains: {},
-        maxLoggedRequests: 250,
+        maxLoggedRequests: 50,
         statsFilters: {
         }
     },

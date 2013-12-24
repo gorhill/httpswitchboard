@@ -656,9 +656,7 @@ function getTemporaryRuleset() {
             type: cell.prop('reqType')
         };
     }
-    // Only the graylisted state of hostname is of interest, since only these
-    // can be preset-blacklisted.
-    cells = $('.matRow.rw:not(.meta) .matCell.gpt:first-child, .matRow.rw:not(.meta) .matCell.rpt:first-child');
+    cells = $('.matRow.rw:not(.meta) .matCell.gpt, .matRow.rw:not(.meta) .matCell.rpt');
     i = cells.length;
     rules.gray = new Array(i);
     while ( i-- ) {
