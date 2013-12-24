@@ -345,6 +345,15 @@ PageStatsEntry.prototype.recordRequest = function(type, url, block) {
         return;
     }
 
+    // rhill 2013-12-24: put blocked requests in dict on the fly, since
+    // doing it only at one point after the page has loaded completely will
+    // result in unnecessary reloads (because requests can be made *after*
+    // the page load has completed).
+    // https://github.com/gorhill/httpswitchboard/issues/98
+    if ( block ) {
+        this.state[type + '|' + hostname] = true;
+    }
+
     this.distinctRequestCount++;
     this.domains[hostname] = true;
 
