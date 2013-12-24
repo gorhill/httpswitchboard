@@ -53,9 +53,9 @@ var HTTPSB = {
         'assets/thirdparties/pgl.yoyo.org/as/serverlist': {},
         'assets/thirdparties/www.malwaredomainlist.com/hostslist/hosts.txt': {},
         'assets/thirdparties/hosts-file.net/ad-servers': {},
-        'assets/thirdparties/someonewhocares.org/hosts/hosts': {}
+        'assets/thirdparties/someonewhocares.org/hosts/hosts': {},
         // From here on, any new list is 'off' by default
-        'assets/thirdparties/hosts-file.net/hosts.txt': { off: true },
+        'assets/thirdparties/hosts-file.net/hosts.txt': { off: true }
         },
 
     // urls stats are kept on the back burner while waiting to be reactivated
