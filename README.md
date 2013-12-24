@@ -15,7 +15,7 @@ or you can [install manually](https://github.com/gorhill/httpswitchboard/tree/ma
 
 ## Documentation
 
-[More at the wiki](/gorhill/httpswitchboard/wiki)
+[More at the wiki](https://github.com/gorhill/httpswitchboard/wiki)
 
 ![HTTP Switchboard](doc/img/screenshot1.png)
 
