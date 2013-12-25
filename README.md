@@ -37,6 +37,7 @@ HTTP Switchboard (FOSS) put you in FULL control of where your browser is allowed
 
 - type of requests (top row)
   * cookies
+  * css (stylesheets and web fonts)
   * images
   * objects
   * scripts
