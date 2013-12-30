@@ -1,12 +1,3 @@
-.fa {
-    font-family: FontAwesome;
-    font-style: normal;
-    font-weight: normal;
-    line-height: 1;
-    vertical-align: baseline;
-    display: inline-block;
-    }
-
 body {
     margin: 0;
     border: 0;
@@ -16,53 +7,117 @@ body {
     min-width: 32em;
     min-height: 15em;
     }
+*:focus {
+    outline: none;
+    }
 
 .paneHead {
     padding: 2px;
     position: fixed;
     top: 0;
+    height: 5.5em;
     left:0;
     right: 0;
     background-color: white;
     z-index: 10;
     }
-
-#toolbar {
-    padding-bottom:1.5em;
+.paneContent {
+    padding-top: 5.5em;
     }
-#toolbar button {
+
+.toolbar {
+    padding-bottom: 0.5em;
+    display: inline-block;
+    vertical-align: top;
+    }
+.toolbar button {
     margin: 0;
     border: 0;
     padding: 4px;
-    font-size: 1.75em;
-    min-width: 1.3em;
-    opacity: 0.7;
+    font: inherit;
+    background-color: white;
+    opacity: 0.9;
+    cursor: pointer;
     }
-#toolbar button:hover {
+.toolbar button:hover {
+    background-color: #eee;
     opacity: 1;
     }
-.btn-group.pull-right > .btn {
-    float: left;
+.toolbar button.fa {
+    font: 1.75em 'FontAwesome';
+    min-width: 1.3em;
     }
 
-body #scopePersist {
+.pullright {
+    float: right;
+    }
+
+.dropdown-menu {
+    margin: 0;
+    border: 0;
+    padding: 3px 0 0 0;
+    position: absolute;
+    z-index: 20;
+    font-size: 110%;
+    display: none;
+    }
+.dropdown-menu.pullright {
+    right: 0;
+    }
+.dropdown-menu > ul {
+    margin: 0;
+    border: 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 3px 0;
+    background-color: white;
+    list-style-type: none;
+    }
+.dropdown-menu > ul > li.dropdown-menu-entry {
+    margin: 0;
+    border: 0;
+    padding: 4px 0.5em;
+    color: black;
+    cursor: pointer;
+    }
+.dropdown-menu > ul > li.dropdown-menu-entry:hover {
+    background: #eee;
+    }
+.dropdown-menu > ul > li.dropdown-menu-entry-divider {
+    margin: 0.5em 0;
+    border-top: 1px solid #ccc;
+    }
+.dropdown-menu > ul > li.dropdown-menu-entry > .fa {
+    margin-right: 0.5em;
+    font-size: 110%;
+    color: #aaa;
+    }
+.dropdown-menu-button ~ .dropdown-menu {
+    display: none;
+    }
+.dropdown-menu-button:focus ~ .dropdown-menu {
+    display: block;
+    }
+
+body #buttonRevert {
     margin-right: 1em;
     }
-body.tScopeGlobal #scopePersist {
+body.tScopeGlobal #buttonPersist {
     color: #000;
     }
-body.tScopeDomain #scopePersist {
+body.tScopeDomain #buttonPersist {
     color: #24c;
     }
-body.tScopeSite #scopePersist {
+body.tScopeSite #buttonPersist {
     color: #48c;
     }
-body.powerOff #scopePersist {
+body.powerOff #buttonPersist {
     visibility: hidden;
     }
 body.powerOff #buttonRevert {
     visibility: hidden;
     }
+
 .dropdown-menu > li > a > i {
     padding: 0 6px;
     font-size: 1.2em;
@@ -74,23 +129,25 @@ body.powerOff #buttonPower i {
     color: #c00;
     }
 
-body #scopeMenu {
-    margin: 0 0 1em 0;
+body #toolbarScope {
+    margin: 0;
     border: 0;
     padding: 0;
     display: inline-block;
     box-sizing: content-box;
     position: relative;
     }
-body.powerOff #scopeMenu {
+body.powerOff #toolbarScope {
     visibility: hidden;
     }
-body #scopeCell {
+
+body .toolbar button#scopeCell {
     margin: 0;
     border: 1px dotted rgba(0,0,0,0.2);
     padding: 6px 1px 3px 1px;
     box-sizing: content-box;
     width: 18em;
+    height: 1.5em;
     white-space: nowrap;
     text-align: right;
     line-height: 100%;
@@ -116,43 +173,14 @@ body.pScopeDomain #scopeCell {
 body.pScopeSite #scopeCell {
     background-image: url('/img/permanent-scope-site.png');
     }
+
 body #scopeKeys {
-    position: absolute;
-    z-index: 20;
-    display: none;
-    }
-body #scopeKeys > div {
-    margin: 0;
-    border: 0;
-    padding-top: 3px;
-    }
-body #scopeKeys > div > div {
-    margin: 0;
-    border: 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 3px 0;
-    background-color: white;
-    }
-body #scopeKeys > div > div > div {
-    margin: 0;
-    border: 0;
     padding: 6px 1px 3px 1px;
-    box-sizing: content-box;
-    width: 18em;
+    left: 0;
+    right: 0;
     text-align: right;
-    cursor: pointer;
-    }
-body #scopeKeys > div > div > div:hover {
-    background: #eee;
-    }
-body #scopeCell:focus ~ #scopeKeys {
-    display: block;
     }
 
-.paneContent {
-    padding-top: 5em;
-    }
 .matrix {
     text-align: left;
     }
@@ -170,6 +198,11 @@ body #scopeCell:focus ~ #scopeKeys {
     text-align: center;
     line-height: 100%;
     position: relative;
+    }
+
+.paneHead #matHead {
+    position: absolute;
+    bottom: 3px;
     }
 .paneHead .matCell:nth-child(2) {
     letter-spacing: -0.3px;
@@ -233,7 +266,7 @@ body #scopeCell:focus ~ #scopeKeys {
     margin: 0;
     padding: 0;
     border: 0;
-    height: 9px;
+    height: 3px;
     background: url('/img/matrix-group-hide.png') no-repeat center top 0,
                 url('/img/matrix-group-hline.png') repeat-x center top 3px;
     opacity: 0.2;

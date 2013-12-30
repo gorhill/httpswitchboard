@@ -47,9 +47,9 @@ HTTP Switchboard (FOSS) put you in FULL control of where your browser is allowed
 
 You can blacklist/whitelist a single cell, an entire row, a group of rows, an entire column, or the whole matrix with just one click.
 
-HTTP Switchboard matrix uses precedence logic to evaluate what is blocked/allowed according to which cells are blacklisted/whitelisted. For example, this allows the user to whitelist a whole page with one click, without having to repeatedly whitelist whatever new data appear on the page.
+HTTP Switchboard matrix uses precedence logic to evaluate what is blocked/allowed according to which cells are blacklisted/whitelisted. For example, this allows you to whitelist a whole page with one click, without having to repeatedly whitelist whatever new data appear on the page.
 
-You can also create scopes for your whitelist/blacklist rules. For example, this allow you to whitelist `facebook.com` ONLY when visiting Facebook web site.
+You can also create scopes for your whitelist/blacklist rules. For example, this allows you to whitelist `facebook.com` ONLY when visiting Facebook web site.
 
 The goal of this extension is to make the allowing or blocking of web sites, wholly or partly, as straightforward as possible, so as to not discourage those users who give up easily on good security and privacy habits.
 

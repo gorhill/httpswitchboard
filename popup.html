@@ -4,7 +4,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="css/fonts.css" type="text/css">
-<link rel="stylesheet" href="lib/bootstrap.min.css" type="text/css">
 <link rel="stylesheet" href="css/popup.css" type="text/css">
 <title>HTTP Switchboard</title>
 </head>
@@ -19,34 +18,36 @@
 </div>
 
 <div class="paneHead">
-    <div id="scopeMenu">
-        <button id="scopeCell" tabindex="-1"></button>
-        <div id="scopeKeys">
-            <div>
-                <div>
-                    <div id="scopeKeyGlobal">&#x2217;</div>
-                    <div id="scopeKeyDomain"></div>
-                    <div id="scopeKeySite"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="toolbar" class="btn-toolbar pull-right">
-        <div class="btn-group pull-right" style="white-space:nowrap">
-            <button id="scopePersist" type="button" class="btn btn-default fa">&#xf023;</button>
-            <button id="buttonReload" type="button" class="btn btn-default fa">&#xf021;</button>
-            <button id="buttonRevert" type="button" class="btn btn-default fa">&#xf12d;</button>
-            <button id="buttonDropdown" type="button" class="btn btn-default dropdown-toggle fa" data-toggle="dropdown">&#xf0c9;</button>
-            <ul class="dropdown-menu">
-                <li><a id="buttonRuleManager" class="extensionURL" href="#" data-extension-url="rulemanager.html"><i class="fa">&#xf009;</i><span>Rule manager...</span></a></li>
-                <li><a id="buttonInfo" href="#" class="extensionURL" data-extension-url="info.html"><i class="fa">&#xf05a;</i><span>Statistics...</span></a></li>
-                <li><a id="buttonSettings" href="#" class="extensionURL" data-extension-url="settings.html"><i class="fa">&#xf085;</i><span>Settings...</span></a></li>
-                <li class="divider"></li>
-                <li><a id="buttonPower" href="#"><i class="fa">&#xf011;</i><span>HTTPSB on/off</span></a></li>
+    <div id="toolbarMore" class="toolbar pullright">
+        <button id="buttonDropdown" type="button" class="fa dropdown-menu-button" tabindex="-1">&#xf0c9;</button>
+        <div class="dropdown-menu pullright">
+            <ul>
+                <li id="buttonRuleManager" class="dropdown-menu-entry extensionURL" data-extension-url="rulemanager.html"><i class="fa">&#xf009;</i><span>Rule manager</span>...</li>
+                <li id="buttonInfo" class="dropdown-menu-entry extensionURL" data-extension-url="info.html"><i class="fa">&#xf05a;</i><span>Statistics</span>...</li>
+                <li id="buttonSettings" class="dropdown-menu-entry extensionURL" data-extension-url="settings.html"><i class="fa">&#xf085;</i><span>Settings</span>...</li>
+                <li id="buttonHelp" class="dropdown-menu-entry externalURL" data-external-url="https://github.com/gorhill/httpswitchboard/wiki"><i class="fa">&#xf059;</i><span>Documentation</span>...</li>
+                <li class="dropdown-menu-entry-divider"></li>
+                <li id="buttonPower" class="dropdown-menu-entry"><i class="fa">&#xf011;</i><span>On/off</span></li>
             </ul>
         </div>
         <!-- <div id="message"></div> -->
+    </div>
+
+    <div id="toolbarScope" class="toolbar">
+        <button id="scopeCell" class="dropdown-menu-button" tabindex="-1"></button>
+        <div id="scopeKeys" class="dropdown-menu">
+            <ul>
+                <li id="scopeKeyGlobal" class="dropdown-menu-entry">&#x2217;
+                <li id="scopeKeyDomain" class="dropdown-menu-entry">
+                <li id="scopeKeySite" class="dropdown-menu-entry">
+            </ul>
+        </div>
+    </div>
+
+    <div class="toolbar">
+        <button id="buttonPersist" type="button" class="fa">&#xf023;</button>
+        <button id="buttonRevert" type="button" class="fa">&#xf12d;</button>
+        <button id="buttonReload" type="button" class="fa">&#xf021;</button>
     </div>
 
     <div id="matHead" class="matrix collapsible">
@@ -61,7 +62,6 @@
 </div>
 
 <script src="lib/jquery-2.min.js"></script>
-<script src="lib/bootstrap.min.js"></script>
 <script src="lib/punycode.min.js"></script>
 <script src="js/popup.js"></script>
 </body>

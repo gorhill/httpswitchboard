@@ -38,100 +38,6 @@ HTTPSB.normalizeScopeURL = function(url) {
 
 /******************************************************************************/
 
-HTTPSB.createPageScopeIfNotExists = function(url) {
-    if ( url && url === '*' ) {
-        return true;
-    }
-    if ( !url ) {
-        return false;
-    }
-    url = uriTools.rootURLFromURI(url);
-    var tscope = this.temporaryScopes.scopes[url];
-    var pscope = this.permanentScopes.scopes[url];
-    if ( !tscope !== !pscope ) {
-        throw 'HTTP Switchboard.createPageScopeIfNotExists(): corrupted internal state';
-    }
-    // Skip everything if scopes exist and are switched on
-    if ( tscope && !tscope.off && pscope && !pscope.off ) {
-        return false;
-    }
-    // Create temporary scope or switch it on
-    if ( !tscope ) {
-        tscope = new PermissionScope();
-        tscope.whitelist('main_frame', '*');
-        tscope.whitelist('stylesheet', '*');
-        tscope.whitelist('image', '*');
-        this.temporaryScopes.scopes[url] = tscope;
-    } else {
-        tscope.off = false;
-    }
-    // Create permanent scope or switch it on
-    if ( !pscope ) {
-        pscope = new PermissionScope();
-        pscope.whitelist('main_frame', '*');
-        pscope.whitelist('stylesheet', '*');
-        pscope.whitelist('image', '*');
-        this.permanentScopes.scopes[url] = pscope;
-    } else {
-        pscope.off = false;
-    }
-
-    // Page-scoped permissions are always persisted, so that the
-    // entry is present, in order to be sure at least '*|main_frame' is
-    // persisted.
-    this.savePermissions();    
-
-    return true;
-};
-
-/******************************************************************************/
-
-HTTPSB.destroyPageScopeIfExists = function(url) {
-    if ( !url || url === '*' ) {
-        return false;
-    }
-    url = uriTools.rootURLFromURI(url);
-    var tscope = this.temporaryScopes.scopes[url];
-    var pscope = this.permanentScopes.scopes[url];
-    if ( !tscope !== !pscope ) {
-        throw 'HTTP Switchboard.destroyPageScopeIfExists(): corrupted internal state';
-    }
-    if ( !tscope && !pscope ) {
-        return false;
-    }
-    if ( tscope.off && pscope.off ) {
-        return false;
-    }
-    tscope.off = true;
-    pscope.off = true;
-
-    // Flush out the page permissions from storage.
-    this.savePermissions();
-
-    return true;
-};
-
-/******************************************************************************/
-
-HTTPSB.scopePageExists = function(url) {
-    if ( !url ) {
-        return false;
-    }
-    // Global scope always exists
-    if ( url === '*' ) {
-        return true;
-    }
-    url = uriTools.rootURLFromURI(url);
-    var tscope = this.temporaryScopes.scopes[url];
-    var pscope = this.permanentScopes.scopes[url];
-    if ( !tscope !== !pscope ) {
-        throw 'HTTP Switchboard.scopePageExists(): corrupted internal state';
-    }
-    return tscope && !tscope.off && pscope && !pscope.off;
-};
-
-/******************************************************************************/
-
 HTTPSB.globalScopeKey = function() {
     return '*';
 };
@@ -183,14 +89,16 @@ HTTPSB.isValidScopeKey = function(scopeKey) {
 HTTPSB.createTemporaryGlobalScope = function(url) {
     var scopeKey, scope;
     scopeKey = this.siteScopeKeyFromURL(url);
-    scope = this.removeTemporaryScope(scopeKey);
-    if ( scope ) {
-        this.temporaryScopeJunkyard[scopeKey] = scope;
+    this.removeTemporaryScopeFromScopeKey(scopeKey);
+    if ( scopeKey.indexOf('https:') === 0 ) {
+        scopeKey = 'http:' + scopeKey.slice(6);
+        this.removeTemporaryScopeFromScopeKey(scopeKey);
     }
     scopeKey = this.domainScopeKeyFromURL(url);
-    scope = this.removeTemporaryScope(scopeKey);
-    if ( scope ) {
-        this.temporaryScopeJunkyard[scopeKey] = scope;
+    this.removeTemporaryScopeFromScopeKey(scopeKey);
+    if ( scopeKey.indexOf('https:') === 0 ) {
+        scopeKey = 'http:' + scopeKey.slice(6);
+        this.removeTemporaryScopeFromScopeKey(scopeKey);
     }
 };
 
@@ -198,14 +106,24 @@ HTTPSB.createPermanentGlobalScope = function(url) {
     var changed = false;
     // Remove potentially occulting domain/site scopes.
     var scopeKey = this.siteScopeKeyFromURL(url);
-    var scope = this.removePermanentScope(scopeKey);
-    if ( scope ) {
+    if ( this.removePermanentScopeFromScopeKey(scopeKey) ) {
         changed = true;
     }
+    if ( scopeKey.indexOf('https:') === 0 ) {
+        scopeKey = 'http:' + scopeKey.slice(6);
+        if ( this.removeTemporaryScopeFromScopeKey(scopeKey) ) {
+            changed = true;
+        }
+    }
     scopeKey = this.domainScopeKeyFromURL(url);
-    scope = this.removePermanentScope(scopeKey);
-    if ( scope ) {
+    if ( this.removePermanentScopeFromScopeKey(scopeKey) ) {
         changed = true;
+    }
+    if ( scopeKey.indexOf('https:') === 0 ) {
+        scopeKey = 'http:' + scopeKey.slice(6);
+        if ( this.removeTemporaryScopeFromScopeKey(scopeKey) ) {
+            changed = true;
+        }
     }
     if ( changed ) {
         this.savePermissions();
@@ -216,27 +134,23 @@ HTTPSB.createPermanentGlobalScope = function(url) {
 /******************************************************************************/
 
 HTTPSB.createTemporaryDomainScope = function(url) {
-    var scopeKey, scope;
-
     // Already created?
-    scopeKey = this.domainScopeKeyFromURL(url);
-    if ( !this.temporaryScopes.scopes[scopeKey] ) {
-        // See if there is a match in junkyard
-        scope = this.temporaryScopeJunkyard[scopeKey];
-        if ( !scope ) {
-            scope = new PermissionScope();
-            scope.whitelist('main_frame', '*');
-        } else {
-            delete this.temporaryScopeJunkyard[scopeKey];
-        }
+    var scopeKey = this.domainScopeKeyFromURL(url);
+    var scope = this.temporaryScopes.scopes[scopeKey];
+    if ( !scope ) {
+        scope = new PermissionScope();
+        scope.whitelist('main_frame', '*');
         this.temporaryScopes.scopes[scopeKey] = scope;
+    } else if ( scope.off ) {
+        scope.off = false;
     }
 
     // Remove potentially occulting site scope.
     scopeKey = this.siteScopeKeyFromURL(url);
-    scope = this.removeTemporaryScope(scopeKey);
-    if ( scope ) {
-        this.temporaryScopeJunkyard[scopeKey] = scope;
+    this.removeTemporaryScopeFromScopeKey(scopeKey);
+    if ( scopeKey.indexOf('https:') === 0 ) {
+        scopeKey = 'http:' + scopeKey.slice(6);
+        this.removeTemporaryScopeFromScopeKey(scopeKey);
     }
 };
 
@@ -253,9 +167,14 @@ HTTPSB.createPermanentDomainScope = function(url) {
 
     // Remove potentially existing site scope: it would occlude domain scope.
     scopeKey = this.siteScopeKeyFromURL(url);
-    scope = this.removePermanentScope(scopeKey);
-    if ( scope ) {
+    if ( this.removePermanentScopeFromScopeKey(scopeKey) ) {
         changed = true;
+    }
+    if ( scopeKey.indexOf('https:') === 0 ) {
+        scopeKey = 'http:' + scopeKey.slice(6);
+        if ( this.removeTemporaryScopeFromScopeKey(scopeKey) ) {
+            changed = true;
+        }
     }
 
     if ( changed ) {
@@ -267,24 +186,16 @@ HTTPSB.createPermanentDomainScope = function(url) {
 /******************************************************************************/
 
 HTTPSB.createTemporarySiteScope = function(url) {
-    var scopeKey, scope;
-
     // Already created?
-    scopeKey = this.siteScopeKeyFromURL(url);
-    if ( this.temporaryScopes.scopes[scopeKey] ) {
-        return false;
-    }
-
-    // See if there is a match in junkyard
-    scope = this.temporaryScopeJunkyard[scopeKey];
+    var scopeKey = this.siteScopeKeyFromURL(url);
+    var scope = this.temporaryScopes.scopes[scopeKey];
     if ( !scope ) {
         scope = new PermissionScope();
         scope.whitelist('main_frame', '*');
+        this.temporaryScopes.scopes[scopeKey] = scope;
     } else {
-        delete this.temporaryScopeJunkyard[scopeKey];
+        scope.off = false;
     }
-    this.temporaryScopes.scopes[scopeKey] = scope;
-    return true;
 };
 
 HTTPSB.createPermanentSiteScope = function(url) {
@@ -302,31 +213,44 @@ HTTPSB.createPermanentSiteScope = function(url) {
 
 /******************************************************************************/
 
-HTTPSB.removeTemporaryScope = function(scopeKey) {
+HTTPSB.createTemporaryScopeFromScopeKey = function(scopeKey, empty) {
     var scope = this.temporaryScopes.scopes[scopeKey];
-    if ( scope ) {
-        delete this.temporaryScopes.scopes[scopeKey];
-    }
-    return scope;
-};
-
-HTTPSB.removePermanentScope = function(scopeKey) {
-    var scope = this.permanentScopes.scopes[scopeKey];
-    if ( scope ) {
-        delete this.permanentScopes.scopes[scopeKey];
+    if ( !scope ) {
+        scope = new PermissionScope();
+        scope.whitelist('main_frame', '*');
+        this.temporaryScopes.scopes[scopeKey] = scope;
+    } else if ( scope.off ) {
+        scope.off = false;
     }
     return scope;
 };
 
 /******************************************************************************/
 
-HTTPSB.removePermanentScope = function(scopeKey) {
-    var scope = this.permanentScopes.scopes[scopeKey];
-    if ( !scope ) {
+HTTPSB.removeTemporaryScopeFromScopeKey = function(scopeKey) {
+    if ( scopeKey === '*' ) {
         return null;
     }
-    delete this.permanentScopes.scopes[scopeKey];
+    var scope = this.temporaryScopes.scopes[scopeKey];
+    if ( scope ) {
+        scope.off = true;
+    }
     return scope;
+};
+
+HTTPSB.removePermanentScopeFromScopeKey = function(scopeKey, persist) {
+    // Can't remove global scope
+    if ( scopeKey === '*' ) {
+        return null;
+    }
+    var pscope = this.permanentScopes.scopes[scopeKey];
+    if ( pscope ) {
+        delete this.permanentScopes.scopes[scopeKey];
+        if ( persist ) {
+            this.savePermissions();
+        }
+    }
+    return pscope;
 };
 
 /******************************************************************************/
@@ -373,6 +297,16 @@ HTTPSB.transposeType = function(type, url) {
         }
     }
     return type;
+};
+
+/******************************************************************************/
+
+HTTPSB.addRuleTemporarily = function(scopeKey, list, type, hostname) {
+    this.temporaryScopes.addRule(scopeKey, list, type, hostname);
+};
+
+HTTPSB.removeRuleTemporarily = function(scopeKey, list, type, hostname) {
+    this.temporaryScopes.removeRule(scopeKey, list, type, hostname);
 };
 
 /******************************************************************************/
@@ -492,6 +426,17 @@ HTTPSB.getPermanentColor = function(scopeKey, type, hostname) {
         return 'rdp';
     }
     return 'xxx';
+};
+
+/******************************************************************************/
+
+// Commit temporary permissions.
+
+HTTPSB.commitPermissions = function(persist) {
+    this.permanentScopes.assign(this.temporaryScopes);
+    if ( persist ) {
+        this.savePermissions();
+    }
 };
 
 /******************************************************************************/

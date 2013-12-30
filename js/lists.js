@@ -188,6 +188,7 @@ PermissionScope.prototype.assign = function(other) {
     this.white.assign(other.white);
     this.black.assign(other.black);
     this.gray.assign(other.gray);
+    this.off = other.off;
 };
 
 /******************************************************************************/
@@ -380,6 +381,24 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
 
 /******************************************************************************/
 
+PermissionScope.prototype.addRule = function(list, type, hostname) {
+    var list = this[list];
+    if ( !list ) {
+        throw new Error('PermissionScope.addRule() > invalid list name');
+    }
+    return list.addOne(type + '|' + hostname);
+};
+
+PermissionScope.prototype.removeRule = function(list, type, hostname) {
+    var list = this[list];
+    if ( !list ) {
+        throw new Error('PermissionScope.removeRule() > invalid list name');
+    }
+    return list.removeOne(type + '|' + hostname);
+};
+
+/******************************************************************************/
+
 PermissionScope.prototype.whitelist = function(type, hostname) {
     var key = type + '|' + hostname;
     var changed = false;
@@ -470,6 +489,7 @@ PermissionScopes.prototype.fromString = function(s) {
 
 PermissionScopes.prototype.assign = function(other) {
     var scopeKeys, i, scopeKey;
+    var thisScope, otherScope;
 
     // Remove scopes found here but not found in other
     // Overwrite scopes found both here and in other
@@ -477,10 +497,14 @@ PermissionScopes.prototype.assign = function(other) {
     i = scopeKeys.length;
     while ( i-- ) {
         scopeKey = scopeKeys[i];
-        if ( !other.scopes[scopeKey] ) {
+        otherScope = other.scopes[scopeKey];
+        if ( otherScope && otherScope.off ) {
+            otherScope = null;
+        }
+        if ( !otherScope ) {
             delete this.scopes[scopeKey];
         } else {
-            this.scopes[scopeKey].assign(other.scopes[scopeKey]);
+            this.scopes[scopeKey].assign(otherScope);
         }
     }
 
@@ -489,7 +513,15 @@ PermissionScopes.prototype.assign = function(other) {
     i = scopeKeys.length;
     while ( i-- ) {
         scopeKey = scopeKeys[i];
-        if ( !this.scopes[scopeKey] ) {
+        otherScope = other.scopes[scopeKey];
+        if ( otherScope.off ) {
+            continue;
+        }
+        thisScope = this.scopes[scopeKey];
+        if ( thisScope && thisScope.off ) {
+            thisScope = null;
+        }
+        if ( !thisScope ) {
             this.scopes[scopeKey] = new PermissionScope();
             this.scopes[scopeKey].assign(other.scopes[scopeKey]);
         }
@@ -514,13 +546,19 @@ PermissionScopes.prototype.scopeKeyFromPageURL = function(url) {
     // From narrowest scope to broadest scope
     // Try site scope
     var scopeKey = scheme + '://' + hostname;
-    if ( this.scopes[scopeKey] ) {
+    var scope = this.scopes[scopeKey];
+    if ( scope && !scope.off ) {
         return scopeKey;
     }
     var secure = scheme === 'https';
+    // If the connection is encrypted, it is then acceptable to apply
+    // rules from unencrypted connection if any, because it is assumed the
+    // rules for unencrypted connection are more restrictive.
+    // The reverse is not true however.
     if ( secure ) {
         scopeKey = 'http://' + hostname;
-        if ( this.scopes[scopeKey] ) {
+        scope = this.scopes[scopeKey];
+        if ( scope && !scope.off ) {
             return scopeKey;
         }
     }
@@ -530,12 +568,14 @@ PermissionScopes.prototype.scopeKeyFromPageURL = function(url) {
         return '*';
     }
     scopeKey = scheme + '://*.' + domain;
-    if ( this.scopes[scopeKey] ) {
+    scope = this.scopes[scopeKey];
+    if ( scope && !scope.off ) {
         return scopeKey;
     }
     if ( secure ) {
         scopeKey = 'http://*.' + domain;
-        if ( this.scopes[scopeKey] ) {
+        scope = this.scopes[scopeKey];
+        if ( scope && !scope.off ) {
             return scopeKey;
         }
     }
@@ -562,6 +602,14 @@ PermissionScopes.prototype.evaluate = function(scopeKey, type, hostname) {
 };
 
 /******************************************************************************/
+
+PermissionScopes.prototype.addRule = function(scopeKey, list, type, hostname) {
+    return this.scopeFromScopeKey(scopeKey).addRule(list, type, hostname);
+};
+
+PermissionScopes.prototype.removeRule = function(scopeKey, list, type, hostname) {
+    return this.scopeFromScopeKey(scopeKey).removeRule(list, type, hostname);
+};
 
 PermissionScopes.prototype.whitelist = function(scopeKey, type, hostname) {
     return this.scopeFromScopeKey(scopeKey).whitelist(type, hostname);

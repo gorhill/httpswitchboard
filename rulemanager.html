@@ -3,174 +3,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>HTTP Switchboard &mdash; Rule manager</title>
-<style>
-body {
-    padding: 0 0 8em 0;
-    font: 15px httpsb,sans-serif;
-    box-sizing: border-box;
-    }
-h2 + *, h1 + * {
-    margin: 0 2em;
-    }
-table {
-    border: 0;
-    border-collapse: collapse;
-    }
-table td {
-    margin: 0;
-    border: 0;
-    padding: 4px 0;
-    vertical-align: top;
-    }
-table td h2 {
-    margin: 0 0 0.75em 0;
-    }
-textarea {
-    box-sizing: border-box;
-    width: 99%;
-    height: 20em;
-    }
-#recipeDecode, #recipeImport, #recipeEncode, #recipeExport {
-    cursor: pointer;
-    opacity: 0.5;
-    }
-#recipeImport, #recipeExport {
-    padding-top: 32px;
-    display: inline-block;
-    }
-#recipeDecode, #recipeEncode {
-    margin: 0 4px;
-    padding-top: 28px;
-    display: inline-block;
-    height: 28px;
-    }
-#recipeDecode {
-    margin-bottom: 1em;
-    background: url('img/decode.png') no-repeat center top;
-    }
-#recipeEncode {
-    margin-top: 1em;
-    background: url('img/encode.png') no-repeat center top;
-    }
-#recipeImport {
-    background: url('img/import.png') no-repeat center top;
-    }
-#recipeExport {
-    background: url('img/export.png') no-repeat center top;
-    }
-#recipeDecode:hover, #recipeImport:hover, #recipeEncode:hover, #recipeExport:hover {
-    opacity: 1;
-    }
-.recipe {
-    margin: 2px;
-    border: 1px solid #ddd;
-    padding: 1px;
-    font-family: monospace;
-    font-size: smaller;
-    line-height: 110%;
-    color: #888;
-    background-color: #f2f2f2;
-    white-space: pre;
-    overflow-x: hidden;
-    }
-.scopes ul {
-    padding-left: 1em;
-    list-style: none;
-    }
-.scopes > ul {
-    padding: 0;
-    }
-.scopes > ul > li {
-    margin: 4px;
-    border: 1px dotted #ccc;
-    display: inline-block;
-    vertical-align: top;
-    }
-.scopes > ul > li:hover {
-    border: 1px solid #ccc;
-    }
-.scopes > ul > li > *:first-child {
-    margin: 0;
-    border: 0;
-    padding: 2px;
-    display: block;
-    }
-#global.scopes > ul > li > *:first-child {
-    background-color: #eee;
-    }
-#global.scopes > ul > li > ul > li > ul {
-    min-width: 16em;
-    }
-#persite.scopes > ul > li > *:first-child {
-    background-color: #eef;
-    }
-#global.scopes > ul > li.scope > ul > li {
-    margin-left: 2em;
-    display: inline-block;
-    vertical-align: top;
-    }
-#global.scopes > ul > li.scope > ul > li:first-child {
-    margin-left: 0;
-    }
-.scopes > ul > li > .recipe {
-    margin: 1em 2px 2px 2px;
-    border: 1px solid #ddd;
-    padding: 1px;
-    font-size: 12px;
-    line-height: 110%;
-    display: inline-block;
-    vertical-align: bottom;
-    width: 20em;
-    height: 2em;
-    color: #888;
-    background-color: #f2f2f2;
-    white-space: pre;
-    overflow: hidden;
-    opacity: 0.25;
-    }
-.scopes > ul > li .recipe:hover {
-    opacity: 1.0;
-    }
-.scopes > ul > li > ul > li.white {
-    color: #080;
-    }
-.scopes > ul > li > ul > li.black {
-    color: #c00;
-    }
-.scopes > ul > li > ul > li.gray {
-    color: #aaa;
-    }
-.scopes > ul > li > ul > li > ul > li {
-    cursor: pointer;
-    }
-.scopes > ul > li > ul > li > ul > li:hover {
-    background-color: #eef;
-    }
-.scopes > ul > li > ul > li > ul > li > span {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    float: right;
-    }
-.scopes > ul > li > ul > li > ul > li.rdp > span {
-    background: url('img/persist-rd.png') no-repeat;
-    }
-.scopes > ul > li > ul > li > ul > li.gdp > span {
-    background: url('img/persist-gd.png') no-repeat;
-    }
-.bad {
-    background-color: #fdd;
-    }
-</style>
-<link href='css/fonts.css' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="css/fonts.css">
+<link rel="stylesheet" type="text/css" href="css/rulemanager.css">
 </head>
 
 <body>
-<h1>HTTP Switchboard &mdash; Rule manager</h1>
+<div id="navi-bar">
+    <h1>HTTP Switchboard &mdash; Rule manager</h1>
+    <button id="commitAll"><span class="fa">&#xf023</span>Commit all</button>
+    <button id="revertAll"><span class="fa">&#xf12d</span>Revert all</button>
+    <button id="removeAll"><span class="fa">&#xf057</span>Remove all</button>
+</div>
 <div>
-    <p>Consider this feature early <i>beta</i>, use at your own risk. Useful to backup
-    all of your rules.</p>
-
     <table>
     <tr>
         <td colspan="2" style="width:49%;"><h2>Rules</h2>
@@ -205,12 +49,18 @@ textarea {
         <td>
     </table>
 
-    <h2>Global permissions</h2>
-    <p>Here are the current rules which apply by default.</p>
+    <h2>Global scope</h2>
     <div class="scopes" id="global"></div>
-    <h2>Per-site permissions</h2>
-    <p>Here are the current rules which apply to specific web sites.</p>
+    <h2>Domain-level scopes</h2>
+    <div class="scopes" id="perdomain"></div>
+    <h2>Site-level scopes</h2>
     <div class="scopes" id="persite"></div>
+</div>
+
+<div id="messages" style="display:none">
+<p id="confirmRemoveAll">You are about to delete all rules.
+It is irreversible.
+Click OK to confirm.</p>
 </div>
 
 <script src="lib/jquery-2.min.js"></script>

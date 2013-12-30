@@ -74,8 +74,6 @@ var HTTPSB = {
     temporaryScopes: null,
     permanentScopes: null,
 
-    temporaryScopeJunkyard: {},
-
     // Current entries from remote blacklists --
     // just hostnames, '*/' is implied, this saves significantly on memory.
     blacklistReadonly: {},

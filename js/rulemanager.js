@@ -19,9 +19,6 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
-
-// TODO: cleanup
-
 /******************************************************************************/
 
 (function() {
@@ -31,26 +28,14 @@ var recipeWidth = 40;
 /******************************************************************************/
 
 var friendlyTypeNames = {
-    '*': '*',
-    'cookie': 'cookies',
+    '*': '\u2217',
+    'cookie': 'cookie',
     'stylesheet': 'css',
-    'image': 'images',
-    'object': 'plugins',
-    'script': 'scripts',
-    'xmlhttprequest': 'XMLHttpRequests',
-    'sub_frame': 'frames',
-    'other': 'other'
-};
-
-var hostileTypeNames = {
-    '*': '*',
-    'cookies': 'cookie',
-    'css': 'stylesheet',
-    'images': 'image',
-    'plugins': 'object',
-    'scripts': 'script',
-    'XMLHttpRequests': 'xmlhttprequest',
-    'frames': 'sub_frame',
+    'image': 'img',
+    'object': 'plugin',
+    'script': 'script',
+    'xmlhttprequest': 'XHR',
+    'sub_frame': 'frame',
     'other': 'other'
 };
 
@@ -119,7 +104,7 @@ function renderRecipeStringToListKey(recipe) {
     if ( !parts ) {
         return false;
     }
-    return parts[1];
+    return parts[1].replace('list', '');
 }
 
 /******************************************************************************/
@@ -164,27 +149,6 @@ function renderAllScopesToRecipeString(scopes) {
 
 /******************************************************************************/
 
-function renderRuleToHTML(rule) {
-    // part[0] = type
-    // part[1] = hostname
-    var parts = rule.split('|');
-    return document.createTextNode(friendlyTypeNames[parts[0]] + ' ' + (parts[1] === '*' ? '*' : parts[1]));
-}
-
-/******************************************************************************/
-
-function renderScopeKeyToHTML(scopeKey) {
-    if ( scopeKey === '*' ) {
-        return $('<span>*</span>');
-    }
-    return $('<a>', {
-        href: scopeKey,
-        text: scopeKey
-    });
-}
-
-/******************************************************************************/
-
 function uglifyRecipe(recipe) {
     recipe = encodeURIComponent(recipe.replace(/    /g, '\t'));
     var s = '';
@@ -219,11 +183,13 @@ function beautifyRecipe(recipe) {
 
 /******************************************************************************/
 
-function getPermanentColor(scopeKey, rule) {
-    // part[0] = type
-    // part[1] = hostname
-    var parts = rule.split('|');
-    return getHTTPSB().getPermanentColor(scopeKey, parts[0], parts[1]);
+function renderRuleKeyToHTML(rule) {
+    var pos = rule.indexOf('|');
+    return document.createTextNode(
+        friendlyTypeNames[rule.slice(0, pos)] +
+        ' ' +
+        rule.slice(pos + 1).replace('*', '\u2217')
+    );
 }
 
 /******************************************************************************/
@@ -251,49 +217,123 @@ function compareRules(a, b) {
 
 /******************************************************************************/
 
-function renderScopeToHTML(scopeKey) {
-    var lists = ['gray', 'black', 'white'];
-    var httpsb = getHTTPSB();
-    var scope = httpsb.temporaryScopes.scopes[scopeKey];
-    var liScope = $('<li>', {
-        'class': 'scope'
-    });
-    liScope.append(renderScopeKeyToHTML(scopeKey));
-    var ulScope = $('<ul>');
-    liScope.append(ulScope);
-    var iList = lists.length;
-    var rules, iRule, rule;
-    var liList, ulList, liRule;
-    while ( iList-- ) {
-        rules = Object.keys(scope[lists[iList]].list).sort(compareRules);
-        iRule = rules.length;
-        if ( iRule === 0 ) {
-            continue;
-        }
-        liList = $('<li>', {
-            'class': lists[iList],
-            'text': lists[iList] + 'list',
+function renderScopeKeyToHTML(scopeKey) {
+    var div = $('<div>');
+    var scopeNameElement = $('<span>', {
+        'text': scopeKey.replace('*', '\u2217'),
+        'class': 'scopeName'
         });
-        ulList = $('<ul>', {});
+    div.append(scopeNameElement);
+    div.append($('<span>', {
+        'class': 'fa state'
+        })
+    );
+    return div;
+}
+
+/******************************************************************************/
+
+function strToId(s) {
+    return s.replace(/[ 0123456789*./:|-]/g, function(c) {
+        return 'GHIJKLMNOPQRSTUVWXYZ'.charAt(' 0123456789*./:|-'.indexOf(c));
+    });
+}
+
+function IdToStr(id) {
+    return id.replace(/[G-Z]/g, function(c) {
+        return ' 0123456789*./:|-'.charAt('GHIJKLMNOPQRSTUVWXYZ'.indexOf(c));
+    });
+}
+
+/******************************************************************************/
+
+function liScopeFromScopeKey(scopeKey) {
+    var liScope = $('.' + strToId(scopeKey));
+    return liScope.length ? liScope : null;
+}
+
+/******************************************************************************/
+
+function liListFromScopeKey(scopeKey, listKey) {
+    var liList = $('.' + strToId(scopeKey) + ' .' + strToId(listKey));
+    return liList.length ? liList : null;
+}
+
+/******************************************************************************/
+
+function liRuleFromRuleKey(scopeKey, listKey, ruleKey) {
+    var liRule = $('.' + strToId(scopeKey) + ' .' + strToId(listKey) + ' .' + strToId(ruleKey));
+    return liRule.length ? liRule : null;
+}
+
+/******************************************************************************/
+
+function renderScopeToHTML(scopeKey) {
+    var liScope = $('<li>', {
+        'class': 'scope ' + strToId(scopeKey)
+    });
+    liScope.prop('scopeKey', scopeKey)
+    liScope.append(renderScopeKeyToHTML(scopeKey));
+    return liScope;
+}
+
+/******************************************************************************/
+
+function renderListToHTML(listKey) {
+    var liList = $('<li>', {
+            'class': 'list ' + strToId(listKey),
+            'text': listKey + 'list'
+        });
+    liList.prop('listKey', listKey);
+    return liList;
+}
+
+/******************************************************************************/
+
+function renderRuleToHTML(ruleKey) {
+    var liRule = $('<li>', {
+        'class': 'rule ' + strToId(ruleKey),
+        'html': renderRuleKeyToHTML(ruleKey)
+    });
+    liRule.prop('rule', ruleKey);
+    $('<span>', { 'class': 'fa state' }).appendTo(liRule);
+    return liRule;
+}
+
+/******************************************************************************/
+
+function renderTemporaryScopeTreeToHTML(scopeKey) {
+    var httpsb = getHTTPSB();
+    var tscope = httpsb.temporaryScopes.scopes[scopeKey];
+    var liScope = renderScopeToHTML(scopeKey);
+    var ulLists = $('<ul>');
+    liScope.append(ulLists);
+    var lists = ['gray', 'black', 'white'];
+    var iList = lists.length;
+    var listKey, tlist, ulLists, liList;
+    var rules, iRule, ruleKey, ulRules, liRule;
+    while ( iList-- ) {
+        listKey = lists[iList];
+        tlist = tscope[listKey].list;
+        rules = Object.keys(tlist).sort(compareRules);
+        iRule = rules.length;
+        liList = renderListToHTML(listKey);
+        ulRules = $('<ul>', {});
         while ( iRule-- ) {
-            rule = rules[iRule];
+            ruleKey = rules[iRule];
             // Skip '* main_frame', there is no matrix cell for this, which
-            // means user wouldn't be able to add it back if he/she were to
+            // means user wouldn't be able to add it back if user were to
             // remove this rule.
-            if ( rule === 'main_frame|*' ) {
+            if ( ruleKey === 'main_frame|*' ) {
                 continue;
             }
-            liRule = $('<li>', {
-                'class': 'rule ' + getPermanentColor(scopeKey, rule),
-                'html': renderRuleToHTML(rule),
-            });
-            liRule.appendTo(ulList);
-            $('<span>').appendTo(liRule);
+            liRule = renderRuleToHTML(ruleKey);
+            liRule.appendTo(ulRules);
         }
-        ulList.appendTo(liList);
-        liList.appendTo(ulScope);
+        ulRules.appendTo(liList);
+        liList.appendTo(ulLists);
     }
-    var recipe = uglifyRecipe(renderScopeToRecipeString(scopeKey, httpsb.temporaryScopes.scopes[scopeKey]));
+    var recipe = uglifyRecipe(renderScopeToRecipeString(scopeKey, tscope));
     $('<div>', {
         'class': 'recipe',
         'title': 'Recipe',
@@ -304,36 +344,103 @@ function renderScopeToHTML(scopeKey) {
 
 /******************************************************************************/
 
-function renderPersiteScopes() {
+function renderPermanentScopeTreeToHTML(scopeKey) {
     var httpsb = getHTTPSB();
-    var ulRoot = $('<ul>');
-    // Iterate scopes
-    var scopeKeys = Object.keys(httpsb.temporaryScopes.scopes);
-    var iScope = scopeKeys.length;
-    var scopeKey, scope;
-    var liScope;
-    while ( iScope-- ) {
-        scopeKey = scopeKeys[iScope];
-        if ( scopeKey === '*' ) {
+    var pscope = httpsb.permanentScopes.scopes[scopeKey];
+    var liScope = liScopeFromScopeKey(scopeKey);
+    if ( liScope ) {
+        liScope.addClass('permanent');
+    } else {
+        // ???
+    }
+    var lists = ['gray', 'black', 'white'];
+    var iList = lists.length;
+    var listKey, plist;
+    var rules, iRule, ruleKey, liRule;
+    while ( iList-- ) {
+        listKey = lists[iList];
+        plist = pscope[listKey].list;
+        rules = Object.keys(plist).sort(compareRules);
+        iRule = rules.length;
+        while ( iRule-- ) {
+            ruleKey = rules[iRule];
+            // Skip '* main_frame', there is no matrix cell for this, which
+            // means user wouldn't be able to add it back if user were to
+            // remove this rule.
+            if ( ruleKey === 'main_frame|*' ) {
+                continue;
+            }
+            liRule = liRuleFromRuleKey(scopeKey, listKey, ruleKey);
+            if ( liRule ) {
+                liRule.addClass('permanent');
+            } else {
+                liRule = renderRuleToHTML(ruleKey, false)
+                liRule.appendTo(liListFromScopeKey(scopeKey, 'gray').children('ul'));
+            }
+        }
+    }
+}
+
+/******************************************************************************/
+
+function renderScopes(domContainerId, filterFn) {
+    var httpsb = getHTTPSB();
+    var scopes = httpsb.temporaryScopes.scopes;
+    var ulScopes = $('<ul>');
+    var scope, liScope, scopeKey;
+    for ( scopeKey in scopes ) {
+        if ( !scopes.hasOwnProperty(scopeKey) ) {
             continue;
         }
-        scope = httpsb.temporaryScopes.scopes[scopeKey];
+        if ( !filterFn(httpsb, scopeKey) ) {
+            continue;
+        }
+        scope = scopes[scopeKey];
         if ( scope.off ) {
             continue;
         }
-        liScope = renderScopeToHTML(scopeKey);
-        liScope.appendTo(ulRoot);
+        liScope = renderTemporaryScopeTreeToHTML(scopeKey);
+        liScope.appendTo(ulScopes);
     }
-    $('#persite').empty().append(ulRoot);
+    $(domContainerId).empty().append(ulScopes);
+    scopes = httpsb.permanentScopes.scopes;
+    for ( scopeKey in scopes ) {
+        if ( !scopes.hasOwnProperty(scopeKey) ) {
+            continue;
+        }
+        if ( !filterFn(httpsb, scopeKey) ) {
+            continue;
+        }
+        scope = scopes[scopeKey];
+        renderPermanentScopeTreeToHTML(scopeKey);
+    }
+}
+
+/******************************************************************************/
+
+function renderSiteScopes() {
+    var filterFn = function(httpsb, scopeKey) {
+        return httpsb.isSiteScopeKey(scopeKey);
+    };
+    renderScopes('#persite', filterFn);
+}
+
+/******************************************************************************/
+
+function renderDomainScopes() {
+    var filterFn = function(httpsb, scopeKey) {
+        return httpsb.isDomainScopeKey(scopeKey);
+    };
+    renderScopes('#perdomain', filterFn);
 }
 
 /******************************************************************************/
 
 function renderGlobalScope() {
-    var ulRoot = $('<ul>');
-    var liScope = renderScopeToHTML('*');
-    liScope.appendTo(ulRoot);
-    $('#global').empty().append(ulRoot);
+    var filterFn = function(httpsb, scopeKey) {
+        return httpsb.isGlobalScopeKey(scopeKey);
+    };
+    renderScopes('#global', filterFn);
 }
 
 /******************************************************************************/
@@ -346,7 +453,9 @@ function renderRecipe() {
 
 function renderAll() {
     renderGlobalScope();
-    renderPersiteScopes();
+    renderDomainScopes();
+    renderSiteScopes();
+    updateButtons();
 }
 
 /******************************************************************************/
@@ -357,16 +466,6 @@ function selectRecipeText(elem) {
     range.selectNodeContents(elem);
     selection.removeAllRanges();
     selection.addRange(range);
-}
-
-/******************************************************************************/
-
-function deleteRule(li) {
-}
-
-/******************************************************************************/
-
-function undeleteRule(li) {
 }
 
 /******************************************************************************/
@@ -433,14 +532,8 @@ function applyJournalTemporarily() {
         }
         type = entry.rule.slice(0, pivot);
         hostname = entry.rule.slice(pivot+1);
-        httpsb.createPageScopeIfNotExists(scopeKey);
-        if ( entry.listKey === 'whitelist' ) {
-            httpsb.whitelistTemporarily(scopeKey, type, hostname);
-        } else if ( entry.listKey === 'blacklist' ) {
-            httpsb.blacklistTemporarily(scopeKey, type, hostname);
-        } else if ( entry.listKey === 'graylist' ) {
-            httpsb.graylistTemporarily(scopeKey, type, hostname);
-        }
+        httpsb.createTemporaryScopeFromScopeKey(scopeKey);
+        httpsb.addRuleTemporarily(scopeKey, entry.listKey, type, hostname);
     }
 
     // Force a refresh of all scopes/rules
@@ -449,36 +542,108 @@ function applyJournalTemporarily() {
 
 /******************************************************************************/
 
-function togglePersist(liRule) {
+function toggleDeleteScope(event) {
+    var liScope = $(this).parents('.scope');
+    liScope.toggleClass('todelete');
+    liScope.find('.rule').removeClass('todelete');
+    updateButtons();
+    event.stopPropagation();
+}
+
+/******************************************************************************/
+
+function toggleDeleteRule(event) {
+    $(this).toggleClass('todelete');
+    updateButtons();
+    event.stopPropagation();
+}
+
+/******************************************************************************/
+
+function commitAll() {
     var httpsb = getHTTPSB();
-    liRule = $(liRule);
-    var rule = liRule.text();
-    // parts[0] = friendly type name
-    // parts[1] = hostname
-    var parts = rule.split(/\s+/);
-    if ( parts.length !== 2 ) {
-        return;
+    var i;
+    var liScope, scopeKey;
+    var liList;
+    var liRule, rule, pos, type, hostname;
+
+    // Delete scopes marked for deletion
+    var liScopes = $('.scope.todelete');
+    i = liScopes.length;
+    while ( i-- ) {
+        liScope = $(liScopes[i]);
+        scopeKey = liScope.prop('scopeKey');
+        if ( scopeKey === '*' ) {
+            continue;
+        }
+        httpsb.removeTemporaryScopeFromScopeKey(scopeKey);
+        liScope.remove();
     }
-    var hostname = parts[1];
-    var type = hostileTypeNames[parts[0]];
-    var liScope = liRule.parents('li.scope');
-    var scopeKey = liScope.children('a').attr('href') || '*';
-    if ( liRule.hasClass('rdp') || liRule.hasClass('gdp') ) {
-        httpsb.graylistPermanently(scopeKey, type, hostname);
-        liRule.removeClass('rdp gdp');
-    } else if ( liRule.parents('li.white').length ) {
-        httpsb.whitelistPermanently(scopeKey, type, hostname);
-        liRule.addClass('gdp');
-    } else if ( liRule.parents('li.black').length ) {
-        httpsb.blacklistPermanently(scopeKey, type, hostname);
-        liRule.addClass('rdp');
+
+    // Delete rules marked for deletion
+    var liRules = $('.scope.todelete .rule,.rule.todelete');
+    i = liRules.length;
+    while ( i-- ) {
+        liRule = $(liRules[i]);
+        liList = liRule.parents('.list');
+        liScope = liList.parents('.scope');
+        rule = liRule.prop('rule');
+        pos = rule.indexOf('|');
+        type = rule.slice(0, pos);
+        hostname = rule.slice(pos + 1);
+        httpsb.removeRuleTemporarily(
+            liScope.prop('scopeKey'),
+            liList.prop('listKey'),
+            type,
+            hostname
+        );
     }
+
+    // Persist whatever is left
+    httpsb.commitPermissions(true);
     renderAll();
 }
 
 /******************************************************************************/
 
+function revertAll() {
+    var httpsb = getHTTPSB();
+    httpsb.revertPermissions();
+    renderAll();
+}
+
+/******************************************************************************/
+
+function removeAll() {
+    $('.scope').addClass('todelete');
+    if ( !confirm($('#confirmRemoveAll').text()) ) {
+        $('.scope').removeClass('todelete');
+        return;
+    }
+    commitAll();
+}
+
+/******************************************************************************/
+
+function updateButtons() {
+    var notOneTemporary = $('.scope:not(.permanent),.scope.permanent .rule:not(.permanent)').length === 0;
+    var notOneDeletion = $('.todelete').length === 0;
+    $('#commitAll').prop("disabled", notOneTemporary && notOneDeletion);
+    $('#revertAll').prop("disabled", notOneTemporary);
+    $('#removeAll').prop("disabled", $('.scope').length <= 1);
+}
+
+/******************************************************************************/
+
 $(function() {
+    $('#commitAll').on('click', commitAll);
+
+    // Toggle permanent scope status
+    $('#revertAll').on('click', revertAll);
+
+    // Toggle permanent scope status
+    $('#removeAll').on('click', removeAll);
+
     $('#recipeDecode').on('click', function(){
         if ( !$('#recipeUgly').hasClass('bad') ) {
             renderImportFieldFromRecipe();
@@ -510,7 +675,7 @@ $(function() {
     });
 
     // Auto-select all encoded recipe
-    $('body').on('click', '#recipeUgly', function(){
+    $('#recipeUgly').on('click', function(){
         this.focus();
         this.select();
     });
@@ -520,9 +685,12 @@ $(function() {
         selectRecipeText(this);
     });
 
-    // Toggle permanent status
-    $('.scopes').on('click', '.rule', function(){
-        togglePersist($(this));
+    // Toggle deletion
+    $('body').on('click', '.rule', toggleDeleteRule);
+    $('body').on('click', '.scopeName', toggleDeleteScope);
+
+    $('#bye').on('click', function() {
+        window.open('','_self').close();
     });
 
     renderAll();

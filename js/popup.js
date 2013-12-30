@@ -1362,8 +1362,8 @@ function bindToTabHandler(tabs) {
     if ( !HTTPSBPopup.matrixHasRows ) {
         $('#no-traffic').css('display', '');
         $('#matHead').remove();
-        $('#scopeMenu').remove();
-        $('#scopePersist').remove();
+        $('#toolbarScope').remove();
+        $('#buttonPersist').remove();
         $('#buttonReload').remove();
         $('#buttonRevert').remove();
     }
@@ -1413,6 +1413,18 @@ function gotoExtensionURL() {
 
 /******************************************************************************/
 
+function gotoExternalURL() {
+    var url = $(this).data('externalUrl');
+    if ( url ) {
+        chrome.runtime.sendMessage({
+            what: 'gotoURL',
+            url: url
+        });
+    }
+}
+
+/******************************************************************************/
+
 // make menu only when popup html is fully loaded
 
 function initAll() {
@@ -1454,7 +1466,7 @@ function initAll() {
     $('body')
         .on('mouseenter', '.matCell', mouseenterMatrixCellHandler)
         .on('mouseleave', '.matCell', mouseleaveMatrixCellHandler);
-    $('#scopePersist').on('click', persistScope);
+    $('#buttonPersist').on('click', persistScope);
     $('#scopeKeyGlobal').on('mousedown', createGlobalScope);
     $('#scopeKeyDomain').on('mousedown', createDomainScope);
     $('#scopeKeySite').on('mousedown', createSiteScope);
@@ -1466,8 +1478,9 @@ function initAll() {
     $('#buttonRuleManager span').text(chrome.i18n.getMessage('ruleManagerPageName'));
     $('#buttonInfo span').text(chrome.i18n.getMessage('statsPageName'));
     $('#buttonSettings span').text(chrome.i18n.getMessage('settingsPageName'));
-    $('.extensionURL').on('click', gotoExtensionURL);
-    $('#buttonPower').on('click', togglePower);
+    $('.extensionURL').on('mousedown', gotoExtensionURL);
+    $('.externalURL').on('mousedown', gotoExternalURL);
+    $('#buttonPower').on('mousedown', togglePower);
     $('#matList').on('click', '.g3Meta', function() {
         var separator = $(this);
         separator.toggleClass('g3Collapsed');
