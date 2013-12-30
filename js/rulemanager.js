@@ -630,7 +630,7 @@ function updateButtons() {
     var notOneDeletion = $('.todelete').length === 0;
     $('#commitAll').prop("disabled", notOneTemporary && notOneDeletion);
     $('#revertAll').prop("disabled", notOneTemporary);
-    $('#removeAll').prop("disabled", $('.scope').length <= 1);
+    $('#removeAll').prop("disabled", $('.scope').length <= 1 && $('.rule').length === 0);
 }
 
 /******************************************************************************/
