@@ -31,7 +31,7 @@ var HTTPSB = {
         deleteUnusedSessionCookiesAfter: 60,
         deleteLocalStorage: false,
         processBehindTheSceneRequests: false,
-        strictBlocking: false,
+        strictBlocking: true,
         displayTextSize: '13px',
         popupHideBlacklisted: false,
         popupCollapseDomains: false,
