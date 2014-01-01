@@ -1426,12 +1426,10 @@ function gotoExternalURL() {
 /******************************************************************************/
 
 function dropDownMenuShow() {
-    $('.dropdown-menu-capture').addClass('show');
     $(this).next('.dropdown-menu').addClass('show');
 }
 
 function dropDownMenuHide() {
-    $('.dropdown-menu-capture').removeClass('show');
     $('.dropdown-menu').removeClass('show');
 }
 

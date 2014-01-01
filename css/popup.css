@@ -112,7 +112,7 @@ body {
     display: none;
     z-index: 900;
     }
-.dropdown-menu-capture.show {
+.dropdown-menu.show ~ .dropdown-menu-capture {
     display: block;
     }
 
