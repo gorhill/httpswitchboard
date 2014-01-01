@@ -57,7 +57,7 @@ body {
     border: 0;
     padding: 3px 0 0 0;
     position: absolute;
-    z-index: 20;
+    z-index: 1000;
     font-size: 110%;
     display: none;
     }
@@ -92,10 +92,27 @@ body {
     font-size: 110%;
     color: #aaa;
     }
-.dropdown-menu-button ~ .dropdown-menu {
+.dropdown-menu {
     display: none;
     }
-.dropdown-menu-button:focus ~ .dropdown-menu {
+.dropdown-menu.show {
+    display: block;
+    }
+.dropdown-menu-capture {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: transparent;
+    opacity: 0.1;
+    display: none;
+    z-index: 900;
+    }
+.dropdown-menu-capture.show {
     display: block;
     }
 

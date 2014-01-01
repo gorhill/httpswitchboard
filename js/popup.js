@@ -1425,6 +1425,18 @@ function gotoExternalURL() {
 
 /******************************************************************************/
 
+function dropDownMenuShow() {
+    $('.dropdown-menu-capture').addClass('show');
+    $(this).next('.dropdown-menu').addClass('show');
+}
+
+function dropDownMenuHide() {
+    $('.dropdown-menu-capture').removeClass('show');
+    $('.dropdown-menu').removeClass('show');
+}
+
+/******************************************************************************/
+
 // make menu only when popup html is fully loaded
 
 function initAll() {
@@ -1467,9 +1479,9 @@ function initAll() {
         .on('mouseenter', '.matCell', mouseenterMatrixCellHandler)
         .on('mouseleave', '.matCell', mouseleaveMatrixCellHandler);
     $('#buttonPersist').on('click', persistScope);
-    $('#scopeKeyGlobal').on('mousedown', createGlobalScope);
-    $('#scopeKeyDomain').on('mousedown', createDomainScope);
-    $('#scopeKeySite').on('mousedown', createSiteScope);
+    $('#scopeKeyGlobal').on('click', createGlobalScope);
+    $('#scopeKeyDomain').on('click', createDomainScope);
+    $('#scopeKeySite').on('click', createSiteScope);
     $('#buttonReload').on('click', forceReload);
     $('#buttonRevert')
         .on('mouseenter', function() { showMessage(chrome.i18n.getMessage('matrixRevert')); })
@@ -1478,9 +1490,13 @@ function initAll() {
     $('#buttonRuleManager span').text(chrome.i18n.getMessage('ruleManagerPageName'));
     $('#buttonInfo span').text(chrome.i18n.getMessage('statsPageName'));
     $('#buttonSettings span').text(chrome.i18n.getMessage('settingsPageName'));
-    $('.extensionURL').on('mousedown', gotoExtensionURL);
-    $('.externalURL').on('mousedown', gotoExternalURL);
-    $('#buttonPower').on('mousedown', togglePower);
+    $('.extensionURL').on('click', gotoExtensionURL);
+    $('.externalURL').on('click', gotoExternalURL);
+    $('#buttonPower').on('click', togglePower);
+
+    $('body').on('click', '.dropdown-menu-button', dropDownMenuShow);
+    $('body').on('click', '.dropdown-menu-capture', dropDownMenuHide);
+
     $('#matList').on('click', '.g3Meta', function() {
         var separator = $(this);
         separator.toggleClass('g3Collapsed');
