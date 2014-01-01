@@ -78,7 +78,7 @@ HTTPSB.isValidScopeKey = function(scopeKey) {
     return this.isGlobalScopeKey(scopeKey) ||
            this.isDomainScopeKey(scopeKey) ||
            this.isSiteScopeKey(scopeKey);
-}
+};
 
 /******************************************************************************/
 
@@ -87,7 +87,7 @@ HTTPSB.isValidScopeKey = function(scopeKey) {
 // global scope to take effect.
 
 HTTPSB.createTemporaryGlobalScope = function(url) {
-    var scopeKey, scope;
+    var scopeKey;
     scopeKey = this.siteScopeKeyFromURL(url);
     this.removeTemporaryScopeFromScopeKey(scopeKey);
     if ( scopeKey.indexOf('https:') === 0 ) {

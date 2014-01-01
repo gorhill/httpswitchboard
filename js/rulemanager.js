@@ -272,7 +272,7 @@ function renderScopeToHTML(scopeKey) {
     var liScope = $('<li>', {
         'class': 'scope ' + strToId(scopeKey)
     });
-    liScope.prop('scopeKey', scopeKey)
+    liScope.prop('scopeKey', scopeKey);
     liScope.append(renderScopeKeyToHTML(scopeKey));
     return liScope;
 }
@@ -310,7 +310,7 @@ function renderTemporaryScopeTreeToHTML(scopeKey) {
     liScope.append(ulLists);
     var lists = ['gray', 'black', 'white'];
     var iList = lists.length;
-    var listKey, tlist, ulLists, liList;
+    var listKey, tlist, liList;
     var rules, iRule, ruleKey, ulRules, liRule;
     while ( iList-- ) {
         listKey = lists[iList];
@@ -374,7 +374,7 @@ function renderPermanentScopeTreeToHTML(scopeKey) {
             if ( liRule ) {
                 liRule.addClass('permanent');
             } else {
-                liRule = renderRuleToHTML(ruleKey, false)
+                liRule = renderRuleToHTML(ruleKey, false);
                 liRule.appendTo(liListFromScopeKey(scopeKey, 'gray').children('ul'));
             }
         }
