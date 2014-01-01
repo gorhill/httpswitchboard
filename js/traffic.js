@@ -113,7 +113,7 @@ function beforeRequestHandler(details) {
     }
 
     var url = uriTools.normalizeURI(details.url);
-    var hostname, pageURL, scopeKey;
+    var hostname, pageURL;
 
     // Don't block chrome extensions
     // rhill 2013-12-10: Avoid regex whenever a faster indexOf() can be used:
@@ -281,28 +281,54 @@ function beforeSendHeadersHandler(details) {
     }
 
     // Any cookie in there?
-    var hostname = uriTools.hostnameFromURI(details.url);
-    var blacklistCookie = httpsb.blacklisted(pageUrlFromTabId(tabId), 'cookie', hostname);
+    var ut = uriTools;
+    var hostname = ut.hostnameFromURI(details.url);
+    var pageURL = pageUrlFromTabId(tabId);
+    var blacklistCookie = httpsb.blacklisted(pageURL, 'cookie', hostname);
+    var processReferer = httpsb.userSettings.processReferer;
 
-    // rhill 2013-12-11: If cookies are not blacklisted, headers won't be
-    // modified, so leave now.
-    if ( !blacklistCookie ) {
+    if ( !blacklistCookie && !processReferer ) {
         return;
     }
 
+    var headerName, fromDomain, toDomain;
     var headers = details.requestHeaders;
     var i = headers.length;
-    var foiled = false;
+    var changed = false;
+
+    // I am no fan of deeply indented code paths, but for performance reasons
+    // I will tolerate it here. Thing is, here it is best to reuse as much
+    // already computed data as possible. (also, not sure if 'switch' would be
+    // a gain here, so far there is only two cases to treat).
     while ( i-- ) {
-        if ( headers[i].name.toLowerCase() !== 'cookie' ) {
+        headerName = headers[i].name.toLowerCase();
+        if ( headerName === 'referer' ) {
+            if ( processReferer ) {
+                fromDomain = ut.domainFromURI(headers[i].value);
+                toDomain = ut.domainFromHostname(hostname);
+                if ( fromDomain !== toDomain ) {
+                    if ( httpsb.blacklisted(pageURL, '*', hostname) ) {
+                        // console.debug('beforeSendHeadersHandler()> nulling referer "%s" for "%s"', fromDomain, toDomain);
+                        headers[i].value = '';
+                        httpsb.refererHeaderFoiledCounter++;
+                        changed = true;
+                    }
+                }
+            }
             continue;
         }
-        // console.debug('HTTP Switchboard > foiled browser attempt to send cookie(s) to %o', details);
-        headers.splice(i, 1);
-        foiled = true
+        if ( headerName === 'cookie' ) {
+            if ( blacklistCookie ) {
+                // console.debug('HTTP Switchboard > foiled browser attempt to send cookie(s) to %o', details);
+                headers.splice(i, 1);
+                httpsb.cookieHeaderFoiledCounter++;
+                changed = true;
+            }
+            continue;
+        }
     }
 
-    if ( foiled ) {
+    if ( changed ) {
         return { requestHeaders: headers };
     }
 }

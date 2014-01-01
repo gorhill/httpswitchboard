@@ -25,8 +25,27 @@
 
 /******************************************************************************/
 
+var selectedRemoteBlacklistsHash = '';
+
+/******************************************************************************/
+
 function gethttpsb() {
     return chrome.extension.getBackgroundPage().HTTPSB;
+}
+
+/******************************************************************************/
+
+function renderNumber(value) {
+    // TODO: localization
+    if ( +value > 1000 ) {
+        value = value.toString();
+        var i = value.length - 3;
+        while ( i > 0 ) {
+            value = value.slice(0, i) + ',' + value.slice(i);
+            i -= 3;
+        }
+    }
+    return value;
 }
 
 /******************************************************************************/
@@ -58,6 +77,98 @@ function onChangeValueHandler(elem, setting, min, max) {
 
 /******************************************************************************/
 
+function renderBlacklistDetails() {
+    // empty list first
+    $('#remoteBlacklists .remoteBlacklistDetails').remove();
+
+    // then fill it
+    var httpsb = gethttpsb();
+
+    $('#blacklistReadonlyCount').text(renderNumber(httpsb.blacklistReadonlyCount));
+
+    var blacklists = httpsb.remoteBlacklists;
+    var ul = $('#remoteBlacklists');
+    var keys = Object.keys(blacklists);
+    var i = keys.length;
+    var blacklist;
+    var liTemplate = $('#remoteBlacklistsTemplate .remoteBlacklistDetails').first();
+    var li, child;
+    while ( i-- ) {
+        blacklist = blacklists[keys[i]];
+        li = liTemplate.clone();
+        child = $('input', li);
+        child.prop('checked', !blacklist.off);
+        child = $('a', li);
+        child.attr('href', keys[i]);
+        child.text(keys[i]);
+        child = $('span', li);
+        child.text(!isNaN(+blacklist.entryCount) ? renderNumber(blacklist.entryCount) : '?');
+        ul.prepend(li);
+    }
+    selectedRemoteBlacklistsHash = getSelectedRemoteBlacklistsHash();
+}
+
+/******************************************************************************/
+
+function reloadRemoteBlacklistsHandler() {
+    var newHash = getSelectedRemoteBlacklistsHash();
+    if ( newHash === selectedRemoteBlacklistsHash ) {
+        return;
+    }
+    // Reload blacklists
+    var switches = [];
+    var lis = $('#remoteBlacklists .remoteBlacklistDetails');
+    var i = lis.length;
+    while ( i-- ) {
+        switches.push({
+            location: $(lis[i]).children('a').attr('href'),
+            off: $(lis[i]).children('input').prop('checked') === false
+        });
+    }
+    chrome.runtime.sendMessage({
+        what: 'reloadPresetBlacklists',
+        switches: switches
+    });
+    $('#reloadRemoteBlacklists').attr('disabled', true );
+}
+
+/******************************************************************************/
+
+// Create a hash so that we know whether the selection of preset blacklists
+// has changed.
+
+function getSelectedRemoteBlacklistsHash() {
+    var hash = '';
+    var inputs = $('#remoteBlacklists .remoteBlacklistDetails > input');
+    var i = inputs.length;
+    while ( i-- ) {
+        hash += $(inputs[i]).prop('checked').toString();
+    }
+    return hash;
+}
+
+// This is to give a visual hint that the selection of preset blacklists has
+// changed and thus user needs to explicitly click the reload button.
+
+function remoteBlacklistDetailsChangeHandler() {
+    $('#reloadRemoteBlacklists').attr('disabled', getSelectedRemoteBlacklistsHash() === selectedRemoteBlacklistsHash);
+}
+
+/******************************************************************************/
+
+function onMessageHandler(request, sender) {
+    if ( request && request.what ) {
+        switch ( request.what ) {
+            case 'presetBlacklistsLoaded':
+                renderBlacklistDetails();
+                remoteBlacklistDetailsChangeHandler();
+                break;
+        }
+    }
+}
+
+/******************************************************************************/
+
 function initAll() {
     var httpsb = gethttpsb();
     var userSettings = httpsb.userSettings;
@@ -71,8 +182,7 @@ function initAll() {
     $('#delete-unused-session-cookies-after').val(userSettings.deleteUnusedSessionCookiesAfter);
     $('#delete-blacklisted-cookies').attr('checked', userSettings.deleteCookies === true);
     $('#delete-blacklisted-localstorage').attr('checked', userSettings.deleteLocalStorage);
-    $('#cookie-removed-counter').html(httpsb.cookieRemovedCounter);
-    $('#localstorage-removed-counter').html(httpsb.localStorageRemovedCounter);
+    $('#process-referer').attr('checked', userSettings.processReferer);
     $('#process-behind-the-scene').attr('checked', userSettings.processBehindTheSceneRequests);
     $('#max-logged-requests').val(userSettings.maxLoggedRequests);
 
@@ -87,6 +197,8 @@ function initAll() {
     $('#auto-whitelist-page-domain').on('change', function(){
         changeUserSettings('autoWhitelistPageDomain', $(this).is(':checked'));
     });
+    $('#reloadRemoteBlacklists').on('click', reloadRemoteBlacklistsHandler);
+    $('#remoteBlacklists').on('change', '.remoteBlacklistDetails', remoteBlacklistDetailsChangeHandler);
     $('#delete-unused-session-cookies').on('change', function(){
         changeUserSettings('deleteUnusedSessionCookies', $(this).is(':checked'));
     });
@@ -98,6 +210,9 @@ function initAll() {
     });
     $('#delete-blacklisted-localstorage').on('change', function(){
         changeUserSettings('deleteLocalStorage', $(this).is(':checked'));
+    });
+    $('#process-referer').on('change', function(){
+        changeUserSettings('processReferer', $(this).is(':checked'));
     });
     $('#process-behind-the-scene').on('change', function(){
         changeUserSettings('processBehindTheSceneRequests', $(this).is(':checked'));
@@ -118,6 +233,11 @@ function initAll() {
         onChangeValueHandler($('#max-logged-requests'), 'maxLoggedRequests', 0, 999);
         window.open('','_self').close();
     });
+
+    // To know when the preset blacklist stats change
+    chrome.runtime.onMessage.addListener(onMessageHandler);
+
+    renderBlacklistDetails();
 }
 
 /******************************************************************************/

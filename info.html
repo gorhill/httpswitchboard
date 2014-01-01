@@ -65,38 +65,21 @@ select {
 <ul>
   <li>Version: <span id="version"></span> (<a href="https://github.com/gorhill/httpswitchboard/wiki/Change-log">change log</a>)
   <li><a href="settings.html" target="httpsb">Settings</a>
-  <li><a href="https://github.com/gorhill/httpswitchboard/wiki/Quick-tour-%231%3A-1-of-7">Quick tour</a>
+  <li><a href="https://github.com/gorhill/httpswitchboard/wiki">Documentation</a>
   <li>About <a href="https://github.com/gorhill/httpswitchboard/wiki/Permissions">permissions</a>
   <li><a href="https://github.com/gorhill/httpswitchboard/wiki/Credits">Credits</a>
 </ul>
 </div>
 
-
-
-<h2 data-i18n="statsPageWhitelistsBlacklists"></h2>
-<div id="lists">
-<div style="white-space:nowrap;"> <!-- begin template 'stats' -->
+<h2 id="generic-stats">Generic stats</h2>
 <div>
-    <a href="rulemanager.html" target="httpsb">Whitelisted hostnames</a>:<br>
-    <a href="rulemanager.html" target="httpsb">Blacklisted hostnames</a>:
-    </div>
-<div>
-    <span id="whitelistCount"></span><br>
-    <span id="blacklistCount"></span>
-    </div>
-<div style="margin:1em 0 0 0;display:block;text-align:left">
-    <span id="blacklistReadonlyCount">?</span> preset blacklisted hostnames from (number of distinct entries in parentheses):
-    <ul id="remoteBlacklistsTemplate" style="display:none">
-        <li class="remoteBlacklistDetails"><input type="checkbox" value="">&thinsp;<a href="" type="text/plain"></a> (<span>?</span>)
-    </ul>
-    <ul id="remoteBlacklists" style="margin:0.5em 0 0 0;padding-left:1em;color:gray;list-style-type:none">
-        <li style="margin-top:0.5em"><button id="reloadRemoteBlacklists" disabled="true">Apply changes</button>
-    </ul>
-    <p style="font-size:smaller;color:gray">Obviously, more blacklist entries enabled means larger memory footprint required by the extension.</p>
-    </div>
-</div> <!-- end template 'stats' -->
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/HTTP_cookie">HTTP cookie</a> headers foiled: <span id="cookieHeaderFoiledCounter"></span>
+<li><a href="https://en.wikipedia.org/wiki/HTTP_referer">HTTP referer</a> headers foiled: <span id="refererHeaderFoiledCounter"></span>
+<li>Local cookies removed: <span id="cookieRemovedCounter"></span>
+<li><a href="http://diveintohtml5.info/storage.html">Local storages</a> emptied: <span id="localStorageRemovedCounter"></span>
+</ul>
 </div>
-
 
 <h2 data-i18n="statsPageGeekyStats" id="geeky-stats"></h2>
 <div>For 

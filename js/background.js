@@ -31,6 +31,7 @@ var HTTPSB = {
         deleteUnusedSessionCookiesAfter: 60,
         deleteLocalStorage: false,
         processBehindTheSceneRequests: false,
+        processReferer: false,
         strictBlocking: true,
         displayTextSize: '13px',
         popupHideBlacklisted: false,
@@ -87,6 +88,8 @@ var HTTPSB = {
     requestStats: new WebRequestStats(),
     cookieRemovedCounter: 0,
     localStorageRemovedCounter: 0,
+    cookieHeaderFoiledCounter: 0,
+    refererHeaderFoiledCounter: 0,
 
     // internal state
     webRequestHandler: false,

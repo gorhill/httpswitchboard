@@ -126,36 +126,6 @@ function renderNumbers(set) {
 
 /******************************************************************************/
 
-function renderBlacklistDetails() {
-    // empty list first
-    $('#remoteBlacklists .remoteBlacklistDetails').remove();
-
-    // then fill it
-    var httpsb = gethttpsb();
-    var blacklists = httpsb.remoteBlacklists;
-    var ul = $('#remoteBlacklists');
-    var keys = Object.keys(blacklists);
-    var i = keys.length;
-    var blacklist;
-    var liTemplate = $('#remoteBlacklistsTemplate .remoteBlacklistDetails').first();
-    var li, child;
-    while ( i-- ) {
-        blacklist = blacklists[keys[i]];
-        li = liTemplate.clone();
-        child = $('input', li);
-        child.prop('checked', !blacklist.off);
-        child = $('a', li);
-        child.attr('href', keys[i]);
-        child.text(keys[i]);
-        child = $('span', li);
-        child.text(!isNaN(+blacklist.entryCount) ? renderNumber(blacklist.entryCount) : '?');
-        ul.prepend(li);
-    }
-    selectedRemoteBlacklistsHash = getSelectedRemoteBlacklistsHash();
-}
-
-/******************************************************************************/
-
 function renderPageUrls() {
     var httpsb = gethttpsb();
     var select = $('#selectPageUrls');
@@ -200,9 +170,10 @@ function renderStats() {
     var blockedStats = requestStats.blocked;
     var allowedStats = requestStats.allowed;
     renderNumbers({
-        '#whitelistCount': httpsb.temporaryScopes.scopes['*'].white.count,
-        '#blacklistCount': httpsb.temporaryScopes.scopes['*'].black.count,
-        '#blacklistReadonlyCount': httpsb.blacklistReadonlyCount,
+        '#cookieRemovedCounter': httpsb.cookieRemovedCounter,
+        '#localStorageRemovedCounter': httpsb.localStorageRemovedCounter,
+        '#cookieHeaderFoiledCounter': httpsb.cookieHeaderFoiledCounter,
+        '#refererHeaderFoiledCounter': httpsb.refererHeaderFoiledCounter,
         '#blockedAllCount': requestStats.blocked.all,
         '#blockedMainFrameCount': blockedStats.main_frame,
         '#blockedCookieCount': blockedStats.cookie,
@@ -318,7 +289,7 @@ function changeFilterHandler() {
 
 function syncWithFilters() {
     var blocked = ['blocked','allowed'];
-    var type = ['main_frame','cookie','image','object','script','xmlhttprequest','sub_frame','other'];
+    var type = ['main_frame','cookie','stylesheet','image','object','script','xmlhttprequest','sub_frame','other'];
     var i = blocked.length;
     var j;
     var display, selector;
@@ -357,71 +328,9 @@ function targetUrlChangeHandler() {
 
 /******************************************************************************/
 
-function reloadRemoteBlacklistsHandler() {
-    var newHash = getSelectedRemoteBlacklistsHash();
-    if ( newHash === selectedRemoteBlacklistsHash ) {
-        return;
-    }
-    // Reload blacklists
-    var switches = [];
-    var lis = $('#remoteBlacklists .remoteBlacklistDetails');
-    var i = lis.length;
-    while ( i-- ) {
-        switches.push({
-            location: $(lis[i]).children('a').attr('href'),
-            off: $(lis[i]).children('input').prop('checked') === false
-        });
-    }
-    chrome.runtime.sendMessage({
-        what: 'reloadPresetBlacklists',
-        switches: switches
-    });
-    $('#reloadRemoteBlacklists').attr('disabled', true );
-}
-
-/******************************************************************************/
-
-// Create a hash so that we know whether the selection of preset blacklists
-// has changed.
-
-function getSelectedRemoteBlacklistsHash() {
-    var hash = '';
-    var inputs = $('#remoteBlacklists .remoteBlacklistDetails > input');
-    var i = inputs.length;
-    while ( i-- ) {
-        hash += $(inputs[i]).prop('checked').toString();
-    }
-    return hash;
-}
-
-// This is to give a visual hint that the selection of preset blacklists has
-// changed and thus user needs to explicitly click the reload button.
-
-function remoteBlacklistDetailsChangeHandler() {
-    $('#reloadRemoteBlacklists').attr('disabled', getSelectedRemoteBlacklistsHash() === selectedRemoteBlacklistsHash);
-}
-
-/******************************************************************************/
-
-function onMessageHandler(request, sender) {
-    if ( request && request.what ) {
-        switch ( request.what ) {
-            case 'presetBlacklistsLoaded':
-                renderBlacklistDetails();
-                remoteBlacklistDetailsChangeHandler();
-                break;
-        }
-    }
-}
-
-/******************************************************************************/
-
 function initAll() {
     $('#version').html(gethttpsb().manifest.version);
     $('a:not([target])').prop('target', '_blank');
-
-    $('#reloadRemoteBlacklists').on('click', reloadRemoteBlacklistsHandler);
-    $('#remoteBlacklists').on('change', '.remoteBlacklistDetails', remoteBlacklistDetailsChangeHandler);
 
     // Initialize request filters as per user settings:
     // https://github.com/gorhill/httpswitchboard/issues/49
@@ -437,12 +346,8 @@ function initAll() {
     $('input[id^="show-"][type="checkbox"]').on('change', changeFilterHandler);
     $('#selectPageUrls').on('change', targetUrlChangeHandler);
 
-    // To know when the preset blacklist stats change
-    chrome.runtime.onMessage.addListener(onMessageHandler);
-
     renderTransientData(true);
     renderRequests();
-    renderBlacklistDetails();
 }
 
 /******************************************************************************/

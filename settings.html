@@ -66,7 +66,6 @@ ul > li {
 <h1>HTTP Switchboard — Settings</h1>
 
 <div>
-    Under construction.
     <h2>Matrix</h2>
     <ul>
         <li><h3>Display</h3>
@@ -103,11 +102,23 @@ ul > li {
             </ul>
     </ul>
 
+    <h2>Preset blacklists</h2>
+    <div>
+        <span id="blacklistReadonlyCount">?</span> preset blacklisted hostnames from (number of distinct entries in parentheses):
+        <ul id="remoteBlacklistsTemplate" style="display:none">
+            <li class="remoteBlacklistDetails"><input type="checkbox" value="">&thinsp;<a href="" type="text/plain"></a> (<span>?</span>)
+        </ul>
+        <ul id="remoteBlacklists" style="margin:0.5em 0 0 0;padding-left:1em;color:gray;list-style-type:none">
+            <li style="margin-top:0.5em"><button id="reloadRemoteBlacklists" disabled="true">Apply changes</button>
+        </ul>
+        <p style="font-size:smaller;color:gray">Obviously, more blacklist entries enabled means larger memory footprint required by the extension.</p>
+    </div>
+
     <h2>Privacy</h2>
     <ul>
         <li>
             <input id="delete-blacklisted-cookies" type="checkbox" value="">Delete blocked cookies
-            <span class="dim">(<span id="cookie-removed-counter">0</span> cookie(s) removed so far).</span> <button class="whatisthis"></button>
+            <button class="whatisthis"></button>
             <div class="expandable">
                 <p>Blacklisted cookies are not prevented by <i>HTTP Switchboard</i> from entering
                 your browser. However they are prevented from leaving your browser, which
@@ -141,7 +152,25 @@ ul > li {
         <li>
             <input id="delete-blacklisted-localstorage" type="checkbox" value="">Delete contents of
             <a href="http://en.wikipedia.org/wiki/Web_storage">local storage</a> of blocked hostnames
-            <span class="dim">(<span id="localstorage-removed-counter">0</span> local storage(s) emptied so far).</span>
+        <li>&nbsp;
+        <li>
+            <input id="process-referer" type="checkbox" value="">Remove third-party 
+            <a href="https://en.wikipedia.org/wiki/HTTP_referer">HTTP referer</a> information 
+            for non-whitelisted hostname.
+            <button class="whatisthis"></button>
+            <div class="expandable">
+            <p>From Wikipedia: &ldquo;HTTP referer is an HTTP header field that identifies the 
+            address of the webpage that linked to the resource being requested. ... <b>Because
+            referer information can violate privacy, some web browsers allow the user to
+            disable the sending of referer information.</b>&rdquo;</p>
+            <p>If this setting is checked, <i>HTTP Switchboard</i> will remove the HTTP
+            referer information if <b>both</b> of the following conditions are true:
+            <ul style="padding-left:1em;list-style-type:disc;">
+                <li>The domain name of the HTTP referer does not match the domain name of the URL of the request (that is, the referer is third-party to the web page);
+                <li>The hostname of the request is not whitelisted.
+            </ul>
+            </p>
+            </div>
     </ul>
 
     <h2>Chromium: behind-the-scene requests</h2>
@@ -174,7 +203,7 @@ ul > li {
             </div>
     </ul>
 
-    <h2>Detailed requests log</h2>
+    <h2>Log</h2>
     <ul>
         <li>Remember the last <input id="max-logged-requests" type="text" value="250" size="3"> HTTP requests per page.<button class="whatisthis"></button>
         <div class="expandable">
