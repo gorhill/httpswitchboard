@@ -39,7 +39,7 @@ var HTTPSB = {
         popupCollapseSpecificDomains: {},
         maxLoggedRequests: 50,
         statsFilters: {},
-        clearBrowserCache: false,
+        clearBrowserCache: true,
         clearBrowserCacheAfter: 60
     },
 
