@@ -157,3 +157,22 @@ function onDisconnectHandler() {
 
 chrome.extension.onConnect.addListener(onConnectHandler);
 
+/******************************************************************************/
+
+// Browser data jobs
+
+function clearBrowserCacheCallback() {
+    var httpsb = HTTPSB;
+
+    if ( httpsb.userSettings.clearBrowserCache ) {
+        httpsb.clearBrowserCacheCycle -= 15;
+        if ( httpsb.clearBrowserCacheCycle <= 0 ) {
+            httpsb.clearBrowserCacheCycle = httpsb.userSettings.clearBrowserCacheAfter;
+            httpsb.browserCacheClearedCounter++;
+            chrome.browsingData.removeCache({ since: 0 });
+        }
+    }
+}
+
+asyncJobQueue.add('clearBrowserCache', null, clearBrowserCacheCallback, 15 * 60 * 1000, true);
+

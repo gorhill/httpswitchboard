@@ -174,6 +174,7 @@ function renderStats() {
         '#localStorageRemovedCounter': httpsb.localStorageRemovedCounter,
         '#cookieHeaderFoiledCounter': httpsb.cookieHeaderFoiledCounter,
         '#refererHeaderFoiledCounter': httpsb.refererHeaderFoiledCounter,
+        '#browserCacheClearedCounter': httpsb.browserCacheClearedCounter,
         '#blockedAllCount': requestStats.blocked.all,
         '#blockedMainFrameCount': blockedStats.main_frame,
         '#blockedCookieCount': blockedStats.cookie,

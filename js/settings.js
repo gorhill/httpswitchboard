@@ -182,6 +182,8 @@ function initAll() {
     $('#delete-unused-session-cookies-after').val(userSettings.deleteUnusedSessionCookiesAfter);
     $('#delete-blacklisted-cookies').attr('checked', userSettings.deleteCookies === true);
     $('#delete-blacklisted-localstorage').attr('checked', userSettings.deleteLocalStorage);
+    $('#clear-browser-cache').attr('checked', userSettings.clearBrowserCache === true);
+    $('#clear-browser-cache-after').val(userSettings.clearBrowserCacheAfter);
     $('#process-referer').attr('checked', userSettings.processReferer);
     $('#process-behind-the-scene').attr('checked', userSettings.processBehindTheSceneRequests);
     $('#max-logged-requests').val(userSettings.maxLoggedRequests);
@@ -210,6 +212,12 @@ function initAll() {
     });
     $('#delete-blacklisted-localstorage').on('change', function(){
         changeUserSettings('deleteLocalStorage', $(this).is(':checked'));
+    });
+    $('#clear-browser-cache').on('change', function(){
+        changeUserSettings('clearBrowserCache', $(this).is(':checked'));
+    });
+    $('#clear-browser-cache-after').on('change', function(){
+        onChangeValueHandler($(this), 'clearBrowserCacheAfter', 15, 1440);
     });
     $('#process-referer').on('change', function(){
         changeUserSettings('processReferer', $(this).is(':checked'));

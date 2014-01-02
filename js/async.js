@@ -61,19 +61,21 @@ var asyncJobQueue = {
 
     _process: function() {
         var now = Date.now();
-        var keys = Object.keys(this.jobs);
-        var i = keys.length;
+        var jobs = this.jobs;
         var job;
-        while ( i-- ) {
-            job = this.jobs[keys[i]];
+        for ( var jobName in jobs ) {
+            if ( !jobs.hasOwnProperty(jobName) ) {
+                continue;
+            }
+            job = jobs[jobName];
             if ( job.when > now ) {
                 continue;
             }
             job.callback(job.data);
             if ( job.period ) {
-                job.when = Date.now() + job.period;
+                job.when = now + job.period;
             } else {
-                delete this.jobs[job.name];
+                delete jobs[jobName];
                 job._nullify();
                 this.jobCount--;
                 this.junkyard.push(job);
@@ -83,12 +85,10 @@ var asyncJobQueue = {
 };
 
 function asyncJobQueueHandler() {
-    if ( asyncJobQueue.jobCount ) {
-        asyncJobQueue._process();
-    }
+    asyncJobQueue._process();
 }
 
-setInterval(asyncJobQueueHandler, 100);
+setInterval(asyncJobQueueHandler, asyncJobQueue.resolution);
 
 /******************************************************************************/
 

@@ -237,7 +237,7 @@ body #scopeKeys {
     text-align: right;
     }
 .matrix .matRow.l2 > .matCell:first-child {
-    direction: rtl;
+    /* direction: rtl; */
     }
 .matrix .matRow > .matCell:hover {
     border-style: solid;

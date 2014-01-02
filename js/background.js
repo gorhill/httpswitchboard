@@ -38,12 +38,13 @@ var HTTPSB = {
         popupCollapseDomains: false,
         popupCollapseSpecificDomains: {},
         maxLoggedRequests: 50,
-        statsFilters: {
-        }
+        statsFilters: {},
+        clearBrowserCache: false,
+        clearBrowserCacheAfter: 60
     },
 
     runtimeId: 1,
-
+    clearBrowserCacheCycle: 0,
     inlineFieldSeparator: '#',
 
     // list of remote blacklist locations
@@ -90,11 +91,12 @@ var HTTPSB = {
     localStorageRemovedCounter: 0,
     cookieHeaderFoiledCounter: 0,
     refererHeaderFoiledCounter: 0,
+    browserCacheClearedCounter: 0,
 
     // internal state
     webRequestHandler: false,
 
-    // record what chromium is soing behind the scene
+    // record what chromium is doing behind the scene
     behindTheSceneURL: 'http://chromium.behind.the.scene',
     behindTheSceneTabId: 0x7FFFFFFF,
     behindTheSceneMaxReq: 250,
