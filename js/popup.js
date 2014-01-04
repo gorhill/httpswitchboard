@@ -738,14 +738,14 @@ function renderMatrixCellDomain(cell, domain) {
     $(cell).prop({reqType: '*', hostname: domain})
         .addClass(getCellClass(domain, '*'))
         .children('b')
-        .text(punycode.toUnicode(domain));
+        .text('\u202A'+punycode.toUnicode(domain));
 }
 
 function renderMatrixCellSubdomain(cell, domain, subomain) {
     $(cell).prop({reqType: '*', hostname: subomain})
         .addClass(getCellClass(subomain, '*'))
         .children('b')
-        .text(punycode.toUnicode(subomain.slice(0, subomain.lastIndexOf(domain)-1)) + '.')
+        .text('\u202A'+punycode.toUnicode(subomain.slice(0, subomain.lastIndexOf(domain)-1)) + '.')
         .after(punycode.toUnicode(domain));
 }
 
@@ -754,7 +754,7 @@ function renderMatrixMetaCellDomain(cell, domain) {
         .addClass(getCellClass(domain, '*'))
         .children('b')
         .text(punycode.toUnicode(domain))
-        .before('\u2217.');
+        .before('\u202A\u2217.');
 }
 
 function renderMatrixCellType(cell, hostname, type, stats) {
@@ -819,7 +819,7 @@ function makeMatrixMetaRow(stats) {
     var cells = $('div', matrixRow);
     $(cells[0])
         .addClass('matCell rdt')
-        .html('<i>' + typeStats['*'].count + ' blacklisted hostname(s)</i>');
+        .html('\u202A' + typeStats['*'].count + ' blacklisted hostname(s)');
     renderMatrixMetaCellType(cells[1], typeStats.cookie.count);
     renderMatrixMetaCellType(cells[2], typeStats.stylesheet.count);
     renderMatrixMetaCellType(cells[3], typeStats.image.count);
@@ -1242,7 +1242,7 @@ function forceReload() {
 /******************************************************************************/
 
 function mouseenterMatrixCellHandler(event) {
-    HTTPSBPopup.matrixCellHotspots.prependTo(this);
+    HTTPSBPopup.matrixCellHotspots.appendTo(this);
 }
 
 function mouseleaveMatrixCellHandler() {
