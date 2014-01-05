@@ -149,19 +149,19 @@
         "description": "used in matrix as user hover cells"
     },
     "matrixPersistBlock" : {
-        "message": "Permanently <span class=\"rdt\">blacklist</span> this cell",
+        "message": "Diese Zelle permanent zur <span class=\"rdt\">Blacklist</span> hinzufügen",
         "description": "when user hover over red unlocked padlock"
     },
     "matrixPersistAllow" : {
-        "message": "Permanently <span class=\"gdt\">whitelist</span> this cell",
+        "message": "Diese Zelle permanent zur <span class=\"gdt\">Whitelist</span> hinzufügen",
         "description": "when user hover over green unlocked padlock"
     },
     "matrixUnpersistBlock" : {
-        "message": "Cancel the permanent <span class=\"rdt\">blacklist</span> status of this cell",
+        "message": "Diese Zelle aus der <span class=\"rdt\">Blacklist</span> entfernen",
         "description": "when user hover over red locked padlock"
     },
     "matrixUnpersistAllow" : {
-        "message": "Cancel the permanent <span class=\"gdt\">whitelist</span> status of this cell",
+        "message": "Diese Zelle aus der <span class=\"gdt\">Whitelist</span> entfernen",
         "description": "when user hover over green locked padlock"
     },
 
@@ -171,7 +171,7 @@
         "description": "header for the whole stats page"
     },
     "statsPageWhitelistsBlacklists" : {
-        "message": "Whitelists/blacklists",
+        "message": "Whitelists/Blacklists",
         "description": "header for 'whitelists/blacklists' section"
     },
     "statsPageGeekyStats" : {
@@ -205,7 +205,7 @@
 
 
     "settingsStrictBlockingInfo": {
-        "message": "<p><strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Strict\nblocking</a></strong>,\nintroduced in <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log#036\">version 0.3.6</a>,\nmeans that even\nif you whitelist a specific hostname, blacklisted type of requests (<i>plugins</i>,\n<i>frames</i>, etc.) will remain blacklisted. For some users this maybe\ntoo bothersome, hence this switch.</p>\n<p><strong>Strict blocking on</strong>: blacklisted types of request (if any)\nfor a whitelisted hostname are blocked (unless you explicitly whitelist\nspecifically these types of request for the whitelisted hostname.)</p>\n<p><strong>Strict blocking off</strong>: blacklisted types of request (if any)\nfor a whitelisted hostname are allowed (unless you explicitly blacklist\nspecifically these types of request for the whitelisted hostname.)</p>",
+        "message": "<p><strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Striktes\nBlockieren</a></strong>,\neingeführt in <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log#036\">version 0.3.6</a>,\nbedeutet: Selbst\nwenn du einen spezifischen Hostnamen auf die Whitelist setzt, bleiben die Arten von Anfragen, die standardmäßig blockiert sind (<i>Plugins</i>,\n<i>Frames</i>, etc.) weiterhin blockiert. Für einige Benutzer ist das möglicherweise\nzu lästig, daher dieser Schalter.</p>\n<p><strong>Striktes Blockieren an</strong>: blockierte Arten von Anfragen (falls vorhanden)\nfür einen Hostnamen auf der Whitelist sind weiterhin blockiert (sofern du diese Arten von Anfragen für diesen Hostnamen nicht ausdrücklich erlaubst.)</p>\n<p><strong>Striktes Blockieren aus</strong>: blockierte Arten von Anfragen (falls vorhanden)\nfür einen Hostnamen auf der Whitelist sind erlaubt (sofern du diese Arten von Anfragen für diesen Hostnamen nicht ausdrücklich verbietest.)</p>",
         "description": ""
     },
 
