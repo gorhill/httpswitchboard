@@ -4,33 +4,33 @@
         "description": "extension name."
     },
     "extShortDesc": {
-        "message": "Point & click to forbid/allow any class of requests made by your browser. Use it to block scripts, iframes, ads, facebook, etc.",
+        "message": "Zeige und klicke, um alle Klassen von Anfragen deines Browsers zu erlauben/verbieten. Blockiere damit Skripte, IFrames, Werbung, Facebook, usw.",
         "description": "this will in chrome web store"
     },
     "ruleManagerPageName": {
-        "message": "Rule manager",
+        "message": "Regelmanager",
         "description": "the name of Rule Manager page."
     },
     "statsPageName": {
-        "message": "Statistics",
+        "message": "Statistik",
         "description": "the name of the Statistics page."
     },
     "settingsPageName": {
-        "message": "Settings",
+        "message": "Einstellungen",
         "description": "the name of the Settings page."
     },
 
 
     "allPrettyName": {
-        "message": "all",
+        "message": "alle",
         "description": "HAS TO FIT IN MATRIX HEADER!"
     },
     "cookiePrettyName": {
-        "message": "cookie",
+        "message": "Cookie",
         "description": "HAS TO FIT IN MATRIX HEADER!"
     },
     "cookiePrettyNamePlural": {
-        "message": "cookies",
+        "message": "Cookies",
         "description": "..."
     },
     "stylesheetPrettyName": {
@@ -42,27 +42,27 @@
         "description": "..."
     },
     "imagePrettyName": {
-        "message": "image",
+        "message": "Bild",
         "description": "HAS TO FIT IN MATRIX HEADER!"
     },
     "imagePrettyNamePlural": {
-        "message": "images",
+        "message": "Bilder",
         "description": "..."
     },
     "objectPrettyName": {
-        "message": "plugin",
+        "message": "Plugin",
         "description": "HAS TO FIT IN MATRIX HEADER!"
     },
     "objectPrettyNamePlural": {
-        "message": "plugins",
+        "message": "Plugins",
         "description": "..."
     },
     "scriptPrettyName": {
-        "message": "script",
+        "message": "Skript",
         "description": "HAS TO FIT IN MATRIX HEADER!"
     },
     "scriptPrettyNamePlural": {
-        "message": "scripts",
+        "message": "Skripte",
         "description": "..."
     },
     "xmlhttprequestPrettyName": {
@@ -74,33 +74,33 @@
         "description": "..."
     },
     "sub_framePrettyName": {
-        "message": "frame",
+        "message": "Frame",
         "description": "HAS TO FIT IN MATRIX HEADER!"
     },
     "sub_framePrettyNamePlural": {
-        "message": "frames",
+        "message": "Frames",
         "description": "..."
     },
     "otherPrettyName": {
-        "message": "other",
+        "message": "andere",
         "description": "HAS TO FIT IN MATRIX HEADER!"
     },
     "otherPrettyNamePlural": {
-        "message": "others",
+        "message": "andere",
         "description": "..."
     },
 
 
     "matrixRemoveScope" : {
-        "message": "Remove all rules specific to <b>$1</b>",
+        "message": "Entferne alle Regeln spezifisch für <b>$1</b>",
         "description": "hovering over the button to remove page scope (identified by $1)"
     },
     "matrixCreateScope" : {
-        "message": "Create rules specific to web pages which URL starts exactly with <b>$1</b>",
+        "message": "Erzeuge Regeln spezifisch für Webseiten, deren URL exakt mit <b>$1</b> beginnt",
         "description": "hovering over the button to add page scope (identified by $1)"
     },
     "matrixRevert" : {
-        "message": "Clear all temporary rules &mdash; those which are not padlocked",
+        "message": "Lösche alle temporären Regeln &mdash; solche also, die nicht mit dem Schloss gesichert sind",
         "description": "hovering over the button to clear temporary permissions"
     },
 
@@ -149,37 +149,37 @@
         "description": "used in matrix as user hover cells"
     },
     "matrixPersistBlock" : {
-        "message": "Permanently <span class=\"rdt\">blacklist</span> this cell",
+        "message": "Diese Zelle permanent zur <span class=\"rdt\">Blacklist</span> hinzufügen",
         "description": "when user hover over red unlocked padlock"
     },
     "matrixPersistAllow" : {
-        "message": "Permanently <span class=\"gdt\">whitelist</span> this cell",
+        "message": "Diese Zelle permanent zur <span class=\"gdt\">Whitelist</span> hinzufügen",
         "description": "when user hover over green unlocked padlock"
     },
     "matrixUnpersistBlock" : {
-        "message": "Cancel the permanent <span class=\"rdt\">blacklist</span> status of this cell",
+        "message": "Diese Zelle permanent aus der <span class=\"rdt\">Blacklist</span> entfernen",
         "description": "when user hover over red locked padlock"
     },
     "matrixUnpersistAllow" : {
-        "message": "Cancel the permanent <span class=\"gdt\">whitelist</span> status of this cell",
+        "message": "Diese Zelle permanent aus der <span class=\"gdt\">Whitelist</span> entfernen",
         "description": "when user hover over green locked padlock"
     },
 
 
     "statsPageTitle" : {
-        "message": "HTTP Switchboard &ndash; Statistics",
+        "message": "HTTP Switchboard &ndash; Statistik",
         "description": "header for the whole stats page"
     },
     "statsPageWhitelistsBlacklists" : {
-        "message": "Whitelists/blacklists",
+        "message": "Whitelists/Blacklists",
         "description": "header for 'whitelists/blacklists' section"
     },
     "statsPageGeekyStats" : {
-        "message": "Geeky stats",
+        "message": "Detaillierte Statistik",
         "description": "header for 'geeky stats' section"
     },
     "statsPageOverview" : {
-        "message": "Overview",
+        "message": "Übersicht",
         "description": "header for 'overview' section"
     },
     "statsPageRequests" : {
@@ -187,25 +187,25 @@
         "description": "in geeky stats section, header for the type of request"
     },
     "statsPageAllowed" : {
-        "message": "Allowed",
+        "message": "Erlaubt",
         "description": "capitalized"
     },
     "statsPageBlocked" : {
-        "message": "Blocked",
+        "message": "Blockiert",
         "description": "capitalized"
     },
     "statsPageDetailed" : {
-        "message": "Detailed",
+        "message": "Detailliert",
         "description": "header for 'detailed' section"
     },
     "statsPageRefresh" : {
-        "message": "Refresh",
+        "message": "Aktualisieren",
         "description": "text for refresh button"
     },
 
 
     "settingsStrictBlockingInfo": {
-        "message": "<p><strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Strict\nblocking</a></strong>,\nintroduced in <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log#036\">version 0.3.6</a>,\nmeans that even\nif you whitelist a specific hostname, blacklisted type of requests (<i>plugins</i>,\n<i>frames</i>, etc.) will remain blacklisted. For some users this maybe\ntoo bothersome, hence this switch.</p>\n<p><strong>Strict blocking on</strong>: blacklisted types of request (if any)\nfor a whitelisted hostname are blocked (unless you explicitly whitelist\nspecifically these types of request for the whitelisted hostname.)</p>\n<p><strong>Strict blocking off</strong>: blacklisted types of request (if any)\nfor a whitelisted hostname are allowed (unless you explicitly blacklist\nspecifically these types of request for the whitelisted hostname.)</p>",
+        "message": "<p><strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Striktes\nBlockieren</a></strong>,\neingeführt in <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log#036\">version 0.3.6</a>,\nbedeutet: Selbst\nwenn du einen spezifischen Hostnamen auf die Whitelist setzt, bleiben die Arten von Anfragen, die standardmäßig blockiert sind (<i>Plugins</i>,\n<i>Frames</i>, etc.) weiterhin blockiert. Für einige Benutzer ist das möglicherweise\nzu lästig, daher dieser Schalter.</p>\n<p><strong>Striktes Blockieren an</strong>: blockierte Arten von Anfragen (falls vorhanden)\nfür einen Hostnamen auf der Whitelist sind weiterhin blockiert (sofern du diese Arten von Anfragen für diesen Hostnamen nicht ausdrücklich erlaubst.)</p>\n<p><strong>Striktes Blockieren aus</strong>: blockierte Arten von Anfragen (falls vorhanden)\nfür einen Hostnamen auf der Whitelist sind erlaubt (sofern du diese Arten von Anfragen für diesen Hostnamen nicht ausdrücklich verbietest.)</p>",
         "description": ""
     },
 
