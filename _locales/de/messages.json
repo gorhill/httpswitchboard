@@ -100,7 +100,7 @@
         "description": "hovering over the button to add page scope (identified by $1)"
     },
     "matrixRevert" : {
-        "message": "Lösche alle temporären Regeln &mdash; die nicht mit dem Schloss gesichert sind",
+        "message": "Lösche alle temporären Regeln &mdash; solche also, die nicht mit dem Schloss gesichert sind",
         "description": "hovering over the button to clear temporary permissions"
     },
 
@@ -157,11 +157,11 @@
         "description": "when user hover over green unlocked padlock"
     },
     "matrixUnpersistBlock" : {
-        "message": "Diese Zelle aus der <span class=\"rdt\">Blacklist</span> entfernen",
+        "message": "Diese Zelle permanent aus der <span class=\"rdt\">Blacklist</span> entfernen",
         "description": "when user hover over red locked padlock"
     },
     "matrixUnpersistAllow" : {
-        "message": "Diese Zelle aus der <span class=\"gdt\">Whitelist</span> entfernen",
+        "message": "Diese Zelle permanent aus der <span class=\"gdt\">Whitelist</span> entfernen",
         "description": "when user hover over green locked padlock"
     },
 
