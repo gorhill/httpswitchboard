@@ -2,8 +2,8 @@
 #
 # For more information about this list, see: http://pgl.yoyo.org/adservers/
 # ----
-# last updated:   Mon, 23 Dec 2013 10:40:38 GMT
-# entries:        2521
+# last updated:   Thu, 02 Jan 2014 08:08:33 GMT
+# entries:        2522
 # format:         hosts (hosts -- in hosts file format)
 # credits:        Peter Lowe - pgl@yoyo.org - http://pgl.yoyo.org/
 # this URL:       http://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext
@@ -115,6 +115,7 @@
 127.0.0.1 ad.grafika.cz
 127.0.0.1 ad.harmony-central.com
 127.0.0.1 ad.hbv.de
+127.0.0.1 ad.hodomobile.com
 127.0.0.1 ad.howstuffworks.com
 127.0.0.1 ad.httpool.com
 127.0.0.1 ad.hyena.cz
@@ -327,7 +328,6 @@
 127.0.0.1 adpost.com
 127.0.0.1 adprofile.net
 127.0.0.1 adprojekt.pl
-127.0.0.1 adpush.dreamscape.com
 127.0.0.1 adq.nextag.com
 127.0.0.1 adreactor.com
 127.0.0.1 adremedy.com
@@ -339,6 +339,7 @@
 127.0.0.1 adroll.com
 127.0.0.1 adrotate.de
 127.0.0.1 adrotator.net
+127.0.0.1 adrotator.se
 127.0.0.1 ads-click.com
 127.0.0.1 ads.128b.com
 127.0.0.1 ads.4tube.com
@@ -1235,6 +1236,7 @@
 127.0.0.1 casinotraffic.com
 127.0.0.1 casinotreasure.com
 127.0.0.1 cbanners.virtuagirlhd.com
+127.0.0.1 cben1.net
 127.0.0.1 cbmall.com
 127.0.0.1 cbx.net
 127.0.0.1 cecash.com
@@ -1703,6 +1705,7 @@
 127.0.0.1 keymedia.hu
 127.0.0.1 kissmetrics.com
 127.0.0.1 kliks.nl
+127.0.0.1 kompasads.com
 127.0.0.1 kontera.com
 127.0.0.1 kt-g.de
 127.0.0.1 ktu.sv2.biz
@@ -1869,6 +1872,7 @@
 127.0.0.1 newbie.com
 127.0.0.1 newnet.qsrch.com
 127.0.0.1 newnudecash.com
+127.0.0.1 newopenx.detik.com
 127.0.0.1 newt1.adultadworld.com
 127.0.0.1 newt1.adultworld.com
 127.0.0.1 newtopsites.com
@@ -1900,7 +1904,6 @@
 127.0.0.1 oewabox.at
 127.0.0.1 offerforge.com
 127.0.0.1 offermatica.com
-127.0.0.1 oinadserve.com
 127.0.0.1 oinadserver.com
 127.0.0.1 olivebrandresponse.com
 127.0.0.1 omniture.com
@@ -2062,7 +2065,6 @@
 127.0.0.1 rampidads.com
 127.0.0.1 rank-master.com
 127.0.0.1 rank-master.de
-127.0.0.1 rank-raider.de
 127.0.0.1 rank8.de
 127.0.0.1 rankchamp.de
 127.0.0.1 ranking-charts.de
@@ -2188,7 +2190,6 @@
 127.0.0.1 smart4ads.com
 127.0.0.1 smartadserver.com
 127.0.0.1 smartbase.cdnservices.com
-127.0.0.1 smile.modchipstore.com
 127.0.0.1 smowtion.com
 127.0.0.1 snapads.com
 127.0.0.1 snoobi.com
@@ -2272,7 +2273,6 @@
 127.0.0.1 teenrevenue.com
 127.0.0.1 teknosurf3.com
 127.0.0.1 teliad.de
-127.0.0.1 tenbux.somethingawful.com
 127.0.0.1 test.com
 127.0.0.1 text-link-ads.com
 127.0.0.1 textad.sexsearch.com
@@ -2312,6 +2312,7 @@
 127.0.0.1 topblogarea.se
 127.0.0.1 topbloglists.com
 127.0.0.1 topbucks.com
+127.0.0.1 topforall.com
 127.0.0.1 topgamesites.net
 127.0.0.1 toplist.cz
 127.0.0.1 toplist.pornhost.com
@@ -2366,7 +2367,6 @@
 127.0.0.1 traffiq.com
 127.0.0.1 trafic.ro
 127.0.0.1 traficdublu.ro
-127.0.0.1 trakkerd.net
 127.0.0.1 travis.bosscasinos.com
 127.0.0.1 trekblue.com
 127.0.0.1 trekdata.com
@@ -2420,9 +2420,11 @@
 127.0.0.1 visistat.com
 127.0.0.1 visit.webhosting.yahoo.com
 127.0.0.1 visitbox.de
+127.0.0.1 visitorprofiler.com
 127.0.0.1 visual-pagerank.fr
 127.0.0.1 visualrevenue.com
 127.0.0.1 voicefive.com
+127.0.0.1 vpon.com
 127.0.0.1 vrs.cz
 127.0.0.1 vs.tucows.com
 127.0.0.1 wads.webteh.com
@@ -2471,7 +2473,6 @@
 127.0.0.1 window.nixnet.cz
 127.0.0.1 wintricksbanner.googlepages.com
 127.0.0.1 wipub.com
-127.0.0.1 witch-counter.de
 127.0.0.1 wlmarketing.com
 127.0.0.1 wmirk.ru
 127.0.0.1 wondoads.de
