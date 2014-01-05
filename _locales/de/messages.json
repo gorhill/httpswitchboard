@@ -4,33 +4,33 @@
         "description": "extension name."
     },
     "extShortDesc": {
-        "message": "Point & click to forbid/allow any class of requests made by your browser. Use it to block scripts, iframes, ads, facebook, etc.",
+        "message": "Zeige und klicke, um alle Klassen von Anfragen deines Browsers zu erlauben/verbieten. Blockiere damit Skripte, IFrames, Werbung, Facebook, usw.",
         "description": "this will in chrome web store"
     },
     "ruleManagerPageName": {
-        "message": "Rule manager",
+        "message": "Regelmanager",
         "description": "the name of Rule Manager page."
     },
     "statsPageName": {
-        "message": "Statistics",
+        "message": "Statistik",
         "description": "the name of the Statistics page."
     },
     "settingsPageName": {
-        "message": "Settings",
+        "message": "Einstellungen",
         "description": "the name of the Settings page."
     },
 
 
     "allPrettyName": {
-        "message": "all",
+        "message": "alle",
         "description": "HAS TO FIT IN MATRIX HEADER!"
     },
     "cookiePrettyName": {
-        "message": "cookie",
+        "message": "Cookie",
         "description": "HAS TO FIT IN MATRIX HEADER!"
     },
     "cookiePrettyNamePlural": {
-        "message": "cookies",
+        "message": "Cookies",
         "description": "..."
     },
     "stylesheetPrettyName": {
@@ -42,27 +42,27 @@
         "description": "..."
     },
     "imagePrettyName": {
-        "message": "image",
+        "message": "Bild",
         "description": "HAS TO FIT IN MATRIX HEADER!"
     },
     "imagePrettyNamePlural": {
-        "message": "images",
+        "message": "Bilder",
         "description": "..."
     },
     "objectPrettyName": {
-        "message": "plugin",
+        "message": "Plugin",
         "description": "HAS TO FIT IN MATRIX HEADER!"
     },
     "objectPrettyNamePlural": {
-        "message": "plugins",
+        "message": "Plugins",
         "description": "..."
     },
     "scriptPrettyName": {
-        "message": "script",
+        "message": "Skript",
         "description": "HAS TO FIT IN MATRIX HEADER!"
     },
     "scriptPrettyNamePlural": {
-        "message": "scripts",
+        "message": "Skripte",
         "description": "..."
     },
     "xmlhttprequestPrettyName": {
@@ -74,33 +74,33 @@
         "description": "..."
     },
     "sub_framePrettyName": {
-        "message": "frame",
+        "message": "Frame",
         "description": "HAS TO FIT IN MATRIX HEADER!"
     },
     "sub_framePrettyNamePlural": {
-        "message": "frames",
+        "message": "Frames",
         "description": "..."
     },
     "otherPrettyName": {
-        "message": "other",
+        "message": "andere",
         "description": "HAS TO FIT IN MATRIX HEADER!"
     },
     "otherPrettyNamePlural": {
-        "message": "others",
+        "message": "andere",
         "description": "..."
     },
 
 
     "matrixRemoveScope" : {
-        "message": "Remove all rules specific to <b>$1</b>",
+        "message": "Entferne alle Regeln spezifisch für <b>$1</b>",
         "description": "hovering over the button to remove page scope (identified by $1)"
     },
     "matrixCreateScope" : {
-        "message": "Create rules specific to web pages which URL starts exactly with <b>$1</b>",
+        "message": "Erzeuge Regeln spezifisch für Webseiten, deren URL exakt mit <b>$1</b> beginnt",
         "description": "hovering over the button to add page scope (identified by $1)"
     },
     "matrixRevert" : {
-        "message": "Clear all temporary rules &mdash; those which are not padlocked",
+        "message": "Lösche alle temporären Regeln &mdash; die nicht mit dem Schloss gesichert sind",
         "description": "hovering over the button to clear temporary permissions"
     },
 
@@ -167,7 +167,7 @@
 
 
     "statsPageTitle" : {
-        "message": "HTTP Switchboard &ndash; Statistics",
+        "message": "HTTP Switchboard &ndash; Statistik",
         "description": "header for the whole stats page"
     },
     "statsPageWhitelistsBlacklists" : {
@@ -175,11 +175,11 @@
         "description": "header for 'whitelists/blacklists' section"
     },
     "statsPageGeekyStats" : {
-        "message": "Geeky stats",
+        "message": "Detaillierte Statistik",
         "description": "header for 'geeky stats' section"
     },
     "statsPageOverview" : {
-        "message": "Overview",
+        "message": "Übersicht",
         "description": "header for 'overview' section"
     },
     "statsPageRequests" : {
@@ -187,19 +187,19 @@
         "description": "in geeky stats section, header for the type of request"
     },
     "statsPageAllowed" : {
-        "message": "Allowed",
+        "message": "Erlaubt",
         "description": "capitalized"
     },
     "statsPageBlocked" : {
-        "message": "Blocked",
+        "message": "Blockiert",
         "description": "capitalized"
     },
     "statsPageDetailed" : {
-        "message": "Detailed",
+        "message": "Detailliert",
         "description": "header for 'detailed' section"
     },
     "statsPageRefresh" : {
-        "message": "Refresh",
+        "message": "Aktualisieren",
         "description": "text for refresh button"
     },
 
