@@ -27,7 +27,6 @@
 
 var targetUrl = 'All';
 var maxRequests = 500;
-var selectedRemoteBlacklistsHash = '';
 
 /******************************************************************************/
 
@@ -43,22 +42,14 @@ function pageStatsFromPageUrl(pageUrl) {
 
 // Get a list of latest net requests
 
-function requestDetails(url, type, when, blocked) {
-    this.url = url;
-    this.when = type;
-    this.type = when;
-    this.blocked = blocked;
-}
-
 function updateRequestData() {
     var requests = [];
     var pageUrls = targetUrl === 'All' ?
           Object.keys(gethttpsb().pageStats) :
           [targetUrl];
     var iPageUrl, nPageUrls, pageUrl;
-    var reqKeys, iReqKey, nReqKeys, reqKey;
+    var logEntries, i, n, logEntry;
     var pageStats, pageRequests;
-    var pos, reqURL, reqType, entry;
 
     nPageUrls = pageUrls.length;
     for ( iPageUrl = 0; iPageUrl < nPageUrls; iPageUrl++ ) {
@@ -69,28 +60,16 @@ function updateRequestData() {
             continue;
         }
         pageRequests = pageStats.requests;
-        reqKeys = pageRequests.getLoggedRequests();
-        nReqKeys = reqKeys.length;
-        for ( iReqKey = 0; iReqKey < nReqKeys; iReqKey++ ) {
-            reqKey = reqKeys[iReqKey];
-            // rhill 2013-12-04: `reqKey` can be null since a ring buffer is
+        logEntries = pageRequests.getLoggedRequests();
+        n = logEntries.length;
+        for ( i = 0; i < n; i++ ) {
+            logEntry = logEntries[i];
+            // rhill 2013-12-04: `logEntry` can be null since a ring buffer is
             // now used, and it might not have been filled yet.
-            if ( !reqKey ) {
+            if ( !logEntry ) {
                 continue;
             }
-            pos = reqKey.indexOf('#');
-            reqURL = reqKey.slice(0, pos);
-            reqType = reqKey.slice(pos + 1);
-            entry = pageRequests.getLoggedRequestEntry(reqURL, reqType);
-            if ( !entry ) {
-                continue;
-            }
-            requests.push(new requestDetails(
-                reqURL,
-                entry.when,
-                reqType,
-                entry.blocked
-            ));
+            requests.push(logEntry);
         }
     }
 

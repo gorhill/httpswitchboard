@@ -329,6 +329,7 @@ HTTPSB.autoWhitelistTemporarilyPageDomain = function(pageURL, pageHostname) {
         var domain = uriTools.domainFromHostname(pageHostname);
         // 'p' as in 'pale' (green or red), i.e. graylisted
         if ( this.evaluateFromScopeKey(scopeKey, '*', domain).charAt(1) === 'p' ) {
+            // console.log('beforeRequestHandler()> autowhitelisting "%s"', pageURL);
             this.whitelistTemporarily(scopeKey, '*', domain);
         }
     }

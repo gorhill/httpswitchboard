@@ -163,13 +163,13 @@ chrome.extension.onConnect.addListener(onConnectHandler);
 
 function clearBrowserCacheCallback() {
     var httpsb = HTTPSB;
-
     if ( httpsb.userSettings.clearBrowserCache ) {
         httpsb.clearBrowserCacheCycle -= 15;
         if ( httpsb.clearBrowserCacheCycle <= 0 ) {
             httpsb.clearBrowserCacheCycle = httpsb.userSettings.clearBrowserCacheAfter;
             httpsb.browserCacheClearedCounter++;
             chrome.browsingData.removeCache({ since: 0 });
+            // console.debug('clearBrowserCacheCallback()> chrome.browsingData.removeCache() called');
         }
     }
 }

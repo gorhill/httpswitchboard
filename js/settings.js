@@ -238,6 +238,7 @@ function initAll() {
 
     $('#bye').on('click', function() {
         onChangeValueHandler($('#delete-unused-session-cookies-after'), 'deleteUnusedSessionCookiesAfter', 0, 1440);
+        onChangeValueHandler($('#clear-browser-cache-after'), 'clearBrowserCacheAfter', 15, 1440);
         onChangeValueHandler($('#max-logged-requests'), 'maxLoggedRequests', 0, 999);
         window.open('','_self').close();
     });

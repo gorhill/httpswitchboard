@@ -59,7 +59,9 @@ function PermissionScopes() {
     this.scopes['*'] = new PermissionScope();
 }
 
-function PageStatsRequestEntry() {
+function LogEntry() {
+    this.url = '';
+    this.type = '';
     this.when = 0;
     this.blocked = false;
 }

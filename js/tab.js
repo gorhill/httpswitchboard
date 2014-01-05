@@ -21,24 +21,24 @@
 
 /******************************************************************************/
 
-PageStatsRequestEntry.junkyard = [];
+LogEntry.junkyard = [];
 
 /*----------------------------------------------------------------------------*/
 
-PageStatsRequestEntry.factory = function() {
-    var entry = PageStatsRequestEntry.junkyard.pop();
+LogEntry.factory = function() {
+    var entry = LogEntry.junkyard.pop();
     if ( entry ) {
         return entry;
     }
-    return new PageStatsRequestEntry();
+    return new LogEntry();
 };
 
 /*----------------------------------------------------------------------------*/
 
-PageStatsRequestEntry.prototype.dispose = function() {
+LogEntry.prototype.dispose = function() {
     // Let's not grab and hold onto too much memory..
-    if ( PageStatsRequestEntry.junkyard.length < 200 ) {
-        PageStatsRequestEntry.junkyard.push(this);
+    if ( LogEntry.junkyard.length < 200 ) {
+        LogEntry.junkyard.push(this);
     }
 };
 
@@ -46,7 +46,7 @@ PageStatsRequestEntry.prototype.dispose = function() {
 
 PageStatsRequests.factory = function() {
     var requests = new PageStatsRequests();
-    requests.ringBuffer = new Array(HTTPSB.userSettings.maxLoggedRequests);
+    requests.resizeLogBuffer(HTTPSB.userSettings.maxLoggedRequests);
     return requests;
 };
 
@@ -144,25 +144,23 @@ PageStatsRequests.prototype.typeFromRequestKey = PageStatsRequests.typeFromReque
 /*----------------------------------------------------------------------------*/
 
 PageStatsRequests.prototype.createEntryIfNotExists = function(url, type, block) {
-    this.logRequest(url, type);
+    this.logRequest(url, type, block);
     var reqKey = PageStatsRequests.makeRequestKey(url, type);
-    var entry = this.requests[reqKey];
-    if ( entry ) {
-        entry.when = Date.now();
-        entry.blocked = block;
+    if ( this.requests[reqKey] ) {
         return false;
     }
     PageStatsRequests.rememberRequestKey(reqKey);
-    entry = PageStatsRequestEntry.factory();
-    entry.when = Date.now();
-    entry.blocked = block;
-    this.requests[reqKey] = entry;
+    this.requests[reqKey] = true;
     return true;
 };
 
 /*----------------------------------------------------------------------------*/
 
 PageStatsRequests.prototype.resizeLogBuffer = function(size) {
+    if ( !this.ringBuffer ) {
+        this.ringBuffer = new Array(0);
+        this.ringBufferPointer = 0;
+    }
     if ( size === this.ringBuffer.length ) {
         return;
     }
@@ -193,14 +191,21 @@ PageStatsRequests.prototype.resizeLogBuffer = function(size) {
 
 /*----------------------------------------------------------------------------*/
 
-PageStatsRequests.prototype.logRequest = function(url, type) {
+PageStatsRequests.prototype.logRequest = function(url, type, block) {
     var buffer = this.ringBuffer;
     var len = buffer.length;
     if ( !len ) {
         return;
     }
     var pointer = this.ringBufferPointer;
-    buffer[pointer] = url + '#' + type;
+    if ( !buffer[pointer] ) {
+        buffer[pointer] = LogEntry.factory();
+    }
+    var logEntry = buffer[pointer];
+    logEntry.url = url;
+    logEntry.type = type;
+    logEntry.when = Date.now();
+    logEntry.blocked = block;
     this.ringBufferPointer = ((pointer + 1) % len) | 0;
 };
 
@@ -236,17 +241,11 @@ PageStatsRequests.prototype.getRequestKeys = function() {
 PageStatsRequests.prototype.getRequestDict = function() {
     return this.requests;
 };
-/*----------------------------------------------------------------------------*/
-
-PageStatsRequests.prototype.getEntry = function(reqKey) {
-    return this.requests[reqKey];
-};
 
 /*----------------------------------------------------------------------------*/
 
 PageStatsRequests.prototype.disposeOne = function(reqKey) {
     if ( this.requests[reqKey] ) {
-        this.requests[reqKey].dispose();
         delete this.requests[reqKey];
         PageStatsRequests.forgetRequestKey(reqKey);
     }
@@ -259,13 +258,12 @@ PageStatsRequests.prototype.dispose = function() {
     for ( var reqKey in requests ) {
         if ( requests.hasOwnProperty(reqKey) ) {
             stringPacker.forget(reqKey.slice(7));
-            requests[reqKey].dispose();
             delete requests[reqKey];
         }
     }
     var i = this.ringBuffer.length;
     while ( i-- ) {
-        this.ringBuffer[i] = '';
+        this.ringBuffer[i] = null;
     }
     this.ringBufferPointer = 0;
 };
