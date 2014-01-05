@@ -50,7 +50,7 @@ var HTTPSB = {
     // list of remote blacklist locations
     remoteBlacklists: {
         'assets/httpsb-blacklist.txt': {},
-        'assets/thirdparties/mirror1.malwaredomains.com/files/immortal_domains.txt': { off: true },
+        'assets/thirdparties/mirror1.malwaredomains.com/files/immortal_domains.txt': {},
         'assets/thirdparties/mirror1.malwaredomains.com/files/justdomains': {},
         'assets/thirdparties/pgl.yoyo.org/as/serverlist': {},
         'assets/thirdparties/www.malwaredomainlist.com/hostslist/hosts.txt': {},
