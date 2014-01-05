@@ -5,7 +5,7 @@
     },
     "extShortDesc": {
         "message": "Point & click to forbid/allow any class of requests made by your browser. Use it to block scripts, iframes, ads, facebook, etc.",
-        "description": "this will in chrome web store"
+        "description": "this will in chrome web store: must be 132 characters or less"
     },
     "ruleManagerPageName": {
         "message": "Rule manager",

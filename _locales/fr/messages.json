@@ -5,7 +5,7 @@
     },
     "extShortDesc": {
         "message": "Bloquez ou allouez facilement n'importe quel type de requête faites par votre navigateur. Bloquez scripts, pubs, cookies, etc.",
-        "description": "this will in chrome web store"
+        "description": "this will in chrome web store: must be 132 characters or less"
     },
     "ruleManagerPageName": {
         "message": "Gestionnaire de permissions",
