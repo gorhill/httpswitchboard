@@ -4,7 +4,7 @@
         "description": "extension name."
     },
     "extShortDesc": {
-        "message": "Zeige und klicke, um alle Klassen von Anfragen deines Browsers zu erlauben/verbieten. Blockiere damit Skripte, IFrames, Werbung, Facebook, usw.",
+        "message": "Zeige und klicke, um alle Klassen von Anfragen deines Browsers zu erlauben/verbieten. Blockiere damit Skripte, IFrames, usw.",
         "description": "this will in chrome web store: must be 132 characters or less"
     },
     "ruleManagerPageName": {
