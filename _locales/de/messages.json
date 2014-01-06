@@ -100,7 +100,7 @@
         "description": "hovering over the button to add page scope (identified by $1)"
     },
     "matrixRevert" : {
-        "message": "Lösche alle temporären Regeln &mdash; solche also, die nicht mit dem Schloss gesichert sind",
+        "message": "Lösche alle temporären Regeln &mdash; also solche, die nicht mit dem Schloss gesichert sind",
         "description": "hovering over the button to clear temporary permissions"
     },
 
