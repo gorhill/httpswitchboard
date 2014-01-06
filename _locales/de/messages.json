@@ -4,7 +4,7 @@
         "description": "extension name."
     },
     "extShortDesc": {
-        "message": "Zeige und klicke, um alle Klassen von Anfragen deines Browsers zu erlauben/verbieten. Blockiere damit Skripte, IFrames, usw.",
+        "message": "Zeige und klicke, um alle Arten von Anfragen deines Browsers zu erlauben/verbieten. Blockiere damit Skripte, IFrames, usw.",
         "description": "this will in chrome web store: must be 132 characters or less"
     },
     "ruleManagerPageName": {
@@ -183,7 +183,7 @@
         "description": "header for 'overview' section"
     },
     "statsPageRequests" : {
-        "message": "Requests",
+        "message": "Requests (Anfragen des Browsers)",
         "description": "in geeky stats section, header for the type of request"
     },
     "statsPageAllowed" : {
@@ -205,7 +205,7 @@
 
 
     "settingsStrictBlockingInfo": {
-        "message": "<p><strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Striktes\nBlockieren</a></strong>,\neingeführt in <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log#036\">version 0.3.6</a>,\nbedeutet: Selbst\nwenn du einen spezifischen Hostnamen auf die Whitelist setzt, bleiben die Arten von Anfragen, die standardmäßig blockiert sind (<i>Plugins</i>,\n<i>Frames</i>, etc.) weiterhin blockiert. Für einige Benutzer ist das möglicherweise\nzu lästig, daher dieser Schalter.</p>\n<p><strong>Striktes Blockieren an</strong>: blockierte Arten von Anfragen (falls vorhanden)\nfür einen Hostnamen auf der Whitelist sind weiterhin blockiert (sofern du diese Arten von Anfragen für diesen Hostnamen nicht ausdrücklich erlaubst.)</p>\n<p><strong>Striktes Blockieren aus</strong>: blockierte Arten von Anfragen (falls vorhanden)\nfür einen Hostnamen auf der Whitelist sind erlaubt (sofern du diese Arten von Anfragen für diesen Hostnamen nicht ausdrücklich verbietest.)</p>",
+        "message": "<p><strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Striktes\nBlockieren</a></strong>,\neingeführt in <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log#036\">version 0.3.6</a>,\nbedeutet: Selbst\nwenn du einen spezifischen Hostnamen auf die Whitelist setzt, bleiben die Arten von Anfragen, die standardmäßig blockiert sind (<i>Plugins</i>,\n<i>Frames</i>, etc.) weiterhin blockiert, d.h. auf der Blacklist. Für einige Benutzer ist das möglicherweise\nzu lästig, daher dieser Schalter.</p>\n<p><strong>Striktes Blockieren an</strong>: blockierte Arten von Anfragen (falls vorhanden)\nfür einen Hostnamen auf der Whitelist bleiben weiterhin auf der Blacklist (sofern du diese Arten von Anfragen für diesen Hostnamen nicht ausdrücklich erlaubst.)</p>\n<p><strong>Striktes Blockieren aus</strong>: blockierte Arten von Anfragen (falls vorhanden)\nfür einen Hostnamen auf der Whitelist sind erlaubt (sofern du diese Arten von Anfragen für diesen Hostnamen nicht ausdrücklich verbietest.)</p>",
         "description": ""
     },
 
