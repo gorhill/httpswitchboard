@@ -205,7 +205,7 @@
 
 
     "settingsPageTitle" : {
-        "message": "HTTP Switchboard &ndash; Settings",
+        "message": "HTTP Switchboard &ndash; Einstellungen",
         "description": "header for the whole Settings page"
     },
     "settingsMatrixHeader" : {
@@ -213,11 +213,11 @@
         "description": "header of Matrix settings section"
     },
     "settingsMatrixDisplayHeader" : {
-        "message": "Display",
+        "message": "Anzeige",
         "description": "header of Matrix/Display settings section"
     },
     "settingsMatrixDisplayTextSizePrompt" : {
-        "message": "Text size:",
+        "message": "Textgröße:",
         "description": "..."
     },
     "settingsMatrixDisplayTextSizeNormal" : {
@@ -225,15 +225,15 @@
         "description": "..."
     },
     "settingsMatrixDisplayTextSizeLarge" : {
-        "message": "Large",
+        "message": "Groß",
         "description": "..."
     },
     "settingsMatrixMoreSecurityHeader" : {
-        "message": "More security",
+        "message": "Mehr Sicherheit",
         "description": "..."
     },
     "settingsStrictBlockingPrompt": {
-        "message": "Enable strict blocking.",
+        "message": "Striktes Blockieren aktivieren.",
         "description": ""
     },
     "settingsStrictBlockingInfo": {
@@ -241,11 +241,11 @@
         "description": "To help user understand the purpose of strict blocking"
     },
     "settingsMatrixLessSecurityHeader" : {
-        "message": "Less security",
+        "message": "Weniger Sicherheit",
         "description": "..."
     },
     "settingsAutoWhitelistPrompt": {
-        "message": "Auto whitelist page domain.",
+        "message": "Auto-whitelist: automatisches Hinzufügen von Domänen zur Whitelist.",
         "description": ""
     },
     "settingsAutoWhitelistHelp": {
@@ -253,15 +253,15 @@
         "description": "To help user understand the purpose of auto-whitelist"
     },
     "settingsPresetListsOfBlockedHostsHeader" : {
-        "message": "Third-party lists of blocked hosts",
+        "message": "Externe Listen blockierter Hostnamen",
         "description": "header of Third-party lists of blocked hosts section"
     },
     "settingsPrivacyHeader" : {
-        "message": "Privacy",
+        "message": "Privatsphäre",
         "description": "header of Privacy section"
     },
     "settingsDeleteBlockedCookiesPrompt" : {
-        "message": "Delete blocked cookies",
+        "message": "Entferne blockierte Cookies",
         "description": "..."
     },
     "settingsDeleteBlockedCookiesHelp" : {
