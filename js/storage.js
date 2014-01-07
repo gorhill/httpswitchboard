@@ -151,8 +151,6 @@ function loadUserLists() {
             httpsb.whitelistPermanently('*', 'stylesheet', '*');
             httpsb.whitelistTemporarily('*', 'image', '*');
             httpsb.whitelistPermanently('*', 'image', '*');
-            httpsb.blacklistTemporarily('*', 'object', '*');
-            httpsb.blacklistPermanently('*', 'object', '*');
             httpsb.blacklistTemporarily('*', 'sub_frame', '*');
             httpsb.blacklistPermanently('*', 'sub_frame', '*');
         }
