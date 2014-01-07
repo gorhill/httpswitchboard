@@ -4,7 +4,7 @@
         "description": "extension name."
     },
     "extShortDesc": {
-        "message": "Zeige und klicke, um alle Arten von Anfragen deines Browsers zu erlauben/verbieten. Blockiere damit Skripte, IFrames, usw.",
+        "message": "Kontrolliere alle Arten von Anfragen deines Browsers durch einfaches Point&Click. Blockiere damit Skripte, IFrames, Plugins usw.",
         "description": "this will in chrome web store: must be 132 characters or less"
     },
     "ruleManagerPageName": {
