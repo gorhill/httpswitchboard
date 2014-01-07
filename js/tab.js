@@ -150,7 +150,7 @@ PageStatsRequests.prototype.createEntryIfNotExists = function(url, type, block) 
         return false;
     }
     PageStatsRequests.rememberRequestKey(reqKey);
-    this.requests[reqKey] = true;
+    this.requests[reqKey] = Date.now();
     return true;
 };
 
@@ -476,11 +476,7 @@ function garbageCollectStalePageStatsCallback() {
         var reqKeys = pageStats.requests.getRequestKeys();
         if ( reqKeys.length > httpsb.behindTheSceneMaxReq ) {
             reqKeys = reqKeys.sort(function(a,b){
-                var ra = pageStats.requests[a];
-                var rb = pageStats.requests[b];
-                if ( rb.when < ra.when ) { return -1; }
-                if ( ra.when < rb.when ) { return 1; }
-                return 0;
+                return pageStats.requests[b] - pageStats.requests[a];
             }).slice(httpsb.behindTheSceneMaxReq);
             var iReqKey = reqKeys.length;
             while ( iReqKey-- ) {
