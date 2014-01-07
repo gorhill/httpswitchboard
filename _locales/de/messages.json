@@ -245,11 +245,11 @@
         "description": "..."
     },
     "settingsAutoWhitelistPrompt": {
-        "message": "Auto-whitelist: automatisches Hinzufügen von Domänen zur Whitelist.",
+        "message": "Auto-Whitelist: automatisches Hinzufügen von Domänen zur Whitelist.",
         "description": ""
     },
     "settingsAutoWhitelistHelp": {
-        "message": "<p>Some users do not like to constantly whitelist the domain of the page by default. This feature allows to automatically whitelist temporarily the whole domain of a page whenever it is first loaded in the browser. The temporary auto-whitelisting will occur <b>only</b> if the page domain is currently graylisted.</p><p>Although security-wise it is not a recommanded feature to use, it has been included due to popular demand -- I rather give users this feature than see them give up completely on a blocker.</p><p>If you use this feature, I advise that you at least blacklist <b>frame</b> requests and turn on <b>strict blocking</b>.</p>",
+        "message": "<p>Einige Benutzer möchten nicht andauernd Webseiten auf die Whitelist setzen müssen. Daher ermöglicht diese Einstellung, dass Domänen temporär automatisch zur Whitelist hinzugefügt werden. Dieses temporäre Auto-Whitelisting findet <b>nur</b> statt, wenn die Domäne auf der "Greylist" ist, d.h. nicht explizit auf die Blackliste gesetzt wurde oder sich auf einer der externen Listen blockierter Hostnamen befindet.</p><p>Obwohl diese Einstellung unter Sicherheitsaspekten nicht empfehlenswert ist, wurde sie aufgrund entsprechender Benutzerwünsche hinzu gefügt -- lieber gebe ich Benutzern diese Option, als dass sie ganz auf die Benutzung einer solchen Erweiterung verzichten.</p><p>Sofern du diese Option benutzen willst, rate ich dazu, zumindest  <b>frame</b> auf die Blacklist zu setzen und <b>Striktes Blockieren</b> zu aktivieren.</p>",
         "description": "To help user understand the purpose of auto-whitelist"
     },
     "settingsPresetListsOfBlockedHostsHeader" : {
