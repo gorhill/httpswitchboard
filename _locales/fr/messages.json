@@ -4,7 +4,7 @@
         "description": "extension name."
     },
     "extShortDesc": {
-        "message": "Bloquez ou allouez facilement n'importe quel type de requête faites par votre navigateur. Bloquez scripts, pubs, cookies, etc.",
+        "message": "Gérez facilement n'importe quel type de requête effectuée par votre navigateur. Allouez ou bloquez des scripts, pubs, cookies, etc.",
         "description": "this will in chrome web store: must be 132 characters or less"
     },
     "ruleManagerPageName": {
@@ -92,15 +92,15 @@
 
 
     "matrixRemoveScope" : {
-        "message": "Enlever toutes les permissions spécifiques aux pages web débutant par <b>$1</b>",
+        "message": "Retirer les permissions spécifiques aux pages web commençant par <b>$1</b>",
         "description": "hovering over the button to remove page scope (identified by $1)"
     },
     "matrixCreateScope" : {
-        "message": "Créez des permissions spécifiques aux pages web débutant exactement par <b>$1</b>",
+        "message": "Créer des permissions spécifiques aux pages web commençant par <b>$1</b>",
         "description": "hovering over the button to add page scope (identified by $1)"
     },
     "matrixRevert" : {
-        "message": "Effacez toutes les permissions temporaires &mdash; celles qui ne sont pas cadenassées",
+        "message": "Supprimer toutes les permissions temporaires &mdash; celles qui ne sont pas cadenassées",
         "description": "hovering over the button to clear temporary permissions"
     },
 
@@ -113,23 +113,23 @@
         "description": "used in matrix as user hover cells"
     },
     "matrixAllowSomethingFromEverywhere" : {
-        "message": "Cliquez pour <span class=\"gdt\">allouer</span> <b>{{what}}</b> en provenance de <b>partout</b>, excepté les domaines de la liste noire",
+        "message": "Cliquez pour <span class=\"gdt\">allouer</span> <b>les requêtes de type {{what}}</b> en provenance de <b>partout</b>, excepté les domaines de la liste noire",
         "description": "used in matrix as user hover cells"
     },
     "matrixAllowEverythingFromSomewhere" : {
-        "message": "Cliquez pour <span class=\"gdt\">allouer</span> <b>tout</b> en provenance de <b>{{where}}</b>",
+        "message": "Cliquez pour <span class=\"gdt\">allouer</span> <b>tout type de requête</b> en provenance de <b>{{where}}</b>",
         "description": "used in matrix as user hover cells"
     },
     "matrixAllowSomethingFromSomewhere" : {
-        "message": "Cliquez pour <span class=\"gdt\">allouer</span> <b>{{what}}</b> en provenance de <b>{{where}}</b>",
+        "message": "Cliquez pour <span class=\"gdt\">allouer</span> <b>les requêtes de type {{what}}</b> en provenance de <b>{{where}}</b>",
         "description": "used in matrix as user hover cells"
     },
     "matrixBlockSomethingFromEverywhere" : {
-        "message": "Cliquez pour <span class=\"rdt\">bloquer</span> <b>{{what}}</b> en provenance de <b>partout</b>,  excepté les domaines de la liste blanche",
+        "message": "Cliquez pour <span class=\"rdt\">bloquer</span> <b>les requêtes de type {{what}}</b> en provenance de <b>partout</b>,  excepté les domaines de la liste blanche",
         "description": "used in matrix as user hover cells"
     },
     "matrixBlockEverythingFromSomewhere" : {
-        "message": "Cliquez pour <span class=\"rdt\">bloquer</span> <b>tout</b> en provenance de <b>{{where}}</b>",
+        "message": "Cliquez pour <span class=\"rdt\">bloquer</span> <b>tout type de requête</b> en provenance de <b>{{where}}</b>",
         "description": "used in matrix as user hover cells"
     },
     "matrixBlockSomethingFromSomewhere" : {
@@ -137,15 +137,15 @@
         "description": "used in matrix as user hover cells"
     },
     "matrixGraylistSomethingFromEverywhere" : {
-        "message": "Cliquez pour mettre sur la liste grise <b>{{what}}</b> en provenance de <b>partout</b>",
+        "message": "Cliquez pour mettre sur la liste grise <b>les requêtes de type {{what}}</b> en provenance de <b>partout</b>",
         "description": "used in matrix as user hover cells"
     },
     "matrixGraylistEverythingFromSomewhere" : {
-        "message": "Cliquez pour mettre sur la liste grise <b>tout</b> en provenance de <b>{{where}}</b>",
+        "message": "Cliquez pour mettre sur la liste grise <b>tout type de requête</b> en provenance de <b>{{where}}</b>",
         "description": "used in matrix as user hover cells"
     },
     "matrixGraylistSomethingFromSomewhere" : {
-        "message": "Cliquez pour mettre sur la liste grise <b>{{what}}</b> en provenance de <b>{{where}}</b>",
+        "message": "Cliquez pour mettre sur la liste grise <b>les requêtes de type {{what}}</b> en provenance de <b>{{where}}</b>",
         "description": "used in matrix as user hover cells"
     },
     "matrixPersistBlock" : {
@@ -157,17 +157,17 @@
         "description": "when user hover over green unlocked padlock"
     },
     "matrixUnpersistBlock" : {
-        "message": "Enlever cette cellule de la <span class=\"rdt\">liste noire</span> permanente",
+        "message": "Retirer cette cellule de la <span class=\"rdt\">liste noire</span> permanente",
         "description": "when user hover over red locked padlock"
     },
     "matrixUnpersistAllow" : {
-        "message": "Enlever cette cellule de la <span class=\"gdt\">liste blanche</span> permanente",
+        "message": "Retirer cette cellule de la <span class=\"gdt\">liste blanche</span> permanente",
         "description": "when user hover over green locked padlock"
     },
 
 
     "statsPageTitle" : {
-        "message": "HTTP Switchboard &ndash; Statistiques",
+        "message": "Statistiques HTTP Switchboard",
         "description": "header for the whole stats page"
     },
     "statsPageWhitelistsBlacklists" : {
@@ -175,11 +175,11 @@
         "description": "header for 'whitelists/blacklists' section"
     },
     "statsPageGeekyStats" : {
-        "message": "Statistiques pour les cracks",
+        "message": "Statistiques détaillées",
         "description": "header for 'geeky stats' section"
     },
     "statsPageOverview" : {
-        "message": "Sommaire",
+        "message": "Aperçu",
         "description": "header for 'overview' section"
     },
     "statsPageRequests" : {
@@ -195,29 +195,29 @@
         "description": "capitalized"
     },
     "statsPageDetailed" : {
-        "message": "Détails",
+        "message": "Vue détaillée",
         "description": "header for 'detailed' section"
     },
     "statsPageRefresh" : {
-        "message": "Rafraîchir",
+        "message": "Actualiser",
         "description": "text for refresh button"
     },
 
 
     "settingsPageTitle" : {
-        "message": "HTTP Switchboard &ndash; Settings",
+        "message": "Paramètres HTTP Switchboard",
         "description": "header for the whole Settings page"
     },
     "settingsMatrixHeader" : {
-        "message": "Matrix",
+        "message": "Matrice",
         "description": "header of Matrix settings section"
     },
     "settingsMatrixDisplayHeader" : {
-        "message": "Display",
+        "message": "Affichage",
         "description": "header of Matrix/Display settings section"
     },
     "settingsMatrixDisplayTextSizePrompt" : {
-        "message": "Text size:",
+        "message": "Taille du texte :",
         "description": "..."
     },
     "settingsMatrixDisplayTextSizeNormal" : {
@@ -229,43 +229,43 @@
         "description": "..."
     },
     "settingsMatrixMoreSecurityHeader" : {
-        "message": "More security",
+        "message": "Sécurité renforcée",
         "description": "..."
     },
     "settingsStrictBlockingPrompt": {
-        "message": "Enable strict blocking.",
+        "message": "Activer le blocage strict",
         "description": ""
     },
     "settingsStrictBlockingInfo": {
-        "message": "<strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Blocage strict</a></strong>, introduit dans la <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log#036\">version 0.3.6</a>, signifie que même si vous allouez un nom d'hôte spécifique, une requête restera bloquée si le type d'objet à requérir (plugins, iframes, etc) est lui-même bloqué. Pour certains utilisateurs, ce peut-être trop restrictif, d'où la possibilité de choisir la logique de blocage ici.\n<strong>Blocage strict</strong>: pour qu'une requête ne soit pas bloquée, le nom d'hôte ET le type de requête doivent être alloués.\n</strong>Blocage non strict</strong>: pour qu'une requête ne soit pas bloquée, seul le nom d'hôte doir être alloué.",
+        "message": "Introduit dans la <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log#036\">version 0.3.6</a>, le <strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Blocage strict</a></strong> signifie que même si vous allouez un nom d'hôte spécifique, une requête restera bloquée si le type d'objet en question (plugins, iframes, etc) est lui-même bloqué; en d'autres termes, le blocage du type d'objet prime sur le domaine concerné. Le choix vous est proposé de l'activer ou non, car cela peut se montrer trop restrictif aux yeux de certains utilisateurs. Si l'option est activée, la requête est autorisée à condition que les nom d'hôte ET le type de requête soient autorisés. Si l'option n'est pas cochée, le nom d'hôte alloué suffit à autoriser la requête.",
         "description": "To help user understand the purpose of strict blocking"
     },
     "settingsMatrixLessSecurityHeader" : {
-        "message": "Less security",
+        "message": "Sécurité réduite",
         "description": "..."
     },
     "settingsAutoWhitelistPrompt": {
-        "message": "Auto whitelist page domain.",
+        "message": "Mise en liste blanche automatique du domaine de la page visitée",
         "description": ""
     },
     "settingsAutoWhitelistHelp": {
-        "message": "<p>Some users do not like to constantly whitelist the domain of the page by default. This feature allows to automatically whitelist temporarily the whole domain of a page whenever it is first loaded in the browser. The temporary auto-whitelisting will occur <b>only</b> if the page domain is currently graylisted.</p><p>Although security-wise it is not a recommanded feature to use, it has been included due to popular demand -- I rather give users this feature than see them give up completely on a blocker.</p><p>If you use this feature, I advise that you at least blacklist <b>frame</b> requests and turn on <b>strict blocking</b>.</p>",
+        "message": "<p>Certains utilisateurs n'aiment pas devoir constamment mettre en liste blanche le domaine de la page visitée. Cette option permet de mettre automatiquement en liste blanche tout le domaine d'une page lors de son premier chargement dans le navigateur. Cette procédure automatique ne se produira <b>uniquement</b> que si le domaine de la page visitée est actuellement sur liste grise.</p><p>Bien que d'un point de vue sécurité, il n'est pas recommandé d'utiliser cette fonctionnalité, elle a été incluse suite à une forte demande (il m'a paru plus pertinent de leur donner cette possibilité que d'abandonner l'utilisation de mon extension).</p><p>Si vous activez cette option, je vous recommande d'au moins mettre sur liste noire globale les requêtes de type <b>frame</b> et d'activer le <b>blocage strict</b>.</p>",
         "description": "To help user understand the purpose of auto-whitelist"
     },
     "settingsPresetListsOfBlockedHostsHeader" : {
-        "message": "Third-party lists of blocked hosts",
+        "message": "Listes tierces d'hôtes à bloquer",
         "description": "header of Third-party lists of blocked hosts section"
     },
     "settingsPrivacyHeader" : {
-        "message": "Privacy",
+        "message": "Confidentialité",
         "description": "header of Privacy section"
     },
     "settingsDeleteBlockedCookiesPrompt" : {
-        "message": "Delete blocked cookies",
+        "message": "Supprimer les cookies bloqués",
         "description": "..."
     },
     "settingsDeleteBlockedCookiesHelp" : {
-        "message": "<p>Blacklisted cookies are not prevented by <i>HTTP Switchboard</i> from entering your browser. However they are prevented from leaving your browser, which is what really matters. Not blocking cookies before they enter your browser gives you the opportunity to be informed that a site tried to use cookies, and furthermore to inspect their contents if you wish.</p><p>Once these blacklisted cookies have been accounted for by <i>HTTP Switchboard</i>, they can be removed from your browser if you wish so.</p><p><b>Important note:</b> Extensions can make web requests during the course of their normal operation. These requests can result in cookies being created in the browser. If the hostname from where a cookie originate is not whitelisted, the cookie will be removed from the browser by <i>HTTP Switchboard</i> if this option is checked. So be sure that the hostname(s) with which an extension communicate is whitelisted.</p>",
+        "message": "<p><i>HTTP Switchboard</i> n'empêche pas les cookies blacklistés 'd'entrer' dans votre navigateur, MAIS les empêche de 'sortir', et c'est ce qui importe. Laisser 'entrer' les cookies vous offre l'opportunité de vous tenir informé(e) du fait qu'un site essaye d'utiliser des cookies, voire d'en inspecter le contenu si vous le désirez.</p><p>Une fois que les cookies blacklistés ont été pris en compte par <i>HTTP Switchboard</i>, ils peuvent être supprimés de votre navigateur si vous le souhaitez.</p><p><b>Note importante :</b> Les extensions peuvent faire des requêtes Web au cours de leurs opérations ordinaires. Ces requêtes peuvent entraîner la création de cookies dans le navigateur. Si le nom d'hôte originaire du cookie n'est pas sur liste blanche, le cookie sera supprimé du navigateur par <i>HTTP Switchboard</i> si cette option est cochée, Alors assurez-vous que le(s) nom(s) d'hôte(s) avec le(s)quel(s) l'extension interagit est sur liste blanche.</p>",
         "description": "..."
     },
     "settingsDeleteNonBlockedSessionCookiesPrompt" : {
@@ -273,11 +273,11 @@
         "description": "..."
     },
     "settingsDeleteNonBlockedSessionCookiesHelp" : {
-        "message": "<p><a href='http://www.w3.org/2001/tag/2010/09/ClientSideStorage.html'>W3C</a>: &ldquo;A session cookie ... is erased when you end the browser session. The session cookie is stored in temporary memory and is not retained after the browser is closed.&rdquo;</p><p>Except that this <a href='https://code.google.com/p/chromium/issues/detail?id=128513'>might not be happening</a> when using a Chromium-based browser. Also, to some, having to close the browser in order for the session cookies to clear might not be early enough.</p>",
+        "message": "<p><a href='http://www.w3.org/2001/tag/2010/09/ClientSideStorage.html'>Définition W3C</a> : Un cookie de session est effacé quand vous avez terminé la session du navigateur. Le cookie de session est stocké dans la mémoire temporaire et n'est pas conservé après la fermeture du navigateur;</p><p>Sauf que cela <a href='https://code.google.com/p/chromium/issues/detail?id=128513'>peut ne pas se produire</a> en utilisant un navigateur basé sur Chromium. En outre, pour certaines personnes, avoir à fermer le navigateur pour nettoyer les cookies de session peut ne pas se révéler suffisant.</p>",
         "description": "..."
     },
     "settingsDeleteBlockedLocalStoragePrompt" : {
-        "message": "Delete contents of <a href='http://en.wikipedia.org/wiki/Web_storage'>local storage</a> of blocked hostnames",
+        "message": "Supprimer les <a href='http://fr.wikipedia.org/wiki/Stockage_web_local'>données locales</a> des noms d'hôtes bloqués",
         "description": "..."
     },
     "settingsDeleteBlockedLocalStorageHelp" : {
@@ -289,39 +289,39 @@
         "description": "..."
     },
     "settingsClearCacheHelp" : {
-        "message": "<p>Some web sites are really bent on tracking you, so much that they will use not-so-nice tricks to work around whatever measures you take in order to not be tracked.</p><p>A few of these tricks rely<sup style='font-size:smaller'>[1, 2]</sup> on the <a href='https://en.wikipedia.org/wiki/Web_cache'>browser cache</a>, which content is often long lasting since rarely will users take the time to regularly clear their browser cache.</p><p>There is little inconvenience to clear the browser cache regularly (likelihood is that you won't notice when it happens), and the benefit is to prevent these obnoxious trackers from invading your privacy.</p><p>Check this option to have <i>HTTP Switchboard</i> do it for you, at the interval you wish.</p><p style='font-size:smaller'>[1] <a href='https://grepular.com/Preventing_Web_Tracking_via_the_Browser_Cache'>&ldquo;Preventing Web Tracking via the Browser Cache&rdquo;</a><br>[2] <a href='http://lucb1e.com/rp/cookielesscookies/'>&ldquo;Cookieless cookies&rdquo;</a></p>",
+        "message": "<p>Certains sites Web sont déterminés à vous pister, à tel point qu'ils utiliseront des techniques bien peu élogieuses pour contourner toute mesure que vous prendriez afin d'éviter le pistage.</p><p>Certaines de ces techniques exploitent<sup style='font-size:smaller'>[1, 2]</sup> le <a href='https://fr.wikipedia.org/wiki/Cache_web'>cache du navigateur</a>, dont le contenu va perdurer un bon bout de temps puisque les utilisateurs prennent rarement le temps de fréquemment nettoyer le cache du navigateur.</p><p>Pour certains, nettoyer régulièrement le cache du navigateur est un dérangement, mais présente l'avantage d'empêcher ces envahissants pisteurs de s'immiscer dans votre vie privée.</p><p>Cochez cette option pour que <i>HTTP Switchboard</i> le fasse pour vous, à la fréquence de votre choix.</p><p style='font-size:smaller'>[1] <a href='https://grepular.com/Preventing_Web_Tracking_via_the_Browser_Cache'>&ldquo;Preventing Web Tracking via the Browser Cache&rdquo;</a><br>[2] <a href='http://lucb1e.com/rp/cookielesscookies/'>&ldquo;Cookieless cookies&rdquo;</a></p>",
         "description": "..."
     },
     "settingsProcessRefererPrompt" : {
-        "message": "Remove third-party <a href='https://en.wikipedia.org/wiki/HTTP_referer'>HTTP referer</a> information for non-whitelisted hostname.",
+        "message": "Supprimer les informations de <a href='https://fr.wikipedia.org/wiki/Référant'>Référants HTTP</a> tiers pour les noms d'hôtes ne figurant pas sur liste blanche.",
         "description": "..."
     },
     "settingsProcessRefererHelp" : {
-        "message": "<p>From Wikipedia: &ldquo;HTTP referer is an HTTP header field that identifies the address of the webpage that linked to the resource being requested. ... <b>Because referer information can violate privacy, some web browsers allow the user to disable the sending of referer information.</b>&rdquo;</p><p>If this setting is checked, <i>HTTP Switchboard</i> will remove the HTTP referer information if <b>both</b> of the following conditions are true:<ul style='padding-left:1em;list-style-type:disc;'><li>The domain name of the HTTP referer does not match the domain name of the URL of the request (that is, the referer is third-party to the web page);<li>The hostname of the request is not whitelisted.</ul></p>",
+        "message": "<p>D'après Wikipedia : Un référant est une information transmise à un serveur HTTP lorsqu'un visiteur suit un lien pour accéder à l'une de ses ressources, lui indiquant l'URL de la page où se situe ce lien qu'il a suivi [...] <b>Les référants peuvent poser des problèmes d'atteinte à la vie privée, puisque le webmestre peut connaître les pages que ses visiteurs ont consulté avant d'accéder aux siennes.</b></p><p>Si ce paramètre est coché, <i>HTTP Switchboard</i> supprimera le référant HTTP si les <b>DEUX</b> conditions suivantes sont vérifiées :<ul style='padding-left:1em;list-style-type:disc;'><li>Le nom de domaine du référant HTTP ne correspond pas à l'URL de la requête (c'est-à-dire que le référant est un tiers par-rapport à la page);<li>Le nom d'hôte de la requête n'est pas sur liste blanche.</ul></p>",
         "description": "..."
     },
     "settingsBehindTheSceneHeader" : {
-        "message": "Chromium: behind-the-scene requests",
+        "message": "Requêtes en coulisses de Chromium",
         "description": "header of Chromium: behind-the-scene requests section"
     },
     "settingsProcessBehindTheScenePrompt" : {
-        "message": "Process <strong>behind-the-scene</strong> HTTP requests.",
+        "message": "Traiter les requêtes HTTP <strong>en coulisses</strong>",
         "description": "..."
     },
     "settingsProcessBehindTheSceneHelp" : {
-        "message": "<p>According to <a href='http://www.google.com/intl/en/chrome/browser/privacy/whitepaper.html'>Google Chrome Privacy Whitepaper</a>, <i>Chromium</i> might send HTTP requests to <i>Google</i> without the user expressly visiting a web page. Let's call these special requests <strong>behind-the-scene</strong> requests. Also, other installed browser extensions can send <strong>behind-the-scene</strong> HTTP requests.</p><p><i>HTTP Switchboard</i> let you intercept and treat these requests like any other request: they can be processed in order to allow/block them as per your whitelist/blacklist.</p><div class='warn'><p><span style='color:red; font-weight:bold'>Beware!</span> Potentially blocking <strong>behind-the-scene</strong> net requests is currently causing <a href='https://github.com/gorhill/httpswitchboard/issues/27'>an issue</a> when the user wants to install an extension from the Chrome store (including maybe preventing extensions from being updated), hence the ability to disable the feature here. Blocking can also cause other installed extensions to not work properly (those querying for remote data).</p> <p>Even if this feature is not enabled, <strong>behind-the-scene</strong> requests are still logged by <i>HTTP Switchboard</i>, so that you can at least inspect them (from the <a href='info.html'>Stats</a> page).</p>",
+        "message": "<p>D'après ce <a href='http://www.google.com/intl/en/chrome/browser/privacy/whitepaper.html'>document de la confidentialité de Google Chrome</a>, <i>Chromium</i> peut envoyer des requêtes HTTP à <i>Google</i> sans que vous n'ayez visité une page Web. Dénommons ces requêtes particulières les <strong>requêtes en coulissesbehind-the-scene</strong>. D'autres extensions de navigateur peuvent également envoyer des requêtes HTTP <strong>en coulisses</strong>.</p><p><i>HTTP Switchboard</i> vous permet d'intercepter et de traiter ces requêtes comme toutes les autres, et peuvent donc être allouées ou bloquées d'après vos listes blanche et noire.</p><div class='warn'><p><span style='color:red; font-weight:bold'>ATTENTION !</span> Bloquer certaines requêtes Web <strong>en coulisses</strong> entraîne <a href='https://github.com/gorhill/httpswitchboard/issues/27'>un problème</a> lorsque l'utilisateur souhaite ajouter une extensions depuis le Chrome Web Store (en plus de potentiellement les empêcher de se mettre à jour), vous avez donc la possibilité de désactiver cette option ici. Le blocage peut aussi occasionner des dysfonctionnements des autres extensions installées (celles requérant l'utilisation de données distantes).</p> <p>Utilisateurs d'Opera : si vous activez cette option, veuillez mettre en liste blanche globale les requêtes de type Autres afin de ne pas entraver la génération des miniatures d'Accès Rapide.</p><p>Même si cette fonctionnalité n'est pas activée, les requêtes <strong>en coulisses</strong> sont toujours journalisées par <i>HTTP Switchboard</i>, pour que vous puissez quand même les inspecter (depuis la page <a href='info.html'>Statistiques</a>).</p>",
         "description": "..."
     },
     "settingsLogHeader" : {
-        "message": "Log",
+        "message": "Journalisation",
         "description": "header of Log section"
     },
     "settingsLogSizeHelp" : {
-        "message": "<p>You can inspect details of the most recent raw HTTP requests which have been made by a web page in the <a href='info.html#geeky-stats' style='font-style:italic'>Statistics</a> page (at the bottom).</p><p>This is mostly useful to geeky users who want to investigate exactly what a web page has been doing. But logging these HTTP requests requires memory, and if you don't care about this geeky information, then memory is being wasted.</p><p>Hence this field which lets you adjust the maximum number of the most recent HTTP requests which are to be logged for further inspection.<p><p>Enter &ldquo;<code>0</code>&rdquo; to turn off detailed logging (and consequently reduce the memory footprint of <i>HTTP Switchboard</i>).</p>",
+        "message": "<p>Vous pouvez inspecter les détails des requêtes HTTP effectuées par une page Web dans la page des <a href='info.html#geeky-stats' style='font-style:italic'>Statistiques</a> (en bas).</p><p>C'est surtout utile pour les utilisateurs chevronnés qui veulent s'enquérir de ce que fait précisément une page Web. Mais journaliser ces requêtes HTTP nécessite de la mémoire vive, et si vous ne vous souciez guère de ces informations, la mémoire utilisée est gaspillée.</p><p>Cette option vous permet de saisir le nombre de requêtes HTTP les plus récentes à journaliser pour une inspection ultérieure.<p><p>Saisissez &ldquo;<code>0</code>&rdquo; pour désactiver la journalisation détaillée (et ainsi réduire l'empreinte mémoire de <i>HTTP Switchboard</i>).</p>",
         "description": "To help user understand the purpose of the log size value"
     },
     "settingsDoneButton" : {
-        "message": "Done",
+        "message": "Appliquer et fermer",
         "description": "Close the Settings page"
     },
 

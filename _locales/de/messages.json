@@ -205,7 +205,7 @@
 
 
     "settingsPageTitle" : {
-        "message": "HTTP Switchboard &ndash; Settings",
+        "message": "HTTP Switchboard &ndash; Einstellungen",
         "description": "header for the whole Settings page"
     },
     "settingsMatrixHeader" : {
@@ -213,11 +213,11 @@
         "description": "header of Matrix settings section"
     },
     "settingsMatrixDisplayHeader" : {
-        "message": "Display",
+        "message": "Anzeige",
         "description": "header of Matrix/Display settings section"
     },
     "settingsMatrixDisplayTextSizePrompt" : {
-        "message": "Text size:",
+        "message": "Textgröße:",
         "description": "..."
     },
     "settingsMatrixDisplayTextSizeNormal" : {
@@ -225,15 +225,15 @@
         "description": "..."
     },
     "settingsMatrixDisplayTextSizeLarge" : {
-        "message": "Large",
+        "message": "Groß",
         "description": "..."
     },
     "settingsMatrixMoreSecurityHeader" : {
-        "message": "More security",
+        "message": "Mehr Sicherheit",
         "description": "..."
     },
     "settingsStrictBlockingPrompt": {
-        "message": "Enable strict blocking.",
+        "message": "Striktes Blockieren aktivieren.",
         "description": ""
     },
     "settingsStrictBlockingInfo": {
@@ -241,31 +241,31 @@
         "description": "To help user understand the purpose of strict blocking"
     },
     "settingsMatrixLessSecurityHeader" : {
-        "message": "Less security",
+        "message": "Weniger Sicherheit",
         "description": "..."
     },
     "settingsAutoWhitelistPrompt": {
-        "message": "Auto whitelist page domain.",
+        "message": "Auto-Whitelist: automatisches Hinzufügen von Domänen zur Whitelist.",
         "description": ""
     },
     "settingsAutoWhitelistHelp": {
-        "message": "<p>Some users do not like to constantly whitelist the domain of the page by default. This feature allows to automatically whitelist temporarily the whole domain of a page whenever it is first loaded in the browser. The temporary auto-whitelisting will occur <b>only</b> if the page domain is currently graylisted.</p><p>Although security-wise it is not a recommanded feature to use, it has been included due to popular demand -- I rather give users this feature than see them give up completely on a blocker.</p><p>If you use this feature, I advise that you at least blacklist <b>frame</b> requests and turn on <b>strict blocking</b>.</p>",
+        "message": "<p>Einige Benutzer möchten nicht andauernd Webseiten auf die Whitelist setzen müssen. Daher ermöglicht diese Einstellung, dass Domänen temporär automatisch zur Whitelist hinzugefügt werden. Dieses temporäre Auto-Whitelisting findet <b>nur</b> statt, wenn die Domäne auf der "Greylist" ist, d.h. nicht explizit auf die Blackliste gesetzt wurde oder sich auf einer der externen Listen blockierter Hostnamen befindet.</p><p>Obwohl diese Einstellung unter Sicherheitsaspekten nicht empfehlenswert ist, wurde sie aufgrund entsprechender Benutzerwünsche hinzu gefügt -- lieber gebe ich Benutzern diese Option, als dass sie ganz auf die Benutzung einer solchen Erweiterung verzichten.</p><p>Sofern du diese Option benutzen willst, rate ich dazu, zumindest  <b>frame</b> auf die Blacklist zu setzen und <b>Striktes Blockieren</b> zu aktivieren.</p>",
         "description": "To help user understand the purpose of auto-whitelist"
     },
     "settingsPresetListsOfBlockedHostsHeader" : {
-        "message": "Third-party lists of blocked hosts",
+        "message": "Externe Listen blockierter Hostnamen",
         "description": "header of Third-party lists of blocked hosts section"
     },
     "settingsPrivacyHeader" : {
-        "message": "Privacy",
+        "message": "Privatsphäre",
         "description": "header of Privacy section"
     },
     "settingsDeleteBlockedCookiesPrompt" : {
-        "message": "Delete blocked cookies",
+        "message": "Entferne blockierte Cookies",
         "description": "..."
     },
     "settingsDeleteBlockedCookiesHelp" : {
-        "message": "<p>Blacklisted cookies are not prevented by <i>HTTP Switchboard</i> from entering your browser. However they are prevented from leaving your browser, which is what really matters. Not blocking cookies before they enter your browser gives you the opportunity to be informed that a site tried to use cookies, and furthermore to inspect their contents if you wish.</p><p>Once these blacklisted cookies have been accounted for by <i>HTTP Switchboard</i>, they can be removed from your browser if you wish so.</p><p><b>Important note:</b> Extensions can make web requests during the course of their normal operation. These requests can result in cookies being created in the browser. If the hostname from where a cookie originate is not whitelisted, the cookie will be removed from the browser by <i>HTTP Switchboard</i> if this option is checked. So be sure that the hostname(s) with which an extension communicate is whitelisted.</p>",
+        "message": "<p>Cookies auf der Blacklist werden von <i>HTTP Switchboard</i> nicht daran gehindert, vom Browser empfangen zu werden. Vielmehr werden sie daran gehindert, den Browser wieder zu verlassen - das ist es, worauf es wirklich ankommt. Dass Cookies nicht blockiert werden, bevor sie vom Browser empfangen werden, gibt dir die Gelegenheit, dich zu informieren, welche Seiten Cookies zu verwenden versuchen, und dir den Inhalt der Cookies anzuschauen, wenn du möchtest.</p><p>Sobald diese sich auf der Blacklist befindlichen Cookies von <i>HTTP Switchboard</i> erfasst sind, können sie aus deinem Browser gelöscht werden, falls du möchtest.</p><p><b>Wichtiger Hinweis:</b> Erweiterungen können während ihrer Benutzung Webanfragen tätigen. Diese Anfragen können dazu führen, dass Cookies im Browser erzeugt werden. Falls der Hostname, von dem das Cookie stammt, nicht auf der Whitelist ist, wir das Cookie von <i>HTTP Switchboard</i> aus dem Browser entfernt, falls dieser Schalter aktiviert ist. Stelle daher sicher, dass Hostnamen, mit denen eine Erweiterung kommuniziert, auf der Whitelist stehen.</p>",
         "description": "..."
     },
     "settingsDeleteNonBlockedSessionCookiesPrompt" : {
@@ -273,11 +273,11 @@
         "description": "..."
     },
     "settingsDeleteNonBlockedSessionCookiesHelp" : {
-        "message": "<p><a href='http://www.w3.org/2001/tag/2010/09/ClientSideStorage.html'>W3C</a>: &ldquo;A session cookie ... is erased when you end the browser session. The session cookie is stored in temporary memory and is not retained after the browser is closed.&rdquo;</p><p>Except that this <a href='https://code.google.com/p/chromium/issues/detail?id=128513'>might not be happening</a> when using a Chromium-based browser. Also, to some, having to close the browser in order for the session cookies to clear might not be early enough.</p>",
+        "message": "<p><a href='http://www.w3.org/2001/tag/2010/09/ClientSideStorage.html'>W3C</a>: &ldquo;Ein Sitzungscookie ... wird gelöscht, wenn die Browsersitzung beendet wird. Das Sitzungscookie wird temporär gespeichert und nicht behalten, wenn der Browser geschlossen ist.&rdquo;</p><p>Nur dass das möglicherweise <a href='https://code.google.com/p/chromium/issues/detail?id=128513'>nicht passiert</a>, wenn man einen Chromium-basierten Browser verwendet. Außerdem bevorzugen es manche Benutzer, Sitzungscookies loszuwerden, bevor sie den Browser schließen.</p>",
         "description": "..."
     },
     "settingsDeleteBlockedLocalStoragePrompt" : {
-        "message": "Delete contents of <a href='http://en.wikipedia.org/wiki/Web_storage'>local storage</a> of blocked hostnames",
+        "message": "Lösche den Inhalt des <a href='http://de.wikipedia.org/wiki/Web_storage'>Web Storage</a> von blockierten Hostnamen",
         "description": "..."
     },
     "settingsDeleteBlockedLocalStorageHelp" : {
