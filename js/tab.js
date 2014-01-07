@@ -402,11 +402,11 @@ PageStatsEntry.prototype.updateBadge = function(tabId) {
         badgeStr = count.toFixed(0);
         if ( count >= 1000 ) {
             if ( count < 10000 ) {
-                badgeStr = badgeStr.slice(0,1) + '.' + badgeStr.slice(1,-2) + 'K';
+                badgeStr = '>' + badgeStr.slice(0,1) + 'K';
             } else if ( count < 1000000 ) {
-                badgeStr = badgeStr.slice(0,-3) + 'K';
+                badgeStr = badgeStr.slice(0,2) + 'K';
             } else if ( count < 10000000 ) {
-                badgeStr = badgeStr.slice(0,1) + '.' + badgeStr.slice(1,-5) + 'M';
+                badgeStr = badgeStr.slice(0,1) + 'M';
             } else {
                 badgeStr = badgeStr.slice(0,-6) + 'M';
             }
