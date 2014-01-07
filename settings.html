@@ -63,46 +63,36 @@ ul > li {
 </head>
 
 <body>
-<h1>HTTP Switchboard — Settings</h1>
+<h1 data-i18n="settingsPageTitle"></h1>
 
 <div>
-    <h2>Matrix</h2>
+    <h2 data-i18n="settingsMatrixHeader"></h2>
     <ul>
-        <li><h3>Display</h3>
+        <li><h3 data-i18n="settingsMatrixDisplayHeader"></h3>
         <ul>        
-            <li>Text size:
+            <li><span data-i18n="settingsMatrixDisplayTextSizePrompt"></span>
             <ul style="list-style:none">
-            <li><input type="radio" name="displayTextSize" value="13px">Normal
-            <li><input type="radio" name="displayTextSize" value="16px">Large
+            <li><input type="radio" name="displayTextSize" value="13px"><span data-i18n="settingsMatrixDisplayTextSizeNormal"></span>
+            <li><input type="radio" name="displayTextSize" value="16px"><span data-i18n="settingsMatrixDisplayTextSizeLarge"></span>
             </ul>
         </ul>
 
-        <li><h3>More security</h3>
+        <li><h3 data-i18n="settingsMatrixMoreSecurityHeader"></h3>
         <ul>
             <li>
-                <input id="strict-blocking" type="checkbox" value="">Enable strict blocking. <button class="whatisthis"></button>
+                <input id="strict-blocking" type="checkbox" value=""><span data-i18n="settingsStrictBlockingPrompt"></span> <button class="whatisthis"></button>
                 <div class="expandable" data-i18n="settingsStrictBlockingInfo">
                 </div>
             </ul>
-        <li><h3>Less security</h3>
+        <li><h3 data-i18n="settingsMatrixLessSecurityHeader"></h3>
         <ul>
             <li>
-                <input id="auto-whitelist-page-domain" type="checkbox" value="">Auto whitelist page domain. <button class="whatisthis"></button>
-                <div class="expandable">
-                    <p>Some users do not like to constantly whitelist the domain of the page by default.
-                    This feature allows to automatically whitelist temporarily the whole domain of a
-                    page whenever it is first loaded in the browser. The temporary auto-whitelisting will
-                    occur <b>only</b> if the page domain is currently graylisted.</p>
-                    <p>Although security-wise it is not a recommanded feature to use, it has been included due
-                    to popular demand -- I rather give users this feature than see them give up completely
-                    on a blocker.</p>
-                    <p>If you use this feature, I advise that you at least blacklist <b>frame</b> requests
-                    and turn on <b>strict blocking</b>.</p>
-                </div>
+                <input id="auto-whitelist-page-domain" type="checkbox" value=""><span data-i18n="settingsAutoWhitelistPrompt"></span> <button class="whatisthis"></button>
+                <div class="expandable" data-i18n="settingsAutoWhitelistHelp"></div>
             </ul>
     </ul>
 
-    <h2>Preset blacklists</h2>
+    <h2 data-i18n="settingsPresetListsOfBlockedHostsHeader"></h2>
     <div>
         <span id="blacklistReadonlyCount">?</span> preset blacklisted hostnames from (number of distinct entries in parentheses):
         <ul id="remoteBlacklistsTemplate" style="display:none">
@@ -114,131 +104,49 @@ ul > li {
         <p style="font-size:smaller;color:gray">Obviously, more blacklist entries enabled means larger memory footprint required by the extension.</p>
     </div>
 
-    <h2>Privacy</h2>
+    <h2 data-i18n="settingsPrivacyHeader"></h2>
     <ul>
         <li>
-            <input id="delete-blacklisted-cookies" type="checkbox" value="">Delete blocked cookies
+            <input id="delete-blacklisted-cookies" type="checkbox" value=""><span data-i18n="settingsDeleteBlockedCookiesPrompt"></span>
             <button class="whatisthis"></button>
-            <div class="expandable">
-                <p>Blacklisted cookies are not prevented by <i>HTTP Switchboard</i> from entering
-                your browser. However they are prevented from leaving your browser, which
-                is what really matters. Not blocking cookies before they enter your browser
-                gives you the opportunity to be informed that a site tried to use cookies,
-                and furthermore to inspect their contents if you wish.</p>
-                <p>Once these blacklisted cookies have been accounted for by <i>HTTP Switchboard</i>,
-                they can be removed from your browser if you wish so.</p>
-                <p><b>Important note:</b> Extensions can make web requests during the course of their
-                normal operation. These requests can result in cookies being created in the
-                browser. If the hostname from where a cookie originate is not whitelisted,
-                the cookie will be removed from the browser by <i>HTTP Switchboard</i> if this
-                option is checked. So be sure that the hostname(s) with which an extension
-                communicate is whitelisted.</p>
-            </div>
+            <div class="expandable" data-i18n="settingsDeleteBlockedCookiesHelp"></div>
         <li>
             <input id="delete-unused-session-cookies" type="checkbox" value="">Delete non-blocked session cookies
             <input id="delete-unused-session-cookies-after" type="text" value="60" size="3">minutes after
             last time they have been used.
             <button class="whatisthis"></button>
-            <div class="expandable">
-            <p><a href="http://www.w3.org/2001/tag/2010/09/ClientSideStorage.html">W3C</a>:
-            "A session cookie ... is erased when you end the browser session. The session cookie is
-            stored in temporary memory and is not retained after the browser is closed.</p>
-            <p>Except that this <a href="https://code.google.com/p/chromium/issues/detail?id=128513">might
-            not be happening</a> when using a Chromium-based browser. Also, to some,
-            having to close the browser in order for the session cookies to clear might not
-            be early enough.</p>
-            </div>
+            <div class="expandable" data-i18n="settingsDeleteNonBlockedSessionCookiesHelp"></div>
         <li>
-            <input id="delete-blacklisted-localstorage" type="checkbox" value="">Delete contents of
-            <a href="http://en.wikipedia.org/wiki/Web_storage">local storage</a> of blocked hostnames
+            <input id="delete-blacklisted-localstorage" type="checkbox" value=""><span data-i18n="settingsDeleteBlockedLocalStoragePrompt"></span>
         <li>
             <input id="clear-browser-cache" type="checkbox" value="">Clear browser cache every
             <input id="clear-browser-cache-after" type="text" value="60" size="3">minutes.
             <button class="whatisthis"></button>
-            <div class="expandable">
-            <p>Some web sites are really bent on tracking you, so much that they will use
-            not-so-nice tricks to work around whatever measures you take in order to not be tracked.</p>
-            <p>A few of these tricks rely<sup style="font-size:smaller">[1, 2]</sup> on the <a href="https://en.wikipedia.org/wiki/Web_cache">browser cache</a>,
-            which content is often long lasting since rarely will users take the time to
-            regularly clear their browser cache.</p>
-            <p>There is little inconvenience to clear the browser cache regularly
-            (likelihood is that you won't notice when it happens), and the benefit
-            is to prevent these obnoxious trackers from invading your privacy.</p>
-            <p>Check this option to have <i>HTTP Switchboard</i> do it for you, at the interval you
-            wish.</p>
-            <p style="font-size:smaller">
-            [1] <a href="https://grepular.com/Preventing_Web_Tracking_via_the_Browser_Cache">&ldquo;Preventing Web Tracking via the Browser Cache&rdquo;</a><br>
-            [2] <a href="http://lucb1e.com/rp/cookielesscookies/">&ldquo;Cookieless cookies&rdquo;</a>
-            </p>
-            </div>
+            <div class="expandable" data-i18n="settingsClearCacheHelp"></div>
         <li>
-            <input id="process-referer" type="checkbox" value="">Remove third-party 
-            <a href="https://en.wikipedia.org/wiki/HTTP_referer">HTTP referer</a> information 
-            for non-whitelisted hostname.
+            <input id="process-referer" type="checkbox" value=""><span data-i18n="settingsProcessRefererPrompt"></span>
             <button class="whatisthis"></button>
-            <div class="expandable">
-            <p>From Wikipedia: &ldquo;HTTP referer is an HTTP header field that identifies the 
-            address of the webpage that linked to the resource being requested. ... <b>Because
-            referer information can violate privacy, some web browsers allow the user to
-            disable the sending of referer information.</b>&rdquo;</p>
-            <p>If this setting is checked, <i>HTTP Switchboard</i> will remove the HTTP
-            referer information if <b>both</b> of the following conditions are true:
-            <ul style="padding-left:1em;list-style-type:disc;">
-                <li>The domain name of the HTTP referer does not match the domain name of the URL of the request (that is, the referer is third-party to the web page);
-                <li>The hostname of the request is not whitelisted.
-            </ul>
-            </p>
-            </div>
+            <div class="expandable" data-i18n="settingsProcessRefererHelp"></div>
     </ul>
 
-    <h2>Chromium: behind-the-scene requests</h2>
+    <h2 data-i18n="settingsBehindTheSceneHeader"></h2>
     <ul>
         <li>
-            <input id="process-behind-the-scene" type="checkbox" value="">Process <strong>behind-the-scene</strong> HTTP requests. <button class="whatisthis"></button>
-            <div class="expandable">
-                <p>According to <a href="http://www.google.com/intl/en/chrome/browser/privacy/whitepaper.html">Google Chrome Privacy Whitepaper</a>,
-                <i>Chromium</i> might send HTTP requests to <i>Google</i> without the user
-                expressly visiting a web page. Let's call these special requests
-                <strong>behind-the-scene</strong>
-                requests. Also, other installed browser extensions can send 
-                <strong>behind-the-scene</strong> HTTP requests.</p>
-                <p><i>HTTP Switchboard</i> let you
-                intercept and treat these requests like any other request: they can be
-                processed in order to allow/block them as per your whitelist/blacklist.</p>
-                <div class="warn">
-                <p><span style="color:red; font-weight:bold">Beware!</span> Potentially
-                blocking <strong>behind-the-scene</strong> net requests is currently causing
-                <a href="https://github.com/gorhill/httpswitchboard/issues/27">an issue</a>
-                when the user wants to install an extension from the Chrome store (including
-                maybe preventing extensions from being updated), hence
-                the ability to disable the feature here. Blocking can also cause other
-                installed extensions to not work properly (those querying for remote data).</p>
-                <p>Even if this feature is not enabled, <strong>behind-the-scene</strong> requests
-                are still logged by <i>HTTP Switchboard</i>, so that you can at least inspect them
-                (from the <a href="info.html">Stats</a> page).
-                </p>
-                </div>
+            <input id="process-behind-the-scene" type="checkbox" value=""><span data-i18n="settingsProcessBehindTheScenePrompt"></span>
+            <button class="whatisthis"></button>
+            <div class="expandable" data-i18n="settingsProcessBehindTheSceneHelp"></div>
             </div>
     </ul>
 
-    <h2>Log</h2>
+    <h2 data-i18n="settingsLogHeader"></h2>
     <ul>
         <li>Remember the last <input id="max-logged-requests" type="text" value="250" size="3"> HTTP requests per page.<button class="whatisthis"></button>
-        <div class="expandable">
-        <p>You can inspect details of the most recent raw HTTP requests which have been made by
-        a web page in the <a href="info.html#geeky-stats" stle="font-style:italic">Statistics</a>
-        page (at the bottom).</p>
-        <p>This is mostly useful to geeky users who want to investigate exactly what a web page has been
-        doing. But logging these HTTP requests requires memory, and if you don't care about this geeky
-        information, then memory is being wasted.</p>
-        <p>Hence this field which lets you adjust the maximum number of the most recent HTTP requests
-        which are to be logged for further inspection.<p>
-        <p>Enter &ldquo;<code>0</code>&rdquo; to turn off detailed logging (and consequently reduce
-        the memory footprint of <i>HTTP Switchboard</i>).</p>
+        <div class="expandable" data-i18n="settingsLogSizeHelp">
+        
         </div>
     </ul>
     <p style="border-top:1px solid #ccc;padding-top:1em;">
-    <button id="bye">Done</button>
+    <button id="bye" data-i18n="settingsDoneButton"></button>
     </p>
 <script src="lib/jquery-2.min.js"></script>
 <script src="js/i18n.js"></script>
