@@ -130,9 +130,6 @@ function loadUserLists() {
     var httpsb = HTTPSB;
     var defaults = {
         version: httpsb.manifest.version,
-        whitelist: '',
-        blacklist: '',
-        graylist: '',
         scopes: ''
     };
     chrome.storage.local.get(defaults, function(store) {
@@ -145,6 +142,10 @@ function loadUserLists() {
                 httpsb.whitelistTemporarily('*', 'stylesheet', '*');
                 httpsb.whitelistPermanently('*', 'stylesheet', '*');
             }
+            if ( store.version.slice(0, 5).localeCompare('0.7.5') < 0 ) {
+                httpsb.createTemporarySiteScope(httpsb.behindTheSceneURL);
+                httpsb.createPermanentSiteScope(httpsb.behindTheSceneURL);
+            }
         } else {
             // Sensible defaults
             httpsb.whitelistTemporarily('*', 'stylesheet', '*');
@@ -153,6 +154,8 @@ function loadUserLists() {
             httpsb.whitelistPermanently('*', 'image', '*');
             httpsb.blacklistTemporarily('*', 'sub_frame', '*');
             httpsb.blacklistPermanently('*', 'sub_frame', '*');
+            httpsb.createTemporarySiteScope(httpsb.behindTheSceneURL);
+            httpsb.createPermanentSiteScope(httpsb.behindTheSceneURL);
         }
 
         // rhill 2013-09-23: ok, there is no point in blacklisting

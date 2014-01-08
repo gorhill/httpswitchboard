@@ -1351,8 +1351,14 @@ function bindToTabHandler(tabs) {
     $('body').toggleClass('powerOff', httpsb.off);
 
     // Important! Before calling makeMenu()
-    HTTPSBPopup.tabId = tabs[0].id;
-    HTTPSBPopup.pageURL = background.pageUrlFromTabId(HTTPSBPopup.tabId);
+    // Allow to scope on behind-the-scene virtual tab
+    if ( tabs[0].url === 'chrome://newtab/' ) {
+        HTTPSBPopup.pageURL = httpsb.behindTheSceneURL;
+        HTTPSBPopup.tabId = httpsb.behindTheSceneTabId;
+    } else {
+        HTTPSBPopup.tabId = tabs[0].id;
+        HTTPSBPopup.pageURL = background.pageUrlFromTabId(HTTPSBPopup.tabId);
+    }
 
     // Now that tabId and pageURL are set, we can build our menu
     initMenuEnvironment();

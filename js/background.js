@@ -83,7 +83,7 @@ var HTTPSB = {
 
     // https://github.com/gorhill/httpswitchboard/issues/19
     // https://github.com/gorhill/httpswitchboard/issues/91
-    excludeRegex: /^https:\/\/(chrome\.google\.com\/(extensions|webstore)|talkgadget\.google\.com\/talkgadget)/,
+    excludeRegex: /^https:\/\/(talkgadget\.google\.com\/talkgadget)/,
 
     // various stats
     requestStats: new WebRequestStats(),
@@ -97,7 +97,7 @@ var HTTPSB = {
     webRequestHandler: false,
 
     // record what chromium is doing behind the scene
-    behindTheSceneURL: 'http://chromium.behind.the.scene',
+    behindTheSceneURL: 'http://chromium-behind-the-scene',
     behindTheSceneTabId: 0x7FFFFFFF,
     behindTheSceneMaxReq: 250,
 
