@@ -1352,7 +1352,7 @@ function bindToTabHandler(tabs) {
 
     // Important! Before calling makeMenu()
     // Allow to scope on behind-the-scene virtual tab
-    if ( tabs[0].url === 'chrome://newtab/' ) {
+    if ( tabs[0].url === chrome.runtime.getURL('info.html') ) {
         HTTPSBPopup.pageURL = httpsb.behindTheSceneURL;
         HTTPSBPopup.tabId = httpsb.behindTheSceneTabId;
     } else {
