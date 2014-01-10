@@ -241,11 +241,11 @@
         "description": "To help user understand the purpose of strict blocking"
     },
     "settingsAutoCreateSiteScopePrompt": {
-        "message": "Auto create temporary site-level scope.",
+        "message": "Créer automatiquement des règles à portée site temporaires.",
         "description": ""
     },
     "settingsAutoCreateSiteScopeInfo": {
-        "message": "<p>This option enables the automatic creation of a temporary site-level scope if no scope exists for a web site you visit.</p><p>There are many advantages to using site-level scoped rules, one of them being the sandboxing of rules, a good habit for enhanced security.</p><p>For example, should you want to whitelist &ldquo;all&rdquo; for a web site (www.example.com), using a site-level scope will limit this extremely permissive rule to only that specific web site (www.example.com), while if used in the global scope (&ldquo;&#x2217;&rdquo;) the extremely permissive rule would apply to all web sites, i.e. the whitelisting of the whole internet.</p>",
+        "message": "<p>Cette option active la création automatique de règles à portée site si aucune règle n'existe pour le site web que vous visitez.</p><p>Les avantages à utiliser des règles à portée site sont multiples, notamment le sandboxing de règles, qui est une bonne habitude pour renforcer sa sécurité.</p><p>Par exemple, si vous désirez mettre en liste blanche TOUS les éléments d'un site web (www.exemple.com), employer une règle à portée site limiterait cette règle excessivement permissive uniquement à www.exemple.com, tandis que si c'était employé à portée globale, (&ldquo;&#x2217;&rdquo;) cette règle trop permissive s'appliquerait à tous les sites Web, ce qui reviendrait à mettre en liste blanche tout le Web.</p>",
         "description": "..."
     },
     "settingsMatrixLessSecurityHeader" : {
