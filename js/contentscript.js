@@ -56,6 +56,12 @@ function collectExternalResources() {
         }
     }
 
+    // Looks for inline javascript also in at least one a[href] element.
+    // https://github.com/gorhill/httpswitchboard/issues/131
+    if ( document.querySelector('a[href^="javascript:"]') ) {
+        r.scriptSources['{inline_script}'] = true;
+    }
+
     // https://github.com/gorhill/httpswitchboard/issues/25
     elems = document.querySelectorAll('object');
     i = elems.length;
