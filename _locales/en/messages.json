@@ -241,12 +241,12 @@
         "description": "To help user understand the purpose of strict blocking"
     },
     "settingsAutoCreateSiteScopePrompt": {
-        "message": "Auto create site scope.",
+        "message": "Auto create temporary site-level scope.",
         "description": ""
     },
     "settingsAutoCreateSiteScopeInfo": {
-        "message": "<p>This option enables the automatic creation of a site scope if no scope exists for a web site you visit.</p><p>There are many advantages to using site-scoped rules, one of them being the sandboxing of rules, a good habit for enhanced security.</p><p>For example, should you want to whitelist &ldquo;all&rdquo; for a web site (www.example.com), using a site scope will limit this extremely permissive rule to only that specific web site (www.example.com), while if used in the global scope (&ldquo;&#x2217;&rdquo;) the extremely permissive rule would apply to all web sites, i.e. the whitelisting of the whole internet.</p>",
-        "description": "To help user understand the purpose of strict blocking"
+        "message": "<p>This option enables the automatic creation of a temporary site-level scope if no scope exists for a web site you visit.</p><p>There are many advantages to using site-scoped rules, one of them being the sandboxing of rules, a good habit for enhanced security.</p><p>For example, should you want to whitelist &ldquo;all&rdquo; for a web site (www.example.com), using a site scope will limit this extremely permissive rule to only that specific web site (www.example.com), while if used in the global scope (&ldquo;&#x2217;&rdquo;) the extremely permissive rule would apply to all web sites, i.e. the whitelisting of the whole internet.</p>",
+        "description": "..."
     },
     "settingsMatrixLessSecurityHeader" : {
         "message": "Less security",
