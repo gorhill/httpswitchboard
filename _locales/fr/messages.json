@@ -240,6 +240,14 @@
         "message": "Introduit dans la <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log#036\">version 0.3.6</a>, le <strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Blocage strict</a></strong> signifie que même si vous allouez un nom d'hôte spécifique, une requête restera bloquée si le type d'objet en question (plugins, iframes, etc) est lui-même bloqué; en d'autres termes, le blocage du type d'objet prime sur le domaine concerné. Le choix vous est proposé de l'activer ou non, car cela peut se montrer trop restrictif aux yeux de certains utilisateurs. Si l'option est activée, la requête est autorisée à condition que les nom d'hôte ET le type de requête soient autorisés. Si l'option n'est pas cochée, le nom d'hôte alloué suffit à autoriser la requête.",
         "description": "To help user understand the purpose of strict blocking"
     },
+    "settingsAutoCreateSiteScopePrompt": {
+        "message": "Auto create site scope.",
+        "description": ""
+    },
+    "settingsAutoCreateSiteScopeInfo": {
+        "message": "<p>This option enables the automatic creation of a site scope if no scope exists for a web site you visit.</p><p>There are many advantages to using site-scoped rules, one of them being the sandboxing of rules, a good habit for enhanced security.</p><p>For example, should you want to whitelist &ldquo;all&rdquo; for a web site (www.example.com), using a site scope will limit this extremely permissive rule to only that specific web site (www.example.com), while if used in the global scope (&ldquo;&#x2217;&rdquo;) the extremely permissive rule would apply to all web sites, i.e. the whitelisting of the whole internet.</p>",
+        "description": "To help user understand the purpose of strict blocking"
+    },
     "settingsMatrixLessSecurityHeader" : {
         "message": "Sécurité réduite",
         "description": "..."
