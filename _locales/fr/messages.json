@@ -245,7 +245,7 @@
         "description": ""
     },
     "settingsAutoCreateSiteScopeInfo": {
-        "message": "<p>Cette option active la creation automatique de règles à portée site si aucune règle n'existe pour le site web que vous visitez.</p><p>Les avantages à utiliser des règles à portée site sont multiples, notamment le sandboxing de règles, qui est une bonne habitude pour renforcer sa sécurité.</p><p>Par exemple, si vous désireriez mettre en liste blanche TOUS les éléments d'un site web (www.exemple.com), employer une règle à portée site limiterait cette règle excessivement permissive uniquement à www.exemple.com, tandis que si c'était employé à portée globale, (&ldquo;&#x2217;&rdquo;) cette règle trop permissive s'appliquerait à tous les sites Web, ce qui reviendrait à mettre en liste blanche tout le Web.</p>",
+        "message": "<p>Cette option active la création automatique de règles à portée site si aucune règle n'existe pour le site web que vous visitez.</p><p>Les avantages à utiliser des règles à portée site sont multiples, notamment le sandboxing de règles, qui est une bonne habitude pour renforcer sa sécurité.</p><p>Par exemple, si vous désirez mettre en liste blanche TOUS les éléments d'un site web (www.exemple.com), employer une règle à portée site limiterait cette règle excessivement permissive uniquement à www.exemple.com, tandis que si c'était employé à portée globale, (&ldquo;&#x2217;&rdquo;) cette règle trop permissive s'appliquerait à tous les sites Web, ce qui reviendrait à mettre en liste blanche tout le Web.</p>",
         "description": "..."
     },
     "settingsMatrixLessSecurityHeader" : {
