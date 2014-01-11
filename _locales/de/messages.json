@@ -241,11 +241,11 @@
         "description": "To help user understand the purpose of strict blocking"
     },
     "settingsAutoCreateSiteScopePrompt": {
-        "message": "Automatisches Erzeugen eines temporären Regelwerks auf Webseiten-Ebene.",
+        "message": "Automatisches Erzeugen temporärer Regeln mit Gültigkeitsbereich nur auf Webseiten-Ebene.",
         "description": ""
     },
     "settingsAutoCreateSiteScopeInfo": {
-        "message": "<p>Diese Option ermöglicht die automatische Erzeugen eines temporären Regelwerks auf Webseiten-Ebene, sofern für diese Webseite noch kein Regelwerk existiert. </p><p>Es gibt viele Vorteile bei der Verwendung solcher auf spezifische Webseiten beschränkten Regeln. Einer davon ist, dass die erzeugten Regeln nur in einer Art &ldquo;Sandbox&rdquo; (d.h. in einem abgeschlossenen Bereich) gültig sind -  eine gute Gepflogenheit im Interesse einer erhöhten Sicherheit. </p><p>Beispiel: Wenn du  &ldquo;alles&rdquo; für eine Webseite (www.example.com) auf die Whitelist setzen möchtest, wird das Regelwerk auf Webseiten-Ebene die Geltung dieser extrem großzügigen Regel ausschließlich auf diese spezifische Webseite (www.example.com) beschränken; hättest du diese Regel dagegen als Globales Regelwerk (&ldquo;&#x2217;&rdquo;) angelegt, würde diese extrem großzügige Regel für alle Webseiten gelten, d.h. würdest das ganze Internet auf die Whitelist setzen.</p>",
+        "message": "<p>Diese Option ermöglicht die automatische Erzeugen temporärer Regeln, die nur auf Webseiten-Ebene gültig sind, sofern für diese Webseite noch keine Regeln existieren. </p><p>Es gibt viele Vorteile bei der Verwendung solcher auf spezifische Webseiten beschränkten Regeln. Einer davon ist, dass die erzeugten Regeln nur in einer Art &ldquo;Sandbox&rdquo; (d.h. in einem abgeschlossenen Bereich) gültig sind -  eine gute Gepflogenheit im Interesse einer erhöhten Sicherheit. </p><p>Beispiel: Wenn du  &ldquo;alles&rdquo; für eine Webseite (www.example.com) auf die Whitelist setzen möchtest, wird der Gültigkeitsbereich auf Webseiten-Ebene die Anwendung dieser extrem laxen Regeln ausschließlich auf diese spezifische Webseite (www.example.com) beschränken; hättest du diese Regeln dagegen mit Globaler Gültigkeit (&ldquo;&#x2217;&rdquo;) angelegt, würden diese extrem laxen Regeln für alle Webseiten gelten, d.h. du würdest das ganze Internet auf die Whitelist setzen.</p>",
         "description": "..."
     },
     "settingsMatrixLessSecurityHeader" : {
