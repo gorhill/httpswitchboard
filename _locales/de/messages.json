@@ -34,11 +34,11 @@
         "description": "..."
     },
     "stylesheetPrettyName": {
-        "message": "css",
+        "message": "CSS",
         "description": "HAS TO FIT IN MATRIX HEADER!"
     },
     "stylesheetPrettyNamePlural": {
-        "message": "css",
+        "message": "CSS",
         "description": "..."
     },
     "imagePrettyName": {
