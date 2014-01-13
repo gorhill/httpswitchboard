@@ -313,7 +313,7 @@
         "description": "header of Chromium: behind-the-scene requests section"
     },
     "settingsProcessBehindTheScenePrompt" : {
-        "message": "Verarbeite <strong>Hintergrund-</strong> HTTP Anfragen.",
+        "message": "The &ldquo;Process behind-the-scene HTTP requests&rdquo; checkbox doesn&lsquo;t exist anymore. To allow/block in whole or part behind-the-scene requests you must now use the matrix which is available when cliking the extension icon while on this page. Required reading: <a href='https://github.com/gorhill/httpswitchboard/wiki/Behind-the-scene-requests'>Behind-the-scene requests</a>.",
         "description": "..."
     },
     "settingsProcessBehindTheSceneHelp" : {
