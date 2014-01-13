@@ -1347,16 +1347,17 @@ function bindToTabHandler(tabs) {
 
     var background = getBackgroundPage();
     var httpsb = getHTTPSB();
+    var tab = tabs[0];
 
     $('body').toggleClass('powerOff', httpsb.off);
 
     // Important! Before calling makeMenu()
     // Allow to scope on behind-the-scene virtual tab
-    if ( tabs[0].url === chrome.runtime.getURL('info.html') ) {
+    if ( tab.url.indexOf('chrome-extension://' + chrome.runtime.id + '/') === 0 ) {
         HTTPSBPopup.pageURL = httpsb.behindTheSceneURL;
         HTTPSBPopup.tabId = httpsb.behindTheSceneTabId;
     } else {
-        HTTPSBPopup.tabId = tabs[0].id;
+        HTTPSBPopup.tabId = tab.id;
         HTTPSBPopup.pageURL = background.pageUrlFromTabId(HTTPSBPopup.tabId);
     }
 

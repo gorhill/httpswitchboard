@@ -134,28 +134,39 @@ function loadUserLists() {
     };
     chrome.storage.local.get(defaults, function(store) {
         if ( store.scopes !== '' ) {
-            httpsb.permanentScopes.fromString(store.scopes);
             httpsb.temporaryScopes.fromString(store.scopes);
+            // All this ugly special handling to smoothly transition between
+            // versions will disappear once it is reasonable to think nobody
+            // is using older versions.
             // rhill 2013-12-15: New type `stylesheet`. Sensible default:
             // - If `stylesheet` is graylisted, whitelist `stylesheet`
             if ( store.version.slice(0, 5).localeCompare('0.7.0') < 0 ) {
                 httpsb.whitelistTemporarily('*', 'stylesheet', '*');
-                httpsb.whitelistPermanently('*', 'stylesheet', '*');
             }
             if ( store.version.slice(0, 5).localeCompare('0.7.5') < 0 ) {
-                httpsb.createTemporarySiteScope(httpsb.behindTheSceneURL);
-                httpsb.createPermanentSiteScope(httpsb.behindTheSceneURL);
+                httpsb.createTemporaryScopeFromScopeKey(httpsb.siteScopeKeyFromURL(httpsb.behindTheSceneURL));
+                if ( httpsb.userSettings.processBehindTheSceneRequests ) {
+                    httpsb.blacklistTemporarily(httpsb.behindTheSceneURL, '*', '*');
+                } else {
+                    httpsb.whitelistTemporarily(httpsb.behindTheSceneURL, '*', '*');
+                }
+            } else {
+                var scope = httpsb.temporaryScopes.scopes[httpsb.behindTheSceneURL];
+                if ( scope && scope.white.count <= 1 && scope.black.count <= 1 && scope.gray.count === 0 ) {
+                    if ( httpsb.userSettings.processBehindTheSceneRequests ) {
+                        httpsb.blacklistTemporarily(httpsb.behindTheSceneURL, '*', '*');
+                    } else {
+                        httpsb.whitelistTemporarily(httpsb.behindTheSceneURL, '*', '*');
+                    }
+                }
             }
         } else {
             // Sensible defaults
             httpsb.whitelistTemporarily('*', 'stylesheet', '*');
-            httpsb.whitelistPermanently('*', 'stylesheet', '*');
             httpsb.whitelistTemporarily('*', 'image', '*');
-            httpsb.whitelistPermanently('*', 'image', '*');
             httpsb.blacklistTemporarily('*', 'sub_frame', '*');
-            httpsb.blacklistPermanently('*', 'sub_frame', '*');
-            httpsb.createTemporarySiteScope(httpsb.behindTheSceneURL);
-            httpsb.createPermanentSiteScope(httpsb.behindTheSceneURL);
+            httpsb.createTemporaryScopeFromScopeKey(httpsb.siteScopeKeyFromURL(httpsb.behindTheSceneURL));
+            httpsb.whitelistTemporarily(httpsb.behindTheSceneURL, '*', '*');
         }
 
         // rhill 2013-09-23: ok, there is no point in blacklisting
@@ -165,7 +176,7 @@ function loadUserLists() {
         // name has precedence over type). Now this way we save precious real
         // estate pixels in popup menu.
         httpsb.whitelistTemporarily('*', 'main_frame', '*');
-        httpsb.whitelistPermanently('*', 'main_frame', '*');
+        httpsb.commitPermissions(true);
 
         chrome.runtime.sendMessage({
             'what': 'startWebRequestHandler',
@@ -281,7 +292,7 @@ function mergeRemoteBlacklist(list) {
 
     var blacklistReadonly = httpsb.blacklistReadonly;
     var thisListCount = 0;
-    var localhostRegex = /(^|\b)(localhost\.localdomain|localhost|local|broadcasthost|127\.0\.0\.1|::1|fe80::1%lo0)(\b|$)/g;
+    var localhostRegex = /(^|\b)(localhost\.localdomain|localhost|local|broadcasthost|0\.0\.0\.0|127\.0\.0\.1|::1|fe80::1%lo0)(\b|$)/g;
     var raw = list.raw;
     var rawEnd = raw.length;
     var lineBeg = 0;

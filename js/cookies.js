@@ -170,9 +170,6 @@ var cookieHunter = {
         if ( !httpsb.userSettings.deleteCookies ) {
             return;
         }
-        if ( pageURL === httpsb.behindTheSceneURL && !httpsb.userSettings.processBehindTheSceneRequests ) {
-            return;
-        }
         this.removeCookieAsync(cookieKey);
     },
 
@@ -348,10 +345,16 @@ var cookieHunter = {
         }
     },
 
-    // Check all pages to ensure none of them fill both following conditions:
+    // Check all scopes to ensure none of them fulfill the following
+    // conditions:
+    // - The hostname of the target cookie matches the hostname of the scope
+    // - The target cookie is allowed in the scope
+    // Check all pages to ensure none of them fulfill both following
+    // conditions:
     // - refers to the target cookie
-    // - the target cookie is not blacklisted
-    // If a page fills these conditions, cookie can't be removed.
+    // - the target cookie is is allowed
+    // If one of the above set of conditions is fulfilled at least once,
+    // the cookie can NOT be removed.
     // TODO: cache the joining of hostnames into a single string for search
     // purpose. 
     canRemoveCookie: function(cookieKey) {
@@ -359,8 +362,48 @@ var cookieHunter = {
         if ( !entry ) {
             return false;
         }
+        // If a session cookie is in the remove queue, it is assumed it
+        // needs to be removed unconditonally.
+        if ( entry.session ) {
+            return true;
+        }
         var cookieDomain = entry.domain;
+        var anySubdomain = entry.anySubdomain;
         var httpsb = HTTPSB;
+
+        // rhill 2014-01-11: Do not delete cookies which are whitelisted
+        // in at least one scope. Limitation: this can be done only
+        // for cookies which domain matches domain of scope. This is
+        // because a scope with whitelist *|* would cause all cookies to not
+        // be removable.
+        // https://github.com/gorhill/httpswitchboard/issues/126
+        var scopes = httpsb.temporaryScopes.scopes;
+        var scopeDomain;
+        for ( var scopeKey in scopes ) {
+            if ( !scopes.hasOwnProperty(scopeKey) ) {
+                continue;
+            }
+            // Cookie related to scope domain?
+            if ( !httpsb.isGlobalScopeKey(scopeKey) ) {
+                scopeDomain = scopeKey.replace(/^https?:\/\/(\*\.)?/, '');
+                if ( anySubdomain ) {
+                    if ( scopeDomain.slice(0 - cookieDomain.length) !== cookieDomain ) {
+                        continue;
+                    }
+                } else if ( scopeDomain !== cookieDomain ) {
+                    continue;
+                }
+            }
+            if ( scopes[scopeKey].evaluate('cookie', cookieDomain).charAt(0) === 'g' ) {
+                // console.log('cookieHunter.canRemoveCookie()> can NOT remove "%s" because of scope "%s"', cookieKey, scopeKey);
+                return false;
+            }
+        }
+
+        // If we reach this point, we will check whether the cookie is actually
+        // in use for a currently opened web page. This is necessary to
+        // prevent the deletion of 3rd-party cookies which might be whitelisted
+        // for a currently opened web page.
         var pageStats = httpsb.pageStats;
         for ( var pageURL in pageStats ) {
             if ( !pageStats.hasOwnProperty(pageURL) ) {
@@ -373,13 +416,16 @@ var cookieHunter = {
             // might be using.
             // https://github.com/gorhill/httpswitchboard/issues/91
             if ( pageStats.ignore ) {
+                // console.log('cookieHunter.canRemoveCookie()> can NOT remove "%s" because of ignore "%s"', cookieKey, pageURL);
                 return false;
             }
             if ( httpsb.whitelisted(pageURL, 'cookie', cookieDomain) ) {
                 return false;
             }
         }
-        return true;
+
+       // console.log('cookieHunter.canRemoveCookie()> can remove "%s"', cookieKey);
+       return true;
     }
 };
 

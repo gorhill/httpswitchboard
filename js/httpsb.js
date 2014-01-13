@@ -42,10 +42,6 @@ HTTPSB.globalScopeKey = function() {
     return '*';
 };
 
-HTTPSB.siteScopeKeyFromURL = function(url) {
-    return uriTools.rootURLFromURI(url);
-};
-
 HTTPSB.domainScopeKeyFromURL = function(url) {
     var ut = uriTools.uri(url);
     var scheme = ut.scheme();
@@ -58,6 +54,10 @@ HTTPSB.domainScopeKeyFromURL = function(url) {
         domain = hostname;
     }
     return scheme + '://*.' + domain;
+};
+
+HTTPSB.siteScopeKeyFromURL = function(url) {
+    return uriTools.rootURLFromURI(url);
 };
 
 /******************************************************************************/
@@ -141,6 +141,7 @@ HTTPSB.createTemporaryDomainScope = function(url) {
         scope = new PermissionScope();
         scope.whitelist('main_frame', '*');
         this.temporaryScopes.scopes[scopeKey] = scope;
+        this.copyRulesTemporarily(scopeKey, this.globalScopeKey(), url);
     } else if ( scope.off ) {
         scope.off = false;
     }
@@ -193,6 +194,8 @@ HTTPSB.createTemporarySiteScope = function(url) {
         scope = new PermissionScope();
         scope.whitelist('main_frame', '*');
         this.temporaryScopes.scopes[scopeKey] = scope;
+        this.copyRulesTemporarily(scopeKey, this.globalScopeKey(), url);
+        this.copyRulesTemporarily(scopeKey, this.domainScopeKeyFromURL(url), url);
     } else {
         scope.off = false;
     }
@@ -311,6 +314,56 @@ HTTPSB.removeRuleTemporarily = function(scopeKey, list, type, hostname) {
 
 /******************************************************************************/
 
+HTTPSB.autoCreateTemporarySiteScope = function(pageURL) {
+    // TODO: Avoid creating a site-scope if there is an
+    // explicit rule for tha page domain in global scope.
+    var scopeKey = this.temporaryScopeKeyFromPageURL(pageURL);
+    if ( this.isGlobalScopeKey(scopeKey) ) {
+        scopeKey = this.siteScopeKeyFromURL(pageURL);
+        this.createTemporarySiteScope(pageURL);
+    }
+};
+
+/******************************************************************************/
+
+// Copy rules from another scope. If a pageURL is provided,
+// it will be used to filter the rules according to the hostname.
+
+HTTPSB.copyRulesTemporarily = function(toScopeKey, fromScopeKey, pageURL) {
+    var toScope = this.temporaryScopes.scopes[toScopeKey];
+    var fromScope = this.temporaryScopes.scopes[fromScopeKey];
+    if ( !toScope || !fromScope ) {
+        return;
+    }
+    var ut = uriTools;
+    var pageStats = pageStatsFromPageUrl(pageURL);
+    var hostnames = pageStats ? pageStats.domains : {};
+    var domains = {};
+    for ( var hostname in hostnames ) {
+        if ( !hostnames.hasOwnProperty(hostname) ) {
+            continue;
+        }
+        domains[ut.domainFromHostname(hostname)] = true;
+    }
+    var whitelist = fromScope.white.list;
+    var pos, ruleHostname;
+    for ( var ruleKey in whitelist ) {
+        if ( !whitelist.hasOwnProperty(ruleKey) ) {
+            continue;
+        }
+        pos = ruleKey.indexOf('|');
+        ruleHostname = ruleKey.slice(pos + 1);
+        if ( ruleHostname !== '*' && !domains[ut.domainFromHostname(ruleHostname)] ) {
+            continue;
+        }
+        toScope.white.addOne(ruleKey);
+    }
+    toScope.black.fromList(fromScope.black);
+    toScope.gray.fromList(fromScope.gray);
+};
+
+/******************************************************************************/
+
 // Whitelist something
 
 HTTPSB.whitelistTemporarily = function(scopeKey, type, hostname) {
@@ -323,16 +376,17 @@ HTTPSB.whitelistPermanently = function(scopeKey, type, hostname) {
     }
 };
 
-HTTPSB.autoWhitelistTemporarilyPageDomain = function(pageURL, pageHostname) {
-    if ( this.userSettings.autoWhitelistPageDomain ) {
-        var scopeKey = this.temporaryScopeKeyFromPageURL(pageURL);
-        var domain = uriTools.domainFromHostname(pageHostname);
-        // 'p' as in 'pale' (green or red), i.e. graylisted
-        if ( this.evaluateFromScopeKey(scopeKey, '*', domain).charAt(1) === 'p' ) {
-            // console.log('beforeRequestHandler()> autowhitelisting "%s"', pageURL);
-            this.whitelistTemporarily(scopeKey, '*', domain);
-        }
+HTTPSB.autoWhitelistTemporarilyPageDomain = function(pageURL) {
+    var scopeKey = this.temporaryScopeKeyFromPageURL(pageURL);
+    var domain = uriTools.domainFromURI(pageURL);
+    // 'rp' as in 'red pale', i.e. graylisted-blocked:
+    // Autowhitelist only if the domain is graylisted and blocked.
+    if ( this.evaluateFromScopeKey(scopeKey, '*', domain).indexOf('rp') === 0 ) {
+        // console.log('autoWhitelistTemporarilyPageDomain()> "%s"', pageURL);
+        this.whitelistTemporarily(scopeKey, '*', domain);
+        return true;
     }
+    return false;
 };
 
 /******************************************************************************/

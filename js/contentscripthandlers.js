@@ -30,10 +30,10 @@ function contentScriptSummaryHandler(details) {
     }
     var ut = uriTools;
     var httpsb = HTTPSB;
-    var pageUrl = ut.normalizeURI(details.pageUrl);
-    var pageHostname = ut.hostnameFromURI(pageUrl);
+    var pageURL = ut.normalizeURI(details.pageUrl);
+    var pageHostname = ut.hostnameFromURI(pageURL);
     var sources, i;
-    var url, domain, block;
+    var url, hostname, block;
 
     // scripts
     // https://github.com/gorhill/httpswitchboard/issues/25
@@ -41,15 +41,18 @@ function contentScriptSummaryHandler(details) {
     i = sources.length;
     while ( i-- ) {
         url = sources[i];
+        hostname = false;
         if ( url === '{inline_script}' ) {
-            domain = pageHostname;
-            url = pageUrl + '{inline_script}';
+            url = pageURL + '{inline_script}';
         } else {
             url = ut.normalizeURI(url);
-            domain = ut.hostnameFromURI(url);
+            hostname = ut.hostnameFromURI(url);
         }
-        block = httpsb.blacklisted(pageUrl, 'script', domain);
-        recordFromPageUrl(pageUrl, 'script', url, block);
+        if ( !hostname ) {
+            hostname = pageHostname;
+        }
+        block = httpsb.blacklisted(pageURL, 'script', hostname);
+        recordFromPageUrl(pageURL, 'script', url, block);
     }
 
     // plugins
@@ -58,9 +61,12 @@ function contentScriptSummaryHandler(details) {
     i = sources.length;
     while ( i-- ) {
         url = ut.normalizeURI(sources[i]);
-        domain = ut.hostnameFromURI(url);
-        block = httpsb.blacklisted(pageUrl, 'object', domain);
-        recordFromPageUrl(pageUrl, 'object', url, block);
+        hostname = ut.hostnameFromURI(url);
+        if ( !hostname ) {
+            hostname = pageHostname;
+        }
+        block = httpsb.blacklisted(pageURL, 'object', hostname);
+        recordFromPageUrl(pageURL, 'object', url, block);
     }
 }
 

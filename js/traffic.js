@@ -102,6 +102,8 @@ background: #c00; \
 function beforeRequestHandler(details) {
     // quickProfiler.start();
 
+    // console.debug('beforeRequestHandler()> "%s"', details.url);
+
     var canEvaluate = true;
     var httpsb = HTTPSB;
     var tabId = details.tabId;
@@ -109,7 +111,6 @@ function beforeRequestHandler(details) {
     // Do not ignore traffic outside tabs
     if ( tabId < 0 ) {
         tabId = httpsb.behindTheSceneTabId;
-        canEvaluate = httpsb.userSettings.processBehindTheSceneRequests;
     }
 
     var url = uriTools.normalizeURI(details.url);
@@ -190,11 +191,6 @@ function beforeRequestHandler(details) {
     // https://github.com/gorhill/httpswitchboard/issues/27
     var block = false;
     if ( canEvaluate ) {
-        // rhill 2013-12-23: Auto-whitelist page domain?
-        // - Allowed only if it is graylisted
-        if ( isWebPage ) {
-            httpsb.autoWhitelistTemporarilyPageDomain(pageURL, hostname);
-        }
         block = httpsb.blacklisted(pageURL, type, hostname);
     }
 
@@ -267,9 +263,6 @@ function beforeSendHeadersHandler(details) {
     // Do not ignore traffic outside tabs
     var tabId = details.tabId;
     if ( tabId < 0 ) {
-        if ( !httpsb.userSettings.processBehindTheSceneRequests ) {
-            return;
-        }
         tabId = httpsb.behindTheSceneTabId;
     }
 
@@ -345,15 +338,25 @@ function beforeSendHeadersHandler(details) {
 
 function headersReceivedHandler(details) {
 
+    // console.debug('headersReceivedHandler()> "%s": "%s"', details.url, details.statusLine);
+
+    // Ignore schemes other than 'http...'
+    if ( details.url.indexOf('http') !== 0 ) {
+        return;
+    }
+
     // Ignore anything which is not an html doc
     if ( details.type !== 'main_frame' ) {
         return;
     }
+    var isWebPage = details.parentFrameId < 0;
 
     // rhill 2013-12-08: ALWAYS evaluate for javascript, do not rely too much
     // on the top page to be bound to a tab.
     // https://github.com/gorhill/httpswitchboard/issues/75
     var tabId = details.tabId;
+    var pageURL = uriTools.normalizeURI(details.url);
+    var httpsb = HTTPSB;
 
     // rhill 2013-12-07:
     // Apparently in Opera, onBeforeRequest() is triggered while the
@@ -361,11 +364,26 @@ function headersReceivedHandler(details) {
     // to not be able to lookup the pageStats. So let the code here bind
     // the page to a tab if not done yet.
     // https://github.com/gorhill/httpswitchboard/issues/75
-    if ( tabId >= 0 && details.parentFrameId < 0 ) {
-        bindTabToPageStats(tabId, uriTools.normalizeURI(details.url));
+    if ( tabId >= 0 && isWebPage ) {
+        bindTabToPageStats(tabId, pageURL);
     }
-
     var pageStats = pageStatsFromTabId(tabId);
+
+    // rhill 2014-01-11: Auto-scope and/or auto-whitelist only when the
+    // `main_frame` object is really received (status = 200 OK), i.e. avoid
+    // redirection, because the final URL might differ. This ensures proper
+    // scope is looked-up before auto-site-scoping and/or auto-whitelisting.
+    // https://github.com/gorhill/httpswitchboard/issues/119
+    if ( isWebPage && details.statusLine.indexOf(' 200') > 0 ) {
+        // rhill 2014-01-10: Auto-site scope?
+        if ( httpsb.userSettings.autoCreateSiteScope ) {
+            httpsb.autoCreateTemporarySiteScope(pageURL);
+        }
+        // rhill 2013-12-23: Auto-whitelist page domain?
+        if ( httpsb.userSettings.autoWhitelistPageDomain ) {
+            httpsb.autoWhitelistTemporarilyPageDomain(pageURL);
+        }
+    }
 
     // Evaluate according to scope
     // rhill 2013-12-07:
@@ -376,7 +394,7 @@ function headersReceivedHandler(details) {
     var pageURL = pageStats ? pageUrlFromPageStats(pageStats) : '*';
     var hostname = uriTools.hostnameFromURI(details.url);
 
-    if ( HTTPSB.whitelisted(pageURL, 'script', hostname) ) {
+    if ( httpsb.whitelisted(pageURL, 'script', hostname) ) {
         return;
     }
 

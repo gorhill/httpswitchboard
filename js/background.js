@@ -26,6 +26,7 @@ var HTTPSB = {
 
     userSettings: {
         autoWhitelistPageDomain: false,
+        autoCreateSiteScope: false,
         deleteCookies: false,
         deleteUnusedSessionCookies: false,
         deleteUnusedSessionCookiesAfter: 60,
@@ -57,6 +58,7 @@ var HTTPSB = {
         'assets/thirdparties/hosts-file.net/ad-servers': {},
         'assets/thirdparties/someonewhocares.org/hosts/hosts': {},
         // From here on, any new list is 'off' by default
+        'assets/thirdparties/winhelp2002.mvps.org/hosts.txt': { off: true },
         'assets/thirdparties/hosts-file.net/hosts.txt': { off: true }
         },
 

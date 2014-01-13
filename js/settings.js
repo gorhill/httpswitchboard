@@ -177,6 +177,7 @@ function initAll() {
         return $(this).attr('value') === userSettings.displayTextSize;
         });
     $('#strict-blocking').attr('checked', userSettings.strictBlocking === true);
+    $('#auto-create-site-scope').attr('checked', userSettings.autoCreateSiteScope === true);
     $('#auto-whitelist-page-domain').attr('checked', userSettings.autoWhitelistPageDomain === true);
     $('#delete-unused-session-cookies').attr('checked', userSettings.deleteUnusedSessionCookies === true);
     $('#delete-unused-session-cookies-after').val(userSettings.deleteUnusedSessionCookiesAfter);
@@ -185,7 +186,6 @@ function initAll() {
     $('#clear-browser-cache').attr('checked', userSettings.clearBrowserCache === true);
     $('#clear-browser-cache-after').val(userSettings.clearBrowserCacheAfter);
     $('#process-referer').attr('checked', userSettings.processReferer);
-    $('#process-behind-the-scene').attr('checked', userSettings.processBehindTheSceneRequests);
     $('#max-logged-requests').val(userSettings.maxLoggedRequests);
 
     // Handle user interaction
@@ -196,6 +196,9 @@ function initAll() {
     $('#strict-blocking').on('change', function(){
         changeUserSettings('strictBlocking', $(this).is(':checked'));
     });
+    $('#auto-create-site-scope').on('change', function(){
+        changeUserSettings('autoCreateSiteScope', $(this).is(':checked'));
+    });
     $('#auto-whitelist-page-domain').on('change', function(){
         changeUserSettings('autoWhitelistPageDomain', $(this).is(':checked'));
     });
@@ -205,7 +208,7 @@ function initAll() {
         changeUserSettings('deleteUnusedSessionCookies', $(this).is(':checked'));
     });
     $('#delete-unused-session-cookies-after').on('change', function(){
-        onChangeValueHandler($(this), 'deleteUnusedSessionCookiesAfter', 0, 1440);
+        onChangeValueHandler($(this), 'deleteUnusedSessionCookiesAfter', 15, 1440);
     });
     $('#delete-blacklisted-cookies').on('change', function(){
         changeUserSettings('deleteCookies', $(this).is(':checked'));
@@ -222,9 +225,6 @@ function initAll() {
     $('#process-referer').on('change', function(){
         changeUserSettings('processReferer', $(this).is(':checked'));
     });
-    $('#process-behind-the-scene').on('change', function(){
-        changeUserSettings('processBehindTheSceneRequests', $(this).is(':checked'));
-    });
     $('#max-logged-requests').on('change', function(){
         onChangeValueHandler($(this), 'maxLoggedRequests', 0, 999);
     });
@@ -237,7 +237,7 @@ function initAll() {
     });
 
     $('#bye').on('click', function() {
-        onChangeValueHandler($('#delete-unused-session-cookies-after'), 'deleteUnusedSessionCookiesAfter', 0, 1440);
+        onChangeValueHandler($('#delete-unused-session-cookies-after'), 'deleteUnusedSessionCookiesAfter', 15, 1440);
         onChangeValueHandler($('#clear-browser-cache-after'), 'clearBrowserCacheAfter', 15, 1440);
         onChangeValueHandler($('#max-logged-requests'), 'maxLoggedRequests', 0, 999);
         window.open('','_self').close();
