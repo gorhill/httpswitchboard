@@ -315,13 +315,31 @@ HTTPSB.removeRuleTemporarily = function(scopeKey, list, type, hostname) {
 /******************************************************************************/
 
 HTTPSB.autoCreateTemporarySiteScope = function(pageURL) {
-    // TODO: Avoid creating a site-scope if there is an
-    // explicit rule for tha page domain in global scope.
+    // Do not auto-create a site-level scope if a scope already present.
     var scopeKey = this.temporaryScopeKeyFromPageURL(pageURL);
-    if ( this.isGlobalScopeKey(scopeKey) ) {
-        scopeKey = this.siteScopeKeyFromURL(pageURL);
-        this.createTemporarySiteScope(pageURL);
+    if ( !this.isGlobalScopeKey(scopeKey) ) {
+        return;
     }
+    // Do not auto-create a site-level scope if there is a whitelist rule
+    // for the domain or hostname of the pageURL
+    var pageDomain = uriTools.domainFromURI(pageURL);
+    var pageDomainLen = pageDomain.length;
+    var scope = this.temporaryScopes.scopes['*'];
+    var rules = scope.white.list;
+    var hostname, pos;
+    for ( var rule in rules ) {
+        if ( !rules.hasOwnProperty(rule) ) {
+            continue;
+        }
+        hostname = rule.slice(rule.indexOf('|') + 1);
+        pos = hostname.indexOf(pageDomain);
+        if ( pos >= 0 && pos === (hostname.length - pageDomainLen) ) {
+            return;
+        }
+    }
+    // If we reach this point, it makes sense to auto-create a
+    // site-level scope.
+    this.createTemporarySiteScope(pageURL);
 };
 
 /******************************************************************************/

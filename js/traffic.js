@@ -355,7 +355,7 @@ function headersReceivedHandler(details) {
     // on the top page to be bound to a tab.
     // https://github.com/gorhill/httpswitchboard/issues/75
     var tabId = details.tabId;
-    var pageURL = uriTools.normalizeURI(details.url);
+    var requestURL = uriTools.normalizeURI(details.url);
     var httpsb = HTTPSB;
 
     // rhill 2013-12-07:
@@ -365,7 +365,7 @@ function headersReceivedHandler(details) {
     // the page to a tab if not done yet.
     // https://github.com/gorhill/httpswitchboard/issues/75
     if ( tabId >= 0 && isWebPage ) {
-        bindTabToPageStats(tabId, pageURL);
+        bindTabToPageStats(tabId, requestURL);
     }
     var pageStats = pageStatsFromTabId(tabId);
 
@@ -377,23 +377,25 @@ function headersReceivedHandler(details) {
     if ( isWebPage && details.statusLine.indexOf(' 200') > 0 ) {
         // rhill 2014-01-10: Auto-site scope?
         if ( httpsb.userSettings.autoCreateSiteScope ) {
-            httpsb.autoCreateTemporarySiteScope(pageURL);
+            httpsb.autoCreateTemporarySiteScope(requestURL);
         }
         // rhill 2013-12-23: Auto-whitelist page domain?
         if ( httpsb.userSettings.autoWhitelistPageDomain ) {
-            httpsb.autoWhitelistTemporarilyPageDomain(pageURL);
+            httpsb.autoWhitelistTemporarilyPageDomain(requestURL);
         }
     }
 
-    // Evaluate according to scope
+    // At this point we have a top web page or a embedded web page in a frame,
+    // so do not assume requestURL === pageURL.
+    // Evaluate according to scope.
     // rhill 2013-12-07:
     // Worst case scenario, if no pageURL can be found for this
     // request, use global scope to evaluate whether it should be blocked
     // or allowed.
     // https://github.com/gorhill/httpswitchboard/issues/75
+    // TODO: Confirm CSP works for inline javascript of embedded web pages.
     var pageURL = pageStats ? pageUrlFromPageStats(pageStats) : '*';
     var hostname = uriTools.hostnameFromURI(details.url);
-
     if ( httpsb.whitelisted(pageURL, 'script', hostname) ) {
         return;
     }
