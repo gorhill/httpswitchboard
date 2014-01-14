@@ -637,15 +637,21 @@ function smartReloadTab(tabId) {
             break;
         }
     }
-    // Exception: a script which was not blocked and which is now blocked
-    // must result in the page being reloaded, to ensure scripts are
-    // effectively disabled.
+    // Exceptions: blocking these previously unblocked types must result in a
+    // reload:
+    // - a script
+    // - a frame
+    // Related issues:
+    // https://github.com/gorhill/httpswitchboard/issues/94
+    // https://github.com/gorhill/httpswitchboard/issues/141
     if ( !mustReload ) {
+        var blockRuleType;
         for ( blockRule in newState ) {
             if ( !newState.hasOwnProperty(blockRule) ) {
                 continue;
             }
-            if ( blockRule.indexOf('script|') !== 0 ) {
+            blockRuleType = blockRule.slice(0, blockRule.indexOf('|'));
+            if ( blockRuleType !== 'script' && blockRuleType !== 'sub_frame' ) {
                 continue;
             }
             if ( !oldState[blockRule] ) {
