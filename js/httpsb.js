@@ -295,8 +295,14 @@ HTTPSB.transposeType = function(type, url) {
     if ( type === 'other' ) {
         var path = uriTools.uri(url).path();
         var pos = path.lastIndexOf('.');
-        if ( pos > 0 && path.slice(pos+1).search(/^eot|ttf|otf|svg|woff$/i) === 0 ) {
-            return 'stylesheet';
+        if ( pos > 0 ) {
+            var ext = path.slice(pos);
+            if ( '.eot.ttf.otf.svg.woff'.indexOf(ext) >= 0 ) {
+                return 'stylesheet';
+            }
+            if ( '.ico'.indexOf(ext) >= 0 ) {
+                return 'image';
+            }
         }
     }
     return type;
