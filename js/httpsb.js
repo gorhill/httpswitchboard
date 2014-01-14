@@ -300,7 +300,7 @@ HTTPSB.transposeType = function(type, url) {
             if ( '.eot.ttf.otf.svg.woff'.indexOf(ext) >= 0 ) {
                 return 'stylesheet';
             }
-            if ( '.ico'.indexOf(ext) >= 0 ) {
+            if ( '.ico.png'.indexOf(ext) >= 0 ) {
                 return 'image';
             }
         }
