@@ -340,23 +340,25 @@ function headersReceivedHandler(details) {
 
     // console.debug('headersReceivedHandler()> "%s": "%s"', details.url, details.statusLine);
 
-    // Ignore schemes other than 'http...'
-    if ( details.url.indexOf('http') !== 0 ) {
+    var requestType = details.type;
+    var isSubFrame = requestType === 'sub_frame';
+    var isWebPage = requestType === 'main_frame' && details.parentFrameId < 0;
+
+    // Ignore anything which is not a top doc or an iframe
+    if ( !isWebPage && !isSubFrame ) {
         return;
     }
 
-    // Ignore anything which is not an html doc
-    if ( details.type !== 'main_frame' ) {
+    // Ignore schemes other than 'http...'
+    var requestURL = details.url;
+    if ( requestURL.indexOf('http') !== 0 ) {
         return;
     }
-    var isWebPage = details.parentFrameId < 0;
+    requestURL = uriTools.normalizeURI(requestURL);
 
     // rhill 2013-12-08: ALWAYS evaluate for javascript, do not rely too much
     // on the top page to be bound to a tab.
     // https://github.com/gorhill/httpswitchboard/issues/75
-    var tabId = details.tabId;
-    var requestURL = uriTools.normalizeURI(details.url);
-    var httpsb = HTTPSB;
 
     // rhill 2013-12-07:
     // Apparently in Opera, onBeforeRequest() is triggered while the
@@ -364,6 +366,7 @@ function headersReceivedHandler(details) {
     // to not be able to lookup the pageStats. So let the code here bind
     // the page to a tab if not done yet.
     // https://github.com/gorhill/httpswitchboard/issues/75
+    var tabId = details.tabId;
     if ( tabId >= 0 && isWebPage ) {
         bindTabToPageStats(tabId, requestURL);
     }
@@ -374,6 +377,7 @@ function headersReceivedHandler(details) {
     // redirection, because the final URL might differ. This ensures proper
     // scope is looked-up before auto-site-scoping and/or auto-whitelisting.
     // https://github.com/gorhill/httpswitchboard/issues/119
+    var httpsb = HTTPSB;
     if ( isWebPage && details.statusLine.indexOf(' 200') > 0 ) {
         // rhill 2014-01-10: Auto-site scope?
         if ( httpsb.userSettings.autoCreateSiteScope ) {
@@ -393,7 +397,6 @@ function headersReceivedHandler(details) {
     // request, use global scope to evaluate whether it should be blocked
     // or allowed.
     // https://github.com/gorhill/httpswitchboard/issues/75
-    // TODO: Confirm CSP works for inline javascript of embedded web pages.
     var pageURL = pageStats ? pageUrlFromPageStats(pageStats) : '*';
     var hostname = uriTools.hostnameFromURI(details.url);
     if ( httpsb.whitelisted(pageURL, 'script', hostname) ) {
@@ -402,7 +405,27 @@ function headersReceivedHandler(details) {
 
     // If javascript not allowed, say so through a `Content-Security-Policy`
     // directive.
-    details.responseHeaders.push({ 'name': 'Content-Security-Policy', 'value': "script-src 'none'" });
+    if ( isWebPage ) {
+        details.responseHeaders.push({
+            'name': 'Content-Security-Policy',
+            'value': "script-src 'none'"
+        });
+    }
+    // For inline javascript within iframes, we need to sandbox.
+    // https://github.com/gorhill/httpswitchboard/issues/73
+    // Now because sandbox cancels all permissions, this means
+    // not just javascript is disabled. To avoid negative side
+    // effects, I allow all other permissions, but...
+    // TODO: Reuse CSP `sandbox` directive if it's already in the
+    // headers (strip out `allow-scripts` if present),
+    // and find out if the `sandbox` in the header interfere with a
+    // `sandbox` attribute which might be present on the iframe.
+    else {
+        details.responseHeaders.push({
+            'name': 'Content-Security-Policy',
+            'value': 'sandbox allow-forms allow-same-origin'
+        });
+    }
     return { responseHeaders: details.responseHeaders };
 }
 
