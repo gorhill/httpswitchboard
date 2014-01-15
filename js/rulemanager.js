@@ -629,7 +629,7 @@ function updateButtons() {
     var notOneTemporary = $('.scope:not(.permanent),.scope.permanent .rule:not(.permanent)').length === 0;
     var notOneDeletion = $('.todelete').length === 0;
     $('#commitAll').prop("disabled", notOneTemporary && notOneDeletion);
-    $('#revertAll').prop("disabled", notOneTemporary);
+    $('#revertAll').prop("disabled", notOneTemporary && notOneDeletion);
     $('#removeAll').prop("disabled", $('.scope').length <= 1 && $('.rule').length === 0);
 }
 
