@@ -309,11 +309,11 @@
         "description": "..."
     },
     "settingsBehindTheSceneHeader" : {
-        "message": "Requêtes en coulisses de Chromium",
+        "message": "Requêtes en coulisses du navigateur",
         "description": "header of Chromium: behind-the-scene requests section"
     },
     "settingsProcessBehindTheScenePrompt" : {
-        "message": "The &ldquo;Process behind-the-scene HTTP requests&rdquo; checkbox doesn&lsquo;t exist anymore. To allow/block in whole or part behind-the-scene requests you must now use the matrix which is available when cliking the extension icon while on this page. Required reading: <a href='https://github.com/gorhill/httpswitchboard/wiki/Behind-the-scene-requests'>Behind-the-scene requests</a>.",
+        "message": "La gestion des requêtes en coulisses est toujours présente, mais modifiée. Dorénavant, pour gérer le traitement de ces requêtes, il vous suffit d'accéder à la matrice spécifique disponible en cliquant sur l'icone de l'extension tout en étant dans la page des paramètres d'HTTP Switchboard. Veuillez prendre connaissance de cet article (en anglais) : <a href='https://github.com/gorhill/httpswitchboard/wiki/Behind-the-scene-requests'>Behind-the-scene requests</a>.",
         "description": "..."
     },
     "settingsProcessBehindTheSceneHelp" : {
