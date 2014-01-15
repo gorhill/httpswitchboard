@@ -194,17 +194,14 @@ function beforeRequestHandler(details) {
         block = httpsb.blacklisted(pageURL, type, hostname);
     }
 
-    // rhill 2014-01-15: Report redirects if any.
-    // https://github.com/gorhill/httpswitchboard/issues/112
-    if ( httpsb.redirectRequests[requestURL] ) {
-        if ( pageStats ) {
-            pageStats.recordRequest('main_frame', httpsb.redirectRequests[requestURL], false);
-        }
-        delete httpsb.redirectRequests[requestURL];
-    }
-
     if ( pageStats ) {
-        pageStats.recordRequest(type, requestURL, block);
+        // rhill 2014-01-15: Delay logging of non-blocked top `main_frame`
+        // requests, in order to ensure any potential redirects is reported
+        // in proper chronological order.
+        // https://github.com/gorhill/httpswitchboard/issues/112
+        if ( !isWebPage || block ) {
+            pageStats.recordRequest(type, requestURL, block);
+        }
     }
 
     // Collect global stats
@@ -391,6 +388,7 @@ function headersReceivedHandler(details) {
             if ( i >= 0 ) {
                 httpsb.redirectRequests[uriTools.normalizeURI(headers[i].value)] = requestURL;
             }
+            // console.debug('headersReceivedHandler()> redirect "%s" to "%s"', requestURL, headers[i].value);
         }
 
         // rhill 2014-01-11: Auto-scope and/or auto-whitelist only when the
@@ -399,6 +397,23 @@ function headersReceivedHandler(details) {
         // scope is looked-up before auto-site-scoping and/or auto-whitelisting.
         // https://github.com/gorhill/httpswitchboard/issues/119
         if ( details.statusLine.indexOf(' 200') > 0 ) {
+            // rhill 2014-01-15: Report redirects if any.
+            // https://github.com/gorhill/httpswitchboard/issues/112
+            var mainFrameStack = [requestURL];
+            var destinationURL = requestURL;
+            var sourceURL;
+            while ( sourceURL = httpsb.redirectRequests[destinationURL] ) {
+                mainFrameStack.push(sourceURL);
+                delete httpsb.redirectRequests[destinationURL];
+                destinationURL = sourceURL;
+            }
+
+            if ( pageStats ) {
+                while ( destinationURL = mainFrameStack.pop() ) {
+                    pageStats.recordRequest('main_frame', destinationURL, false);
+                }
+            }
+
             // rhill 2014-01-10: Auto-site scope?
             if ( httpsb.userSettings.autoCreateSiteScope ) {
                 httpsb.autoCreateTemporarySiteScope(requestURL);
