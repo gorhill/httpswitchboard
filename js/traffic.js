@@ -113,19 +113,19 @@ function beforeRequestHandler(details) {
         tabId = httpsb.behindTheSceneTabId;
     }
 
-    var url = uriTools.normalizeURI(details.url);
+    var requestURL = uriTools.normalizeURI(details.url);
     var hostname, pageURL;
 
     // Don't block chrome extensions
     // rhill 2013-12-10: Avoid regex whenever a faster indexOf() can be used:
     // here we can use fast indexOf() as a first filter -- which is executed
     // for every single request (so speed matters).
-    if ( url.indexOf(httpsb.chromeExtensionURLPrefix) === 0 ) {
+    if ( requestURL.indexOf(httpsb.chromeExtensionURLPrefix) === 0 ) {
         // If it is HTTP Switchboard's root frame replacement URL, verify that
         // the page that was blacklisted is still blacklisted, and if not,
         // redirect to the previously blacklisted page.
-        if ( details.parentFrameId < 0 && url.indexOf(httpsb.noopCSSURL) === 0 ) {
-            var matches = url.match(/url=([^&]+)&hostname=([^&]+)/);
+        if ( details.parentFrameId < 0 && requestURL.indexOf(httpsb.noopCSSURL) === 0 ) {
+            var matches = requestURL.match(/url=([^&]+)&hostname=([^&]+)/);
             if ( matches ) {
                 pageURL = decodeURIComponent(matches[1]);
                 hostname = decodeURIComponent(matches[2]);
@@ -156,7 +156,7 @@ function beforeRequestHandler(details) {
     var isApp = isSubFrame && !pageStats;
 
     if ( isWebPage || isApp ) {
-        bindTabToPageStats(tabId, url);
+        bindTabToPageStats(tabId, requestURL);
     }
 
     pageStats = pageStatsFromTabId(tabId);
@@ -173,14 +173,14 @@ function beforeRequestHandler(details) {
         pageStats.ignore = true;
     }
 
-    hostname = uriTools.hostnameFromURI(url);
+    hostname = uriTools.hostnameFromURI(requestURL);
     pageURL = pageUrlFromPageStats(pageStats);
 
     // rhill 2013-12-15:
     // Try to transpose generic `other` category into something more
     // meaningful.
     if ( type === 'other' ) {
-        type = httpsb.transposeType(type, url);
+        type = httpsb.transposeType(type, requestURL);
     }
 
     if ( pageStats && pageStats.ignore ) {
@@ -194,8 +194,17 @@ function beforeRequestHandler(details) {
         block = httpsb.blacklisted(pageURL, type, hostname);
     }
 
+    // rhill 2014-01-15: Report redirects if any.
+    // https://github.com/gorhill/httpswitchboard/issues/112
+    if ( httpsb.redirectRequests[requestURL] ) {
+        if ( pageStats ) {
+            pageStats.recordRequest('main_frame', httpsb.redirectRequests[requestURL], false);
+        }
+        delete httpsb.redirectRequests[requestURL];
+    }
+
     if ( pageStats ) {
-        pageStats.recordRequest(type, url, block);
+        pageStats.recordRequest(type, requestURL, block);
     }
 
     // Collect global stats
@@ -234,7 +243,7 @@ function beforeRequestHandler(details) {
         html = html.replace(/{{fontUrl}}/g, httpsb.fontCSSURL);
         html = html.replace(/{{cssURL}}/g, httpsb.noopCSSURL);
         html = html.replace(/{{hostname}}/g, encodeURIComponent(hostname));
-        html = html.replace(/{{originalURL}}/g, encodeURIComponent(url));
+        html = html.replace(/{{originalURL}}/g, encodeURIComponent(requestURL));
         html = html.replace(/{{now}}/g, String(Date.now()));
         dataURI = 'data:text/html;base64,' + btoa(html);
         // quickProfiler.stop('beforeRequestHandler');
@@ -371,21 +380,33 @@ function headersReceivedHandler(details) {
         bindTabToPageStats(tabId, requestURL);
     }
     var pageStats = pageStatsFromTabId(tabId);
-
-    // rhill 2014-01-11: Auto-scope and/or auto-whitelist only when the
-    // `main_frame` object is really received (status = 200 OK), i.e. avoid
-    // redirection, because the final URL might differ. This ensures proper
-    // scope is looked-up before auto-site-scoping and/or auto-whitelisting.
-    // https://github.com/gorhill/httpswitchboard/issues/119
     var httpsb = HTTPSB;
-    if ( isWebPage && details.statusLine.indexOf(' 200') > 0 ) {
-        // rhill 2014-01-10: Auto-site scope?
-        if ( httpsb.userSettings.autoCreateSiteScope ) {
-            httpsb.autoCreateTemporarySiteScope(requestURL);
+    var headers = details.responseHeaders;
+
+    if ( isWebPage ) {
+        // rhill 2014-01-15: Report redirects.
+        // https://github.com/gorhill/httpswitchboard/issues/112
+        if ( details.statusLine.indexOf(' 302') > 0 ) {
+            var i = headerIndexFromName('location', headers);
+            if ( i >= 0 ) {
+                httpsb.redirectRequests[uriTools.normalizeURI(headers[i].value)] = requestURL;
+            }
         }
-        // rhill 2013-12-23: Auto-whitelist page domain?
-        if ( httpsb.userSettings.autoWhitelistPageDomain ) {
-            httpsb.autoWhitelistTemporarilyPageDomain(requestURL);
+
+        // rhill 2014-01-11: Auto-scope and/or auto-whitelist only when the
+        // `main_frame` object is really received (status = 200 OK), i.e. avoid
+        // redirection, because the final URL might differ. This ensures proper
+        // scope is looked-up before auto-site-scoping and/or auto-whitelisting.
+        // https://github.com/gorhill/httpswitchboard/issues/119
+        if ( details.statusLine.indexOf(' 200') > 0 ) {
+            // rhill 2014-01-10: Auto-site scope?
+            if ( httpsb.userSettings.autoCreateSiteScope ) {
+                httpsb.autoCreateTemporarySiteScope(requestURL);
+            }
+            // rhill 2013-12-23: Auto-whitelist page domain?
+            if ( httpsb.userSettings.autoWhitelistPageDomain ) {
+                httpsb.autoWhitelistTemporarilyPageDomain(requestURL);
+            }
         }
     }
 
@@ -406,7 +427,7 @@ function headersReceivedHandler(details) {
     // If javascript not allowed, say so through a `Content-Security-Policy`
     // directive.
     if ( isWebPage ) {
-        details.responseHeaders.push({
+        headers.push({
             'name': 'Content-Security-Policy',
             'value': "script-src 'none'"
         });
@@ -421,12 +442,12 @@ function headersReceivedHandler(details) {
     // and find out if the `sandbox` in the header interfere with a
     // `sandbox` attribute which might be present on the iframe.
     else {
-        details.responseHeaders.push({
+        headers.push({
             'name': 'Content-Security-Policy',
             'value': 'sandbox allow-forms allow-same-origin'
         });
     }
-    return { responseHeaders: details.responseHeaders };
+    return { responseHeaders: headers };
 }
 
 /******************************************************************************/
@@ -490,3 +511,18 @@ function startWebRequestHandler(from) {
         ['blocking', 'responseHeaders']
     );
 }
+
+/******************************************************************************/
+
+// Caller must ensure headerName is normalized to lower case.
+
+function headerIndexFromName(headerName, headers) {
+    var i = headers.length;
+    while ( i-- ) {
+        if ( headers[i].name.toLowerCase() === headerName ) {
+            return i;
+        }
+    }
+    return -1;
+}
+
