@@ -246,7 +246,7 @@ body #scopeKeys {
     padding: 0;
     }
 .matrix .matGroup .matSection:first-child {
-    margin-top: 4px 0 0 0;
+    margin-top: 4px;
     border-top: 1px dotted #ccc;
     padding-top: 4px;
     }
@@ -372,7 +372,7 @@ body.powerOff .matRow.rw .matCell {
     right: 4.5em;
     top: 4px;
     color: #888;
-    word-break: keep-all;
+    word-break: normal;
     font-size: 115%;
     line-height: 120%;
     overflow: hidden;
@@ -391,7 +391,7 @@ body.powerOff .matRow.rw .matCell {
     margin: 0;
     border: 0;
     padding: 0;
-    position: position;
+    position: absolute;
     left: 0;
     top: 0;
     width: 100%;
