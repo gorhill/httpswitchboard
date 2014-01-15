@@ -150,7 +150,7 @@ function loadUserLists() {
                 } else {
                     httpsb.whitelistTemporarily(httpsb.behindTheSceneURL, '*', '*');
                 }
-            } else {
+            } else if ( store.version.slice(0, 5).localeCompare('0.7.6') < 0 ) {
                 var scope = httpsb.temporaryScopes.scopes[httpsb.behindTheSceneURL];
                 if ( scope && scope.white.count <= 1 && scope.black.count <= 1 && scope.gray.count === 0 ) {
                     if ( httpsb.userSettings.processBehindTheSceneRequests ) {
