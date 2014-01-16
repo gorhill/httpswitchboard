@@ -10,7 +10,7 @@ and more can be enabled).
 
 ## Installation
 
-Available from [Chrome web store](https://chrome.google.com/webstore/detail/httpswitchboard/mghdpehejfekicfjcdbfofhcmnjhgaag), [Opera add-ons collection](https://addons.opera.com/en-gb/extensions/details/http-switchboard/), or you can [install manually](https://github.com/gorhill/httpswitchboard/tree/master/dist).
+Available from [Chrome web store](https://chrome.google.com/webstore/detail/httpswitchboard/mghdpehejfekicfjcdbfofhcmnjhgaag), [Opera add-ons collection](https://addons.opera.com/en-gb/extensions/details/http-switchboard/), or you can [install manually](https://github.com/gorhill/httpswitchboard/tree/master/dist). I expect the extension to work on any Chromium-based browser.
 
 ## Documentation
 
