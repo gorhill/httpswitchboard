@@ -418,11 +418,11 @@ function renderScopes(domContainerId, filterFn) {
 
 /******************************************************************************/
 
-function renderSiteScopes() {
+function renderGlobalScope() {
     var filterFn = function(httpsb, scopeKey) {
-        return httpsb.isSiteScopeKey(scopeKey);
+        return httpsb.isGlobalScopeKey(scopeKey);
     };
-    renderScopes('#persite', filterFn);
+    renderScopes('#global', filterFn);
 }
 
 /******************************************************************************/
@@ -436,11 +436,20 @@ function renderDomainScopes() {
 
 /******************************************************************************/
 
-function renderGlobalScope() {
+function renderSiteScopes() {
     var filterFn = function(httpsb, scopeKey) {
-        return httpsb.isGlobalScopeKey(scopeKey);
+        return httpsb.isSiteScopeKey(scopeKey) && scopeKey !== httpsb.behindTheSceneURL;
     };
-    renderScopes('#global', filterFn);
+    renderScopes('#persite', filterFn);
+}
+
+/******************************************************************************/
+
+function renderBtsScope() {
+    var filterFn = function(httpsb, scopeKey) {
+        return scopeKey === httpsb.behindTheSceneURL;
+    };
+    renderScopes('#behind-the-scene', filterFn);
 }
 
 /******************************************************************************/
@@ -455,6 +464,7 @@ function renderAll() {
     renderGlobalScope();
     renderDomainScopes();
     renderSiteScopes();
+    renderBtsScope();
     updateButtons();
 }
 
