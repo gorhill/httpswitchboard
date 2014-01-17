@@ -140,16 +140,18 @@ function gotoExtensionURL(url) {
     // - If URL is already opened in a tab, just activate tab
     // - Otherwise find the current active tab and open in a tab immediately
     //   to the right of the active tab
-    chrome.tabs.query({ url: url }, function(tabs) {
-        // Activate found matching tab
-        if ( tabs.length ) {
-            chrome.tabs.update(tabs[0].id, { active: true });
-            return;
-        }
-        // If it doesn't exist, create new tab
-        chrome.tabs.query({ active: true }, function(tabs) {
-            var index = tabs.length ? tabs[0].index : 9999;
-            chrome.tabs.create({ 'url': url, index: index + 1 });
+    chrome.tabs.query({ active: true }, function(tabs) {
+        var index = tabs.length ? tabs[0].index : 9999;
+        chrome.tabs.query({ url: url }, function(tabs) {
+            // Activate found matching tab
+            if ( tabs.length ) {
+                chrome.tabs.move(tabs[0].id, { index: index + 1 });
+                chrome.tabs.update(tabs[0].id, { active: true });
+            }
+            // If it doesn't exist, create new tab
+            else {
+                chrome.tabs.create({ 'url': url, index: index + 1 });
+            }
         });
     });
 }
