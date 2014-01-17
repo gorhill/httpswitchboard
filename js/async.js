@@ -133,23 +133,25 @@ function permissionsChanged() {
 
 /******************************************************************************/
 
-function extensionTabCreateCallback(tab) {
-    HTTPSB.extensionTabId = tab.id;
-}
-
 function gotoExtensionURL(url) {
     url = chrome.extension.getURL(url);
-    if ( HTTPSB.extensionTabId ) {
-        chrome.tabs.get(HTTPSB.extensionTabId, function(tab) {
-            if ( tab ) {
-                chrome.tabs.update(HTTPSB.extensionTabId, { 'url': url, active: true });
-            } else {
-                chrome.tabs.create({ 'url': url }, extensionTabCreateCallback);
-            }
-        })
-    } else {
-        chrome.tabs.create({ 'url': url }, extensionTabCreateCallback);
-    }
+    // https://github.com/gorhill/httpswitchboard/issues/150
+    // Logic:
+    // - If URL is already opened in a tab, just activate tab
+    // - Otherwise find the current active tab and open in a tab immediately
+    //   to the right of the active tab
+    chrome.tabs.query({ url: url }, function(tabs) {
+        // Activate found matching tab
+        if ( tabs.length ) {
+            chrome.tabs.update(tabs[0].id, { active: true });
+            return;
+        }
+        // If it doesn't exist, create new tab
+        chrome.tabs.query({ active: true }, function(tabs) {
+            var index = tabs.length ? tabs[0].index : 9999;
+            chrome.tabs.create({ 'url': url, index: index + 1 });
+        });
+    });
 }
 
 /******************************************************************************/
