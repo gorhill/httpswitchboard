@@ -31,22 +31,27 @@ function contentScriptSummaryHandler(details) {
     var ut = uriTools;
     var httpsb = HTTPSB;
     var pageURL = ut.normalizeURI(details.pageUrl);
-    var pageHostname = ut.hostnameFromURI(pageURL);
-    var sources, i;
-    var url, hostname, block;
+    var pageHostname = ut.hostname();
+    var urls, url, hostname, block;
+
+    // rhill 2014-01-17: I try not to use Object.keys() anymore when it can
+    // be avoided, because extracting the keys this way results in a
+    // transient javascript array being created, which means mem allocation,
+    // and with all that come with it (mem fragmentation, GC, whatever).
 
     // scripts
     // https://github.com/gorhill/httpswitchboard/issues/25
-    sources = Object.keys(details.scriptSources);
-    i = sources.length;
-    while ( i-- ) {
-        url = sources[i];
+    urls = details.scriptSources;
+    for ( url in urls ) {
+        if ( !urls.hasOwnProperty(url) ) {
+            continue;
+        }
         hostname = false;
         if ( url === '{inline_script}' ) {
             url = pageURL + '{inline_script}';
         } else {
             url = ut.normalizeURI(url);
-            hostname = ut.hostnameFromURI(url);
+            hostname = ut.hostname();
         }
         if ( !hostname ) {
             hostname = pageHostname;
@@ -57,11 +62,13 @@ function contentScriptSummaryHandler(details) {
 
     // plugins
     // https://github.com/gorhill/httpswitchboard/issues/25
-    sources = Object.keys(details.pluginSources);
-    i = sources.length;
-    while ( i-- ) {
-        url = ut.normalizeURI(sources[i]);
-        hostname = ut.hostnameFromURI(url);
+    urls = details.pluginSources;
+    for ( url in urls ) {
+        if ( !urls.hasOwnProperty(url) ) {
+            continue;
+        }
+        url = ut.normalizeURI(url);
+        hostname = ut.hostname();
         if ( !hostname ) {
             hostname = pageHostname;
         }

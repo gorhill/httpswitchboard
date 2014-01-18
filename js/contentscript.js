@@ -43,9 +43,10 @@ function collectExternalResources() {
         indexedDB: false
     };
     var i, elem, elems;
+
     // https://github.com/gorhill/httpswitchboard/issues/25
-    elems = document.scripts;
-    i = elems.length;
+    elems = document.querySelectorAll('script');
+    i = elems ? elems.length : 0;
     while ( i-- ) {
         elem = elems[i];
         if ( elem.innerText.trim() !== '' ) {
