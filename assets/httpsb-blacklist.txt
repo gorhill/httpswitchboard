@@ -40,6 +40,7 @@ mookie1.com         # "Specializing in online digital advertising, search market
 msads.net           # Sounds like ads, and no home web page...
 omtrdc.net          # Redirect to Omniture
 outbrain.com        # https://www.eff.org/deeplinks/2013/06/third-party-resources-nsa-leaks
+panoramtech.net     # As seen in a screenshot at http://arstechnica.com/security/2014/01/malware-vendors-buy-chrome-extensions-to-send-adware-filled-updates/
 parsely.com         # http://en.wikipedia.org/wiki/Parse.ly
 peer39.net          # https://www.eff.org/deeplinks/2013/06/third-party-resources-nsa-leaks
 servebom.com        # no home page, seen as 'tracking.servebom.com': good enough for this list
