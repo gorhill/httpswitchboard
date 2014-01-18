@@ -191,7 +191,7 @@ function loadRemoteBlacklists() {
     // Get remote blacklist data (which may be saved locally).
     // No need for storageBufferer.acquire() here because the fetched data
     // won't be modified.
-    // rhill 2013-12-10: now we need to use storageBufferer.
+    // rhill 2013-12-10: no need to use storageBufferer.
     chrome.storage.local.get(
         { 'remoteBlacklists': HTTPSB.remoteBlacklists },
         loadRemoteBlacklistsHandler

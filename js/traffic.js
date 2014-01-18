@@ -99,10 +99,10 @@ background: #c00; \
 
 // Intercept and filter web requests according to white and black lists.
 
-function beforeRequestHandler(details) {
+function onBeforeRequestHandler(details) {
     // quickProfiler.start();
 
-    // console.debug('beforeRequestHandler()> "%s"', details.url);
+    // console.debug('onBeforeRequestHandler()> "%s"', details.url);
 
     var canEvaluate = true;
     var httpsb = HTTPSB;
@@ -139,7 +139,7 @@ function beforeRequestHandler(details) {
             }
         }
         // Chrome extensions are not processed further
-        // quickProfiler.stop('beforeRequestHandler');
+        // quickProfiler.stop('onBeforeRequestHandler');
         return;
     }
 
@@ -166,7 +166,7 @@ function beforeRequestHandler(details) {
     // Answer: Yes. Requests might still be dispatched after
     // closing a tab it appears.
     // if ( !pageStats ) {
-    //    console.error('beforeRequestHandler() > no pageStats: %o', details);
+    //    console.error('onBeforeRequestHandler() > no pageStats: %o', details);
     // }
 
     if ( isApp && pageStats ) {
@@ -209,7 +209,7 @@ function beforeRequestHandler(details) {
 
     // whitelisted?
     if ( !block ) {
-        // console.debug('beforeRequestHandler > allowing %s from %s', type, hostname);
+        // console.debug('onBeforeRequestHandler > allowing %s from %s', type, hostname);
 
         // If the request is not blocked, this means the response could contain
         // cookies. Thus, we go cookie hunting for this page url and record all
@@ -223,12 +223,12 @@ function beforeRequestHandler(details) {
             cookieHunter.recordPageCookiesAsync(pageStats);
         }
 
-        // quickProfiler.stop('beforeRequestHandler');
+        // quickProfiler.stop('onBeforeRequestHandler');
         return;
     }
 
     // blacklisted
-    // console.debug('beforeRequestHandler > blocking %s from %s', type, hostname);
+    // console.debug('onBeforeRequestHandler > blocking %s from %s', type, hostname);
 
     // If it's a blacklisted frame, redirect to frame.html
     // rhill 2013-11-05: The root frame contains a link to noop.css, this
@@ -243,18 +243,18 @@ function beforeRequestHandler(details) {
         html = html.replace(/{{originalURL}}/g, encodeURIComponent(requestURL));
         html = html.replace(/{{now}}/g, String(Date.now()));
         dataURI = 'data:text/html;base64,' + btoa(html);
-        // quickProfiler.stop('beforeRequestHandler');
+        // quickProfiler.stop('onBeforeRequestHandler');
         return { "redirectUrl": dataURI };
     } else if ( isSubFrame ) {
         html = subFrameReplacement;
         html = html.replace(/{{fontUrl}}/g, httpsb.fontCSSURL);
         html = html.replace(/{{hostname}}/g, hostname);
         dataURI = 'data:text/html;base64,' + btoa(html);
-        // quickProfiler.stop('beforeRequestHandler');
+        // quickProfiler.stop('onBeforeRequestHandler');
         return { "redirectUrl": dataURI };
     }
 
-    // quickProfiler.stop('beforeRequestHandler');
+    // quickProfiler.stop('onBeforeRequestHandler');
     return { "cancel": true };
 }
 
@@ -262,7 +262,7 @@ function beforeRequestHandler(details) {
 
 // This is to handle cookies leaving the browser.
 
-function beforeSendHeadersHandler(details) {
+function onBeforeSendHeadersHandler(details) {
 
     var httpsb = HTTPSB;
 
@@ -307,7 +307,7 @@ function beforeSendHeadersHandler(details) {
                 toDomain = ut.domainFromHostname(hostname);
                 if ( fromDomain !== toDomain ) {
                     if ( httpsb.blacklisted(pageURL, '*', hostname) ) {
-                        // console.debug('beforeSendHeadersHandler()> nulling referer "%s" for "%s"', fromDomain, toDomain);
+                        // console.debug('onBeforeSendHeadersHandler()> nulling referer "%s" for "%s"', fromDomain, toDomain);
                         headers[i].value = '';
                         httpsb.refererHeaderFoiledCounter++;
                         changed = true;
@@ -342,9 +342,9 @@ function beforeSendHeadersHandler(details) {
 // This fixes:
 // https://github.com/gorhill/httpswitchboard/issues/35
 
-function headersReceivedHandler(details) {
+function onHeadersReceivedHandler(details) {
 
-    // console.debug('headersReceivedHandler()> "%s": "%s"', details.url, details.statusLine);
+    // console.debug('onHeadersReceivedHandler()> "%s": "%s"', details.url, details.statusLine);
 
     var requestType = details.type;
     var isSubFrame = requestType === 'sub_frame';
@@ -388,7 +388,7 @@ function headersReceivedHandler(details) {
             if ( i >= 0 ) {
                 httpsb.redirectRequests[uriTools.normalizeURI(headers[i].value)] = requestURL;
             }
-            // console.debug('headersReceivedHandler()> redirect "%s" to "%s"', requestURL, headers[i].value);
+            // console.debug('onHeadersReceivedHandler()> redirect "%s" to "%s"', requestURL, headers[i].value);
         }
 
         // rhill 2014-01-11: Auto-scope and/or auto-whitelist only when the
@@ -483,7 +483,7 @@ function startWebRequestHandler(from) {
     }
 
     chrome.webRequest.onBeforeRequest.addListener(
-        beforeRequestHandler,
+        onBeforeRequestHandler,
         {
             "urls": [
                 "http://*/*",
@@ -505,7 +505,7 @@ function startWebRequestHandler(from) {
     );
 
     chrome.webRequest.onBeforeSendHeaders.addListener(
-        beforeSendHeadersHandler,
+        onBeforeSendHeadersHandler,
         {
             'urls': [
                 "http://*/*",
@@ -516,7 +516,7 @@ function startWebRequestHandler(from) {
     );
 
     chrome.webRequest.onHeadersReceived.addListener(
-        headersReceivedHandler,
+        onHeadersReceivedHandler,
         {
             'urls': [
                 "http://*/*",
