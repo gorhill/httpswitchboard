@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "__MSG_extName__",
-    "version": "0.7.6.1",
+    "version": "0.7.7.0",
     "description": "__MSG_extShortDesc__",
     "icons": {
         "16": "icon_16.png",
@@ -21,7 +21,7 @@
     "content_scripts": [{
         "matches": ["http://*/*", "https://*/*"],
         "js": ["js/contentscript.js"],
-        "run_at": "document_start",
+        "run_at": "document_end",
         "all_frames": true
     }],
     "homepage_url": "https://github.com/gorhill/httpswitchboard/wiki",
