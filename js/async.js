@@ -145,7 +145,9 @@ function gotoExtensionURL(url) {
         chrome.tabs.query({ url: url }, function(tabs) {
             // Activate found matching tab
             if ( tabs.length ) {
-                chrome.tabs.move(tabs[0].id, { index: index + 1 });
+                // Commented out as per:
+                // https://github.com/gorhill/httpswitchboard/issues/150#issuecomment-32683726
+                // chrome.tabs.move(tabs[0].id, { index: index + 1 });
                 chrome.tabs.update(tabs[0].id, { active: true });
             }
             // If it doesn't exist, create new tab
