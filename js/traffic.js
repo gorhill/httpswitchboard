@@ -111,6 +111,7 @@ function onBeforeRequestHandler(details) {
     // Do not ignore traffic outside tabs
     if ( tabId < 0 ) {
         tabId = httpsb.behindTheSceneTabId;
+        // console.debug('onBeforeRequestHandler()> behind-the-scene: "%s"', details.url);
     }
 
     var requestURL = uriTools.normalizeURI(details.url);
@@ -361,6 +362,8 @@ function onHeadersReceivedHandler(details) {
         return;
     }
     requestURL = uriTools.normalizeURI(requestURL);
+    var requestHostname = uriTools.hostname();
+    var requestScheme = uriTools.scheme();
 
     // rhill 2013-12-08: ALWAYS evaluate for javascript, do not rely too much
     // on the top page to be bound to a tab.
@@ -386,7 +389,14 @@ function onHeadersReceivedHandler(details) {
         if ( details.statusLine.indexOf(' 302') > 0 ) {
             var i = headerIndexFromName('location', headers);
             if ( i >= 0 ) {
-                httpsb.redirectRequests[uriTools.normalizeURI(headers[i].value)] = requestURL;
+                // rhill 2014-01-20: Be ready to handle relative URLs.
+                // https://github.com/gorhill/httpswitchboard/issues/162
+                var locationURL = headers[i].value.trim();
+                if ( locationURL.charAt(0) === '/' ) {
+                    locationURL = requestScheme + '://' + requestHostname + locationURL;
+                }
+                locationURL = uriTools.normalizeURI(locationURL);
+                httpsb.redirectRequests[locationURL] = requestURL;
             }
             // console.debug('onHeadersReceivedHandler()> redirect "%s" to "%s"', requestURL, headers[i].value);
         }
@@ -434,8 +444,7 @@ function onHeadersReceivedHandler(details) {
     // or allowed.
     // https://github.com/gorhill/httpswitchboard/issues/75
     var pageURL = pageStats ? pageUrlFromPageStats(pageStats) : '*';
-    var hostname = uriTools.hostnameFromURI(details.url);
-    if ( httpsb.whitelisted(pageURL, 'script', hostname) ) {
+    if ( httpsb.whitelisted(pageURL, 'script', requestHostname) ) {
         return;
     }
 
