@@ -111,7 +111,7 @@ HTTPSB.createPermanentGlobalScope = function(url) {
     }
     if ( scopeKey.indexOf('https:') === 0 ) {
         scopeKey = 'http:' + scopeKey.slice(6);
-        if ( this.removeTemporaryScopeFromScopeKey(scopeKey) ) {
+        if ( this.removePermanentScopeFromScopeKey(scopeKey) ) {
             changed = true;
         }
     }
@@ -121,7 +121,7 @@ HTTPSB.createPermanentGlobalScope = function(url) {
     }
     if ( scopeKey.indexOf('https:') === 0 ) {
         scopeKey = 'http:' + scopeKey.slice(6);
-        if ( this.removeTemporaryScopeFromScopeKey(scopeKey) ) {
+        if ( this.removePermanentScopeFromScopeKey(scopeKey) ) {
             changed = true;
         }
     }
@@ -173,7 +173,7 @@ HTTPSB.createPermanentDomainScope = function(url) {
     }
     if ( scopeKey.indexOf('https:') === 0 ) {
         scopeKey = 'http:' + scopeKey.slice(6);
-        if ( this.removeTemporaryScopeFromScopeKey(scopeKey) ) {
+        if ( this.removePermanentScopeFromScopeKey(scopeKey) ) {
             changed = true;
         }
     }
