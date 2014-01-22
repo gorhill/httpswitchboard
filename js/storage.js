@@ -285,16 +285,30 @@ function localRemoveRemoteBlacklist(location) {
 function mergeRemoteBlacklist(list) {
     // console.log('HTTP Switchboard > mergeRemoteBlacklist from "%s": "%s..."', list.url, list.raw.slice(0, 40));
     var httpsb = HTTPSB;
+    var raw = list.raw;
+    var rawEnd = raw.length;
 
-    // rhill 2013-10-21: no need to prefix with '* ', the hostname is just what
+    // rhill 2013-10-21: No need to prefix with '* ', the hostname is just what
     // we need for preset blacklists. The prefix '* ' is ONLY needed when
     // used as a filter in temporary blacklist.
+
+    // rhill 2014-01-22: Transpose possible Adblock Plus-filter syntax
+    // into a plain hostname if possible.
+    // Useful references:
+    //    https://adblockplus.org/en/filter-cheatsheet
+    //    https://adblockplus.org/en/filters
+    var adblock = /^\[Adblock +Plus\ +\d\.\d]/.test(raw);
+    var hostFromAdblockFilter = function(s) {
+        var matches = s.match(/^\|\|([a-z0-9.-]+)\^[\n\$]/);
+        if ( matches && matches.length > 1 ) {
+            return matches[1];
+        }
+        return '';
+    };
 
     var blacklistReadonly = httpsb.blacklistReadonly;
     var thisListCount = 0;
     var localhostRegex = /(^|\b)(localhost\.localdomain|localhost|local|broadcasthost|0\.0\.0\.0|127\.0\.0\.1|::1|fe80::1%lo0)(\b|$)/g;
-    var raw = list.raw;
-    var rawEnd = raw.length;
     var lineBeg = 0;
     var lineEnd;
     var key, pos;
@@ -305,6 +319,17 @@ function mergeRemoteBlacklist(list) {
         }
         key = raw.slice(lineBeg, lineEnd);
         lineBeg = lineEnd + 1;
+
+        // rhill 2014-01-22: Transpose possible Adblock Plus-filter syntax
+        // into a plain hostname if possible.
+        // Useful reference: https://adblockplus.org/en/filter-cheatsheet#blocking2
+        if ( adblock ) {
+            if ( key.indexOf('||') !== 0 ) {
+                continue;
+            }
+            key = hostFromAdblockFilter(key);
+        }
+
         pos = key.indexOf('#');
         if ( pos >= 0 ) {
             key = key.slice(0, pos);
