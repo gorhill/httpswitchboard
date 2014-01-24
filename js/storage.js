@@ -299,7 +299,7 @@ function mergeRemoteBlacklist(list) {
     //    https://adblockplus.org/en/filters
     var adblock = /^\[Adblock +Plus\ +\d\.\d]/.test(raw);
     var hostFromAdblockFilter = function(s) {
-        var matches = s.match(/^\|\|([a-z0-9.-]+)\^[\n\$]/);
+        var matches = s.match(/^\|\|([a-z0-9.-]+)\^(\$third-party|$)/);
         if ( matches && matches.length > 1 ) {
             return matches[1];
         }
