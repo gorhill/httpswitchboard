@@ -86,23 +86,30 @@ var storageBufferer = {
 
 /******************************************************************************/
 
-function readLocalTextFile(path) {
-    // If location is local, assume local directory
-    var url = path;
-    if ( url.search(/^https?:\/\//) < 0 ) {
-        url = chrome.runtime.getURL(path);
-    }
-    // console.log('HTTP Switchboard > readLocalTextFile > "%s"', url);
+// Support async (let caller choose)
 
-    // rhill 2013-10-24: Beware, our own requests could be blocked by our own
-    // behind-the-scene requests processor.
+function readLocalTextFile(path) {
     var text = null;
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'text';
-    xhr.open('GET', url, false);
-    xhr.send();
-    if ( xhr.status === 200 ) {
-        text = xhr.responseText;
+    try {
+        // If location is local, assume local directory
+        var url = path;
+        if ( url.search(/^https?:\/\//) < 0 ) {
+            url = chrome.runtime.getURL(path);
+        }
+        // console.log('HTTP Switchboard > readLocalTextFile > "%s"', url);
+
+        // rhill 2013-10-24: Beware, our own requests could be blocked by our own
+        // behind-the-scene requests processor.
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = 'text';
+        xhr.open('GET', url, false);
+        xhr.send();
+        if ( xhr.status === 200 ) {
+            text = xhr.responseText;
+        }
+    }
+    catch (err) {
+        console.error('HTTP Switchboard > readLocalTextFile(): %o', err);
     }
     return text;
 }
@@ -228,6 +235,18 @@ function loadRemoteBlacklistsHandler(store) {
             continue;
         }
 
+        // rhill 2014-01-24: HTTPSB-maintained lists sit now in their
+        // own directory, "asset/httpsb/". Ensure smooth transition.
+        // TODO: Remove this code when everybody upgraded beyond 0.7.7.1
+        if ( location === 'assets/httpsb-blacklist.txt' &&
+             store.remoteBlacklists[location].off === true )
+        {
+            // In case it was already processed
+            httpsb.remoteBlacklists['assets/httpsb/blacklist.txt'].off = true;
+            // In case it was not yet processed
+            store.remoteBlacklists['assets/httpsb/blacklist.txt'].off = true;
+        }
+
         // If loaded list location is not part of default list locations,
         // remove its entry from local storage.
         if ( !httpsb.remoteBlacklists[location] ) {
@@ -250,6 +269,7 @@ function loadRemoteBlacklistsHandler(store) {
 
         var responseText = readLocalTextFile(location);
         if ( !responseText ) {
+            httpsb.remoteBlacklists[location].error = 'Unable to read content';
             console.error('HTTP Switchboard > Unable to read content of "%s"', location);
             continue;
         }
@@ -308,6 +328,7 @@ function mergeRemoteBlacklist(list) {
 
     var blacklistReadonly = httpsb.blacklistReadonly;
     var thisListCount = 0;
+    var thisListUsedCount = 0;
     var localhostRegex = /(^|\b)(localhost\.localdomain|localhost|local|broadcasthost|0\.0\.0\.0|127\.0\.0\.1|::1|fe80::1%lo0)(\b|$)/g;
     var lineBeg = 0;
     var lineEnd;
@@ -346,12 +367,14 @@ function mergeRemoteBlacklist(list) {
         if ( !blacklistReadonly[key] ) {
             blacklistReadonly[key] = true;
             httpsb.blacklistReadonlyCount++;
+            thisListUsedCount++;
         }
     }
 
     // For convenience, store the number of entries for this
     // blacklist, user might be happy to know this information.
     httpsb.remoteBlacklists[list.url].entryCount = thisListCount;
+    httpsb.remoteBlacklists[list.url].entryUsedCount = thisListUsedCount;
 }
 
 /******************************************************************************/
@@ -421,6 +444,99 @@ function loadPublicSuffixList() {
 
 /******************************************************************************/
 
+HTTPSB.loadPresets = function() {
+    var parseEntry = function(entry) {
+        var p = {
+            name: '',
+            facode: undefined,
+            lang: undefined,
+            embedded: undefined,
+            key: undefined,
+            whitelist: {}
+        };
+        var lines = entry.split('\n');
+        var n = lines.length;
+        var context = '';
+        var line, pos, fname, fvalue, type, hostname;
+        for ( var i = 0; i < n; i++ ) {
+            line = lines[i];
+            pos = line.indexOf(':');
+            if ( pos < 0 ) {
+                fname = line.trim();
+                fvalue = '';
+            } else {
+                fname = line.slice(0, pos).trim();
+                fvalue = line.slice(pos + 1).trim();
+            }
+            if ( fname === 'name' ) {
+                p.name = fvalue;
+                context = '';
+                continue;
+            }
+            if ( fname === 'facode' ) {
+                p.facode = fvalue;
+                context = '';
+                continue;
+            }
+            if ( fname === 'lang' ) {
+                p.lang = fvalue;
+                context = '';
+                continue;
+            }
+            if ( fname === 'embedded' ) {
+                p.embedded = true;
+                context = '';
+                continue;
+            }
+            if ( fname === 'key' ) {
+                p.key = fvalue;
+                context = '';
+                continue;
+            }
+            if ( fname === 'whitelist' ) {
+                context = 'whitelist';
+                continue;
+            }
+            // Ignore unknown field
+            if ( context !== 'whitelist' ) {
+                context = '';
+                continue;
+            }
+            // From here on, handling for 'whitelist' context
+            fname = fname.toLowerCase();
+            pos = fname.indexOf(' ');
+            // Ignore invalid rules
+            if ( pos < 0 )  {
+                continue;
+            }
+            type = fname.slice(0, pos).trim();
+            hostname = fname.slice(pos).trim();
+            // Ignore invalid rules
+            if ( type === '' || hostname === '' ) {
+                continue;
+            }
+            p.whitelist[type + '|' + hostname] = true;
+        }
+        if ( p.name === '' || Object.keys(p.whitelist).length === 0 ) {
+            return null;
+        }
+        return p;
+    };
+
+    var preset;
+    var content = readLocalTextFile('assets/httpsb/presets.txt');
+    var entries = content.split(/\n\s*\n/);
+    var i = entries.length;
+    while ( i-- ) {
+        preset = parseEntry(entries[i]);
+        if ( preset ) {
+            this.presets[preset.name] = preset;
+        }
+    }
+}
+
+/******************************************************************************/
+
 // Load white/blacklist
 
 function load() {
@@ -428,5 +544,6 @@ function load() {
     loadUserLists();
     loadRemoteBlacklists();
     loadPublicSuffixList();
+    HTTPSB.loadPresets();
 }
 

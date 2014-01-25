@@ -7,7 +7,7 @@
 body {
     padding: 0 0 20em 0;
     font: 15px httpsb,sans-serif;
-    width: 640px;
+    max-width: 800px;
     }
 h2 + *, h1 + * {
     margin: 0 0 0 1em;
@@ -98,7 +98,7 @@ ul > li {
     <div>
         <span id="blacklistReadonlyCount">?</span> preset blacklisted hostnames from (number of distinct entries in parentheses):
         <ul id="remoteBlacklistsTemplate" style="display:none">
-            <li class="remoteBlacklistDetails"><input type="checkbox" value="">&thinsp;<a href="" type="text/plain"></a> (<span>?</span>)
+            <li class="remoteBlacklistDetails"><input type="checkbox" value="">&thinsp;<a href="" type="text/plain"></a>: <span>?</span> used out of <span>?</span>
         </ul>
         <ul id="remoteBlacklists" style="margin:0.5em 0 0 0;padding-left:1em;color:gray;list-style-type:none">
             <li style="margin-top:0.5em"><button id="reloadRemoteBlacklists" disabled="true">Apply changes</button>

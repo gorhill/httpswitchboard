@@ -87,10 +87,11 @@ var uriTools = {
 
         pos = s.indexOf(':');
         if ( pos < 0 ) {
-            throw new TypeError('uriParser.uri(): no scheme in "' + uri + '"');
+            pos = 0;
+        } else {
+            this._scheme = s.slice(0, pos);
+            s = s.slice(pos + 1);
         }
-        this._scheme = s.slice(0, pos);
-        s = s.slice(pos + 1);
 
         // URI =            hier-part
         //                  ^^^^^^^^^
@@ -103,6 +104,9 @@ var uriTools = {
 
         // URN (no authority)
         if ( pos < 0 ) {
+            if ( s.charAt(0) !== '/' ) {
+                s = '/' + s;
+            }
             this._path = s;
             return this;
         }

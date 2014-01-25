@@ -391,11 +391,10 @@ function onHeadersReceivedHandler(details) {
             if ( i >= 0 ) {
                 // rhill 2014-01-20: Be ready to handle relative URLs.
                 // https://github.com/gorhill/httpswitchboard/issues/162
-                var locationURL = headers[i].value.trim();
-                if ( locationURL.charAt(0) === '/' ) {
-                    locationURL = requestScheme + '://' + requestHostname + locationURL;
+                var locationURL = uriTools.normalizeURI(headers[i].value.trim());
+                if ( uriTools.scheme() === '' ) {
+                    locationURL = requestScheme + '://' + requestHostname + uriTools.path();
                 }
-                locationURL = uriTools.normalizeURI(locationURL);
                 httpsb.redirectRequests[locationURL] = requestURL;
             }
             // console.debug('onHeadersReceivedHandler()> redirect "%s" to "%s"', requestURL, headers[i].value);

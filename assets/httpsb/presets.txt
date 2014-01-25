@@ -1,0 +1,39 @@
+name: Youtube
+facode: f167
+embedded
+key: youtube-nocookie.com
+whitelist:
+    sub_frame youtube-nocookie.com
+    script youtube-nocookie.com
+    object youtube.com
+    image ytimg.com
+    object ytimg.com
+    script ytimg.com
+    object googlevideo.com
+
+name: Vimeo
+facode: f194
+embedded
+key: vimeo.com
+whitelist:
+    script vimeo.com
+    xmlhttprequest vimeo.com
+    sub_frame vimeo.com
+    css vimeocdn.com
+    image vimeocdn.com
+    script vimeocdn.com
+    other vimeocdn.com
+
+name: Disqus
+facode: f0e5
+embedded
+key: disqus.com
+whitelist:
+    cookie disqus.com
+    script disqus.com
+    xmlhttprequest disqus.com
+    sub_frame disqus.com
+    css disquscdn.com
+    image disquscdn.com
+    script disquscdn.com
+

@@ -1,0 +1,11 @@
+# Blacklist maintained by HTTP Switchboard
+# Prevent Facebook from tracking you
+
+# If there is more to add, ask for a pull request
+
+facebook-web-clients.appspot.com
+facebook.com
+facebook.net
+fbcdn.net
+fbstatic-a.akamaihd.net
+

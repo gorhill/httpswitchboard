@@ -135,6 +135,33 @@ body.powerOff #buttonRevert {
     visibility: hidden;
     }
 
+#buttonPresets {
+    margin-right: 1em;
+    }
+#buttonPresets + .dropdown-menu {
+    width: 80%;
+    left: 10%;
+    }
+.presetInfo {
+    margin: 0.25em 0.5em;
+    text-align: center;
+    }
+.presetEntry {
+    margin: 0.25em 0.5em;
+    border-radius: 3px;
+    padding: 0.5em;
+    display: inline-block;
+    cursor: pointer;
+    background-color: #eee;
+    }
+.presetEntry .fa {
+    margin-right: 0.25em;
+    font-size: 110%;
+    }
+.presetEntry:hover {
+    background-color: #e4e4ff;
+    }
+
 .dropdown-menu > li > a > i {
     padding: 0 6px;
     font-size: 1.2em;

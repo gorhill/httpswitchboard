@@ -50,7 +50,8 @@ var HTTPSB = {
 
     // list of remote blacklist locations
     remoteBlacklists: {
-        'assets/httpsb-blacklist.txt': {},
+        'assets/httpsb/blacklist.txt': {},
+        'assets/httpsb/block-facebook.txt': { off: true },
 
         // Third parties
 
@@ -66,13 +67,9 @@ var HTTPSB = {
         // Adblock Plus
         'assets/thirdparties/easylist-downloads.adblockplus.org/easylist.txt': { off: true },
         'assets/thirdparties/easylist-downloads.adblockplus.org/easyprivacy.txt': { off: true },
-        'assets/thirdparties/easylist-downloads.adblockplus.org/easyprivacy_nointernational.txt': { off: true },
         'assets/thirdparties/easylist-downloads.adblockplus.org/fanboy-annoyance.txt': { off: true },
-        'assets/thirdparties/easylist-downloads.adblockplus.org/fanboy-social.txt': { off: true },
 
         // Fanboy
-        'assets/thirdparties/www.fanboy.co.nz/r/fanboy-complete.txt': { off: true },
-        'assets/thirdparties/www.fanboy.co.nz/r/fanboy-ultimate.txt': { off: true },
         'assets/thirdparties/www.fanboy.co.nz/enhancedstats.txt': { off: true },
 
         // Various
@@ -83,6 +80,9 @@ var HTTPSB = {
     // urls stats are kept on the back burner while waiting to be reactivated
     // in a tab or another.
     pageStats: {},
+
+    // Preset rules
+    presets: {},
 
     // A map of redirects, to allow reverse lookup of redirects from landing
     // page, so that redirection can be reported to the user.

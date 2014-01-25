@@ -1158,6 +1158,7 @@ function createGlobalScope() {
     updateScopeCell();
     updateMatrixColors();
     updateMatrixBehavior();
+    dropDownMenuHide();
 }
 
 function createDomainScope() {
@@ -1167,6 +1168,7 @@ function createDomainScope() {
     updateScopeCell();
     updateMatrixColors();
     updateMatrixBehavior();
+    dropDownMenuHide();
 }
 
 function createSiteScope() {
@@ -1176,6 +1178,7 @@ function createSiteScope() {
     updateScopeCell();
     updateMatrixColors();
     updateMatrixBehavior();
+    dropDownMenuHide();
 }
 
 function getScopePageButtonTip() {
@@ -1232,7 +1235,75 @@ function updateScopeCell() {
 
 /******************************************************************************/
 
-function forceReload() {
+// Offer a list of presets relevant to the current matrix
+
+function buttonPresetsHandler() {
+    var presetList = $('#buttonPresets + div > ul').empty();
+    presetList.empty();
+
+    var presets = getHTTPSB().presets;
+    var matrixStats = HTTPSBPopup.matrixStats;
+    var preset;
+    var li, c;
+    for ( var key in presets ) {
+        if ( !presets.hasOwnProperty(key) ) {
+            continue;
+        }
+        preset = presets[key];
+        if ( !matrixStats[preset.key] ) {
+            continue;
+        }
+        li = $('<li>', {
+            'class': 'presetEntry'
+        });
+        c = $('<span>', {
+            'class': 'fa',
+            text: String.fromCharCode(parseInt(preset.facode, 16))
+        });
+        li.append(c);
+        li.append(preset.name);
+        li.prop('presetKey', key);
+        li.appendTo(presetList);
+    }
+    var prompt = '';
+    if ( presetList.children('.presetEntry').length === 0 ) {
+        prompt = chrome.i18n.getMessage('matrixPresetAbsentPrompt');
+    } else {
+        prompt = chrome.i18n.getMessage('matrixPresetPresentPrompt');
+    }
+    $('<li>', {
+        'class': 'presetInfo',
+        'text': prompt
+    }).prependTo(presetList);
+}
+
+function presetEntryHandler() {
+    var httpsb = getHTTPSB();
+    var presetKey = $(this).prop('presetKey');
+    var preset = httpsb.presets[presetKey];
+    if ( !preset ) {
+        return;
+    }
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
+    // Temporarily apply all preset rules
+    var rules = preset.whitelist;
+    var pos;
+    for ( var ruleKey in rules ) {
+        if ( !rules.hasOwnProperty(ruleKey) ) {
+            continue;
+        }
+        pos = ruleKey.indexOf('|');
+        httpsb.whitelistTemporarily(scopeKey, ruleKey.slice(0, pos), ruleKey.slice(pos + 1));
+    }
+    updateMatrixStats();
+    updateMatrixColors();
+    updateMatrixBehavior();
+    dropDownMenuHide();
+}
+
+/******************************************************************************/
+
+function buttonReloadHandler() {
     chrome.runtime.sendMessage({
         what: 'forceReloadTab',
         pageURL: HTTPSBPopup.pageURL
@@ -1440,6 +1511,11 @@ function dropDownMenuHide() {
     $('.dropdown-menu').removeClass('show');
 }
 
+function dropdownMenuCaptureHandler(event) {
+    dropDownMenuHide();
+    event.stopPropagation();
+}
+
 /******************************************************************************/
 
 // make menu only when popup html is fully loaded
@@ -1462,19 +1538,11 @@ function initAll() {
             handleWhitelistFilter($(this));
             return false;
         })
-        .on('mouseenter', function() {
-            handleWhitelistFilterMessage($(this));
-            return false;
-        });
     $('#blacklist', popup.matrixCellHotspots)
         .on('click', function() {
             handleBlacklistFilter($(this));
             return false;
         })
-        .on('mouseenter', function() {
-                handleBlacklistFilterMessage($(this));
-                return false;
-        });
     $('#domainOnly', popup.matrixCellHotspots)
         .on('click', function() {
             toggleCollapseState(this);
@@ -1483,15 +1551,16 @@ function initAll() {
     $('body')
         .on('mouseenter', '.matCell', mouseenterMatrixCellHandler)
         .on('mouseleave', '.matCell', mouseleaveMatrixCellHandler);
-    $('#buttonPersist').on('click', persistScope);
     $('#scopeKeyGlobal').on('click', createGlobalScope);
     $('#scopeKeyDomain').on('click', createDomainScope);
     $('#scopeKeySite').on('click', createSiteScope);
-    $('#buttonReload').on('click', forceReload);
-    $('#buttonRevert')
-        .on('mouseenter', function() { showMessage(chrome.i18n.getMessage('matrixRevert')); })
-        .on('mouseleave', blankMessage);
+    $('#buttonPersist').on('click', persistScope);
     $('#buttonRevert').on('click', revert);
+
+    $('#buttonPresets').on('click', buttonPresetsHandler);
+    $('body').on('click', '.presetEntry', presetEntryHandler);
+
+    $('#buttonReload').on('click', buttonReloadHandler);
     $('#buttonRuleManager span').text(chrome.i18n.getMessage('ruleManagerPageName'));
     $('#buttonInfo span').text(chrome.i18n.getMessage('statsPageName'));
     $('#buttonSettings span').text(chrome.i18n.getMessage('settingsPageName'));

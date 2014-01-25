@@ -164,6 +164,14 @@
         "message": "Retirer cette cellule de la <span class=\"gdt\">liste blanche</span> permanente",
         "description": "when user hover over green locked padlock"
     },
+    "matrixPresetAbsentPrompt" : {
+        "message": "Aucune recette prédéfinie disponible pour cette page",
+        "description": "..."
+    },
+    "matrixPresetPresentPrompt" : {
+        "message": "Cliquez pour importer les règles d'une recette prédéfinie",
+        "description": "..."
+    },
 
 
     "statsPageTitle" : {

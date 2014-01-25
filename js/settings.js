@@ -101,7 +101,9 @@ function renderBlacklistDetails() {
         child = $('a', li);
         child.attr('href', keys[i]);
         child.text(keys[i]);
-        child = $('span', li);
+        child = $('span:nth-of-type(1)', li);
+        child.text(!isNaN(+blacklist.entryUsedCount) ? renderNumber(blacklist.entryUsedCount) : '?');
+        child = $('span:nth-of-type(2)', li);
         child.text(!isNaN(+blacklist.entryCount) ? renderNumber(blacklist.entryCount) : '?');
         ul.prepend(li);
     }
