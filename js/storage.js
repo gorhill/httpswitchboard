@@ -449,9 +449,8 @@ HTTPSB.loadPresets = function() {
         var p = {
             name: '',
             facode: undefined,
-            lang: undefined,
             embedded: undefined,
-            key: undefined,
+            keys: {},
             whitelist: {}
         };
         var lines = entry.split('\n');
@@ -478,46 +477,44 @@ HTTPSB.loadPresets = function() {
                 context = '';
                 continue;
             }
-            if ( fname === 'lang' ) {
-                p.lang = fvalue;
-                context = '';
-                continue;
-            }
             if ( fname === 'embedded' ) {
                 p.embedded = true;
                 context = '';
                 continue;
             }
-            if ( fname === 'key' ) {
-                p.key = fvalue;
-                context = '';
+            if ( fname === 'keys' ) {
+                context = 'keys';
                 continue;
             }
             if ( fname === 'whitelist' ) {
                 context = 'whitelist';
                 continue;
             }
-            // Ignore unknown field
-            if ( context !== 'whitelist' ) {
-                context = '';
+            if ( context === 'keys' ) {
+                p.keys[fname.toLowerCase()] = true;
                 continue;
             }
-            // From here on, handling for 'whitelist' context
-            fname = fname.toLowerCase();
-            pos = fname.indexOf(' ');
-            // Ignore invalid rules
-            if ( pos < 0 )  {
+            if ( context === 'whitelist' ) {
+                fname = fname.toLowerCase();
+                pos = fname.indexOf(' ');
+                // Ignore invalid rules
+                if ( pos < 0 )  {
+                    continue;
+                }
+                type = fname.slice(0, pos).trim();
+                hostname = fname.slice(pos).trim();
+                // Ignore invalid rules
+                if ( type === '' || hostname === '' ) {
+                    continue;
+                }
+                p.whitelist[type + '|' + hostname] = true;
                 continue;
             }
-            type = fname.slice(0, pos).trim();
-            hostname = fname.slice(pos).trim();
-            // Ignore invalid rules
-            if ( type === '' || hostname === '' ) {
-                continue;
-            }
-            p.whitelist[type + '|' + hostname] = true;
+            context = '';
         }
-        if ( p.name === '' || Object.keys(p.whitelist).length === 0 ) {
+        if ( p.name === '' ||
+             Object.keys(p.keys).length === 0 ||
+             Object.keys(p.whitelist).length === 0 ) {
             return null;
         }
         return p;

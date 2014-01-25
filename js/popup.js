@@ -1245,12 +1245,12 @@ function buttonPresetsHandler() {
     var matrixStats = HTTPSBPopup.matrixStats;
     var preset;
     var li, c;
-    for ( var key in presets ) {
-        if ( !presets.hasOwnProperty(key) ) {
+    for ( var presetKey in presets ) {
+        if ( !presets.hasOwnProperty(presetKey) ) {
             continue;
         }
-        preset = presets[key];
-        if ( !matrixStats[preset.key] ) {
+        preset = presets[presetKey];
+        if ( !keysIntersect(preset.keys, matrixStats) ) {
             continue;
         }
         li = $('<li>', {
@@ -1262,7 +1262,7 @@ function buttonPresetsHandler() {
         });
         li.append(c);
         li.append(preset.name);
-        li.prop('presetKey', key);
+        li.prop('presetKey', presetKey);
         li.appendTo(presetList);
     }
     var prompt = '';
@@ -1299,6 +1299,18 @@ function presetEntryHandler() {
     updateMatrixColors();
     updateMatrixBehavior();
     dropDownMenuHide();
+}
+
+function keysIntersect(a, b) {
+    for ( var ak in a ) {
+        if ( !a.hasOwnProperty(ak) ) {
+            continue;
+        }
+        if ( b[ak] !== undefined ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 /******************************************************************************/

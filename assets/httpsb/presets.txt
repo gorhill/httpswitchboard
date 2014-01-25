@@ -1,11 +1,16 @@
 name: Youtube
 facode: f167
 embedded
-key: youtube-nocookie.com
-whitelist:
+keys
+    youtube-nocookie.com
+    www.youtube.com
+whitelist
     sub_frame youtube-nocookie.com
     script youtube-nocookie.com
     object youtube.com
+    script youtube.com
+    sub_frame youtube.com
+    stylesheet ytimg.com
     image ytimg.com
     object ytimg.com
     script ytimg.com
@@ -14,12 +19,13 @@ whitelist:
 name: Vimeo
 facode: f194
 embedded
-key: vimeo.com
-whitelist:
+keys
+    vimeo.com
+whitelist
     script vimeo.com
     xmlhttprequest vimeo.com
     sub_frame vimeo.com
-    css vimeocdn.com
+    stylesheet vimeocdn.com
     image vimeocdn.com
     script vimeocdn.com
     other vimeocdn.com
@@ -27,8 +33,9 @@ whitelist:
 name: Disqus
 facode: f0e5
 embedded
-key: disqus.com
-whitelist:
+keys
+    disqus.com
+whitelist
     cookie disqus.com
     script disqus.com
     xmlhttprequest disqus.com
@@ -36,4 +43,15 @@ whitelist:
     css disquscdn.com
     image disquscdn.com
     script disquscdn.com
+
+name: Livefyre
+facode: f0e5
+embedded
+keys
+    livefyre.com
+whitelist
+    script livefyre.com
+    xmlhttprequest livefyre.com
+    script fyre.co
+    xmlhttprequest fyre.co
 
