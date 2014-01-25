@@ -165,11 +165,11 @@
         "description": "when user hover over green locked padlock"
     },
     "matrixPresetAbsentPrompt" : {
-        "message": "No preset matches this page",
+        "message": "No preset recipe matches this page",
         "description": "..."
     },
     "matrixPresetPresentPrompt" : {
-        "message": "Click on a preset to import its rules",
+        "message": "Click on a preset recipe to import its rules",
         "description": "..."
     },
 
