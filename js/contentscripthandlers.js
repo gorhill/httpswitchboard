@@ -21,16 +21,17 @@
 
 /******************************************************************************/
 
-function contentScriptSummaryHandler(details) {
+function contentScriptSummaryHandler(details, sender) {
     // TODO: Investigate "Error in response to tabs.executeScript: TypeError:
-    // Cannot read property 'pageUrl' of null" (2013-11-12). When can this
+    // Cannot read property 'locationURL' of null" (2013-11-12). When can this
     // happens? 
-    if ( !details || !details.pageUrl ) {
+    if ( !details || !details.locationURL ) {
         return;
     }
     var ut = uriTools;
     var httpsb = HTTPSB;
-    var pageURL = ut.normalizeURI(details.pageUrl);
+    var pageURL = pageUrlFromTabId(sender.tab.id);
+    var frameURL = ut.normalizeURI(details.locationURL);
     var pageHostname = ut.hostname();
     var urls, url, hostname, block;
 
@@ -48,7 +49,7 @@ function contentScriptSummaryHandler(details) {
         }
         hostname = false;
         if ( url === '{inline_script}' ) {
-            url = pageURL + '{inline_script}';
+            url = frameURL + '{inline_script}';
         } else {
             url = ut.normalizeURI(url);
             hostname = ut.hostname();

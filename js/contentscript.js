@@ -36,7 +36,7 @@ function fixNoscriptTags() {
 function collectExternalResources() {
     var r = {
         refCounter: 0,
-        pageUrl: window.location.href,
+        locationURL: window.location.href,
         scriptSources: {}, // to avoid duplicates
         pluginSources: {}, // to avoid duplicates
         localStorage: false,
@@ -88,7 +88,7 @@ function collectExternalResources() {
         r.localStorage = true;
         chrome.runtime.sendMessage({
             what: 'contentScriptHasLocalStorage',
-            url: r.pageUrl
+            url: r.locationURL
         }, localStorageHandler);
     }
 
@@ -120,7 +120,16 @@ function loadHandler() {
     collectExternalResources();
 }
 
-window.addEventListener('load', loadHandler);
+/*----------------------------------------------------------------------------*/
+
+// rhill 2014-01-26: If document is already loaded, handle all immediately,
+// otherwise defer to later when document is loaded.
+// https://github.com/gorhill/httpswitchboard/issues/168
+if ( document.readyState === 'interactive' ) {
+    loadHandler();
+} else {
+    window.addEventListener('load', loadHandler);
+}
 
 /******************************************************************************/
 
