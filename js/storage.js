@@ -267,7 +267,7 @@ function loadRemoteBlacklistsHandler(store) {
             continue;
         }
 
-        var responseText = readLocalTextFile(location);
+        responseText = readLocalTextFile(location);
         if ( !responseText ) {
             httpsb.remoteBlacklists[location].error = 'Unable to read content';
             console.error('HTTP Switchboard > Unable to read content of "%s"', location);
@@ -444,21 +444,71 @@ function loadPublicSuffixList() {
 
 /******************************************************************************/
 
+HTTPSB.PresetRecipe = function() {
+    this.name = '';
+    this.facode = undefined;
+    this.embedded = false;
+    this.keys = {};
+    this.whitelist = {};
+};
+
+HTTPSB.PresetRecipe.prototype.doesMatch = function(set, pageHostname) {
+    var keys = this.keys;
+    var pos;
+    for ( var k in keys ) {
+        if ( !keys.hasOwnProperty(k) ) {
+            continue;
+        }
+        pos = pageHostname.lastIndexOf(k);
+        if ( pos >= 0 ) {
+            if ( pos === 0 || pageHostname.charAt(pos - 1) === '.' ) {
+                if ( this.embedded ) {
+                    continue;
+                }
+            } else {
+                if ( !this.embedded ) {
+                    continue;
+                }
+            }
+        }
+        if ( set[k] !== undefined ) {
+            return true;
+        }
+    }
+    return false;
+};
+
 HTTPSB.loadPresets = function() {
+    var httpsb = this;
     var parseEntry = function(entry) {
-        var p = {
-            name: '',
-            facode: undefined,
-            embedded: undefined,
-            keys: {},
-            whitelist: {}
+        var typeMapper = {
+            'cookie': 'cookie',
+            'img': 'image',
+            'image': 'image',
+            'css': 'stylesheet',
+            'stylesheet': 'stylesheet',
+            'plugin': 'object',
+            'object': 'object',
+            'script': 'script',
+            'xhr': 'xmlhttprequest',
+            'xmlhttprequest': 'xmlhttprequest',
+            'frame': 'sub_frame',
+            'sub_frame': 'sub_frame',
+            'other': 'other'
         };
+        var p = new httpsb.PresetRecipe();
         var lines = entry.split('\n');
         var n = lines.length;
         var context = '';
         var line, pos, fname, fvalue, type, hostname;
         for ( var i = 0; i < n; i++ ) {
             line = lines[i];
+            // Remove comment
+            pos = line.indexOf('#');
+            if ( pos >= 0 ) {
+                line = line.slice(0, pos);
+            }
+            // Split in name & value fields
             pos = line.indexOf(':');
             if ( pos < 0 ) {
                 fname = line.trim();
@@ -501,7 +551,7 @@ HTTPSB.loadPresets = function() {
                 if ( pos < 0 )  {
                     continue;
                 }
-                type = fname.slice(0, pos).trim();
+                type = typeMapper[fname.slice(0, pos).trim()];
                 hostname = fname.slice(pos).trim();
                 // Ignore invalid rules
                 if ( type === '' || hostname === '' ) {
@@ -526,11 +576,12 @@ HTTPSB.loadPresets = function() {
     var i = entries.length;
     while ( i-- ) {
         preset = parseEntry(entries[i]);
-        if ( preset ) {
-            this.presets[preset.name] = preset;
+        if ( !preset ) {
+            continue;
         }
+        this.presets[preset.name] = preset;
     }
-}
+};
 
 /******************************************************************************/
 

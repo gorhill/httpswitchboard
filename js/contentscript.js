@@ -6,12 +6,12 @@ if ( /^https?:\/\/./.test(window.location.href) ) {
 
 /******************************************************************************/
 
-function localStorageHandler(mustRemove) {
+var localStorageHandler = function(mustRemove) {
     if ( mustRemove ) {
         window.localStorage.clear();
         // console.debug('HTTP Switchboard > found and removed non-empty localStorage');
     }
-}
+};
 
 /*----------------------------------------------------------------------------*/
 
@@ -19,7 +19,7 @@ function localStorageHandler(mustRemove) {
 // https://code.google.com/p/chromium/issues/detail?id=232410
 // We look up noscript tags and force the DOM parser to parse
 // them.
-function fixNoscriptTags() {
+var fixNoscriptTags = function() {
     var a = document.querySelectorAll('noscript');
     var i = a.length;
     var html;
@@ -29,11 +29,11 @@ function fixNoscriptTags() {
         html = html.replace(/&gt;/g, '>');
         a[i].innerHTML = html;
     }
-}
+};
 
 /*----------------------------------------------------------------------------*/
 
-function collectExternalResources() {
+var collectExternalResources = function() {
     var r = {
         refCounter: 0,
         locationURL: window.location.href,
@@ -111,14 +111,14 @@ function collectExternalResources() {
         what: 'contentScriptSummary',
         details: r
     });
-}
+};
 
 /*----------------------------------------------------------------------------*/
 
-function loadHandler() {
+var loadHandler = function() {
     fixNoscriptTags();
     collectExternalResources();
-}
+};
 
 /*----------------------------------------------------------------------------*/
 

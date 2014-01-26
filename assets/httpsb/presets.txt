@@ -1,57 +1,84 @@
 name: Youtube
-facode: f167
 embedded
+facode: f167
 keys
     youtube-nocookie.com
-    www.youtube.com
+    youtube.com
 whitelist
-    sub_frame youtube-nocookie.com
-    script youtube-nocookie.com
-    object youtube.com
-    script youtube.com
-    sub_frame youtube.com
-    stylesheet ytimg.com
+    frame www.youtube-nocookie.com
+    script www.youtube-nocookie.com
+    plugin www.youtube.com
+    script www.youtube.com
+    frame www.youtube.com
+    css ytimg.com
     image ytimg.com
-    object ytimg.com
+    plugin ytimg.com
     script ytimg.com
-    object googlevideo.com
+    plugin youtube.googleapis.com
+    plugin googlevideo.com
+
 
 name: Vimeo
-facode: f194
 embedded
+facode: f194
 keys
     vimeo.com
 whitelist
     script vimeo.com
-    xmlhttprequest vimeo.com
-    sub_frame vimeo.com
-    stylesheet vimeocdn.com
+    xhr vimeo.com
+    frame vimeo.com
+    css vimeocdn.com
     image vimeocdn.com
     script vimeocdn.com
     other vimeocdn.com
 
-name: Disqus
-facode: f0e5
+
+name: Vine
 embedded
+facode: f008
+keys
+    vine.com
+whitelist
+    css vine.co
+    image vine.co
+    script vine.co
+    frame vine.co
+    other cdn.vine.co
+
+
+name: Brightcove
+embedded
+facode: f008
+keys
+    brightcove.com
+whitelist
+    plugin brightcove.com
+    script brightcove.com
+
+
+name: Disqus
+embedded
+facode: f0e5
 keys
     disqus.com
 whitelist
     cookie disqus.com
     script disqus.com
-    xmlhttprequest disqus.com
-    sub_frame disqus.com
+    xhr disqus.com
+    frame disqus.com
     css disquscdn.com
     image disquscdn.com
     script disquscdn.com
 
+
 name: Livefyre
-facode: f0e5
 embedded
+facode: f0e5
 keys
     livefyre.com
 whitelist
     script livefyre.com
-    xmlhttprequest livefyre.com
+    xhr livefyre.com
     script fyre.co
-    xmlhttprequest fyre.co
+    xhr fyre.co
 

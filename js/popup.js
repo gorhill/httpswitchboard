@@ -205,6 +205,8 @@ MatrixStats.prototype.reset = function() {
 var HTTPSBPopup = {
     tabId: -1,
     pageURL: '',
+    pageHostname: '',
+    pageDomain: '',
     scopeKey: '*',
 
     
@@ -343,7 +345,7 @@ function getGroupStats() {
     // First, group according to whether at least one node in the domain
     // hierarchy is white or blacklisted
     var background = getBackgroundPage();
-    var pageDomain = background.uriTools.domainFromURI(HTTPSBPopup.pageURL);
+    var pageDomain = HTTPSBPopup.pageDomain;
     var hostname, domain, nodes, node;
     var temporaryColor;
     var dark, group;
@@ -399,7 +401,6 @@ function getGroupStats() {
     // which are not explicitly part of the web page.
     var iGroup = groups.length;
     var domains, iDomain;
-    var nodes;
     while ( iGroup-- ) {
         group = groups[iGroup];
         domains = Object.keys(group);
@@ -616,7 +617,6 @@ function handleFilter(button, leaning) {
     updateMatrixStats();
     updateMatrixColors();
     updateMatrixBehavior();
-    handleFilterMessage(button, leaning);
 }
 
 function handleWhitelistFilter(button) {
@@ -696,22 +696,6 @@ function revert() {
     updateMatrixStats();
     updateMatrixColors();
     updateMatrixBehavior();
-}
-
-/******************************************************************************/
-
-function formatHeader(s) {
-    var maxLength = 80;
-    var msg = '&nbsp;';
-    if ( !s || !s.length ) {
-        msg = '&nbsp;';
-    } else {
-        msg = s.slice(0, maxLength);
-        if ( s.length > maxLength ) {
-            msg += '...';
-        }
-    }
-    return msg;
 }
 
 /******************************************************************************/
@@ -1097,8 +1081,6 @@ function makeMenu() {
     initMatrixStats();
     var groupStats = getGroupStats();
 
-    showMessage(formatHeader(HTTPSBPopup.pageURL));
-
     if ( Object.keys(groupStats).length === 0 ) {
         return;
     }
@@ -1181,16 +1163,6 @@ function createSiteScope() {
     dropDownMenuHide();
 }
 
-function getScopePageButtonTip() {
-    var httpsb = getHTTPSB();
-    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
-    var toolbar = $('body');
-    if ( toolbar.hasClass('scopeSite') ) {
-        return chrome.i18n.getMessage('matrixRemoveScope', scopeKey);
-    }
-    return chrome.i18n.getMessage('matrixCreateScope', scopeKey);
-}
-
 function getClassSuffixFromScopeKey(scopeKey) {
     if ( scopeKey === '*' ) {
         return 'ScopeGlobal';
@@ -1241,6 +1213,7 @@ function buttonPresetsHandler() {
     var presetList = $('#buttonPresets + div > ul').empty();
     presetList.empty();
 
+    var pageHostname = HTTPSBPopup.pageHostname;
     var presets = getHTTPSB().presets;
     var matrixStats = HTTPSBPopup.matrixStats;
     var preset;
@@ -1250,7 +1223,7 @@ function buttonPresetsHandler() {
             continue;
         }
         preset = presets[presetKey];
-        if ( !keysIntersect(preset.keys, matrixStats) ) {
+        if ( !preset.doesMatch(matrixStats, pageHostname) ) {
             continue;
         }
         li = $('<li>', {
@@ -1300,19 +1273,6 @@ function presetEntryHandler() {
     updateMatrixBehavior();
     dropDownMenuHide();
 }
-
-function keysIntersect(a, b) {
-    for ( var ak in a ) {
-        if ( !a.hasOwnProperty(ak) ) {
-            continue;
-        }
-        if ( b[ak] !== undefined ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 /******************************************************************************/
 
 function buttonReloadHandler() {
@@ -1324,88 +1284,12 @@ function buttonReloadHandler() {
 
 /******************************************************************************/
 
-function mouseenterMatrixCellHandler(event) {
+function mouseenterMatrixCellHandler() {
     HTTPSBPopup.matrixCellHotspots.appendTo(this);
 }
 
 function mouseleaveMatrixCellHandler() {
     HTTPSBPopup.matrixCellHotspots.detach();
-    blankMessage();
-}
-
-/******************************************************************************/
-
-// Handle user mouse over filter buttons
-
-var mouseOverPrompts = {
-    '+**': chrome.i18n.getMessage('matrixAllowAll'),
-    '-**': chrome.i18n.getMessage('matrixBlockAll'),
-    '+?*': chrome.i18n.getMessage('matrixAllowSomethingFromEverywhere'),
-    '+*?': chrome.i18n.getMessage('matrixAllowEverythingFromSomewhere'),
-    '+??': chrome.i18n.getMessage('matrixAllowSomethingFromSomewhere'),
-    '-?*': chrome.i18n.getMessage('matrixBlockSomethingFromEverywhere'),
-    '-*?': chrome.i18n.getMessage('matrixBlockEverythingFromSomewhere'),
-    '-??': chrome.i18n.getMessage('matrixBlockSomethingFromSomewhere'),
-    '.?*': chrome.i18n.getMessage('matrixGraylistSomethingFromEverywhere'),
-    '.*?': chrome.i18n.getMessage('matrixGraylistEverythingFromSomewhere'),
-    '.??': chrome.i18n.getMessage('matrixGraylistSomethingFromSomewhere')
-};
-
-function handleFilterMessage(hotspot, leaning) {
-    var cell = hotspot.closest('div.matCell');
-    var type = cell.prop('reqType');
-    var hostname = cell.prop('hostname');
-    if ( !type || !hostname ) {
-        return;
-    }
-    var nextAction = getNextAction(hostname, type, leaning);
-    var action = nextAction === 'whitelist' ? '+' : (nextAction === 'blacklist' ? '-' : '.');
-    var what = type === '*' ? '*' : '?';
-    var where = hostname === '*' ? '*' : '?';
-    var prompt = mouseOverPrompts[action + what + where];
-    prompt = prompt.replace('{{what}}', HTTPSBPopup.matrixHeaderPrettyNames[type]);
-    prompt = prompt.replace('{{where}}', hostname);
-    showMessage(prompt);
-}
-
-function handleWhitelistFilterMessage(hotspot) {
-    handleFilterMessage(hotspot, 'whitelisting');
-}
-
-function handleBlacklistFilterMessage(hotspot) {
-    handleFilterMessage(hotspot, 'blacklisting');
-}
-
-/******************************************************************************/
-
-function handlePersistMessage(button) {
-    if ( button.closest('.rdt:not(.rdp)').length ) {
-        showMessage(chrome.i18n.getMessage('matrixPersistBlock'));
-    } else if ( button.closest('.gdt:not(.gdp)').length ) {
-        showMessage(chrome.i18n.getMessage('matrixPersistAllow'));
-    } else {
-        blankMessage();
-    }
-}
-
-function handleUnpersistMessage(button) {
-    if ( button.closest('.rdp').length ) {
-        showMessage(chrome.i18n.getMessage('matrixUnpersistBlock'));
-    } else if ( button.closest('.gdp').length ) {
-        showMessage(chrome.i18n.getMessage('matrixUnpersistAllow'));
-    } else {
-        blankMessage();
-    }
-}
-
-/******************************************************************************/
-
-function showMessage(s) {
-    $('#message').html(s);
-}
-
-function blankMessage() {
-    $('#message').html(formatHeader(HTTPSBPopup.pageURL));
 }
 
 /******************************************************************************/
@@ -1443,6 +1327,8 @@ function bindToTabHandler(tabs) {
         HTTPSBPopup.tabId = tab.id;
         HTTPSBPopup.pageURL = background.pageUrlFromTabId(HTTPSBPopup.tabId);
     }
+    HTTPSBPopup.pageHostname = background.uriTools.hostnameFromURI(HTTPSBPopup.pageURL);
+    HTTPSBPopup.pageDomain = background.uriTools.domainFromHostname(HTTPSBPopup.pageHostname);
 
     // Now that tabId and pageURL are set, we can build our menu
     initMenuEnvironment();
@@ -1454,6 +1340,7 @@ function bindToTabHandler(tabs) {
         $('#matHead').remove();
         $('#toolbarScope').remove();
         $('#buttonPersist').remove();
+        $('#buttonPresets').remove();
         $('#buttonReload').remove();
         $('#buttonRevert').remove();
     }
@@ -1523,11 +1410,6 @@ function dropDownMenuHide() {
     $('.dropdown-menu').removeClass('show');
 }
 
-function dropdownMenuCaptureHandler(event) {
-    dropDownMenuHide();
-    event.stopPropagation();
-}
-
 /******************************************************************************/
 
 // make menu only when popup html is fully loaded
@@ -1549,12 +1431,12 @@ function initAll() {
         .on('click', function() {
             handleWhitelistFilter($(this));
             return false;
-        })
+        });
     $('#blacklist', popup.matrixCellHotspots)
         .on('click', function() {
             handleBlacklistFilter($(this));
             return false;
-        })
+        });
     $('#domainOnly', popup.matrixCellHotspots)
         .on('click', function() {
             toggleCollapseState(this);
