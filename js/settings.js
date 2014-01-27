@@ -92,7 +92,7 @@ function renderBlacklistDetails() {
     var i = keys.length;
     var blacklist;
     var liTemplate = $('#remoteBlacklistsTemplate .remoteBlacklistDetails').first();
-    var li, child;
+    var li, child, text;
     while ( i-- ) {
         blacklist = blacklists[keys[i]];
         li = liTemplate.clone();
@@ -102,7 +102,7 @@ function renderBlacklistDetails() {
         child.attr('href', keys[i]);
         child.text(keys[i]);
         child = $('span:nth-of-type(1)', li);
-        child.text(!isNaN(+blacklist.entryUsedCount) ? renderNumber(blacklist.entryUsedCount) : '?');
+        child.text(!blacklist.off && !isNaN(+blacklist.entryUsedCount) ? renderNumber(blacklist.entryUsedCount) : '0');
         child = $('span:nth-of-type(2)', li);
         child.text(!isNaN(+blacklist.entryCount) ? renderNumber(blacklist.entryCount) : '?');
         ul.prepend(li);
