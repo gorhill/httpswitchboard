@@ -446,8 +446,8 @@ function loadPublicSuffixList() {
 
 HTTPSB.PresetRecipe = function() {
     this.name = '';
-    this.facode = undefined;
     this.embedded = false;
+    this.facode = 0;
     this.keys = {};
     this.whitelist = {};
 };
@@ -470,6 +470,10 @@ HTTPSB.PresetRecipe.prototype.doesMatch = function(set, pageHostname) {
                     continue;
                 }
             }
+        } else {
+            if ( !this.embedded ) {
+                continue;
+            }
         }
         if ( set[k] !== undefined ) {
             return true;
@@ -482,6 +486,7 @@ HTTPSB.loadPresets = function() {
     var httpsb = this;
     var parseEntry = function(entry) {
         var typeMapper = {
+            '*': '*',
             'cookie': 'cookie',
             'img': 'image',
             'image': 'image',
@@ -523,7 +528,7 @@ HTTPSB.loadPresets = function() {
                 continue;
             }
             if ( fname === 'facode' ) {
-                p.facode = fvalue;
+                p.facode = parseInt(fvalue, 16);
                 context = '';
                 continue;
             }
@@ -570,7 +575,7 @@ HTTPSB.loadPresets = function() {
         return p;
     };
 
-    var preset;
+    var preset, presetKey;
     var content = readLocalTextFile('assets/httpsb/presets.txt');
     var entries = content.split(/\n\s*\n/);
     var i = entries.length;
@@ -579,7 +584,7 @@ HTTPSB.loadPresets = function() {
         if ( !preset ) {
             continue;
         }
-        this.presets[preset.name] = preset;
+        this.presets[preset.name + '-' + preset.embedded] = preset;
     }
 };
 

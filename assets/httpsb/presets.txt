@@ -1,3 +1,9 @@
+################################################################################
+#
+# As 1st-party
+#
+################################################################################
+
 name: Youtube
 facode: f167
 keys
@@ -23,6 +29,23 @@ whitelist
     xmlhttprequest plus.googleapis.com
     xmlhttprequest youtube.com
 
+################################################################################
+
+name: Huffington Post
+keys
+    www.huffingtonpost.com
+whitelist
+    * huffingtonpost.com
+    * huffpost.com
+
+
+
+################################################################################
+#
+# As 3rd-party
+#
+################################################################################
+
 name: Youtube
 embedded
 facode: f167
@@ -42,6 +65,7 @@ whitelist
     plugin youtube.googleapis.com
     plugin googlevideo.com
 
+################################################################################
 
 name: Vimeo
 embedded
@@ -57,6 +81,7 @@ whitelist
     script vimeocdn.com
     other vimeocdn.com
 
+################################################################################
 
 name: Vine
 embedded
@@ -70,6 +95,7 @@ whitelist
     frame vine.co
     other cdn.vine.co
 
+################################################################################
 
 name: Brightcove
 embedded
@@ -80,10 +106,24 @@ whitelist
     plugin brightcove.com
     script brightcove.com
 
+################################################################################
+
+name: Instagram
+embedded
+facode: f16d
+keys
+    instagram.com
+whitelist
+    script instagram.com
+    xhr instagram.com
+    frame instagram.com
+    script d36xtkk24g8jdx.cloudfront.net
+
+################################################################################
 
 name: Disqus
 embedded
-facode: f0e5
+facode: f086
 keys
     disqus.com
 whitelist
@@ -95,10 +135,11 @@ whitelist
     image disquscdn.com
     script disquscdn.com
 
+################################################################################
 
 name: Livefyre
 embedded
-facode: f0e5
+facode: f086
 keys
     livefyre.com
 whitelist

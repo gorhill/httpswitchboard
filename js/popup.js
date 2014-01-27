@@ -1229,11 +1229,13 @@ function buttonPresetsHandler() {
         li = $('<li>', {
             'class': 'presetEntry'
         });
-        c = $('<span>', {
-            'class': 'fa',
-            text: String.fromCharCode(parseInt(preset.facode, 16))
-        });
-        li.append(c);
+        if ( preset.facode ) {
+            c = $('<span>', {
+                'class': 'fa',
+                text: String.fromCharCode(preset.facode)
+            });
+            li.append(c);
+        }
         li.append(preset.name);
         li.prop('presetKey', presetKey);
         li.appendTo(presetList);
