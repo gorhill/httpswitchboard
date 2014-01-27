@@ -1167,7 +1167,7 @@ function getClassSuffixFromScopeKey(scopeKey) {
     if ( scopeKey === '*' ) {
         return 'ScopeGlobal';
     }
-    if ( /^https?:\/\/\*\./.test(scopeKey) ) {
+    if ( scopeKey.indexOf('*.') === 0 ) {
         return 'ScopeDomain';
     }
     return 'ScopeSite';

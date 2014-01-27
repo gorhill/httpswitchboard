@@ -159,6 +159,17 @@ PermissionList.prototype.assign = function(other) {
 };
 
 /******************************************************************************/
+
+PermissionList.prototype.add = function(other) {
+    for ( var kother in other.list ) {
+        if ( other.list.hasOwnProperty(kother) && !this.list[kother] ) {
+            this.list[kother] = true;
+            this.count++;
+        }
+    }
+};
+
+/******************************************************************************/
 /******************************************************************************/
 
 // A scope exhibits three lists: white, black and gray.
@@ -189,6 +200,14 @@ PermissionScope.prototype.assign = function(other) {
     this.black.assign(other.black);
     this.gray.assign(other.gray);
     this.off = other.off;
+};
+
+/******************************************************************************/
+
+PermissionScope.prototype.add = function(other) {
+    this.white.add(other.white);
+    this.black.add(other.black);
+    this.gray.add(other.gray);
 };
 
 /******************************************************************************/
@@ -483,6 +502,26 @@ PermissionScopes.prototype.fromString = function(s) {
         scope.fromString(scopeBin.scopeStr);
         this.scopes[scopeBin.scopeKey] = scope;
     }
+    // rhill 2014-01-27: Remove scheme from scopes and merge resulting scope
+    // duplicates if any.
+    // https://github.com/gorhill/httpswitchboard/issues/165
+    // TODO: Remove once all users are beyond v0.7.9.0
+    var oldScopeKey, newScopeKey;
+    for ( var oldScopeKey in this.scopes ) {
+        if ( !this.scopes.hasOwnProperty(oldScopeKey) ) {
+            continue;
+        }
+        newScopeKey = oldScopeKey.replace(/^https?:\/\//, '');
+        if ( newScopeKey === oldScopeKey ) {
+            continue;
+        }
+        if ( this.scopes[newScopeKey] ) {
+            this.scopes[newScopeKey].add(this.scopes[oldScopeKey]);
+        } else {
+            this.scopes[newScopeKey] = this.scopes[oldScopeKey];
+        }
+        delete this.scopes[oldScopeKey];
+    }
 };
 
 /******************************************************************************/
@@ -534,50 +573,28 @@ PermissionScopes.prototype.scopeKeyFromPageURL = function(url) {
     if ( !url || url === '*' ) {
         return '*';
     }
-    var ut = uriTools.uri(url);
-    var scheme = ut.scheme();
-    var hostname = ut.hostname();
-    if ( !hostname ) {
+    var ut = uriTools;
+    var scopeKey = ut.hostnameFromURI(url);
+    if ( !scopeKey ) {
         return '*';
     }
-    // if ( (/[^a-z0-9.-])/.test(hostname) ) {
+    // if ( (/[^a-z0-9.-])/.test(scopeKey) ) {
     //    throw new Error('Invalid URL: ' + url);
     // }
-    // From narrowest scope to broadest scope
-    // Try site scope
-    var scopeKey = scheme + '://' + hostname;
+    // From narrowest scope to broadest scope.
+    // Try site scope.
     var scope = this.scopes[scopeKey];
     if ( scope && !scope.off ) {
         return scopeKey;
     }
-    var secure = scheme === 'https';
-    // If the connection is encrypted, it is then acceptable to apply
-    // rules from unencrypted connection if any, because it is assumed the
-    // rules for unencrypted connection are more restrictive.
-    // The reverse is not true however.
-    if ( secure ) {
-        scopeKey = 'http://' + hostname;
-        scope = this.scopes[scopeKey];
-        if ( scope && !scope.off ) {
-            return scopeKey;
-        }
-    }
-    // Try domain scope
-    var domain = ut.domainFromHostname(hostname);
-    if ( !domain ) {
+    // Try domain scope.
+    scopeKey = ut.domainFromHostname(scopeKey);
+    if ( !scopeKey ) {
         return '*';
     }
-    scopeKey = scheme + '://*.' + domain;
     scope = this.scopes[scopeKey];
     if ( scope && !scope.off ) {
         return scopeKey;
-    }
-    if ( secure ) {
-        scopeKey = 'http://*.' + domain;
-        scope = this.scopes[scopeKey];
-        if ( scope && !scope.off ) {
-            return scopeKey;
-        }
     }
     return '*';
 };

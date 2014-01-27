@@ -121,7 +121,7 @@ function renderScopeToRecipeString(scopeKey, scope) {
 }
 
 function renderRecipeStringToScopeKey(recipe) {
-    var parts = recipe.match(/^(\*|https?:\/\/(\*\.)?[-.:a-z0-9]+)$/);
+    var parts = recipe.match(/^(\*|(https?:\/\/)?(\*\.)?[-.:a-z0-9]+)$/);
     if ( !parts ) {
         return false;
     }
@@ -172,6 +172,9 @@ function updateUglyRecipeWidget() {
 function beautifyRecipe(recipe) {
     try {
         recipe = decodeURIComponent(recipe.replace(/\n/g, '').trim()).replace(/\t/g, '    ');
+        // rhill 2014-27-01: Remove scheme from scope keys.
+        // https://github.com/gorhill/httpswitchboard/issues/165
+        recipe = recipe.replace(/(^|\n)https?:\/\//g, '$1');
         $('#recipeUgly').removeClass('bad');
     }
     catch (e) {

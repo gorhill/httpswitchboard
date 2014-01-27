@@ -53,11 +53,11 @@ HTTPSB.domainScopeKeyFromURL = function(url) {
     if ( domain === '' ) {
         domain = hostname;
     }
-    return scheme + '://*.' + domain;
+    return '*.' + domain;
 };
 
 HTTPSB.siteScopeKeyFromURL = function(url) {
-    return uriTools.rootURLFromURI(url);
+    return uriTools.hostnameFromURI(url);
 };
 
 /******************************************************************************/
@@ -67,11 +67,11 @@ HTTPSB.isGlobalScopeKey = function(scopeKey) {
 };
 
 HTTPSB.isDomainScopeKey = function(scopeKey) {
-    return (/^https?:\/\/[*]/).test(scopeKey);
+    return scopeKey.indexOf('*.') === 0;
 };
 
 HTTPSB.isSiteScopeKey = function(scopeKey) {
-    return (/^https?:\/\/[^*]/).test(scopeKey);
+    return scopeKey.charAt(0) !== '*';
 };
 
 HTTPSB.isValidScopeKey = function(scopeKey) {
@@ -87,19 +87,10 @@ HTTPSB.isValidScopeKey = function(scopeKey) {
 // global scope to take effect.
 
 HTTPSB.createTemporaryGlobalScope = function(url) {
-    var scopeKey;
-    scopeKey = this.siteScopeKeyFromURL(url);
+    var scopeKey = this.siteScopeKeyFromURL(url);
     this.removeTemporaryScopeFromScopeKey(scopeKey);
-    if ( scopeKey.indexOf('https:') === 0 ) {
-        scopeKey = 'http:' + scopeKey.slice(6);
-        this.removeTemporaryScopeFromScopeKey(scopeKey);
-    }
     scopeKey = this.domainScopeKeyFromURL(url);
     this.removeTemporaryScopeFromScopeKey(scopeKey);
-    if ( scopeKey.indexOf('https:') === 0 ) {
-        scopeKey = 'http:' + scopeKey.slice(6);
-        this.removeTemporaryScopeFromScopeKey(scopeKey);
-    }
 };
 
 HTTPSB.createPermanentGlobalScope = function(url) {
@@ -109,21 +100,9 @@ HTTPSB.createPermanentGlobalScope = function(url) {
     if ( this.removePermanentScopeFromScopeKey(scopeKey) ) {
         changed = true;
     }
-    if ( scopeKey.indexOf('https:') === 0 ) {
-        scopeKey = 'http:' + scopeKey.slice(6);
-        if ( this.removePermanentScopeFromScopeKey(scopeKey) ) {
-            changed = true;
-        }
-    }
     scopeKey = this.domainScopeKeyFromURL(url);
     if ( this.removePermanentScopeFromScopeKey(scopeKey) ) {
         changed = true;
-    }
-    if ( scopeKey.indexOf('https:') === 0 ) {
-        scopeKey = 'http:' + scopeKey.slice(6);
-        if ( this.removePermanentScopeFromScopeKey(scopeKey) ) {
-            changed = true;
-        }
     }
     if ( changed ) {
         this.savePermissions();
@@ -149,10 +128,6 @@ HTTPSB.createTemporaryDomainScope = function(url) {
     // Remove potentially occulting site scope.
     scopeKey = this.siteScopeKeyFromURL(url);
     this.removeTemporaryScopeFromScopeKey(scopeKey);
-    if ( scopeKey.indexOf('https:') === 0 ) {
-        scopeKey = 'http:' + scopeKey.slice(6);
-        this.removeTemporaryScopeFromScopeKey(scopeKey);
-    }
 };
 
 HTTPSB.createPermanentDomainScope = function(url) {
@@ -170,12 +145,6 @@ HTTPSB.createPermanentDomainScope = function(url) {
     scopeKey = this.siteScopeKeyFromURL(url);
     if ( this.removePermanentScopeFromScopeKey(scopeKey) ) {
         changed = true;
-    }
-    if ( scopeKey.indexOf('https:') === 0 ) {
-        scopeKey = 'http:' + scopeKey.slice(6);
-        if ( this.removePermanentScopeFromScopeKey(scopeKey) ) {
-            changed = true;
-        }
     }
 
     if ( changed ) {
@@ -573,7 +542,7 @@ HTTPSB.turnOn = function() {
     chrome.contentSettings.javascript.clear({});
 
     // rhill 2013-12-07:
-    // Tell Chromium to all javascript: HTTPSB will control whether
+    // Tell Chromium to allow all javascript: HTTPSB will control whether
     // javascript execute through `Content-Policy-Directive` and webRequest.
     //   https://github.com/gorhill/httpswitchboard/issues/74
     chrome.contentSettings.javascript.set({
