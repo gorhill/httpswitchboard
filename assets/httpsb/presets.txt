@@ -1,4 +1,29 @@
 name: Youtube
+facode: f167
+keys
+    www.youtube.com
+whitelist
+    image ssl.gstatic.com
+    object youtube.com
+    image youtube-nocookie.com
+    stylesheet plus.googleapis.com
+    object googlevideo.com
+    object ytimg.com
+    image googleusercontent.com
+    image googlevideo.com
+    image ytimg.com
+    script apis.google.com
+    script plus.googleapis.com
+    script youtube.com
+    script ytimg.com
+    stylesheet youtube.com
+    stylesheet ytimg.com
+    sub_frame plus.googleapis.com
+    xmlhttprequest googlevideo.com
+    xmlhttprequest plus.googleapis.com
+    xmlhttprequest youtube.com
+
+name: Youtube
 embedded
 facode: f167
 keys
