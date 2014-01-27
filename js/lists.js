@@ -574,8 +574,8 @@ PermissionScopes.prototype.scopeKeyFromPageURL = function(url) {
         return '*';
     }
     var ut = uriTools;
-    var scopeKey = ut.hostnameFromURI(url);
-    if ( !scopeKey ) {
+    var hostname = ut.hostnameFromURI(url);
+    if ( !hostname ) {
         return '*';
     }
     // if ( (/[^a-z0-9.-])/.test(scopeKey) ) {
@@ -583,15 +583,16 @@ PermissionScopes.prototype.scopeKeyFromPageURL = function(url) {
     // }
     // From narrowest scope to broadest scope.
     // Try site scope.
-    var scope = this.scopes[scopeKey];
+    var scope = this.scopes[hostname];
     if ( scope && !scope.off ) {
-        return scopeKey;
+        return hostname;
     }
     // Try domain scope.
-    scopeKey = ut.domainFromHostname(scopeKey);
-    if ( !scopeKey ) {
-        return '*';
+    var domain = ut.domainFromHostname(hostname);
+    if ( !domain ) {
+        domain = hostname;
     }
+    var scopeKey = '*.' + domain;
     scope = this.scopes[scopeKey];
     if ( scope && !scope.off ) {
         return scopeKey;
