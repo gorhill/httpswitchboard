@@ -441,7 +441,7 @@ function renderDomainScopes() {
 
 function renderSiteScopes() {
     var filterFn = function(httpsb, scopeKey) {
-        return httpsb.isSiteScopeKey(scopeKey) && scopeKey !== httpsb.behindTheSceneURL;
+        return httpsb.isSiteScopeKey(scopeKey) && scopeKey !== httpsb.behindTheSceneScopeKey;
     };
     renderScopes('#persite', filterFn);
 }
@@ -450,7 +450,7 @@ function renderSiteScopes() {
 
 function renderBtsScope() {
     var filterFn = function(httpsb, scopeKey) {
-        return scopeKey === httpsb.behindTheSceneURL;
+        return scopeKey === httpsb.behindTheSceneScopeKey;
     };
     renderScopes('#behind-the-scene', filterFn);
 }
@@ -586,7 +586,9 @@ function commitAll() {
     while ( i-- ) {
         liScope = $(liScopes[i]);
         scopeKey = liScope.prop('scopeKey');
-        if ( scopeKey === '*' ) {
+        // rhill 2014-01-27: Do not remove global or behind-the-scene scopes.
+        // https://github.com/gorhill/httpswitchboard/issues/160
+        if ( scopeKey === '*' || scopeKey === httpsb.behindTheSceneScopeKey ) {
             continue;
         }
         httpsb.removeTemporaryScopeFromScopeKey(scopeKey);
