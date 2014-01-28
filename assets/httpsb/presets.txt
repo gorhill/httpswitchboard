@@ -24,6 +24,17 @@ whitelist
 
 #=====
 
+name: Github
+facode: f09b
+keys
+    github.com
+whitelist
+    * github.com
+    * githubapp.com
+    * github.global.ssl.fastly.net
+
+#=====
+
 name: Huffington Post
 keys
     www.huffingtonpost.com
@@ -55,6 +66,33 @@ whitelist
 
 #=====
 
+name: New York Times
+keys
+    nytimes.com
+whitelist
+    * nytimes.com
+    * nyt.com
+
+#=====
+
+name: Wikipedia
+keys
+    wikipedia.org
+whitelist
+    * wikipedia.org
+    * wikimedia.org
+
+#=====
+
+name: Twitter
+keys
+    twitter.com
+whitelist
+    * twitter.com
+    * twimg.com
+
+#=====
+
 name: Wired
 keys
     www.wired.com
@@ -64,17 +102,27 @@ whitelist
 
 #=====
 
+name: Wired UK
+keys
+    www.wired.co.uk
+whitelist
+    * wired.co.uk
+    * d3u12z27ui3vom.cloudfront.net # for 'css'
+    script ajax.googleapis.com      # needed for the nav menu
+
+#=====
+
 name: Youtube
 facode: f167
 keys
     www.youtube.com
 whitelist
     image ssl.gstatic.com
-    object youtube.com
+    plugin youtube.com
     image youtube-nocookie.com
-    stylesheet plus.googleapis.com
-    object googlevideo.com
-    object ytimg.com
+    css plus.googleapis.com
+    plugin googlevideo.com
+    plugin ytimg.com
     image googleusercontent.com
     image googlevideo.com
     image ytimg.com
@@ -82,12 +130,12 @@ whitelist
     script plus.googleapis.com
     script youtube.com
     script ytimg.com
-    stylesheet youtube.com
-    stylesheet ytimg.com
-    sub_frame plus.googleapis.com
-    xmlhttprequest googlevideo.com
-    xmlhttprequest plus.googleapis.com
-    xmlhttprequest youtube.com
+    css youtube.com
+    css ytimg.com
+    frame plus.googleapis.com
+    xhr googlevideo.com
+    xhr plus.googleapis.com
+    xhr youtube.com
 
 
 ################################################################################
@@ -207,6 +255,24 @@ whitelist
     xhr twitter.com
     frame twitter.com
     script twimg.com
+
+#=====
+
+name: Typekit (Adobe fonts)
+embedded
+facode: f031
+keys
+    typekit.com
+whitelist
+    * use.typekit.com    # referer must be present for fonts to download, hence 'main_frame' has to be whitelisted
+
+name: Typekit (Adobe fonts)
+embedded
+facode: f031
+keys
+    typekit.net
+whitelist
+    * use.typekit.net    # referer must be present for fonts to download, hence 'main_frame' has to be whitelisted
 
 #=====
 
