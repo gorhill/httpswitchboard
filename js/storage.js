@@ -157,19 +157,19 @@ function loadUserLists() {
                 httpsb.whitelistTemporarily('*', 'stylesheet', '*');
             }
             if ( store.version.slice(0, 5).localeCompare('0.7.5') < 0 ) {
-                httpsb.createTemporaryScopeFromScopeKey(httpsb.siteScopeKeyFromURL(httpsb.behindTheSceneURL));
+                httpsb.createTemporaryScopeFromScopeKey(httpsb.behindTheSceneScopeKey);
                 if ( httpsb.userSettings.processBehindTheSceneRequests ) {
-                    httpsb.blacklistTemporarily(httpsb.behindTheSceneURL, '*', '*');
+                    httpsb.blacklistTemporarily(httpsb.behindTheSceneScopeKey, '*', '*');
                 } else {
-                    httpsb.whitelistTemporarily(httpsb.behindTheSceneURL, '*', '*');
+                    httpsb.whitelistTemporarily(httpsb.behindTheSceneScopeKey, '*', '*');
                 }
             } else if ( store.version.slice(0, 5).localeCompare('0.7.6') < 0 ) {
-                var scope = httpsb.temporaryScopes.scopes[httpsb.behindTheSceneURL];
+                var scope = httpsb.temporaryScopes.scopes[httpsb.behindTheSceneScopeKey];
                 if ( scope && scope.white.count <= 1 && scope.black.count <= 1 && scope.gray.count === 0 ) {
                     if ( httpsb.userSettings.processBehindTheSceneRequests ) {
-                        httpsb.blacklistTemporarily(httpsb.behindTheSceneURL, '*', '*');
+                        httpsb.blacklistTemporarily(httpsb.behindTheSceneScopeKey, '*', '*');
                     } else {
-                        httpsb.whitelistTemporarily(httpsb.behindTheSceneURL, '*', '*');
+                        httpsb.whitelistTemporarily(httpsb.behindTheSceneScopeKey, '*', '*');
                     }
                 }
             }
@@ -178,8 +178,8 @@ function loadUserLists() {
             httpsb.whitelistTemporarily('*', 'stylesheet', '*');
             httpsb.whitelistTemporarily('*', 'image', '*');
             httpsb.blacklistTemporarily('*', 'sub_frame', '*');
-            httpsb.createTemporaryScopeFromScopeKey(httpsb.siteScopeKeyFromURL(httpsb.behindTheSceneURL));
-            httpsb.whitelistTemporarily(httpsb.behindTheSceneURL, '*', '*');
+            httpsb.createTemporaryScopeFromScopeKey(httpsb.behindTheSceneScopeKey);
+            httpsb.whitelistTemporarily(httpsb.behindTheSceneScopeKey, '*', '*');
         }
 
         // rhill 2013-09-23: ok, there is no point in blacklisting
