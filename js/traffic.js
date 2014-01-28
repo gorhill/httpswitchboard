@@ -475,6 +475,45 @@ function onHeadersReceivedHandler(details) {
 
 /******************************************************************************/
 
+// As per Chrome API doc, webRequest.onErrorOccurred event is the last
+// one called in the sequence of webRequest events.
+// http://developer.chrome.com/extensions/webRequest.html
+
+function onErrorOccurredHandler(details) {
+    // console.debug('onErrorOccurred()> "%s": %o', details.url, details);
+
+    // Ignore all that is not a main document
+    if ( details.type !== 'main_frame' || details.parentFrameId >= 0 ) {
+        return;
+    }
+
+    var pageStats = pageStatsFromPageUrl(details.url);
+    if ( !pageStats ) {
+        return;
+    }
+
+    // rhill 2014-01-28: Unwind the stack of redirects if any. Chromium will
+    // emit an error when a web page redirects apparently endlessly, so
+    //  we need to unravel and report all these redirects upon error.
+    // https://github.com/gorhill/httpswitchboard/issues/171
+    var httpsb = HTTPSB;
+    var requestURL = uriTools.normalizeURI(details.url);
+    var mainFrameStack = [requestURL];
+    var destinationURL = requestURL;
+    var sourceURL;
+    while ( sourceURL = httpsb.redirectRequests[destinationURL] ) {
+        mainFrameStack.push(sourceURL);
+        delete httpsb.redirectRequests[destinationURL];
+        destinationURL = sourceURL;
+    }
+
+    while ( destinationURL = mainFrameStack.pop() ) {
+        pageStats.recordRequest('main_frame', destinationURL, false);
+    }
+}
+
+/******************************************************************************/
+
 var webRequestHandlerRequirements = {
     'tabsBound': 0,
     'listsLoaded': 0
@@ -532,6 +571,16 @@ function startWebRequestHandler(from) {
             ]
         },
         ['blocking', 'responseHeaders']
+    );
+
+    chrome.webRequest.onErrorOccurred.addListener(
+        onErrorOccurredHandler,
+        {
+            'urls': [
+                "http://*/*",
+                "https://*/*"
+            ]
+        }
     );
 }
 
