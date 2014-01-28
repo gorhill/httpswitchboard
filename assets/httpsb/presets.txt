@@ -4,6 +4,66 @@
 #
 ################################################################################
 
+#=====
+
+name: Ars Technica
+keys
+    arstechnica.com
+whitelist
+    * arstechnica.com
+    * arstechnica.net
+
+#=====
+
+name: Businessweek
+keys
+    www.businessweek.com
+whitelist
+    * businessweek.com
+    * btrd.net
+
+#=====
+
+name: Huffington Post
+keys
+    www.huffingtonpost.com
+whitelist
+    * huffingtonpost.com
+    * huffpost.com
+
+#=====
+
+name: Mashable
+keys
+    mashable.com
+whitelist
+    * mashable.com
+    * mshcdn.com
+
+#=====
+
+name: The Guardian
+keys
+    www.theguardian.com
+whitelist
+    * theguardian.com
+    frame discussion.theguardian.com
+    * guim.co.uk
+    * guardianapis.com
+    * guardianapps.co.uk
+    * guardian.co.uk
+
+#=====
+
+name: Wired
+keys
+    www.wired.com
+whitelist
+    * wired.com
+    * arstechnica.net
+
+#=====
+
 name: Youtube
 facode: f167
 keys
@@ -29,22 +89,156 @@ whitelist
     xmlhttprequest plus.googleapis.com
     xmlhttprequest youtube.com
 
-################################################################################
-
-name: Huffington Post
-keys
-    www.huffingtonpost.com
-whitelist
-    * huffingtonpost.com
-    * huffpost.com
-
-
 
 ################################################################################
 #
 # As 3rd-party
 #
 ################################################################################
+
+#=====
+
+name: Brightcove
+embedded
+facode: f008
+keys
+    brightcove.com
+whitelist
+    plugin brightcove.com
+    script brightcove.com
+
+#=====
+
+name: Instagram
+embedded
+facode: f16d
+keys
+    instagram.com
+whitelist
+    script instagram.com
+    xhr instagram.com
+    frame instagram.com
+    script d36xtkk24g8jdx.cloudfront.net
+
+#=====
+
+name: Disqus
+embedded
+facode: f086
+keys
+    disqus.com
+whitelist
+    cookie disqus.com
+    script disqus.com
+    xhr disqus.com
+    frame disqus.com
+    css disquscdn.com
+    image disquscdn.com
+    script disquscdn.com
+
+#=====
+
+name: Facebook
+embedded
+facode: f09a
+keys
+    facebook.com
+whitelist
+    script facebook.com
+    xhr facebook.com
+    frame facebook.com
+    css static.ak.fbcdn.net
+    image static.ak.fbcdn.net
+    script static.ak.fbcdn.net
+    xhr static.ak.fbcdn.net
+
+#=====
+
+name: Livefyre
+embedded
+facode: f086
+keys
+    livefyre.com
+whitelist
+    script livefyre.com
+    xhr livefyre.com
+    script fyre.co
+    xhr fyre.co
+
+#=====
+
+name: Pinterest
+embedded
+facode: f0d2
+keys
+    pinterest.com
+whitelist
+    image assets.pinterest.com
+    script assets.pinterest.com
+    script log.pinterest.com
+    script widgets.pinterest.com
+
+#=====
+
+name: Reddit
+embedded
+facode: f086
+keys
+    www.reddit.com
+whitelist
+    css www.reddit.com
+    image www.reddit.com
+    script www.reddit.com
+    frame www.reddit.com
+    script buttons.reddit.com
+    script ajax.googleapis.com
+
+#=====
+
+name: Twitter
+embedded
+facode: f099
+keys
+    platform.twitter.com
+whitelist
+    cookie twitter.com
+    image twitter.com
+    script twitter.com
+    xhr twitter.com
+    frame twitter.com
+    script twimg.com
+
+#=====
+
+name: Vimeo
+embedded
+facode: f194
+keys
+    vimeo.com
+whitelist
+    script vimeo.com
+    xhr vimeo.com
+    frame vimeo.com
+    css vimeocdn.com
+    image vimeocdn.com
+    script vimeocdn.com
+    other vimeocdn.com
+
+#=====
+
+name: Vine
+embedded
+facode: f008
+keys
+    vine.com
+whitelist
+    css vine.co
+    image vine.co
+    script vine.co
+    frame vine.co
+    other cdn.vine.co
+
+#=====
 
 name: Youtube
 embedded
@@ -64,87 +258,4 @@ whitelist
     script ytimg.com
     plugin youtube.googleapis.com
     plugin googlevideo.com
-
-################################################################################
-
-name: Vimeo
-embedded
-facode: f194
-keys
-    vimeo.com
-whitelist
-    script vimeo.com
-    xhr vimeo.com
-    frame vimeo.com
-    css vimeocdn.com
-    image vimeocdn.com
-    script vimeocdn.com
-    other vimeocdn.com
-
-################################################################################
-
-name: Vine
-embedded
-facode: f008
-keys
-    vine.com
-whitelist
-    css vine.co
-    image vine.co
-    script vine.co
-    frame vine.co
-    other cdn.vine.co
-
-################################################################################
-
-name: Brightcove
-embedded
-facode: f008
-keys
-    brightcove.com
-whitelist
-    plugin brightcove.com
-    script brightcove.com
-
-################################################################################
-
-name: Instagram
-embedded
-facode: f16d
-keys
-    instagram.com
-whitelist
-    script instagram.com
-    xhr instagram.com
-    frame instagram.com
-    script d36xtkk24g8jdx.cloudfront.net
-
-################################################################################
-
-name: Disqus
-embedded
-facode: f086
-keys
-    disqus.com
-whitelist
-    cookie disqus.com
-    script disqus.com
-    xhr disqus.com
-    frame disqus.com
-    css disquscdn.com
-    image disquscdn.com
-    script disquscdn.com
-
-################################################################################
-
-name: Livefyre
-embedded
-facode: f086
-keys
-    livefyre.com
-whitelist
-    script livefyre.com
-    xhr livefyre.com
-    script fyre.co
-    xhr fyre.co
 
