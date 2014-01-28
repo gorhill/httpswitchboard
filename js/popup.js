@@ -1273,8 +1273,8 @@ function presetEntryHandler() {
     updateMatrixStats();
     updateMatrixColors();
     updateMatrixBehavior();
-    dropDownMenuHide();
 }
+
 /******************************************************************************/
 
 function buttonReloadHandler() {
