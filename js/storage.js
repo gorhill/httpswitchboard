@@ -73,9 +73,7 @@ var storageBufferer = {
         this.lock--;
         console.assert(this.lock >= 0, 'storageBufferer.lock is negative!');
         if ( this.lock === 0 ) {
-            chrome.storage.local.set(this.store, function() {
-                console.debug('HTTP Switchboard > saved buffered local storage');
-            });
+            chrome.storage.local.set(this.store, getBytesInUse);
             // rhill 20131017: Once all is persisted, no need to hold onto
             // whatever is in the store, this reduce memory footprint of
             // exension.
@@ -116,10 +114,18 @@ function readLocalTextFile(path) {
 
 /******************************************************************************/
 
+function getBytesInUseHandler(bytesInUse) {
+    HTTPSB.storageUsed = bytesInUse;
+}
+
+function getBytesInUse() {
+    chrome.storage.local.getBytesInUse(null, getBytesInUseHandler);
+}
+
+/******************************************************************************/
+
 function saveUserSettings() {
-    chrome.storage.local.set(HTTPSB.userSettings, function() {
-        // console.log('HTTP Switchboard > saved user settings');
-    });
+    chrome.storage.local.set(HTTPSB.userSettings, getBytesInUse);
 }
 
 /******************************************************************************/
@@ -397,9 +403,7 @@ function reloadPresetBlacklists(switches) {
     // Save switch states
     // rhill 2013-12-10: I don't think there is any chance of a
     // read-modify-write issue here, so I won't use storageBufferer
-    chrome.storage.local.set({ 'remoteBlacklists': presetBlacklists }, function() {
-        console.debug('HTTP Switchboard > saved preset blacklist states');
-    });
+    chrome.storage.local.set({ 'remoteBlacklists': presetBlacklists }, getBytesInUse);
 
     // Now force reload
     loadRemoteBlacklists();
@@ -598,5 +602,6 @@ function load() {
     loadRemoteBlacklists();
     loadPublicSuffixList();
     HTTPSB.loadPresets();
+    getBytesInUse();
 }
 

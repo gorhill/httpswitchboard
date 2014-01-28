@@ -149,6 +149,7 @@ function renderStats() {
     var blockedStats = requestStats.blocked;
     var allowedStats = requestStats.allowed;
     renderNumbers({
+        '#storageUsed': httpsb.storageQuota ? (httpsb.storageUsed / httpsb.storageQuota * 100).toFixed(1) : 0,
         '#cookieRemovedCounter': httpsb.cookieRemovedCounter,
         '#localStorageRemovedCounter': httpsb.localStorageRemovedCounter,
         '#cookieHeaderFoiledCounter': httpsb.cookieHeaderFoiledCounter,

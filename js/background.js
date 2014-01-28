@@ -116,6 +116,8 @@ var HTTPSB = {
     cookieHeaderFoiledCounter: 0,
     refererHeaderFoiledCounter: 0,
     browserCacheClearedCounter: 0,
+    storageQuota: chrome.storage.local.QUOTA_BYTES,
+    storageUsed: 0,
 
     // internal state
     webRequestHandler: false,
