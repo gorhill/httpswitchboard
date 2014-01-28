@@ -1238,7 +1238,11 @@ function buttonPresetsHandler() {
         }
         li.append(preset.name);
         li.prop('presetKey', presetKey);
-        li.appendTo(presetList);
+        if ( preset.embedded ) {
+            li.appendTo(presetList);
+        } else {
+            li.prependTo(presetList);
+        }
     }
     var prompt = '';
     if ( presetList.children('.presetEntry').length === 0 ) {
