@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "__MSG_extName__",
-    "version": "0.7.9.0",
+    "version": "0.7.9.1",
     "description": "__MSG_extShortDesc__",
     "icons": {
         "16": "icon_16.png",
@@ -38,7 +38,8 @@
         "webNavigation",
         "webRequest",
         "webRequestBlocking",
-        "<all_urls>"
+        "http://*/*",
+        "https://*/*"
     ],
     "web_accessible_resources": [
         "css/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf",
