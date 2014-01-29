@@ -136,9 +136,9 @@ body.tScopeSite #buttonPersist {
 body.powerOff #buttonPersist {
     visibility: hidden;
     }
-body #buttonRevert {
+body #buttonRevertScope {
     }
-body.powerOff #buttonRevert {
+body.powerOff #buttonRevertScope {
     visibility: hidden;
     }
 body #buttonRevertAll {

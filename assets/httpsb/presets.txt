@@ -1,5 +1,16 @@
 ################################################################################
 #
+# If any preset recipe does not work properly, please fix and ask
+# for a pull request on Github:
+# https://github.com/gorhill/httpswitchboard
+#
+# Help this GPL project get better: contributions of preset recipes
+# are welcome.
+#
+################################################################################
+
+################################################################################
+#
 # As 1st-party
 #
 ################################################################################
@@ -24,6 +35,42 @@ whitelist
 
 #=====
 
+name: CNN
+keys
+    cnn.com
+whitelist
+    * cnn.com
+    * turner.com
+
+#=====
+
+name: Fox News
+keys
+    www.foxnews.com
+whitelist
+    * foxnews.com
+    * fncstatic.com
+    # Necessary for legitimate images to show
+    script ads.foxnews.com
+    # Video
+    frame video.foxnews.com
+    * foxnews-f.akamaihd.net
+    * foxnewsplayer-a.akamaihd.net
+    plugin players.edgesuite.net
+
+#=====
+
+name: Facebook
+facode: f09a
+keys
+    www.facebook.com
+whitelist
+    * facebook.com
+    * fbcdn.net
+    * akamaihd.net
+
+#=====
+
 name: Github
 facode: f09b
 keys
@@ -32,6 +79,29 @@ whitelist
     * github.com
     * githubapp.com
     * github.global.ssl.fastly.net
+    * github-camo.global.ssl.fastly.net
+
+#=====
+
+name: Google News
+keys
+    news.google.com
+whitelist
+    * news.google.com
+    * gstatic.com
+
+#=====
+
+name: The Guardian
+keys
+    www.theguardian.com
+whitelist
+    * theguardian.com
+    frame discussion.theguardian.com
+    * guim.co.uk
+    * guardianapis.com
+    * guardianapps.co.uk
+    * guardian.co.uk
 
 #=====
 
@@ -53,16 +123,11 @@ whitelist
 
 #=====
 
-name: The Guardian
+name: NBC News
 keys
-    www.theguardian.com
+    nbcnews.com
 whitelist
-    * theguardian.com
-    frame discussion.theguardian.com
-    * guim.co.uk
-    * guardianapis.com
-    * guardianapps.co.uk
-    * guardian.co.uk
+    * nbcnews.com
 
 #=====
 
@@ -93,12 +158,47 @@ whitelist
 
 #=====
 
+name: The Verge
+keys
+    www.theverge.com
+whitelist
+    * theverge.com
+    * sbnation.com
+
+#=====
+
+name: The Wall Street Journal
+keys
+    wsj.com
+whitelist
+    * wsj.com
+    frame wsj.com
+    * wsj.net
+
+#=====
+
+name: Washington Post
+keys
+    washingtonpost.com
+whitelist
+    * washingtonpost.com
+    * troveread.com
+    * wpdigital.net
+
+#=====
+
 name: Wired
 keys
     www.wired.com
 whitelist
     * wired.com
-    * arstechnica.net
+    frame wired.com
+    * fonts.condenast.com
+    # For WIRED VIDEO
+    * player.cnevids.com
+    frame player.cnevids.com
+    * dnkzzz1hlto79.cloudfront.net
+    * dp8hsntg6do36.cloudfront.net
 
 #=====
 
@@ -109,6 +209,15 @@ whitelist
     * wired.co.uk
     * d3u12z27ui3vom.cloudfront.net    # for 'css'
     script ajax.googleapis.com         # needed for the nav menu
+
+#=====
+
+name: Yahoo News
+keys
+    news.yahoo.com
+whitelist
+    * news.yahoo.com
+    * yimg.com
 
 #=====
 
@@ -148,19 +257,6 @@ whitelist
 
 #=====
 
-name: Instagram
-embedded
-facode: f16d
-keys
-    instagram.com
-whitelist
-    script instagram.com
-    xhr instagram.com
-    frame instagram.com
-    script d36xtkk24g8jdx.cloudfront.net
-
-#=====
-
 name: Disqus
 embedded
 facode: f086
@@ -190,6 +286,19 @@ whitelist
     image static.ak.fbcdn.net
     script static.ak.fbcdn.net
     xhr static.ak.fbcdn.net
+
+#=====
+
+name: Instagram
+embedded
+facode: f16d
+keys
+    instagram.com
+whitelist
+    script instagram.com
+    xhr instagram.com
+    frame instagram.com
+    script d36xtkk24g8jdx.cloudfront.net
 
 #=====
 
@@ -253,17 +362,19 @@ name: Typekit (Adobe fonts)
 embedded
 facode: f031
 keys
-    typekit.com
+    use.typekit.com
 whitelist
-    * use.typekit.com    # referer must be present for fonts to download, hence 'main_frame' has to be whitelisted
+    # referer must be present for fonts to download, hence 'main_frame' has to be whitelisted
+    * use.typekit.com
 
 name: Typekit (Adobe fonts)
 embedded
 facode: f031
 keys
-    typekit.net
+    use.typekit.net
 whitelist
-    * use.typekit.net    # referer must be present for fonts to download, hence 'main_frame' has to be whitelisted
+    # referer must be present for fonts to download, hence 'main_frame' has to be whitelisted
+    * use.typekit.net
 
 #=====
 

@@ -99,6 +99,7 @@ var HTTPSB = {
     // page url => permission scope
     temporaryScopes: null,
     permanentScopes: null,
+    factoryScope: null,
 
     // Current entries from remote blacklists --
     // just hostnames, '*/' is implied, this saves significantly on memory.

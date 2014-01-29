@@ -21,20 +21,18 @@
 
 /******************************************************************************/
 
-HTTPSB.temporaryScopes = new PermissionScopes();
-HTTPSB.permanentScopes = new PermissionScopes();
+(function() {
+    var httpsb = HTTPSB;
+    httpsb.temporaryScopes = new PermissionScopes();
+    httpsb.permanentScopes = new PermissionScopes();
 
-/******************************************************************************/
-
-HTTPSB.normalizeScopeURL = function(url) {
-    if ( !url ) {
-        return null;
-    }
-    if ( url !== '*' ) {
-        url = uriTools.rootURLFromURI(url);
-    }
-    return url;
-};
+    // Hard-coded scope to restore out-of-the-box rules
+    httpsb.factoryScope = new PermissionScope();
+    httpsb.factoryScope.whitelist('main_frame', '*');
+    httpsb.factoryScope.whitelist('stylesheet', '*');
+    httpsb.factoryScope.whitelist('image', '*');
+    httpsb.factoryScope.blacklist('sub_frame', '*');
+})();
 
 /******************************************************************************/
 
@@ -78,6 +76,24 @@ HTTPSB.isValidScopeKey = function(scopeKey) {
     return this.isGlobalScopeKey(scopeKey) ||
            this.isDomainScopeKey(scopeKey) ||
            this.isSiteScopeKey(scopeKey);
+};
+
+/******************************************************************************/
+
+HTTPSB.temporaryScopeFromScopeKey = function(scopeKey) {
+    var scope = this.temporaryScopes.scopes[scopeKey];
+    if ( !scope || scope.off ) {
+        return null;
+    }
+    return scope;
+};
+
+HTTPSB.permanentScopeFromScopeKey = function(scopeKey) {
+    var scope = this.permanentScopes.scopes[scopeKey];
+    if ( !scope || scope.off ) {
+        return null;
+    }
+    return scope;
 };
 
 /******************************************************************************/
@@ -493,10 +509,27 @@ HTTPSB.commitPermissions = function(persist) {
 
 /******************************************************************************/
 
-// Reset permission lists to their default state.
+// Reset all rules to their default state.
 
-HTTPSB.revertPermissions = function() {
+HTTPSB.revertAllRules = function() {
     this.temporaryScopes.assign(this.permanentScopes);
+};
+
+/******************************************************************************/
+
+// Reset all rules to their default state.
+
+HTTPSB.revertScopeRules = function(scopeKey) {
+    var tscope = this.temporaryScopeFromScopeKey(scopeKey);
+    if ( !tscope ) {
+        return;
+    }
+    var pscope = this.permanentScopeFromScopeKey(scopeKey);
+    // If no permanent scope found, use factory settings
+    if ( !pscope ) {
+        pscope = this.factoryScope;
+    }
+    tscope.assign(pscope);
 };
 
 /******************************************************************************/

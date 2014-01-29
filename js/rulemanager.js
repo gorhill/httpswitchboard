@@ -631,7 +631,7 @@ function commitAll() {
 
 function revertAll() {
     var httpsb = getHTTPSB();
-    httpsb.revertPermissions();
+    httpsb.revertAllRules();
     renderAll();
 }
 

@@ -690,11 +690,20 @@ function persistScope() {
     updateMatrixBehavior();
 }
 
+/******************************************************************************/
+
 function revertScope() {
+    var httpsb = getHTTPSB();
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
+    httpsb.revertScopeRules(scopeKey);
+    updateScopeCell();
+    updateMatrixStats();
+    updateMatrixColors();
+    updateMatrixBehavior();
 }
 
-function revert() {
-    getHTTPSB().revertPermissions();
+function revertAll() {
+    getHTTPSB().revertAllRules();
     updateScopeCell();
     updateMatrixStats();
     updateMatrixColors();
@@ -1340,7 +1349,8 @@ function bindToTabHandler(tabs) {
         $('#buttonPersist').remove();
         $('#buttonPresets').remove();
         $('#buttonReload').remove();
-        $('#buttonRevert').remove();
+        $('#buttonRevertScope').remove();
+        $('#buttonRevertAll').remove();
     }
 
     // Activate page scope if there is one
@@ -1447,7 +1457,8 @@ function initAll() {
     $('#scopeKeyDomain').on('click', createDomainScope);
     $('#scopeKeySite').on('click', createSiteScope);
     $('#buttonPersist').on('click', persistScope);
-    $('#buttonRevert').on('click', revert);
+    $('#buttonRevertScope').on('click', revertScope);
+    $('#buttonRevertAll').on('click', revertAll);
 
     $('#buttonPresets').on('click', buttonPresetsHandler);
     $('body').on('click', '.presetEntry', presetEntryHandler);

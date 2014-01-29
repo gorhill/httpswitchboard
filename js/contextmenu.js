@@ -31,8 +31,8 @@ chrome.contextMenus.create({
 
 chrome.contextMenus.create({
     type: 'normal',
-    id: 'revertPermissions',
-    title: 'Remove all temporary permissions',
+    id: 'revertScopeRules',
+    title: 'Remove temporary permissions',
     documentUrlPatterns: ['http://*/*', 'https://*/*']
     }
 );
@@ -87,8 +87,8 @@ function contextMenuClickHandler(info, tab) {
             smartReloadTab(tab.id);
             break;
 
-        case 'revertPermissions':
-            HTTPSB.revertPermissions();
+        case 'revertScopeRules':
+            HTTPSB.revertScopeRules(HTTPSB.temporaryScopeKeyFromPageURL(pageURL));
             smartReloadTabs();
             break;
 
@@ -134,7 +134,7 @@ function updateContextMenuHandler(tabs) {
         title: 'Temporarily whitelist *.' + punycode.toUnicode(pageDomain),
         enabled: color.charAt(0) !== 'g' && !HTTPSB.off
     });
-    chrome.contextMenus.update('revertPermissions', {
+    chrome.contextMenus.update('revertScopeRules', {
         enabled: !HTTPSB.off
     });
 }
