@@ -116,9 +116,6 @@ body {
     display: block;
     }
 
-body #buttonRevert {
-    margin-right: 1em;
-    }
 body.tScopeGlobal #buttonPersist {
     color: #000;
     }
@@ -131,8 +128,36 @@ body.tScopeSite #buttonPersist {
 body.powerOff #buttonPersist {
     visibility: hidden;
     }
+body #buttonRevert {
+    }
 body.powerOff #buttonRevert {
     visibility: hidden;
+    }
+body #buttonRevertAll {
+    margin-right: 1em;
+    position: relative;
+    color: transparent;
+    }
+body #buttonRevertAll > span {
+    position: absolute;
+    font-size: 60%;
+    color: black;
+    }
+body #buttonRevertAll > span:nth-of-type(1) {
+    left: 3px;
+    top: 3px;
+    }
+body #buttonRevertAll > span:nth-of-type(2) {
+    right: 3px;
+    top: 3px;
+    }
+body #buttonRevertAll > span:nth-of-type(3) {
+    right: 3px;
+    bottom: 3px;
+    }
+body #buttonRevertAll > span:nth-of-type(4) {
+    left: 3px;
+    bottom: 3px;
     }
 
 #buttonPresets {

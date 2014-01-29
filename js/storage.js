@@ -486,10 +486,6 @@ HTTPSB.PresetRecipe.prototype.doesMatch = function(set, pageHostname) {
     return false;
 };
 
-HTTPSB.PresetRecipe.prototype.getHash = function() {
-    return this.name + '-' + (this.embedded ? '1' : '0') + '-' + Object.keys(this.keys).join('-');
-};
-
 HTTPSB.loadPresets = function() {
     var httpsb = this;
     var parseEntry = function(entry) {
@@ -592,7 +588,7 @@ HTTPSB.loadPresets = function() {
         if ( !preset ) {
             continue;
         }
-        this.presets[preset.getHash()] = preset;
+        this.presets.push(preset);
     }
 };
 

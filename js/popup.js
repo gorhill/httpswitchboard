@@ -690,6 +690,9 @@ function persistScope() {
     updateMatrixBehavior();
 }
 
+function revertScope() {
+}
+
 function revert() {
     getHTTPSB().revertPermissions();
     updateScopeCell();
@@ -1215,14 +1218,12 @@ function buttonPresetsHandler() {
 
     var pageHostname = HTTPSBPopup.pageHostname;
     var presets = getHTTPSB().presets;
-    var matrixStats = HTTPSBPopup.matrixStats;
+    var i = presets.length;
     var preset;
+    var matrixStats = HTTPSBPopup.matrixStats;
     var li, c;
-    for ( var presetKey in presets ) {
-        if ( !presets.hasOwnProperty(presetKey) ) {
-            continue;
-        }
-        preset = presets[presetKey];
+    while ( i-- ) {
+        preset = presets[i];
         if ( !preset.doesMatch(matrixStats, pageHostname) ) {
             continue;
         }
@@ -1237,7 +1238,7 @@ function buttonPresetsHandler() {
             li.append(c);
         }
         li.append(preset.name);
-        li.prop('presetKey', presetKey);
+        li.prop('presetKey', i);
         if ( preset.embedded ) {
             li.appendTo(presetList);
         } else {

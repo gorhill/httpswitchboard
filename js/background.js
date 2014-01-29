@@ -82,7 +82,7 @@ var HTTPSB = {
     pageStats: {},
 
     // Preset rules
-    presets: {},
+    presets: [],
 
     // A map of redirects, to allow reverse lookup of redirects from landing
     // page, so that redirection can be reported to the user.
