@@ -88,9 +88,9 @@ HTTPSB.isValidScopeKey = function(scopeKey) {
 
 HTTPSB.createTemporaryGlobalScope = function(url) {
     var scopeKey = this.siteScopeKeyFromURL(url);
-    this.removeTemporaryScopeFromScopeKey(scopeKey);
+    this.removeTemporaryScopeFromScopeKey(scopeKey, true);
     scopeKey = this.domainScopeKeyFromURL(url);
-    this.removeTemporaryScopeFromScopeKey(scopeKey);
+    this.removeTemporaryScopeFromScopeKey(scopeKey, true);
 };
 
 HTTPSB.createPermanentGlobalScope = function(url) {
@@ -127,7 +127,7 @@ HTTPSB.createTemporaryDomainScope = function(url) {
 
     // Remove potentially occulting site scope.
     scopeKey = this.siteScopeKeyFromURL(url);
-    this.removeTemporaryScopeFromScopeKey(scopeKey);
+    this.removeTemporaryScopeFromScopeKey(scopeKey, true);
 };
 
 HTTPSB.createPermanentDomainScope = function(url) {
@@ -185,7 +185,7 @@ HTTPSB.createPermanentSiteScope = function(url) {
 
 /******************************************************************************/
 
-HTTPSB.createTemporaryScopeFromScopeKey = function(scopeKey, empty) {
+HTTPSB.createTemporaryScopeFromScopeKey = function(scopeKey) {
     var scope = this.temporaryScopes.scopes[scopeKey];
     if ( !scope ) {
         scope = new PermissionScope();
@@ -199,13 +199,17 @@ HTTPSB.createTemporaryScopeFromScopeKey = function(scopeKey, empty) {
 
 /******************************************************************************/
 
-HTTPSB.removeTemporaryScopeFromScopeKey = function(scopeKey) {
+HTTPSB.removeTemporaryScopeFromScopeKey = function(scopeKey, keepAround) {
     if ( scopeKey === '*' ) {
         return null;
     }
     var scope = this.temporaryScopes.scopes[scopeKey];
     if ( scope ) {
-        scope.off = true;
+        if ( keepAround ) {
+            scope.off = true;
+        } else {
+            delete this.temporaryScopes.scopes[scopeKey];
+        }
     }
     return scope;
 };

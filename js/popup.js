@@ -1265,16 +1265,7 @@ function presetEntryHandler() {
         return;
     }
     var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
-    // Temporarily apply all preset rules
-    var rules = preset.whitelist;
-    var pos;
-    for ( var ruleKey in rules ) {
-        if ( !rules.hasOwnProperty(ruleKey) ) {
-            continue;
-        }
-        pos = ruleKey.indexOf('|');
-        httpsb.whitelistTemporarily(scopeKey, ruleKey.slice(0, pos), ruleKey.slice(pos + 1));
-    }
+    preset.applyToScope(scopeKey);
     updateMatrixStats();
     updateMatrixColors();
     updateMatrixBehavior();

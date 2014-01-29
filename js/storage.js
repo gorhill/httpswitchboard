@@ -486,6 +486,19 @@ HTTPSB.PresetRecipe.prototype.doesMatch = function(set, pageHostname) {
     return false;
 };
 
+HTTPSB.PresetRecipe.prototype.applyToScope = function(scopeKey) {
+    var httpsb = HTTPSB;
+    var rules = this.whitelist;
+    var pos;
+    for ( var ruleKey in rules ) {
+        if ( !rules.hasOwnProperty(ruleKey) ) {
+            continue;
+        }
+        pos = ruleKey.indexOf('|');
+        httpsb.whitelistTemporarily(scopeKey, ruleKey.slice(0, pos), ruleKey.slice(pos + 1));
+    }
+};
+
 HTTPSB.loadPresets = function() {
     var httpsb = this;
     var parseEntry = function(entry) {
@@ -590,6 +603,19 @@ HTTPSB.loadPresets = function() {
         }
         this.presets.push(preset);
     }
+};
+
+HTTPSB.findPreset = function(name, embedded) {
+    var presets = this.presets;
+    var i = presets.length;
+    var preset;
+    while ( i-- ) {
+        preset = presets[i];
+        if ( preset.name === name && !preset.embedded === !embedded ) {
+            return preset;
+        }
+    }
+    return null;
 };
 
 /******************************************************************************/

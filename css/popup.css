@@ -47,6 +47,14 @@ body {
     font: 1.75em 'FontAwesome';
     min-width: 1.3em;
     }
+.toolbar button:last-of-type {
+    margin-left: 0;
+    margin-right: 0.75em;
+    }
+.toolbar.pullright button:last-of-type {
+    margin-left: 0.75em;
+    margin-right: 0;
+    }
 
 .pullright {
     float: right;
@@ -134,7 +142,6 @@ body.powerOff #buttonRevert {
     visibility: hidden;
     }
 body #buttonRevertAll {
-    margin-right: 1em;
     position: relative;
     color: transparent;
     }
@@ -161,11 +168,13 @@ body #buttonRevertAll > span:nth-of-type(4) {
     }
 
 #buttonPresets {
-    margin-right: 1em;
     }
 #buttonPresets + .dropdown-menu {
     width: 80%;
     left: 10%;
+    }
+body.powerOff #buttonPresets {
+    visibility: hidden;
     }
 .presetInfo {
     margin: 0.25em 0.5em;

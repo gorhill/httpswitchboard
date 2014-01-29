@@ -602,12 +602,20 @@ function commitAll() {
         liRule = $(liRules[i]);
         liList = liRule.parents('.list');
         liScope = liList.parents('.scope');
+        scopeKey = liScope.prop('scopeKey');
         rule = liRule.prop('rule');
         pos = rule.indexOf('|');
         type = rule.slice(0, pos);
         hostname = rule.slice(pos + 1);
+        // rhill 2014-01-29: Do not delete out-of-the-box rules,
+        // to keep web pages redenring minimally:
+        // *: css *
+        // *: img *
+        if ( scopeKey === '*' && (type === 'stylesheet' || type === 'image' ) && hostname === '*' ) { 
+            continue;
+        }
         httpsb.removeRuleTemporarily(
-            liScope.prop('scopeKey'),
+            scopeKey,
             liList.prop('listKey'),
             type,
             hostname
