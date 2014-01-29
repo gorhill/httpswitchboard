@@ -107,8 +107,8 @@ keys
     www.wired.co.uk
 whitelist
     * wired.co.uk
-    * d3u12z27ui3vom.cloudfront.net # for 'css'
-    script ajax.googleapis.com      # needed for the nav menu
+    * d3u12z27ui3vom.cloudfront.net    # for 'css'
+    script ajax.googleapis.com         # needed for the nav menu
 
 #=====
 
@@ -117,25 +117,16 @@ facode: f167
 keys
     www.youtube.com
 whitelist
-    image ssl.gstatic.com
-    plugin youtube.com
-    image youtube-nocookie.com
-    css plus.googleapis.com
-    plugin googlevideo.com
-    plugin ytimg.com
-    image googleusercontent.com
-    image googlevideo.com
-    image ytimg.com
-    script apis.google.com
-    script plus.googleapis.com
-    script youtube.com
-    script ytimg.com
-    css youtube.com
-    css ytimg.com
+    css *
+    image *
+    * youtube.com
+    * youtube-nocookie.com
+    * googlevideo.com
+    * ytimg.com
+    * youtube.googleapis.com           # As per issue #169
+    * plus.googleapis.com
     frame plus.googleapis.com
-    xhr googlevideo.com
-    xhr plus.googleapis.com
-    xhr youtube.com
+    * apis.google.com
 
 
 ################################################################################
@@ -322,6 +313,6 @@ whitelist
     image ytimg.com
     plugin ytimg.com
     script ytimg.com
-    plugin youtube.googleapis.com
+    plugin youtube.googleapis.com # As per issue #169
     plugin googlevideo.com
 
