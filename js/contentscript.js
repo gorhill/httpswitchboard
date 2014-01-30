@@ -13,23 +13,58 @@ var localStorageHandler = function(mustRemove) {
     }
 };
 
-/*----------------------------------------------------------------------------*/
+//=======================[ Bugged Noscript Workaround ]=======================//
 
-// This is to take care of
-// https://code.google.com/p/chromium/issues/detail?id=232410
-// We look up noscript tags and force the DOM parser to parse
-// them.
-var fixNoscriptTags = function() {
+// If script is whitelisted, fixNoscriptTags() is not called.  No need to
+//    mess with <noscript>
+// If script is blacklisted, fixNoscriptTags() replaces the bugged <noscript>
+//    with a <div>, which can render HTML if needed.
+var doNoscriptWorkaround = function() {
     var a = document.querySelectorAll('noscript');
     var i = a.length;
-    var html;
+    var realNoscript,
+        fakeNoscript;
     while ( i-- ) {
-        html = a[i].innerHTML;
-        html = html.replace(/&lt;/g, '<');
-        html = html.replace(/&gt;/g, '>');
-        a[i].innerHTML = html;
+        realNoscript = a[i];
+        fakeNoscript = document.createElement('div');
+        fakeNoscript.innerHTML = "<!--NOSCRIPT-->\n"+realNoscript.textContent;
+        // Adding this class attribute to the <div> is not necessary.
+        // Just adding it so we know that the <div> is actually a <noscript>
+        fakeNoscript.setAttribute('class', 'fakeNoscript');
+        realNoscript.parentNode.replaceChild(fakeNoscript, realNoscript);
     }
 };
+
+var checkScriptBlacklistedHandler = function(response) {
+   if( response.scriptBlacklisted ) {
+      doNoscriptWorkaround();
+   }
+}
+
+// Checking to see if script is blacklisted
+chrome.runtime.sendMessage({ what: 'checkScriptBlacklisted',
+                             url: window.location.href
+                           }, checkScriptBlacklistedHandler );
+
+//============================================================================//
+
+/*----------------------------------------------------------------------------*/
+
+//// This is to take care of
+//// https://code.google.com/p/chromium/issues/detail?id=232410
+//// We look up noscript tags and force the DOM parser to parse
+//// them.
+//var fixNoscriptTags = function() {
+//    var a = document.querySelectorAll('noscript');
+//    var i = a.length;
+//    var html;
+//    while ( i-- ) {
+//        html = a[i].innerHTML;
+//        html = html.replace(/&lt;/g, '<');
+//        html = html.replace(/&gt;/g, '>');
+//        a[i].innerHTML = html;
+//    }
+//};
 
 /*----------------------------------------------------------------------------*/
 
@@ -116,7 +151,7 @@ var collectExternalResources = function() {
 /*----------------------------------------------------------------------------*/
 
 var loadHandler = function() {
-    fixNoscriptTags();
+//    fixNoscriptTags();
     collectExternalResources();
 };
 

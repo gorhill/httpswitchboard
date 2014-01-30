@@ -231,6 +231,16 @@ function onMessageHandler(request, sender, callback) {
             forceReload(request.pageURL);
             break;
 
+//=====================[ For Bugged Noscript Workaround ]=====================//
+        case 'checkScriptBlacklisted':
+            var requestHostname = uriTools.hostnameFromURI(request.url),
+                boolScriptBlacklisted = HTTPSB.blacklisted(request.url,
+                                                           'script',
+                                                           requestHostname);
+            response = { scriptBlacklisted : boolScriptBlacklisted };
+            break;
+//============================================================================//
+
         default:
              // console.error('HTTP Switchboard > onMessage > unknown request: %o', request);
             break;
