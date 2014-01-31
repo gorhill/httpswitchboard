@@ -1,4 +1,54 @@
+/*******************************************************************************
+
+    httpswitchboard - a Chromium browser extension to black/white list requests.
+    Copyright (C) 2013  Raymond Hill
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see {http://www.gnu.org/licenses/}.
+
+    Home: https://github.com/gorhill/httpswitchboard
+*/
+
 // Injected into content pages
+
+/******************************************************************************/
+/*------------[ Unrendered Noscript (because CSP) Workaround ]----------------*/
+
+var fixNoscriptTags = function() {
+    var a = document.querySelectorAll('noscript');
+    var i = a.length;
+    var realNoscript,
+        fakeNoscript;
+    while ( i-- ) {
+        realNoscript = a[i];
+        fakeNoscript = document.createElement('div');
+        fakeNoscript.innerHTML = '<!-- HTTP Switchboard NOSCRIPT tag replacement: see <https://github.com/gorhill/httpswitchboard/issues/177> -->\n' + realNoscript.textContent;
+        realNoscript.parentNode.replaceChild(fakeNoscript, realNoscript);
+    }
+};
+
+var checkScriptBlacklistedHandler = function(response) {
+    if ( response.scriptBlacklisted ) {
+        fixNoscriptTags();
+    }
+}
+
+var checkScriptBlacklisted = function() {
+    chrome.runtime.sendMessage({
+        what: 'checkScriptBlacklisted',
+        url: window.location.href
+    }, checkScriptBlacklistedHandler);
+};
 
 /******************************************************************************/
 
@@ -68,7 +118,6 @@ var mutationObservedHandler = function(mutations) {
     };
     var iMutation = mutations.length;
     var mutation;
-    var nodes, iNode, node;
     while ( iMutation-- ) {
         mutation = mutations[iMutation];
         if ( !mutation.addedNodes ) {
@@ -131,19 +180,22 @@ var firstObservationHandler = function() {
 /******************************************************************************/
 
 var loadHandler = function() {
+    // Checking to see if script is blacklisted
+    // Not sure if this is right place to check. I don't know if subframes with
+    // <noscript> tags will be fixed.
+    checkScriptBlacklisted();
+
     firstObservationHandler();
 
     // Observe changes in the DOM
     // https://github.com/gorhill/httpswitchboard/issues/176
     var observer = new MutationObserver(mutationObservedHandler);
-    var config = {
+    observer.observe(document.body, {
         attributes: false,
         childList: true,
         characterData: false,
         subtree: true
-    };
-
-    observer.observe(document.body, config);
+    });
 };
 
 /******************************************************************************/
