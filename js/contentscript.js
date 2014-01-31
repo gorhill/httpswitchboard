@@ -13,13 +13,9 @@ var localStorageHandler = function(mustRemove) {
     }
 };
 
-//=======================[ Bugged Noscript Workaround ]=======================//
+/*------------[ Unrendered Noscript (because CSP) Workaround ]----------------*/
 
-// If script is whitelisted, fixNoscriptTags() is not called.  No need to
-//    mess with <noscript>
-// If script is blacklisted, fixNoscriptTags() replaces the bugged <noscript>
-//    with a <div>, which can render HTML if needed.
-var doNoscriptWorkaround = function() {
+var fixNoscriptTags = function() {
     var a = document.querySelectorAll('noscript');
     var i = a.length;
     var realNoscript,
@@ -37,34 +33,17 @@ var doNoscriptWorkaround = function() {
 
 var checkScriptBlacklistedHandler = function(response) {
    if( response.scriptBlacklisted ) {
-      doNoscriptWorkaround();
+      fixNoscriptTags();
    }
 }
 
 // Checking to see if script is blacklisted
+// Not sure if this is right place to check. I don't know if subframes with
+// <noscript> tags will be fixed.  Should I call this from loadHandler() where
+// the old fixNoscriptTags() was called?
 chrome.runtime.sendMessage({ what: 'checkScriptBlacklisted',
                              url: window.location.href
                            }, checkScriptBlacklistedHandler );
-
-//============================================================================//
-
-/*----------------------------------------------------------------------------*/
-
-//// This is to take care of
-//// https://code.google.com/p/chromium/issues/detail?id=232410
-//// We look up noscript tags and force the DOM parser to parse
-//// them.
-//var fixNoscriptTags = function() {
-//    var a = document.querySelectorAll('noscript');
-//    var i = a.length;
-//    var html;
-//    while ( i-- ) {
-//        html = a[i].innerHTML;
-//        html = html.replace(/&lt;/g, '<');
-//        html = html.replace(/&gt;/g, '>');
-//        a[i].innerHTML = html;
-//    }
-//};
 
 /*----------------------------------------------------------------------------*/
 
