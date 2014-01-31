@@ -33,6 +33,7 @@
         "contentSettings",
         "contextMenus",
         "cookies",
+        "downloads",
         "storage",
         "tabs",
         "webNavigation",

@@ -161,11 +161,14 @@ function uglifyRecipe(recipe) {
 
 function updateUglyRecipeWidget() {
     try {
-        decodeURIComponent($('#recipeUgly').val().replace(/\n/g, '').trim());
+        var val = $('#recipeUgly').val();
+        decodeURIComponent(val.replace(/\n/g, '').trim());
         $('#recipeUgly').removeClass('bad');
+        $('#backup').prop("disabled", val === '');
     }
     catch (e) {
         $('#recipeUgly').addClass('bad');
+        $('#backup').prop("disabled", true);
     }
 }
 
@@ -574,6 +577,17 @@ function toggleDeleteRule(event) {
 /******************************************************************************/
 
 function commitAll() {
+    var liScopes = $('.scope.todelete');
+    var liRules = $('.scope.todelete .rule,.rule.todelete');
+
+    if ( liRules.length ) {
+        var prompt = $('#confirmRemoveAll').text().replace('{{deleteCount}}', liRules.length);
+        if ( !confirm(prompt) ) {
+            $('.scope').removeClass('todelete');
+            return;
+        }
+    }
+
     var httpsb = getHTTPSB();
     var i;
     var liScope, scopeKey;
@@ -581,7 +595,6 @@ function commitAll() {
     var liRule, rule, pos, type, hostname;
 
     // Delete scopes marked for deletion
-    var liScopes = $('.scope.todelete');
     i = liScopes.length;
     while ( i-- ) {
         liScope = $(liScopes[i]);
@@ -596,7 +609,6 @@ function commitAll() {
     }
 
     // Delete rules marked for deletion
-    var liRules = $('.scope.todelete .rule,.rule.todelete');
     i = liRules.length;
     while ( i-- ) {
         liRule = $(liRules[i]);
@@ -639,11 +651,46 @@ function revertAll() {
 
 function removeAll() {
     $('.scope').addClass('todelete');
-    if ( !confirm($('#confirmRemoveAll').text()) ) {
-        $('.scope').removeClass('todelete');
+    updateButtons();
+}
+
+/******************************************************************************/
+
+function saveAllToFile() {
+    var uglyRecipes = uglifyRecipe(renderAllScopesToRecipeString(getHTTPSB().permanentScopes.scopes));
+    var url = 'data:text/plain,' + encodeURIComponent(uglyRecipes);
+    chrome.downloads.download({
+        'url': url,
+        'filename': 'httpsb-all-rules-backup.txt',
+        'saveAs': true
+    });
+}
+
+/******************************************************************************/
+
+function fileReaderOnLoadHandler() {
+    $('#recipeUgly').val(this.result);
+    updateUglyRecipeWidget();
+}
+
+function filePickerOnChangeHandler() {
+    $(this).off('change', filePickerOnChangeHandler);
+    var file = this.files[0];
+    if ( !file ) {
         return;
     }
-    commitAll();
+    if ( file.type.indexOf('text') !== 0 ) {
+        return;
+    }
+    var fr = new FileReader();
+    fr.onload = fileReaderOnLoadHandler;
+    fr.readAsText(file);
+}
+
+function restoreFromFile() {
+    var input = $('<input/>').attr({ type: 'file' });
+    input.on('change', filePickerOnChangeHandler);
+    input.trigger('click');
 }
 
 /******************************************************************************/
@@ -653,19 +700,18 @@ function updateButtons() {
     var notOneDeletion = $('.todelete').length === 0;
     $('#commitAll').prop("disabled", notOneTemporary && notOneDeletion);
     $('#revertAll').prop("disabled", notOneTemporary && notOneDeletion);
-    $('#removeAll').prop("disabled", $('.scope').length <= 1 && $('.rule').length === 0);
+    $('#removeAll').prop("disabled", $('.scope:not(.todelete)').length === 0);
 }
 
 /******************************************************************************/
 
 $(function() {
     $('#commitAll').on('click', commitAll);
-
-    // Toggle permanent scope status
     $('#revertAll').on('click', revertAll);
-
-    // Toggle permanent scope status
     $('#removeAll').on('click', removeAll);
+
+    $('#backup').on('click', saveAllToFile);
+    $('#restore').on('click', restoreFromFile);
 
     $('#recipeDecode').on('click', function(){
         if ( !$('#recipeUgly').hasClass('bad') ) {

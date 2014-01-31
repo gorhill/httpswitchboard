@@ -5,7 +5,7 @@ body {
     width: 100%;
     }
 h1:first-child {
-    margin: 0 0 1em 0;
+    margin: 0 0 0.5em 0;
     }
 #navi-bar {
     border-bottom: 1px solid #ccc;
@@ -45,7 +45,7 @@ textarea {
     height: 20em;
     }
 button {
-    margin: 0 1em 0 0;
+    margin: 0.5em 1em 0 0;
     border: 1px solid rgba(0,0,0,0.2);
     border-radius: 5px;
     padding: 0.5em 1em;

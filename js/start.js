@@ -186,7 +186,7 @@ function onInstalledHandler(details) {
     // rhill 2014-01-29: Opera requires that Youtube works out-of-the-box.
     // Actually, why not do that for everybody, not just Opera.
     // TODO: Evaluate having presets which self-apply at *install* time.
-    var preset = httpsb.findPreset('Youtube', false);
+    var preset = httpsb.presetManager.firstPartyFromHostname('www.youtube.com');
     if ( !preset ) {
         return;
     }

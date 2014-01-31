@@ -7,6 +7,10 @@
 # Help this GPL project get better: contributions of preset recipes
 # are welcome.
 #
+# TODO: Need to support some mechanism for optimal auto-scoping. For some
+# sites it is better to apply rules in a domain-level scope, while in others
+# it is better to use a site-level scope.
+#
 ################################################################################
 
 ################################################################################
@@ -83,6 +87,18 @@ whitelist
 
 #=====
 
+name: Google Account
+keys
+    accounts.google.com
+whitelist
+    * google.com
+    * googleusercontent.com
+    * ssl.gstatic.com
+    * accounts.youtube.com
+    frame accounts.youtube.com
+
+#=====
+
 name: Google News
 keys
     news.google.com
@@ -149,6 +165,17 @@ whitelist
 
 #=====
 
+name: Reddit
+keys
+    reddit.com
+whitelist
+    * reddit.com
+    * redditmedia.com
+    * redditstatic.com
+    * redditstatic.s3.amazonaws.com
+
+#=====
+
 name: Twitter
 keys
     twitter.com
@@ -189,13 +216,13 @@ whitelist
 
 name: Wired
 keys
-    www.wired.com
+    wired.com
 whitelist
     * wired.com
     frame wired.com
     * fonts.condenast.com
     # For WIRED VIDEO
-    * player.cnevids.com
+    * cnevids.com
     frame player.cnevids.com
     * dnkzzz1hlto79.cloudfront.net
     * dp8hsntg6do36.cloudfront.net
@@ -221,6 +248,8 @@ whitelist
 
 #=====
 
+# TODO: multiple scopes, logging in does not work properly
+
 name: Youtube
 facode: f167
 keys
@@ -229,201 +258,18 @@ whitelist
     css *
     image *
     * youtube.com
+    cookie youtube.com
+    frame youtube.com
     * youtube-nocookie.com
+    * s.youtube.com
+    * s2.youtube.com
     * googlevideo.com
     * ytimg.com
     * youtube.googleapis.com           # As per issue #169
     * plus.googleapis.com
     frame plus.googleapis.com
+    cookie accounts.google.com
+    script accounts.google.com
+    frame google.com
     * apis.google.com
-
-
-################################################################################
-#
-# As 3rd-party
-#
-################################################################################
-
-#=====
-
-name: Brightcove
-embedded
-facode: f008
-keys
-    brightcove.com
-whitelist
-    plugin brightcove.com
-    script brightcove.com
-
-#=====
-
-name: Disqus
-embedded
-facode: f086
-keys
-    disqus.com
-whitelist
-    cookie disqus.com
-    script disqus.com
-    xhr disqus.com
-    frame disqus.com
-    css disquscdn.com
-    image disquscdn.com
-    script disquscdn.com
-
-#=====
-
-name: Facebook
-embedded
-facode: f09a
-keys
-    facebook.com
-whitelist
-    script facebook.com
-    xhr facebook.com
-    frame facebook.com
-    css static.ak.fbcdn.net
-    image static.ak.fbcdn.net
-    script static.ak.fbcdn.net
-    xhr static.ak.fbcdn.net
-
-#=====
-
-name: Instagram
-embedded
-facode: f16d
-keys
-    instagram.com
-whitelist
-    script instagram.com
-    xhr instagram.com
-    frame instagram.com
-    script d36xtkk24g8jdx.cloudfront.net
-
-#=====
-
-name: Livefyre
-embedded
-facode: f086
-keys
-    livefyre.com
-whitelist
-    script livefyre.com
-    xhr livefyre.com
-    script fyre.co
-    xhr fyre.co
-
-#=====
-
-name: Pinterest
-embedded
-facode: f0d2
-keys
-    pinterest.com
-whitelist
-    image assets.pinterest.com
-    script assets.pinterest.com
-    script log.pinterest.com
-    script widgets.pinterest.com
-
-#=====
-
-name: Reddit
-embedded
-facode: f086
-keys
-    www.reddit.com
-whitelist
-    css www.reddit.com
-    image www.reddit.com
-    script www.reddit.com
-    frame www.reddit.com
-    script buttons.reddit.com
-    script ajax.googleapis.com
-
-#=====
-
-name: Twitter
-embedded
-facode: f099
-keys
-    platform.twitter.com
-whitelist
-    cookie twitter.com
-    image twitter.com
-    script twitter.com
-    xhr twitter.com
-    frame twitter.com
-    script twimg.com
-
-#=====
-
-name: Typekit (Adobe fonts)
-embedded
-facode: f031
-keys
-    use.typekit.com
-whitelist
-    # referer must be present for fonts to download, hence 'main_frame' has to be whitelisted
-    * use.typekit.com
-
-name: Typekit (Adobe fonts)
-embedded
-facode: f031
-keys
-    use.typekit.net
-whitelist
-    # referer must be present for fonts to download, hence 'main_frame' has to be whitelisted
-    * use.typekit.net
-
-#=====
-
-name: Vimeo
-embedded
-facode: f194
-keys
-    vimeo.com
-whitelist
-    script vimeo.com
-    xhr vimeo.com
-    frame vimeo.com
-    css vimeocdn.com
-    image vimeocdn.com
-    script vimeocdn.com
-    other vimeocdn.com
-
-#=====
-
-name: Vine
-embedded
-facode: f008
-keys
-    vine.com
-whitelist
-    css vine.co
-    image vine.co
-    script vine.co
-    frame vine.co
-    other cdn.vine.co
-
-#=====
-
-name: Youtube
-embedded
-facode: f167
-keys
-    youtube-nocookie.com
-    youtube.com
-whitelist
-    frame www.youtube-nocookie.com
-    script www.youtube-nocookie.com
-    plugin www.youtube.com
-    script www.youtube.com
-    frame www.youtube.com
-    css ytimg.com
-    image ytimg.com
-    plugin ytimg.com
-    script ytimg.com
-    plugin youtube.googleapis.com # As per issue #169
-    plugin googlevideo.com
 

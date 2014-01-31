@@ -1,0 +1,189 @@
+################################################################################
+#
+# If any preset recipe does not work properly, please fix and ask
+# for a pull request on Github:
+# https://github.com/gorhill/httpswitchboard
+#
+# Help this GPL project get better: contributions of preset recipes
+# are welcome.
+#
+################################################################################
+
+################################################################################
+#
+# As 3rd-party
+#
+################################################################################
+
+#=====
+
+name: Brightcove
+facode: f008
+keys
+    brightcove.com
+whitelist
+    plugin brightcove.com
+    script brightcove.com
+
+#=====
+
+name: Disqus
+facode: f086
+keys
+    disqus.com
+whitelist
+    cookie disqus.com
+    script disqus.com
+    xhr disqus.com
+    frame disqus.com
+    css disquscdn.com
+    image disquscdn.com
+    script disquscdn.com
+
+#=====
+
+name: Facebook
+facode: f09a
+keys
+    facebook.com
+whitelist
+    script facebook.com
+    xhr facebook.com
+    frame facebook.com
+    script connect.facebook.com
+    css ak.fbcdn.net
+    image ak.fbcdn.net
+    script static.ak.fbcdn.net
+    xhr static.ak.fbcdn.net
+
+#=====
+
+name: Instagram
+facode: f16d
+keys
+    instagram.com
+whitelist
+    script instagram.com
+    xhr instagram.com
+    frame instagram.com
+    script d36xtkk24g8jdx.cloudfront.net
+
+#=====
+
+name: Livefyre
+facode: f086
+keys
+    livefyre.com
+whitelist
+    script livefyre.com
+    xhr livefyre.com
+    script fyre.co
+    xhr fyre.co
+
+#=====
+
+name: Pinterest
+facode: f0d2
+keys
+    pinterest.com
+whitelist
+    image assets.pinterest.com
+    script assets.pinterest.com
+    script log.pinterest.com
+    script widgets.pinterest.com
+
+#=====
+
+name: Reddit
+facode: f086
+keys
+    www.reddit.com
+whitelist
+    css www.reddit.com
+    image www.reddit.com
+    script www.reddit.com
+    frame www.reddit.com
+    script buttons.reddit.com
+    script ajax.googleapis.com
+
+#=====
+
+name: Twitter
+facode: f099
+keys
+    platform.twitter.com
+whitelist
+    cookie twitter.com
+    image twitter.com
+    script twitter.com
+    xhr twitter.com
+    frame twitter.com
+    script twimg.com
+    css widgets.twimg.com
+
+#=====
+
+name: Typekit (Adobe fonts)
+facode: f031
+keys
+    use.typekit.com
+whitelist
+    # referer must be present for fonts to download, hence 'main_frame' has to be whitelisted
+    * use.typekit.com
+
+name: Typekit (Adobe fonts)
+facode: f031
+keys
+    use.typekit.net
+whitelist
+    # referer must be present for fonts to download, hence 'main_frame' has to be whitelisted
+    * use.typekit.net
+
+#=====
+
+name: Vimeo
+facode: f194
+keys
+    vimeo.com
+whitelist
+    script vimeo.com
+    xhr vimeo.com
+    frame vimeo.com
+    css vimeocdn.com
+    image vimeocdn.com
+    script vimeocdn.com
+    other vimeocdn.com
+
+#=====
+
+name: Vine
+facode: f008
+keys
+    vine.com
+whitelist
+    css vine.co
+    image vine.co
+    script vine.co
+    frame vine.co
+    other cdn.vine.co
+
+#=====
+
+name: Youtube
+facode: f167
+keys
+    youtube-nocookie.com
+    youtube.com
+whitelist
+    frame www.youtube-nocookie.com
+    script www.youtube-nocookie.com
+    plugin www.youtube.com
+    script www.youtube.com
+    frame www.youtube.com
+    css ytimg.com
+    image ytimg.com
+    plugin ytimg.com
+    script ytimg.com
+    plugin youtube.googleapis.com # As per issue #169
+    plugin googlevideo.com
+

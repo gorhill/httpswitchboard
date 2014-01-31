@@ -43,6 +43,9 @@ body {
     background-color: #eee;
     opacity: 1;
     }
+.toolbar button[disabled] {
+    color: #ccc;
+    }
 .toolbar button.fa {
     font: 1.75em 'FontAwesome';
     min-width: 1.3em;
@@ -168,6 +171,20 @@ body #buttonRevertAll > span:nth-of-type(4) {
     }
 
 #buttonPresets {
+    position: relative;
+    }
+#buttonPresets > span {
+    padding: 0 2px;
+    font-size: 40%;
+    position: absolute;
+    right: 1px;
+    bottom: 1px;
+    color: #000;
+    background-color: #fff;
+    opacity: 0.75;
+    }
+button[disabled] > span {
+    display: none;
     }
 #buttonPresets + .dropdown-menu {
     width: 80%;

@@ -107,7 +107,6 @@ function HostnameStats(hostname) {
         sub_frame: new EntryStats(hostname, 'sub_frame'),
         other: new EntryStats(hostname, 'other')
     };
-    this.hasRule = undefined;
 }
 
 HostnameStats.prototype.junkyard = [];
@@ -138,7 +137,6 @@ HostnameStats.prototype.reset = function(hostname) {
     this.types.xmlhttprequest.reset(hostname);
     this.types.sub_frame.reset(hostname);
     this.types.other.reset(hostname);
-    this.hasRule = undefined;
 };
 
 HostnameStats.prototype.dispose = function() {
@@ -258,43 +256,40 @@ function initMatrixStats() {
     var background = getBackgroundPage();
     var uriTools = background.uriTools;
     var pageUrl = pageStats.pageUrl;
-    var hostname, reqType, nodes, node, reqKey;
-    var reqKeys = pageStats.requests.getRequestKeys();
-    var iReqKeys = reqKeys.length;
+    var hostname, reqType, nodes, iNode, node, reqKey, types;
+    var pageRequests = pageStats.requests;
+    var reqKeys = pageRequests.getRequestKeys();
+    var iReqKey = reqKeys.length;
 
-    HTTPSBPopup.matrixHasRows = iReqKeys > 0;
+    HTTPSBPopup.matrixHasRows = iReqKey > 0;
 
-    while ( iReqKeys-- ) {
-        reqKey = reqKeys[iReqKeys];
-        hostname = pageStats.requests.hostnameFromRequestKey(reqKey);
+    while ( iReqKey-- ) {
+        reqKey = reqKeys[iReqKey];
+        hostname = pageRequests.hostnameFromRequestKey(reqKey);
 
         // rhill 2013-10-23: hostname can be empty if the request is a data url
         // https://github.com/gorhill/httpswitchboard/issues/26
         if ( hostname === '' ) {
             hostname = uriTools.hostnameFromURI(pageUrl);
         }
-        reqType = pageStats.requests.typeFromRequestKey(reqKey);
+        reqType = pageRequests.typeFromRequestKey(reqKey);
 
         // we want a row for self and ancestors
         nodes = uriTools.allHostnamesFromHostname(hostname);
-
-        while ( true ) {
-            node = nodes.shift();
-            if ( !node ) {
-                break;
-            }
+        iNode = nodes.length;
+        while ( iNode-- ) {
+            node = nodes[iNode];
             if ( !matrixStats[node] ) {
                 matrixStats[node] = HostnameStats.prototype.factory(node);
             }
         }
-        matrixStats[hostname].types[reqType].count += 1;
+
+        types = matrixStats[hostname].types;
+        types[reqType].count += 1;
+
         // https://github.com/gorhill/httpswitchboard/issues/12
         // Count requests for whole row.
-
-        matrixStats[hostname].types['*'].count += 1;
-        // meta row for domain, only:
-        // - there are subdomains
-        // - no subdomain has an explicit rule
+        types['*'].count += 1;
     }
 
     updateMatrixStats();
@@ -309,10 +304,11 @@ function updateMatrixStats() {
     var httpsb = getHTTPSB();
     var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
     var matrixStats = HTTPSBPopup.matrixStats;
-    var hostnames = Object.keys(matrixStats);
-    var i = hostnames.length;
-    while ( i-- ) {
-        matrixStats[hostnames[i]].colourize(httpsb, scopeKey);
+    for ( var hostname in matrixStats ) {
+        if ( !matrixStats.hasOwnProperty(hostname) ) {
+            continue;
+        }
+        matrixStats[hostname].colourize(httpsb, scopeKey);
     }
 }
 
@@ -1221,21 +1217,18 @@ function updateScopeCell() {
 
 // Offer a list of presets relevant to the current matrix
 
-function buttonPresetsHandler() {
-    var presetList = $('#buttonPresets + div > ul').empty();
+function populatePresets() {
+    // My understanding is that playing with a DOM object while not attached
+    // to the page DOM is much more efficient (because no layout is recomputed).
+    var presetList = $('#buttonPresets + div > ul').detach();
     presetList.empty();
 
-    var pageHostname = HTTPSBPopup.pageHostname;
-    var presets = getHTTPSB().presets;
+    var presets = getHTTPSB().presetManager.findMatches(HTTPSBPopup.pageHostname, HTTPSBPopup.matrixStats);
     var i = presets.length;
     var preset;
-    var matrixStats = HTTPSBPopup.matrixStats;
     var li, c;
     while ( i-- ) {
         preset = presets[i];
-        if ( !preset.doesMatch(matrixStats, pageHostname) ) {
-            continue;
-        }
         li = $('<li>', {
             'class': 'presetEntry'
         });
@@ -1247,7 +1240,7 @@ function buttonPresetsHandler() {
             li.append(c);
         }
         li.append(preset.name);
-        li.prop('presetKey', i);
+        li.prop('presetId', preset.id);
         if ( preset.embedded ) {
             li.appendTo(presetList);
         } else {
@@ -1264,12 +1257,23 @@ function buttonPresetsHandler() {
         'class': 'presetInfo',
         'text': prompt
     }).prependTo(presetList);
+
+
+    // Re-attach
+    $('#buttonPresets + div').append(presetList);
+
+    // Button
+    // https://github.com/gorhill/httpswitchboard/issues/174
+    $('#buttonPresets').attr('disabled', !presets.length);
+
+    // Button badge
+    $('#buttonPresets > span').text(presets.length);
 }
 
 function presetEntryHandler() {
     var httpsb = getHTTPSB();
-    var presetKey = $(this).prop('presetKey');
-    var preset = httpsb.presets[presetKey];
+    var presetId = $(this).prop('presetId');
+    var preset = httpsb.presetManager.presetFromId(presetId);
     if ( !preset ) {
         return;
     }
@@ -1340,6 +1344,7 @@ function bindToTabHandler(tabs) {
     // Now that tabId and pageURL are set, we can build our menu
     initMenuEnvironment();
     makeMenu();
+    populatePresets();
 
     // After popup menu is built, check whether there is a non-empty matrix
     if ( !HTTPSBPopup.matrixHasRows ) {
@@ -1460,7 +1465,6 @@ function initAll() {
     $('#buttonRevertScope').on('click', revertScope);
     $('#buttonRevertAll').on('click', revertAll);
 
-    $('#buttonPresets').on('click', buttonPresetsHandler);
     $('body').on('click', '.presetEntry', presetEntryHandler);
 
     $('#buttonReload').on('click', buttonReloadHandler);
