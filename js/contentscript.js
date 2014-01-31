@@ -1,9 +1,5 @@
 // Injected into content pages
 
-// rhill 2013-11-09: Weird... This code is executed from HTTP Switchboard
-// context first time extension is launched. Avoid this.
-if ( /^https?:\/\/./.test(window.location.href) ) {
-
 /******************************************************************************/
 
 var localStorageHandler = function(mustRemove) {
@@ -76,7 +72,8 @@ var mutationObservedHandler = function(mutations) {
     while ( iMutation-- ) {
         mutation = mutations[iMutation];
         if ( !mutation.addedNodes ) {
-            // TODO: attr changes also must be dealth with
+            // TODO: attr changes also must be dealth with, but then, how
+            // likely is it...
             continue;
         }
         nodesAddedHandler(mutation.addedNodes, summary);
@@ -151,16 +148,20 @@ var loadHandler = function() {
 
 /******************************************************************************/
 
-// rhill 2014-01-26: If document is already loaded, handle all immediately,
-// otherwise defer to later when document is loaded.
-// https://github.com/gorhill/httpswitchboard/issues/168
-if ( document.readyState === 'interactive' ) {
-    loadHandler();
-} else {
-    window.addEventListener('load', loadHandler);
-}
-
-/******************************************************************************/
-
+// rhill 2013-11-09: Weird... This code is executed from HTTP Switchboard
+// context first time extension is launched. Avoid this.
+// TODO: Investigate if this was a fluke or if it can really happen.
+// I suspect this could only happen when I was using chrome.tabs.executeScript(),
+// because now a delarative content script is used, along with "http{s}" URL
+// pattern matching.
+if ( /^https?:\/\/./.test(window.location.href) ) {
+    // rhill 2014-01-26: If document is already loaded, handle all immediately,
+    // otherwise defer to later when document is loaded.
+    // https://github.com/gorhill/httpswitchboard/issues/168
+    if ( document.readyState === 'interactive' ) {
+        loadHandler();
+    } else {
+        window.addEventListener('load', loadHandler);
+    }
 }
 
