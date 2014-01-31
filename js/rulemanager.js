@@ -658,7 +658,7 @@ function removeAll() {
 
 function saveAllToFile() {
     var uglyRecipes = uglifyRecipe(renderAllScopesToRecipeString(getHTTPSB().permanentScopes.scopes));
-    var url = 'data:text/plain,' + encodeURIComponent(uglyRecipes);
+    var url = 'data:text/plain,' + uglyRecipes;
     chrome.downloads.download({
         'url': url,
         'filename': 'httpsb-all-rules-backup.txt',
@@ -669,7 +669,8 @@ function saveAllToFile() {
 /******************************************************************************/
 
 function fileReaderOnLoadHandler() {
-    $('#recipeUgly').val(this.result);
+    var ugly = uglifyRecipe(this.result);
+    $('#recipeUgly').val(ugly);
     updateUglyRecipeWidget();
 }
 

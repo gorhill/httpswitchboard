@@ -50,7 +50,7 @@ whitelist
     script facebook.com
     xhr facebook.com
     frame facebook.com
-    script connect.facebook.com
+    script connect.facebook.net
     css ak.fbcdn.net
     image ak.fbcdn.net
     script static.ak.fbcdn.net

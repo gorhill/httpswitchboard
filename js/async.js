@@ -224,7 +224,7 @@ function onMessageHandler(request, sender, callback) {
             break;
 
         case 'contentScriptSummary':
-            contentScriptSummaryHandler(request.details, sender);
+            contentScriptSummaryHandler(request, sender);
             break;
 
         case 'forceReloadTab':

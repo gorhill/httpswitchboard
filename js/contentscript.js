@@ -13,82 +13,104 @@ var localStorageHandler = function(mustRemove) {
     }
 };
 
-/*----------------------------------------------------------------------------*/
+/******************************************************************************/
 
-// This is to take care of
-// https://code.google.com/p/chromium/issues/detail?id=232410
-// We look up noscript tags and force the DOM parser to parse
-// them.
-var fixNoscriptTags = function() {
-    var a = document.querySelectorAll('noscript');
-    var i = a.length;
-    var html;
-    while ( i-- ) {
-        html = a[i].innerHTML;
-        html = html.replace(/&lt;/g, '<');
-        html = html.replace(/&gt;/g, '>');
-        a[i].innerHTML = html;
+var nodesAddedHandler = function(nodeList, summary) {
+    var i = 0;
+    var node, src, text;
+    while ( node = nodeList.item(i++) ) {
+        switch ( node.tagName ) {
+
+        case 'SCRIPT':
+            text = node.textContent.trim();
+            if ( text !== '' ) {
+                summary.scriptSources['{inline_script}'] = true;
+                summary.mustReport = true;
+            }
+            src = (node.src || '').trim();
+            if ( src !== '' ) {
+                summary.scriptSources[src] = true;
+                summary.mustReport = true;
+            }
+            break;
+
+        case 'A':
+            if ( node.href.indexOf('javascript:') === 0 ) {
+                summary.scriptSources['{inline_script}'] = true;
+                summary.mustReport = true;
+            }
+            break;
+
+        case 'OBJECT':
+            src = (node.data || '').trim();
+            if ( src !== '' ) {
+                summary.pluginSources[src] = true;
+                summary.mustReport = true;
+            }
+            break;
+
+        case 'EMBED':
+            src = (node.src || '').trim();
+            if ( src !== '' ) {
+                summary.pluginSources[src] = true;
+                summary.mustReport = true;
+            }
+            break;
+        }
     }
 };
 
-/*----------------------------------------------------------------------------*/
+/******************************************************************************/
 
-var collectExternalResources = function() {
-    var r = {
-        refCounter: 0,
+var mutationObservedHandler = function(mutations) {
+    var summary = {
+        what: 'contentScriptSummary',
+        locationURL: window.location.href,
+        scriptSources: {}, // to avoid duplicates
+        pluginSources: {}, // to avoid duplicates
+        mustReport: false
+    };
+    var iMutation = mutations.length;
+    var mutation;
+    var nodes, iNode, node;
+    while ( iMutation-- ) {
+        mutation = mutations[iMutation];
+        if ( !mutation.addedNodes ) {
+            // TODO: attr changes also must be dealth with
+            continue;
+        }
+        nodesAddedHandler(mutation.addedNodes, summary);
+    }
+
+    if ( summary.mustReport ) {
+        chrome.runtime.sendMessage(summary);
+    }
+};
+
+/******************************************************************************/
+
+var firstObservationHandler = function() {
+    var summary = {
+        what: 'contentScriptSummary',
         locationURL: window.location.href,
         scriptSources: {}, // to avoid duplicates
         pluginSources: {}, // to avoid duplicates
         localStorage: false,
-        indexedDB: false
+        indexedDB: false,
+        mustReport: true
     };
-    var i, elem, elems;
-
     // https://github.com/gorhill/httpswitchboard/issues/25
-    elems = document.querySelectorAll('script');
-    i = elems ? elems.length : 0;
-    while ( i-- ) {
-        elem = elems[i];
-        if ( elem.innerText.trim() !== '' ) {
-            r.scriptSources['{inline_script}'] = true;
-        }
-        if ( elem.src && elem.src.trim() !== '' ) {
-            r.scriptSources[elem.src.trim()] = true;
-        }
-    }
-
+    // &
     // Looks for inline javascript also in at least one a[href] element.
     // https://github.com/gorhill/httpswitchboard/issues/131
-    if ( document.querySelector('a[href^="javascript:"]') ) {
-        r.scriptSources['{inline_script}'] = true;
-    }
+    nodesAddedHandler(document.querySelectorAll('script, a[href^="javascript:"], object, embed'), summary);
 
-    // https://github.com/gorhill/httpswitchboard/issues/25
-    elems = document.querySelectorAll('object');
-    i = elems.length;
-    while ( i-- ) {
-        elem = elems[i];
-        if ( elem.data && elem.data.trim() !== '' ) {
-            r.pluginSources[elem.data.trim()] = true;
-        }
-    }
-
-    // https://github.com/gorhill/httpswitchboard/issues/25
-    elems = document.querySelectorAll('embed');
-    i = elems.length;
-    while ( i-- ) {
-        elem = elems[i];
-        if ( elem.src && elem.src.trim() !== '' ) {
-            r.pluginSources[elem.src.trim()] = true;
-        }
-    }
-
-    // Check for non-empty localStorage
+    // Check with extension whether local storage must be emptied
     if ( window.localStorage && window.localStorage.length ) {
-        r.localStorage = true;
+        summary.localStorage = true;
         chrome.runtime.sendMessage({
             what: 'contentScriptHasLocalStorage',
-            url: r.locationURL
+            url: summary.locationURL
         }, localStorageHandler);
     }
 
@@ -106,21 +128,28 @@ var collectExternalResources = function() {
         // Ref.: http://www.w3.org/TR/webdatabase/#databases
     }
 
-    // Important!!
-    chrome.runtime.sendMessage({
-        what: 'contentScriptSummary',
-        details: r
-    });
+    chrome.runtime.sendMessage(summary);
 };
 
-/*----------------------------------------------------------------------------*/
+/******************************************************************************/
 
 var loadHandler = function() {
-    fixNoscriptTags();
-    collectExternalResources();
+    firstObservationHandler();
+
+    // Observe changes in the DOM
+    // https://github.com/gorhill/httpswitchboard/issues/176
+    var observer = new MutationObserver(mutationObservedHandler);
+    var config = {
+        attributes: false,
+        childList: true,
+        characterData: false,
+        subtree: true
+    };
+
+    observer.observe(document.body, config);
 };
 
-/*----------------------------------------------------------------------------*/
+/******************************************************************************/
 
 // rhill 2014-01-26: If document is already loaded, handle all immediately,
 // otherwise defer to later when document is loaded.
