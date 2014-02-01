@@ -29,11 +29,13 @@
 
 // Don't hold permanently onto background page. I don't know if this help,
 // but I am trying to keep memory footprint as low as possible.
-// TODO: re-evaluate whether this is needed as caching the references
-// would help performance.
+// rhill 2014-01-31: memory has been under control since quite a while now,
+// so no longer need to be paranoiac about holding onto references.
+
+var backgroundPage = chrome.extension.getBackgroundPage();
 
 function getBackgroundPage() {
-    return chrome.extension.getBackgroundPage();
+    return backgroundPage;
 }
 
 function getHTTPSB() {
