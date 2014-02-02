@@ -549,7 +549,7 @@ function applyJournalTemporarily() {
         type = entry.rule.slice(0, pivot);
         hostname = entry.rule.slice(pivot+1);
         httpsb.createTemporaryScopeFromScopeKey(scopeKey);
-        httpsb.addRuleTemporarily(scopeKey, entry.listKey, type, hostname);
+        httpsb.addTemporaryRule(scopeKey, entry.listKey, type, hostname);
     }
 
     // Force a refresh of all scopes/rules
