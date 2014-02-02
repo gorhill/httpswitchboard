@@ -299,11 +299,11 @@ HTTPSB.transposeType = function(type, url) {
 
 /******************************************************************************/
 
-HTTPSB.addRuleTemporarily = function(scopeKey, list, type, hostname) {
+HTTPSB.addTemporaryRule = function(scopeKey, list, type, hostname) {
     this.temporaryScopes.addRule(scopeKey, list, type, hostname);
 };
 
-HTTPSB.removeRuleTemporarily = function(scopeKey, list, type, hostname) {
+HTTPSB.removeTemporaryRule = function(scopeKey, list, type, hostname) {
     this.temporaryScopes.removeRule(scopeKey, list, type, hostname);
 };
 

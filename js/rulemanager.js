@@ -577,11 +577,9 @@ function toggleDeleteRule(event) {
 /******************************************************************************/
 
 function commitAll() {
-    var liScopes = $('.scope.todelete');
-    var liRules = $('.scope.todelete .rule,.rule.todelete');
-
-    if ( liRules.length ) {
-        var prompt = $('#confirmRemoveAll').text().replace('{{deleteCount}}', liRules.length);
+    var deleteCount = $('.scope.todelete .rule,.rule.todelete').length;
+    if ( deleteCount ) {
+        var prompt = $('#confirmRemoveAll').text().replace('{{deleteCount}}', deleteCount);
         if ( !confirm(prompt) ) {
             $('.scope').removeClass('todelete');
             return;
@@ -595,6 +593,7 @@ function commitAll() {
     var liRule, rule, pos, type, hostname;
 
     // Delete scopes marked for deletion
+    var liScopes = $('.scope.todelete');
     i = liScopes.length;
     while ( i-- ) {
         liScope = $(liScopes[i]);
@@ -609,26 +608,31 @@ function commitAll() {
     }
 
     // Delete rules marked for deletion
+    var dontTouch = {
+        '*|white|stylesheet|*': true,
+        '*|white|image|*': true,
+        '*|black|sub_frame|*': true,
+        'chromium-behind-the-scene|white|*|*': true
+    };
+    liRules = $('.scope.todelete .rule,.rule.todelete');
     i = liRules.length;
     while ( i-- ) {
         liRule = $(liRules[i]);
         liList = liRule.parents('.list');
         liScope = liList.parents('.scope');
         scopeKey = liScope.prop('scopeKey');
+        listKey = liList.prop('listKey');
         rule = liRule.prop('rule');
         pos = rule.indexOf('|');
         type = rule.slice(0, pos);
         hostname = rule.slice(pos + 1);
-        // rhill 2014-01-29: Do not delete out-of-the-box rules,
-        // to keep web pages redenring minimally:
-        // *: css *
-        // *: img *
-        if ( scopeKey === '*' && (type === 'stylesheet' || type === 'image' ) && hostname === '*' ) { 
+        // rhill 2014-01-29: Do not delete out-of-the-box rules.
+        if ( dontTouch[scopeKey + '|' + listKey + '|' + rule] ) {
             continue;
         }
-        httpsb.removeRuleTemporarily(
+        httpsb.removeTemporaryRule(
             scopeKey,
-            liList.prop('listKey'),
+            listKey,
             type,
             hostname
         );
