@@ -1281,6 +1281,7 @@ function presetEntryHandler() {
     }
     var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
     preset.applyToScope(scopeKey);
+    updateScopeCell();
     updateMatrixStats();
     updateMatrixColors();
     updateMatrixBehavior();

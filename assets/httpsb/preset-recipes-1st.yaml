@@ -1,0 +1,217 @@
+################################################################################
+#
+# Syntax/layout is *extremely* strict (though YAML-compatible so it
+# displays nice with a YAML syntax highlighter.
+#
+# If any preset recipe does not work properly, please fix and ask
+# for a pull request on Github:
+# https://github.com/gorhill/httpswitchboard
+#
+# Help this GPL project get better: contributions of preset recipes
+# are welcome.
+#
+# TODO: Need to support some mechanism for optimal auto-scoping. For some
+# sites it is better to apply rules in a domain-level scope, while in others
+# it is better to use a site-level scope.
+#
+################################################################################
+
+################################################################################
+#
+# As 1st-party
+#
+################################################################################
+
+Ars Technica:
+    keys: arstechnica.com
+    whitelist: |
+        * arstechnica.com
+        * arstechnica.net
+
+Businessweek:
+    keys: www.businessweek.com
+    whitelist: |
+        * businessweek.com
+        * btrd.net
+
+CNN:
+    keys: cnn.com
+    whitelist: |
+        * cnn.com
+        * turner.com
+
+Fox News:
+    keys: www.foxnews.com
+    whitelist: |
+        * foxnews.com
+        * fncstatic.com
+        # Necessary for legitimate images to show
+        script ads.foxnews.com
+        # Video
+        frame video.foxnews.com
+        * foxnews-f.akamaihd.net
+        * foxnewsplayer-a.akamaihd.net
+        plugin players.edgesuite.net
+
+Facebook:
+    facode: f09a
+    keys: www.facebook.com
+    scope: '*.facebook.com'
+        whitelist: |
+            css *
+            image *
+            * facebook.com
+            * fbcdn.net
+            * fbstatic-a.akamaihd.net
+            * akamaihd.net
+
+Github:
+    facode: f09b
+    keys: github.com
+    whitelist: |
+        * github.com
+        * githubapp.com
+        * github.global.ssl.fastly.net
+        * github-camo.global.ssl.fastly.net
+
+Google Account:
+    keys: accounts.google.com
+    scope: accounts.google.com
+    whitelist: |
+        * google.com
+        * googleusercontent.com
+        * ssl.gstatic.com
+        * accounts.youtube.com
+        frame accounts.youtube.com
+
+Google News:
+    keys: news.google.com
+    whitelist: |
+        * news.google.com
+        * gstatic.com
+
+The Guardian:
+    keys: www.theguardian.com
+    whitelist: |
+        * theguardian.com
+        frame discussion.theguardian.com
+        * guim.co.uk
+        * guardianapis.com
+        * guardianapps.co.uk
+        * guardian.co.uk
+        * theguardian.tv
+
+Huffington Post:
+    keys: www.huffingtonpost.com
+    whitelist: |
+        * huffingtonpost.com
+        * huffpost.com
+
+Mashable:
+    keys: mashable.com
+    whitelist: |
+        * mashable.com
+        * mshcdn.com
+
+NBC News:
+    keys: nbcnews.com
+    whitelist: |
+        * nbcnews.com
+
+New York Times:
+    keys: nytimes.com
+    whitelist: |
+        * nytimes.com
+        * nyt.com
+
+Wikipedia:
+    keys: wikipedia.org
+    whitelist: |
+        * wikipedia.org
+        * wikimedia.org
+
+Reddit:
+    keys: reddit.com
+    whitelist: |
+        * reddit.com
+        * redditmedia.com
+        * redditstatic.com
+        * redditstatic.s3.amazonaws.com
+
+Twitter:
+    keys: twitter.com
+    whitelist: |
+        * twitter.com
+        * twimg.com
+
+The Verge:
+    keys: www.theverge.com
+    whitelist: |
+        * theverge.com
+        * sbnation.com
+
+The Wall Street Journal:
+    keys: wsj.com
+    whitelist: |
+        * wsj.com
+        frame wsj.com
+        * wsj.net
+
+Washington Post:
+    keys: washingtonpost.com
+    whitelist: |
+        * washingtonpost.com
+        * troveread.com
+        * wpdigital.net
+
+Wired:
+    keys: wired.com
+    whitelist: |
+        * wired.com
+        frame wired.com
+        * fonts.condenast.com
+        # For WIRED VIDEO
+        * cnevids.com
+        frame player.cnevids.com
+        * dnkzzz1hlto79.cloudfront.net
+        * dp8hsntg6do36.cloudfront.net
+
+Wired UK:
+    keys: www.wired.co.uk
+    whitelist: |
+        * wired.co.uk
+        # for 'css'
+        * d3u12z27ui3vom.cloudfront.net
+        # needed for the nav menu
+        script ajax.googleapis.com
+
+Yahoo News:
+    keys: news.yahoo.com
+    whitelist: |
+        * news.yahoo.com
+        * yimg.com
+
+# TODO: multiple scopes, logging in does not work properly
+
+Youtube:
+    facode: f167
+    keys: www.youtube.com
+    scope: www.youtube.com
+    whitelist: |
+        css *
+        image *
+        * youtube.com
+        frame youtube.com
+        * youtube-nocookie.com
+        * ytimg.com
+        * googlevideo.com
+        * ggpht.com
+        # As per issue #169
+        * youtube.googleapis.com
+        * plus.googleapis.com
+        frame plus.googleapis.com
+        cookie accounts.google.com
+        script accounts.google.com
+        frame google.com
+        * apis.google.com
+

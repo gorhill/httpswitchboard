@@ -27,20 +27,40 @@ HTTPSB.PresetRecipe = function() {
     this.facode = 0;
     this.keys = {};
     this.whitelist = {};
+    this.scopes = {};
 };
 
 /******************************************************************************/
 
 HTTPSB.PresetRecipe.prototype.applyToScope = function(scopeKey) {
     var httpsb = HTTPSB;
-    var rules = this.whitelist;
-    var pos;
-    for ( var ruleKey in rules ) {
+    var rules, ruleKey, pos;
+
+    // Unscoped rules
+    rules = this.whitelist;
+    for ( ruleKey in rules ) {
         if ( !rules.hasOwnProperty(ruleKey) ) {
             continue;
         }
         pos = ruleKey.indexOf('|');
         httpsb.whitelistTemporarily(scopeKey, ruleKey.slice(0, pos), ruleKey.slice(pos + 1));
+    }
+
+    // Scoped rules
+    var scopes = this.scopes;
+    for ( scopeKey in scopes ) {
+        if ( !scopes.hasOwnProperty(scopeKey) ) {
+            continue;
+        }
+        httpsb.createTemporaryScopeFromScopeKey(scopeKey);
+        rules = scopes[scopeKey].whitelist;
+        for ( ruleKey in rules ) {
+            if ( !rules.hasOwnProperty(ruleKey) ) {
+                continue;
+            }
+            pos = ruleKey.indexOf('|');
+            httpsb.whitelistTemporarily(scopeKey, ruleKey.slice(0, pos), ruleKey.slice(pos + 1));
+        }
     }
 };
 
@@ -163,88 +183,143 @@ HTTPSB.PresetManager.prototype.findMatches = function(firstParty, thirdParties) 
 
 /******************************************************************************/
 
+HTTPSB.PresetManager.prototype.typeMapper = {
+    '*': '*',
+    'cookie': 'cookie',
+    'img': 'image',
+    'image': 'image',
+    'css': 'stylesheet',
+    'stylesheet': 'stylesheet',
+    'plugin': 'object',
+    'object': 'object',
+    'script': 'script',
+    'xhr': 'xmlhttprequest',
+    'xmlhttprequest': 'xmlhttprequest',
+    'frame': 'sub_frame',
+    'sub_frame': 'sub_frame',
+    'other': 'other'
+};
+
+HTTPSB.PresetManager.prototype.parseRule = function(entry) {
+    var pos = entry.indexOf(' ');
+    if ( pos < 0 )  {
+        return null;
+    }
+    var type = this.typeMapper[entry.slice(0, pos).trim()];
+    if ( !type ) {
+        return null;
+    }
+    var hostname = entry.slice(pos).trim();
+    if ( hostname === '' ) {
+        return null;
+    }
+    return type + '|' + hostname;
+};
+
+/******************************************************************************/
+
 HTTPSB.PresetManager.prototype.parseEntry = function(entry) {
-    var typeMapper = {
-        '*': '*',
-        'cookie': 'cookie',
-        'img': 'image',
-        'image': 'image',
-        'css': 'stylesheet',
-        'stylesheet': 'stylesheet',
-        'plugin': 'object',
-        'object': 'object',
-        'script': 'script',
-        'xhr': 'xmlhttprequest',
-        'xmlhttprequest': 'xmlhttprequest',
-        'frame': 'sub_frame',
-        'sub_frame': 'sub_frame',
-        'other': 'other'
-    };
     var p = new HTTPSB.PresetRecipe(this.idGenerator);
     var lines = entry.split('\n');
-    var n = lines.length;
-    var context = '';
-    var line, pos, fname, fvalue, type, hostname;
-    for ( var i = 0; i < n; i++ ) {
-        line = lines[i];
+    var line, pos;
+    var fkey, fvalue;
+    var contextStack = [], context, level;
+    var scopeKey = '';
+    var ruleKey;
+    var i = 0;
+    while ( line = lines[i++] ) {
         // Remove comment
         pos = line.indexOf('#');
         if ( pos >= 0 ) {
             line = line.slice(0, pos);
         }
-        // Split in name & value fields
+
+        // Split into name & value fields, ignore indent
         pos = line.indexOf(':');
         if ( pos < 0 ) {
-            fname = line.trim();
-            fvalue = '';
+            fkey = '';
+            fvalue = line.trim();
         } else {
-            fname = line.slice(0, pos).trim();
+            fkey = line.slice(0, pos).trim();
             fvalue = line.slice(pos + 1).trim();
+            if ( fvalue === '|' ) {
+                fvalue = '';
+            }
         }
-        if ( fname === 'name' ) {
+        fvalue = fvalue.replace(/^(["']?)(.*)\1$/, '$2');
+
+        // Skip empty lines
+        if ( fkey === '' && fvalue === '' ) {
+            continue;
+        }
+
+        // Ensure stack matches indentation
+        level = 0;
+        while ( line.indexOf('    ') === 0 ) {
+            line = line.slice(4);
+            level++;
+        }
+        contextStack = contextStack.slice(0, level);
+        context = contextStack.join('/');
+
+        switch ( context ) {
+        case 'preset/scope':
+            if ( fkey === 'whitelist' ) {
+                contextStack.push(fkey);
+            }
+            break;
+        case 'preset':
+            if ( fkey === 'facode' || fkey === 'keys' || fkey === 'scope' || fkey === 'whitelist' ) {
+                contextStack.push(fkey);
+            }
+            break;
+        case '':
+            if ( fkey !== '' ) {
+                contextStack.push('preset');
+                fvalue = fkey;
+            }
+            break;
+        }
+        context = contextStack.join('/');
+
+        switch ( context ) {
+        case '':
+            break;
+        case 'preset':
             p.name = fvalue;
-            context = '';
-            continue;
-        }
-        if ( fname === 'facode' ) {
-            p.facode = parseInt(fvalue, 16);
-            context = '';
-            continue;
-        }
-        if ( fname === 'keys' ) {
-            context = 'keys';
-            continue;
-        }
-        if ( fname === 'whitelist' ) {
-            context = 'whitelist';
-            continue;
-        }
-        if ( context === 'keys' ) {
-            p.keys[fname.toLowerCase()] = true;
-            continue;
-        }
-        if ( context === 'whitelist' ) {
-            fname = fname.toLowerCase();
-            pos = fname.indexOf(' ');
-            // Ignore invalid rules
-            if ( pos < 0 )  {
-                continue;
+            break;
+        case 'preset/facode':
+            p.facode = fvalue;
+            break;
+        case 'preset/keys':
+            if ( fvalue !== '' ) {
+                p.keys[fvalue] = true;
             }
-            type = typeMapper[fname.slice(0, pos).trim()];
-            hostname = fname.slice(pos).trim();
-            // Ignore invalid rules
-            if ( type === '' || hostname === '' ) {
-                continue;
+            break;
+        case 'preset/scope':
+            scopeKey = fvalue;
+            break;
+        case 'preset/whitelist':
+            ruleKey = this.parseRule(fvalue);
+            if ( ruleKey ) {
+                p.whitelist[ruleKey] = true;
             }
-            p.whitelist[type + '|' + hostname] = true;
-            continue;
+            break;
+        case 'preset/scope/whitelist':
+            ruleKey = this.parseRule(fvalue);
+            if ( ruleKey ) {
+                if ( p.scopes[scopeKey] === undefined ) {
+                    p.scopes[scopeKey] = { whitelist: {} };
+                }
+                p.scopes[scopeKey].whitelist[ruleKey] = true;
+            }
+            break;
+        default:
+            throw new Error('HTTP Switchboard> HTTPSB.PresetManager.parseEntry(): Bad preset entry.');
         }
-        context = '';
     }
 
-    if ( p.name === '' ||
-         Object.keys(p.keys).length === 0 ||
-         Object.keys(p.whitelist).length === 0 ) {
+    if ( p.name === '' || Object.keys(p.keys).length === 0 ) {
         return null;
     }
 
@@ -254,31 +329,55 @@ HTTPSB.PresetManager.prototype.parseEntry = function(entry) {
 /******************************************************************************/
 
 HTTPSB.loadPresets = function() {
-    var content, entries, i, preset;
+    var content;
+    var entryBeg, entryEnd;
+    var preset;
 
     var presetManager = new this.PresetManager();
     this.presetManager = presetManager;
 
-    content = readLocalTextFile('assets/httpsb/preset-recipes-1st.txt');
-    entries = content.split(/\n\s*\n/);
-    i = entries.length;
-    while ( i-- ) {
-        preset = presetManager.parseEntry(entries[i], true);
-        if ( !preset ) {
-            continue;
+    content = readLocalTextFile('assets/httpsb/preset-recipes-1st.yaml')
+        // Remove comments
+        .replace(/(^|\s)#[^\n]*/g, '$1')
+        // Remove empty lines
+        .replace(/(^|\n)\s*\n/g, '$1');
+    entryBeg = entryEnd = 0;
+    while ( content.charAt(entryEnd) !== '' ) {
+        entryEnd = content.indexOf('\n', entryEnd);
+        if ( entryEnd >= 0 ) {
+            entryEnd += 1;
+        } else {
+            entryEnd = content.length;
         }
-        presetManager.rememberFirstParty(preset);
+        if ( content.charAt(entryEnd) !== ' ' ) {
+            preset = presetManager.parseEntry(content.slice(entryBeg, entryEnd, true));
+            if ( preset ) {
+                presetManager.rememberFirstParty(preset);
+            }
+            entryBeg = entryEnd;
+        }
     }
 
-    content = readLocalTextFile('assets/httpsb/preset-recipes-3rd.txt');
-    entries = content.split(/\n\s*\n/);
-    i = entries.length;
-    while ( i-- ) {
-        preset = presetManager.parseEntry(entries[i], false);
-        if ( !preset ) {
-            continue;
+    content = readLocalTextFile('assets/httpsb/preset-recipes-3rd.yaml')
+        // Remove comments
+        .replace(/(^|\s)#[^\n]*/g, '$1')
+        // Remove empty lines
+        .replace(/(^|\n)\s*\n/g, '$1');
+    entryBeg = entryEnd = 0;
+    while ( content.charAt(entryEnd) !== '' ) {
+        entryEnd = content.indexOf('\n', entryEnd);
+        if ( entryEnd >= 0 ) {
+            entryEnd += 1;
+        } else {
+            entryEnd = content.length;
         }
-        presetManager.rememberThirdParty(preset);
+        if ( content.charAt(entryEnd) !== ' ' ) {
+            preset = presetManager.parseEntry(content.slice(entryBeg, entryEnd, true));
+            if ( preset ) {
+                presetManager.rememberThirdParty(preset);
+            }
+            entryBeg = entryEnd;
+        }
     }
 };
 
