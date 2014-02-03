@@ -1,7 +1,13 @@
 ################################################################################
 #
-# Syntax/layout is *extremely* strict (though YAML-compatible so it
-# displays nice with a YAML syntax highlighter.
+# file: preset-recipes-1st.yaml
+#
+# Syntax/layout is *extremely* strict:
+# - YAML-compatible so it displays nice with a YAML syntax highlighter.
+# - The parser is NOT YAML-compatible though, it is very dumb, so as to
+#   minimize code base for just loading these recipes.
+# - One tab = 4 spaces.
+# - Use existing recipes as models of what is a correctly formatted recipe.
 #
 # If any preset recipe does not work properly, please fix and ask
 # for a pull request on Github:
@@ -10,15 +16,27 @@
 # Help this GPL project get better: contributions of preset recipes
 # are welcome.
 #
-# TODO: Need to support some mechanism for optimal auto-scoping. For some
-# sites it is better to apply rules in a domain-level scope, while in others
-# it is better to use a site-level scope.
+# General rules for 1st-party recipes:
+# - Preset recipe name MUST be unique.
+# - Favor rules which apply to whole hostname/domain, rather than very narrow
+#   type/hostname.
+#   - This is the opposite of 3rd-party preset recipes.
+# - If no scope declared, assume these existing rules:
+#   - css/* whitelisted
+#   - image/* whitelisted
+#   - frame/* blacklisted
+# - Therefore if a web site requires frame, whitelist frame/hostname for that
+#   web site.
+# - NEVER use type/* for unscoped 1st-party rules (I might end up enforcing
+#   that in code).
+# - If a scope is declared, assume nothing is whitelisted or blacklisted
+#   (blank slate, i.e. all cells are graylisted).
 #
 ################################################################################
 
 ################################################################################
 #
-# As 1st-party
+# 1st-party recipes
 #
 ################################################################################
 
@@ -42,16 +60,19 @@ CNN:
 
 Fox News:
     keys: www.foxnews.com
-    whitelist: |
-        * foxnews.com
-        * fncstatic.com
-        # Necessary for legitimate images to show
-        script ads.foxnews.com
-        # Video
-        frame video.foxnews.com
-        * foxnews-f.akamaihd.net
-        * foxnewsplayer-a.akamaihd.net
-        plugin players.edgesuite.net
+    scope: '*.foxnews.com'
+        whitelist: |
+            css *
+            image *
+            * foxnews.com
+            * fncstatic.com
+            # Necessary for legitimate images to show
+            script ads.foxnews.com
+            # Video
+            frame video.foxnews.com
+            * foxnews-f.akamaihd.net
+            * foxnewsplayer-a.akamaihd.net
+            plugin players.edgesuite.net
 
 Facebook:
     facode: f09a

@@ -1,7 +1,13 @@
 ################################################################################
 #
-# Syntax/layout is *extremely* strict (though YAML-compatible so it
-# displays nice with a YAML syntax highlighter.
+# file: preset-recipes-3rd.yaml
+#
+# Syntax/layout is *extremely* strict:
+# - YAML-compatible so it displays nice with a YAML syntax highlighter.
+# - The parser is NOT YAML-compatible though, it is very dumb, so as to
+#   minimize code base for just loading these recipes.
+# - One tab = 4 spaces.
+# - Use existing recipes as models of what is a correctly formatted recipe.
 #
 # If any preset recipe does not work properly, please fix and ask
 # for a pull request on Github:
@@ -9,6 +15,21 @@
 #
 # Help this GPL project get better: contributions of preset recipes
 # are welcome.
+#
+# General rules for 3rd-party recipes:
+# - Preset recipe name MUST be unique.
+# - Reasonably favor rules which apply narrowly, i.e. type/hostname.
+#   "Reasonably" means it's ok to use type/domain if there are too many
+#   subdomains for which the type must be allowed.
+# - NEVER use type/* for 3rd-party rules (I might end up enforcing that in
+#   code).
+# - Do not use the scope directive, it is intended for 1st-party rules.
+# - Assume existing rules are:
+#   - css/* whitelisted
+#   - image/* whitelisted
+#   - frame/* blacklisted
+# - Therefore if a web site requires frame, whitelist frame/hostname for that
+#   web site.
 #
 ################################################################################
 
