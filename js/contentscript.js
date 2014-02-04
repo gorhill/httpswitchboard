@@ -65,6 +65,10 @@ var nodesAddedHandler = function(nodeList, summary) {
     var i = 0;
     var node, src, text;
     while ( node = nodeList.item(i++) ) {
+        if ( !node.tagName ) {
+            continue;
+        }
+
         switch ( node.tagName.toUpperCase() ) {
 
         case 'SCRIPT':
@@ -120,7 +124,7 @@ var mutationObservedHandler = function(mutations) {
     var mutation;
     while ( iMutation-- ) {
         mutation = mutations[iMutation];
-        if ( !mutation.addedNodes ) {
+        if ( !mutation.addedNodes || !mutation.addedNodes.length ) {
             // TODO: attr changes also must be dealth with, but then, how
             // likely is it...
             continue;
