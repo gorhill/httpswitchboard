@@ -65,7 +65,7 @@ var nodesAddedHandler = function(nodeList, summary) {
     var i = 0;
     var node, src, text;
     while ( node = nodeList.item(i++) ) {
-        switch ( node.tagName ) {
+        switch ( node.tagName.toUpperCase() ) {
 
         case 'SCRIPT':
             text = node.textContent.trim();
