@@ -201,3 +201,17 @@ function onInstalledHandler(details) {
 
 chrome.runtime.onInstalled.addListener(onInstalledHandler);
 
+/*----------------------------------------------------------------------------*/
+
+chrome.commands.onCommand.addListener( function( command ) {
+   var extensionURL;
+   switch ( command ) {
+   case 'open-httpsb-stats': extensionURL = 'info.html'; break;
+   case 'open-httpsb-rules': extensionURL = 'rulemanager.html'; break;
+   case 'open-httpsb-settings': extensionURL = 'settings.html'; break;
+   }
+   if ( extensionURL ) {
+      chrome.runtime.sendMessage( { what: 'gotoExtensionURL',
+                                     url: extensionURL } );
+   }
+});
