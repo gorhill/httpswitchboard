@@ -41,7 +41,8 @@ var HTTPSB = {
         maxLoggedRequests: 50,
         statsFilters: {},
         clearBrowserCache: true,
-        clearBrowserCacheAfter: 60
+        clearBrowserCacheAfter: 60,
+        startStatsPageInCommandLineMode: false
     },
 
     runtimeId: 1,
@@ -142,4 +143,3 @@ var HTTPSB = {
 };
 
 /******************************************************************************/
-

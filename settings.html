@@ -69,7 +69,7 @@ ul > li {
     <h2 data-i18n="settingsMatrixHeader"></h2>
     <ul>
         <li><h3 data-i18n="settingsMatrixDisplayHeader"></h3>
-        <ul>        
+        <ul>
             <li><span data-i18n="settingsMatrixDisplayTextSizePrompt"></span>
             <ul style="list-style:none">
             <li><input type="radio" name="displayTextSize" value="13px"><span data-i18n="settingsMatrixDisplayTextSizeNormal"></span>
@@ -143,9 +143,18 @@ ul > li {
     <ul>
         <li>Remember the last <input id="max-logged-requests" type="text" value="250" size="3"> HTTP requests per page.<button class="whatisthis"></button>
         <div class="expandable" data-i18n="settingsLogSizeHelp">
-        
+
         </div>
     </ul>
+
+    <h2 data-i18n="settingsStartStatsInCommandlineModeHeader"></h2>
+    <ul>
+      <li>
+        <input id="start-commandline" type="checkbox" value=""><span data-i18n="settingsStartCommandlinePrompt"></span> <button class="whatisthis"></button>
+        <div class="expandable" data-i18n="settingsStartStatsInCommandlineModeHelp"></div>
+      </li>
+    </ul>
+
     <p style="border-top:1px solid #ccc;padding-top:1em;">
     <button id="bye" data-i18n="settingsDoneButton"></button>
     </p>

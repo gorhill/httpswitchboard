@@ -22,7 +22,7 @@ select {
 #requests {
     font-size: 12px;
     }
-#requests > div {
+#requests > div:nth-of-type(2) {
     margin: 0;
     border: 1px inset #eee;
     padding: 2px;
@@ -40,7 +40,7 @@ select {
     color: #070;
     }
 #requests tr:hover {
-    background-color: #eee;
+    background-color: #eee; /*#ffe300;*/
     }
 #requests tr.blocked-true {
     color: #c00;
@@ -49,17 +49,53 @@ select {
     padding: 1px 1em 1px 0;
     white-space: nowrap;
     }
-#requests tr > td:nth-of-type(2) {
+#requests tr > td:nth-of-type(2), #requests tr > td:nth-of-type(3) {
     text-align: right;
     }
 .type-main_frame {
     font-weight: bold;
     }
+#inputCommand {
+    border: 1px inset #eee;
+    padding: 1px 3px;
+    flex: 1;
+    overflow: hidden;
+}
+#pageURL {
+    padding: 2px 4px;
+    flex: 1;
+    font: 11px monospace;
+    overflow: hidden;
+    background-color: #789;
+    color: #fff;
+}
+.highlight {
+    background-color: #ffffb3;
+}
+.justDetails {
+    position: absolute;
+    top: 100px;
+    left: 4px;
+    right: 4px;
+    background-color: #fff;
+    z-index: 10;
+}
+.fixedPos {
+    position: fixed;
+    top: 0px;
+    left: 4px;
+    right: 4px;
+    z-index: 20;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+    box-shadow: 0px 1px 2px #eee;
+}
 </style>
 <link href='css/fonts.css' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
+<div id="all-stats">
 <h1 data-i18n="statsPageTitle"></h1>
 <div>
 <ul>
@@ -136,36 +172,48 @@ select {
 
 </div>
 </div>
-
+</div> <!-- end of geek stats -->
+</div> <!-- end of 'allStats' -->
 
 <h3 data-i18n="statsPageDetailed"></h3>
-<div id="requests">
+<div id="details">
     <p style="font-size:small">You can change the maximum number of most recent HTTP requests to log (currently set at <span id="maxLoggedRequests"></span> per page) on the <a href="settings.html">Settings</a> page.</p>
     <p><button id="refresh-requests" data-i18n="statsPageRefresh"></button></p>
-    <p>
-    Show: <input id="show-main_frame" type="checkbox" checked value="1">Pages&emsp;
-          <input id="show-blocked" type="checkbox" checked value="1"><span style="color:#c00" data-i18n="statsPageBlocked">Blocked</span>&emsp;
-          <input id="show-allowed" type="checkbox" checked value="1"><span style="color:#070" data-i18n="statsPageAllowed">Allowed</span>&emsp;
-          <input id="show-cookie" type="checkbox" checked value="1">Cookies&emsp;
-          <input id="show-image" type="checkbox" checked value="1">Images&emsp;
-          <input id="show-stylesheet" type="checkbox" checked value="1">CSS&emsp;
-          <input id="show-object" type="checkbox" checked value="1">Objects&emsp;
-          <input id="show-script" type="checkbox" checked value="1">Scripts&emsp;
-          <input id="show-xmlhttprequest" type="checkbox" checked value="1">XHRs&emsp;
-          <input id="show-sub_frame" type="checkbox" checked value="1">Frames&emsp;
-          <input id="show-other" type="checkbox" checked value="1">Others&emsp;
+
+    <div id='requests'>
+    <div id='commandline'>
+    <p style="font-size:small;margin: 0px;">
+    <p style="margin: 0px; font-weight: bold;">Command-line</p>
+    <p style="overflow: hidden; display: flex; margin: 0px;"><input id="inputCommand" /></p>
     </p>
+    <p>
+    Show: <input id="show-main_frame" type="checkbox" checked value="1"><u>P</u>ages&emsp;
+          <input id="show-blocked" type="checkbox" checked value="1"><span style="color:#c00" data-i18n="statsPageBlocked"><u>B</u>locked</span>&emsp;
+          <input id="show-allowed" type="checkbox" checked value="1"><span style="color:#070" data-i18n="statsPageAllowed"><u>A</u>llowed</span>&emsp;
+          <input id="show-cookie" type="checkbox" checked value="1">Coo<u>k</u>ies&emsp;
+          <input id="show-image" type="checkbox" checked value="1"><u>I</u>mages&emsp;
+          <input id="show-stylesheet" type="checkbox" checked value="1"><u>C</u>SS&emsp;
+          <input id="show-object" type="checkbox" checked value="1"><u>O</u>bjects&emsp;
+          <input id="show-script" type="checkbox" checked value="1"><u>S</u>cripts&emsp;
+          <input id="show-xmlhttprequest" type="checkbox" checked value="1"><u>X</u>HRs&emsp;
+          <input id="show-sub_frame" type="checkbox" checked value="1"><u>F</u>rames&emsp;
+          <input id="show-other" type="checkbox" checked value="1">O<u>t</u>hers&emsp;
+    </p>
+    <p style="overflow: hidden; display: flex; margin: 0px;"><span id="pageURL"></span></p>
+    </div> <!-- id='commandline' -->
+
     <div style="overflow-y:hidden">
     <table id="requestsTable">
     <tr id="requestRowTemplate"><td>...<td><td><a href="" style="display:none">&lt;a&gt;</a><td></tr>
     </table>
     </div>
-</div>
+    </div> <!-- end of 'requests' -->
 
-</div> <!-- end of geek stats -->
+</div> <!-- end of 'details' -->
 
 <script src="lib/jquery-2.min.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/info.js"></script>
+<script src="js/cmd.js"></script>
 </body>
 </html>
