@@ -178,11 +178,10 @@ function navigateHighlightedRows( increment ) {
 
 function toggleCommandlineMode() {
    window.scrollTo( 0, 0 );
-   $('#requestsTable').parent().scrollLeft(0);
+   $('#requestsTable').parent().scrollLeft( 0 );
    $('#requests').toggleClass( 'justDetails' );
    $('#all-stats').toggle();
-   var cmdLine = $('#commandline')
-   cmdLine.toggleClass( 'fixedPos' );
+   $('#commandline').toggleClass( 'fixedPos' );
 }
 
 function goToLinkNumber( num ) {
@@ -217,7 +216,6 @@ function doRefresh() {
 
 function reloadAllTabs() {
    chrome.tabs.getAllInWindow( function ( tabs ) {
-      console.info( tabs );
       var i = tabs.length;
       while( i-- ) {
          var tab = tabs[i];
