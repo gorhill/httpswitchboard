@@ -626,7 +626,7 @@ function handleBlacklistFilter(button) {
 
 function updateButtonPersistLockIcon() {
     var matrixhasTemporary = document.querySelector('.matRow.rw .matCell.gdt:not(.gdp), .matRow.rw .matCell.rdt:not(.rdp)');
-    var matrixhasPermanentChange = document.querySelector('.matRow.rw .matCell.gpt.gdp, .matRow.rw .matCell.rpt.rdp');  
+    var matrixhasPermanentChange = document.querySelector('.matRow.rw .matCell.rpt.gdp, .matRow.rw .matCell.rdt.gdp, .matRow.rw .matCell.rpt.rdp');  
     if ( matrixhasTemporary || matrixhasPermanentChange ) {     
         var tooltipMessage = 'Click to make rules permanent';
         // Change icon to partially unlocked (fa-unlock-alt)
