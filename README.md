@@ -65,7 +65,7 @@ Your choice.
 
 HTTP Switchboard is the fruit of a personal project, there no company of any kind involved, therefore no agenda other than giving users the tools to be in complete control of their browser (I appreciate the thought, but I do not want donation, now or in the future.)
 
-This is pre-version 1.0, more work is intended. Pull requests are welcomed.
+This is pre-version 1.0, more work is intended.
 
 You are very welcomed to contribute your views on open issues and suggestions, various arguments for/against help me in deciding what is needed to improve the extension.
 
