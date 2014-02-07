@@ -341,6 +341,18 @@
         "description": "Close the Settings page"
     },
 
+    "settingsStartStatsInCommandlineModeHeader": {
+        "message": "TODO",
+        "description": "header of Statitics section"
+    },
+    "settingsStartCommandlinePrompt": {
+        "message": "TODO",
+        "description": "..."
+    },
+    "settingsStartStatsInCommandlineModeHelp": {
+        "message": "TODO",
+        "description": "..."
+    },
 
     "dummy": {
         "message": "This entry must be the last one",

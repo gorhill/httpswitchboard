@@ -189,6 +189,7 @@ function initAll() {
     $('#clear-browser-cache-after').val(userSettings.clearBrowserCacheAfter);
     $('#process-referer').attr('checked', userSettings.processReferer);
     $('#max-logged-requests').val(userSettings.maxLoggedRequests);
+    $('#start-commandline').attr('checked', userSettings.startStatsPageInCommandLineMode === true);
 
     // Handle user interaction
 
@@ -229,6 +230,9 @@ function initAll() {
     });
     $('#max-logged-requests').on('change', function(){
         onChangeValueHandler($(this), 'maxLoggedRequests', 0, 999);
+    });
+    $('#start-commandline').on('change', function(){
+        changeUserSettings('startStatsPageInCommandLineMode', $(this).is(':checked'));
     });
 
     $('.whatisthis').on('click', function() {

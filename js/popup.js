@@ -615,6 +615,7 @@ function handleFilter(button, leaning) {
     updateMatrixStats();
     updateMatrixColors();
     updateMatrixBehavior();
+    updateButtonPersistLockIcon();   
 }
 
 function handleWhitelistFilter(button) {
@@ -623,6 +624,20 @@ function handleWhitelistFilter(button) {
 
 function handleBlacklistFilter(button) {
     handleFilter(button, 'blacklisting');
+}
+
+function updateButtonPersistLockIcon() {
+    var matrixhasTemporary = document.querySelector('.matRow.rw .matCell.gdt:not(.gdp), .matRow.rw .matCell.rdt:not(.rdp)');
+    var matrixhasPermanentChange = document.querySelector('.matRow.rw .matCell.rpt.gdp, .matRow.rw .matCell.rdt.gdp, .matRow.rw .matCell.rpt.rdp');  
+    if ( matrixhasTemporary || matrixhasPermanentChange ) {     
+        var tooltipMessage = 'Click to make rules permanent';
+        // Change icon to partially unlocked (fa-unlock-alt)
+        $('#buttonPersist').html( '<span style="text-shadow: 0px 0px 12px #ff0;" title="' + tooltipMessage + '">&#xf13e;</span>' ); 
+
+    } else {
+        // Change icon to locked (fa-lock)
+        $('#buttonPersist').html( '&#xf023;' );
+    }
 }
 
 /******************************************************************************/
@@ -686,6 +701,7 @@ function persistScope() {
     updateScopeCell();
     updateMatrixColors();
     updateMatrixBehavior();
+    updateButtonPersistLockIcon();
 }
 
 /******************************************************************************/
@@ -698,6 +714,7 @@ function revertScope() {
     updateMatrixStats();
     updateMatrixColors();
     updateMatrixBehavior();
+    updateButtonPersistLockIcon();
 }
 
 function revertAll() {
@@ -706,6 +723,7 @@ function revertAll() {
     updateMatrixStats();
     updateMatrixColors();
     updateMatrixBehavior();
+    updateButtonPersistLockIcon();
 }
 
 /******************************************************************************/
@@ -1116,6 +1134,7 @@ function makeMenu() {
     updateMatrixBehavior();
 
     HTTPSBPopup.matrixList.appendTo($('.paneContent'));
+    updateButtonPersistLockIcon();
 }
 
 /******************************************************************************/
@@ -1150,6 +1169,7 @@ function createGlobalScope() {
     updateScopeCell();
     updateMatrixColors();
     updateMatrixBehavior();
+    updateButtonPersistLockIcon();
     dropDownMenuHide();
 }
 
@@ -1160,6 +1180,7 @@ function createDomainScope() {
     updateScopeCell();
     updateMatrixColors();
     updateMatrixBehavior();
+    updateButtonPersistLockIcon();
     dropDownMenuHide();
 }
 
@@ -1170,6 +1191,7 @@ function createSiteScope() {
     updateScopeCell();
     updateMatrixColors();
     updateMatrixBehavior();
+    updateButtonPersistLockIcon();
     dropDownMenuHide();
 }
 
@@ -1285,6 +1307,7 @@ function presetEntryHandler() {
     updateMatrixStats();
     updateMatrixColors();
     updateMatrixBehavior();
+    updateButtonPersistLockIcon();
 }
 
 /******************************************************************************/

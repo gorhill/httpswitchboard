@@ -45,5 +45,25 @@
     "web_accessible_resources": [
         "css/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf",
         "css/noop.css"
-    ]
+    ],
+    "commands": {
+       "open-httpsb-stats": {
+         "suggested_key": {
+           "default": "Alt+S"
+         },
+         "description": "Open HTTP Switchboard Stats page"
+       },
+       "open-httpsb-rules": {
+         "suggested_key": {
+           "default": "Alt+R"
+         },
+         "description": "Open HTTP Switchboard Rule Manager"
+       },
+       "open-httpsb-settings": {
+         "suggested_key": {
+           "default": "Ctrl+Shift+S"
+         },
+         "description": "Open HTTP Switchboard Settings"
+       }
+    }
 }
