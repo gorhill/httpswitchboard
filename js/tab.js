@@ -446,7 +446,7 @@ function garbageCollectStalePageStatsWithNoTabsCallback(tabs) {
         if ( pageUrl === httpsb.behindTheSceneURL ) {
             continue;
         }
-        tabId = tabIdFromPageUrl(pageUrl);
+        tabId = httpsb.tabIdFromPageUrl(pageUrl);
         pageStats = httpsb.pageStats[pageUrl];
         if ( !visibleTabs[tabId] && !pageStats.visible ) {
             cookieHunter.removePageCookiesAsync(pageStats);
@@ -456,7 +456,7 @@ function garbageCollectStalePageStatsWithNoTabsCallback(tabs) {
         }
         pageStats.visible = !!visibleTabs[tabId];
         if ( !pageStats.visible ) {
-            unbindTabFromPageStats(tabId);
+            httpsb.unbindTabFromPageStats(tabId);
         }
     }
 }
@@ -493,96 +493,80 @@ asyncJobQueue.add('gcPageStats', null, garbageCollectStalePageStatsCallback, 10 
 
 /******************************************************************************/
 
-// Check if a page url stats store exists
-
-function pageStatsExists(pageUrl) {
-    return !!pageStatsFromPageUrl(pageUrl);
-}
-
-/******************************************************************************/
-
 // Create a new page url stats store (if not already present)
 
-function createPageStats(pageUrl) {
+HTTPSB.createPageStats = function(pageUrl) {
     // do not create stats store for urls which are of no interest
     if ( pageUrl.search(/^https?:\/\//) !== 0 ) {
         return undefined;
     }
-    var httpsb = HTTPSB;
-    var pageStats = httpsb.pageStats[pageUrl];
+    var pageStats = this.pageStats[pageUrl];
     if ( !pageStats ) {
         pageStats = PageStatsEntry.factory(pageUrl);
         // These counters are used so that icon presents an overview of how
         // much allowed/blocked.
         pageStats.perLoadAllowedRequestCount =
         pageStats.perLoadBlockedRequestCount = 0;
-        httpsb.pageStats[pageUrl] = pageStats;
+        this.pageStats[pageUrl] = pageStats;
     } else if ( pageStats.pageUrl !== pageUrl ) {
         pageStats.init(pageUrl);
     }
 
     return pageStats;
-}
+};
 
 /******************************************************************************/
 
 // Create an entry for the tab if it doesn't exist
 
-function bindTabToPageStats(tabId, pageURL) {
-    var pageStats = createPageStats(pageURL);
-    if ( !pageStats ) {
-        return undefined;
-    }
+HTTPSB.bindTabToPageStats = function(tabId, pageURL) {
+    var pageStats = this.createPageStats(pageURL);
 
-    // console.debug('bindTabToPageStats > dispatching traffic in tab id %d to url stats store "%s"', tabId, pageUrl);
+    // console.debug('HTTP Switchboard> HTTPSB.bindTabToPageStats(): dispatching traffic in tab id %d to url stats store "%s"', tabId, pageUrl);
+
     // rhill 2013-11-24: Never ever rebind chromium-behind-the-scene
     // virtual tab.
     // https://github.com/gorhill/httpswitchboard/issues/67
-    if ( tabId !== HTTPSB.behindTheSceneTabId ) {
-        unbindTabFromPageStats(tabId);
-        HTTPSB.pageUrlToTabId[pageURL] = tabId;
-        HTTPSB.tabIdToPageUrl[tabId] = pageURL;
+    if ( tabId !== this.behindTheSceneTabId ) {
+        this.unbindTabFromPageStats(tabId);
+
+        // rhill 2014-02-08: Do not create an entry if no page store
+        // exists (like when visiting about:blank)
+        // https://github.com/gorhill/httpswitchboard/issues/186
+        if ( pageStats ) {
+            this.pageUrlToTabId[pageURL] = tabId;
+            this.tabIdToPageUrl[tabId] = pageURL;
+        }
     }
 
     return pageStats;
-}
+};
 
-function unbindTabFromPageStats(tabId) {
-    var httpsb = HTTPSB;
-    var pageUrl = httpsb.tabIdToPageUrl[tabId];
+HTTPSB.unbindTabFromPageStats = function(tabId) {
+    var pageUrl = this.tabIdToPageUrl[tabId];
     if ( pageUrl ) {
-        delete httpsb.pageUrlToTabId[pageUrl];
+        delete this.pageUrlToTabId[pageUrl];
     }
-    delete httpsb.tabIdToPageUrl[tabId];
-}
-
-/******************************************************************************/
-
-function urlFromReqKey(reqKey) {
-    return reqKey.slice(0, reqKey.indexOf('#'));
-}
-
-function typeFromReqKey(reqKey) {
-    return reqKey.slice(reqKey.indexOf('#') + 1);
-}
+    delete this.tabIdToPageUrl[tabId];
+};
 
 /******************************************************************************/
 
 // Log a request
 
-function recordFromTabId(tabId, type, url, blocked) {
-    var pageStats = pageStatsFromTabId(tabId);
+HTTPSB.recordFromTabId = function(tabId, type, url, blocked) {
+    var pageStats = this.pageStatsFromTabId(tabId);
     if ( pageStats ) {
         pageStats.recordRequest(type, url, blocked);
     }
-}
+};
 
-function recordFromPageUrl(pageUrl, type, url, blocked) {
-    var pageStats = pageStatsFromPageUrl(pageUrl);
+HTTPSB.recordFromPageUrl = function(pageUrl, type, url, blocked) {
+    var pageStats = this.pageStatsFromPageUrl(pageUrl);
     if ( pageStats ) {
         pageStats.recordRequest(type, url, blocked);
     }
-}
+};
 
 /******************************************************************************/
 
@@ -590,12 +574,13 @@ function recordFromPageUrl(pageUrl, type, url, blocked) {
 // rhill 2013-10-23: revised to avoid closures.
 
 function smartReloadExistingTabsCallback(chromeTabs) {
+    var httpsb = HTTPSB;
     var tabId;
     var i = chromeTabs.length;
     while ( i-- ) {
         tabId = chromeTabs[i].id;
-        if ( tabExists(tabId) ) {
-            smartReloadTab(tabId);
+        if ( httpsb.tabExists(tabId) ) {
+            httpsb.smartReloadTab(tabId);
         }
     }
 }
@@ -612,10 +597,10 @@ function smartReloadTabs() {
 
 // Reload content of a tab
 
-function smartReloadTab(tabId) {
-    var pageStats = pageStatsFromTabId(tabId);
+HTTPSB.smartReloadTab = function(tabId) {
+    var pageStats = this.pageStatsFromTabId(tabId);
     if ( !pageStats || pageStats.ignore ) {
-        //console.error('HTTP Switchboard > smartReloadTab > page stats for tab id %d not found', tabId);
+        //console.error('HTTP Switchboard> HTTPSB.smartReloadTab(): page stats for tab id %d not found', tabId);
         return;
     }
 
@@ -623,7 +608,7 @@ function smartReloadTab(tabId) {
     // unblocked.
     var blockRule;
     var oldState = pageStats.state;
-    var newState = computeTabState(tabId);
+    var newState = this.computeTabState(tabId);
     var mustReload = false;
     for ( blockRule in oldState ) {
         if ( !oldState.hasOwnProperty(blockRule) ) {
@@ -632,7 +617,7 @@ function smartReloadTab(tabId) {
         // General rule, reload...
         // If something previously blocked is no longer blocked.
         if ( !newState[blockRule] ) {
-            // console.debug('smartReloadTab() > will reload because "%s" is no longer blocked', blockRule);
+            // console.debug('HTTP Switchboard> HTTPSB.smartReloadTab(): will reload because "%s" is no longer blocked', blockRule);
             mustReload = true;
             break;
         }
@@ -655,7 +640,7 @@ function smartReloadTab(tabId) {
                 continue;
             }
             if ( !oldState[blockRule] ) {
-                // console.debug('smartReloadTab() > will reload because "%s" is now blocked', blockRule);
+                // console.debug('HTTP Switchboard> HTTPSB.smartReloadTab(): will reload because "%s" is now blocked', blockRule);
                 mustReload = true;
                 break;
             }
@@ -666,7 +651,7 @@ function smartReloadTab(tabId) {
         chrome.tabs.reload(tabId);
     }
     // pageStats.state = newState;
-}
+};
 
 /******************************************************************************/
 
@@ -676,23 +661,22 @@ function smartReloadTab(tabId) {
 //      `chrome-devtools://devtools/devtools.html`
 //      etc.
 
-function tabExists(tabId) {
-    return !!pageUrlFromTabId(tabId);
-}
+HTTPSB.tabExists = function(tabId) {
+    return !!this.pageUrlFromTabId(tabId);
+};
 
 /******************************************************************************/
 
-function computeTabState(tabId) {
-    var pageStats = pageStatsFromTabId(tabId);
+HTTPSB.computeTabState = function(tabId) {
+    var pageStats = this.pageStatsFromTabId(tabId);
     if ( !pageStats ) {
-        //console.error('HTTP Switchboard > computeTabState > page stats for tab id %d not found', tabId);
+        //console.error('HTTP Switchboard> HTTPSB.computeTabState(): page stats for tab id %d not found', tabId);
         return {};
     }
     // Go through all recorded requests, apply filters to create state
     // It is a critical error for a tab to not be defined here
-    var httpsb = HTTPSB;
     var pageURL = pageStats.pageUrl;
-    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(pageURL);
+    var scopeKey = this.temporaryScopeKeyFromPageURL(pageURL);
     var requestDict = pageStats.requests.getRequestDict();
     var computedState = {};
     var hostname, type;
@@ -709,52 +693,52 @@ function computeTabState(tabId) {
         // `stylesheet` or `other`? Depends of domain of request.
         // https://github.com/gorhill/httpswitchboard/issues/85
         type = PageStatsRequests.typeFromRequestKey(reqKey);
-        if ( httpsb.blacklistedFromScopeKey(scopeKey, type, hostname) ) {
+        if ( this.blacklistedFromScopeKey(scopeKey, type, hostname) ) {
             computedState[type +  '|' + hostname] = true;
         }
     }
     return computedState;
-}
+};
 
 /******************************************************************************/
 
-function tabIdFromPageUrl(pageUrl) {
-    return HTTPSB.pageUrlToTabId[pageUrl];
-}
+HTTPSB.tabIdFromPageUrl = function(pageUrl) {
+    return this.pageUrlToTabId[pageUrl];
+};
 
-function tabIdFromPageStats(pageStats) {
-    return tabIdFromPageUrl(pageStats.pageUrl);
-}
+HTTPSB.tabIdFromPageStats = function(pageStats) {
+    return this.tabIdFromPageUrl(pageStats.pageUrl);
+};
 
-function pageUrlFromTabId(tabId) {
-    return HTTPSB.tabIdToPageUrl[tabId];
-}
+HTTPSB.pageUrlFromTabId = function(tabId) {
+    return this.tabIdToPageUrl[tabId];
+};
 
-function pageUrlFromPageStats(pageStats) {
+HTTPSB.pageUrlFromPageStats = function(pageStats) {
     if ( pageStats ) {
         return pageStats.getPageURL();
     }
     return undefined;
-}
+};
 
-function pageStatsFromTabId(tabId) {
-    var pageUrl = HTTPSB.tabIdToPageUrl[tabId];
+HTTPSB.pageStatsFromTabId = function(tabId) {
+    var pageUrl = this.tabIdToPageUrl[tabId];
     if ( pageUrl ) {
-        return HTTPSB.pageStats[pageUrl];
+        return this.pageStats[pageUrl];
     }
     return undefined;
-}
+};
 
-function pageStatsFromPageUrl(pageUrl) {
-    return HTTPSB.pageStats[pageUrl];
-}
+HTTPSB.pageStatsFromPageUrl = function(pageUrl) {
+    return this.pageStats[pageUrl];
+};
 
 /******************************************************************************/
 
-function forceReload(pageURL) {
-    var tabId = tabIdFromPageUrl(pageURL);
+HTTPSB.forceReload = function(pageURL) {
+    var tabId = this.tabIdFromPageUrl(pageURL);
     if ( tabId ) {
         chrome.tabs.reload(tabId, { bypassCache: true });
     }
-}
+};
 

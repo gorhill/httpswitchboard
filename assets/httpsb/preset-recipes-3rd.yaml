@@ -46,6 +46,17 @@ Brightcove:
         plugin brightcove.com
         script brightcove.com
 
+Daily Motion:
+    facode: f008
+    keys: www.dailymotion.com
+    whitelist: |
+        plugin www.dailymotion.com
+        script www.dailymotion.com
+        frame www.dailymotion.com
+        plugin dmcdn.net
+        script dmcdn.net
+        script ajax.googleapis.com
+
 Disqus:
     facode: f086
     keys: disqus.com
@@ -60,7 +71,9 @@ Disqus:
 
 Facebook:
     facode: f09a
-    keys: facebook.com
+    keys: |
+        facebook.com
+        connect.facebook.net
     whitelist: |
         script facebook.com
         xhr facebook.com
@@ -94,6 +107,15 @@ Livefyre:
         xhr livefyre.com
         script fyre.co
         xhr fyre.co
+
+Ooyala player:
+    facode: f008
+    keys: player.ooyala.com
+    whitelist: |
+        plugin player.ooyala.com
+        script player.ooyala.com
+        xhr player.ooyala.com
+        plugin opf.ooyala.com
 
 Pinterest:
     facode: f0d2

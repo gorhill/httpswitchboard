@@ -22,93 +22,69 @@
 /******************************************************************************/
 
 HTTPSB.PresetRecipe = function() {
+    this.firstParty = undefined;
     this.id = undefined;
     this.name = '';
     this.facode = 0;
     this.keys = {};
+    this.requires = null;
     this.whitelist = {};
     this.scopes = {};
-};
-
-/******************************************************************************/
-
-HTTPSB.PresetRecipe.prototype.applyToScope = function(scopeKey) {
-    var httpsb = HTTPSB;
-    var rules, ruleKey, pos;
-
-    // Unscoped rules
-    rules = this.whitelist;
-    for ( ruleKey in rules ) {
-        if ( !rules.hasOwnProperty(ruleKey) ) {
-            continue;
-        }
-        pos = ruleKey.indexOf('|');
-        httpsb.whitelistTemporarily(scopeKey, ruleKey.slice(0, pos), ruleKey.slice(pos + 1));
-    }
-
-    // Scoped rules
-    var scopes = this.scopes;
-    for ( scopeKey in scopes ) {
-        if ( !scopes.hasOwnProperty(scopeKey) ) {
-            continue;
-        }
-        httpsb.createTemporaryScopeFromScopeKey(scopeKey);
-        rules = scopes[scopeKey].whitelist;
-        for ( ruleKey in rules ) {
-            if ( !rules.hasOwnProperty(ruleKey) ) {
-                continue;
-            }
-            pos = ruleKey.indexOf('|');
-            httpsb.whitelistTemporarily(scopeKey, ruleKey.slice(0, pos), ruleKey.slice(pos + 1));
-        }
-    }
+    this.barrier = 0;
 };
 
 /******************************************************************************/
 
 HTTPSB.PresetManager = function() {
     this.presets = {};
-    this.firstPartyDict = {};
-    this.thirdPartyDict = {};
+    this.hostnameTo1stPartyPresetMap = {};
+    this.hostnameTo3rdPartyPresetMap = {};
+    this.firstPartyNameToPresetMap = {};
     this.idGenerator = 1;
 };
 
 /******************************************************************************/
 
 HTTPSB.PresetManager.prototype.rememberFirstParty = function(preset) {
+    preset.firstParty = true;
     preset.id = this.idGenerator++;
     this.presets[preset.id] = preset;
+    this.firstPartyNameToPresetMap[preset.name] = preset;
+    var hostnameTo1stPartyPresetMap = this.hostnameTo1stPartyPresetMap;
     var ut = uriTools;
-    var pageHostnames = Object.keys(preset.keys);
-    var i = pageHostnames.length;
-    var pageHostname, hostnames, j, hostname;
-    while ( i-- ) {
-        pageHostname = pageHostnames[i];
-        hostnames = ut.allHostnamesFromHostname(pageHostname);
-        j = hostnames.length;
-        while ( j-- ) {
-            hostname = hostnames[j];
-            if ( !this.firstPartyDict[hostname] ) {
-                this.firstPartyDict[hostname] = [preset];
-            } else {
-                this.firstPartyDict[hostname].push(preset);
-            }
-        }
-    }
-};
-
-HTTPSB.PresetManager.prototype.rememberThirdParty = function(preset) {
-    preset.id = this.idGenerator++;
-    this.presets[preset.id] = preset;
     var hostnames = Object.keys(preset.keys);
     var i = hostnames.length;
     var hostname;
     while ( i-- ) {
         hostname = hostnames[i];
-        if ( !this.thirdPartyDict[hostname] ) {
-            this.thirdPartyDict[hostname] = [preset];
+        if ( !hostnameTo1stPartyPresetMap[hostname] ) {
+            hostnameTo1stPartyPresetMap[hostname] = preset;
         } else {
-            this.thirdPartyDict[hostname].push(preset);
+            if ( hostnameTo1stPartyPresetMap[hostname] instanceof HTTPSB.PresetRecipe ) {
+                hostnameTo1stPartyPresetMap[hostname] = [hostnameTo1stPartyPresetMap[hostname]];
+            }
+            hostnameTo1stPartyPresetMap[hostname].push(preset);
+        }
+    }
+};
+
+HTTPSB.PresetManager.prototype.rememberThirdParty = function(preset) {
+    preset.firstParty = false;
+    preset.id = this.idGenerator++;
+    this.presets[preset.id] = preset;
+    var hostnameTo3rdPartyPresetMap = this.hostnameTo3rdPartyPresetMap;
+    var hostnames = Object.keys(preset.keys);
+    var i = hostnames.length;
+    var hostname;
+    while ( i-- ) {
+        hostname = hostnames[i];
+        if ( !hostnameTo3rdPartyPresetMap[hostname] ) {
+            hostnameTo3rdPartyPresetMap[hostname] = preset;
+        } else {
+            if ( hostnameTo3rdPartyPresetMap[hostname] instanceof HTTPSB.PresetRecipe ) {
+                hostnameTo3rdPartyPresetMap[hostname] = [hostnameTo3rdPartyPresetMap[hostname]];
+            }
+            this.hostnameTo3rdPartyPresetMap[hostname].push(preset);
         }
     }
 };
@@ -122,7 +98,7 @@ HTTPSB.PresetManager.prototype.presetFromId = function(presetId) {
 /******************************************************************************/
 
 HTTPSB.PresetManager.prototype.firstPartyFromHostname = function(hostname) {
-    var presets = this.firstPartyDict[hostname];
+    var presets = this.hostnameTo1stPartyPresetMap[hostname];
     if ( presets ) {
         return presets[0];
     }
@@ -131,20 +107,26 @@ HTTPSB.PresetManager.prototype.firstPartyFromHostname = function(hostname) {
 
 /******************************************************************************/
 
+HTTPSB.PresetManager.prototype.firstPartyFromName = function(name) {
+    return this.firstPartyNameToPresetMap[name];
+};
+
+/******************************************************************************/
+
 HTTPSB.PresetManager.prototype.findMatches = function(firstParty, thirdParties) {
     var presets, preset;
     var matches = [];
     var matchDict = {};
-    // TODO: 1st-party hostnames are already available somewhere on the
-    // caller's side, reuse this information, for performance purpose.
-    var firstPartyList = uriTools.allHostnamesFromHostname(firstParty);
-    var firstPartyDict = {};
-    var i = 0, j;
-    while ( firstParty = firstPartyList[i++] ) {
-        firstPartyDict[firstParty] = true;
-        presets = this.firstPartyDict[firstParty];
-        if ( !presets ) {
-            continue;
+    var i, j;
+
+    presets = this.hostnameTo1stPartyPresetMap[firstParty];
+    if ( !presets ) {
+        presets = this.hostnameTo1stPartyPresetMap[HTTPSB.domainScopeKeyFromHostname(firstParty)];
+    }
+
+    if ( presets ) {
+        if ( presets instanceof HTTPSB.PresetRecipe ) {
+            presets = [presets];
         }
         j = 0;
         while ( preset = presets[j++] ) {
@@ -155,19 +137,29 @@ HTTPSB.PresetManager.prototype.findMatches = function(firstParty, thirdParties) 
             matchDict[preset.id] = true;
         }
     }
+
     // TODO: Ideally, only the hostnames for which there was effectively a
     // request should be in the input collection, for performance purpose.
+    var hostnameTo1stPartyPresetMap = {};
+    var firstPartyList = uriTools.allHostnamesFromHostname(firstParty);
+    i = 0;
+    while ( firstParty = firstPartyList[i++] ) {
+        hostnameTo1stPartyPresetMap[firstParty] = true;
+    }
     for ( var thirdParty in thirdParties ) {
         if ( !thirdParties.hasOwnProperty(thirdParty) ) {
             continue;
         }
         // Skip 3rd-parties same as 1st-party
-        if ( firstPartyDict[thirdParty] ) {
+        if ( hostnameTo1stPartyPresetMap[thirdParty] ) {
             continue;
         }
-        presets = this.thirdPartyDict[thirdParty];
+        presets = this.hostnameTo3rdPartyPresetMap[thirdParty];
         if ( !presets ) {
             continue;
+        }
+        if ( presets instanceof HTTPSB.PresetRecipe ) {
+            presets = [presets];
         }
         j = 0;
         while ( preset = presets[j++] ) {
@@ -179,6 +171,89 @@ HTTPSB.PresetManager.prototype.findMatches = function(firstParty, thirdParties) 
         }
     }
     return matches;
+};
+
+/******************************************************************************/
+
+HTTPSB.PresetManager.prototype.applyToScope = function(scopeKey, presetId) {
+    var preset = this.presets[presetId];
+    if ( !preset ) {
+        return;
+    }
+
+    if ( preset.barrier ) {
+        return;
+    }
+    preset.barrier++;
+
+    // Process required preset recipes
+    if ( preset.firstParty && preset.requires ) {
+        var i, other;
+        if ( typeof preset.requires === 'string' ) {
+            if ( other = this.firstPartyFromName(preset.requires) ) {
+                this.applyToScope(scopeKey, other.id);
+            }
+        } else {
+            i = preset.requires.length;
+            while ( i-- ) {
+                if ( other = this.firstPartyFromName(preset.requires[i]) ) {
+                    this.applyToScope(scopeKey, other.id);
+                }
+            }
+        }
+    }
+
+    var httpsb = HTTPSB;
+    var rules, ruleKey, pos;
+
+    // Unscoped rules
+    rules = preset.whitelist;
+    for ( ruleKey in rules ) {
+        if ( !rules.hasOwnProperty(ruleKey) ) {
+            continue;
+        }
+        pos = ruleKey.indexOf('|');
+        httpsb.whitelistTemporarily(scopeKey, ruleKey.slice(0, pos), ruleKey.slice(pos + 1));
+    }
+
+    // Scoped rules
+    var scopes = preset.scopes;
+    for ( scopeKey in scopes ) {
+        if ( !scopes.hasOwnProperty(scopeKey) ) {
+            continue;
+        }
+        if ( httpsb.temporaryScopeExists(scopeKey) === false ) {
+            httpsb.createTemporaryScopeFromScopeKey(scopeKey);
+            httpsb.whitelistTemporarily(scopeKey, 'main_frame', '*');
+            httpsb.whitelistTemporarily(scopeKey, 'stylesheet', '*');
+            httpsb.whitelistTemporarily(scopeKey, 'image', '*');
+            httpsb.copyTemporaryBlackRules(scopeKey, '*');
+        }
+        rules = scopes[scopeKey].whitelist;
+        for ( ruleKey in rules ) {
+            if ( !rules.hasOwnProperty(ruleKey) ) {
+                continue;
+            }
+            pos = ruleKey.indexOf('|');
+            httpsb.whitelistTemporarily(scopeKey, ruleKey.slice(0, pos), ruleKey.slice(pos + 1));
+        }
+        // Remove site-level scopes which could occlude domain-level scope.
+        if ( httpsb.isDomainScopeKey(scopeKey) ) {
+            httpsb.revealTemporaryDomainScope(scopeKey);
+        }
+    }
+
+    preset.barrier--;
+};
+
+/******************************************************************************/
+
+HTTPSB.PresetManager.prototype.applyFromPresetName = function(presetName) {
+    var preset = httpsb.presetManager.firstPartyFromName(presetName);
+    if ( !preset ) {
+        return;
+    }
+    httpsb.presetManager.applyToScope('*', preset.id);
 };
 
 /******************************************************************************/
@@ -246,6 +321,7 @@ HTTPSB.PresetManager.prototype.parseEntry = function(entry) {
                 fvalue = '';
             }
         }
+        // Remove quotes if any.
         fvalue = fvalue.replace(/^(["']?)(.*)\1$/, '$2');
 
         // Skip empty lines
@@ -263,13 +339,19 @@ HTTPSB.PresetManager.prototype.parseEntry = function(entry) {
         context = contextStack.join('/');
 
         switch ( context ) {
+        case 'preset/requires':
+            break;
         case 'preset/scope':
             if ( fkey === 'whitelist' ) {
                 contextStack.push(fkey);
             }
             break;
         case 'preset':
-            if ( fkey === 'facode' || fkey === 'keys' || fkey === 'scope' || fkey === 'whitelist' ) {
+            if ( fkey === 'facode' ||
+                 fkey === 'keys' ||
+                 fkey === 'requires' ||
+                 fkey === 'scope' ||
+                 fkey === 'whitelist' ) {
                 contextStack.push(fkey);
             }
             break;
@@ -294,6 +376,17 @@ HTTPSB.PresetManager.prototype.parseEntry = function(entry) {
         case 'preset/keys':
             if ( fvalue !== '' ) {
                 p.keys[fvalue] = true;
+            }
+            break;
+        case 'preset/requires':
+            if ( fvalue !== '' ) {
+                if ( p.requires === null ) {
+                    p.requires = fvalue;
+                } else if ( typeof p.requires === 'string') {
+                    p.requires = [p.requires, fvalue];
+                } else {
+                    p.requires.push(fvalue);
+                }
             }
             break;
         case 'preset/scope':

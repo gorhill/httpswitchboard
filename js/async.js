@@ -96,14 +96,15 @@ setInterval(asyncJobQueueHandler, asyncJobQueue.resolution);
 // A time out is used to coalesce adjacents requests to update badge.
 
 function updateBadgeCallback(pageUrl) {
-    if ( pageUrl === HTTPSB.behindTheSceneURL ) {
+    var httpsb = HTTPSB;
+    if ( pageUrl === httpsb.behindTheSceneURL ) {
         return;
     }
-    var tabId = tabIdFromPageUrl(pageUrl);
+    var tabId = httpsb.tabIdFromPageUrl(pageUrl);
     if ( !tabId ) {
         return;
     }
-    var pageStats = pageStatsFromTabId(tabId);
+    var pageStats = httpsb.pageStatsFromTabId(tabId);
     if ( pageStats ) {
         pageStats.updateBadge(tabId);
     } else {
@@ -228,7 +229,7 @@ function onMessageHandler(request, sender, callback) {
             break;
 
         case 'forceReloadTab':
-            forceReload(request.pageURL);
+            HTTPSB.forceReload(request.pageURL);
             break;
 
         case 'checkScriptBlacklisted':

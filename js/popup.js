@@ -43,7 +43,7 @@ function getHTTPSB() {
 }
 
 function getPageStats() {
-    return getBackgroundPage().pageStatsFromTabId(HTTPSBPopup.tabId);
+    return getHTTPSB().pageStatsFromTabId(HTTPSBPopup.tabId);
 }
 
 /******************************************************************************/
@@ -1274,13 +1274,10 @@ function populatePresets() {
 
 function presetEntryHandler() {
     var httpsb = getHTTPSB();
-    var presetId = $(this).prop('presetId');
-    var preset = httpsb.presetManager.presetFromId(presetId);
-    if ( !preset ) {
-        return;
-    }
-    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
-    preset.applyToScope(scopeKey);
+    httpsb.presetManager.applyToScope(
+        httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL),
+        $(this).prop('presetId')
+        );
     updateScopeCell();
     updateMatrixStats();
     updateMatrixColors();
@@ -1339,7 +1336,7 @@ function bindToTabHandler(tabs) {
         HTTPSBPopup.tabId = httpsb.behindTheSceneTabId;
     } else {
         HTTPSBPopup.tabId = tab.id;
-        HTTPSBPopup.pageURL = background.pageUrlFromTabId(HTTPSBPopup.tabId);
+        HTTPSBPopup.pageURL = httpsb.pageUrlFromTabId(HTTPSBPopup.tabId);
     }
     HTTPSBPopup.pageHostname = background.uriTools.hostnameFromURI(HTTPSBPopup.pageURL);
     HTTPSBPopup.pageDomain = background.uriTools.domainFromHostname(HTTPSBPopup.pageHostname);

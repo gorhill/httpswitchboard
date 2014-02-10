@@ -102,7 +102,7 @@ background: #c00; \
 function onBeforeRequestHandler(details) {
     // quickProfiler.start();
 
-    // console.debug('onBeforeRequestHandler()> "%s"', details.url);
+    // console.debug('onBeforeRequestHandler()> "%s": %o', details.url, details);
 
     var canEvaluate = true;
     var httpsb = HTTPSB;
@@ -149,7 +149,7 @@ function onBeforeRequestHandler(details) {
     var isSubFrame = type === 'sub_frame';
     var isMainFrame = type === 'main_frame';
     var isWebPage = isMainFrame && details.parentFrameId < 0;
-    var pageStats = pageStatsFromTabId(tabId);
+    var pageStats = httpsb.pageStatsFromTabId(tabId);
 
     // rhill 2013-12-16: Do not interfere with apps. For now the heuristic is:
     // If we have a `sub_frame` and no pageStats store, this is an app.
@@ -157,10 +157,10 @@ function onBeforeRequestHandler(details) {
     var isApp = isSubFrame && !pageStats;
 
     if ( isWebPage || isApp ) {
-        bindTabToPageStats(tabId, requestURL);
+        httpsb.bindTabToPageStats(tabId, requestURL);
     }
 
-    pageStats = pageStatsFromTabId(tabId);
+    pageStats = httpsb.pageStatsFromTabId(tabId);
 
     // rhill 2013-12-16: I don't remember... Can pageStats still be nil at
     // this point?
@@ -175,7 +175,7 @@ function onBeforeRequestHandler(details) {
     }
 
     hostname = uriTools.hostnameFromURI(requestURL);
-    pageURL = pageUrlFromPageStats(pageStats);
+    pageURL = httpsb.pageUrlFromPageStats(pageStats);
 
     // rhill 2013-12-15:
     // Try to transpose generic `other` category into something more
@@ -275,7 +275,7 @@ function onBeforeSendHeadersHandler(details) {
 
     // rhill 2013-12-16: do not interfere with apps.
     // https://github.com/gorhill/httpswitchboard/issues/91
-    var pageStats = pageStatsFromTabId(tabId);
+    var pageStats = httpsb.pageStatsFromTabId(tabId);
     if ( pageStats && pageStats.ignore ) {
         return;
     }
@@ -283,7 +283,7 @@ function onBeforeSendHeadersHandler(details) {
     // Any cookie in there?
     var ut = uriTools;
     var hostname = ut.hostnameFromURI(details.url);
-    var pageURL = pageUrlFromTabId(tabId);
+    var pageURL = httpsb.pageUrlFromTabId(tabId);
     var blacklistCookie = httpsb.blacklisted(pageURL, 'cookie', hostname);
     var processReferer = httpsb.userSettings.processReferer;
 
@@ -375,12 +375,12 @@ function onHeadersReceivedHandler(details) {
     // to not be able to lookup the pageStats. So let the code here bind
     // the page to a tab if not done yet.
     // https://github.com/gorhill/httpswitchboard/issues/75
+    var httpsb = HTTPSB;
     var tabId = details.tabId;
     if ( tabId >= 0 && isWebPage ) {
-        bindTabToPageStats(tabId, requestURL);
+        httpsb.bindTabToPageStats(tabId, requestURL);
     }
-    var pageStats = pageStatsFromTabId(tabId);
-    var httpsb = HTTPSB;
+    var pageStats = httpsb.pageStatsFromTabId(tabId);
     var headers = details.responseHeaders;
 
     if ( isWebPage ) {
@@ -442,7 +442,7 @@ function onHeadersReceivedHandler(details) {
     // request, use global scope to evaluate whether it should be blocked
     // or allowed.
     // https://github.com/gorhill/httpswitchboard/issues/75
-    var pageURL = pageStats ? pageUrlFromPageStats(pageStats) : '*';
+    var pageURL = pageStats ? httpsb.pageUrlFromPageStats(pageStats) : '*';
     if ( httpsb.whitelisted(pageURL, 'script', requestHostname) ) {
         return;
     }
@@ -487,7 +487,8 @@ function onErrorOccurredHandler(details) {
         return;
     }
 
-    var pageStats = pageStatsFromPageUrl(details.url);
+    var httpsb = HTTPSB;
+    var pageStats = httpsb.pageStatsFromPageUrl(details.url);
     if ( !pageStats ) {
         return;
     }
@@ -496,7 +497,6 @@ function onErrorOccurredHandler(details) {
     // emit an error when a web page redirects apparently endlessly, so
     //  we need to unravel and report all these redirects upon error.
     // https://github.com/gorhill/httpswitchboard/issues/171
-    var httpsb = HTTPSB;
     var requestURL = uriTools.normalizeURI(details.url);
     var mainFrameStack = [requestURL];
     var destinationURL = requestURL;
@@ -550,6 +550,8 @@ function startWebRequestHandler(from) {
         },
         [ "blocking" ]
     );
+
+    console.log('HTTP Switchboard> Beginning to intercept net requests at %s', (new Date()).toISOString());
 
     chrome.webRequest.onBeforeSendHeaders.addListener(
         onBeforeSendHeadersHandler,

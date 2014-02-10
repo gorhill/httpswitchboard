@@ -84,7 +84,7 @@ function contextMenuClickHandler(info, tab) {
     switch ( info.menuItemId ) {
         case 'gdt-group0':
             HTTPSB.whitelistTemporarily(pageURL, '*', pageDomain);
-            smartReloadTab(tab.id);
+            HTTPSB.smartReloadTab(tab.id);
             break;
 
         case 'revertScopeRules':

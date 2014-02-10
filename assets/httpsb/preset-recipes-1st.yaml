@@ -42,28 +42,38 @@
 
 Ars Technica:
     keys: arstechnica.com
-    whitelist: |
-        * arstechnica.com
-        * arstechnica.net
+    scope: arstechnica.com
+        whitelist: |
+            * arstechnica.com
+            * arstechnica.net
 
 Businessweek:
     keys: www.businessweek.com
-    whitelist: |
-        * businessweek.com
-        * btrd.net
+    scope: www.businessweek.com
+        whitelist: |
+            * businessweek.com
+            * btrd.net
 
 CNN:
-    keys: cnn.com
-    whitelist: |
-        * cnn.com
-        * turner.com
+    keys: '*.cnn.com'
+    scope: '*.cnn.com'
+        whitelist: |
+            * cnn.com
+            frame cnn.com
+            * turner.com
+            * cnn-f.akamaihd.net
+
+Daily Motion:
+    keys: www.dailymotion.com
+    scope: www.dailymotion.com
+        whitelist: |
+            * dailymotion.com
+            * dmcdn.net
 
 Fox News:
-    keys: www.foxnews.com
+    keys: '*.foxnews.com'
     scope: '*.foxnews.com'
         whitelist: |
-            css *
-            image *
             * foxnews.com
             * fncstatic.com
             # Necessary for legitimate images to show
@@ -76,11 +86,9 @@ Fox News:
 
 Facebook:
     facode: f09a
-    keys: www.facebook.com
+    keys: '*.facebook.com'
     scope: '*.facebook.com'
         whitelist: |
-            css *
-            image *
             * facebook.com
             * fbcdn.net
             * fbstatic-a.akamaihd.net
@@ -89,150 +97,262 @@ Facebook:
 Github:
     facode: f09b
     keys: github.com
-    whitelist: |
-        * github.com
-        * githubapp.com
-        * github.global.ssl.fastly.net
-        * github-camo.global.ssl.fastly.net
+    scope: 'github.com'
+        whitelist: |
+            * github.com
+            * githubapp.com
+            * github.global.ssl.fastly.net
+            * github-camo.global.ssl.fastly.net
 
 Google Account:
     keys: accounts.google.com
+    requires: Google Plus
     scope: accounts.google.com
-    whitelist: |
-        * google.com
-        * googleusercontent.com
-        * ssl.gstatic.com
-        * accounts.youtube.com
-        frame accounts.youtube.com
+        whitelist: |
+            * google.com
+            * googleusercontent.com
+            * ssl.gstatic.com
+            frame accounts.youtube.com
+    scope: accounts.youtube.com
+        whitelist: |
+            * accounts.youtube.com
+            frame accounts.youtube.com
+
+Google Plus:
+    keys: plus.google.com
+    requires: Google Account
+    scope: plus.google.com
+        whitelist: |
+            * google.com
+            frame google.com
+            * gstatic.com
+            * googleusercontent.com
+
+Google Search:
+    keys: www.google.com
+    scope: www.google.com
+        whitelist: |
+            * google.com
+            frame accounts.youtube.com
+
+Google Search Canada:
+    keys: www.google.ca
+    scope: www.google.ca
+        whitelist: |
+            * www.google.ca
+
+Google Groups Discussions:
+    keys: |
+        groups.google.com
+    scope: groups.google.com
+        whitelist: |
+            * groups.google.com
+            * www.google.com
+            * gstatic.com
+
+Google Groups Discussions (with account):
+    keys: groups.google.com
+    requires: |
+        Google Account
+        Google Groups Discussions
+
+Google Product Forums:
+    keys: productforums.google.com
+    scope: productforums.google.com
+        whitelist: |
+            * productforums.google.com
+            * www.google.com
+            * gstatic.com
+
+Google Product Forums (with account):
+    keys: productforums.google.com
+    requires: |
+        Google Account
+        Google Product Forums
 
 Google News:
     keys: news.google.com
-    whitelist: |
-        * news.google.com
-        * gstatic.com
+    scope: news.google.com
+        whitelist: |
+            * news.google.com
+            * gstatic.com
+
+Google News (with account):
+    keys: news.google.com
+    requires: |
+        Google Account
+        Google News
 
 The Guardian:
     keys: www.theguardian.com
-    whitelist: |
-        * theguardian.com
-        frame discussion.theguardian.com
-        * guim.co.uk
-        * guardianapis.com
-        * guardianapps.co.uk
-        * guardian.co.uk
-        * theguardian.tv
+    scope: www.theguardian.com
+        whitelist: |
+            * theguardian.com
+            frame discussion.theguardian.com
+            * guim.co.uk
+            * guardianapis.com
+            * guardianapps.co.uk
+            * guardian.co.uk
+            * theguardian.tv
 
 Huffington Post:
     keys: www.huffingtonpost.com
-    whitelist: |
-        * huffingtonpost.com
-        * huffpost.com
+    scope: www.huffingtonpost.com
+        whitelist: |
+            * huffingtonpost.com
+            * huffpost.com
+
+JSFIDDLE:
+    keys: jsfiddle.net
+    scope: jsfiddle.net
+        whitelist: |
+            * jsfiddle.net    
+            * jshell.net    
+            frame jshell.net    
+            * togetherjs.com    
 
 Mashable:
     keys: mashable.com
-    whitelist: |
-        * mashable.com
-        * mshcdn.com
+    scope: mashable.com
+        whitelist: |
+            * mashable.com
+            * mshcdn.com
 
 NBC News:
-    keys: nbcnews.com
-    whitelist: |
-        * nbcnews.com
+    keys: www.nbcnews.com
+    scope: www.nbcnews.com
+        whitelist: |
+            * nbcnews.com
 
 New York Times:
     keys: nytimes.com
-    whitelist: |
-        * nytimes.com
-        * nyt.com
+    scope: www.nytimes.com
+        whitelist: |
+            * nytimes.com
+            * nyt.com
 
-Wikipedia:
-    keys: wikipedia.org
-    whitelist: |
-        * wikipedia.org
-        * wikimedia.org
+New York Times (with account):
+    keys: myaccount.nytimes.com
+    requires: New York Times
+    scope: myaccount.nytimes.com
+        whitelist: |
+            * nytimes.com
 
-Reddit:
-    keys: reddit.com
-    whitelist: |
-        * reddit.com
-        * redditmedia.com
-        * redditstatic.com
-        * redditstatic.s3.amazonaws.com
+Reddit (with account):
+    keys: |
+        reddit.com
+        ssl.reddit.com
+    scope: www.reddit.com
+        whitelist: |
+            * reddit.com
+            * redditmedia.com
+            * redditstatic.com
+            * redditstatic.s3.amazonaws.com
+    scope: ssl.reddit.com
+        whitelist: |
+            * reddit.com
+            * redditstatic.s3.amazonaws.com
 
-Twitter:
+Twitter (with account):
     keys: twitter.com
-    whitelist: |
-        * twitter.com
-        * twimg.com
+    scope: twitter.com
+        whitelist: |
+            * twitter.com
+            * twimg.com
 
 The Verge:
     keys: www.theverge.com
-    whitelist: |
-        * theverge.com
-        * sbnation.com
+    scope: www.theverge.com
+        whitelist: |
+            * theverge.com
+            * sbnation.com
 
 The Wall Street Journal:
-    keys: wsj.com
-    whitelist: |
-        * wsj.com
-        frame wsj.com
-        * wsj.net
+    keys: |
+        online.wsj.com
+        stream.wsj.com
+    scope: '*.wsj.com'
+        whitelist: |
+            * wsj.com
+            frame wsj.com
+            * wsj.net
+            * a248.e.akamai.net
+        
+Washington Post (with account):
+    keys: www.washingtonpost.com
+    scope: www.washingtonpost.com
+        whitelist: |
+            * washingtonpost.com
+            * troveread.com
+            * wpdigital.net
+    scope: account.washingtonpost.com
+        whitelist: |
+            * washingtonpost.com
+            * wpidentity.s3.amazonaws.com
 
-Washington Post:
-    keys: washingtonpost.com
-    whitelist: |
-        * washingtonpost.com
-        * troveread.com
-        * wpdigital.net
+Wikipedia:
+    keys: '*.wikipedia.org'
+    scope: '*.wikipedia.org'
+        whitelist: |
+            * wikipedia.org
+            * wikimedia.org
 
 Wired:
-    keys: wired.com
-    whitelist: |
-        * wired.com
-        frame wired.com
-        * fonts.condenast.com
-        # For WIRED VIDEO
-        * cnevids.com
-        frame player.cnevids.com
-        * dnkzzz1hlto79.cloudfront.net
-        * dp8hsntg6do36.cloudfront.net
+    keys: '*.wired.com'
+    scope: '*.wired.com'
+        whitelist: |
+            * wired.com
+            frame wired.com
+            * fonts.condenast.com
+            # For WIRED VIDEO
+            * cnevids.com
+            frame player.cnevids.com
+            * dnkzzz1hlto79.cloudfront.net
+            * dp8hsntg6do36.cloudfront.net
+            * dwgyu36up6iuz.cloudfront.net
 
 Wired UK:
     keys: www.wired.co.uk
-    whitelist: |
-        * wired.co.uk
-        # for 'css'
-        * d3u12z27ui3vom.cloudfront.net
-        # needed for the nav menu
-        script ajax.googleapis.com
+    scope: www.wired.co.uk
+        whitelist: |
+            * wired.co.uk
+            # for 'css'
+            * d3u12z27ui3vom.cloudfront.net
+            # needed for the nav menu
+            script ajax.googleapis.com
 
 Yahoo News:
     keys: news.yahoo.com
-    whitelist: |
-        * news.yahoo.com
-        * yimg.com
-
-# TODO: multiple scopes, logging in does not work properly
+    scope: news.yahoo.com
+        whitelist: |
+            * news.yahoo.com
+            * yimg.com
 
 Youtube:
     facode: f167
     keys: www.youtube.com
     scope: www.youtube.com
-    whitelist: |
-        css *
-        image *
-        * youtube.com
-        frame youtube.com
-        * youtube-nocookie.com
-        * ytimg.com
-        * googlevideo.com
-        * ggpht.com
-        # As per issue #169
-        * youtube.googleapis.com
-        * plus.googleapis.com
-        frame plus.googleapis.com
-        cookie accounts.google.com
-        script accounts.google.com
-        frame google.com
-        * apis.google.com
+        whitelist: |
+            * youtube.com
+            frame youtube.com
+            * youtube-nocookie.com
+            * ytimg.com
+            * googlevideo.com
+            * google.com
+            * ggpht.com
+            # As per issue #169
+            * youtube.googleapis.com
+            * plus.googleapis.com
+            frame plus.googleapis.com
+            cookie accounts.google.com
+            script accounts.google.com
+            frame google.com
+            * apis.google.com
+
+Youtube (with account):
+    facode: f167
+    keys: www.youtube.com
+    requires: |
+        Youtube
+        Google Account
 

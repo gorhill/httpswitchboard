@@ -577,15 +577,37 @@ function toggleDeleteRule(event) {
 /******************************************************************************/
 
 function commitAll() {
-    var deleteCount = $('.scope.todelete .rule,.rule.todelete').length;
-    if ( deleteCount ) {
-        var prompt = $('#confirmRemoveAll').text().replace('{{deleteCount}}', deleteCount);
-        if ( !confirm(prompt) ) {
-            $('.scope').removeClass('todelete');
-            return;
-        }
+    if ( !confirmDeleteAll() ) {
+        return false;
     }
+    deleteAll();
 
+    // Persist whatever is left
+    var httpsb = getHTTPSB();
+    httpsb.commitPermissions(true);
+    renderAll();
+
+    return true;
+}
+
+/******************************************************************************/
+
+function revertAll() {
+    var httpsb = getHTTPSB();
+    httpsb.revertAllRules();
+    renderAll();
+}
+
+/******************************************************************************/
+
+function markAllForDeletion() {
+    $('.scope').addClass('todelete');
+    updateButtons();
+}
+
+/******************************************************************************/
+
+function deleteAll() {
     var httpsb = getHTTPSB();
     var i;
     var liScope, scopeKey;
@@ -607,13 +629,6 @@ function commitAll() {
         liScope.remove();
     }
 
-    // Delete rules marked for deletion
-    var dontTouch = {
-        '*|white|stylesheet|*': true,
-        '*|white|image|*': true,
-        '*|black|sub_frame|*': true,
-        'chromium-behind-the-scene|white|*|*': true
-    };
     liRules = $('.scope.todelete .rule,.rule.todelete');
     i = liRules.length;
     while ( i-- ) {
@@ -626,10 +641,6 @@ function commitAll() {
         pos = rule.indexOf('|');
         type = rule.slice(0, pos);
         hostname = rule.slice(pos + 1);
-        // rhill 2014-01-29: Do not delete out-of-the-box rules.
-        if ( dontTouch[scopeKey + '|' + listKey + '|' + rule] ) {
-            continue;
-        }
         httpsb.removeTemporaryRule(
             scopeKey,
             listKey,
@@ -637,24 +648,38 @@ function commitAll() {
             hostname
         );
     }
+}
 
-    // Persist whatever is left
+/******************************************************************************/
+
+function confirmDeleteAll() {
+    var deleteCount = $('.scope.todelete .rule,.rule.todelete').length;
+    if ( deleteCount ) {
+        var prompt = $('#confirmRemoveAll').text().replace('{{deleteCount}}', deleteCount);
+        if ( !confirm(prompt) ) {
+            $('.scope').removeClass('todelete');
+            return false;
+        }
+    }
+    return true;
+}
+
+/******************************************************************************/
+
+function resetAll() {
+    $('.scope').addClass('todelete');
+    if ( !confirmDeleteAll() ) {
+        return false;
+    }
+    deleteAll();
+    var httpsb = getHTTPSB();
+    httpsb.whitelistTemporarily('*', 'main_frame', '*');
+    httpsb.whitelistTemporarily('*', 'stylesheet', '*');
+    httpsb.whitelistTemporarily('*', 'image', '*');
+    httpsb.blacklistTemporarily('*', 'sub_frame', '*');
+    httpsb.whitelistTemporarily(httpsb.behindTheSceneScopeKey, '*', '*');
     httpsb.commitPermissions(true);
     renderAll();
-}
-
-/******************************************************************************/
-
-function revertAll() {
-    var httpsb = getHTTPSB();
-    httpsb.revertAllRules();
-    renderAll();
-}
-
-/******************************************************************************/
-
-function removeAll() {
-    $('.scope').addClass('todelete');
     updateButtons();
 }
 
@@ -705,7 +730,7 @@ function updateButtons() {
     var notOneDeletion = $('.todelete').length === 0;
     $('#commitAll').prop("disabled", notOneTemporary && notOneDeletion);
     $('#revertAll').prop("disabled", notOneTemporary && notOneDeletion);
-    $('#removeAll').prop("disabled", $('.scope:not(.todelete)').length === 0);
+    $('#markAllForDeletion').prop("disabled", $('.scope:not(.todelete)').length === 0);
 }
 
 /******************************************************************************/
@@ -713,7 +738,8 @@ function updateButtons() {
 $(function() {
     $('#commitAll').on('click', commitAll);
     $('#revertAll').on('click', revertAll);
-    $('#removeAll').on('click', removeAll);
+    $('#markAllForDeletion').on('click', markAllForDeletion);
+    $('#resetAll').on('click', resetAll);
 
     $('#backup').on('click', saveAllToFile);
     $('#restore').on('click', restoreFromFile);

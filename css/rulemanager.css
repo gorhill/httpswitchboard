@@ -9,15 +9,15 @@ h1:first-child {
     }
 #navi-bar {
     border-bottom: 1px solid #ccc;
-    padding: 1em;
+    padding: 0.5em;
     position: fixed;
     background-color: white;
     width: 100%;
-    height: 8em;
+    height: 7em;
     z-index: 100;
     }
 #navi-bar + div {
-    padding: 10em 1em 1em 1em;
+    padding: 8em 0.5em 1em 0.5em;
     }
 h2 {
     margin: 0.5em 0;
@@ -48,7 +48,7 @@ button {
     margin: 0.5em 1em 0 0;
     border: 1px solid rgba(0,0,0,0.2);
     border-radius: 5px;
-    padding: 0.5em 1em;
+    padding: 0.25em 0.75em;
     font: inherit;
     font-size: 110%;
     background-color: #eee;
@@ -56,7 +56,7 @@ button {
     }
 button .fa {
     margin-right: 0.5em;
-    font-size: larger;
+    font-size: large;
     }
 
 #recipeDecode, #recipeImport, #recipeEncode, #recipeExport {

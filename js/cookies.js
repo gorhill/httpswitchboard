@@ -136,7 +136,7 @@ var cookieHunter = {
         if ( !pageStats ) {
             return;
         }
-        var pageURL = pageUrlFromPageStats(pageStats);
+        var pageURL = HTTPSB.pageUrlFromPageStats(pageStats);
         this.queuePageRecord[pageURL] = pageStats;
         asyncJobQueue.add(
             'cookieHunterPageRecord',
@@ -182,7 +182,7 @@ var cookieHunter = {
         if ( !pageStats ) {
             return;
         }
-        var pageURL = pageUrlFromPageStats(pageStats);
+        var pageURL = HTTPSB.pageUrlFromPageStats(pageStats);
         this.queuePageRemove[pageURL] = pageStats;
         asyncJobQueue.add(
             'cookieHunterPageRemove',

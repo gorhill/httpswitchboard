@@ -30,7 +30,7 @@ function contentScriptSummaryHandler(details, sender) {
     }
     var ut = uriTools;
     var httpsb = HTTPSB;
-    var pageURL = pageUrlFromTabId(sender.tab.id);
+    var pageURL = httpsb.pageUrlFromTabId(sender.tab.id);
     var frameURL = ut.normalizeURI(details.locationURL);
     var pageHostname = ut.hostname();
     var urls, url, hostname, block;
@@ -58,7 +58,7 @@ function contentScriptSummaryHandler(details, sender) {
             hostname = pageHostname;
         }
         block = httpsb.blacklisted(pageURL, 'script', hostname);
-        recordFromPageUrl(pageURL, 'script', url, block);
+        httpsb.recordFromPageUrl(pageURL, 'script', url, block);
     }
 
     // plugins
@@ -74,7 +74,7 @@ function contentScriptSummaryHandler(details, sender) {
             hostname = pageHostname;
         }
         block = httpsb.blacklisted(pageURL, 'object', hostname);
-        recordFromPageUrl(pageURL, 'object', url, block);
+        httpsb.recordFromPageUrl(pageURL, 'object', url, block);
     }
 }
 
@@ -83,7 +83,12 @@ function contentScriptSummaryHandler(details, sender) {
 function contentScriptLocalStorageHandler(pageURL) {
     var httpsb = HTTPSB;
     var response = httpsb.blacklisted(pageURL, 'cookie', uriTools.hostnameFromURI(pageURL));
-    recordFromPageUrl(pageURL, 'cookie', uriTools.rootURLFromURI(pageURL) + '/{localStorage}', response);
+    httpsb.recordFromPageUrl(
+        pageURL,
+        'cookie',
+        uriTools.rootURLFromURI(pageURL) + '/{localStorage}',
+        response
+    );
     response = response && httpsb.userSettings.deleteLocalStorage;
     if ( response ) {
         httpsb.localStorageRemovedCounter++;

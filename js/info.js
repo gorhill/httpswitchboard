@@ -35,7 +35,7 @@ function gethttpsb() {
 }
 
 function pageStatsFromPageUrl(pageUrl) {
-    return chrome.extension.getBackgroundPage().HTTPSB.pageStats[pageUrl];
+    return gethttpsb().pageStatsFromPageUrl(pageUrl);
 }
 
 /******************************************************************************/

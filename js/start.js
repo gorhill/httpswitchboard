@@ -51,9 +51,9 @@ function onUpdatedTabsHandler(tabId, changeInfo, tab) {
     // better than building a state snapshot dynamically when requests are
     // recorded, because here we are not afflicted by the browser cache
     // mechanism.
-    var pageStats = pageStatsFromPageUrl(pageURL);
+    var pageStats = HTTPSB.pageStatsFromPageUrl(pageURL);
     if ( pageStats ) {
-        pageStats.state = computeTabState(tabId);
+        pageStats.state = HTTPSB.computeTabState(tabId);
     }
 
     updateContextMenu();
@@ -69,7 +69,7 @@ function onRemovedTabHandler(tabId) {
         return;
     }
 
-    unbindTabFromPageStats(tabId);
+    HTTPSB.unbindTabFromPageStats(tabId);
 }
 
 chrome.tabs.onRemoved.addListener(onRemovedTabHandler);
@@ -83,20 +83,18 @@ chrome.tabs.onActivated.addListener(updateContextMenu)
 // Bind a top URL to a specific tab
 
 function onBeforeNavigateCallback(details) {
-    if ( details.url.search(/^https?:\/\//) < 0 ) {
-        return;
-    }
-    if ( HTTPSB.excludeRegex.test(details.url) ) {
-        return;
-    }
     // Don't bind to a subframe
     if ( details.frameId > 0 ) {
         return;
     }
-
+    // TODO: I think this should be removed and let the core code handle
+    // this.
+    if ( HTTPSB.excludeRegex.test(details.url) ) {
+        return;
+    }
     // console.debug('onBeforeNavigateCallback() > binding "%s" to tab %d', details.url, details.tabId);
 
-    bindTabToPageStats(details.tabId, uriTools.normalizeURI(details.url));
+    HTTPSB.bindTabToPageStats(details.tabId, uriTools.normalizeURI(details.url));
 }
 
 chrome.webNavigation.onBeforeNavigate.addListener(onBeforeNavigateCallback);
@@ -114,7 +112,7 @@ load();
 // https://github.com/gorhill/httpswitchboard/issues/67
 
 (function(tabId, pageUrl) {
-    var pageStats = createPageStats(pageUrl);
+    var pageStats = HTTPSB.createPageStats(pageUrl);
     HTTPSB.pageUrlToTabId[pageUrl] = tabId;
     HTTPSB.tabIdToPageUrl[tabId] = pageUrl;
 })(HTTPSB.behindTheSceneTabId, HTTPSB.behindTheSceneURL);
@@ -130,7 +128,7 @@ load();
         var tab;
         while ( i-- ) {
             tab = tabs[i];
-            bindTabToPageStats(tab.id, uriTools.normalizeURI(tab.url));
+            HTTPSB.bindTabToPageStats(tab.id, uriTools.normalizeURI(tab.url));
         }
         // Tabs are now bound to url stats stores, therefore it is now safe
         // to handle net traffic.
@@ -185,18 +183,10 @@ function onInstalledHandler(details) {
     var httpsb = HTTPSB;
     // rhill 2014-01-29: Opera requires that Youtube works out-of-the-box.
     // Actually, why not do that for everybody, not just Opera.
-    // TODO: Evaluate having presets which self-apply at *install* time.
-    var preset = httpsb.presetManager.firstPartyFromHostname('www.youtube.com');
-    if ( !preset ) {
-        return;
+    if ( httpsb.isOpera() ) {
+        httpsb.presetManager.applyFromPresetName('Youtube');
+        httpsb.commitPermissions(true);
     }
-    var scopeKey = httpsb.siteScopeKeyFromURL('http://www.youtube.com/');
-    httpsb.createTemporaryScopeFromScopeKey(scopeKey);
-    preset.applyToScope(scopeKey);
-
-    // More presets?
-
-    httpsb.commitPermissions(true);
 }
 
 chrome.runtime.onInstalled.addListener(onInstalledHandler);

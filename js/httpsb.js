@@ -46,8 +46,11 @@ HTTPSB.domainScopeKeyFromURL = function(url) {
     if ( scheme.indexOf('http') !== 0 ) {
         return '';
     }
-    var hostname = ut.hostname();
-    var domain = ut.domainFromHostname(hostname);
+    return this.domainScopeKeyFromHostname(ut.hostname());
+};
+
+HTTPSB.domainScopeKeyFromHostname = function(hostname) {
+    var domain = uriTools.domainFromHostname(hostname);
     if ( domain === '' ) {
         domain = hostname;
     }
@@ -56,6 +59,10 @@ HTTPSB.domainScopeKeyFromURL = function(url) {
 
 HTTPSB.siteScopeKeyFromURL = function(url) {
     return uriTools.hostnameFromURI(url);
+};
+
+HTTPSB.siteScopeKeyFromHostname = function(hostname) {
+    return hostname;
 };
 
 /******************************************************************************/
@@ -98,6 +105,12 @@ HTTPSB.permanentScopeFromScopeKey = function(scopeKey) {
 
 /******************************************************************************/
 
+HTTPSB.temporaryScopeExists = function(scopeKey) {
+    return !!this.temporaryScopeFromScopeKey(scopeKey);
+};
+
+/******************************************************************************/
+
 // Of course this doesn't make sense as there is always a global scope, but
 // what makes sense is that we need to remove site and domain scopes for
 // global scope to take effect.
@@ -136,7 +149,7 @@ HTTPSB.createTemporaryDomainScope = function(url) {
         scope = new PermissionScope();
         scope.whitelist('main_frame', '*');
         this.temporaryScopes.scopes[scopeKey] = scope;
-        this.copyRulesTemporarily(scopeKey, this.globalScopeKey(), url);
+        this.copyTemporaryRules(scopeKey, this.globalScopeKey(), url);
     } else if ( scope.off ) {
         scope.off = false;
     }
@@ -179,8 +192,8 @@ HTTPSB.createTemporarySiteScope = function(url) {
         scope = new PermissionScope();
         scope.whitelist('main_frame', '*');
         this.temporaryScopes.scopes[scopeKey] = scope;
-        this.copyRulesTemporarily(scopeKey, this.globalScopeKey(), url);
-        this.copyRulesTemporarily(scopeKey, this.domainScopeKeyFromURL(url), url);
+        this.copyTemporaryRules(scopeKey, this.globalScopeKey(), url);
+        this.copyTemporaryRules(scopeKey, this.domainScopeKeyFromURL(url), url);
     } else {
         scope.off = false;
     }
@@ -243,6 +256,36 @@ HTTPSB.removePermanentScopeFromScopeKey = function(scopeKey, persist) {
         }
     }
     return pscope;
+};
+
+/******************************************************************************/
+
+HTTPSB.revealTemporaryDomainScope = function(domainScopeKey) {
+    if ( !this.isDomainScopeKey(domainScopeKey) ) {
+        return;
+    }
+    // Remove '*' prefix
+    var keySuffix = domainScopeKey.slice(1);
+    var keySuffixLen = keySuffix.length;
+    var scopes = this.temporaryScopes.scopes;
+    var pos;
+    for ( var scopeKey in scopes ) {
+        if ( !scopes.hasOwnProperty(scopeKey) ) {
+            continue;
+        }
+        if ( scopeKey === domainScopeKey ) {
+            continue;
+        }
+        pos = scopeKey.lastIndexOf(keySuffix);
+        if ( pos < 0 ) {
+            continue;
+        }
+        if ( pos !== scopeKey.length - keySuffixLen ) {
+            continue;
+        }
+        // Turn off scope
+        scopes[scopeKey].off = true;
+    }
 };
 
 /******************************************************************************/
@@ -342,14 +385,20 @@ HTTPSB.autoCreateTemporarySiteScope = function(pageURL) {
 // Copy rules from another scope. If a pageURL is provided,
 // it will be used to filter the rules according to the hostname.
 
-HTTPSB.copyRulesTemporarily = function(toScopeKey, fromScopeKey, pageURL) {
-    var toScope = this.temporaryScopes.scopes[toScopeKey];
-    var fromScope = this.temporaryScopes.scopes[fromScopeKey];
+HTTPSB.copyTemporaryRules = function(toScopeKey, fromScopeKey, pageURL) {
+    this.copyTemporaryWhiteRules(toScopeKey, fromScopeKey, pageURL);
+    this.copyTemporaryGrayRules(toScopeKey, fromScopeKey);
+    this.copyTemporaryBlackRules(toScopeKey, fromScopeKey);
+};
+
+HTTPSB.copyTemporaryWhiteRules = function(toScopeKey, fromScopeKey, pageURL) {
+    var toScope = this.temporaryScopeFromScopeKey(toScopeKey);
+    var fromScope = this.temporaryScopeFromScopeKey(fromScopeKey);
     if ( !toScope || !fromScope ) {
         return;
     }
     var ut = uriTools;
-    var pageStats = pageStatsFromPageUrl(pageURL);
+    var pageStats = this.pageStatsFromPageUrl(pageURL);
     var hostnames = pageStats ? pageStats.domains : {};
     var domains = {};
     for ( var hostname in hostnames ) {
@@ -371,8 +420,24 @@ HTTPSB.copyRulesTemporarily = function(toScopeKey, fromScopeKey, pageURL) {
         }
         toScope.white.addOne(ruleKey);
     }
-    toScope.black.fromList(fromScope.black);
+};
+
+HTTPSB.copyTemporaryGrayRules = function(toScopeKey, fromScopeKey) {
+    var toScope = this.temporaryScopeFromScopeKey(toScopeKey);
+    var fromScope = this.temporaryScopeFromScopeKey(fromScopeKey);
+    if ( !toScope || !fromScope ) {
+        return;
+    }
     toScope.gray.fromList(fromScope.gray);
+};
+
+HTTPSB.copyTemporaryBlackRules = function(toScopeKey, fromScopeKey) {
+    var toScope = this.temporaryScopeFromScopeKey(toScopeKey);
+    var fromScope = this.temporaryScopeFromScopeKey(fromScopeKey);
+    if ( !toScope || !fromScope ) {
+        return;
+    }
+    toScope.black.fromList(fromScope.black);
 };
 
 /******************************************************************************/
@@ -556,9 +621,6 @@ HTTPSB.savePermissions = function() {
         if ( chrome.runtime.lastError ) {
             console.error('HTTP Switchboard > saved permissions: %s', chrome.runtime.lastError.message());
         }
-        chrome.storage.local.getBytesInUse('scopes', function(bytesInUse) {
-            // console.log('HTTP Switchboard > saved permissions: %d bytes used', bytesInUse);
-        });
         // Remove pre-v0.5.0 obsolete entries
         // TODO: Can be removed once everybody is using v0.5.0 or above
         chrome.storage.local.remove(['whitelist','blacklist','graylist']);
@@ -592,4 +654,10 @@ HTTPSB.turnOn = function() {
     });
 
     this.off = false;
+};
+
+/******************************************************************************/
+
+HTTPSB.isOpera = function() {
+    return navigator.userAgent.indexOf(' OPR/') > 0;
 };
