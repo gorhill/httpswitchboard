@@ -218,6 +218,15 @@ Mashable:
             * mashable.com
             * mshcdn.com
 
+Microsoft Account:
+    keys: '*.live.com'
+    scope: '*.live.com'
+        whitelist: |
+            * live.com
+            frame live.com
+            * live.net
+            * gfx.ms
+
 NBC News:
     keys: www.nbcnews.com
     scope: www.nbcnews.com
@@ -252,6 +261,8 @@ Reddit (with account):
         whitelist: |
             * reddit.com
             * redditstatic.s3.amazonaws.com
+
+
 
 Twitter (with account):
     keys: twitter.com

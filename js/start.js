@@ -92,7 +92,7 @@ function onBeforeNavigateCallback(details) {
     if ( HTTPSB.excludeRegex.test(details.url) ) {
         return;
     }
-    // console.debug('onBeforeNavigateCallback() > binding "%s" to tab %d', details.url, details.tabId);
+    // console.debug('onBeforeNavigateCallback() > "%s" = %o', details.url, details);
 
     HTTPSB.bindTabToPageStats(details.tabId, uriTools.normalizeURI(details.url));
 }

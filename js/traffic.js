@@ -345,7 +345,7 @@ function onBeforeSendHeadersHandler(details) {
 
 function onHeadersReceivedHandler(details) {
 
-    // console.debug('onHeadersReceivedHandler()> "%s": "%s"', details.url, details.statusLine);
+    // console.debug('onHeadersReceivedHandler()> "%s": %o', details.url, details);
 
     var requestType = details.type;
     var isSubFrame = requestType === 'sub_frame';
@@ -386,7 +386,9 @@ function onHeadersReceivedHandler(details) {
     if ( isWebPage ) {
         // rhill 2014-01-15: Report redirects.
         // https://github.com/gorhill/httpswitchboard/issues/112
-        if ( details.statusLine.indexOf(' 302') > 0 ) {
+        // rhill 2014-02-10: Handle all redirects.
+        // https://github.com/gorhill/httpswitchboard/issues/188
+        if ( /\s+30[12378]\s+/.test(details.statusLine) ) {
             var i = headerIndexFromName('location', headers);
             if ( i >= 0 ) {
                 // rhill 2014-01-20: Be ready to handle relative URLs.
