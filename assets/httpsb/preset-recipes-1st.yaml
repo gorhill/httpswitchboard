@@ -270,6 +270,14 @@ The Verge:
             * theverge.com
             * sbnation.com
 
+Vine:
+    keys: vine.co
+    scope: vine.co
+        whitelist: |
+            * vine.co
+            frame vine.co
+            script ajax.googleapis.com
+
 The Wall Street Journal:
     keys: |
         online.wsj.com

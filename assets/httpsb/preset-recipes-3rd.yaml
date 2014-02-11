@@ -139,7 +139,9 @@ Reddit:
 
 Twitter:
     facode: f099
-    keys: platform.twitter.com
+    keys: |
+        platform.twitter.com
+        cdn.api.twitter.com
     whitelist: |
         cookie twitter.com
         image twitter.com
@@ -177,7 +179,7 @@ Vimeo:
 
 Vine:
     facode: f008
-    keys: vine.com
+    keys: vine.co
     whitelist: |
         css vine.co
         image vine.co
