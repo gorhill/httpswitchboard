@@ -2,8 +2,8 @@
 #
 # For more information about this list, see: http://pgl.yoyo.org/adservers/
 # ----
-# last updated:   Thu, 02 Jan 2014 08:08:33 GMT
-# entries:        2522
+# last updated:   Mon, 20 Jan 2014 13:06:17 GMT
+# entries:        2517
 # format:         hosts (hosts -- in hosts file format)
 # credits:        Peter Lowe - pgl@yoyo.org - http://pgl.yoyo.org/
 # this URL:       http://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext
@@ -23,7 +23,6 @@
 127.0.0.1 24log.com
 127.0.0.1 24log.de
 127.0.0.1 24pm-affiliation.com
-127.0.0.1 2log.com
 127.0.0.1 2o7.net
 127.0.0.1 360yield.com
 127.0.0.1 4affiliate.net
@@ -72,6 +71,7 @@
 127.0.0.1 ad-souk.com
 127.0.0.1 ad-space.net
 127.0.0.1 ad-tech.com
+127.0.0.1 ad-universe.com
 127.0.0.1 ad-up.com
 127.0.0.1 ad.100.tbn.ru
 127.0.0.1 ad.103092804.com
@@ -103,6 +103,7 @@
 127.0.0.1 ad.cooks.com
 127.0.0.1 ad.crwdcntrl.net
 127.0.0.1 ad.digitallook.com
+127.0.0.1 ad.doctissimo.fr
 127.0.0.1 ad.domainfactory.de
 127.0.0.1 ad.e-kolay.net
 127.0.0.1 ad.eurosport.com
@@ -796,6 +797,7 @@
 127.0.0.1 adserver.com
 127.0.0.1 adserver.designertoday.com
 127.0.0.1 adserver.digitoday.com
+127.0.0.1 adserver.dotcommedia.de
 127.0.0.1 adserver.finditquick.com
 127.0.0.1 adserver.flossiemediagroup.com
 127.0.0.1 adserver.fmpub.net
@@ -836,7 +838,6 @@
 127.0.0.1 adserver.startnow.com
 127.0.0.1 adserver.theonering.net
 127.0.0.1 adserver.twitpic.com
-127.0.0.1 adserver.ugo.com
 127.0.0.1 adserver.viagogo.com
 127.0.0.1 adserver.virginmedia.com
 127.0.0.1 adserver.yahoo.com
@@ -864,6 +865,7 @@
 127.0.0.1 adskape.ru
 127.0.0.1 adsklick.de
 127.0.0.1 adsmarket.com
+127.0.0.1 adsmart.co.uk
 127.0.0.1 adsmart.com
 127.0.0.1 adsmart.net
 127.0.0.1 adsmusic.com
@@ -895,7 +897,6 @@
 127.0.0.1 adtology.com
 127.0.0.1 adtology3.com
 127.0.0.1 adtoma.com
-127.0.0.1 adtrackerelite.com
 127.0.0.1 adtrade.net
 127.0.0.1 adtrading.de
 127.0.0.1 adtrak.net
@@ -1236,7 +1237,6 @@
 127.0.0.1 casinotraffic.com
 127.0.0.1 casinotreasure.com
 127.0.0.1 cbanners.virtuagirlhd.com
-127.0.0.1 cben1.net
 127.0.0.1 cbmall.com
 127.0.0.1 cbx.net
 127.0.0.1 cecash.com
@@ -1270,7 +1270,6 @@
 127.0.0.1 clickability.com
 127.0.0.1 clickadz.com
 127.0.0.1 clickagents.com
-127.0.0.1 clickaider.com
 127.0.0.1 clickbank.com
 127.0.0.1 clickbank.net
 127.0.0.1 clickbooth.com
@@ -1281,7 +1280,6 @@
 127.0.0.1 clickdensity.com
 127.0.0.1 clickedyclick.com
 127.0.0.1 clickforwebmasters.com
-127.0.0.1 clickhere.foronlinegames.com
 127.0.0.1 clickhereforcellphones.com
 127.0.0.1 clickhouse.com
 127.0.0.1 clickhype.com
@@ -1362,6 +1360,7 @@
 127.0.0.1 cqcounter.com
 127.0.0.1 crakmedia.com
 127.0.0.1 craktraffic.com
+127.0.0.1 crawlability.com
 127.0.0.1 crazypopups.com
 127.0.0.1 creafi-online-media.com
 127.0.0.1 creative.ak.facebook.com
@@ -1440,7 +1439,6 @@
 127.0.0.1 eiv.baidu.com
 127.0.0.1 elitedollars.com
 127.0.0.1 elitetoplist.com
-127.0.0.1 em.aveno.net
 127.0.0.1 emarketer.com
 127.0.0.1 emediate.dk
 127.0.0.1 emediate.eu
@@ -1800,7 +1798,6 @@
 127.0.0.1 megastats.com
 127.0.0.1 megawerbung.de
 127.0.0.1 memorix.sdv.fr
-127.0.0.1 metaad.econet.hu
 127.0.0.1 metaffiliation.com
 127.0.0.1 metanetwork.com
 127.0.0.1 methodcash.com
@@ -1852,7 +1849,6 @@
 127.0.0.1 nedstatbasic.net
 127.0.0.1 nedstatpro.net
 127.0.0.1 neocounter.neoworx-blog-tools.net
-127.0.0.1 neocounter.net
 127.0.0.1 neoffic.com
 127.0.0.1 net-filter.com
 127.0.0.1 netaffiliation.com
@@ -1919,6 +1915,7 @@
 127.0.0.1 onlinecashmethod.com
 127.0.0.1 onlinerewardcenter.com
 127.0.0.1 onresponse.com
+127.0.0.1 openad.tf1.fr
 127.0.0.1 openad.travelnow.com
 127.0.0.1 openads.friendfinder.com
 127.0.0.1 openads.org
@@ -1936,7 +1933,6 @@
 127.0.0.1 oxcash.com
 127.0.0.1 oxen.hillcountrytexas.com
 127.0.0.1 pagead.l.google.com
-127.0.0.1 pagerank-control.de
 127.0.0.1 pagerank-estate-spb.ru
 127.0.0.1 pagerank-ranking.com
 127.0.0.1 pagerank-ranking.de
@@ -2127,7 +2123,6 @@
 127.0.0.1 roar.com
 127.0.0.1 robotreplay.com
 127.0.0.1 roia.biz
-127.0.0.1 roings.com
 127.0.0.1 rok.com.com
 127.0.0.1 rose.ixbt.com
 127.0.0.1 rotabanner.com
@@ -2290,6 +2285,7 @@
 127.0.0.1 thesearchworks.com
 127.0.0.1 thruport.com
 127.0.0.1 tinybar.com
+127.0.0.1 tizers.net
 127.0.0.1 tldadserv.com
 127.0.0.1 tlvmedia.com
 127.0.0.1 tntclix.co.uk
@@ -2301,7 +2297,6 @@
 127.0.0.1 top.one.ru
 127.0.0.1 top.proext.com
 127.0.0.1 top100-images.rambler.ru
-127.0.0.1 top100.kontraband.com
 127.0.0.1 top100.mafia.ru
 127.0.0.1 top123.ro
 127.0.0.1 top20.com
@@ -2473,6 +2468,7 @@
 127.0.0.1 window.nixnet.cz
 127.0.0.1 wintricksbanner.googlepages.com
 127.0.0.1 wipub.com
+127.0.0.1 witch-counter.de
 127.0.0.1 wlmarketing.com
 127.0.0.1 wmirk.ru
 127.0.0.1 wondoads.de
@@ -2503,7 +2499,6 @@
 127.0.0.1 xtendmedia.com
 127.0.0.1 xtremetop100.com
 127.0.0.1 xxxcounter.com
-127.0.0.1 xzoomy.com
 127.0.0.1 y.ibsys.com
 127.0.0.1 yab-adimages.s3.amazonaws.com
 127.0.0.1 yabuka.com

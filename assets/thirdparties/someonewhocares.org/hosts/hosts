@@ -6,7 +6,7 @@
 # Please forward any additions, corrections or comments by email to
 # hosts@someonewhocares.org
 
-# Last updated: Dec 30th, 2013 at 00:05
+# Last updated: Feb 4th, 2014 at 16:51
 
 # Use this file to prevent your computer from connecting to selected
 # internet hosts. This is an easy and effective way to protect you from 
@@ -21,7 +21,7 @@
 # On some machines this may run minutely faster, however the zero version
 # may not be compatible with all systems. 
 
-# This file must be saved as a text file with no extension. (This means it
+# This file must be saved as a text file with no extension. (This means
 # that the file name should be exactly as below, without a ".txt" appended.)
 
 # Let me repeat, the file should be named "hosts" NOT "hosts.txt".
@@ -1612,6 +1612,7 @@ fe80::1%lo0	localhost
 127.0.0.1 clien.net
 127.0.0.1 cnbc.com-article906773.us
 127.0.0.1 co8vd.cn
+127.0.0.1 conduit.com
 127.0.0.1 cra-arc-gc-ca.noads.biz
 127.0.0.1 custom3hurricanedigitalmedia.com
 127.0.0.1 dbios.org
@@ -1748,6 +1749,7 @@ fe80::1%lo0	localhost
 127.0.0.1 scanner.best-click-av1.info
 127.0.0.1 scanner.best-protect.info
 127.0.0.1 scottishstuff-online.com	# Canadian bank phishing site
+127.0.0.1 search.conduit.com
 127.0.0.1 securedliveuploads.com
 127.0.0.1 securityandroidupdate.dinamikaprinting.com
 127.0.0.1 securityscan.us
@@ -1897,6 +1899,7 @@ fe80::1%lo0	localhost
 127.0.0.1 www.webwise.org
 127.0.0.1 www.wewillrocknow.com
 127.0.0.1 www.willysy.com
+127.0.0.1 www1.bmo.com.hotfrio.com.br
 127.0.0.1 www1.firesavez5.com
 127.0.0.1 www1.firesavez6.com
 127.0.0.1 www1.realsoft34.com
@@ -2936,6 +2939,7 @@ fe80::1%lo0	localhost
 #127.0.0.1 ad.hulu.com		# Uncomment to block Hulu.
 #127.0.0.1 adf.ly
 #127.0.0.1 ads.hulu.com		# Uncomment to block Hulu.
+#127.0.0.1 b.scorecardresearch.com	# interferes with Huffington Post slideshows
 #127.0.0.1 iadsdk.apple.com	#may interfere with iTunes radio
 127.0.0.1 0101011.com
 127.0.0.1 0d79ed.r.axf8.net
@@ -3093,6 +3097,7 @@ fe80::1%lo0	localhost
 127.0.0.1 ad.hankooki.com
 127.0.0.1 ad.harrenmedianetwork.com
 127.0.0.1 ad.horvitznewspapers.net
+127.0.0.1 ad.host.bannerflow.com
 127.0.0.1 ad.howstuffworks.com
 127.0.0.1 ad.iconadserver.com
 127.0.0.1 ad.insightexpressai.com
@@ -4068,6 +4073,8 @@ fe80::1%lo0	localhost
 127.0.0.1 ads.virginislandsdailynews.com
 127.0.0.1 ads.virtualcountries.com
 127.0.0.1 ads.vnuemedia.com
+127.0.0.1 ads.vs.co
+127.0.0.1 ads.vs.com
 127.0.0.1 ads.wanadooregie.com
 127.0.0.1 ads.warcry.com
 127.0.0.1 ads.watershed-publishing.com
@@ -4103,6 +4110,7 @@ fe80::1%lo0	localhost
 127.0.0.1 ads.xtra.ca
 127.0.0.1 ads.xtra.co.nz
 127.0.0.1 ads.xtramsn.co.nz
+127.0.0.1 ads.yahoo.com
 127.0.0.1 ads.yimg.com
 127.0.0.1 ads.yimg.com.edgesuite.net
 127.0.0.1 ads.yldmgrimg.net
@@ -4815,6 +4823,7 @@ fe80::1%lo0	localhost
 127.0.0.1 appdev.addthis.com
 127.0.0.1 appnexus.com
 127.0.0.1 apps5.oingo.com
+127.0.0.1 apx.moatads.com
 127.0.0.1 arbomedia.pl
 127.0.0.1 arbopl.bbelements.com
 127.0.0.1 arsconsole.global-intermedia.com
@@ -4856,6 +4865,7 @@ fe80::1%lo0	localhost
 127.0.0.1 askmen.thruport.com
 127.0.0.1 asm2.z1.adserver.com
 127.0.0.1 asm3.z1.adserver.com
+127.0.0.1 asn.advolution.de
 127.0.0.1 asn.cunda.advolution.biz
 127.0.0.1 assets.igapi.com
 127.0.0.1 assets.percentmobile.com
@@ -4891,7 +4901,6 @@ fe80::1%lo0	localhost
 127.0.0.1 b.myspace.com
 127.0.0.1 b.rad.live.com
 127.0.0.1 b.rad.msn.com
-127.0.0.1 b.scorecardresearch.com
 127.0.0.1 b1.adbrite.com
 127.0.0.1 b1.azjmp.com
 127.0.0.1 babycenter.tt.omtrdc.net
@@ -4988,6 +4997,7 @@ fe80::1%lo0	localhost
 127.0.0.1 banners.tucson.com
 127.0.0.1 banners.unibet.com
 127.0.0.1 banners.valuead.com
+127.0.0.1 banners.videosecrets.com
 127.0.0.1 banners.webmasterplan.com
 127.0.0.1 banners.wunderground.com
 127.0.0.1 banners.zbs.ru
@@ -5590,6 +5600,7 @@ fe80::1%lo0	localhost
 127.0.0.1 finance-offer.com
 127.0.0.1 finanzmeldungen.com
 127.0.0.1 finder.cox.net
+127.0.0.1 fixbonus.com
 127.0.0.1 floatingads.madisonavenue.com
 127.0.0.1 floridat.app.ur.gcion.com
 127.0.0.1 flowers-offer.com
@@ -5811,6 +5822,7 @@ fe80::1%lo0	localhost
 127.0.0.1 gwallet.com
 127.0.0.1 gx-in-f109.1e100.net
 127.0.0.1 h-afnetwww.adshuffle.com
+127.0.0.1 h.ppjol.com
 127.0.0.1 halfords.ukrpts.net
 127.0.0.1 happydiscountspecials.com
 127.0.0.1 harvest.adgardener.com
@@ -5890,9 +5902,11 @@ fe80::1%lo0	localhost
 127.0.0.1 idpix.media6degrees.com
 127.0.0.1 ieee.adbureau.net
 127.0.0.1 if.bbanner.it
+127.0.0.1 iftarvakitleri.net
 127.0.0.1 ih2.gamecopyworld.com
 127.0.0.1 ilinks.industrybrains.com
 127.0.0.1 im.adtech.de
+127.0.0.1 im.banner.t-online.de
 127.0.0.1 im.of.pl
 127.0.0.1 im.xo.pl
 127.0.0.1 image.click.livedoor.com
@@ -6202,6 +6216,7 @@ fe80::1%lo0	localhost
 127.0.0.1 mds.centrport.net
 127.0.0.1 media.888.com
 127.0.0.1 media.adcentriconline.com
+127.0.0.1 media.adrcdn.com
 127.0.0.1 media.adrevolver.com
 127.0.0.1 media.adrime.com
 127.0.0.1 media.adshadow.net
@@ -6484,6 +6499,7 @@ fe80::1%lo0	localhost
 127.0.0.1 people-choice-sites.com
 127.0.0.1 personalcare-offer.com
 127.0.0.1 personalcashbailout.com
+127.0.0.1 pg2.solution.weborama.fr
 127.0.0.1 ph-ad01.focalink.com
 127.0.0.1 ph-ad02.focalink.com
 127.0.0.1 ph-ad03.focalink.com
@@ -6721,6 +6737,7 @@ fe80::1%lo0	localhost
 127.0.0.1 s.media-imdb.com
 127.0.0.1 s.megaclick.com
 127.0.0.1 s.moatads.com
+127.0.0.1 s.ppjol.net
 127.0.0.1 s.skimresources.com
 127.0.0.1 s.tcimg.com
 127.0.0.1 s0b.bluestreak.com
@@ -6734,6 +6751,7 @@ fe80::1%lo0	localhost
 127.0.0.1 safe.hyperpaysys.com
 127.0.0.1 safenyplanet.in
 127.0.0.1 salesforcecom.tt.omtrdc.net
+127.0.0.1 samsung3.solution.weborama.fr
 127.0.0.1 sat-city-ads.com
 127.0.0.1 saturn.tiser.com.au
 127.0.0.1 save-plan.com
@@ -6793,6 +6811,7 @@ fe80::1%lo0	localhost
 127.0.0.1 serv.adspeed.com
 127.0.0.1 serv2.ad-rotator.com
 127.0.0.1 servads.aip.org
+127.0.0.1 serve.freegaypix.com
 127.0.0.1 serve.prestigecasino.com
 127.0.0.1 servedby.adcombination.com
 127.0.0.1 servedby.advertising.com
@@ -6832,6 +6851,7 @@ fe80::1%lo0	localhost
 127.0.0.1 services1.adtech.de
 127.0.0.1 services1.adtech.fr
 127.0.0.1 services1.adtech.us
+127.0.0.1 serving.plexop.net
 127.0.0.1 sexpartnerx.com
 127.0.0.1 sexsponsors.com
 127.0.0.1 sexzavod.com
@@ -6922,6 +6942,7 @@ fe80::1%lo0	localhost
 127.0.0.1 spotxchange.com
 127.0.0.1 sq2trk2.com
 127.0.0.1 srs.targetpoint.com
+127.0.0.1 srv.juiceadv.com
 127.0.0.1 ssads.osdn.com
 127.0.0.1 sso.canada.com
 127.0.0.1 st.blogads.com
@@ -7017,6 +7038,7 @@ fe80::1%lo0	localhost
 127.0.0.1 taloussanomat.linkpulse.com
 127.0.0.1 tap2-cdn.rubiconproject.com
 127.0.0.1 tbtrack.zutrack.com
+127.0.0.1 tcadops.ca
 127.0.0.1 tcimg.com
 127.0.0.1 tdameritrade.tt.omtrdc.net
 127.0.0.1 tdc.advertorials.dk
@@ -7087,6 +7109,7 @@ fe80::1%lo0	localhost
 127.0.0.1 tracking.keywordmax.com
 127.0.0.1 tracking.veoxa.com
 127.0.0.1 tradearabia.advertserve.com
+127.0.0.1 tradefx.advertserve.com
 127.0.0.1 trafficbee.com
 127.0.0.1 trafficrevenue.net
 127.0.0.1 traffictraders.com
