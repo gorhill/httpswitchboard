@@ -116,84 +116,42 @@ Github:
             * github.global.ssl.fastly.net
             * github-camo.global.ssl.fastly.net
 
-Google Account:
-    keys: accounts.google.com
-    requires: Google Plus
-    scope: accounts.google.com
+Google:
+    keys: '*.google.com'
+    scope: '*.google.com'
         whitelist: |
             * google.com
+            frame accounts.google.com
+            frame plus.google.com
+            frame talkgadget.google.com
+            # googleapis.com is a PSL
+            * maps.googleapis.com
+            * mts1.googleapis.com
             * googleusercontent.com
-            * ssl.gstatic.com
-            frame accounts.youtube.com
-    scope: accounts.youtube.com
-        whitelist: |
-            * accounts.youtube.com
+            * gstatic.com
+            * youtube.com
             frame accounts.youtube.com
 
-Google Plus:
-    keys: plus.google.com
-    requires: Google Account
-    scope: plus.google.com
+Youtube:
+    facode: f167
+    keys: www.youtube.com
+    scope: www.youtube.com
         whitelist: |
+            * youtube.com
+            frame youtube.com
+            * youtube-nocookie.com
+            * ytimg.com
+            * googlevideo.com
             * google.com
+            * ggpht.com
+            # As per issue #169
+            * youtube.googleapis.com
+            * plus.googleapis.com
+            frame plus.googleapis.com
+            cookie accounts.google.com
+            script accounts.google.com
             frame google.com
-            * gstatic.com
-            * googleusercontent.com
-
-Google Search:
-    keys: www.google.com
-    scope: www.google.com
-        whitelist: |
-            * google.com
-            frame accounts.youtube.com
-
-Google Search Canada:
-    keys: www.google.ca
-    scope: www.google.ca
-        whitelist: |
-            * www.google.ca
-
-Google Groups Discussions:
-    keys: |
-        groups.google.com
-    scope: groups.google.com
-        whitelist: |
-            * groups.google.com
-            * www.google.com
-            * gstatic.com
-
-Google Groups Discussions (with account):
-    keys: groups.google.com
-    requires: |
-        Google Account
-        Google Groups Discussions
-
-Google Product Forums:
-    keys: productforums.google.com
-    scope: productforums.google.com
-        whitelist: |
-            * productforums.google.com
-            * www.google.com
-            * gstatic.com
-
-Google Product Forums (with account):
-    keys: productforums.google.com
-    requires: |
-        Google Account
-        Google Product Forums
-
-Google News:
-    keys: news.google.com
-    scope: news.google.com
-        whitelist: |
-            * news.google.com
-            * gstatic.com
-
-Google News (with account):
-    keys: news.google.com
-    requires: |
-        Google Account
-        Google News
+            * apis.google.com
 
 The Guardian:
     keys: www.theguardian.com
@@ -353,32 +311,4 @@ Yahoo News:
         whitelist: |
             * news.yahoo.com
             * yimg.com
-
-Youtube:
-    facode: f167
-    keys: www.youtube.com
-    scope: www.youtube.com
-        whitelist: |
-            * youtube.com
-            frame youtube.com
-            * youtube-nocookie.com
-            * ytimg.com
-            * googlevideo.com
-            * google.com
-            * ggpht.com
-            # As per issue #169
-            * youtube.googleapis.com
-            * plus.googleapis.com
-            frame plus.googleapis.com
-            cookie accounts.google.com
-            script accounts.google.com
-            frame google.com
-            * apis.google.com
-
-Youtube (with account):
-    facode: f167
-    keys: www.youtube.com
-    requires: |
-        Youtube
-        Google Account
 
