@@ -257,8 +257,8 @@ Reddit (with account):
             script ajax.googleapis.com
 
 Twitter (with account):
-    keys: twitter.com
-    scope: twitter.com
+    keys: '*.twitter.com'
+    scope: '*.twitter.com'
         whitelist: |
             * twitter.com
             * twimg.com
