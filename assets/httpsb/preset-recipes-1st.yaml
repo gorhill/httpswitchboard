@@ -18,19 +18,16 @@
 #
 # General rules for 1st-party recipes:
 # - Preset recipe name MUST be unique.
-# - Favor rules which apply to whole hostname/domain, rather than very narrow
-#   type/hostname.
-#   - This is the opposite of 3rd-party preset recipes.
+# - For 1st-party hostname/domains, favor broad hostname- or domain-based rules.
+# - For 3st-party hostname/domains, favor narrow type/hostname-based rules, ONLY
+#   if they are really needed to unbreak a site.
 # - If no scope declared, assume these existing rules:
 #   - css/* whitelisted
 #   - image/* whitelisted
 #   - frame/* blacklisted
 # - Therefore if a web site requires frame, whitelist frame/hostname for that
 #   web site.
-# - NEVER use type/* for unscoped 1st-party rules (I might end up enforcing
-#   that in code).
-# - If a scope is declared, assume nothing is whitelisted or blacklisted
-#   (blank slate, i.e. all cells are graylisted).
+# - NEVER use type/*.
 #
 ################################################################################
 
@@ -249,7 +246,7 @@ New York Times (with account):
 
 Reddit (with account):
     keys: |
-        reddit.com
+        www.reddit.com
         ssl.reddit.com
     scope: www.reddit.com
         whitelist: |
@@ -257,6 +254,7 @@ Reddit (with account):
             * redditmedia.com
             * redditstatic.com
             * redditstatic.s3.amazonaws.com
+            script ajax.googleapis.com
     scope: ssl.reddit.com
         whitelist: |
             * reddit.com
