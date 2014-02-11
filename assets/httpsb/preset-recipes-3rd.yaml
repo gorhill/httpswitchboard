@@ -69,6 +69,12 @@ Disqus:
         image disquscdn.com
         script disquscdn.com
 
+Embedly:
+    keys: cdn.embedly.com
+    whitelist: |
+        script cdn.embedly.com
+        frame cdn.embedly.com
+
 Facebook:
     facode: f09a
     keys: |

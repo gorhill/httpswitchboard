@@ -44,6 +44,13 @@ Ars Technica:
             * arstechnica.com
             * arstechnica.net
 
+Boing Boing:
+    keys: boingboing.net
+    scope: boingboing.net
+        whitelist: |
+            * boingboing.net
+            frame boingboing.net
+
 Businessweek:
     keys: www.businessweek.com
     scope: www.businessweek.com
@@ -66,6 +73,14 @@ Daily Motion:
         whitelist: |
             * dailymotion.com
             * dmcdn.net
+
+Embedly:
+    keys: embed.ly
+    scope: embed.ly
+        whitelist: |
+            * embed.ly
+            * embedly.com
+            frame embedly.com
 
 Fox News:
     keys: '*.foxnews.com'
