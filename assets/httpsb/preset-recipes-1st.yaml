@@ -213,6 +213,7 @@ Mashable:
     scope: mashable.com
         whitelist: |
             * mashable.com
+            frame mashable.com
             * mshcdn.com
 
 Microsoft Account:
@@ -245,22 +246,15 @@ New York Times (with account):
             * nytimes.com
 
 Reddit (with account):
-    keys: |
-        www.reddit.com
-        ssl.reddit.com
-    scope: www.reddit.com
+    keys: '*.reddit.com'
+    scope: '*.reddit.com'
         whitelist: |
             * reddit.com
+            frame www.reddit.com
             * redditmedia.com
             * redditstatic.com
             * redditstatic.s3.amazonaws.com
             script ajax.googleapis.com
-    scope: ssl.reddit.com
-        whitelist: |
-            * reddit.com
-            * redditstatic.s3.amazonaws.com
-
-
 
 Twitter (with account):
     keys: twitter.com
