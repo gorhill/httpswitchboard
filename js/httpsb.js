@@ -276,11 +276,14 @@ HTTPSB.revealTemporaryDomainScope = function(domainScopeKey) {
         if ( scopeKey === domainScopeKey ) {
             continue;
         }
+        // Example: '.twitter.com' in scope 'support.twitter.com'?
         pos = scopeKey.lastIndexOf(keySuffix);
         if ( pos < 0 ) {
-            continue;
-        }
-        if ( pos !== scopeKey.length - keySuffixLen ) {
+            // Example: scope 'twitter.com' in '.twitter.com'?
+            if ( keySuffix.indexOf(scopeKey) !== 1 ) {
+                continue;
+            }
+        } else if ( pos !== scopeKey.length - keySuffixLen ) {
             continue;
         }
         // Turn off scope
