@@ -123,8 +123,10 @@ Google:
             * google.com
             frame accounts.google.com
             frame plus.google.com
+            frame apis.google.com
             frame talkgadget.google.com
             # googleapis.com is a PSL
+            * ajax.googleapis.com
             * maps.googleapis.com
             * mts1.googleapis.com
             * googleusercontent.com
@@ -205,18 +207,11 @@ NBC News:
             * nbcnews.com
 
 New York Times:
-    keys: nytimes.com
-    scope: www.nytimes.com
+    keys: '*.nytimes.com'
+    scope: '*.nytimes.com'
         whitelist: |
             * nytimes.com
             * nyt.com
-
-New York Times (with account):
-    keys: myaccount.nytimes.com
-    requires: New York Times
-    scope: myaccount.nytimes.com
-        whitelist: |
-            * nytimes.com
 
 Reddit (with account):
     keys: '*.reddit.com'
