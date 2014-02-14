@@ -442,7 +442,7 @@ function prunePresetBlacklistEntries() {
 /******************************************************************************/
 
 function loadPublicSuffixList() {
-    var list = readLocalTextFile('assets/thirdparties/mxr.mozilla.org/effective_tld_names.dat');
+    var list = readLocalTextFile('assets/thirdparties/publicsuffix.org/list/effective_tld_names.dat');
     publicSuffixList.parse(list, punycode.toASCII);
 }
 
