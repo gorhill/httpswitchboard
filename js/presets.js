@@ -421,20 +421,15 @@ HTTPSB.PresetManager.prototype.parseEntry = function(entry) {
 
 /******************************************************************************/
 
-HTTPSB.loadPresets = function() {
-    var content;
-    var entryBeg, entryEnd;
+HTTPSB.PresetManager.prototype.merge1stPartyPresets = function(details) {
     var preset;
-
-    var presetManager = new this.PresetManager();
-    this.presetManager = presetManager;
-
-    content = readLocalTextFile('assets/httpsb/preset-recipes-1st.yaml')
+    var content = details.content
         // Remove comments
         .replace(/(^|\s)#[^\n]*/g, '$1')
         // Remove empty lines
         .replace(/(^|\n)\s*\n/g, '$1');
-    entryBeg = entryEnd = 0;
+    var entryBeg = 0,
+        entryEnd = 0;
     while ( content.charAt(entryEnd) !== '' ) {
         entryEnd = content.indexOf('\n', entryEnd);
         if ( entryEnd >= 0 ) {
@@ -443,20 +438,26 @@ HTTPSB.loadPresets = function() {
             entryEnd = content.length;
         }
         if ( content.charAt(entryEnd) !== ' ' ) {
-            preset = presetManager.parseEntry(content.slice(entryBeg, entryEnd, true));
+            preset = this.parseEntry(content.slice(entryBeg, entryEnd, true));
             if ( preset ) {
-                presetManager.rememberFirstParty(preset);
+                this.rememberFirstParty(preset);
             }
             entryBeg = entryEnd;
         }
     }
+};
 
-    content = readLocalTextFile('assets/httpsb/preset-recipes-3rd.yaml')
+/******************************************************************************/
+
+HTTPSB.PresetManager.prototype.merge3rdPartyPresets = function(details) {
+    var preset;
+    var content = details.content
         // Remove comments
         .replace(/(^|\s)#[^\n]*/g, '$1')
         // Remove empty lines
         .replace(/(^|\n)\s*\n/g, '$1');
-    entryBeg = entryEnd = 0;
+    var entryBeg = 0,
+        entryEnd = 0;
     while ( content.charAt(entryEnd) !== '' ) {
         entryEnd = content.indexOf('\n', entryEnd);
         if ( entryEnd >= 0 ) {
@@ -465,13 +466,23 @@ HTTPSB.loadPresets = function() {
             entryEnd = content.length;
         }
         if ( content.charAt(entryEnd) !== ' ' ) {
-            preset = presetManager.parseEntry(content.slice(entryBeg, entryEnd, true));
+            preset = this.parseEntry(content.slice(entryBeg, entryEnd, true));
             if ( preset ) {
-                presetManager.rememberThirdParty(preset);
+                this.rememberThirdParty(preset);
             }
             entryBeg = entryEnd;
         }
     }
+};
+
+/******************************************************************************/
+
+HTTPSB.loadPresets = function() {
+    if ( !this.presetManager ) {
+        this.presetManager = new this.PresetManager();
+    }
+    HTTPSB.assets.get('assets/httpsb/preset-recipes-1st.yaml', 'merge1stPartyPresets');
+    HTTPSB.assets.get('assets/httpsb/preset-recipes-3rd.yaml', 'merge3rdPartyPresets');
 };
 
 /******************************************************************************/

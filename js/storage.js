@@ -273,24 +273,8 @@ function loadRemoteBlacklistsHandler(store) {
             continue;
         }
 
-        responseText = readLocalTextFile(location);
-        if ( !responseText ) {
-            httpsb.remoteBlacklists[location].error = 'Unable to read content';
-            console.error('HTTP Switchboard > Unable to read content of "%s"', location);
-            continue;
-        }
-
-        // rhill 2013-12-10: now merging synchronously.
-        mergeRemoteBlacklist({
-            url: location,
-            raw: responseText
-        });
+        HTTPSB.assets.get(location, 'mergeBlacklistedHosts');
     }
-
-    chrome.runtime.sendMessage({ what: 'presetBlacklistsLoaded' });
-
-    // rhill 2013-12-10: prune read-only blacklist entries.
-    prunePresetBlacklistEntries();
 }
 
 /******************************************************************************/
@@ -308,10 +292,10 @@ function localRemoveRemoteBlacklist(location) {
 
 /******************************************************************************/
 
-function mergeRemoteBlacklist(list) {
-    // console.log('HTTP Switchboard > mergeRemoteBlacklist from "%s": "%s..."', list.url, list.raw.slice(0, 40));
+function mergeBlacklistedHosts(details) {
+    // console.log('HTTP Switchboard > mergeBlacklistedHosts from "%s": "%s..."', details.path, details.content.slice(0, 40));
     var httpsb = HTTPSB;
-    var raw = list.raw;
+    var raw = details.content;
     var rawEnd = raw.length;
 
     // rhill 2013-10-21: No need to prefix with '* ', the hostname is just what
@@ -379,8 +363,14 @@ function mergeRemoteBlacklist(list) {
 
     // For convenience, store the number of entries for this
     // blacklist, user might be happy to know this information.
-    httpsb.remoteBlacklists[list.url].entryCount = thisListCount;
-    httpsb.remoteBlacklists[list.url].entryUsedCount = thisListUsedCount;
+    httpsb.remoteBlacklists[details.path].entryCount = thisListCount;
+    httpsb.remoteBlacklists[details.path].entryUsedCount = thisListUsedCount;
+
+    // This will allow the displayed blacklists in Settings page to refresh.
+    chrome.runtime.sendMessage({ what: 'presetBlacklistsLoaded' });
+
+    // rhill 2013-12-10: prune read-only blacklist entries.
+    prunePresetBlacklistEntries();
 }
 
 /******************************************************************************/
@@ -442,8 +432,11 @@ function prunePresetBlacklistEntries() {
 /******************************************************************************/
 
 function loadPublicSuffixList() {
-    var list = readLocalTextFile('assets/thirdparties/publicsuffix.org/list/effective_tld_names.dat');
-    publicSuffixList.parse(list, punycode.toASCII);
+    HTTPSB.assets.get('assets/thirdparties/publicsuffix.org/list/effective_tld_names.dat', 'applyPublicSuffixList');
+}
+
+function applyPublicSuffixList(text) {
+    publicSuffixList.parse(text, punycode.toASCII);
 }
 
 /******************************************************************************/

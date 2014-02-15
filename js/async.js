@@ -190,28 +190,36 @@ function onMessageHandler(request, sender, callback) {
     if ( request && request.what ) {
         switch ( request.what ) {
 
-        case 'mergeRemoteBlacklist':
-            mergeRemoteBlacklist(request.list);
+        case 'applyPublicSuffixList':
+            applyPublicSuffixList(request.content);
             break;
 
-        case 'localRemoveRemoteBlacklist':
-            localRemoveRemoteBlacklist(request.location);
-            break;
-
-         case 'reloadPresetBlacklists':
-            reloadPresetBlacklists(request.switches);
-            break;
-
-        case 'startWebRequestHandler':
-            startWebRequestHandler(request.from);
+        case 'gotoExtensionURL':
+            gotoExtensionURL(request.url);
             break;
 
         case 'gotoURL':
             chrome.tabs.update(request.tabId, { url: request.url });
             break;
 
-        case 'gotoExtensionURL':
-            gotoExtensionURL(request.url);
+        case 'localRemoveRemoteBlacklist':
+            localRemoveRemoteBlacklist(request.location);
+            break;
+
+        case 'mergeBlacklistedHosts':
+            mergeBlacklistedHosts(request);
+            break;
+
+         case 'merge1stPartyPresets':
+            HTTPSB.presetManager.merge1stPartyPresets(request);
+            break;
+
+         case 'merge3rdPartyPresets':
+            HTTPSB.presetManager.merge3rdPartyPresets(request);
+            break;
+
+        case 'startWebRequestHandler':
+            startWebRequestHandler(request.from);
             break;
 
         case 'userSettings':
