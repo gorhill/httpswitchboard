@@ -30,18 +30,19 @@ Assets
     Update:
         Use remote
         Save in cache
-        Go to read
 
     Import:
-        Read file
+        Use textarea
         Save in cache [user directory]
 
 File system structure:
     assets
         httpsb
+            ...
         thirdparties
+            ...
         user
-            blacklists
+            blacklisted-hosts.txt
                 ...
 */
 
@@ -52,10 +53,9 @@ File system structure:
 /******************************************************************************/
 
 var fileSystem;
+var remoteRoot = 'https://raw2.github.com/gorhill/httpswitchboard/master/';
 
 /******************************************************************************/
-
-// Support async (let caller choose)
 
 var getTextFileFromURL = function(url, onLoad, onError) {
     var xhr = new XMLHttpRequest();
@@ -65,7 +65,15 @@ var getTextFileFromURL = function(url, onLoad, onError) {
     xhr.ontimeout = onError;
     xhr.open('get', url, true);
     xhr.send();
-}
+};
+
+/******************************************************************************/
+
+// Useful to avoid having to manage a directory tree
+
+var cachePathFromPath = function(path) {
+    return path.replace(/\//g, '___');
+};
 
 /******************************************************************************/
 
@@ -119,19 +127,90 @@ var readLocalFile = function(path, msg) {
 
     // From cache?
     if ( fileSystem ) {
-        fileSystem.root.getFile(path, null, onCacheEntryFound, onCacheEntryError);
+        fileSystem.root.getFile(cachePathFromPath(path), null, onCacheEntryFound, onCacheEntryError);
         return;
     }
 
     // From built-in local directory
-    getTextFileFromURL(chrome.runtime.getURL(path), onLocalFileLoaded);
+    getTextFileFromURL(chrome.runtime.getURL(path), onLocalFileLoaded, onLocalFileError);
 };
 
 /******************************************************************************/
 
-var updateFromRemote = function(localPath) {
+var updateFromRemote = function(path, msg) {
+    var remoteURL = remoteRoot + path;
+    var remoteContent = '';
 
-}
+    var onFileWriteSuccess = function(fwriter) {
+        console.log('HTTP Switchboard> onFileWriteSuccess("%s")', path);
+        chrome.runtime.sendMessage({
+            'what': msg,
+            'path': path
+        });
+    };
+
+    var onFileWriteError = function(err) {
+        console.log('HTTP Switchboard> onFileWriteError("%s"):', path, err.message);
+        chrome.runtime.sendMessage({
+            'what': msg,
+            'path': path,
+            'error': err
+        });
+    };
+
+    var onCreateFileWriterSuccess = function(fwriter) {
+        fwriter.onwriteend = onFileWriteSuccess;
+        fwriter.onerror = onFileWriteError;
+        var blob = new Blob([remoteContent], { type: 'text/plain' });
+        fwriter.write(blob);
+    };
+
+    var onCreateFileWriterError = function(err) {
+        console.log('HTTP Switchboard> onCreateFileWriterError("%s"):', path, err.message);
+        chrome.runtime.sendMessage({
+            'what': msg,
+            'path': path,
+            'error': err
+        });
+    };
+
+    var onCacheEntryFound = function(file) {
+        console.log('HTTP Switchboard> onCacheEntryFound():', file.toURL());
+        file.createWriter(onCreateFileWriterSuccess, onCreateFileWriterError);
+    };
+
+    var onCacheEntryError = function(err) {
+        console.log('HTTP Switchboard> onCacheEntryError("%s"):', path, err.message);
+        chrome.runtime.sendMessage({
+            'what': msg,
+            'path': path,
+            'error': err
+        });
+    };
+
+    var onRemoteFileLoaded = function() {
+        console.log('HTTP Switchboard> onRemoteFileLoaded()');
+        if ( this.responseText && this.responseText.length ) {
+            remoteContent = this.responseText;
+            fileSystem.root.getFile(cachePathFromPath(path), { create: true }, onCacheEntryFound, onCacheEntryError);
+        }
+        this.onload = this.onerror = null;
+    };
+
+    var onRemoteFileError = function(err) {
+        console.log('HTTP Switchboard> onRemoteFileError("%s"):', remoteURL, err.message);
+        this.onload = this.onerror = null;
+        chrome.runtime.sendMessage({
+            'what': msg,
+            'path': path,
+            'error': err
+        });
+    };
+
+    if ( fileSystem ) {
+        getTextFileFromURL(remoteURL, onRemoteFileLoaded, onRemoteFileError);
+    }
+};
 
 /******************************************************************************/
 
