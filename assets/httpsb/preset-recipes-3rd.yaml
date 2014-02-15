@@ -143,6 +143,17 @@ Reddit:
         script buttons.reddit.com
         script ajax.googleapis.com
 
+Tumblr:
+    facode: f173
+    keys: www.tumblr.com
+    whitelist: |
+        * www.tumblr.com
+        frame www.tumblr.com
+        script assets.tumblr.com
+        frame assets.tumblr.com
+        script static.tumblr.com
+        
+
 Twitter:
     facode: f099
     keys: |
@@ -159,13 +170,6 @@ Twitter:
 
 Typekit (Adobe fonts):
     facode: f031
-    keys: use.typekit.com
-    whitelist: |
-        # Referer must be present for fonts to download, hence 'main_frame' has to be whitelisted
-        * use.typekit.com
-
-Typekit (Adobe fonts):
-    facode: f031
     keys: use.typekit.net
     whitelist: |
         # Referer must be present for fonts to download, hence 'main_frame' has to be whitelisted
@@ -178,6 +182,7 @@ Vimeo:
         script vimeo.com
         xhr vimeo.com
         frame vimeo.com
+        other vimeo.com
         css vimeocdn.com
         image vimeocdn.com
         script vimeocdn.com

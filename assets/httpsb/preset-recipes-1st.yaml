@@ -37,12 +37,34 @@
 #
 ################################################################################
 
+4chan:
+    keys: '*.4chan.org'
+    scope: '*.4chan.org'
+        whitelist: |
+            * 4chan.org
+            * 4cdn.org
+            # Because captcha:
+            script www.google.com
+    # Somehow, some XHRs end up as "other chromium-behind-the-scene" requests
+    scope: chromium-behind-the-scene
+        whitelist: |
+            other a.4cdn.org
+            other sys.4chan.org
+
 Ars Technica:
     keys: arstechnica.com
     scope: arstechnica.com
         whitelist: |
             * arstechnica.com
             * arstechnica.net
+
+Amazon:
+    keys: www.amazon.com
+    scope: www.amazon.com
+        whitelist: |
+            * amazon.com
+            * images-amazon.com
+            * ssl-images-amazon.com
 
 Boing Boing:
     keys: boingboing.net
@@ -121,14 +143,12 @@ Google:
     scope: '*.google.com'
         whitelist: |
             * google.com
-            frame accounts.google.com
-            frame plus.google.com
-            frame apis.google.com
-            frame talkgadget.google.com
-            # googleapis.com is a PSL
+            frame google.com
+            # >>> IMPORTANT: googleapis.com is a PSL
             * ajax.googleapis.com
             * maps.googleapis.com
             * mts1.googleapis.com
+            # <<<
             * googleusercontent.com
             * gstatic.com
             * youtube.com
@@ -191,6 +211,15 @@ Mashable:
             frame mashable.com
             * mshcdn.com
 
+Météomedia:
+    keys: www.meteomedia.com
+    scope: www.meteomedia.com
+        whitelist: |
+            * www.meteomedia.com
+            * twnmm.com
+            * webmaptiles.weather.ca
+            script dev.virtualearth.net
+
 Microsoft Account:
     keys: '*.live.com'
     scope: '*.live.com'
@@ -212,6 +241,12 @@ New York Times:
         whitelist: |
             * nytimes.com
             * nyt.com
+
+New Scientist:
+    keys: www.newscientist.com
+    scope: www.newscientist.com
+        whitelist: |
+            * www.newscientist.com
 
 Reddit (with account):
     keys: '*.reddit.com'
