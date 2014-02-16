@@ -194,40 +194,6 @@ function onMessageHandler(request, sender, callback) {
             applyPublicSuffixList(request.content);
             break;
 
-        case 'gotoExtensionURL':
-            gotoExtensionURL(request.url);
-            break;
-
-        case 'gotoURL':
-            chrome.tabs.update(request.tabId, { url: request.url });
-            break;
-
-        case 'localRemoveRemoteBlacklist':
-            localRemoveRemoteBlacklist(request.location);
-            break;
-
-        case 'mergeBlacklistedHosts':
-            mergeBlacklistedHosts(request);
-            break;
-
-         case 'merge1stPartyPresets':
-            HTTPSB.presetManager.merge1stPartyPresets(request);
-            break;
-
-         case 'merge3rdPartyPresets':
-            HTTPSB.presetManager.merge3rdPartyPresets(request);
-            break;
-
-        case 'startWebRequestHandler':
-            startWebRequestHandler(request.from);
-            break;
-
-        case 'userSettings':
-            if ( typeof request.name === 'string' && request.name !== '' ) {
-                response = changeUserSettings(request.name, request.value);
-            }
-            break;
-
         case 'contentScriptHasLocalStorage':
             response = contentScriptLocalStorageHandler(request.url);
             break;
@@ -246,6 +212,44 @@ function onMessageHandler(request, sender, callback) {
                                                            'script',
                                                            requestHostname);
             response = { scriptBlacklisted : boolScriptBlacklisted };
+            break;
+
+        case 'gotoExtensionURL':
+            gotoExtensionURL(request.url);
+            break;
+
+        case 'gotoURL':
+            chrome.tabs.update(request.tabId, { url: request.url });
+            break;
+
+        case 'localRemoveRemoteBlacklist':
+            localRemoveRemoteBlacklist(request.location);
+            break;
+
+        case 'mergeBlacklistedHosts':
+            mergeBlacklistedHosts(request);
+            break;
+
+        case 'merge1stPartyPresets':
+            HTTPSB.presetManager.merge1stPartyPresets(request);
+            break;
+
+        case 'merge3rdPartyPresets':
+            HTTPSB.presetManager.merge3rdPartyPresets(request);
+            break;
+
+        case 'reloadPresetBlacklists':
+            reloadPresetBlacklists(request.switches);
+            break;
+
+        case 'startWebRequestHandler':
+            startWebRequestHandler(request.from);
+            break;
+
+        case 'userSettings':
+            if ( typeof request.name === 'string' && request.name !== '' ) {
+                response = changeUserSettings(request.name, request.value);
+            }
             break;
 
         default:

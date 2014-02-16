@@ -275,6 +275,9 @@ function loadRemoteBlacklistsHandler(store) {
 
         HTTPSB.assets.get(location, 'mergeBlacklistedHosts');
     }
+
+    // This will allow the displayed blacklists in Settings page to refresh.
+    chrome.runtime.sendMessage({ what: 'presetBlacklistsLoaded' });
 }
 
 /******************************************************************************/
