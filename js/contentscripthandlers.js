@@ -76,6 +76,9 @@ function contentScriptSummaryHandler(details, sender) {
         block = httpsb.blacklisted(pageURL, 'object', hostname);
         httpsb.recordFromPageUrl(pageURL, 'object', url, block);
     }
+
+    // https://github.com/gorhill/httpswitchboard/issues/181
+    httpsb.onPageLoadCompleted(pageURL);
 }
 
 /******************************************************************************/

@@ -1,7 +1,7 @@
 body {
     margin: 0;
     border: 0;
-    padding: 2px;
+    padding: 0;
     font: 13px httpsb,sans-serif;
     background-color: white;
     min-width: 32em;
@@ -12,7 +12,7 @@ body {
     }
 
 .paneHead {
-    padding: 2px;
+    padding: 0;
     position: fixed;
     top: 0;
     height: 5.5em;
@@ -25,9 +25,14 @@ body {
     padding-top: 5.5em;
     }
 
+.pullright {
+    float: right;
+    }
+
 .toolbar {
     padding-bottom: 0.5em;
     display: inline-block;
+    white-space: nowrap;
     vertical-align: top;
     }
 .toolbar button {
@@ -39,6 +44,14 @@ body {
     opacity: 0.9;
     cursor: pointer;
     }
+.toolbar button:last-of-type {
+    margin-left: 0;
+    margin-right: 0.6em;
+    }
+.toolbar.pullright button:last-of-type {
+    margin-left: 0.6em;
+    margin-right: 0;
+    }
 .toolbar button:hover {
     background-color: #eee;
     opacity: 1;
@@ -49,18 +62,6 @@ body {
 .toolbar button.fa {
     font: 1.75em 'FontAwesome';
     min-width: 1.3em;
-    }
-.toolbar button:last-of-type {
-    margin-left: 0;
-    margin-right: 0.75em;
-    }
-.toolbar.pullright button:last-of-type {
-    margin-left: 0.75em;
-    margin-right: 0;
-    }
-
-.pullright {
-    float: right;
     }
 
 .dropdown-menu {
@@ -241,7 +242,7 @@ body .toolbar button#scopeCell {
     border: 1px dotted rgba(0,0,0,0.2);
     padding: 6px 1px 3px 1px;
     box-sizing: content-box;
-    width: 18em;
+    width: 20em;
     height: 1.5em;
     white-space: nowrap;
     text-align: right;
@@ -311,22 +312,27 @@ body #scopeKeys {
     }
 
 .matrix .matRow > .matCell:first-child {
-    width: 18em;
+    width: 20em;
     text-align: start;
     direction: rtl;
+    }
+.matrix .matRow.l2 > .matCell:first-child {
+    margin-left: 4px;
+    width: calc(20em - 4px);
     }
 .matrix .matRow > .matCell:hover {
     border-style: solid;
     }
 .matrix .matGroup .matSection {
-    margin: 4px 0 0 0;
+    margin: 2px 0 0 0;
     border: 0;
     padding: 0;
+    /* background-color: rgba(0,0,0,0.05); */
     }
 .matrix .matGroup .matSection:first-child {
-    margin-top: 4px;
+    margin-top: 2px;
     border-top: 1px dotted #ccc;
-    padding-top: 4px;
+    padding-top: 1px;
     }
 .matrix .matGroup.g0 .matSection:first-child {
     margin-top: 0;
@@ -334,12 +340,6 @@ body #scopeKeys {
 .matrix .matGroup.g3 .matSection:first-child {
     margin-top: 0;
     }
-.matrix .matGroup .matSection.collapsed + .matSection.collapsed {
-    margin: 2px 0 0 0;
-    border: 0;
-    padding: 0;
-    }
-
 /* Collapsing of domains */
 .matrix .matSection .matRow.meta {
     display: none;
@@ -360,8 +360,8 @@ body #scopeKeys {
     padding: 0;
     border: 0;
     height: 3px;
-    background: url('/img/matrix-group-hide.png') no-repeat center top 0,
-                url('/img/matrix-group-hline.png') repeat-x center top 3px;
+    background: url('/img/matrix-group-hide.png') no-repeat center top -2px,
+                url('/img/matrix-group-hline.png') repeat-x center top 2px;
     opacity: 0.2;
     cursor: pointer;
     }
@@ -369,8 +369,8 @@ body #scopeKeys {
     opacity: 0.4;
     }
 .matrix .g3Meta.g3Collapsed {
-    background: url('/img/matrix-group-show.png') no-repeat center top 0,
-                url('/img/matrix-group-hline.png') repeat-x center top 3px;
+    background: url('/img/matrix-group-show.png') no-repeat center top -2px,
+                url('/img/matrix-group-hline.png') repeat-x center top 2px;
     }
 .matrix .g3Meta.g3Collapsed ~ .matSection {
     display: none;

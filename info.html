@@ -4,13 +4,30 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>HTTP Switchboard &mdash; Info</title>
 <style>
+/* +++ shared styles +++ */
 body {
-    padding: 0 0 20em 0;
+    padding: 0;
+    padding-bottom: 5em;
     font: 15px httpsb,sans-serif;
     }
-h2 + *, h1 + * {
-    margin-left: 2em;
+h2, h3 {
+    font-family: sans-serif;
     }
+h2 {
+    font-size: 18px;
+    }
+h2:nth-of-type(1) {
+    margin-top: 0;
+    }
+h3 {
+    font-size: 16px;
+    }
+h2 + *, h3 + * {
+    margin: 0 0 0 1em;
+    padding: 0;
+    }
+/* --- shared styles --- */
+
 select {
     max-width: 20em;
     }
@@ -20,7 +37,10 @@ select {
     text-align: right;
     }
 #requests {
-    font-size: 12px;
+    font-size: 13px;
+    }
+#requests * {
+    font-size: inherit;
     }
 #requests > div {
     margin: 0;
@@ -60,18 +80,6 @@ select {
 </head>
 
 <body>
-<h1 data-i18n="statsPageTitle"></h1>
-<div>
-<ul>
-  <li>Version: <span id="version"></span> (<a href="https://github.com/gorhill/httpswitchboard/wiki/Change-log">change log</a>)
-  <li>Storage used: <span id="storageUsed">?</span> %
-  <li><a href="settings.html" target="httpsb">Settings</a>
-  <li><a href="https://github.com/gorhill/httpswitchboard/wiki">Documentation</a>
-  <li>About <a href="https://github.com/gorhill/httpswitchboard/wiki/Permissions">permissions</a>
-  <li><a href="https://github.com/gorhill/httpswitchboard/wiki/Credits">Credits</a>
-</ul>
-</div>
-
 <h2 id="generic-stats">Generic stats</h2>
 <div>
 <ul>
@@ -140,20 +148,8 @@ select {
 
 <h3 data-i18n="statsPageDetailed"></h3>
 <div id="requests">
-    <p style="font-size:small">You can change the maximum number of most recent HTTP requests to log (currently set at <span id="maxLoggedRequests"></span> per page) on the <a href="settings.html">Settings</a> page.</p>
-    <p><button id="refresh-requests" data-i18n="statsPageRefresh"></button></p>
-    <p>
-    Show: <input id="show-main_frame" type="checkbox" checked value="1">Pages&emsp;
-          <input id="show-blocked" type="checkbox" checked value="1"><span style="color:#c00" data-i18n="statsPageBlocked">Blocked</span>&emsp;
-          <input id="show-allowed" type="checkbox" checked value="1"><span style="color:#070" data-i18n="statsPageAllowed">Allowed</span>&emsp;
-          <input id="show-cookie" type="checkbox" checked value="1">Cookies&emsp;
-          <input id="show-image" type="checkbox" checked value="1">Images&emsp;
-          <input id="show-stylesheet" type="checkbox" checked value="1">CSS&emsp;
-          <input id="show-object" type="checkbox" checked value="1">Objects&emsp;
-          <input id="show-script" type="checkbox" checked value="1">Scripts&emsp;
-          <input id="show-xmlhttprequest" type="checkbox" checked value="1">XHRs&emsp;
-          <input id="show-sub_frame" type="checkbox" checked value="1">Frames&emsp;
-          <input id="show-other" type="checkbox" checked value="1">Others&emsp;
+    <p>Remember the last <input id="max-logged-requests" type="text" value="50" size="3"> HTTP requests <b>per page</b>.</p>
+    <p><button id="refresh-requests" data-i18n="statsPageRefresh"></button>&emsp;Show: <input id="show-main_frame" type="checkbox" checked value="1">Pages&emsp;<input id="show-blocked" type="checkbox" checked value="1"><span style="color:#c00" data-i18n="statsPageBlocked">Blocked</span>&emsp;<input id="show-allowed" type="checkbox" checked value="1"><span style="color:#070" data-i18n="statsPageAllowed">Allowed</span>&emsp;<input id="show-cookie" type="checkbox" checked value="1">Cookies&emsp;<input id="show-image" type="checkbox" checked value="1">Images&emsp;<input id="show-stylesheet" type="checkbox" checked value="1">CSS&emsp;<input id="show-object" type="checkbox" checked value="1">Objects&emsp;<input id="show-script" type="checkbox" checked value="1">Scripts&emsp;<input id="show-xmlhttprequest" type="checkbox" checked value="1">XHRs&emsp;<input id="show-sub_frame" type="checkbox" checked value="1">Frames&emsp;<input id="show-other" type="checkbox" checked value="1">Others
     </p>
     <div style="overflow-y:hidden">
     <table id="requestsTable">

@@ -149,7 +149,6 @@ function renderStats() {
     var blockedStats = requestStats.blocked;
     var allowedStats = requestStats.allowed;
     renderNumbers({
-        '#storageUsed': httpsb.storageQuota ? (httpsb.storageUsed / httpsb.storageQuota * 100).toFixed(1) : 0,
         '#cookieRemovedCounter': httpsb.cookieRemovedCounter,
         '#localStorageRemovedCounter': httpsb.localStorageRemovedCounter,
         '#cookieHeaderFoiledCounter': httpsb.cookieHeaderFoiledCounter,
@@ -245,6 +244,33 @@ function renderRequests() {
 
 /******************************************************************************/
 
+function changeUserSettings(name, value) {
+    chrome.runtime.sendMessage({
+        what: 'userSettings',
+        name: name,
+        value: value
+    });
+}
+
+/******************************************************************************/
+
+function changeValueHandler(elem, setting, min, max) {
+    var oldVal = gethttpsb().userSettings[setting];
+    var newVal = Math.round(parseFloat(elem.val()));
+    if ( typeof newVal !== 'number' ) {
+        newVal = oldVal;
+    } else {
+        newVal = Math.max(newVal, min);
+        newVal = Math.min(newVal, max);
+    }
+    elem.val(newVal);
+    if ( newVal !== oldVal ) {
+        changeUserSettings(setting, newVal);
+    }
+}
+
+/******************************************************************************/
+
 function changeFilterHandler() {
     // Save new state of filters in user settings
     // Initialize request filters as per user settings:
@@ -254,12 +280,7 @@ function changeFilterHandler() {
         var input = $(this);
         statsFilters[input.attr('id')] = !!input.prop('checked');
     });
-
-    chrome.runtime.sendMessage({
-        what: 'userSettings',
-        name: 'statsFilters',
-        value: statsFilters
-    });
+    changeUserSettings('statsFilters', statsFilters);
 
     syncWithFilters();
 }
@@ -309,10 +330,13 @@ function targetUrlChangeHandler() {
 
 /******************************************************************************/
 
-function initAll() {
-    $('#version').html(gethttpsb().manifest.version);
-    $('a:not([target])').prop('target', '_blank');
+// Handle user interaction
 
+$(function(){
+    var httpsb = gethttpsb();
+    var userSettings = httpsb.userSettings;
+
+    $('#max-logged-requests').val(userSettings.maxLoggedRequests);
     // Initialize request filters as per user settings:
     // https://github.com/gorhill/httpswitchboard/issues/49
     $('input[id^="show-"][type="checkbox"]').each(function() {
@@ -326,17 +350,16 @@ function initAll() {
     $('#refresh-requests').on('click', renderRequests);
     $('input[id^="show-"][type="checkbox"]').on('change', changeFilterHandler);
     $('#selectPageUrls').on('change', targetUrlChangeHandler);
+    $('#max-logged-requests').on('change', function(){
+        changeValueHandler($(this), 'maxLoggedRequests', 0, 999);
+    });
 
     renderTransientData(true);
     renderRequests();
-}
 
-/******************************************************************************/
-
-// Handle user interaction
-
-$(function(){
-    initAll();
+    // Open links in the proper window
+    $('a[href^="http"]').attr('target', '__blank');
+    $('a[href^="dashboard.html"]').attr('target', 'httpsb-dashboard');
 });
 
 /******************************************************************************/

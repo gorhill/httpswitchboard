@@ -104,6 +104,13 @@ function onBeforeRequestHandler(details) {
 
     // console.debug('onBeforeRequestHandler()> "%s": %o', details.url, details);
 
+    // rhill 2014-02-17: Ignore 'filesystem:chrome-extension://': this can
+    // happen when listening to 'chrome-extension://'.
+    var requestURL = details.url;
+    if ( requestURL.indexOf('filesystem:') === 0 ) {
+        return;
+    }
+
     var canEvaluate = true;
     var httpsb = HTTPSB;
     var tabId = details.tabId;
@@ -114,7 +121,6 @@ function onBeforeRequestHandler(details) {
         // console.debug('onBeforeRequestHandler()> behind-the-scene: "%s"', details.url);
     }
 
-    var requestURL = uriTools.normalizeURI(details.url);
     var hostname, pageURL;
 
     // Don't block chrome extensions
@@ -143,6 +149,9 @@ function onBeforeRequestHandler(details) {
         // quickProfiler.stop('onBeforeRequestHandler');
         return;
     }
+
+    // Normalizing will get rid of the fragment part
+    requestURL = uriTools.normalizeURI(requestURL);
 
     // If it's a root frame or an app, bind to a new page stats store
     var type = details.type;
@@ -446,6 +455,10 @@ function onHeadersReceivedHandler(details) {
     // https://github.com/gorhill/httpswitchboard/issues/75
     var pageURL = pageStats ? httpsb.pageUrlFromPageStats(pageStats) : '*';
     if ( httpsb.whitelisted(pageURL, 'script', requestHostname) ) {
+        // https://github.com/gorhill/httpswitchboard/issues/181
+        if ( pageStats ) {
+            pageStats.pageScriptBlocked = false;
+        }
         return;
     }
 
@@ -456,6 +469,10 @@ function onHeadersReceivedHandler(details) {
             'name': 'Content-Security-Policy',
             'value': "script-src 'none'"
         });
+        // https://github.com/gorhill/httpswitchboard/issues/181
+        if ( pageStats ) {
+            pageStats.pageScriptBlocked = true;
+        }
     }
     // For inline javascript within iframes, we need to sandbox.
     // https://github.com/gorhill/httpswitchboard/issues/73

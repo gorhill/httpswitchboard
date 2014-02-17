@@ -84,36 +84,6 @@ var storageBufferer = {
 
 /******************************************************************************/
 
-// Support async (let caller choose)
-
-function readLocalTextFile(path) {
-    var text = null;
-    try {
-        // If location is local, assume local directory
-        var url = path;
-        if ( url.search(/^https?:\/\//) < 0 ) {
-            url = chrome.runtime.getURL(path);
-        }
-        // console.log('HTTP Switchboard > readLocalTextFile > "%s"', url);
-
-        // rhill 2013-10-24: Beware, our own requests could be blocked by our own
-        // behind-the-scene requests processor.
-        var xhr = new XMLHttpRequest();
-        xhr.responseType = 'text';
-        xhr.open('GET', url, false);
-        xhr.send();
-        if ( xhr.status === 200 ) {
-            text = xhr.responseText;
-        }
-    }
-    catch (err) {
-        console.error('HTTP Switchboard > readLocalTextFile(): %o', err);
-    }
-    return text;
-}
-
-/******************************************************************************/
-
 function getBytesInUseHandler(bytesInUse) {
     HTTPSB.storageUsed = bytesInUse;
 }
@@ -297,6 +267,7 @@ function localRemoveRemoteBlacklist(location) {
 
 function mergeBlacklistedHosts(details) {
     // console.log('HTTP Switchboard > mergeBlacklistedHosts from "%s": "%s..."', details.path, details.content.slice(0, 40));
+
     var httpsb = HTTPSB;
     var raw = details.content;
     var rawEnd = raw.length;

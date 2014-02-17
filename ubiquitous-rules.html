@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>HTTP Switchboard — Ubiquitous rules</title>
+<style>
+/* +++ shared styles +++ */
+body {
+    padding: 0;
+    padding-bottom: 5em;
+    font: 15px httpsb,sans-serif;
+    }
+h2, h3 {
+    font-family: sans-serif;
+    }
+h2 {
+    font-size: 18px;
+    }
+h2:nth-of-type(1) {
+    margin-top: 0;
+    }
+h3 {
+    font-size: 16px;
+    }
+h2 + *, h3 + * {
+    margin: 0 0 0 1em;
+    padding: 0;
+    }
+/* --- shared styles --- */
+
+div > p:first-child {
+    margin-top: 0;
+    }
+div > p:last-child {
+    margin-bottom: 0;
+    }
+ul {
+    padding: 0;
+    list-style-type: none;
+    }
+ul > li {
+    margin: 0 0 0 1em;
+    }
+.dim {
+    font-weight: 100;
+    color: #888;
+    }
+#userUbiquitousBlacklistedHosts {
+    width: 32em;
+    height: 16em;
+    }
+</style>
+<link href='css/fonts.css' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+
+<h2>What is this?</h2>
+<div>
+    <p>&ldquo;Ubiquitous rules&rdquo; are rules which applies everywhere, i.e. in all scopes.</p>
+</div>
+
+<h2 data-i18n="ubiquitousListsOfBlockedHostsHeader"></h2>
+<div>
+    <p>All lists of blocked hosts are loaded as ubiquitous rules, hence these hosts are blacklisted in all scopes.</p>
+    <span id="blacklistReadonlyCount">?</span> preset blacklisted hostnames from (number of distinct entries in parentheses):
+    <ul id="blacklistTemplate" style="display:none">
+        <li class="blacklistDetails"><input type="checkbox" value="">&thinsp;<a href="" type="text/plain"></a>: <span>?</span> used out of <span>?</span>
+    </ul>
+    <ul id="blacklists" style="margin:0.5em 0 0 0;padding-left:1em;color:gray;list-style-type:none">
+        <li style="margin-top:0.5em"><button id="blacklistsApply" disabled="true">Apply changes</button>
+    </ul>
+    <p>Obviously, more lists and/or larger lists enabled means larger memory footprint required by the extension.</p>
+</div>
+
+<h2 id="userUbiquitousBlacklistedHostsPrompt" data-i18n="ubiquitousUserBlockedHostsHeader">Your list of blocked hosts</h2>
+<div>
+    <p><button id="importUserBlacklistFromFile">Import and append</button> &emsp; <button id="exportUserBlacklistToFile">Export</button></p>
+    <p>One hostname per line. Line prefixed with &lsquo;#&rsquo; will be ignored.</p>
+    <textarea id="userUbiquitousBlacklistedHosts"></textarea>
+    <p><button id="userBlacklistApply" disabled="true">Apply changes</button></p>
+</div>
+
+<script src="lib/jquery-2.min.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/ubiquitous-rules.js"></script>
+
+</body>
+</html>

@@ -7,17 +7,25 @@
         "message": "Kontrolliere alle Anfragen deines Browsers durch einfaches Point & Click. Blockiere damit Skripte, IFrames, Werbung, Facebook usw.",
         "description": "this will in chrome web store: must be 132 characters or less"
     },
-    "ruleManagerPageName": {
-        "message": "Regelmanager",
-        "description": "the name of Rule Manager page."
+    "settingsPageName": {
+        "message": "Einstellungen",
+        "description": "appears as tab name in dashboard"
     },
     "statsPageName": {
         "message": "Statistik",
-        "description": "the name of the Statistics page."
+        "description": "appears as tab name in dashboard"
     },
-    "settingsPageName": {
-        "message": "Einstellungen",
-        "description": "the name of the Settings page."
+    "ubiquitousRulesPageName" : {
+        "message": "Ubiquitous rules",
+        "description": "appears as tab name in dashboard"
+    },
+    "scopedRulesPageName": {
+        "message": "Scoped rules",
+        "description": "appears as tab name in dashboard"
+    },
+    "aboutPageName": {
+        "message": "About",
+        "description": "appears as tab name in dashboard"
     },
 
 
@@ -339,6 +347,16 @@
     "settingsDoneButton" : {
         "message": "Fertig",
         "description": "Close the Settings page"
+    },
+
+
+    "ubiquitousListsOfBlockedHostsHeader" : {
+        "message": "Lists of blocked hosts",
+        "description": "header of ubiquitous lists of blocked hosts section"
+    },
+    "ubiquitousUserBlockedHostsHeader" : {
+        "message": "Your list of blocked hosts",
+        "description": "header of user's list of blocked hosts section"
     },
 
 

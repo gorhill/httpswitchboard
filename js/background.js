@@ -50,8 +50,11 @@ var HTTPSB = {
 
     // list of remote blacklist locations
     remoteBlacklists: {
+        // User
+        'assets/user/ubiquitous-blacklisted-hosts.txt': {},
+
+        // HTTPSB
         'assets/httpsb/blacklist.txt': {},
-        'assets/httpsb/block-facebook.txt': { off: true },
 
         // Third parties
 

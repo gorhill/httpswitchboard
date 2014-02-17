@@ -78,51 +78,48 @@ var cachePathFromPath = function(path) {
 /******************************************************************************/
 
 var readLocalFile = function(path, msg) {
-    var onLocalFileLoaded = function() {
-        console.log('HTTP Switchboard> onLocalFileLoaded()');
-        chrome.runtime.sendMessage({
+    var sendMessage = function(content, err) {
+        var details = {
             'what': msg,
             'path': path,
-            'content': this.responseText
-        });
+            'content': content,
+            'error': err
+        };
+        chrome.runtime.sendMessage(details);
+    };
+
+    var onLocalFileLoaded = function() {
+        // console.log('HTTP Switchboard> onLocalFileLoaded()');
+        sendMessage(this.responseText);
         this.onload = this.onerror = null;
     };
 
     var onLocalFileError = function(err) {
-        console.log('HTTP Switchboard> onLocalFileError("%s"):', path, err.message);
-        chrome.runtime.sendMessage({
-            'what': msg,
-            'path': path,
-            'content': '',
-            'error': err
-        });
+        // console.log('HTTP Switchboard> readLocalFile() / onLocalFileError("%s"):', path, err.message);
+        sendMessage('', err);
         this.onload = this.onerror = null;
     };
 
     var onCacheFileLoaded = function() {
-        console.log('HTTP Switchboard> onCacheFileLoaded()');
-        chrome.runtime.sendMessage({
-            'what': msg,
-            'path': path,
-            'content': this.responseText
-        });
+        // console.log('HTTP Switchboard> readLocalFile() / onCacheFileLoaded()');
+        sendMessage(this.responseText);
         this.onload = this.onerror = null;
     };
 
     var onCacheFileError = function(err) {
-        console.log('HTTP Switchboard> onCacheFileError("%s"):', path, err.message);
+        // console.log('HTTP Switchboard> readLocalFile() / onCacheFileError("%s"):', path, err.message);
         getTextFileFromURL(chrome.runtime.getURL(path), onLocalFileLoaded);
         this.onload = this.onerror = null;
     };
 
     var onCacheEntryFound = function(file) {
-        console.log('HTTP Switchboard> onCacheEntryFound():', file.toURL());
+        // console.log('HTTP Switchboard> readLocalFile() / onCacheEntryFound():', file.toURL());
         getTextFileFromURL(file.toURL(), onCacheFileLoaded, onCacheFileError);
     };
 
     var onCacheEntryError = function(err) {
-        console.log('HTTP Switchboard> onCacheEntryError("%s"):', path, err.message);
-        getTextFileFromURL(chrome.runtime.getURL(path), onLocalFileLoaded);
+        // console.log('HTTP Switchboard> readLocalFile() / onCacheEntryError("%s"):', path, err.message);
+        getTextFileFromURL(chrome.runtime.getURL(path), onLocalFileLoaded, onLocalFileError);
     };
 
     // From cache?
@@ -137,68 +134,81 @@ var readLocalFile = function(path, msg) {
 
 /******************************************************************************/
 
-var updateFromRemote = function(path, msg) {
-    var remoteURL = remoteRoot + path;
-    var remoteContent = '';
-
-    var onFileWriteSuccess = function(fwriter) {
-        console.log('HTTP Switchboard> onFileWriteSuccess("%s")', path);
-        chrome.runtime.sendMessage({
+var writeLocalFile = function(path, content, msg) {
+    var sendMessage = function(err) {
+        var details = {
             'what': msg,
-            'path': path
-        });
+            'path': path,
+            'content': content,
+            'error': err
+        };
+        chrome.runtime.sendMessage(details);
+    };
+
+    var onFileWriteSuccess = function() {
+        // console.log('HTTP Switchboard> writeLocalFile() / onFileWriteSuccess("%s")', path);
+        sendMessage();
     };
 
     var onFileWriteError = function(err) {
-        console.log('HTTP Switchboard> onFileWriteError("%s"):', path, err.message);
-        chrome.runtime.sendMessage({
-            'what': msg,
-            'path': path,
-            'error': err
-        });
+        // console.log('HTTP Switchboard> writeLocalFile() / onFileWriteError("%s"):', path, err.message);
+        sendMessage(err);
+    };
+
+    var onFileTruncateSuccess = function() {
+        // console.log('HTTP Switchboard> writeLocalFile() / onFileTruncateSuccess("%s")', path);
+        this.onwriteend = onFileWriteSuccess;
+        this.onerror = onFileWriteError;
+        var blob = new Blob([content], { type: 'text/plain' });
+        this.write(blob);
+    };
+
+    var onFileTruncateError = function(err) {
+        // console.log('HTTP Switchboard> writeLocalFile() / onFileTruncateError("%s"):', path, err.message);
+        sendMessage(err);
     };
 
     var onCreateFileWriterSuccess = function(fwriter) {
-        fwriter.onwriteend = onFileWriteSuccess;
-        fwriter.onerror = onFileWriteError;
-        var blob = new Blob([remoteContent], { type: 'text/plain' });
-        fwriter.write(blob);
+        fwriter.onwriteend = onFileTruncateSuccess;
+        fwriter.onerror = onFileTruncateError;
+        fwriter.truncate(0);
     };
 
     var onCreateFileWriterError = function(err) {
-        console.log('HTTP Switchboard> onCreateFileWriterError("%s"):', path, err.message);
-        chrome.runtime.sendMessage({
-            'what': msg,
-            'path': path,
-            'error': err
-        });
+        // console.log('HTTP Switchboard> writeLocalFile() / onCreateFileWriterError("%s"):', path, err.message);
+        sendMessage(err);
     };
 
     var onCacheEntryFound = function(file) {
-        console.log('HTTP Switchboard> onCacheEntryFound():', file.toURL());
+        // console.log('HTTP Switchboard> writeLocalFile() / onCacheEntryFound():', file.toURL());
         file.createWriter(onCreateFileWriterSuccess, onCreateFileWriterError);
     };
 
     var onCacheEntryError = function(err) {
-        console.log('HTTP Switchboard> onCacheEntryError("%s"):', path, err.message);
-        chrome.runtime.sendMessage({
-            'what': msg,
-            'path': path,
-            'error': err
-        });
+        // console.log('HTTP Switchboard> writeLocalFile() / onCacheEntryError("%s"):', path, err.message);
+        sendMessage(err);
     };
 
+    if ( fileSystem ) {
+        fileSystem.root.getFile(cachePathFromPath(path), { create: true }, onCacheEntryFound, onCacheEntryError);
+    }
+};
+
+/******************************************************************************/
+
+var updateFromRemote = function(path, msg) {
+    var remoteURL = remoteRoot + path;
+
     var onRemoteFileLoaded = function() {
-        console.log('HTTP Switchboard> onRemoteFileLoaded()');
+        // console.log('HTTP Switchboard> updateFromRemote() / onRemoteFileLoaded()');
         if ( this.responseText && this.responseText.length ) {
-            remoteContent = this.responseText;
-            fileSystem.root.getFile(cachePathFromPath(path), { create: true }, onCacheEntryFound, onCacheEntryError);
+            writeLocalFile(path, this.responseText, msg);
         }
         this.onload = this.onerror = null;
     };
 
     var onRemoteFileError = function(err) {
-        console.log('HTTP Switchboard> onRemoteFileError("%s"):', remoteURL, err.message);
+        // console.log('HTTP Switchboard> updateFromRemote() / onRemoteFileError("%s"):', remoteURL, err.message);
         this.onload = this.onerror = null;
         chrome.runtime.sendMessage({
             'what': msg,
@@ -236,6 +246,7 @@ navigator.webkitPersistentStorage.requestQuota(16*1024*1024, onRequestQuota, onE
 
 HTTPSB.assets = {
     'get': readLocalFile,
+    'put': writeLocalFile,
     'update': updateFromRemote
 };
 

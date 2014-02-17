@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>HTTP Switchboard — Dashboard</title>
+<style>
+body {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    font: 15px httpsb,sans-serif;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    }
+#dashboard-nav {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 50px;
+    z-index: 10;
+    }
+#dashboard-nav-widgets {
+    margin: 4px 0 0 0;
+    border-bottom: 1px solid #ccc;
+    padding: 0;
+    white-space: nowrap;
+    background-color: white;
+    }
+#dashboard-nav-widgets span {
+    padding: 0 0.5em;
+    font-size: larger;
+    }
+#dashboard-nav-widgets button {
+    margin: 0;
+    border: 1px solid #ccc;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    padding: 6px;
+    background-color: #eee;
+    font: inherit;
+    position: relative;
+    top: 1px;
+    cursor: pointer;
+    }
+#dashboard-nav-widgets button:focus {
+    outline: 0;
+    }
+#dashboard-nav-widgets button.selected {
+    border-bottom: 1px solid white;
+    background-color: white;
+    }
+iframe {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    overflow: auto;
+    position: absolute;
+    top: 50px;
+    width: 100%;
+    height: calc(100% - 50px);
+    }
+</style>
+<link href='css/fonts.css' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+<div id="dashboard-nav">
+<div id="dashboard-nav-widgets">
+<span>HTTP Switchboard</span>
+<button id="settings" data-dashboard-panel-url="settings.html" data-i18n="settingsPageName"></button>
+<button id="statistics" data-dashboard-panel-url="info.html" data-i18n="statsPageName"></button>
+<button id="ubiquitous-rules" data-dashboard-panel-url="ubiquitous-rules.html" data-i18n="ubiquitousRulesPageName"></button>
+<button id="scoped-rules" data-dashboard-panel-url="scoped-rules.html" data-i18n="scopedRulesPageName"></button>
+<button id="about" data-dashboard-panel-url="about.html" data-i18n="aboutPageName"></button>
+</div>
+</div>
+<iframe src=""></iframe>
+
+<script src="lib/jquery-2.min.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

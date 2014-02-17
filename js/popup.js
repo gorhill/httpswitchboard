@@ -1468,9 +1468,6 @@ function initAll() {
     $('body').on('click', '.presetEntry', presetEntryHandler);
 
     $('#buttonReload').on('click', buttonReloadHandler);
-    $('#buttonRuleManager span').text(chrome.i18n.getMessage('ruleManagerPageName'));
-    $('#buttonInfo span').text(chrome.i18n.getMessage('statsPageName'));
-    $('#buttonSettings span').text(chrome.i18n.getMessage('settingsPageName'));
     $('.extensionURL').on('click', gotoExtensionURL);
     $('.externalURL').on('click', gotoExternalURL);
     $('#buttonPower').on('click', togglePower);

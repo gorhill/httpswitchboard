@@ -76,6 +76,8 @@ function PageStatsEntry(pageUrl) {
     this.pageUrl = '';
     this.pageHostname = '';
     this.pageDomain = '';
+    this.pageScriptBlocked = false;
+    this.thirdpartyScript = false;
     this.requests = PageStatsRequests.factory();
     this.domains = {};
     this.state = {};

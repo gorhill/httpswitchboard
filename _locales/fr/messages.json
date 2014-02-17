@@ -7,17 +7,25 @@
         "message": "Gérez facilement n'importe quel type de requête effectuée par votre navigateur. Allouez ou bloquez des scripts, pubs, cookies, etc.",
         "description": "this will in chrome web store: must be 132 characters or less"
     },
-    "ruleManagerPageName": {
-        "message": "Gestionnaire de permissions",
-        "description": "the name of Rule Manager page."
+    "settingsPageName": {
+        "message": "Paramètres",
+        "description": "appears as tab name in dashboard"
     },
     "statsPageName": {
         "message": "Statistiques",
-        "description": "the name of the Statistics page."
+        "description": "appears as tab name in dashboard"
     },
-    "settingsPageName": {
-        "message": "Paramètres",
-        "description": "the name of the Settings page."
+    "ubiquitousRulesPageName" : {
+        "message": "Permissions omniprésentes",
+        "description": "appears as tab name in dashboard"
+    },
+    "scopedRulesPageName": {
+        "message": "Permissions à portée restreinte",
+        "description": "appears as tab name in dashboard"
+    },
+    "aboutPageName": {
+        "message": "À propos",
+        "description": "appears as tab name in dashboard"
     },
 
 
@@ -268,10 +276,6 @@
         "message": "<p>Certains utilisateurs n'aiment pas devoir constamment mettre en liste blanche le domaine de la page visitée. Cette option permet de mettre automatiquement en liste blanche tout le domaine d'une page lors de son premier chargement dans le navigateur. Cette procédure automatique ne se produira <b>uniquement</b> que si le domaine de la page visitée est actuellement sur liste grise.</p><p>Bien que d'un point de vue sécurité, il n'est pas recommandé d'utiliser cette fonctionnalité, elle a été incluse suite à une forte demande (il m'a paru plus pertinent de leur donner cette possibilité que d'abandonner l'utilisation de mon extension).</p><p>Si vous activez cette option, je vous recommande d'au moins mettre sur liste noire globale les requêtes de type <b>frame</b> et d'activer le <b>blocage strict</b>.</p>",
         "description": "To help user understand the purpose of auto-whitelist"
     },
-    "settingsPresetListsOfBlockedHostsHeader" : {
-        "message": "Listes tierces d'hôtes à bloquer",
-        "description": "header of Third-party lists of blocked hosts section"
-    },
     "settingsPrivacyHeader" : {
         "message": "Confidentialité",
         "description": "header of Privacy section"
@@ -339,6 +343,16 @@
     "settingsDoneButton" : {
         "message": "Appliquer et fermer",
         "description": "Close the Settings page"
+    },
+
+
+    "ubiquitousListsOfBlockedHostsHeader" : {
+        "message": "Listes d'hôtes à bloquer",
+        "description": "header of ubiquitous lists of blocked hosts section"
+    },
+    "ubiquitousUserBlockedHostsHeader" : {
+        "message": "Votre liste d'hôtes à bloquer",
+        "description": "header of user's list of blocked hosts section"
     },
 
 

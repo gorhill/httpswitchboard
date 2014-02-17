@@ -7,17 +7,25 @@
         "message": "Point & click to forbid/allow any class of requests made by your browser. Use it to block scripts, iframes, ads, facebook, etc.",
         "description": "this will in chrome web store: must be 132 characters or less"
     },
-    "ruleManagerPageName": {
-        "message": "Rule manager",
-        "description": "the name of Rule Manager page."
+    "settingsPageName": {
+        "message": "Settings",
+        "description": "appears as tab name in dashboard."
     },
     "statsPageName": {
         "message": "Statistics",
-        "description": "the name of the Statistics page."
+        "description": "appears as tab name in dashboard."
     },
-    "settingsPageName": {
-        "message": "Settings",
-        "description": "the name of the Settings page."
+    "ubiquitousRulesPageName" : {
+        "message": "Ubiquitous rules",
+        "description": "appears as tab name in dashboard"
+    },
+    "scopedRulesPageName": {
+        "message": "Scoped rules",
+        "description": "appears as tab name in dashboard."
+    },
+    "aboutPageName": {
+        "message": "About",
+        "description": "appears as tab name in dashboard."
     },
 
 
@@ -268,10 +276,6 @@
         "message": "<p>Some users do not like to constantly whitelist the domain of the page by default. This feature allows to automatically whitelist temporarily the whole domain of a page whenever it is first loaded in the browser. The temporary auto-whitelisting will occur <b>only</b> if the page domain is currently graylisted.</p><p>Although security-wise it is not a recommanded feature to use, it has been included due to popular demand -- I rather give users this feature than see them give up completely on a blocker.</p><p>If you use this feature, I advise that you at least blacklist <b>frame</b> requests and turn on <b>strict blocking</b>.</p>",
         "description": "To help user understand the purpose of auto-whitelist"
     },
-    "settingsPresetListsOfBlockedHostsHeader" : {
-        "message": "Third-party lists of blocked hosts",
-        "description": "header of Third-party lists of blocked hosts section"
-    },
     "settingsPrivacyHeader" : {
         "message": "Privacy",
         "description": "header of Privacy section"
@@ -339,6 +343,16 @@
     "settingsDoneButton" : {
         "message": "Done",
         "description": "Close the Settings page"
+    },
+
+
+    "ubiquitousListsOfBlockedHostsHeader" : {
+        "message": "Lists of blocked hosts",
+        "description": "header of ubiquitous lists of blocked hosts section"
+    },
+    "ubiquitousUserBlockedHostsHeader" : {
+        "message": "Your list of blocked hosts",
+        "description": "header of user's list of blocked hosts section"
     },
 
 

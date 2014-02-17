@@ -286,6 +286,8 @@ PageStatsEntry.prototype.init = function(pageUrl) {
     this.pageUrl = pageUrl;
     this.pageHostname = uriTools.uri(pageUrl).hostname();
     this.pageDomain = uriTools.domainFromHostname(this.pageHostname);
+    this.pageScriptBlocked = false;
+    this.thirdpartyScript = false;
     this.requests = PageStatsRequests.factory();
     this.domains = {};
     this.state = {};
@@ -328,8 +330,6 @@ PageStatsEntry.prototype.recordRequest = function(type, url, block) {
     // page is no longer in the browser.
     updateBadge(this.pageUrl);
 
-    var hostname = uriTools.hostnameFromURI(url);
-
     // Count blocked/allowed requests
     this.requestStats.record(type, block);
 
@@ -341,6 +341,13 @@ PageStatsEntry.prototype.recordRequest = function(type, url, block) {
 
     if ( !this.requests.createEntryIfNotExists(url, type, block) ) {
         return;
+    }
+
+    var hostname = uriTools.hostnameFromURI(url);
+
+    // https://github.com/gorhill/httpswitchboard/issues/181
+    if ( type === 'script' && hostname !== this.pageHostname ) {
+        this.thirdpartyScript = true;
     }
 
     // rhill 2013-12-24: put blocked requests in dict on the fly, since
@@ -565,6 +572,20 @@ HTTPSB.recordFromPageUrl = function(pageUrl, type, url, blocked) {
     var pageStats = this.pageStatsFromPageUrl(pageUrl);
     if ( pageStats ) {
         pageStats.recordRequest(type, url, blocked);
+    }
+};
+
+/******************************************************************************/
+
+HTTPSB.onPageLoadCompleted = function(pageURL) {
+    var pageStats = this.pageStatsFromPageUrl(pageURL);
+    if ( !pageStats ) {
+        return;
+    }
+
+    // https://github.com/gorhill/httpswitchboard/issues/181
+    if ( pageStats.thirdpartyScript ) {
+        pageStats.recordRequest('script', pageURL + '{3rd-party_scripts}', pageStats.pageScriptBlocked);
     }
 };
 

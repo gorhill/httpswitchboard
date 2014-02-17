@@ -718,7 +718,10 @@ function filePickerOnChangeHandler() {
 }
 
 function restoreFromFile() {
-    var input = $('<input/>').attr({ type: 'file' });
+    var input = $('<input />').attr({
+        type: 'file',
+        accept: 'text/plain'
+    });
     input.on('change', filePickerOnChangeHandler);
     input.trigger('click');
 }

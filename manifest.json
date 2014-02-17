@@ -27,7 +27,7 @@
     "homepage_url": "https://github.com/gorhill/httpswitchboard/wiki",
     "minimum_chrome_version": "22.0",
     "default_locale": "en",
-    "options_page": "settings.html",
+    "options_page": "dashboard.html",
     "permissions": [
         "browsingData",
         "contentSettings",

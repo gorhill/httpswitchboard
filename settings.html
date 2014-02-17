@@ -4,15 +4,30 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>HTTP Switchboard — Settings</title>
 <style>
+/* +++ shared styles +++ */
 body {
-    padding: 0 0 20em 0;
+    padding: 0;
+    padding-bottom: 5em;
     font: 15px httpsb,sans-serif;
-    max-width: 800px;
     }
-h2 + *, h1 + * {
+h2, h3 {
+    font-family: sans-serif;
+    }
+h2 {
+    font-size: 18px;
+    }
+h2:nth-of-type(1) {
+    margin-top: 0;
+    }
+h3 {
+    font-size: 16px;
+    }
+h2 + *, h3 + * {
     margin: 0 0 0 1em;
     padding: 0;
     }
+/* --- shared styles --- */
+
 div > p:first-child {
     margin-top: 0;
     }
@@ -63,96 +78,70 @@ ul > li {
 </head>
 
 <body>
-<h1 data-i18n="settingsPageTitle"></h1>
 
+<h2 data-i18n="settingsMatrixHeader"></h2>
+<ul>
+    <li><h3 data-i18n="settingsMatrixDisplayHeader"></h3>
+    <ul>        
+        <li><span data-i18n="settingsMatrixDisplayTextSizePrompt"></span>
+        <ul style="list-style:none">
+        <li><input type="radio" name="displayTextSize" value="13px"><span data-i18n="settingsMatrixDisplayTextSizeNormal"></span>
+        <li><input type="radio" name="displayTextSize" value="16px"><span data-i18n="settingsMatrixDisplayTextSizeLarge"></span>
+        </ul>
+    </ul>
+
+    <li><h3 data-i18n="settingsMatrixMoreSecurityHeader"></h3>
+    <ul>
+        <li>
+            <input id="strict-blocking" type="checkbox" value=""><span data-i18n="settingsStrictBlockingPrompt"></span> <button class="whatisthis"></button>
+            <div class="expandable" data-i18n="settingsStrictBlockingInfo"></div>
+        <li>
+            <input id="auto-create-site-scope" type="checkbox" value=""><span data-i18n="settingsAutoCreateSiteScopePrompt"></span> <button class="whatisthis"></button>
+            <div class="expandable" data-i18n="settingsAutoCreateSiteScopeInfo"></div>
+        </ul>
+    <li><h3 data-i18n="settingsMatrixLessSecurityHeader"></h3>
+    <ul>
+        <li>
+            <input id="auto-whitelist-page-domain" type="checkbox" value=""><span data-i18n="settingsAutoWhitelistPrompt"></span> <button class="whatisthis"></button>
+            <div class="expandable" data-i18n="settingsAutoWhitelistHelp"></div>
+        </ul>
+</ul>
+
+<h2 data-i18n="settingsPrivacyHeader"></h2>
+<ul>
+    <li>
+        <input id="delete-blacklisted-cookies" type="checkbox" value=""><span data-i18n="settingsDeleteBlockedCookiesPrompt"></span>
+        <button class="whatisthis"></button>
+        <div class="expandable" data-i18n="settingsDeleteBlockedCookiesHelp"></div>
+    <li>
+        <input id="delete-unused-session-cookies" type="checkbox" value="">Delete non-blocked session cookies
+        <input id="delete-unused-session-cookies-after" type="text" value="60" size="3">minutes after
+        last time they have been used.
+        <button class="whatisthis"></button>
+        <div class="expandable" data-i18n="settingsDeleteNonBlockedSessionCookiesHelp"></div>
+    <li>
+        <input id="delete-blacklisted-localstorage" type="checkbox" value=""><span data-i18n="settingsDeleteBlockedLocalStoragePrompt"></span>
+    <li>
+        <input id="clear-browser-cache" type="checkbox" value="">Clear browser cache every
+        <input id="clear-browser-cache-after" type="text" value="60" size="3">minutes.
+        <button class="whatisthis"></button>
+        <div class="expandable" data-i18n="settingsClearCacheHelp"></div>
+    <li>
+        <input id="process-referer" type="checkbox" value=""><span data-i18n="settingsProcessRefererPrompt"></span>
+        <button class="whatisthis"></button>
+        <div class="expandable" data-i18n="settingsProcessRefererHelp"></div>
+</ul>
+
+<h2 data-i18n="settingsBehindTheSceneHeader"></h2>
 <div>
-    <h2 data-i18n="settingsMatrixHeader"></h2>
-    <ul>
-        <li><h3 data-i18n="settingsMatrixDisplayHeader"></h3>
-        <ul>        
-            <li><span data-i18n="settingsMatrixDisplayTextSizePrompt"></span>
-            <ul style="list-style:none">
-            <li><input type="radio" name="displayTextSize" value="13px"><span data-i18n="settingsMatrixDisplayTextSizeNormal"></span>
-            <li><input type="radio" name="displayTextSize" value="16px"><span data-i18n="settingsMatrixDisplayTextSizeLarge"></span>
-            </ul>
-        </ul>
+    <span data-i18n="settingsProcessBehindTheScenePrompt"></span>
+    <button class="whatisthis"></button>
+    <div class="expandable" data-i18n="settingsProcessBehindTheSceneHelp"></div>
+</div>
 
-        <li><h3 data-i18n="settingsMatrixMoreSecurityHeader"></h3>
-        <ul>
-            <li>
-                <input id="strict-blocking" type="checkbox" value=""><span data-i18n="settingsStrictBlockingPrompt"></span> <button class="whatisthis"></button>
-                <div class="expandable" data-i18n="settingsStrictBlockingInfo"></div>
-            <li>
-                <input id="auto-create-site-scope" type="checkbox" value=""><span data-i18n="settingsAutoCreateSiteScopePrompt"></span> <button class="whatisthis"></button>
-                <div class="expandable" data-i18n="settingsAutoCreateSiteScopeInfo"></div>
-            </ul>
-        <li><h3 data-i18n="settingsMatrixLessSecurityHeader"></h3>
-        <ul>
-            <li>
-                <input id="auto-whitelist-page-domain" type="checkbox" value=""><span data-i18n="settingsAutoWhitelistPrompt"></span> <button class="whatisthis"></button>
-                <div class="expandable" data-i18n="settingsAutoWhitelistHelp"></div>
-            </ul>
-    </ul>
-
-    <h2 data-i18n="settingsPresetListsOfBlockedHostsHeader"></h2>
-    <div>
-        <span id="blacklistReadonlyCount">?</span> preset blacklisted hostnames from (number of distinct entries in parentheses):
-        <ul id="remoteBlacklistsTemplate" style="display:none">
-            <li class="remoteBlacklistDetails"><input type="checkbox" value="">&thinsp;<a href="" type="text/plain"></a>: <span>?</span> used out of <span>?</span>
-        </ul>
-        <ul id="remoteBlacklists" style="margin:0.5em 0 0 0;padding-left:1em;color:gray;list-style-type:none">
-            <li style="margin-top:0.5em"><button id="reloadRemoteBlacklists" disabled="true">Apply changes</button>
-        </ul>
-        <p style="font-size:smaller;color:gray">Obviously, more blacklist entries enabled means larger memory footprint required by the extension.</p>
-    </div>
-
-    <h2 data-i18n="settingsPrivacyHeader"></h2>
-    <ul>
-        <li>
-            <input id="delete-blacklisted-cookies" type="checkbox" value=""><span data-i18n="settingsDeleteBlockedCookiesPrompt"></span>
-            <button class="whatisthis"></button>
-            <div class="expandable" data-i18n="settingsDeleteBlockedCookiesHelp"></div>
-        <li>
-            <input id="delete-unused-session-cookies" type="checkbox" value="">Delete non-blocked session cookies
-            <input id="delete-unused-session-cookies-after" type="text" value="60" size="3">minutes after
-            last time they have been used.
-            <button class="whatisthis"></button>
-            <div class="expandable" data-i18n="settingsDeleteNonBlockedSessionCookiesHelp"></div>
-        <li>
-            <input id="delete-blacklisted-localstorage" type="checkbox" value=""><span data-i18n="settingsDeleteBlockedLocalStoragePrompt"></span>
-        <li>
-            <input id="clear-browser-cache" type="checkbox" value="">Clear browser cache every
-            <input id="clear-browser-cache-after" type="text" value="60" size="3">minutes.
-            <button class="whatisthis"></button>
-            <div class="expandable" data-i18n="settingsClearCacheHelp"></div>
-        <li>
-            <input id="process-referer" type="checkbox" value=""><span data-i18n="settingsProcessRefererPrompt"></span>
-            <button class="whatisthis"></button>
-            <div class="expandable" data-i18n="settingsProcessRefererHelp"></div>
-    </ul>
-
-    <h2 data-i18n="settingsBehindTheSceneHeader"></h2>
-    <ul>
-        <li>
-            <!-- <input id="process-behind-the-scene" type="checkbox" value=""> --><span data-i18n="settingsProcessBehindTheScenePrompt"></span>
-            <button class="whatisthis"></button>
-            <div class="expandable" data-i18n="settingsProcessBehindTheSceneHelp"></div>
-    </ul>
-
-    <h2 data-i18n="settingsLogHeader"></h2>
-    <ul>
-        <li>Remember the last <input id="max-logged-requests" type="text" value="250" size="3"> HTTP requests per page.<button class="whatisthis"></button>
-        <div class="expandable" data-i18n="settingsLogSizeHelp">
-        
-        </div>
-    </ul>
-    <p style="border-top:1px solid #ccc;padding-top:1em;">
-    <button id="bye" data-i18n="settingsDoneButton"></button>
-    </p>
 <script src="lib/jquery-2.min.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/settings.js"></script>
-
-</div>
 </body>
+
 </html>

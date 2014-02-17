@@ -25,10 +25,6 @@
 
 /******************************************************************************/
 
-var selectedRemoteBlacklistsHash = '';
-
-/******************************************************************************/
-
 function gethttpsb() {
     return chrome.extension.getBackgroundPage().HTTPSB;
 }
@@ -77,101 +73,7 @@ function onChangeValueHandler(elem, setting, min, max) {
 
 /******************************************************************************/
 
-function renderBlacklistDetails() {
-    // empty list first
-    $('#remoteBlacklists .remoteBlacklistDetails').remove();
-
-    // then fill it
-    var httpsb = gethttpsb();
-
-    $('#blacklistReadonlyCount').text(renderNumber(httpsb.blacklistReadonlyCount));
-
-    var blacklists = httpsb.remoteBlacklists;
-    var ul = $('#remoteBlacklists');
-    var keys = Object.keys(blacklists);
-    var i = keys.length;
-    var blacklist;
-    var liTemplate = $('#remoteBlacklistsTemplate .remoteBlacklistDetails').first();
-    var li, child, text;
-    while ( i-- ) {
-        blacklist = blacklists[keys[i]];
-        li = liTemplate.clone();
-        child = $('input', li);
-        child.prop('checked', !blacklist.off);
-        child = $('a', li);
-        child.attr('href', keys[i]);
-        child.text(keys[i]);
-        child = $('span:nth-of-type(1)', li);
-        child.text(!blacklist.off && !isNaN(+blacklist.entryUsedCount) ? renderNumber(blacklist.entryUsedCount) : '0');
-        child = $('span:nth-of-type(2)', li);
-        child.text(!isNaN(+blacklist.entryCount) ? renderNumber(blacklist.entryCount) : '?');
-        ul.prepend(li);
-    }
-    selectedRemoteBlacklistsHash = getSelectedRemoteBlacklistsHash();
-}
-
-/******************************************************************************/
-
-function reloadRemoteBlacklistsHandler() {
-    var newHash = getSelectedRemoteBlacklistsHash();
-    if ( newHash === selectedRemoteBlacklistsHash ) {
-        return;
-    }
-    // Reload blacklists
-    var switches = [];
-    var lis = $('#remoteBlacklists .remoteBlacklistDetails');
-    var i = lis.length;
-    while ( i-- ) {
-        switches.push({
-            location: $(lis[i]).children('a').attr('href'),
-            off: $(lis[i]).children('input').prop('checked') === false
-        });
-    }
-    chrome.runtime.sendMessage({
-        what: 'reloadPresetBlacklists',
-        switches: switches
-    });
-    $('#reloadRemoteBlacklists').attr('disabled', true );
-}
-
-/******************************************************************************/
-
-// Create a hash so that we know whether the selection of preset blacklists
-// has changed.
-
-function getSelectedRemoteBlacklistsHash() {
-    var hash = '';
-    var inputs = $('#remoteBlacklists .remoteBlacklistDetails > input');
-    var i = inputs.length;
-    while ( i-- ) {
-        hash += $(inputs[i]).prop('checked').toString();
-    }
-    return hash;
-}
-
-// This is to give a visual hint that the selection of preset blacklists has
-// changed and thus user needs to explicitly click the reload button.
-
-function remoteBlacklistDetailsChangeHandler() {
-    $('#reloadRemoteBlacklists').attr('disabled', getSelectedRemoteBlacklistsHash() === selectedRemoteBlacklistsHash);
-}
-
-/******************************************************************************/
-
-function onMessageHandler(request, sender) {
-    if ( request && request.what ) {
-        switch ( request.what ) {
-            case 'presetBlacklistsLoaded':
-                renderBlacklistDetails();
-                remoteBlacklistDetailsChangeHandler();
-                break;
-        }
-    }
-}
-
-/******************************************************************************/
-
-function initAll() {
+$(function() {
     var httpsb = gethttpsb();
     var userSettings = httpsb.userSettings;
 
@@ -188,10 +90,8 @@ function initAll() {
     $('#clear-browser-cache').attr('checked', userSettings.clearBrowserCache === true);
     $('#clear-browser-cache-after').val(userSettings.clearBrowserCacheAfter);
     $('#process-referer').attr('checked', userSettings.processReferer);
-    $('#max-logged-requests').val(userSettings.maxLoggedRequests);
 
     // Handle user interaction
-
     $('input[name="displayTextSize"]').on('change', function(){
         changeUserSettings('displayTextSize', $(this).attr('value'));
     });
@@ -204,8 +104,6 @@ function initAll() {
     $('#auto-whitelist-page-domain').on('change', function(){
         changeUserSettings('autoWhitelistPageDomain', $(this).is(':checked'));
     });
-    $('#reloadRemoteBlacklists').on('click', reloadRemoteBlacklistsHandler);
-    $('#remoteBlacklists').on('change', '.remoteBlacklistDetails', remoteBlacklistDetailsChangeHandler);
     $('#delete-unused-session-cookies').on('change', function(){
         changeUserSettings('deleteUnusedSessionCookies', $(this).is(':checked'));
     });
@@ -227,13 +125,9 @@ function initAll() {
     $('#process-referer').on('change', function(){
         changeUserSettings('processReferer', $(this).is(':checked'));
     });
-    $('#max-logged-requests').on('change', function(){
-        onChangeValueHandler($(this), 'maxLoggedRequests', 0, 999);
-    });
 
     $('.whatisthis').on('click', function() {
-        $(this).parents('li')
-        .first()
+        $(this).parent()
         .find('.expandable')
         .toggleClass('expanded');
     });
@@ -241,20 +135,12 @@ function initAll() {
     $('#bye').on('click', function() {
         onChangeValueHandler($('#delete-unused-session-cookies-after'), 'deleteUnusedSessionCookiesAfter', 15, 1440);
         onChangeValueHandler($('#clear-browser-cache-after'), 'clearBrowserCacheAfter', 15, 1440);
-        onChangeValueHandler($('#max-logged-requests'), 'maxLoggedRequests', 0, 999);
         window.open('','_self').close();
     });
 
-    // To know when the preset blacklist stats change
-    chrome.runtime.onMessage.addListener(onMessageHandler);
-
-    renderBlacklistDetails();
-}
-
-/******************************************************************************/
-
-$(function() {
-    initAll();
+    // Open links in the proper window
+    $('a[href^="http"]').attr('target', '__blank');
+    $('a[href^="dashboard.html"]').attr('target', 'httpsb-dashboard');
 });
 
 /******************************************************************************/
