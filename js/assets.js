@@ -53,6 +53,7 @@ File system structure:
 /******************************************************************************/
 
 var fileSystem;
+var fileSystemQuota = 24 * 1024 * 1024;
 var remoteRoot = 'https://raw2.github.com/gorhill/httpswitchboard/master/';
 
 /******************************************************************************/
@@ -238,7 +239,7 @@ var onRequestQuota = function(grantedBytes) {
     window.webkitRequestFileSystem(window.PERSISTENT, grantedBytes, onRequestFileSystem, onError);
 };
 
-navigator.webkitPersistentStorage.requestQuota(16*1024*1024, onRequestQuota, onError);
+navigator.webkitPersistentStorage.requestQuota(fileSystemQuota, onRequestQuota, onError);
 
 /******************************************************************************/
 

@@ -45,24 +45,8 @@ chrome.contextMenus.create({
 
 chrome.contextMenus.create({
     type: 'normal',
-    id: 'gotoPageRuleManager',
-    title: 'Rule manager...',
-    documentUrlPatterns: ['http://*/*', 'https://*/*']
-    }
-);
-
-chrome.contextMenus.create({
-    type: 'normal',
-    id: 'gotoPageStatistics',
-    title: 'Statistics...',
-    documentUrlPatterns: ['http://*/*', 'https://*/*']
-    }
-);
-
-chrome.contextMenus.create({
-    type: 'normal',
-    id: 'gotoPageSettings',
-    title: 'Settings...',
+    id: 'gotoDashboard',
+    title: 'Dashboard...',
     documentUrlPatterns: ['http://*/*', 'https://*/*']
     }
 );
@@ -92,24 +76,10 @@ function contextMenuClickHandler(info, tab) {
             smartReloadTabs();
             break;
 
-        case 'gotoPageRuleManager':
+        case 'gotoDashboard':
             chrome.runtime.sendMessage({
                 what: 'gotoExtensionURL',
-                url: 'rulemanager.html'
-            });
-            break;
-
-        case 'gotoPageStatistics':
-            chrome.runtime.sendMessage({
-                what: 'gotoExtensionURL',
-                url: 'info.html'
-            });
-            break;
-
-        case 'gotoPageSettings':
-            chrome.runtime.sendMessage({
-                what: 'gotoExtensionURL',
-                url: 'settings.html'
+                url: 'dashboard.html'
             });
             break;
     }
