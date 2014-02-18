@@ -203,6 +203,19 @@ JSFIDDLE:
             frame jshell.net    
             * togetherjs.com    
 
+MarketWatch:
+    keys: '*.marketwatch.com'
+    scope: '*.marketwatch.com'
+        whitelist: |
+            * a248.e.akamai.net
+            * barrons.com
+            * d29usylhdk1xyu.cloudfront.net
+            * dowjoneson.com
+            * marketwatch.com
+            * rpxnow.com
+            * sb.scorecardresearch.com
+            * wsj.net
+
 Mashable:
     keys: mashable.com
     scope: mashable.com
@@ -257,6 +270,26 @@ Reddit (with account):
             * redditmedia.com
             * redditstatic.com
             * redditstatic.s3.amazonaws.com
+            script ajax.googleapis.com
+
+StackExchange:
+    keys: '*.stackexchange.com'
+    scope: '*.stackexchange.com'
+        whitelist: |
+            * stackexchange.com
+            * sstatic.net
+            * stackauth.com
+            frame stackauth.com
+            script ajax.googleapis.com
+
+StackOverflow:
+    keys: '*.stackoverflow.com'
+    scope: '*.stackoverflow.com'
+        whitelist: |
+            * stackoverflow.com
+            * sstatic.net
+            * stackauth.com
+            frame stackauth.com
             script ajax.googleapis.com
 
 Twitter (with account):
