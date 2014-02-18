@@ -1,0 +1,23 @@
+body {
+    margin: 0;
+    padding: 0 0.5em 5em 0.5em;
+    font: 15px httpsb,sans-serif;
+    }
+h2, h3 {
+    margin: 1em 0;
+    font-family: sans-serif;
+    }
+h2 {
+    font-size: 18px;
+    }
+h2:nth-of-type(1) {
+    margin-top: 0;
+    }
+h3 {
+    font-size: 16px;
+    }
+h2 + * {
+    margin: 0 0 0 1em;
+    padding: 0;
+    }
+

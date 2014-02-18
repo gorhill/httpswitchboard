@@ -27,7 +27,7 @@ var loadDashboardPanel = function(hash) {
     var button = $(hash);
     var url = button.data('dashboardPanelUrl');
     $('iframe')[0].src = url;
-    $('button').each(function(){
+    $('.tabButton').each(function(){
         var button = $(this);
         button.toggleClass('selected', button.data('dashboardPanelUrl') === url);
     });
@@ -36,13 +36,13 @@ var loadDashboardPanel = function(hash) {
 /******************************************************************************/
 
 var onTabClickHandler = function() {
-    loadDashboardPanel('#' + this.id);
+    loadDashboardPanel(window.location.hash);
 }
 
 /******************************************************************************/
 
 $(function() {
-    $('button[data-dashboard-panel-url]').on('click', onTabClickHandler);
+    $(window).on('hashchange', onTabClickHandler);
     var hash = window.location.hash;
     if ( hash.length < 2 ) {
         hash = '#settings';

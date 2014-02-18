@@ -3,55 +3,34 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>HTTP Switchboard — About</title>
+<link rel="stylesheet" type="text/css" href="css/fonts.css">
+<link rel="stylesheet" type="text/css" href="css/dashboard-common.css">
 <style>
-/* +++ shared styles +++ */
-body {
-    padding: 0;
-    padding-bottom: 5em;
-    font: 15px httpsb,sans-serif;
-    }
-h2, h3 {
-    font-family: sans-serif;
-    }
-h2 {
-    font-size: 18px;
-    }
-h2:nth-of-type(1) {
-    margin-top: 0;
-    }
-h3 {
-    font-size: 16px;
-    }
-h2 + *, h3 + * {
-    margin: 0 0 0 1em;
-    padding: 0;
-    }
-/* --- shared styles --- */
-
 ul {
     padding: 0;
     list-style-type: none;
     }
 ul > li {
-    margin: 0 0 0 1em;
+    margin: 0;
     }
 </style>
-<link href='css/fonts.css' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
 
-<ul>
-  <li>Version: <span id="version"></span> (<a href="https://github.com/gorhill/httpswitchboard/wiki/Change-log">change log</a>)
-  <li>Storage used: <span id="storageUsed">?</span> %
-  <li><a href="https://github.com/gorhill/httpswitchboard/wiki">Documentation</a>
-  <li><a href="https://github.com/gorhill/httpswitchboard/wiki/Permissions">Permissions</a>
-  <li><a href="https://github.com/gorhill/httpswitchboard">Source code (GPLv3)</a>
-  <li><a href="https://github.com/gorhill/httpswitchboard/wiki/Credits">Credits</a>
-</ul>
+<h2>HTTP Switchboard version <span id="version"></span></h2>
+<div>
+<a href="https://github.com/gorhill/httpswitchboard/wiki/Change-log">Change log</a><br>
+Storage used: <span id="storageUsed">?</span> %<br>
+<a href="https://github.com/gorhill/httpswitchboard/wiki">Documentation</a><br>
+<a href="https://github.com/gorhill/httpswitchboard/wiki/Permissions">Permissions</a><br>
+<a href="https://github.com/gorhill/httpswitchboard">Source code (GPLv3)</a><br>
+<a href="https://github.com/gorhill/httpswitchboard/wiki/Credits">Credits</a><br>
+</div>
 
 <script src="lib/jquery-2.min.js"></script>
 <script src="js/i18n.js"></script>
+<script src="js/dashboard-common.js"></script>
 <script src="js/about.js"></script>
 </body>
 </html>

@@ -94,9 +94,9 @@ var readLocalFile = function(path, msg) {
         this.onload = this.onerror = null;
     };
 
-    var onLocalFileError = function(err) {
-        // console.log('HTTP Switchboard> readLocalFile() / onLocalFileError("%s"):', path, err.message);
-        sendMessage('', err);
+    var onLocalFileError = function(ev) {
+        console.error('HTTP Switchboard> readLocalFile() / onLocalFileError("%s"):', path, this.statusText);
+        sendMessage('', this.statusText);
         this.onload = this.onerror = null;
     };
 
@@ -106,8 +106,8 @@ var readLocalFile = function(path, msg) {
         this.onload = this.onerror = null;
     };
 
-    var onCacheFileError = function(err) {
-        // console.log('HTTP Switchboard> readLocalFile() / onCacheFileError("%s"):', path, err.message);
+    var onCacheFileError = function(ev) {
+        console.error('HTTP Switchboard> readLocalFile() / onCacheFileError("%s"):', path, this.statusText);
         getTextFileFromURL(chrome.runtime.getURL(path), onLocalFileLoaded);
         this.onload = this.onerror = null;
     };
@@ -118,7 +118,7 @@ var readLocalFile = function(path, msg) {
     };
 
     var onCacheEntryError = function(err) {
-        // console.log('HTTP Switchboard> readLocalFile() / onCacheEntryError("%s"):', path, err.message);
+        // console.error('HTTP Switchboard> readLocalFile() / onCacheEntryError("%s"):', path, err.message);
         getTextFileFromURL(chrome.runtime.getURL(path), onLocalFileLoaded, onLocalFileError);
     };
 
@@ -151,7 +151,7 @@ var writeLocalFile = function(path, content, msg) {
     };
 
     var onFileWriteError = function(err) {
-        // console.log('HTTP Switchboard> writeLocalFile() / onFileWriteError("%s"):', path, err.message);
+        console.error('HTTP Switchboard> writeLocalFile() / onFileWriteError("%s"):', path, err.message);
         sendMessage(err);
     };
 
@@ -164,7 +164,7 @@ var writeLocalFile = function(path, content, msg) {
     };
 
     var onFileTruncateError = function(err) {
-        // console.log('HTTP Switchboard> writeLocalFile() / onFileTruncateError("%s"):', path, err.message);
+        console.error('HTTP Switchboard> writeLocalFile() / onFileTruncateError("%s"):', path, err.message);
         sendMessage(err);
     };
 
@@ -175,7 +175,7 @@ var writeLocalFile = function(path, content, msg) {
     };
 
     var onCreateFileWriterError = function(err) {
-        // console.log('HTTP Switchboard> writeLocalFile() / onCreateFileWriterError("%s"):', path, err.message);
+        console.error('HTTP Switchboard> writeLocalFile() / onCreateFileWriterError("%s"):', path, err.message);
         sendMessage(err);
     };
 
@@ -185,7 +185,7 @@ var writeLocalFile = function(path, content, msg) {
     };
 
     var onCacheEntryError = function(err) {
-        // console.log('HTTP Switchboard> writeLocalFile() / onCacheEntryError("%s"):', path, err.message);
+        console.error('HTTP Switchboard> writeLocalFile() / onCacheEntryError("%s"):', path, err.message);
         sendMessage(err);
     };
 
@@ -207,14 +207,14 @@ var updateFromRemote = function(path, msg) {
         this.onload = this.onerror = null;
     };
 
-    var onRemoteFileError = function(err) {
-        // console.log('HTTP Switchboard> updateFromRemote() / onRemoteFileError("%s"):', remoteURL, err.message);
-        this.onload = this.onerror = null;
+    var onRemoteFileError = function(ev) {
+        console.error('HTTP Switchboard> updateFromRemote() / onRemoteFileError("%s"):', remoteURL, this.statusText);
         chrome.runtime.sendMessage({
             'what': msg,
             'path': path,
-            'error': err
+            'error': this.statusText
         });
+        this.onload = this.onerror = null;
     };
 
     if ( fileSystem ) {

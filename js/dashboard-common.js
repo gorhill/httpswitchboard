@@ -25,15 +25,9 @@ $(function() {
 
 /******************************************************************************/
 
-function gethttpsb() {
-    return chrome.extension.getBackgroundPage().HTTPSB;
-}
-
-/******************************************************************************/
-
-var httpsb = gethttpsb();
-$('#version').html(httpsb.manifest.version);
-$('#storageUsed').html(httpsb.storageQuota ? (httpsb.storageUsed / httpsb.storageQuota * 100).toFixed(1) : 0);
+// Open links in the proper window
+$('a').attr('target', '_blank');
+$('a[href*="dashboard.html"]').attr('target', '_parent');
 
 /******************************************************************************/
 

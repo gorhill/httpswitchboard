@@ -3,31 +3,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>HTTP Switchboard &mdash; Info</title>
+<link rel="stylesheet" type="text/css" href="css/fonts.css">
+<link rel="stylesheet" type="text/css" href="css/dashboard-common.css">
 <style>
-/* +++ shared styles +++ */
-body {
-    padding: 0;
-    padding-bottom: 5em;
-    font: 15px httpsb,sans-serif;
-    }
-h2, h3 {
-    font-family: sans-serif;
-    }
-h2 {
-    font-size: 18px;
-    }
-h2:nth-of-type(1) {
-    margin-top: 0;
-    }
-h3 {
-    font-size: 16px;
-    }
-h2 + *, h3 + * {
-    margin: 0 0 0 1em;
-    padding: 0;
-    }
-/* --- shared styles --- */
-
 select {
     max-width: 20em;
     }
@@ -45,10 +23,11 @@ select {
 #requests > div {
     margin: 0;
     border: 1px inset #eee;
-    padding: 2px;
+    padding: 0;
     font: 11px monospace;
     background-color: white;
     overflow: scroll;
+    width: calc(100% - 1.5em);
     }
 #requests table {
     border-collapse: collapse;
@@ -76,10 +55,10 @@ select {
     font-weight: bold;
     }
 </style>
-<link href='css/fonts.css' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
+
 <h2 id="generic-stats">Generic stats</h2>
 <div>
 <ul>
@@ -162,6 +141,7 @@ select {
 
 <script src="lib/jquery-2.min.js"></script>
 <script src="js/i18n.js"></script>
+<script src="js/dashboard-common.js"></script>
 <script src="js/info.js"></script>
 </body>
 </html>

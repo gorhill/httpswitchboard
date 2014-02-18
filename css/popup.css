@@ -242,7 +242,7 @@ body .toolbar button#scopeCell {
     border: 1px dotted rgba(0,0,0,0.2);
     padding: 6px 1px 3px 1px;
     box-sizing: content-box;
-    width: 20em;
+    width: 19em;
     height: 1.5em;
     white-space: nowrap;
     text-align: right;
@@ -312,13 +312,13 @@ body #scopeKeys {
     }
 
 .matrix .matRow > .matCell:first-child {
-    width: 20em;
+    width: 19em;
     text-align: start;
     direction: rtl;
     }
 .matrix .matRow.l2 > .matCell:first-child {
-    margin-left: 4px;
-    width: calc(20em - 4px);
+    margin-left: 3px;
+    width: calc(19em - 3px);
     }
 .matrix .matRow > .matCell:hover {
     border-style: solid;
@@ -359,9 +359,9 @@ body #scopeKeys {
     margin: 0;
     padding: 0;
     border: 0;
-    height: 3px;
-    background: url('/img/matrix-group-hide.png') no-repeat center top -2px,
-                url('/img/matrix-group-hline.png') repeat-x center top 2px;
+    height: 6px;
+    background: url('/img/matrix-group-hide.png') no-repeat center top,
+                url('/img/matrix-group-hline.png') repeat-x center top 3px;
     opacity: 0.2;
     cursor: pointer;
     }
@@ -369,8 +369,8 @@ body #scopeKeys {
     opacity: 0.4;
     }
 .matrix .g3Meta.g3Collapsed {
-    background: url('/img/matrix-group-show.png') no-repeat center top -2px,
-                url('/img/matrix-group-hline.png') repeat-x center top 2px;
+    background: url('/img/matrix-group-show.png') no-repeat center top,
+                url('/img/matrix-group-hline.png') repeat-x center top 3px;
     }
 .matrix .g3Meta.g3Collapsed ~ .matSection {
     display: none;

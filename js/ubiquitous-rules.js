@@ -125,7 +125,10 @@ function selectedBlacklistsChanged() {
 // This is to give a visual hint that the content of user blacklist has changed.
 
 function userBlacklistChanged() {
-    $('#userBlacklistApply').attr('disabled', $('#userUbiquitousBlacklistedHosts').val() === cachedUserUbiquitousBlacklistedHosts);
+    $('#userBlacklistApply')
+        .attr('disabled', $('#userUbiquitousBlacklistedHosts')
+        .val()
+        .trim() === cachedUserUbiquitousBlacklistedHosts);
     selectedBlacklistsChanged();
 }
 
@@ -227,14 +230,14 @@ function onMessageHandler(request, sender) {
             break;
         case 'dashboardGetUbiquitousUserBlacklist':
             if ( !request.error ) {
-                cachedUserUbiquitousBlacklistedHosts = request.content;
+                cachedUserUbiquitousBlacklistedHosts = request.content.trim();
                 $('#userUbiquitousBlacklistedHosts').val(request.content);
                 renderBlacklists();
             }
             break;
         case 'dashboardPutUbiquitousUserBlacklist':
             if ( !request.error ) {
-                cachedUserUbiquitousBlacklistedHosts = request.content;
+                cachedUserUbiquitousBlacklistedHosts = request.content.trim();
                 userBlacklistChanged();
                 blacklistsApplyHandler();
             }

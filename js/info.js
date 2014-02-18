@@ -356,10 +356,6 @@ $(function(){
 
     renderTransientData(true);
     renderRequests();
-
-    // Open links in the proper window
-    $('a[href^="http"]').attr('target', '__blank');
-    $('a[href^="dashboard.html"]').attr('target', 'httpsb-dashboard');
 });
 
 /******************************************************************************/

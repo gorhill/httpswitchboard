@@ -137,10 +137,6 @@ $(function() {
         onChangeValueHandler($('#clear-browser-cache-after'), 'clearBrowserCacheAfter', 15, 1440);
         window.open('','_self').close();
     });
-
-    // Open links in the proper window
-    $('a[href^="http"]').attr('target', '__blank');
-    $('a[href^="dashboard.html"]').attr('target', 'httpsb-dashboard');
 });
 
 /******************************************************************************/
