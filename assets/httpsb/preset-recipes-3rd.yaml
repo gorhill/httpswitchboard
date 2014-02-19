@@ -204,10 +204,11 @@ Youtube:
         youtube-nocookie.com
         youtube.com
     whitelist: |
-        frame www.youtube-nocookie.com
-        script www.youtube-nocookie.com
-        plugin www.youtube.com
-        script www.youtube.com
+        frame youtube-nocookie.com
+        script youtube-nocookie.com
+        plugin youtube.com
+        script youtube.com
+        xhr youtube.com
         frame www.youtube.com
         css ytimg.com
         image ytimg.com
@@ -216,4 +217,6 @@ Youtube:
         # As per issue #169
         plugin youtube.googleapis.com
         plugin googlevideo.com
+        xhr googlevideo.com
+        script ajax.googleapis.com
 

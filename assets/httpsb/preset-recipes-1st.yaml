@@ -261,6 +261,23 @@ New Scientist:
         whitelist: |
             * www.newscientist.com
 
+RBC Royal Bank:
+    keys: '*.royalbank.com'
+    scope: '*.royalbank.com'
+        whitelist: |
+            * royalbank.com
+            * rbc.bridgetrack.com
+            * sec-rbc.bridgetrack.com
+RBC Banque Royale:
+    keys: '*.rbcbanqueroyale.com'
+    requires: RBC Royal Bank
+    scope: '*.rbcbanqueroyale.com'
+        whitelist: |
+            * rbcbanqueroyale.com
+            * royalbank.com
+            * rbc.bridgetrack.com
+            * sec-rbc.bridgetrack.com
+
 Reddit (with account):
     keys: '*.reddit.com'
     scope: '*.reddit.com'

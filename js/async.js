@@ -219,7 +219,7 @@ function onMessageHandler(request, sender, callback) {
             break;
 
         case 'gotoURL':
-            chrome.tabs.update(request.tabId, { url: request.url });
+            chrome.tabs.create({ url: request.url });
             break;
 
         case 'localRemoveRemoteBlacklist':

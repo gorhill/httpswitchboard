@@ -44,14 +44,6 @@ body {
     opacity: 0.9;
     cursor: pointer;
     }
-.toolbar button:last-of-type {
-    margin-left: 0;
-    margin-right: 0.6em;
-    }
-.toolbar.pullright button:last-of-type {
-    margin-left: 0.6em;
-    margin-right: 0;
-    }
 .toolbar button:hover {
     background-color: #eee;
     opacity: 1;
@@ -61,7 +53,7 @@ body {
     }
 .toolbar button.fa {
     font: 1.75em 'FontAwesome';
-    min-width: 1.3em;
+    min-width: 1.1em;
     }
 
 .dropdown-menu {
@@ -137,12 +129,11 @@ body.tScopeDomain #buttonPersist {
 body.tScopeSite #buttonPersist {
     color: #48c;
     }
-body.powerOff #buttonPersist {
-    visibility: hidden;
-    }
 body #buttonRevertScope {
     }
-body.powerOff #buttonRevertScope {
+body.powerOff #buttonPersist,
+body.powerOff #buttonRevertScope,
+body.powerOff #buttonRevertAll {
     visibility: hidden;
     }
 body #buttonRevertAll {
@@ -292,7 +283,7 @@ body #scopeKeys {
     width: 2.4em;
     white-space: nowrap;
     text-align: center;
-    line-height: 100%;
+    line-height: 110%;
     position: relative;
     }
 

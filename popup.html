@@ -18,20 +18,6 @@
 </div>
 
 <div class="paneHead">
-    <div id="toolbarMore" class="toolbar pullright">
-        <button id="buttonDropdown" type="button" class="fa dropdown-menu-button" tabindex="-1">&#xf0c9;</button>
-        <div class="dropdown-menu pullright">
-            <ul>
-                <li id="buttonDashboard" class="dropdown-menu-entry extensionURL" data-extension-url="dashboard.html"><i class="fa">&#xf009;</i><span>Dashboard</span>...</li>
-                <li id="buttonHelp" class="dropdown-menu-entry externalURL" data-external-url="https://github.com/gorhill/httpswitchboard/wiki"><i class="fa">&#xf059;</i><span>Documentation</span>...</li>
-                <li class="dropdown-menu-entry-divider"></li>
-                <li id="buttonPower" class="dropdown-menu-entry"><i class="fa">&#xf011;</i><span>On/off</span></li>
-            </ul>
-        </div>
-        <div class="dropdown-menu-capture"></div>
-        <!-- <div id="message"></div> -->
-    </div>
-
     <div id="toolbarScope" class="toolbar">
         <button id="scopeCell" class="dropdown-menu-button" tabindex="-1"></button>
         <div id="scopeKeys" class="dropdown-menu">
@@ -46,23 +32,19 @@
 
     <div class="toolbar">
         <button id="buttonPersist" type="button" class="fa">&#xf023;</button>
-    </div>
-
-    <div class="toolbar">
         <button id="buttonPresets" type="button" class="fa dropdown-menu-button" tabindex="-1">&#xf12e;<span></span></button>
-        <div class="dropdown-menu">
-            <ul></ul>
-        </div>
+        <div class="dropdown-menu"><ul></ul></div>
         <div class="dropdown-menu-capture"></div>
-    </div>
 
-    <div class="toolbar">
         <button id="buttonRevertScope" type="button" class="fa" tabindex="-1">&#xf12d;</button>
         <button id="buttonRevertAll" type="button" class="fa" tabindex="-1">&#xf12d;<span class="fa">&#xf12d;</span><span class="fa">&#xf12d;</span><span class="fa">&#xf12d;</span><span class="fa">&#xf12d;</span></button>
+        <button id="buttonReload" type="button" class="fa">&#xf021;</button>
     </div>
 
-    <div class="toolbar">
-        <button id="buttonReload" type="button" class="fa">&#xf021;</button>
+    <div class="toolbar pullright">
+        <button id="buttonDashboard" type="button" class="dropdown-menu-entry extensionURL fa" data-extension-url="dashboard.html">&#xf085;</button>
+        <button id="buttonHelp" type="button" class="dropdown-menu-entry externalURL fa" data-external-url="https://github.com/gorhill/httpswitchboard/wiki">&#xf059;</button>
+        <button id="buttonPower" type="button" class="dropdown-menu-entry fa">&#xf011;</button>
     </div>
 
     <div id="matHead" class="matrix collapsible">
