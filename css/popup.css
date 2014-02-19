@@ -233,7 +233,7 @@ body .toolbar button#scopeCell {
     border: 1px dotted rgba(0,0,0,0.2);
     padding: 6px 1px 3px 1px;
     box-sizing: content-box;
-    width: 19em;
+    width: 18em;
     height: 1.5em;
     white-space: nowrap;
     text-align: right;
@@ -303,13 +303,13 @@ body #scopeKeys {
     }
 
 .matrix .matRow > .matCell:first-child {
-    width: 19em;
+    width: 18em;
     text-align: start;
     direction: rtl;
     }
 .matrix .matRow.l2 > .matCell:first-child {
     margin-left: 3px;
-    width: calc(19em - 3px);
+    width: calc(18em - 3px);
     }
 .matrix .matRow > .matCell:hover {
     border-style: solid;
