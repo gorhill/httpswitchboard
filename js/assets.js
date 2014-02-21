@@ -119,7 +119,9 @@ var readLocalFile = function(path, msg) {
     };
 
     var onCacheEntryError = function(err) {
-        // console.error('HTTP Switchboard> readLocalFile() / onCacheEntryError("%s"):', path, err.message);
+        if ( err.name !== 'NotFoundError' ) {
+            console.error('HTTP Switchboard> readLocalFile() / onCacheEntryError("%s"):', path, err.name);
+        }
         getTextFileFromURL(chrome.runtime.getURL(path), onLocalFileLoaded, onLocalFileError);
     };
 
@@ -152,7 +154,7 @@ var writeLocalFile = function(path, content, msg) {
     };
 
     var onFileWriteError = function(err) {
-        console.error('HTTP Switchboard> writeLocalFile() / onFileWriteError("%s"):', path, err.message);
+        console.error('HTTP Switchboard> writeLocalFile() / onFileWriteError("%s"):', path, err.name);
         sendMessage(err);
     };
 
@@ -165,7 +167,7 @@ var writeLocalFile = function(path, content, msg) {
     };
 
     var onFileTruncateError = function(err) {
-        console.error('HTTP Switchboard> writeLocalFile() / onFileTruncateError("%s"):', path, err.message);
+        console.error('HTTP Switchboard> writeLocalFile() / onFileTruncateError("%s"):', path, err.name);
         sendMessage(err);
     };
 
@@ -176,7 +178,7 @@ var writeLocalFile = function(path, content, msg) {
     };
 
     var onCreateFileWriterError = function(err) {
-        console.error('HTTP Switchboard> writeLocalFile() / onCreateFileWriterError("%s"):', path, err.message);
+        console.error('HTTP Switchboard> writeLocalFile() / onCreateFileWriterError("%s"):', path, err.name);
         sendMessage(err);
     };
 
@@ -186,7 +188,7 @@ var writeLocalFile = function(path, content, msg) {
     };
 
     var onCacheEntryError = function(err) {
-        console.error('HTTP Switchboard> writeLocalFile() / onCacheEntryError("%s"):', path, err.message);
+        console.error('HTTP Switchboard> writeLocalFile() / onCacheEntryError("%s"):', path, err.name);
         sendMessage(err);
     };
 
@@ -227,8 +229,8 @@ var updateFromRemote = function(path, msg) {
 
 // Ref.: http://www.html5rocks.com/en/tutorials/file/filesystem/
 
-var onError = function() {
-    console.error('HTTP Switchboard> Could not get virtual file system');
+var onError = function(err) {
+    console.error('HTTP Switchboard> Could not get virtual file system:', err.name);
 };
 
 var onRequestFileSystem = function(fs) {
