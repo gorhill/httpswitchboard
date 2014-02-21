@@ -18,6 +18,13 @@
 </div>
 
 <div class="paneHead">
+    <!-- Yandex: float works correctly only if it is the first child -->
+    <div class="toolbar pullright">
+        <button id="buttonDashboard" type="button" class="dropdown-menu-entry extensionURL fa" data-extension-url="dashboard.html">&#xf085;</button>
+        <button id="buttonHelp" type="button" class="dropdown-menu-entry externalURL fa" data-external-url="https://github.com/gorhill/httpswitchboard/wiki">&#xf059;</button>
+        <button id="buttonPower" type="button" class="dropdown-menu-entry fa">&#xf011;</button>
+    </div>
+
     <div id="toolbarScope" class="toolbar">
         <button id="scopeCell" class="dropdown-menu-button" tabindex="-1"></button>
         <div id="scopeKeys" class="dropdown-menu">
@@ -39,12 +46,6 @@
         <button id="buttonRevertScope" type="button" class="fa" tabindex="-1">&#xf12d;</button>
         <button id="buttonRevertAll" type="button" class="fa" tabindex="-1">&#xf12d;<span class="fa">&#xf12d;</span><span class="fa">&#xf12d;</span><span class="fa">&#xf12d;</span><span class="fa">&#xf12d;</span></button>
         <button id="buttonReload" type="button" class="fa">&#xf021;</button>
-    </div>
-
-    <div class="toolbar pullright">
-        <button id="buttonDashboard" type="button" class="dropdown-menu-entry extensionURL fa" data-extension-url="dashboard.html">&#xf085;</button>
-        <button id="buttonHelp" type="button" class="dropdown-menu-entry externalURL fa" data-external-url="https://github.com/gorhill/httpswitchboard/wiki">&#xf059;</button>
-        <button id="buttonPower" type="button" class="dropdown-menu-entry fa">&#xf011;</button>
     </div>
 
     <div id="matHead" class="matrix collapsible">
