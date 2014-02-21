@@ -180,6 +180,10 @@
         "message": "Cliquez pour importer les règles d'une recette prédéfinie",
         "description": "..."
     },
+    "matrixNoNetTrafficPrompt" : {
+        "message": "Aucune activité réseau observée pour cet onglet jusqu'à présent.",
+        "description": "..."
+    },
 
 
     "statsPageTitle" : {

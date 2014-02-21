@@ -180,6 +180,10 @@
         "message": "Click on a preset recipe to import its rules",
         "description": "..."
     },
+    "matrixNoNetTrafficPrompt" : {
+        "message": "No net traffic seen for this tab so far.",
+        "description": "..."
+    },
 
 
     "statsPageTitle" : {

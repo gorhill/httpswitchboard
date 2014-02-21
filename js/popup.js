@@ -1356,6 +1356,10 @@ function bindToTabHandler(tabs) {
         $('#buttonReload').remove();
         $('#buttonRevertScope').remove();
         $('#buttonRevertAll').remove();
+
+        // https://github.com/gorhill/httpswitchboard/issues/191
+        $('#noNetTrafficPrompt').text(chrome.i18n.getMessage('matrixNoNetTrafficPrompt'));
+        $('#noNetTrafficPrompt').css('display', '');
     }
 
     // Activate page scope if there is one
