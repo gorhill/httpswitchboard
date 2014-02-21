@@ -277,7 +277,7 @@
         "description": ""
     },
     "settingsAutoWhitelistHelp": {
-        "message": "<p>Some users do not like to constantly whitelist the domain of the page by default. This feature allows to automatically whitelist temporarily the whole domain of a page whenever it is first loaded in the browser. The temporary auto-whitelisting will occur <b>only</b> if the page domain is currently graylisted.</p><p>Although security-wise it is not a recommanded feature to use, it has been included due to popular demand -- I rather give users this feature than see them give up completely on a blocker.</p><p>If you use this feature, I advise that you at least blacklist <b>frame</b> requests and turn on <b>strict blocking</b>.</p>",
+        "message": "<p>Some users do not like to constantly whitelist the domain of the page by default. This feature enables automatic temporary whitelisting of a page's whole domain whenever it is first loaded in the browser. The temporary auto-whitelisting will occur <b>only</b> if the page domain is currently graylisted.</p><p>Although it is not a recommended feature from a security perspective, it has been included due to popular demand -- I would rather give users this feature than see them give up completely on a blocker.</p><p>If you use this feature, I advise that you at least blacklist <b>frame</b> requests and turn on <b>strict blocking</b>.</p>",
         "description": "To help user understand the purpose of auto-whitelist"
     },
     "settingsPrivacyHeader" : {
@@ -285,7 +285,7 @@
         "description": "header of Privacy section"
     },
     "settingsDeleteBlockedCookiesPrompt" : {
-        "message": "Delete blocked cookies",
+        "message": "Delete blocked cookies.",
         "description": "..."
     },
     "settingsDeleteBlockedCookiesHelp" : {
@@ -301,7 +301,7 @@
         "description": "..."
     },
     "settingsDeleteBlockedLocalStoragePrompt" : {
-        "message": "Delete contents of <a href='http://en.wikipedia.org/wiki/Web_storage'>local storage</a> of blocked hostnames",
+        "message": "Delete <a href='http://en.wikipedia.org/wiki/Web_storage'>local storage</a> content set by blocked hostnames",
         "description": "..."
     },
     "settingsDeleteBlockedLocalStorageHelp" : {
@@ -317,7 +317,7 @@
         "description": "..."
     },
     "settingsProcessRefererPrompt" : {
-        "message": "Remove third-party <a href='https://en.wikipedia.org/wiki/HTTP_referer'>HTTP referer</a> information for non-whitelisted hostname.",
+        "message": "Remove third-party <a href='https://en.wikipedia.org/wiki/HTTP_referer'>HTTP referer</a> information from requests to non-whitelisted hostnames.",
         "description": "..."
     },
     "settingsProcessRefererHelp" : {
@@ -329,11 +329,11 @@
         "description": "header of Chromium: behind-the-scene requests section"
     },
     "settingsProcessBehindTheScenePrompt" : {
-        "message": "The &ldquo;Process behind-the-scene HTTP requests&rdquo; checkbox doesn&lsquo;t exist anymore. To allow/block in whole or part behind-the-scene requests you must now use the matrix which is available when clicking the extension icon while on this page. Required reading: <a href='https://github.com/gorhill/httpswitchboard/wiki/Behind-the-scene-requests'>Behind-the-scene requests</a>.",
+        "message": "The &ldquo;Process behind-the-scene HTTP requests&rdquo; checkbox doesn&lsquo;t exist anymore. You must now use the matrix to allow or block behind-the-scene requests. Click the extension icon while viewing this page to get started. Required reading: <a href='https://github.com/gorhill/httpswitchboard/wiki/Behind-the-scene-requests'>Behind-the-scene requests</a>.",
         "description": "..."
     },
     "settingsProcessBehindTheSceneHelp" : {
-        "message": "<p>According to <a href='http://www.google.com/intl/en/chrome/browser/privacy/whitepaper.html'>Google Chrome Privacy Whitepaper</a>, <i>Chromium</i> might send HTTP requests to <i>Google</i> without the user expressly visiting a web page. Let's call these special requests <strong>behind-the-scene</strong> requests. Also, other installed browser extensions can send <strong>behind-the-scene</strong> HTTP requests.</p><p><i>HTTP Switchboard</i> let you intercept and treat these requests like any other request: they can be processed in order to allow/block them as per your whitelist/blacklist.</p><div class='warn'><p><span style='color:red; font-weight:bold'>Beware!</span> Potentially blocking <strong>behind-the-scene</strong> net requests is currently causing <a href='https://github.com/gorhill/httpswitchboard/issues/27'>an issue</a> when the user wants to install an extension from the Chrome store (including maybe preventing extensions from being updated), hence the ability to disable the feature here. Blocking can also cause other installed extensions to not work properly (those querying for remote data).</p> <p>Even if this feature is not enabled, <strong>behind-the-scene</strong> requests are still logged by <i>HTTP Switchboard</i>, so that you can at least inspect them (from the <a href='dashboard.html#statistics'>Stats</a> page).</p>",
+        "message": "<p>According to <a href='http://www.google.com/intl/en/chrome/browser/privacy/whitepaper.html'>Google Chrome Privacy Whitepaper</a>, <i>Chromium</i> might send HTTP requests to <i>Google</i> without the user expressly visiting a web page. Let's call these special requests <strong>behind-the-scene</strong> requests. Also, other installed browser extensions can send <strong>behind-the-scene</strong> HTTP requests.</p><p><i>HTTP Switchboard</i> lets you intercept and treat these requests like any other request: they can be processed in order to allow/block them as per your whitelist/blacklist.</p><div class='warn'><p><span style='color:red; font-weight:bold'>Beware!</span> Blocking <strong>behind-the-scene</strong> net requests is potentially causing <a href='https://github.com/gorhill/httpswitchboard/issues/27'>an issue</a> when the user wants to install an extension from the Chrome store (including maybe preventing extensions from being updated), hence the ability to disable the feature here. Blocking can also cause other installed extensions to not work properly (those querying for remote data).</p> <p>Even if this feature is not enabled, <strong>behind-the-scene</strong> requests are still logged by <i>HTTP Switchboard</i>. You can inspect these requests on the (from the <a href='dashboard.html#statistics'>Stats</a> page).</p>",
         "description": "..."
     },
     "settingsLogHeader" : {
