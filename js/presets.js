@@ -249,11 +249,11 @@ HTTPSB.PresetManager.prototype.applyToScope = function(scopeKey, presetId) {
 /******************************************************************************/
 
 HTTPSB.PresetManager.prototype.applyFromPresetName = function(presetName) {
-    var preset = httpsb.presetManager.firstPartyFromName(presetName);
+    var preset = this.firstPartyFromName(presetName);
     if ( !preset ) {
         return;
     }
-    httpsb.presetManager.applyToScope('*', preset.id);
+    this.applyToScope('*', preset.id);
 };
 
 /******************************************************************************/
