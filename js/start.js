@@ -150,7 +150,10 @@ function onConnectHandler(port) {
 
 function onDisconnectHandler() {
     HTTPSB.port = null;
-    smartReloadTabs();
+    // https://github.com/gorhill/httpswitchboard/issues/94
+    if ( HTTPSB.userSettings.smartAutoReload ) {
+        smartReloadTabs();
+    }
 }
 
 chrome.extension.onConnect.addListener(onConnectHandler);

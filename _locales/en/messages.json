@@ -248,6 +248,14 @@
         "message": "Large",
         "description": "..."
     },
+    "settingsMatrixAutoReloadPrompt" : {
+        "message": "Smart auto-reload of page(s) when matrix is closed.",
+        "description": "..."
+    },
+    "settingsMatrixAutoReloadInfo" : {
+        "message": "Whenever you make changes in the matrix which can affect the display and/or behavior of one or more pages, <i>HTTP Switchboard</i> will reload all affected pages automatically when you close the matrix.",
+        "description": "..."
+    },
     "settingsMatrixMoreSecurityHeader" : {
         "message": "More security",
         "description": "..."

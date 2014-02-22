@@ -248,6 +248,14 @@
         "message": "Large",
         "description": "..."
     },
+    "settingsMatrixAutoReloadPrompt" : {
+        "message": "Rechargement intelligent des pages lorsque la matrice est fermée.",
+        "description": "..."
+    },
+    "settingsMatrixAutoReloadInfo" : {
+        "message": "Tout changement dans la matrice susceptible d'affecter l'apparence et/ou le comportement d'une ou de plusieurs pages résultera en un rechargement automatique des pages affectées lorsque vous quittez la matrice.",
+        "description": "..."
+    },
     "settingsMatrixMoreSecurityHeader" : {
         "message": "Sécurité renforcée",
         "description": "..."

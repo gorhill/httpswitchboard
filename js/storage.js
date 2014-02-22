@@ -102,8 +102,8 @@ function saveUserSettings() {
 
 function loadUserSettings() {
     chrome.storage.local.get(HTTPSB.userSettings, function(store) {
-        HTTPSB.userSettings = store;
         // console.log('HTTP Switchboard > loaded user settings');
+        HTTPSB.userSettings = store;
     });
 }
 

@@ -81,6 +81,7 @@ $(function() {
         return $(this).attr('value') === userSettings.displayTextSize;
         });
     $('#strict-blocking').attr('checked', userSettings.strictBlocking === true);
+    $('#smart-auto-reload').attr('checked', userSettings.smartAutoReload === true);
     $('#auto-create-site-scope').attr('checked', userSettings.autoCreateSiteScope === true);
     $('#auto-whitelist-page-domain').attr('checked', userSettings.autoWhitelistPageDomain === true);
     $('#delete-unused-session-cookies').attr('checked', userSettings.deleteUnusedSessionCookies === true);
@@ -94,6 +95,9 @@ $(function() {
     // Handle user interaction
     $('input[name="displayTextSize"]').on('change', function(){
         changeUserSettings('displayTextSize', $(this).attr('value'));
+    });
+    $('#smart-auto-reload').on('change', function(){
+        changeUserSettings('smartAutoReload', $(this).is(':checked'));
     });
     $('#strict-blocking').on('change', function(){
         changeUserSettings('strictBlocking', $(this).is(':checked'));

@@ -27,21 +27,22 @@ var HTTPSB = {
     userSettings: {
         autoWhitelistPageDomain: false,
         autoCreateSiteScope: false,
+        clearBrowserCache: true,
+        clearBrowserCacheAfter: 60,
         deleteCookies: false,
         deleteUnusedSessionCookies: false,
         deleteUnusedSessionCookiesAfter: 60,
         deleteLocalStorage: false,
-        processBehindTheSceneRequests: false,
-        processReferer: false,
-        strictBlocking: true,
         displayTextSize: '13px',
+        maxLoggedRequests: 50,
         popupHideBlacklisted: false,
         popupCollapseDomains: false,
         popupCollapseSpecificDomains: {},
-        maxLoggedRequests: 50,
+        processBehindTheSceneRequests: false,
+        processReferer: false,
+        smartAutoReload: true,
         statsFilters: {},
-        clearBrowserCache: true,
-        clearBrowserCacheAfter: 60
+        strictBlocking: true
     },
 
     runtimeId: 1,
