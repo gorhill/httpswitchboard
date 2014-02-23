@@ -44,6 +44,9 @@ File system structure:
         user
             blacklisted-hosts.txt
                 ...
+
+Useful ref.: // Ref.: http://www.html5rocks.com/en/tutorials/file/filesystem/
+
 */
 
 /******************************************************************************/
@@ -74,6 +77,25 @@ var getTextFileFromURL = function(url, onLoad, onError) {
 
 var cachePathFromPath = function(path) {
     return path.replace(/\//g, '___');
+};
+
+/******************************************************************************/
+
+var requestFileSystem = function(onSuccess, onError) {
+    if ( fileSystem ) {
+        return onSuccess(fileSystem);
+    }
+
+    var onRequestFileSystem = function(fs) {
+        fileSystem = fs;
+        onSuccess(fs);
+    };
+
+    var onRequestQuota = function(grantedBytes) {
+        window.webkitRequestFileSystem(window.PERSISTENT, grantedBytes, onRequestFileSystem, onError);
+    };
+
+    navigator.webkitPersistentStorage.requestQuota(fileSystemQuota, onRequestQuota, onError);
 };
 
 /******************************************************************************/
@@ -125,14 +147,16 @@ var readLocalFile = function(path, msg) {
         getTextFileFromURL(chrome.runtime.getURL(path), onLocalFileLoaded, onLocalFileError);
     };
 
-    // From cache?
-    if ( fileSystem ) {
-        fileSystem.root.getFile(cachePathFromPath(path), null, onCacheEntryFound, onCacheEntryError);
-        return;
-    }
+    var onRequestFileSystemError = function(err) {
+        console.error('HTTP Switchboard> readLocalFile() / onRequestFileSystemError(): Could not get virtual file system:', err.name);
+        getTextFileFromURL(chrome.runtime.getURL(path), onLocalFileLoaded, onLocalFileError);
+    };
 
-    // From built-in local directory
-    getTextFileFromURL(chrome.runtime.getURL(path), onLocalFileLoaded, onLocalFileError);
+    var onRequestFileSystem = function(fs) {
+        fs.root.getFile(cachePathFromPath(path), null, onCacheEntryFound, onCacheEntryError);
+    };
+
+    requestFileSystem(onRequestFileSystem, onRequestFileSystemError);
 };
 
 /******************************************************************************/
@@ -192,9 +216,15 @@ var writeLocalFile = function(path, content, msg) {
         sendMessage(err);
     };
 
-    if ( fileSystem ) {
-        fileSystem.root.getFile(cachePathFromPath(path), { create: true }, onCacheEntryFound, onCacheEntryError);
-    }
+    var onRequestFileSystemError = function(err) {
+        console.error('HTTP Switchboard> writeLocalFile() / onRequestFileSystemError(): Could not get virtual file system:', err.name);
+    };
+
+    var onRequestFileSystem = function(fs) {
+        fs.root.getFile(cachePathFromPath(path), { create: true }, onCacheEntryFound, onCacheEntryError);
+    };
+
+    requestFileSystem(onRequestFileSystem, onRequestFileSystemError);
 };
 
 /******************************************************************************/
@@ -220,28 +250,8 @@ var updateFromRemote = function(path, msg) {
         this.onload = this.onerror = null;
     };
 
-    if ( fileSystem ) {
-        getTextFileFromURL(remoteURL, onRemoteFileLoaded, onRemoteFileError);
-    }
+    getTextFileFromURL(remoteURL, onRemoteFileLoaded, onRemoteFileError);
 };
-
-/******************************************************************************/
-
-// Ref.: http://www.html5rocks.com/en/tutorials/file/filesystem/
-
-var onError = function(err) {
-    console.error('HTTP Switchboard> Could not get virtual file system:', err.name);
-};
-
-var onRequestFileSystem = function(fs) {
-    fileSystem = fs;
-};
-
-var onRequestQuota = function(grantedBytes) {
-    window.webkitRequestFileSystem(window.PERSISTENT, grantedBytes, onRequestFileSystem, onError);
-};
-
-navigator.webkitPersistentStorage.requestQuota(fileSystemQuota, onRequestQuota, onError);
 
 /******************************************************************************/
 
