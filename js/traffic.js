@@ -171,6 +171,17 @@ function onBeforeRequestHandler(details) {
 
     pageStats = httpsb.pageStatsFromTabId(tabId);
 
+    // Re-classify orphan HTTP requests as behind-the-scene requests. There is
+    // not much else which can be done, because there are URLs
+    // which cannot be handled by HTTP Switchboard, i.e. `opera://startpage`,
+    // as this would lead to complications with no obvious solution, like how
+    // to scope on unknown scheme? Etc.
+    // https://github.com/gorhill/httpswitchboard/issues/191
+    if ( !pageStats ) {
+        tabId = httpsb.behindTheSceneTabId;
+        pageStats = httpsb.pageStatsFromTabId(tabId);
+    }
+
     // rhill 2013-12-16: I don't remember... Can pageStats still be nil at
     // this point?
     // Answer: Yes. Requests might still be dispatched after
@@ -179,7 +190,7 @@ function onBeforeRequestHandler(details) {
     //    console.error('onBeforeRequestHandler() > no pageStats: %o', details);
     // }
 
-    if ( isApp && pageStats ) {
+    if ( isApp ) {
         pageStats.ignore = true;
     }
 
@@ -193,7 +204,7 @@ function onBeforeRequestHandler(details) {
         type = httpsb.transposeType(type, requestURL);
     }
 
-    if ( pageStats && pageStats.ignore ) {
+    if ( pageStats.ignore ) {
         canEvaluate = false;
     }
 
@@ -204,14 +215,12 @@ function onBeforeRequestHandler(details) {
         block = httpsb.blacklisted(pageURL, type, hostname);
     }
 
-    if ( pageStats ) {
-        // rhill 2014-01-15: Delay logging of non-blocked top `main_frame`
-        // requests, in order to ensure any potential redirects is reported
-        // in proper chronological order.
-        // https://github.com/gorhill/httpswitchboard/issues/112
-        if ( !isWebPage || block ) {
-            pageStats.recordRequest(type, requestURL, block);
-        }
+    // rhill 2014-01-15: Delay logging of non-blocked top `main_frame`
+    // requests, in order to ensure any potential redirects is reported
+    // in proper chronological order.
+    // https://github.com/gorhill/httpswitchboard/issues/112
+    if ( !isWebPage || block ) {
+        pageStats.recordRequest(type, requestURL, block);
     }
 
     // Collect global stats
