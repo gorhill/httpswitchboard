@@ -83,7 +83,8 @@ var cachePathFromPath = function(path) {
 
 var requestFileSystem = function(onSuccess, onError) {
     if ( fileSystem ) {
-        return onSuccess(fileSystem);
+        onSuccess(fileSystem);
+        return;
     }
 
     var onRequestFileSystem = function(fs) {
