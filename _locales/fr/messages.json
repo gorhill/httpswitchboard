@@ -249,11 +249,11 @@
         "description": "..."
     },
     "settingsMatrixAutoReloadPrompt" : {
-        "message": "Rechargement intelligent des pages lorsque la matrice est fermée.",
+        "message": "Rechargement automatique des pages Web à la fermeture post-édition de la matrice",
         "description": "..."
     },
     "settingsMatrixAutoReloadInfo" : {
-        "message": "Tout changement dans la matrice susceptible d'affecter l'apparence et/ou le comportement d'une ou de plusieurs pages résultera en un rechargement automatique des pages affectées lorsque vous quittez la matrice.",
+        "message": "Lorsque vous avez modifié des permissions susceptibles d'affecter l'apparence et/ou le comportement d'une page Web, cette dernière sera automatiquement rechargée par l'extension en fermant la matrice. Si l'option ci-dessus n'est pas activée, vous devrez actualiser la page vous-même pour appliquer les modifications",
         "description": "..."
     },
     "settingsMatrixMoreSecurityHeader" : {
