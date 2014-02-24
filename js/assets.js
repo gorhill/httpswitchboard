@@ -162,6 +162,34 @@ var readLocalFile = function(path, msg) {
 
 /******************************************************************************/
 
+var readRemoteFile = function(path, msg) {
+    var sendMessage = function(content, err) {
+        var details = {
+            'what': msg,
+            'path': path,
+            'content': content,
+            'error': err
+        };
+        chrome.runtime.sendMessage(details);
+    };
+
+    var onRemoteFileLoaded = function() {
+        // console.log('HTTP Switchboard> readRemoteFile() / onRemoteFileLoaded()');
+        sendMessage(this.responseText);
+        this.onload = this.onerror = null;
+    };
+
+    var onRemoteFileError = function(ev) {
+        console.error('HTTP Switchboard> readRemoteFile() / onRemoteFileError("%s"):', path, this.statusText);
+        sendMessage('', this.statusText);
+        this.onload = this.onerror = null;
+    };
+
+    getTextFileFromURL(remoteRoot + path, onRemoteFileLoaded, onRemoteFileError);
+};
+
+/******************************************************************************/
+
 var writeLocalFile = function(path, content, msg) {
     var sendMessage = function(err) {
         var details = {
@@ -260,6 +288,7 @@ var updateFromRemote = function(path, msg) {
 
 HTTPSB.assets = {
     'get': readLocalFile,
+    'getRemote': readRemoteFile,
     'put': writeLocalFile,
     'update': updateFromRemote
 };

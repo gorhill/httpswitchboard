@@ -199,7 +199,6 @@ function loadRemoteBlacklists() {
 
 function loadRemoteBlacklistsHandler(store) {
     var httpsb = HTTPSB;
-    var responseText;
 
     // rhill 2013-12-10: set all existing entries to `false`.
     disableAllPresetBlacklistEntries();
@@ -246,8 +245,31 @@ function loadRemoteBlacklistsHandler(store) {
         HTTPSB.assets.get(location, 'mergeBlacklistedHosts');
     }
 
-    // This will allow the displayed blacklists in Settings page to refresh.
-    chrome.runtime.sendMessage({ what: 'presetBlacklistsLoaded' });
+    // This is to wake up post-process tasks once all blacklists are loaded.
+    asyncJobQueue.add(
+        'loadUbiquitousBlacklistCompleted',
+        null,
+        onLoadUbiquitousBlacklistCompleted,
+        100,
+        false
+    );
+}
+
+/******************************************************************************/
+
+// This is for:
+// - Efficient notifiying of listeners: only once per whole reload
+//   of lists (hopefully, chosen delay is enough).
+// - To prevent losing efficient pruning of the blocked hosts set: since the
+//   blocked hosts lists are loaded asynchronously, we must delay the prunin
+//   to when *all* lists are loaded, in order to avoid pruning entries which
+//   may be needed in a list which has not yet been processed.
+
+function onLoadUbiquitousBlacklistCompleted() {
+    chrome.runtime.sendMessage({ what: 'loadUbiquitousBlacklistCompleted' });
+
+    // rhill 2013-12-10: prune read-only blacklist entries.
+    prunePresetBlacklistEntries();
 }
 
 /******************************************************************************/
@@ -340,11 +362,14 @@ function mergeBlacklistedHosts(details) {
     httpsb.remoteBlacklists[details.path].entryCount = thisListCount;
     httpsb.remoteBlacklists[details.path].entryUsedCount = thisListUsedCount;
 
-    // This will allow the displayed blacklists in Settings page to refresh.
-    chrome.runtime.sendMessage({ what: 'presetBlacklistsLoaded' });
-
-    // rhill 2013-12-10: prune read-only blacklist entries.
-    prunePresetBlacklistEntries();
+    // This is to wake up post-process tasks once all blacklists are loaded.
+    asyncJobQueue.add(
+        'loadUbiquitousBlacklistCompleted',
+        null,
+        onLoadUbiquitousBlacklistCompleted,
+        100,
+        false
+    );
 }
 
 /******************************************************************************/
@@ -425,4 +450,80 @@ function load() {
     HTTPSB.loadPresets();
     getBytesInUse();
 }
+
+/******************************************************************************/
+
+// Update of assets
+
+HTTPSB.startUpdateAssets = function() {
+    this.assets.getRemote('assets/checksums.txt', 'remoteAssetChecksumsLoaded');
+    this.assets.get('assets/checksums.txt', 'localAssetChecksumsLoaded');
+};
+
+HTTPSB.doUpdateAssets = function() {
+    // Only if we have checksums for both local and remote assets.
+    if ( !this.localAssetChecksums || !this.remoteAssetChecksums ) {
+        return;
+    }
+
+    var i, lines, fields;
+
+    var localAssetChecksums = {};
+    lines = this.localAssetChecksums.split(/\n+/);
+    i = lines.length;
+    while ( i-- ) {
+        fields = lines[i].trim().split(/\s+/);
+        if ( fields.length !== 2 ) {
+            continue;
+        }
+        localAssetChecksums[fields[1]] = fields[0];
+    }
+    this.localAssetChecksums = localAssetChecksums;
+
+    var remoteAssetChecksums = {};
+    lines = this.remoteAssetChecksums.split(/\n+/);
+    i = lines.length;
+    while ( i-- ) {
+        fields = lines[i].trim().split(/\s+/);
+        if ( fields.length !== 2 ) {
+            continue;
+        }
+        remoteAssetChecksums[fields[1]] = fields[0];
+    }
+    this.remoteAssetChecksums = remoteAssetChecksums;
+
+    this.assetToUpdateCount = Object.keys(localAssets).length;
+    for ( var path in localAssets ) {
+        if ( !localAssets.hasOwnProperty(path) ) {
+            continue;
+        }
+        if ( localAssetChecksums[path] === remoteAssetChecksums[path] ) {
+            this.assetToUpdateCount -= 1;
+            continue;
+        }
+        this.assets.updateFromRemote(path, 'localAssetUpdated');
+    }
+};
+
+HTTPSB.onAssetUpdated = function(details) {
+    this.assetToUpdateCount -= 1;
+    var localAssetChecksums = this.localAssetChecksums;
+    if ( !details.error ) {
+        localAssetChecksums[details.path] = this.remoteAssetChecksums[details.path];
+    }
+    if ( this.assetToUpdateCount === 0 ) {
+        var content = [];
+        for ( var path in localAssetChecksums ) {
+            if ( localAssetChecksums.hasOwnProperty(path) ) {
+                content.push(localAssetChecksums[path] + ' ' + path);
+            }
+        }
+        writeLocalFile(details.path, content.join('\n'), 'allLocalAssetsUpdated');
+    }
+};
+
+HTTPSB.onAllAssetsUpdated = function() {
+    this.localAssetChecksums = null;
+    this.remoteAssetChecksums = null;
+};
 

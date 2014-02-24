@@ -222,6 +222,15 @@ function onMessageHandler(request, sender, callback) {
             chrome.tabs.create({ url: request.url });
             break;
 
+        case 'localAssetChecksumsLoaded':
+            HTTPSB.localAssetChecksums = request.content;
+            HTTPSB.doUpdateAssets();
+            break;
+
+        case 'localAssetUpdated':
+            HTTPSB.onAssetUpdated(request);
+            break;
+
         case 'localRemoveRemoteBlacklist':
             localRemoveRemoteBlacklist(request.location);
             break;
@@ -240,6 +249,11 @@ function onMessageHandler(request, sender, callback) {
 
         case 'reloadPresetBlacklists':
             reloadPresetBlacklists(request.switches);
+            break;
+
+        case 'remoteAssetChecksumsLoaded':
+            HTTPSB.remoteAssetChecksums = request.content;
+            HTTPSB.doUpdateAssets();
             break;
 
         case 'startWebRequestHandler':

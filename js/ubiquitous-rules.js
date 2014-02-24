@@ -224,7 +224,7 @@ function exportUserBlacklistToFile() {
 function onMessageHandler(request, sender) {
     if ( request && request.what ) {
         switch ( request.what ) {
-        case 'presetBlacklistsLoaded':
+        case 'loadUbiquitousBlacklistCompleted':
             renderBlacklists();
             selectedBlacklistsChanged();
             break;

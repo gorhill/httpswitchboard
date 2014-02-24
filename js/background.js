@@ -81,6 +81,13 @@ var HTTPSB = {
         'assets/thirdparties/hosts-file.net/hosts.txt': { off: true }
         },
 
+    // Used for update of assets: when an update is fired, these will be
+    // filled with the respective checksums, and once both are filled, the
+    // real update steps will be performed.
+    localAssetChecksums: null,
+    remoteAssetChecksums: null,
+    assetToUpdateCount: 0,
+
     // urls stats are kept on the back burner while waiting to be reactivated
     // in a tab or another.
     pageStats: {},
