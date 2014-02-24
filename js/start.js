@@ -76,7 +76,7 @@ chrome.tabs.onRemoved.addListener(onRemovedTabHandler);
 
 /******************************************************************************/
 
-chrome.tabs.onActivated.addListener(updateContextMenu)
+chrome.tabs.onActivated.addListener(updateContextMenu);
 
 /******************************************************************************/
 
@@ -112,7 +112,7 @@ load();
 // https://github.com/gorhill/httpswitchboard/issues/67
 
 (function(tabId, pageUrl) {
-    var pageStats = HTTPSB.createPageStats(pageUrl);
+    HTTPSB.createPageStats(pageUrl);
     HTTPSB.pageUrlToTabId[pageUrl] = tabId;
     HTTPSB.tabIdToPageUrl[tabId] = pageUrl;
 })(HTTPSB.behindTheSceneTabId, HTTPSB.behindTheSceneURL);
@@ -121,23 +121,21 @@ load();
 
 // Initialize internal state with maybe already existing tabs
 
-(function(){
-    chrome.tabs.query({ url: '<all_urls>' }, function(tabs) {
-        var i = tabs.length;
-        // console.debug('HTTP Switchboard > preparing to bind %d tabs', i);
-        var tab;
-        while ( i-- ) {
-            tab = tabs[i];
-            HTTPSB.bindTabToPageStats(tab.id, uriTools.normalizeURI(tab.url));
-        }
-        // Tabs are now bound to url stats stores, therefore it is now safe
-        // to handle net traffic.
-        chrome.runtime.sendMessage({
-            'what': 'startWebRequestHandler',
-            'from': 'tabsBound'
-            });
-    });
-})();
+chrome.tabs.query({ url: '<all_urls>' }, function(tabs) {
+    var i = tabs.length;
+    // console.debug('HTTP Switchboard > preparing to bind %d tabs', i);
+    var tab;
+    while ( i-- ) {
+        tab = tabs[i];
+        HTTPSB.bindTabToPageStats(tab.id, uriTools.normalizeURI(tab.url));
+    }
+    // Tabs are now bound to url stats stores, therefore it is now safe
+    // to handle net traffic.
+    chrome.runtime.sendMessage({
+        'what': 'startWebRequestHandler',
+        'from': 'tabsBound'
+        });
+});
 
 /******************************************************************************/
 
