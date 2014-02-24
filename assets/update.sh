@@ -4,7 +4,7 @@
 
 TEMPFILE=/tmp/httpsb-asset
 
-echo "HTTP Switchboard: updating assets..."
+echo "*** HTTP Switchboard: updating assets..."
 
 THIRDPARTY_REMOTEURLS=(
     'http://mirror1.malwaredomains.com/files/immortal_domains.txt'
@@ -41,7 +41,7 @@ THIRDPARTY_LOCALURLS=(
 ENTRY_INDEX=0
 for THIRDPARTY_REMOTEURL in ${THIRDPARTY_REMOTEURLS[@]}; do
     THIRDPARTY_LOCALURL=${THIRDPARTY_LOCALURLS[ENTRY_INDEX]}
-    echo "Downloading" $THIRDPARTY_REMOTEURL
+    echo "*** Downloading" $THIRDPARTY_REMOTEURL
     if wget -q -O $TEMPFILE -- $THIRDPARTY_REMOTEURL; then
         if [ -s $TEMPFILE ]; then
             if ! cmp -s $TEMPFILE $THIRDPARTY_LOCALURL; then
@@ -61,7 +61,7 @@ for ENTRY in $LIST; do
 done
 
 echo "*** Git adding changed assets..."
-git add -u --ignore-removal --ignore-errors ./*
+git add --update --ignore-removal --ignore-errors ./*
 echo "*** Git committing assets..."
 git commit -m 'automatic update of third-party assets'
 echo "*** Git pushing assets to remote master..."
