@@ -3,7 +3,7 @@
 # For more information about this list, see: http://pgl.yoyo.org/adservers/
 # ----
 # last updated:   Mon, 20 Jan 2014 13:06:17 GMT
-# entries:        2517
+# entries:        2508
 # format:         hosts (hosts -- in hosts file format)
 # credits:        Peter Lowe - pgl@yoyo.org - http://pgl.yoyo.org/
 # this URL:       http://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext
@@ -16,13 +16,13 @@
 127.0.0.1 123pagerank.com
 127.0.0.1 180hits.de
 127.0.0.1 180searchassistant.com
-127.0.0.1 180solutions.com
 127.0.0.1 1x1rank.com
 127.0.0.1 207.net
 127.0.0.1 247media.com
 127.0.0.1 24log.com
 127.0.0.1 24log.de
 127.0.0.1 24pm-affiliation.com
+127.0.0.1 2log.com
 127.0.0.1 2o7.net
 127.0.0.1 360yield.com
 127.0.0.1 4affiliate.net
@@ -43,7 +43,6 @@
 127.0.0.1 a.0day.kiev.ua
 127.0.0.1 a.collective-media.net
 127.0.0.1 a.consumer.net
-127.0.0.1 a.gismeteo.ru
 127.0.0.1 a.mktw.net
 127.0.0.1 a.sakh.com
 127.0.0.1 a.softpedia.com
@@ -75,7 +74,6 @@
 127.0.0.1 ad-up.com
 127.0.0.1 ad.100.tbn.ru
 127.0.0.1 ad.103092804.com
-127.0.0.1 ad.37.com
 127.0.0.1 ad.71i.de
 127.0.0.1 ad.980x.com
 127.0.0.1 ad.a8.net
@@ -374,7 +372,6 @@
 127.0.0.1 ads.asia1.com.sg
 127.0.0.1 ads.asiafriendfinder.com
 127.0.0.1 ads.ask.com
-127.0.0.1 ads.asp.net
 127.0.0.1 ads.aspalliance.com
 127.0.0.1 ads.associatedcontent.com
 127.0.0.1 ads.avazu.net
@@ -633,7 +630,6 @@
 127.0.0.1 ads.rottentomatoes.com
 127.0.0.1 ads.rpgdot.com
 127.0.0.1 ads.s3.sitepoint.com
-127.0.0.1 ads.samknows.com
 127.0.0.1 ads.satyamonline.com
 127.0.0.1 ads.savannahnow.com
 127.0.0.1 ads.scifi.com
@@ -1582,7 +1578,6 @@
 127.0.0.1 hightrafficads.com
 127.0.0.1 histats.com
 127.0.0.1 hit-parade.com
-127.0.0.1 hit-ranking.de
 127.0.0.1 hit.bg
 127.0.0.1 hit.ua
 127.0.0.1 hit.webcentre.lycos.co.uk
@@ -1594,7 +1589,6 @@
 127.0.0.1 hitlist.ru
 127.0.0.1 hitlounge.com
 127.0.0.1 hitometer.com
-127.0.0.1 hitpage.de
 127.0.0.1 hits.europuls.eu
 127.0.0.1 hits.informer.com
 127.0.0.1 hits.puls.lv
@@ -1738,7 +1732,6 @@
 127.0.0.1 linkstorms.com
 127.0.0.1 linkswaper.com
 127.0.0.1 linktarget.com
-127.0.0.1 liquidad.narrowcastmedia.com
 127.0.0.1 liveintent.com
 127.0.0.1 liveinternet.ru
 127.0.0.1 liverail.com
@@ -2027,7 +2020,6 @@
 127.0.0.1 promos.fling.com
 127.0.0.1 promote.pair.com
 127.0.0.1 promotion-campaigns.com
-127.0.0.1 promozia.de
 127.0.0.1 pronetadvertising.com
 127.0.0.1 proton-tm.com
 127.0.0.1 protraffic.com
@@ -2511,7 +2503,6 @@
 127.0.0.1 yieldmanager.net
 127.0.0.1 yoc.mobi
 127.0.0.1 yoggrt.com
-127.0.0.1 yourtracking.net
 127.0.0.1 z.times.lv
 127.0.0.1 z5x.net
 127.0.0.1 zangocash.com
