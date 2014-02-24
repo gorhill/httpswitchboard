@@ -41,6 +41,7 @@ body {
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     padding: 4px;
+    color: black;
     background-color: #eee;
     font: inherit;
     cursor: pointer;
@@ -48,6 +49,9 @@ body {
     }
 .tabButton:focus {
     outline: 0;
+    }
+.tabButton:active,.tabButton:visited {
+    color: inherited;
     }
 .tabButton.selected {
     border-bottom: 1px solid white;
