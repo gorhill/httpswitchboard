@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: MAvXfzqGpIO9qTln+0gS6w
-! Version: 201402251410
+! Checksum: LLr74TL4y8Kq1xwurRQDDg
+! Version: 201402251730
 ! Title: EasyPrivacy
-! Last modified: 25 Feb 2014 14:10 UTC
+! Last modified: 25 Feb 2014 17:30 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING

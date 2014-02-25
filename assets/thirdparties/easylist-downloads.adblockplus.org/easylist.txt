@@ -1,8 +1,8 @@
 [Adblock Plus 2.0]
-! Checksum: PJaVe21rXBeBjIA55drEHQ
-! Version: 201402251410
+! Checksum: dblYaPdbm6r+pcAG/JZWzQ
+! Version: 201402251730
 ! Title: EasyList
-! Last modified: 25 Feb 2014 14:10 UTC
+! Last modified: 25 Feb 2014 17:30 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
