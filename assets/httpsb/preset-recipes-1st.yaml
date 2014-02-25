@@ -309,6 +309,15 @@ StackOverflow:
             frame stackauth.com
             script ajax.googleapis.com
 
+Tumblr:
+    keys: '*.tumblr.com'
+    scope: '*.tumblr.com'
+        whitelist: |
+            * tumblr.com
+            frame assets.tumblr.com
+            frame www.tumblr.com
+            script ajax.googleapis.com
+
 Twitter (with account):
     keys: '*.twitter.com'
     scope: '*.twitter.com'
