@@ -1,7 +1,7 @@
 [Adblock Plus 1.1]
-! Checksum: 56Pk689IOy2KlthUYAC51w
+! Checksum: YIOBp8ExgSpG4vmweoVCJA
 ! Title: Fanboy's Enhanced Tracking List
-! Updated: 23 Feb 2014
+! Updated: 25 Feb 2014
 ! This list expires after 2 days
 ! License: http://creativecommons.org/licenses/by/3.0/
 ! Email: fanboyadblock@googlegroups.com
@@ -387,6 +387,7 @@ jsonline.com##.blockOverlay
 ||cleartrip.com/javascripts/ga.*.js
 ||dialog.com/js/wt.js
 ||ehow.com/px.gif
+||olark.com/nrpc/*=pollevents
 ||epson.com/2005redesign/ww_ga.js
 ||expedia.com^*/tracking.js?
 ||firstdirect.com/*/scripts/optimise.js
@@ -557,8 +558,10 @@ jsonline.com##.blockOverlay
 @@||amd.com/us/as/scode_$script
 @@||apple.com/pages/omniture/js/omniture_tracking.js
 @@||apple.com/pages/omniture/js/util.js?
+@@||player.qbrick.com^*/sitecatalyst.swf
 @@||arctichome.com/flex-mod/js/tracking/webtrends-*.js
 @@||simyo.de^*/simyo_s_code.js
+@@||arstechnica.net/wp-content/themes/*/omniture/
 @@||arvest.com/common/urchin/urchin.js
 @@||assets.pinterest.com/js/pinit.js$domain=mandatory.com
 @@||bankaholic.com/omniture/$script

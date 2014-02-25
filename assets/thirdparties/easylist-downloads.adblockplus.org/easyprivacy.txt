@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: f4jtXmm4dMZwjIIt1w6C8g
-! Version: 201402241530
+! Checksum: MAvXfzqGpIO9qTln+0gS6w
+! Version: 201402251410
 ! Title: EasyPrivacy
-! Last modified: 24 Feb 2014 15:30 UTC
+! Last modified: 25 Feb 2014 14:10 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -997,6 +997,7 @@
 /kejobscounter.
 /Kelkooid?
 /kelkooSponsoredLinks.
+/keywordlogger.
 /kissmetrics.
 /kissmetrics/*
 /KISSmetricsTrackCode.
@@ -2197,6 +2198,7 @@ http://utm.
 ||adinsight.eu^$third-party
 ||adku.co^$third-party
 ||adku.com^$third-party
+||adobedtm.com^$third-party
 ||adobetag.com^$third-party
 ||adoftheyear.com^$third-party
 ||adprotraffic.com^$third-party
@@ -2281,6 +2283,7 @@ http://utm.
 ||belstat.de^$third-party
 ||belstat.fr^$third-party
 ||belstat.nl^$third-party
+||benchit.com^$third-party
 ||best-top.de^$third-party
 ||bestcontactform.com^$~image,third-party
 ||bestweb2013stat.lk^$third-party
@@ -3088,6 +3091,7 @@ http://utm.
 ||perion.com^$third-party
 ||personyze.com^$third-party
 ||phonalytics.com^$third-party
+||phone-analytics.com^$third-party
 ||piano-media.com^$third-party
 ||pickzor.com^$third-party
 ||pikzor.com^$third-party
@@ -3164,6 +3168,7 @@ http://utm.
 ||rapidstats.net^$third-party
 ||rating.in^$third-party
 ||reachforce.com^$third-party
+||reactful.com^$third-party
 ||readertracking.com^$third-party
 ||readnotify.com^$third-party
 ||real5traf.ru^$third-party
@@ -3373,6 +3378,7 @@ http://utm.
 ||tcimg.com^$third-party
 ||tdstats.com^$third-party
 ||telemetrytaxonomy.net^$third-party
+||telize.com^$third-party
 ||teljari.is^$third-party
 ||tellapart.com^$third-party
 ||tendatta.com^$third-party
@@ -4551,6 +4557,7 @@ http://utm.
 ||control.adap.tv^$object-subrequest
 ||control.cityofcairns.com^$third-party
 ||count.carrierzone.com^
+||count.channeladvisor.com^
 ||count.me.uk^
 ||count.paycounter.com^
 ||counter.bloke.com^
@@ -5040,6 +5047,7 @@ http://utm.
 ||providence.voxmedia.com^$third-party
 ||proxify.com/xyz.php$third-party
 ||prstats.postrelease.com^
+||pswec.com/px/$third-party
 ||pt.crossmediaservices.com^
 ||ptsc.shoplocal.com^
 ||publicbroadcasting.net/analytics/
@@ -6363,7 +6371,6 @@ http://utm.
 ||db.com^*/stats.js?
 ||dcs.mattel.com^
 ||deadspin.com/at.js.php
-||deadspin.com^$object,~third-party
 ||deadspin.com^*/trackers.html
 ||dealnews.com/lw/ul.php?
 ||debtconsolidationcare.com/affiliate/tracker/
@@ -6553,7 +6560,6 @@ http://utm.
 ||gardenweb.com^*/iv_header.js
 ||gawker.com/?op=hyperion_useragent_data
 ||gawker.com/at.js.php
-||gawker.com^$object,~third-party
 ||gawker.com^*/trackers.html
 ||geico.com/vs/track2.js?
 ||general-files.com/stat
@@ -6577,7 +6583,6 @@ http://utm.
 ||gigya.com/js/gigyaGAIntegration.js
 ||github.com/_stats
 ||gizmodo.com/at.js.php
-||gizmodo.com^$object,~third-party
 ||gizmodo.com^*/trackers.html
 ||glamourmagazine.co.uk^*/LogPageView
 ||glean.pop6.com^
@@ -6724,7 +6729,6 @@ http://utm.
 ||intensedebate.com/empty.php
 ||investegate.co.uk/Weblogs/IGLog.aspx?
 ||io9.com/at.js.php
-||io9.com^$object,~third-party
 ||io9.com^*/trackers.html
 ||ip-adress.com/gl?r=
 ||ipetitions.com/img.php?
@@ -6739,14 +6743,12 @@ http://utm.
 ||jakpost.net/jptracker/
 ||jal.co.jp/common_rn/js/rtam.js
 ||jalopnik.com/at.js.php
-||jalopnik.com^$object,~third-party
 ||jalopnik.com^*/trackers.html
 ||jaludo.com/pm.php?
 ||javhd.com/click/
 ||jessops.com/js/JessopsTracking.
 ||jetsetter.com/tracker.php
 ||jezebel.com/at.js.php
-||jezebel.com^$object,~third-party
 ||jezebel.com^*/trackers.html
 ||jobscentral.com.sg/cb_transfer.php
 ||jobthread.com/js/t.js
@@ -6774,7 +6776,6 @@ http://utm.
 ||kodakgallery.com^*/analytics_
 ||kosmix.com^*.txt?pvid=
 ||kotaku.com/at.js.php
-||kotaku.com^$object,~third-party
 ||kotaku.com^*/trackers.html
 ||kyte.tv/flash/MarbachMetricsOmniture.swf
 ||kyte.tv/flash/MarbachMetricsProvider.swf
@@ -6791,7 +6792,6 @@ http://utm.
 ||lexus.com/lexus-share/js/campaign_tracking.js
 ||life.com/sm-stat/
 ||lifehacker.com/at.js.php
-||lifehacker.com^$object,~third-party
 ||lifehacker.com^*/trackers.html
 ||lightreading.com/client_pathlog.asp
 ||likes.com/api/track_pv
@@ -7144,6 +7144,7 @@ http://utm.
 ||real.com^*/track.png?
 ||realitytvworld.com/images/pixel.gif
 ||recomendedsite.com/addon/upixel/
+||recommendation.24.com^
 ||redding.com/metrics/
 ||redeye.williamhill.com^
 ||rediff.com^*/?rkey=
@@ -7513,6 +7514,7 @@ http://utm.
 ||tracking.chacha.com^
 ||tracking.conduit.com^
 ||tracking.eurosport.com^
+||tracking.gfycat.com^
 ||tracking.goodgamestudios.com^
 ||tracking.hsn.com^
 ||tracking.koego.com^
@@ -8364,6 +8366,8 @@ http://utm.
 ||t.delfi.lv/_a?
 ||tanks.lv/top/stats.php
 ! Norwegian
+||click.vgnett.no^
+||fusion.nettavisen.no^
 ||nrk.no^*/stats/
 ||vg.no/stats/
 ||webhit.aftenposten.no^
