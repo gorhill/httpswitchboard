@@ -187,6 +187,13 @@ The Guardian:
             * guardian.co.uk
             * theguardian.tv
 
+HSBC Brasil:
+    keys: '*.hsbc.com.br'
+    scope: '*.hsbc.com.br'
+        whitelist: |
+            * hsbc.com.br
+            * member-hsbc-group.com
+
 Huffington Post:
     keys: www.huffingtonpost.com
     scope: www.huffingtonpost.com

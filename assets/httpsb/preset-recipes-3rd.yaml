@@ -90,6 +90,19 @@ Facebook:
         script static.ak.fbcdn.net
         xhr static.ak.fbcdn.net
 
+Fox News comments:
+    facode: f086
+    keys: d16s8pqtk4uodx.cloudfront.net
+    whitelist: |
+        script d134l0cdryxgwa.cloudfront.net
+        script d16s8pqtk4uodx.cloudfront.net
+        script widget-cdn.rpxnow.com
+        script backplane1.janrainbackplane.com
+        script livefyre.com
+        xhr livefyre.com
+        script fyre.co
+        xhr fyre.co
+
 Instagram:
     facode: f16d
     keys: instagram.com
