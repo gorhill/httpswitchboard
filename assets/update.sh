@@ -54,8 +54,8 @@ for THIRDPARTY_REMOTEURL in ${THIRDPARTY_REMOTEURLS[@]}; do
 done
 
 echo "*** Generating checksums.txt file..."
-truncate -s 0 checksums.txt
 pushd ..
+truncate -s 0 assets/checksums.txt
 LIST="$(find assets/httpsb assets/thirdparties -type f)"
 for ENTRY in $LIST; do
     echo `md5sum $ENTRY` >> assets/checksums.txt

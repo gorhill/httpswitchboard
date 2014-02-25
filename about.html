@@ -6,12 +6,11 @@
 <link rel="stylesheet" type="text/css" href="css/fonts.css">
 <link rel="stylesheet" type="text/css" href="css/dashboard-common.css">
 <style>
-ul {
-    padding: 0;
-    list-style-type: none;
+table th {
+    text-align: left;
     }
-ul > li {
-    margin: 0;
+table td:first-child {
+    padding-right: 2em;
     }
 </style>
 </head>
@@ -20,21 +19,36 @@ ul > li {
 
 <h2>HTTP Switchboard version <span id="version"></span></h2>
 <div>
-<a href="https://github.com/gorhill/httpswitchboard/wiki/Change-log">Change log</a><br>
-Storage used: <span id="storageUsed">?</span> %<br>
-<a href="https://github.com/gorhill/httpswitchboard/wiki">Documentation</a><br>
-<a href="https://github.com/gorhill/httpswitchboard/wiki/Permissions">Permissions</a><br>
-<a href="https://github.com/gorhill/httpswitchboard">Source code (GPLv3)</a><br>
-<a href="https://github.com/gorhill/httpswitchboard/wiki/Credits">Credits</a><br>
+    <a href="https://github.com/gorhill/httpswitchboard/wiki/Change-log">Change log</a><br>
+    Storage used: <span id="storageUsed">?</span> %<br>
+    <a href="https://github.com/gorhill/httpswitchboard/wiki">Documentation</a><br>
+    <a href="https://github.com/gorhill/httpswitchboard/wiki/Permissions">Permissions</a><br>
+    <a href="https://github.com/gorhill/httpswitchboard">Source code (GPLv3)</a><br>
+    <a href="https://github.com/gorhill/httpswitchboard/wiki/Credits">Credits</a><br>
 </div>
 
 <h2>Assets</h2>
-<div id="assetList">
+<div>
+    <p class="para"><i>HTTP Switchboard</i> uses various assets which contents may change over time:</p>
+    <ul>
+        <li>Lists of ubiquitous rules
+        <li>Preset recipes
+        <li><a href="http://publicsuffix.org/list/">Public Suffix List</a>
+    </ul>
+    <p class="para">Since version 0.8.3.0, these assets can be updated here without having
+    to wait for the next release of <i>HTTP Switchboard</i>.
+    These assets are pulled from the
+    <a href="https://github.com/gorhill/httpswitchboard">project's Github repository</a>.
+    </p>
+    <div id="assetList">
+    </div>
+    <p><button id="aboutAssetsUpdateButton">Update</button></p>
 </div>
 
 <script src="lib/jquery-2.min.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/dashboard-common.js"></script>
 <script src="js/about.js"></script>
+
 </body>
 </html>

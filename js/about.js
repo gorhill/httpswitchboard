@@ -25,18 +25,62 @@ $(function() {
 
 /******************************************************************************/
 
+var httpsb = chrome.extension.getBackgroundPage().HTTPSB;
+
+/******************************************************************************/
+
+var renderTime = function(time) {
+    // value => minutes
+    var value = (Date.now() - time) / 60000;
+    if ( value < 1 ) {
+        return 'just now';
+    }
+    if ( value < 60 ) {
+        return Math.ceil(value) + ' minutes ago';
+    }
+    // value => hours
+    value /= 60;
+    if ( value < 24 ) {
+        return Math.ceil(value) + ' hours ago';
+    }
+    // value => days
+    value /= 24;
+    return Math.ceil(value) + ' days ago';
+};
+
+/******************************************************************************/
+
 var renderAssetList = function(entries) {
     var html = [];
-    var i = 0;
-    var entry;
-    while ( entry = entries[i] ) {
-        html.push('');
-        html.push(entry.path);
-        html.push(' (' + entry.modificationTime + ')');
-        html.push('<br>');
-        i++;
+
+    if ( entries.length ) {
+        var i = 0;
+        var entry;
+        html.push('<table>');
+        html.push('<tr>');
+        html.push('<th>Path');
+        html.push('<th>Updated');
+        while ( entry = entries[i] ) {
+            html.push('<tr>');
+            html.push('<td>');
+            html.push('<a href="https://raw2.github.com/gorhill/httpswitchboard/master/' + entry.path + '">' + entry.path + '</a>');
+            html.push('<td>');
+            html.push(renderTime(entry.modificationTime));
+            html.push('<br>');
+            i++;
+        }
+        html.push('</table>');
+    } else {
+        html.push('No assets have been updated from built-in versions');
     }
     $('#assetList').html(html.join(''));
+    $('#assetList a').attr('target', '_blank');
+};
+
+/******************************************************************************/
+
+var updateAssets = function() {
+    httpsb.startUpdateAssets();
 };
 
 /******************************************************************************/
@@ -44,8 +88,13 @@ var renderAssetList = function(entries) {
 var onMessageHandler = function(request, sender) {
     if ( request && request.what ) {
         switch ( request.what ) {
+
         case 'dashboardAboutCachedAssetList':
             renderAssetList(request.entries);
+            break;
+
+        case 'allLocalAssetsUpdated':
+            httpsb.assets.getEntries('dashboardAboutCachedAssetList');
             break;
         }
     }
@@ -53,9 +102,9 @@ var onMessageHandler = function(request, sender) {
 
 /******************************************************************************/
 
-var httpsb = chrome.extension.getBackgroundPage().HTTPSB;
 $('#version').html(httpsb.manifest.version);
 $('#storageUsed').html(httpsb.storageQuota ? (httpsb.storageUsed / httpsb.storageQuota * 100).toFixed(1) : 0);
+$('#aboutAssetsUpdateButton').on('click', updateAssets);
 
 chrome.runtime.onMessage.addListener(onMessageHandler);
 

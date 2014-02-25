@@ -509,14 +509,14 @@ HTTPSB.updateAssets = function() {
     // Because of asynchronicity, count must be set here, this way it is
     // guarantee it won't ever reach zero unless all request for remote assets
     // have been really fired.
-    this.assetToUpdateCount = Object.keys(localAssets).length;
+    this.assetToUpdateCount = Object.keys(localAssetChecksums).length;
 
-    for ( var path in localAssets ) {
-        if ( !localAssets.hasOwnProperty(path) ) {
+    for ( var path in localAssetChecksums ) {
+        if ( !localAssetChecksums.hasOwnProperty(path) ) {
             continue;
         }
         if ( localAssetChecksums[path] !== remoteAssetChecksums[path] ) {
-            this.assets.updateFromRemote(path, 'localAssetUpdated');
+            this.assets.update(path, 'localAssetUpdated');
         } else {
             this.assetToUpdateCount -= 1;
         }
@@ -536,7 +536,7 @@ HTTPSB.onAssetUpdated = function(details) {
                 content.push(localAssetChecksums[path] + ' ' + path);
             }
         }
-        writeLocalFile(details.path, content.join('\n'), 'allLocalAssetsUpdated');
+        this.assets.put(details.path, content.join('\n'), 'allLocalAssetsUpdated');
     }
 };
 

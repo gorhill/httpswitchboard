@@ -298,7 +298,7 @@ var getFileList = function(msg) {
         fsEntry.getMetadata(function(metadata) {
             allEntries.push({
                 path: pathFromCachePath(fsEntry.name),
-                modificationTime: metadata.modificationTime.toLocaleString(),
+                modificationTime: metadata.modificationTime.getTime(),
                 size: metadata.size
             });
             fsEntryCount -= 1;

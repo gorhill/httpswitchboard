@@ -64,6 +64,7 @@ body {
     z-index: 1000;
     font-size: 110%;
     display: none;
+    white-space: normal;
     }
 .dropdown-menu.pullright {
     right: 0;

@@ -254,7 +254,7 @@ function onMessageHandler(request, sender, callback) {
             break;
 
         case 'remoteAssetChecksumsLoaded':
-            HTTPSB.onLocalAssetChecksumsLoaded(request);
+            HTTPSB.onRemoteAssetChecksumsLoaded(request);
             break;
 
         case 'startWebRequestHandler':

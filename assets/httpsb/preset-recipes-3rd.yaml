@@ -90,7 +90,7 @@ Facebook:
         script static.ak.fbcdn.net
         xhr static.ak.fbcdn.net
 
-Fox News comments:
+Fox News comments (requires scripts from Janrain):
     facode: f086
     keys: d16s8pqtk4uodx.cloudfront.net
     whitelist: |
