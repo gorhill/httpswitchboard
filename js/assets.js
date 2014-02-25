@@ -79,6 +79,10 @@ var cachePathFromPath = function(path) {
     return path.replace(/\//g, '___');
 };
 
+var pathFromCachePath = function(path) {
+    return path.replace(/___/g, '/');
+};
+
 /******************************************************************************/
 
 var requestFileSystem = function(onSuccess, onError) {
@@ -149,7 +153,7 @@ var readLocalFile = function(path, msg) {
     };
 
     var onRequestFileSystemError = function(err) {
-        console.error('HTTP Switchboard> readLocalFile() / onRequestFileSystemError(): Could not get virtual file system:', err.name);
+        console.error('HTTP Switchboard> readLocalFile() / onRequestFileSystemError():', err.name);
         getTextFileFromURL(chrome.runtime.getURL(path), onLocalFileLoaded, onLocalFileError);
     };
 
@@ -246,7 +250,7 @@ var writeLocalFile = function(path, content, msg) {
     };
 
     var onRequestFileSystemError = function(err) {
-        console.error('HTTP Switchboard> writeLocalFile() / onRequestFileSystemError(): Could not get virtual file system:', err.name);
+        console.error('HTTP Switchboard> writeLocalFile() / onRequestFileSystemError():', err.name);
     };
 
     var onRequestFileSystem = function(fs) {
@@ -284,13 +288,66 @@ var updateFromRemote = function(path, msg) {
 
 /******************************************************************************/
 
+var getFileList = function(msg) {
+    var fsReader;
+    var fsEntries = [];
+    var fsEntryCount;
+    var allEntries = [];
+
+    var getMetadata = function(fsEntry) {
+        fsEntry.getMetadata(function(metadata) {
+            allEntries.push({
+                path: pathFromCachePath(fsEntry.name),
+                modificationTime: metadata.modificationTime.toLocaleString(),
+                size: metadata.size
+            });
+            fsEntryCount -= 1;
+            if ( fsEntryCount === 0 ) {
+                chrome.runtime.sendMessage({
+                    'what': msg,
+                    'entries': allEntries
+                });
+            }
+        });
+    };
+    var getAllMetadata = function() {
+        fsEntryCount = fsEntries.length;
+        var i = fsEntries.length;
+        while ( i-- ) {
+            getMetadata(fsEntries[i]);
+        }
+    };
+    var onReadEntries = function(entries) {
+        if ( entries.length ) {
+            fsEntries = fsEntries.concat(entries);
+            fsReader.readEntries(onReadEntries, onReadEntriesError);
+        } else {
+            getAllMetadata();
+        }
+    };
+    var onReadEntriesError = function(err) {
+        console.error('HTTP Switchboard> getFileList() / onReadEntriesError("%s"):', err.name);
+    };
+    var onRequestFileSystemError = function(err) {
+        console.error('HTTP Switchboard> getFileList() / onRequestFileSystemError():', err.name);
+    };
+    var onRequestFileSystem = function(fs) {
+        fsReader = fs.root.createReader();
+        fsReader.readEntries(onReadEntries, onReadEntriesError);
+    };
+    requestFileSystem(onRequestFileSystem, onRequestFileSystemError);
+};
+
+/******************************************************************************/
+
 // Export API
 
 HTTPSB.assets = {
     'get': readLocalFile,
     'getRemote': readRemoteFile,
     'put': writeLocalFile,
-    'update': updateFromRemote
+    'update': updateFromRemote,
+    'getEntries': getFileList
 };
 
 /******************************************************************************/

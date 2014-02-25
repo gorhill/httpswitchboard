@@ -25,15 +25,41 @@ $(function() {
 
 /******************************************************************************/
 
-function gethttpsb() {
-    return chrome.extension.getBackgroundPage().HTTPSB;
-}
+var renderAssetList = function(entries) {
+    var html = [];
+    var i = 0;
+    var entry;
+    while ( entry = entries[i] ) {
+        html.push('');
+        html.push(entry.path);
+        html.push(' (' + entry.modificationTime + ')');
+        html.push('<br>');
+        i++;
+    }
+    $('#assetList').html(html.join(''));
+};
 
 /******************************************************************************/
 
-var httpsb = gethttpsb();
+var onMessageHandler = function(request, sender) {
+    if ( request && request.what ) {
+        switch ( request.what ) {
+        case 'dashboardAboutCachedAssetList':
+            renderAssetList(request.entries);
+            break;
+        }
+    }
+};
+
+/******************************************************************************/
+
+var httpsb = chrome.extension.getBackgroundPage().HTTPSB;
 $('#version').html(httpsb.manifest.version);
 $('#storageUsed').html(httpsb.storageQuota ? (httpsb.storageUsed / httpsb.storageQuota * 100).toFixed(1) : 0);
+
+chrome.runtime.onMessage.addListener(onMessageHandler);
+
+httpsb.assets.getEntries('dashboardAboutCachedAssetList');
 
 /******************************************************************************/
 

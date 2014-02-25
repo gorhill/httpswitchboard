@@ -190,6 +190,9 @@ function onMessageHandler(request, sender, callback) {
     if ( request && request.what ) {
         switch ( request.what ) {
 
+        case 'allLocalAssetsUpdated':
+            HTTPSB.onAllLocalAssetsUpdated();
+
         case 'applyPublicSuffixList':
             applyPublicSuffixList(request.content);
             break;
@@ -223,8 +226,7 @@ function onMessageHandler(request, sender, callback) {
             break;
 
         case 'localAssetChecksumsLoaded':
-            HTTPSB.localAssetChecksums = request.content;
-            HTTPSB.doUpdateAssets();
+            HTTPSB.onLocalAssetChecksumsLoaded(request);
             break;
 
         case 'localAssetUpdated':
@@ -252,8 +254,7 @@ function onMessageHandler(request, sender, callback) {
             break;
 
         case 'remoteAssetChecksumsLoaded':
-            HTTPSB.remoteAssetChecksums = request.content;
-            HTTPSB.doUpdateAssets();
+            HTTPSB.onLocalAssetChecksumsLoaded(request);
             break;
 
         case 'startWebRequestHandler':
