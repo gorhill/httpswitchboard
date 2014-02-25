@@ -55,10 +55,12 @@ done
 
 echo "*** Generating checksums.txt file..."
 truncate -s 0 checksums.txt
-LIST="$(find httpsb thirdparties -type f)"
+pushd ..
+LIST="$(find assets/httpsb assets/thirdparties -type f)"
 for ENTRY in $LIST; do
     echo `md5sum $ENTRY` >> checksums.txt
 done
+popd
 
 echo "*** Git adding changed assets..."
 git add --update --ignore-removal --ignore-errors ./*
