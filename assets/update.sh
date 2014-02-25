@@ -58,7 +58,7 @@ truncate -s 0 checksums.txt
 pushd ..
 LIST="$(find assets/httpsb assets/thirdparties -type f)"
 for ENTRY in $LIST; do
-    echo `md5sum $ENTRY` >> checksums.txt
+    echo `md5sum $ENTRY` >> assets/checksums.txt
 done
 popd
 
