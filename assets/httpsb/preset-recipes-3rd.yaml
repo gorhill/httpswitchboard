@@ -219,6 +219,7 @@ Youtube:
     whitelist: |
         frame youtube-nocookie.com
         script youtube-nocookie.com
+        xhr youtube-nocookie.com
         plugin youtube.com
         script youtube.com
         xhr youtube.com
