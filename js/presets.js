@@ -371,7 +371,7 @@ HTTPSB.PresetManager.prototype.parseEntry = function(entry) {
             p.name = fvalue;
             break;
         case 'preset/facode':
-            p.facode = fvalue;
+            p.facode = parseInt(fvalue, 16);
             break;
         case 'preset/keys':
             if ( fvalue !== '' ) {

@@ -69,15 +69,15 @@ var HTTPSB = {
 
         // From here on, any new list is 'off' by default
         // Adblock Plus
-        'assets/thirdparties/easylist-downloads.adblockplus.org/easylist.txt': { off: true },
-        'assets/thirdparties/easylist-downloads.adblockplus.org/easyprivacy.txt': { off: true },
-        'assets/thirdparties/easylist-downloads.adblockplus.org/fanboy-annoyance.txt': { off: true },
+        'assets/thirdparties/easylist-downloads.adblockplus.org/easylist.txt': {},
+        'assets/thirdparties/easylist-downloads.adblockplus.org/easyprivacy.txt': {},
+        'assets/thirdparties/easylist-downloads.adblockplus.org/fanboy-annoyance.txt': {},
 
         // Fanboy
-        'assets/thirdparties/www.fanboy.co.nz/enhancedstats.txt': { off: true },
+        'assets/thirdparties/www.fanboy.co.nz/enhancedstats.txt': {},
 
         // Various
-        'assets/thirdparties/winhelp2002.mvps.org/hosts.txt': { off: true },
+        'assets/thirdparties/winhelp2002.mvps.org/hosts.txt': {},
         'assets/thirdparties/hosts-file.net/hosts.txt': { off: true }
         },
 
