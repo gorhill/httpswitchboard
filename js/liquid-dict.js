@@ -59,7 +59,7 @@ HTTPSB.LiquidDict.prototype.test = function(word) {
         return false;
     }
     if ( typeof bucket === 'object' ) {
-        return this.dict[key][word] !== undefined;
+        return bucket[word] !== undefined;
     }
     if ( bucket.charAt(0) === ' ' ) {
         return bucket.indexOf(' ' + word + ' ') >= 0;
