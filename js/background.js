@@ -114,8 +114,7 @@ var HTTPSB = {
 
     // Current entries from remote blacklists --
     // just hostnames, '*/' is implied, this saves significantly on memory.
-    blacklistReadonly: {},
-    blacklistReadonlyCount: 0,
+    ubiquitousBlacklist: null,
 
     // https://github.com/gorhill/httpswitchboard/issues/19
     // https://github.com/gorhill/httpswitchboard/issues/91

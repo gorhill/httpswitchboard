@@ -201,7 +201,7 @@ function loadRemoteBlacklistsHandler(store) {
     var httpsb = HTTPSB;
 
     // rhill 2013-12-10: set all existing entries to `false`.
-    disableAllPresetBlacklistEntries();
+    httpsb.ubiquitousBlacklist.reset();
 
     // Load each preset blacklist which is not disabled.
     for ( var location in store.remoteBlacklists ) {
@@ -268,8 +268,7 @@ function loadRemoteBlacklistsHandler(store) {
 function onLoadUbiquitousBlacklistCompleted() {
     chrome.runtime.sendMessage({ what: 'loadUbiquitousBlacklistCompleted' });
 
-    // rhill 2013-12-10: prune read-only blacklist entries.
-    prunePresetBlacklistEntries();
+    HTTPSB.ubiquitousBlacklist.freeze();
 }
 
 /******************************************************************************/
@@ -312,7 +311,7 @@ function mergeBlacklistedHosts(details) {
         return '';
     };
 
-    var blacklistReadonly = httpsb.blacklistReadonly;
+    var ubiquitousBlacklist = httpsb.ubiquitousBlacklist;
     var thisListCount = 0;
     var thisListUsedCount = 0;
     var localhostRegex = /(^|\b)(localhost\.localdomain|localhost|local|broadcasthost|0\.0\.0\.0|127\.0\.0\.1|::1|fe80::1%lo0)(\b|$)/g;
@@ -350,9 +349,7 @@ function mergeBlacklistedHosts(details) {
             continue;
         }
         thisListCount++;
-        if ( !blacklistReadonly[key] ) {
-            blacklistReadonly[key] = true;
-            httpsb.blacklistReadonlyCount++;
+        if ( ubiquitousBlacklist.add(key) ) {
             thisListUsedCount++;
         }
     }
@@ -396,36 +393,6 @@ function reloadPresetBlacklists(switches) {
 
     // Now force reload
     loadRemoteBlacklists();
-}
-
-/******************************************************************************/
-
-// Disable all entries.
-
-function disableAllPresetBlacklistEntries() {
-    var blacklistReadonly = HTTPSB.blacklistReadonly;
-    for ( var hostname in blacklistReadonly ) {
-        if ( !blacklistReadonly.hasOwnProperty(hostname) ) {
-            continue;
-        }
-        blacklistReadonly[hostname] = false;
-    }
-    HTTPSB.blacklistReadonlyCount = 0;
-}
-
-/******************************************************************************/
-
-// Remove all entries which are disabled. This result in some memory being
-// reclaimed, but not as if the entries were never allocated in the first
-// place. Better than nothing.
-
-function prunePresetBlacklistEntries() {
-    var blacklistReadonly = HTTPSB.blacklistReadonly;
-    for ( var hostname in blacklistReadonly ) {
-        if ( blacklistReadonly[hostname] === false && blacklistReadonly.hasOwnProperty(hostname) ) {
-            delete blacklistReadonly[hostname];
-        }
-    }
 }
 
 /******************************************************************************/
@@ -521,6 +488,12 @@ HTTPSB.updateAssets = function() {
             this.assetToUpdateCount -= 1;
         }
     }
+
+    // If no asset need to be updated, we need to fire the event that all
+    // assets have been updated.
+    if ( this.assetToUpdateCount === 0 ) {
+        chrome.runtime.sendMessage({ 'what': 'allLocalAssetsUpdated' });
+   }
 };
 
 HTTPSB.onAssetUpdated = function(details) {

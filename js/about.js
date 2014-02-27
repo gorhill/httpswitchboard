@@ -85,6 +85,13 @@ var updateAssets = function() {
 
 /******************************************************************************/
 
+var onAllLocalAssetsUpdated = function() {
+    httpsb.assets.getEntries('dashboardAboutCachedAssetList');
+    $('#allLocalAssetsUpdated').text('All local assets have been updated.');
+};
+
+/******************************************************************************/
+
 var onMessageHandler = function(request, sender) {
     if ( request && request.what ) {
         switch ( request.what ) {
@@ -94,7 +101,7 @@ var onMessageHandler = function(request, sender) {
             break;
 
         case 'allLocalAssetsUpdated':
-            httpsb.assets.getEntries('dashboardAboutCachedAssetList');
+            onAllLocalAssetsUpdated();
             break;
         }
     }

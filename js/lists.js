@@ -242,7 +242,7 @@ PermissionScope.prototype.add = function(other) {
 
 PermissionScope.prototype.evaluate = function(type, hostname) {
     var httpsb = HTTPSB;
-    var blacklistReadonly = httpsb.blacklistReadonly;
+    var ubiquitousBlacklist = httpsb.ubiquitousBlacklist;
     var blacklist = this.black.list;
     var whitelist = this.white.list;
     var graylist = this.gray.list;
@@ -291,7 +291,7 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
             }
             return 'gpt';
         }
-        if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[hostname]) ) {
+        if ( blacklist[cellKey] || (!graylist[cellKey] && ubiquitousBlacklist.test(hostname)) ) {
             return 'rpt';
         }
 
@@ -331,7 +331,7 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
                 }
                 return 'gpt';
             }
-            if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[parent]) ) {
+            if ( blacklist[cellKey] || (!graylist[cellKey] && ubiquitousBlacklist.test(parent)) ) {
                 return 'rpt';
             }
         }
@@ -355,7 +355,7 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
         if ( whitelist[cellKey] ) {
             return 'gdt';
         }
-        if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[hostname]) ) {
+        if ( blacklist[cellKey] || (!graylist[cellKey] && ubiquitousBlacklist.test(hostname)) ) {
             return 'rdt';
         }
         // indirect: parent hostname nodes
@@ -367,7 +367,7 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
             if ( whitelist[cellKey] ) {
                 return 'gpt';
             }
-            if ( blacklist[cellKey] || (!graylist[cellKey] && blacklistReadonly[parent]) ) {
+            if ( blacklist[cellKey] || (!graylist[cellKey] && ubiquitousBlacklist.test(parent)) ) {
                 return 'rpt';
             }
         }
@@ -439,7 +439,7 @@ PermissionScope.prototype.blacklist = function(type, hostname) {
     // which is already in read-only blacklist (after graylisting or
     // whitelisting it), user expects entry to still be blacklisted if ever
     // same entry is removed from read-only blacklist.
-    if ( type !== '*' || !HTTPSB.blacklistReadonly[hostname] ) {
+    if ( type !== '*' || !HTTPSB.ubiquitousBlacklist.test(hostname) ) {
         changed = this.black.addOne(key) || changed;
     }
     return changed;
@@ -458,7 +458,7 @@ PermissionScope.prototype.graylist = function(type, hostname) {
     // rhill 2013-10-25: special case, we expressly graylist only if the
     // key is '*' and hostname is found in read-only blacklist, so that the
     // express graylisting occults the read-only blacklist status.
-    if ( type === '*' && HTTPSB.blacklistReadonly[hostname] ) {
+    if ( type === '*' && HTTPSB.ubiquitousBlacklist.test(hostname) ) {
         changed = this.gray.addOne(key) || changed;
     }
     return changed;

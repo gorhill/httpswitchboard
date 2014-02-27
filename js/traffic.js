@@ -100,8 +100,6 @@ background: #c00; \
 // Intercept and filter web requests according to white and black lists.
 
 function onBeforeRequestHandler(details) {
-    // quickProfiler.start();
-
     // console.debug('onBeforeRequestHandler()> "%s": %o', details.url, details);
 
     // rhill 2014-02-17: Ignore 'filesystem:chrome-extension://': this can
@@ -110,6 +108,8 @@ function onBeforeRequestHandler(details) {
     if ( requestURL.indexOf('filesystem:') === 0 ) {
         return;
     }
+
+    // quickProfiler.start();
 
     var canEvaluate = true;
     var httpsb = HTTPSB;
@@ -274,6 +274,7 @@ function onBeforeRequestHandler(details) {
     }
 
     // quickProfiler.stop('onBeforeRequestHandler');
+
     return { "cancel": true };
 }
 

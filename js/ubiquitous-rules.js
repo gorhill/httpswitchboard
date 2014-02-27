@@ -59,7 +59,7 @@ function renderBlacklists() {
 
     var httpsb = gethttpsb();
 
-    $('#blacklistReadonlyCount').text(renderNumber(httpsb.blacklistReadonlyCount));
+    $('#ubiquitousBlacklistCount').text(renderNumber(httpsb.ubiquitousBlacklist.count));
 
     var blacklists = httpsb.remoteBlacklists;
     var ul = $('#blacklists');

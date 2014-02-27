@@ -192,6 +192,7 @@ function onMessageHandler(request, sender, callback) {
 
         case 'allLocalAssetsUpdated':
             HTTPSB.onAllLocalAssetsUpdated();
+            break;
 
         case 'applyPublicSuffixList':
             applyPublicSuffixList(request.content);
