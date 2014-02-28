@@ -2,8 +2,8 @@
 #
 # For more information about this list, see: http://pgl.yoyo.org/adservers/
 # ----
-# last updated:   Mon, 20 Jan 2014 13:06:17 GMT
-# entries:        2508
+# last updated:   Thu, 27 Feb 2014 09:56:13 GMT
+# entries:        2501
 # format:         hosts (hosts -- in hosts file format)
 # credits:        Peter Lowe - pgl@yoyo.org - http://pgl.yoyo.org/
 # this URL:       http://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext
@@ -74,6 +74,7 @@
 127.0.0.1 ad-up.com
 127.0.0.1 ad.100.tbn.ru
 127.0.0.1 ad.103092804.com
+127.0.0.1 ad.37.com
 127.0.0.1 ad.71i.de
 127.0.0.1 ad.980x.com
 127.0.0.1 ad.a8.net
@@ -313,7 +314,6 @@
 127.0.0.1 adnet.ru
 127.0.0.1 adnet.worldreviewer.com
 127.0.0.1 adnetinteractive.com
-127.0.0.1 adnetwork.kcilink.com
 127.0.0.1 adnetwork.net
 127.0.0.1 adnews.maddog2000.de
 127.0.0.1 adocean.pl
@@ -428,7 +428,6 @@
 127.0.0.1 ads.cybersales.cz
 127.0.0.1 ads.dada.it
 127.0.0.1 ads.datinggold.com
-127.0.0.1 ads.datingyes.com
 127.0.0.1 ads.dazoot.ro
 127.0.0.1 ads.deltha.hu
 127.0.0.1 ads.dennisnet.co.uk
@@ -561,7 +560,6 @@
 127.0.0.1 ads.medienhaus.de
 127.0.0.1 ads.mgnetwork.com
 127.0.0.1 ads.mmania.com
-127.0.0.1 ads.mobygames.com
 127.0.0.1 ads.motor-forum.nl
 127.0.0.1 ads.motormedia.nl
 127.0.0.1 ads.movieflix.com
@@ -667,7 +665,6 @@
 127.0.0.1 ads.thenewpaperclip.com
 127.0.0.1 ads.thestar.com
 127.0.0.1 ads.thestranger.com
-127.0.0.1 ads.thewebfreaks.com
 127.0.0.1 ads.timeout.com
 127.0.0.1 ads.tjwi.info
 127.0.0.1 ads.tmcs.net
@@ -1305,7 +1302,6 @@
 127.0.0.1 clkads.com
 127.0.0.1 cluster.adultworld.com
 127.0.0.1 clustrmaps.com
-127.0.0.1 cmpstar.com
 127.0.0.1 cnomy.com
 127.0.0.1 cnt.one.ru
 127.0.0.1 cnt.spbland.ru
@@ -1990,7 +1986,6 @@
 127.0.0.1 popupmoney.com
 127.0.0.1 popupnation.com
 127.0.0.1 popups.infostart.com
-127.0.0.1 popupsponsor.com
 127.0.0.1 popuptraffic.com
 127.0.0.1 porngraph.com
 127.0.0.1 porntrack.com
@@ -2021,6 +2016,7 @@
 127.0.0.1 promote.pair.com
 127.0.0.1 promotion-campaigns.com
 127.0.0.1 pronetadvertising.com
+127.0.0.1 propellerads.com
 127.0.0.1 proton-tm.com
 127.0.0.1 protraffic.com
 127.0.0.1 provexia.com
@@ -2052,8 +2048,6 @@
 127.0.0.1 radiate.com
 127.0.0.1 rampidads.com
 127.0.0.1 rank-master.com
-127.0.0.1 rank-master.de
-127.0.0.1 rank8.de
 127.0.0.1 rankchamp.de
 127.0.0.1 ranking-charts.de
 127.0.0.1 ranking-hits.de
@@ -2371,7 +2365,6 @@
 127.0.0.1 twittad.com
 127.0.0.1 tyroo.com
 127.0.0.1 uarating.com
-127.0.0.1 ubt.ign.com
 127.0.0.1 ukbanners.com
 127.0.0.1 ultramercial.com
 127.0.0.1 ultsearch.com

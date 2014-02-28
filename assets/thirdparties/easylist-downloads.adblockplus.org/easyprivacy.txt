@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: Cuwr8mCsAN0akSfC+3KiGg
-! Version: 201402251800
+! Checksum: eCxKCS2S1cI0gBaZedfxfA
+! Version: 201402281920
 ! Title: EasyPrivacy
-! Last modified: 25 Feb 2014 18:00 UTC
+! Last modified: 28 Feb 2014 19:20 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -1650,6 +1650,7 @@
 /tnsmetrix/*
 /tongji.js
 /tops-counter?
+/totango.js
 /touchclarity/*
 /tpix.gif?
 /tPx.gif?
@@ -2503,6 +2504,7 @@ http://utm.
 ||dimestore.com^$third-party
 ||dinkstat.com^$third-party
 ||directrdr.com^$third-party
+||discovertrail.net^$third-party
 ||displaymarketplace.com^$third-party
 ||distralytics.com^$third-party
 ||djers.com^$third-party
@@ -3023,6 +3025,7 @@ http://utm.
 ||nordicresearch.com^$third-party
 ||npario-inc.net^$third-party
 ||nprove.com^$third-party
+||nr7.us^$third-party
 ||nstracking.com^$third-party
 ||nuconomy.com^$third-party
 ||numerino.cz^$third-party
@@ -3304,6 +3307,7 @@ http://utm.
 ||sokrati.com^$third-party
 ||sometrics.com^$third-party
 ||sophus3.com^$third-party
+||spectate.com^$third-party
 ||speed-trap.com^$third-party
 ||splittag.com^$third-party
 ||splurgi.com^$third-party
@@ -3349,6 +3353,7 @@ http://utm.
 ||stattrax.com^$third-party
 ||statun.com^$third-party
 ||statuncore.com^$third-party
+||statuscake.com^$third-party
 ||stcllctrs.com^$third-party
 ||stcounter.com^$third-party
 ||stippleit.com^$third-party
@@ -3537,10 +3542,12 @@ http://utm.
 ||web-stat.com^$third-party
 ||web-stat.net^$third-party
 ||webalytics.pw^$third-party
+||webclicktracker.com^$third-party
 ||webcounter.co.za^$third-party
 ||webcounter.ws^$third-party
 ||webflowmetrics.com^$third-party
 ||webforensics.co.uk^$third-party
+||webglstats.com^$third-party
 ||webiqonline.com^$third-party
 ||webleads-tracker.com^$third-party
 ||webmasterplan.com^$third-party
@@ -4229,6 +4236,8 @@ http://utm.
 ||adtraction.com^$third-party
 ||prospecteye.com^$third-party
 ||research-int.se^$third-party
+||webserviceaward.com^$third-party
+||webstat.se^$third-party
 ! Thai
 ||tracker.stats.in.th^$third-party
 ||truehits.in.th^$third-party
@@ -4622,6 +4631,8 @@ http://utm.
 ||d3cxv97fi8q177.cloudfront.net^
 ||d3hr5gm0wlxm5h.cloudfront.net^
 ||d3l3lkinz3f56t.cloudfront.net^
+||d3ojzyhbolvoi5.cloudfront.net^
+||d3qxef4rp70elm.cloudfront.net^
 ||d3s7ggfq1s6jlj.cloudfront.net^
 ||d81mfvml8p5ml.cloudfront.net^
 ||d9lq0o81skkdj.cloudfront.net^
@@ -5283,6 +5294,7 @@ http://utm.
 ||track.untd.com^
 ||track.vscash.com^
 ||track.yieldsoftware.com^
+||tracker.beezup.com^
 ||tracker.everestnutrition.com^
 ||tracker.financialcontent.com^
 ||tracker.icerocket.com^
@@ -5404,6 +5416,7 @@ http://utm.
 ||vmixcore.com/vmixcore/playlog?
 ||vmp.boldchat.com^$third-party
 ||vms.boldchat.com/aid/$third-party
+||vmss.boldchat.com^$third-party
 ||voss.collegehumor.com^
 ||vtnlog-*.elb.amazonaws.com^
 ||vtracking.in.com^
@@ -6569,12 +6582,17 @@ http://utm.
 ||geo.perezhilton.com^
 ||geo.play.it^
 ||geo.yahoo.com^
+||geoip.al.com^
 ||geoip.cleveland.com^
+||geoip.gulflive.com^
 ||geoip.lehighvalleylive.com^
+||geoip.masslive.com^
 ||geoip.mlive.com^
 ||geoip.nj.com^
 ||geoip.nola.com^
 ||geoip.oregonlive.com^
+||geoip.pennlive.com^
+||geoip.silive.com^
 ||geoip.syracuse.com^
 ||geoip.viamichelin.com^
 ||geoiplookup.wikimedia.org^
@@ -8081,6 +8099,7 @@ http://utm.
 ||arte.tv/includes/xiti/
 ||clubic.com/editorial/publier_count.php?
 ||ea.clubic.com^
+||ea.jeuxvideopc.com^
 ||ea.monsieurmanuel.com^
 ||ea.rueducommerce.fr^
 ||editeurjavascript.com/hit-parade.php
@@ -8473,6 +8492,7 @@ http://utm.
 @@||api.chartbeat.com^script,domain=financialpost.com|wcpo.com|couriermail.com.au|betabeat.com
 @@||apps.beta620.nytimes.com^*/EventTracker.js
 @@||assets.espn.go.com/espn360/builds/nielsen/ggce*.swf$object-subrequest
+@@||autoscout24.net/unifiedtracking/ivw.js
 @@||barclays.touchclarity.com^$domain=barclaycard.co.uk
 @@||bbc.co.uk/frameworks/nedstat/$script,~third-party
 @@||bc.geocities.*/not_found/
@@ -8648,6 +8668,7 @@ http://utm.
 @@||mlb.com/shared/scripts/bam.tracking.js
 @@||monetate.net/js/$domain=nike.com
 @@||mongoosemetrics.com/jsfiles/js-correlation/mm-rules.min.js$domain=subaru.com
+@@||motherboard.vice.com^*/vmp_analytics.js
 @@||moulinex.com/js/xtroi.js
 @@||mpsnare.iesnare.com/snare.js$domain=citibank.com|enmasse.com|login.skype.com
 @@||msecnd.net^*/site-tracker.js$domain=momondo.co.uk

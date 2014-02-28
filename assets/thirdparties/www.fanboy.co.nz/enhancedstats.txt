@@ -1,7 +1,7 @@
 [Adblock Plus 1.1]
-! Checksum: YIOBp8ExgSpG4vmweoVCJA
+! Checksum: xNYb6I1cc5yVfqSmUziC0Q
 ! Title: Fanboy's Enhanced Tracking List
-! Updated: 25 Feb 2014
+! Updated: 27 Feb 2014
 ! This list expires after 2 days
 ! License: http://creativecommons.org/licenses/by/3.0/
 ! Email: fanboyadblock@googlegroups.com
@@ -566,7 +566,7 @@ jsonline.com##.blockOverlay
 @@||assets.pinterest.com/js/pinit.js$domain=mandatory.com
 @@||bankaholic.com/omniture/$script
 @@||bankofamerica.com/pa/components/*/TouchClarity.js
-@@||bbci.co.uk/bbcdotcom/*/omniture/siteCatalyst.js$domain=bbc.co.uk
+@@||bbci.co.uk/bbcdotcom/*/omniture/siteCatalyst.js$domain=bbc.co.uk|bbc.com
 @@||bigfishsites.com/*/global/javascript/webtrends_capi_$domain=bigfishgames.com
 @@||bing.com/travel/scripts/sCode.js$~third-party
 @@||bing.com^*/s_code.$script

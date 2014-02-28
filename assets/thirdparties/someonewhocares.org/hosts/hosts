@@ -8,7 +8,7 @@
 # Please forward any additions, corrections or comments by email to
 # hosts@someonewhocares.org
 
-# Last updated: Feb 24th, 2014 at 10:07
+# Last updated: Feb 27th, 2014 at 04:10
 
 # Use this file to prevent your computer from connecting to selected
 # internet hosts. This is an easy and effective way to protect you from 
@@ -1660,6 +1660,7 @@ fe80::1%lo0	localhost
 127.0.0.1 icecars.com
 127.0.0.1 idea21.org
 127.0.0.1 infopaypal.com
+127.0.0.1 installmac.com
 127.0.0.1 ipadzu.net
 127.0.0.1 ircleaner.com
 127.0.0.1 itwititer.com
