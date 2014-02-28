@@ -44,6 +44,16 @@ HTTPSB.PresetManager = function() {
 
 /******************************************************************************/
 
+HTTPSB.PresetManager.prototype.resetAll = function() {
+    this.presets = {};
+    this.hostnameTo1stPartyPresetMap = {};
+    this.hostnameTo3rdPartyPresetMap = {};
+    this.firstPartyNameToPresetMap = {};
+    this.idGenerator = 1;
+};
+
+/******************************************************************************/
+
 HTTPSB.PresetManager.prototype.rememberFirstParty = function(preset) {
     preset.firstParty = true;
     preset.id = this.idGenerator++;
@@ -477,12 +487,14 @@ HTTPSB.PresetManager.prototype.merge3rdPartyPresets = function(details) {
 
 /******************************************************************************/
 
-HTTPSB.loadPresets = function() {
+HTTPSB.reloadAllPresets = function() {
     if ( !this.presetManager ) {
         this.presetManager = new this.PresetManager();
+    } else {
+        this.presetManager.resetAll();
     }
-    HTTPSB.assets.get('assets/httpsb/preset-recipes-1st.yaml', 'merge1stPartyPresets');
-    HTTPSB.assets.get('assets/httpsb/preset-recipes-3rd.yaml', 'merge3rdPartyPresets');
+    this.assets.get('assets/httpsb/preset-recipes-1st.yaml', 'merge1stPartyPresets');
+    this.assets.get('assets/httpsb/preset-recipes-3rd.yaml', 'merge3rdPartyPresets');
 };
 
 /******************************************************************************/

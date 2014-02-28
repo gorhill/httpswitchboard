@@ -407,6 +407,17 @@ function applyPublicSuffixList(text) {
 
 /******************************************************************************/
 
+// TODO: move to a new file-module, 'asset-loader.js', along with all
+// logically related code.
+
+HTTPSB.reloadAllLocalAssets = function() {
+    loadRemoteBlacklists();
+    loadPublicSuffixList();
+    this.reloadAllPresets();
+};
+
+/******************************************************************************/
+
 // Load white/blacklist
 
 function load() {
@@ -414,109 +425,7 @@ function load() {
     loadUserLists();
     loadRemoteBlacklists();
     loadPublicSuffixList();
-    HTTPSB.loadPresets();
+    HTTPSB.reloadAllPresets();
     getBytesInUse();
 }
-
-/******************************************************************************/
-
-// Update of assets
-
-HTTPSB.startUpdateAssets = function() {
-    this.assets.getRemote('assets/checksums.txt', 'remoteAssetChecksumsLoaded');
-    this.assets.get('assets/checksums.txt', 'localAssetChecksumsLoaded');
-};
-
-HTTPSB.onLocalAssetChecksumsLoaded = function(details) {
-    this.localAssetChecksums = details.content;
-    if ( this.remoteAssetChecksums ) {
-        this.updateAssets();
-    }
-};
-
-HTTPSB.onRemoteAssetChecksumsLoaded = function(details) {
-    this.remoteAssetChecksums = details.content;
-    if ( this.localAssetChecksums ) {
-        this.updateAssets();
-    }
-};
-
-HTTPSB.updateAssets = function() {
-    // Only if we have checksums for both local and remote assets.
-    if ( !this.localAssetChecksums || !this.remoteAssetChecksums ) {
-        return;
-    }
-
-    var i, lines, fields;
-
-    var localAssetChecksums = {};
-    lines = this.localAssetChecksums.split(/\n+/);
-    i = lines.length;
-    while ( i-- ) {
-        fields = lines[i].trim().split(/\s+/);
-        if ( fields.length !== 2 ) {
-            continue;
-        }
-        localAssetChecksums[fields[1]] = fields[0];
-    }
-    this.localAssetChecksums = localAssetChecksums;
-
-    var remoteAssetChecksums = {};
-    lines = this.remoteAssetChecksums.split(/\n+/);
-    i = lines.length;
-    while ( i-- ) {
-        fields = lines[i].trim().split(/\s+/);
-        if ( fields.length !== 2 ) {
-            continue;
-        }
-        remoteAssetChecksums[fields[1]] = fields[0];
-    }
-    this.remoteAssetChecksums = remoteAssetChecksums;
-
-    // Because of asynchronicity, count must be set here, this way it is
-    // guarantee it won't ever reach zero unless all request for remote assets
-    // have been really fired.
-    this.assetToUpdateCount = Object.keys(localAssetChecksums).length;
-
-    for ( var path in localAssetChecksums ) {
-        if ( !localAssetChecksums.hasOwnProperty(path) ) {
-            continue;
-        }
-        if ( localAssetChecksums[path] !== remoteAssetChecksums[path] ) {
-            this.assets.update(path, 'localAssetUpdated');
-        } else {
-            this.assetToUpdateCount -= 1;
-        }
-    }
-
-    // If no asset need to be updated, we need to fire the event that all
-    // assets have been updated.
-    if ( this.assetToUpdateCount === 0 ) {
-        chrome.runtime.sendMessage({ 'what': 'allLocalAssetsUpdated' });
-   }
-};
-
-HTTPSB.onLocalAssetUpdated = function(details) {
-    this.assetToUpdateCount -= 1;
-    var localAssetChecksums = this.localAssetChecksums;
-    if ( !details.error ) {
-        localAssetChecksums[details.path] = this.remoteAssetChecksums[details.path];
-
-        // Reload 
-    }
-    if ( this.assetToUpdateCount === 0 ) {
-        var content = [];
-        for ( var path in localAssetChecksums ) {
-            if ( localAssetChecksums.hasOwnProperty(path) ) {
-                content.push(localAssetChecksums[path] + ' ' + path);
-            }
-        }
-        this.assets.put(details.path, content.join('\n'), 'allLocalAssetsUpdated');
-    }
-};
-
-HTTPSB.onAllLocalAssetsUpdated = function() {
-    this.localAssetChecksums = null;
-    this.remoteAssetChecksums = null;
-};
 

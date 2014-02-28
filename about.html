@@ -16,6 +16,36 @@ table td:first-child {
     margin-left: 1em;
     color: green;
     }
+#assetList table {
+    display: block;
+    }
+#assetList table tr.unchanged {
+    color: gray;
+    }
+#assetList table tr.added,
+#assetList table tr.changed,
+#assetList table tr.removed {
+    font-weight: bold;
+    }
+#assetList.error table {
+    display: none;
+    }
+#assetList p {
+    display: block;
+    }
+#assetList p.error-prompt {
+    display: none;
+    color: red;
+    }
+#assetList.error p:not(.error-prompt) {
+    display: none;
+    }
+#assetList.error p.error-prompt {
+    display: block;
+    }
+#assetList.up-to-date p.update-prompt {
+    display: none;
+    }
 </style>
 </head>
 
@@ -45,8 +75,12 @@ table td:first-child {
     <a href="https://github.com/gorhill/httpswitchboard">project's Github repository</a>.
     </p>
     <div id="assetList">
+        <table>
+            <tr><th>Path<th>Status
+        </table>
+        <p class="error-prompt" data-i18n="aboutUpdateGetListError"></p>
+        <p class="update-prompt" ><button id="aboutAssetsUpdateButton">Update</button> <span id="allLocalAssetsUpdated"></span></p>
     </div>
-    <p><button id="aboutAssetsUpdateButton">Update</button> <span id="allLocalAssetsUpdated"></span></p>
 </div>
 
 <script src="lib/jquery-2.min.js"></script>

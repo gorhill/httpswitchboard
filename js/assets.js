@@ -50,6 +50,10 @@ Useful ref.: // Ref.: http://www.html5rocks.com/en/tutorials/file/filesystem/
 */
 
 /******************************************************************************/
+//
+// Low-level asset files manager
+//
+/******************************************************************************/
 
 (function() {
 
@@ -184,8 +188,8 @@ var readRemoteFile = function(path, msg) {
     };
 
     var onRemoteFileError = function(ev) {
-        console.error('HTTP Switchboard> readRemoteFile() / onRemoteFileError("%s"):', path, this.statusText);
-        sendMessage('', this.statusText);
+        console.error('HTTP Switchboard> readRemoteFile() / onRemoteFileError("%s")', path);
+        sendMessage('', 'Error');
         this.onload = this.onerror = null;
     };
 
@@ -353,4 +357,6 @@ HTTPSB.assets = {
 /******************************************************************************/
 
 })();
+
+/******************************************************************************/
 

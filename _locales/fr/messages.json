@@ -368,6 +368,32 @@
     },
 
 
+    "aboutUpdateSuccess" : {
+        "message": "Toutes les données sont maintenant à jour.",
+        "description": "Successful outcome of clicking 'update' button"
+    },
+    "aboutUpdateGetListError" : {
+        "message": "Une erreur est survenue. Est-ce que <b>XHR</b> est bloqué pour <b>raw2.github.com</b>?",
+        "description": "Successful outcome of clicking 'update' button"
+    },
+    "aboutUpdateStatusAdded" : {
+        "message": "Nouveau",
+        "description": "Displayed in the status column for each entry"
+    },
+    "aboutUpdateStatusChanged" : {
+        "message": "Nouvelle version",
+        "description": "Displayed in the status column for each entry"
+    },
+    "aboutUpdateStatusUnchanged" : {
+        "message": "À jour",
+        "description": "Displayed in the status column for each entry"
+    },
+    "aboutUpdateStatusRemoved" : {
+        "message": "À éliminer",
+        "description": "Displayed in the status column for each entry"
+    },
+
+
     "dummy": {
         "message": "This entry must be the last one",
         "description": "so we dont need to deal with comma for last entry"

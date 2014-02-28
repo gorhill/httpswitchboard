@@ -372,6 +372,32 @@
     },
 
 
+    "aboutUpdateSuccess" : {
+        "message": "All local assets are up to date.",
+        "description": "Successful outcome of clicking 'update' button"
+    },
+    "aboutUpdateGetListError" : {
+        "message": "An error occurred. Is <b>XHR</b> blocked for <b>raw2.github.com</b>?",
+        "description": "Successful outcome of clicking 'update' button"
+    },
+    "aboutUpdateStatusAdded" : {
+        "message": "Added",
+        "description": "Displayed in the status column for each entry"
+    },
+    "aboutUpdateStatusChanged" : {
+        "message": "Updated",
+        "description": "Displayed in the status column for each entry"
+    },
+    "aboutUpdateStatusUnchanged" : {
+        "message": "Up to date",
+        "description": "Displayed in the status column for each entry"
+    },
+    "aboutUpdateStatusRemoved" : {
+        "message": "Removed",
+        "description": "Displayed in the status column for each entry"
+    },
+
+
     "dummy": {
         "message": "This entry must be the last one",
         "description": "so we dont need to deal with comma for last entry"

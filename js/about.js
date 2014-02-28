@@ -26,6 +26,7 @@ $(function() {
 /******************************************************************************/
 
 var httpsb = chrome.extension.getBackgroundPage().HTTPSB;
+var updateList = {};
 
 /******************************************************************************/
 
@@ -50,44 +51,49 @@ var renderTime = function(time) {
 
 /******************************************************************************/
 
-var renderAssetList = function(entries) {
-    var html = [];
-
-    if ( entries.length ) {
-        var i = 0;
-        var entry;
-        html.push('<table>');
-        html.push('<tr>');
-        html.push('<th>Path');
-        html.push('<th>Updated');
-        while ( entry = entries[i] ) {
-            html.push('<tr>');
-            html.push('<td>');
-            html.push('<a href="https://raw2.github.com/gorhill/httpswitchboard/master/' + entry.path + '">' + entry.path + '</a>');
-            html.push('<td>');
-            html.push(renderTime(entry.modificationTime));
-            html.push('<br>');
-            i++;
-        }
-        html.push('</table>');
-    } else {
-        html.push('No assets have been updated from built-in versions');
+var renderAssetList = function(details) {
+    var paths = Object.keys(details.list).sort();
+    if ( !paths.length ) {
+        $('#assetList').addClass('error');
+        return;
     }
-    $('#assetList').html(html.join(''));
+    $('#assetList .assetEntry').remove();
+
+    var assetTable = $('#assetList table');
+    var i = 0;
+    var upToDate = true;
+    var path, status, html;
+    while ( path = paths[i++] ) {
+        status = details.list[path].status;
+        upToDate = upToDate && status === 'Unchanged';
+        html = [];
+        html.push('<tr class="assetEntry ' + status.toLowerCase().replace(/ +/g, '-') + '">');
+        html.push('<td>');
+        html.push('<a href="https://raw2.github.com/gorhill/httpswitchboard/master/' + path + '">');
+        html.push(path.replace(/^(assets\/[^/]+\/)(.+)$/, '$1<b>$2</b>'));
+        html.push('</a>');
+        html.push('<td>');
+        html.push(chrome.i18n.getMessage('aboutUpdateStatus' + status));
+        assetTable.append(html.join(''));
+    }
+
+    $('#assetList').toggleClass('up-to-date', upToDate);
     $('#assetList a').attr('target', '_blank');
+
+    updateList = details.list;
 };
 
 /******************************************************************************/
 
 var updateAssets = function() {
-    httpsb.startUpdateAssets();
+    httpsb.assetUpdater.update(updateList);
 };
 
 /******************************************************************************/
 
 var onAllLocalAssetsUpdated = function() {
-    httpsb.assets.getEntries('dashboardAboutCachedAssetList');
-    $('#allLocalAssetsUpdated').text('All local assets have been updated.');
+    httpsb.assetUpdater.getList('dashboardAboutCachedAssetList');
+    $('#allLocalAssetsUpdated').text(chrome.i18n.getMessage('aboutUpdateSuccess'));
 };
 
 /******************************************************************************/
@@ -97,7 +103,7 @@ var onMessageHandler = function(request, sender) {
         switch ( request.what ) {
 
         case 'dashboardAboutCachedAssetList':
-            renderAssetList(request.entries);
+            renderAssetList(request);
             break;
 
         case 'allLocalAssetsUpdated':
@@ -115,7 +121,7 @@ $('#aboutAssetsUpdateButton').on('click', updateAssets);
 
 chrome.runtime.onMessage.addListener(onMessageHandler);
 
-httpsb.assets.getEntries('dashboardAboutCachedAssetList');
+httpsb.assetUpdater.getList('dashboardAboutCachedAssetList');
 
 /******************************************************************************/
 

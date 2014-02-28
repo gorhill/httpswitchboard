@@ -191,7 +191,7 @@ function onMessageHandler(request, sender, callback) {
         switch ( request.what ) {
 
         case 'allLocalAssetsUpdated':
-            HTTPSB.onAllLocalAssetsUpdated();
+            HTTPSB.reloadAllLocalAssets();
             break;
 
         case 'applyPublicSuffixList':
@@ -226,10 +226,6 @@ function onMessageHandler(request, sender, callback) {
             chrome.tabs.create({ url: request.url });
             break;
 
-        case 'localAssetChecksumsLoaded':
-            HTTPSB.onLocalAssetChecksumsLoaded(request);
-            break;
-
         case 'localAssetUpdated':
             HTTPSB.onLocalAssetUpdated(request);
             break;
@@ -252,10 +248,6 @@ function onMessageHandler(request, sender, callback) {
 
         case 'reloadPresetBlacklists':
             reloadPresetBlacklists(request.switches);
-            break;
-
-        case 'remoteAssetChecksumsLoaded':
-            HTTPSB.onRemoteAssetChecksumsLoaded(request);
             break;
 
         case 'startWebRequestHandler':
