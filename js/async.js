@@ -231,7 +231,7 @@ function onMessageHandler(request, sender, callback) {
             break;
 
         case 'localAssetUpdated':
-            HTTPSB.onAssetUpdated(request);
+            HTTPSB.onLocalAssetUpdated(request);
             break;
 
         case 'localRemoveRemoteBlacklist':

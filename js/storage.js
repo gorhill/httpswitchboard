@@ -496,11 +496,13 @@ HTTPSB.updateAssets = function() {
    }
 };
 
-HTTPSB.onAssetUpdated = function(details) {
+HTTPSB.onLocalAssetUpdated = function(details) {
     this.assetToUpdateCount -= 1;
     var localAssetChecksums = this.localAssetChecksums;
     if ( !details.error ) {
         localAssetChecksums[details.path] = this.remoteAssetChecksums[details.path];
+
+        // Reload 
     }
     if ( this.assetToUpdateCount === 0 ) {
         var content = [];

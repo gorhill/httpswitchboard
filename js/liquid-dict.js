@@ -25,6 +25,7 @@ HTTPSB.LiquidDict = function() {
     this.dict = {};
     this.count = 0;
     this.bucketCount = 0;
+    this.frozenBucketCount = 0;
 
     // Somewhat arbitrary: I need to come up with hard data to know at which
     // point binary search is better than indexOf.
@@ -109,6 +110,7 @@ HTTPSB.LiquidDict.prototype.add = function(word) {
 /******************************************************************************/
 
 HTTPSB.LiquidDict.prototype.freezeBucket = function(bucket) {
+    this.frozenBucketCount += 1;
     var words = Object.keys(bucket);
     var wordLen = words[0].length;
     if ( wordLen * words.length < this.cutoff ) {
@@ -131,6 +133,7 @@ HTTPSB.LiquidDict.prototype.freeze = function() {
 /******************************************************************************/
 
 HTTPSB.LiquidDict.prototype.meltBucket = function(len, bucket) {
+    this.frozenBucketCount -= 1;
     var map = {};
     if ( bucket.charAt(0) === ' ' ) {
         bucket.trim().split(' ').map(function(k) {
@@ -163,6 +166,7 @@ HTTPSB.LiquidDict.prototype.reset = function() {
     this.dict = {};
     this.count = 0;
     this.bucketCount = 0;
+    this.frozenBucketCount = 0;
 };
 
 /******************************************************************************/
