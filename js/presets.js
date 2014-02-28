@@ -28,8 +28,8 @@ HTTPSB.PresetRecipe = function() {
     this.facode = 0;
     this.keys = {};
     this.requires = null;
-    this.whitelist = {};
-    this.scopes = {};
+    this.whitelist = '';
+    this.scopeStr = '';
     this.barrier = 0;
 };
 
@@ -186,9 +186,11 @@ HTTPSB.PresetManager.prototype.applyToScope = function(scopeKey, presetId) {
     }
     preset.barrier++;
 
+    var i, j;
+
     // Process required preset recipes
     if ( preset.firstParty && preset.requires ) {
-        var i, other;
+        var other;
         if ( typeof preset.requires === 'string' ) {
             if ( other = this.firstPartyFromName(preset.requires) ) {
                 this.applyToScope(scopeKey, other.id);
@@ -207,9 +209,11 @@ HTTPSB.PresetManager.prototype.applyToScope = function(scopeKey, presetId) {
     var rules, ruleKey, pos;
 
     // Unscoped rules
-    rules = preset.whitelist;
-    for ( ruleKey in rules ) {
-        if ( !rules.hasOwnProperty(ruleKey) ) {
+    rules = preset.whitelist.trim().split(/\s+/);
+    i = rules.length;
+    while ( i-- ) {
+        ruleKey = rules[i].trim();
+        if ( ruleKey === '' ) {
             continue;
         }
         pos = ruleKey.indexOf('|');
@@ -217,9 +221,16 @@ HTTPSB.PresetManager.prototype.applyToScope = function(scopeKey, presetId) {
     }
 
     // Scoped rules
-    var scopes = preset.scopes;
-    for ( scopeKey in scopes ) {
-        if ( !scopes.hasOwnProperty(scopeKey) ) {
+    var scopes = preset.scopeStr.split(/\n+/);
+    var i = scopes.length;
+    var scopeFields;
+    while ( i-- ) {
+        scopeFields = scopes[i].split(/\s*:\s*/);
+        if ( scopeFields.length < 2 ) {
+            continue;
+        }
+        scopeKey = scopeFields[0].trim();
+        if ( scopeKey === '' ) {
             continue;
         }
         if ( httpsb.temporaryScopeExists(scopeKey) === false ) {
@@ -229,9 +240,11 @@ HTTPSB.PresetManager.prototype.applyToScope = function(scopeKey, presetId) {
             httpsb.whitelistTemporarily(scopeKey, 'image', '*');
             httpsb.copyTemporaryBlackRules(scopeKey, '*');
         }
-        rules = scopes[scopeKey].whitelist;
-        for ( ruleKey in rules ) {
-            if ( !rules.hasOwnProperty(ruleKey) ) {
+        rules = scopeFields[1].split(/\s+/);
+        j = rules.length;
+        while ( j-- ) {
+            ruleKey = rules[j];
+            if ( ruleKey === '' ) {
                 continue;
             }
             pos = ruleKey.indexOf('|');
@@ -299,7 +312,6 @@ HTTPSB.PresetManager.prototype.parseEntry = function(entry) {
     var line, pos;
     var fkey, fvalue;
     var contextStack = [], context, level;
-    var scopeKey = '';
     var ruleKey;
     var i = 0;
     while ( line = lines[i++] ) {
@@ -390,21 +402,19 @@ HTTPSB.PresetManager.prototype.parseEntry = function(entry) {
             }
             break;
         case 'preset/scope':
-            scopeKey = fvalue;
+            p.scopeStr += '\n' + fvalue + ':';
             break;
         case 'preset/whitelist':
             ruleKey = this.parseRule(fvalue);
             if ( ruleKey ) {
-                p.whitelist[ruleKey] = true;
+                p.whitelist += ' ' + ruleKey;
+                p.whitelist = p.whitelist.trim();
             }
             break;
         case 'preset/scope/whitelist':
             ruleKey = this.parseRule(fvalue);
             if ( ruleKey ) {
-                if ( p.scopes[scopeKey] === undefined ) {
-                    p.scopes[scopeKey] = { whitelist: {} };
-                }
-                p.scopes[scopeKey].whitelist[ruleKey] = true;
+                p.scopeStr += ' ' + ruleKey;
             }
             break;
         default:
