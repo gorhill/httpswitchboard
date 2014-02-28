@@ -144,10 +144,11 @@ Google:
         whitelist: |
             * google.com
             frame google.com
-            # >>> IMPORTANT: googleapis.com is a PSL
+            # >>> IMPORTANT: googleapis.com is in PSL
             * ajax.googleapis.com
             * maps.googleapis.com
             * mts1.googleapis.com
+            * www.googleapis.com
             # <<<
             * googleusercontent.com
             * gstatic.com
