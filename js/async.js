@@ -194,10 +194,6 @@ function onMessageHandler(request, sender, callback) {
             HTTPSB.reloadAllLocalAssets();
             break;
 
-        case 'applyPublicSuffixList':
-            applyPublicSuffixList(request.content);
-            break;
-
         case 'contentScriptHasLocalStorage':
             response = contentScriptLocalStorageHandler(request.url);
             break;
@@ -236,14 +232,6 @@ function onMessageHandler(request, sender, callback) {
 
         case 'mergeBlacklistedHosts':
             mergeBlacklistedHosts(request);
-            break;
-
-        case 'merge1stPartyPresets':
-            HTTPSB.presetManager.merge1stPartyPresets(request);
-            break;
-
-        case 'merge3rdPartyPresets':
-            HTTPSB.presetManager.merge3rdPartyPresets(request);
             break;
 
         case 'reloadPresetBlacklists':

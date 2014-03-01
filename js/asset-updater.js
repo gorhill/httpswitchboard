@@ -86,20 +86,23 @@ var getUpdateList = function(msg) {
             if ( localAssetChecksums[path] === undefined ) {
                 toUpdate[path] = {
                     status: 'Added',
-                    checksum: remoteAssetChecksums[path]
+                    remoteChecksum: remoteAssetChecksums[path],
+                    localChecksum: ''
                 };
                 continue;
             }
             if ( localAssetChecksums[path] === remoteAssetChecksums[path] ) {
                 toUpdate[path] = {
                     status: 'Unchanged',
-                    checksum: remoteAssetChecksums[path]
+                    remoteChecksum: remoteAssetChecksums[path],
+                    localChecksum: localAssetChecksums[path]
                 };
                 continue;
             }
             toUpdate[path] = {
                 status: 'Changed',
-                checksum: remoteAssetChecksums[path]
+                remoteChecksum: remoteAssetChecksums[path],
+                localChecksum: localAssetChecksums[path]
             };
         }
         for ( var path in localAssetChecksums ) {
@@ -108,7 +111,9 @@ var getUpdateList = function(msg) {
             }
             if ( remoteAssetChecksums[path] === undefined ) {
                 toUpdate[path] = {
-                    status: 'Removed'
+                    status: 'Removed',
+                    remoteChecksum: '',
+                    localChecksum: localAssetChecksums[path]
                 };
             }
         }
@@ -129,7 +134,6 @@ var getUpdateList = function(msg) {
 var updateList = function(list) {
     var assetToUpdateCount = Object.keys(list).length;
     var updatedAssetChecksums = [];
-    var updatedAssetList = {};
 
     var onMessage = function(request, sender) {
         if ( !request || !request.what ) {
@@ -147,23 +151,26 @@ var updateList = function(list) {
         }
     };
 
-    var onAllLocalAssetUpdated = function(details) {
-        chrome.runtime.onMessage.removeListener(onMessage);
-        chrome.runtime.sendMessage({
-            'what': 'allLocalAssetsUpdated',
-            'list': updatedAssetList
-        });
-    };
-
     var onLocalAssetUpdated = function(details) {
-        updatedAssetList[details.path] = {
-            status: 'Updated'
-        };
+        var path = details.path;
+        var entry = list[path];
+        if ( details.error ) {
+            updatedAssetChecksums.push(entry.localChecksum + ' ' + path);
+        } else {
+            updatedAssetChecksums.push(entry.remoteChecksum + ' ' + path);
+        }
         assetToUpdateCount -= 1;
         if ( assetToUpdateCount > 0 ) {
             return;
         }
         HTTPSB.assets.put('assets/checksums.txt', updatedAssetChecksums.join('\n'), 'assetManagerAllLocalAssetsUpdated');
+    };
+
+    var onAllLocalAssetUpdated = function(details) {
+        chrome.runtime.onMessage.removeListener(onMessage);
+        chrome.runtime.sendMessage({
+            'what': 'allLocalAssetsUpdated'
+        });
     };
 
     chrome.runtime.onMessage.addListener(onMessage);
@@ -177,10 +184,10 @@ var updateList = function(list) {
         if ( entry.status === 'New' || entry.status === 'Changed' ) {
             HTTPSB.assets.update(path, 'assetManagerLocalAssetUpdated');
         } else {
+            if ( entry.status === 'Unchanged' ) {
+                updatedAssetChecksums.push(entry.localChecksum + ' ' + path);
+            }
             assetToUpdateCount -= 1;
-        }
-        if ( entry.checksum ) {
-            updatedAssetChecksums.push(entry.checksum + ' ' + path);
         }
     }
 };

@@ -27,6 +27,7 @@ $(function() {
 
 var httpsb = chrome.extension.getBackgroundPage().HTTPSB;
 var updateList = {};
+var assetListSwitches = ['o', 'o', 'o'];
 
 /******************************************************************************/
 
@@ -51,41 +52,48 @@ var renderTime = function(time) {
 
 /******************************************************************************/
 
+var setAssetListClassBit = function(bit, state) {
+    assetListSwitches[assetListSwitches.length-1-bit] = !state ? 'o' : 'x';
+    $('#assetList')
+        .removeClass()
+        .addClass(assetListSwitches.join(''));
+};
+
+/******************************************************************************/
+
 var renderAssetList = function(details) {
+    var dirty = false;
     var paths = Object.keys(details.list).sort();
-    if ( !paths.length ) {
-        $('#assetList').addClass('error');
-        return;
+    if ( paths.length > 0 ) {
+        $('#assetList .assetEntry').remove();
+        var assetTable = $('#assetList table');
+        var i = 0;
+        var path, status, html;
+        while ( path = paths[i++] ) {
+            status = details.list[path].status;
+            dirty = dirty || status !== 'Unchanged';
+            html = [];
+            html.push('<tr class="assetEntry ' + status.toLowerCase().replace(/ +/g, '-') + '">');
+            html.push('<td>');
+            html.push('<a href="https://raw2.github.com/gorhill/httpswitchboard/master/' + path + '">');
+            html.push(path.replace(/^(assets\/[^/]+\/)(.+)$/, '$1<b>$2</b>'));
+            html.push('</a>');
+            html.push('<td>');
+            html.push(chrome.i18n.getMessage('aboutAssetsUpdateStatus' + status));
+            assetTable.append(html.join(''));
+        }
+        $('#assetList a').attr('target', '_blank');
+        updateList = details.list;
     }
-    $('#assetList .assetEntry').remove();
-
-    var assetTable = $('#assetList table');
-    var i = 0;
-    var upToDate = true;
-    var path, status, html;
-    while ( path = paths[i++] ) {
-        status = details.list[path].status;
-        upToDate = upToDate && status === 'Unchanged';
-        html = [];
-        html.push('<tr class="assetEntry ' + status.toLowerCase().replace(/ +/g, '-') + '">');
-        html.push('<td>');
-        html.push('<a href="https://raw2.github.com/gorhill/httpswitchboard/master/' + path + '">');
-        html.push(path.replace(/^(assets\/[^/]+\/)(.+)$/, '$1<b>$2</b>'));
-        html.push('</a>');
-        html.push('<td>');
-        html.push(chrome.i18n.getMessage('aboutUpdateStatus' + status));
-        assetTable.append(html.join(''));
-    }
-
-    $('#assetList').toggleClass('up-to-date', upToDate);
-    $('#assetList a').attr('target', '_blank');
-
-    updateList = details.list;
+    setAssetListClassBit(0, paths.length !== 0);
+    setAssetListClassBit(1, dirty);
+    setAssetListClassBit(2, false);
 };
 
 /******************************************************************************/
 
 var updateAssets = function() {
+    setAssetListClassBit(2, true);
     httpsb.assetUpdater.update(updateList);
 };
 
@@ -93,7 +101,6 @@ var updateAssets = function() {
 
 var onAllLocalAssetsUpdated = function() {
     httpsb.assetUpdater.getList('dashboardAboutCachedAssetList');
-    $('#allLocalAssetsUpdated').text(chrome.i18n.getMessage('aboutUpdateSuccess'));
 };
 
 /******************************************************************************/
@@ -115,8 +122,8 @@ var onMessageHandler = function(request, sender) {
 
 /******************************************************************************/
 
-$('#version').html(httpsb.manifest.version);
-$('#storageUsed').html(httpsb.storageQuota ? (httpsb.storageUsed / httpsb.storageQuota * 100).toFixed(1) : 0);
+$('#aboutVersion').html(httpsb.manifest.version);
+$('#aboutStorageUsed').html(httpsb.storageQuota ? (httpsb.storageUsed / httpsb.storageQuota * 100).toFixed(1) : 0);
 $('#aboutAssetsUpdateButton').on('click', updateAssets);
 
 chrome.runtime.onMessage.addListener(onMessageHandler);

@@ -282,7 +282,7 @@ var updateFromRemote = function(path, msg) {
         chrome.runtime.sendMessage({
             'what': msg,
             'path': path,
-            'error': this.statusText
+            'error': 'Error'
         });
         this.onload = this.onerror = null;
     };

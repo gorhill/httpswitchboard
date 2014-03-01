@@ -368,29 +368,49 @@
     },
 
 
-    "aboutUpdateSuccess" : {
-        "message": "Toutes les données sont maintenant à jour.",
-        "description": "Successful outcome of clicking 'update' button"
+    "aboutAssetsUpdateHeader" : {
+        "message": "Actifs",
+        "description": "Assets header text"
     },
-    "aboutUpdateGetListError" : {
+    "aboutAssetsUpdatePrompt" : {
+        "message": "Les actifs de <i>HTTP Switchboard</i> peuvent être mis à jour ici sans avoir à attendre la prochaine version de l'extension. La mise à jour de ces actifs se fait à partir du <a href=\"https://github.com/gorhill/httpswitchboard\">projet sur Github</a>.",
+        "description": "Short descriptive text of the update feature"
+    },
+    "aboutAssetsUpdateColPath" : {
+        "message": "Actif",
+        "description": "Path column header"
+    },
+    "aboutAssetsUpdateColStatus" : {
+        "message": "État",
+        "description": "Status column header"
+    },
+    "aboutAssetsUpdateGetListError" : {
         "message": "Une erreur est survenue. Est-ce que <b>XHR</b> est bloqué pour <b>raw2.github.com</b>?",
         "description": "Successful outcome of clicking 'update' button"
     },
-    "aboutUpdateStatusAdded" : {
-        "message": "Nouveau",
+    "aboutAssetsUpdateStatusAdded" : {
+        "message": "À ajouter",
         "description": "Displayed in the status column for each entry"
     },
-    "aboutUpdateStatusChanged" : {
-        "message": "Nouvelle version",
+    "aboutAssetsUpdateStatusChanged" : {
+        "message": "Nouvelle version disponible",
         "description": "Displayed in the status column for each entry"
     },
-    "aboutUpdateStatusUnchanged" : {
+    "aboutAssetsUpdateStatusUnchanged" : {
         "message": "À jour",
         "description": "Displayed in the status column for each entry"
     },
-    "aboutUpdateStatusRemoved" : {
+    "aboutAssetsUpdateStatusRemoved" : {
         "message": "À éliminer",
         "description": "Displayed in the status column for each entry"
+    },
+    "aboutAssetsUpdateButton" : {
+        "message": "Mettre à jour",
+        "description": "Update button"
+    },
+    "aboutAssetsUpdatingButton" : {
+        "message": "Mise à jour en cours...",
+        "description": "Updating..."
     },
 
 

@@ -488,13 +488,42 @@ HTTPSB.PresetManager.prototype.merge3rdPartyPresets = function(details) {
 /******************************************************************************/
 
 HTTPSB.reloadAllPresets = function() {
-    if ( !this.presetManager ) {
-        this.presetManager = new this.PresetManager();
+    var presetManager = this.presetManager;
+    if ( !presetManager ) {
+        this.presetManager = presetManager = new this.PresetManager();
     } else {
-        this.presetManager.resetAll();
+        presetManager.resetAll();
     }
-    this.assets.get('assets/httpsb/preset-recipes-1st.yaml', 'merge1stPartyPresets');
-    this.assets.get('assets/httpsb/preset-recipes-3rd.yaml', 'merge3rdPartyPresets');
+    var presetListCount = 2;
+    var onMessage = function(request) {
+        if ( !request || !request.what ) {
+            return;
+        }
+        if ( request.what === '1stPartyPresetRecipesLoaded' ) {
+            if ( !request.error ) {
+                presetManager.merge1stPartyPresets(request);
+            }
+            onePresetListLoaded();
+            return;
+        }
+        if ( request.what === '3rdPartyPresetRecipesLoaded' ) {
+            if ( !request.error ) {
+                presetManager.merge3rdPartyPresets(request);
+            }
+            onePresetListLoaded();
+            return;
+        }
+    };
+    var onePresetListLoaded = function() {
+        presetListCount -= 1;
+        if ( presetListCount === 0 ) {
+            chrome.runtime.onMessage.removeListener(onMessage);
+        }
+    };
+    chrome.runtime.onMessage.addListener(onMessage);
+
+    this.assets.get('assets/httpsb/preset-recipes-1st.yaml', '1stPartyPresetRecipesLoaded');
+    this.assets.get('assets/httpsb/preset-recipes-3rd.yaml', '3rdPartyPresetRecipesLoaded');
 };
 
 /******************************************************************************/

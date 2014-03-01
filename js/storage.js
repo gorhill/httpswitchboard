@@ -290,7 +290,7 @@ function mergeBlacklistedHosts(details) {
     // console.log('HTTP Switchboard > mergeBlacklistedHosts from "%s": "%s..."', details.path, details.content.slice(0, 40));
 
     var httpsb = HTTPSB;
-    var raw = details.content;
+    var raw = details.content.toLowerCase();
     var rawEnd = raw.length;
 
     // rhill 2013-10-21: No need to prefix with '* ', the hostname is just what
@@ -302,7 +302,7 @@ function mergeBlacklistedHosts(details) {
     // Useful references:
     //    https://adblockplus.org/en/filter-cheatsheet
     //    https://adblockplus.org/en/filters
-    var adblock = /^\[Adblock +Plus\ +\d\.\d]/.test(raw);
+    var adblock = /^\[adblock +plus\ +\d\.\d]/.test(raw);
     var hostFromAdblockFilter = function(s) {
         var matches = s.match(/^\|\|([a-z0-9.-]+)\^(\$third-party|$)/);
         if ( matches && matches.length > 1 ) {
@@ -340,7 +340,6 @@ function mergeBlacklistedHosts(details) {
         if ( pos >= 0 ) {
             key = key.slice(0, pos);
         }
-        key = key.toLowerCase();
         // https://github.com/gorhill/httpswitchboard/issues/15
         // Ensure localhost et al. don't end up on the read-only blacklist.
         key = key.replace(localhostRegex, ' ');
@@ -397,12 +396,26 @@ function reloadPresetBlacklists(switches) {
 
 /******************************************************************************/
 
-function loadPublicSuffixList() {
-    HTTPSB.assets.get('assets/thirdparties/publicsuffix.org/list/effective_tld_names.dat', 'applyPublicSuffixList');
-}
-
-function applyPublicSuffixList(text) {
-    publicSuffixList.parse(text, punycode.toASCII);
+HTTPSB.loadPublicSuffixList = function() {
+    var onMessage = function(request) {
+        if ( !request || !request.what ) {
+            return;
+        }
+        if ( request.what === 'publicSuffixListLoaded' ) {
+            applyPublicSuffixList(request);
+        }
+    };
+    var applyPublicSuffixList = function(details) {
+        if ( !details.error ) {
+            publicSuffixList.parse(details.content, punycode.toASCII);
+        }
+        chrome.runtime.onMessage.removeListener(onMessage);
+    };
+    chrome.runtime.onMessage.addListener(onMessage);
+    this.assets.get(
+        'assets/thirdparties/publicsuffix.org/list/effective_tld_names.dat',
+        'publicSuffixListLoaded'
+    );
 }
 
 /******************************************************************************/
@@ -412,7 +425,7 @@ function applyPublicSuffixList(text) {
 
 HTTPSB.reloadAllLocalAssets = function() {
     loadRemoteBlacklists();
-    loadPublicSuffixList();
+    this.loadPublicSuffixList();
     this.reloadAllPresets();
 };
 
@@ -424,7 +437,7 @@ function load() {
     loadUserSettings();
     loadUserLists();
     loadRemoteBlacklists();
-    loadPublicSuffixList();
+    HTTPSB.loadPublicSuffixList();
     HTTPSB.reloadAllPresets();
     getBytesInUse();
 }

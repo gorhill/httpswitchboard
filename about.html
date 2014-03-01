@@ -16,45 +16,46 @@ table td:first-child {
     margin-left: 1em;
     color: green;
     }
-#assetList table {
-    display: block;
-    }
 #assetList table tr.unchanged {
     color: gray;
     }
-#assetList table tr.added,
-#assetList table tr.changed,
-#assetList table tr.removed {
+#assetList table tr td:nth-of-type(2) {
     font-weight: bold;
+    white-space: nowrap;
     }
-#assetList.error table {
+#assetList table tr.unchanged td:nth-of-type(2) {
+    font-weight: normal;
+    }
+
+#assetList.ooo > table {
     display: none;
     }
-#assetList p {
+#assetList.oox > table,
+#assetList.oxx > table,
+#assetList.xxx > table {
     display: block;
     }
-#assetList p.error-prompt {
-    display: none;
-    color: red;
-    }
-#assetList.error p:not(.error-prompt) {
+#assetList > p {
     display: none;
     }
-#assetList.error p.error-prompt {
+#assetList.ooo > p.ooo {
     display: block;
     }
-#assetList.up-to-date p.update-prompt {
-    display: none;
+#assetList.oxx > p.oxx {
+    display: block;
+    }
+#assetList.xxx > p.xxx {
+    display: block;
     }
 </style>
 </head>
 
 <body>
 
-<h2>HTTP Switchboard version <span id="version"></span></h2>
+<h2>HTTP Switchboard version <span id="aboutVersion"></span></h2>
 <div>
     <a href="https://github.com/gorhill/httpswitchboard/wiki/Change-log">Change log</a><br>
-    Storage used: <span id="storageUsed">?</span> %<br>
+    Storage used: <span id="aboutStorageUsed">?</span> %<br>
     <a href="https://github.com/gorhill/httpswitchboard/wiki">Documentation</a><br>
     <a href="https://github.com/gorhill/httpswitchboard/wiki/Permissions">Permissions</a><br>
     <a href="https://github.com/gorhill/httpswitchboard">Source code (GPLv3)</a><br>
@@ -63,23 +64,24 @@ table td:first-child {
 
 <h2>Assets</h2>
 <div>
-    <p class="para"><i>HTTP Switchboard</i> uses various assets which contents may change over time:</p>
-    <ul>
-        <li>Lists of ubiquitous rules
-        <li>Preset recipes
-        <li><a href="http://publicsuffix.org/list/">Public Suffix List</a>
-    </ul>
-    <p class="para">Since version 0.8.3.0, these assets can be updated here without having
-    to wait for the next release of <i>HTTP Switchboard</i>.
-    These assets are pulled from the
-    <a href="https://github.com/gorhill/httpswitchboard">project's Github repository</a>.
-    </p>
+    <p class="para" data-i18n="aboutAssetsUpdatePrompt"></p>
     <div id="assetList">
-        <table>
-            <tr><th>Path<th>Status
-        </table>
-        <p class="error-prompt" data-i18n="aboutUpdateGetListError"></p>
-        <p class="update-prompt" ><button id="aboutAssetsUpdateButton">Update</button> <span id="allLocalAssetsUpdated"></span></p>
+        <!--
+            Let's define 'abcd' as bit 0 to 2
+            Where bit can be '0' or '1'
+            Bit 0: list   => o=absent,    x=present
+            Bit 1: list   => o=clean,     x=dirty
+            Bit 2: update => o=idle,      x=updating
+            Therefore:
+                List visible: oox oxx xox
+                Etc.
+        -->
+        <table class="ooo">
+            <tr><th data-i18n="aboutAssetsUpdateColPath"><th data-i18n="aboutAssetsUpdateColStatus">
+            </table>
+        <p class="ooo" style="color:red" data-i18n="aboutAssetsUpdateGetListError"></p>
+        <p class="oxx"><button id="aboutAssetsUpdateButton" data-i18n="aboutAssetsUpdateButton"></button></p>
+        <p class="xxx"><button data-i18n="aboutAssetsUpdatingButton"></button></p>
     </div>
 </div>
 
