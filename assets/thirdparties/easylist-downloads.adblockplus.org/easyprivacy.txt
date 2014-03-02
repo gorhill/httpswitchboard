@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: eCxKCS2S1cI0gBaZedfxfA
-! Version: 201402281920
+! Checksum: F8TlOsyNxsTh/mE2aiO6xg
+! Version: 201403021350
 ! Title: EasyPrivacy
-! Last modified: 28 Feb 2014 19:20 UTC
+! Last modified: 02 Mar 2014 13:50 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -800,6 +800,8 @@
 /gn_analytics.
 /gn_tracking.
 /goAnalytics.
+/gomez.js
+/gomez/*$script
 /GomezTracking.
 /google-analyticator/*
 /google-analytics-
@@ -1705,7 +1707,6 @@
 /tracker/referrer/*
 /tracker/story.jpg?
 /tracker/t.php?
-/tracker/track$script
 /tracker2.js
 /tracker?*=
 /tracker_activityStream.
@@ -2709,7 +2710,6 @@ http://utm.
 ||grapheffect.com^$third-party
 ||grepdata.com^$third-party
 ||groundspeak.com^$third-party
-||grvcdn.com^$third-party
 ||gsimedia.net^$third-party
 ||gstats.cn^$third-party
 ||gtopstats.com^$third-party
@@ -3131,6 +3131,7 @@ http://utm.
 ||profilertracking3.com^$third-party
 ||profilesnitch.com^$third-party
 ||projecthaile.com^$third-party
+||projectsunblock.com^$third-party
 ||provenpixel.com^$third-party
 ||proxad.net^$third-party
 ||prtracker.com^$third-party
@@ -4334,6 +4335,7 @@ http://utm.
 ||affiliates.spark.net^$third-party
 ||affiliates.swappernet.com^
 ||affilired.com/analytic/$third-party
+||affl.sucuri.net^
 ||afrigator.com/track/
 ||agendize.com^*/counts.jsp?
 ||aiya.com.cn/stat.js
@@ -5076,7 +5078,6 @@ http://utm.
 ||qubitanalytics.appspot.com^
 ||quisma.com/tracking/
 ||r.msn.com^
-||r.onescreen.net^
 ||r.ypcdn.com^*/rtd?ptid$image
 ||ra.ripple6.com^
 ||rackcdn.com/1x1.gif?
@@ -5630,10 +5631,12 @@ http://utm.
 ||blogoutils.com/online-$third-party
 ||blogrankings.com/img_$third-party
 ||btstats.devtribu.fr^
+||calotag.com^$third-party
 ||da-kolkoz.com/da-top/track/
 ||devtribu.fr/t.php?
 ||e-pagerank.fr/bouton.gif?$third-party
 ||e.funnymel.com^$third-party
+||email-reflex.com^$third-party
 ||free.fr/cgi-bin/wwwcount.cgi?
 ||free.fr/services/compteur_page.php?
 ||i-services.net^*/compteur.php?
@@ -5756,6 +5759,7 @@ http://utm.
 ||eageweb.com/count2.php?
 ||eageweb.com/stats.php
 ||fcstats.altervista.org^$third-party
+||forebase.com/r.gif?
 ||glomera.com/stats
 ||livestats.matrix.it^
 ||log.superweb.ws^
@@ -6143,7 +6147,6 @@ http://utm.
 ||axa.com/elements/js/wreport.js
 ||azfamily.com/images/pixel.gif
 ||b.huffingtonpost.com^
-||b.imwx.com^
 ||b.myspace.com^
 ||b.photobucket.com^$~object-subrequest
 ||baidu.com/ecom?
@@ -6597,6 +6600,7 @@ http://utm.
 ||geoip.viamichelin.com^
 ||geoiplookup.wikimedia.org^
 ||geovisites.com^*/geouser.js
+||giffgaff.com/r/?id=
 ||giganews.com/images/rpp.gif
 ||gigya.com/js/gigyaGAIntegration.js
 ||github.com/_stats
@@ -7447,6 +7451,7 @@ http://utm.
 ||tfl.gov.uk/tfl-global/scripts/stats.js
 ||tgw.com/1/t.gif
 ||theage.com.au^*/behave.js
+||theconversation.com/javascripts/lib/content_tracker_hook.js
 ||thecreatorsproject.com/tracker.html
 ||thedeal.com/oas_
 ||theeastafrican.co.ke/analytics/
@@ -7848,6 +7853,7 @@ http://utm.
 ||skypeassets.com/static/skype.skypeloginstatic/js/s_code.js$domain=skype.com
 ||ssl-images-amazon.com^*/wcs-help-omniture-$script
 ||vitacost.com/Javascripts/s_code.js
+||vmware.com/files/templates/inc/s_code_my.js
 ||wp.com/wp-content/themes/vip/metrouk/js/site-catalyst.js$domain=metro.co.uk
 !-----------------International individual tracking systems-----------------!
 ! *** easylist:easyprivacy/easyprivacy_specific_international.txt ***
@@ -8882,6 +8888,7 @@ http://utm.
 @@||ivwextern.prosieben.de/crossdomain.xml$object-subrequest,domain=galileo-videolexikon.de
 @@||ivwextern.prosieben.de/php-bin/functions/ivwbox/ivwbox_extern.php?path=$object-subrequest,domain=galileo-videolexikon.de
 @@||ivwextern.prosieben.de^*/ivw_flashscript.php?$script
+@@||jetztspielen.de^*/EventTracker.js
 @@||js.revsci.net/gateway/gw.js?$domain=t-online.de
 @@||longtailvideo.com/5/googlytics/googlytics-1.js$domain=arte.tv
 @@||maxmind.com^*/geoip.js$domain=automatensuche.de
@@ -8910,6 +8917,8 @@ http://utm.
 @@||uim.tifbs.net/js/3423.js$domain=top.de
 @@||uim.tifbs.net/js/7732.js$domain=gewinnspiel.gmx.de|gewinnspiel.web.de
 @@||vaillant.de/inc/assets/js/webtrekk_$script
+@@||video.oms.eu/crossdomain.xml$object-subrequest,domain=badische-zeitung.de
+@@||video.oms.eu/projekt/download/OMSComponent.swf$object-subrequest,domain=badische-zeitung.de
 @@||welt.de^*/webtrekk.js
 @@||willhaben.apa.net/clientscript/xtcore.js
 @@||yimg.com/mi/eu/ywa.js$domain=immowelt.de
