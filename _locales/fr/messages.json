@@ -369,15 +369,15 @@
 
 
     "aboutAssetsUpdateHeader" : {
-        "message": "Actifs",
+        "message": "Listes d'hôtes à bloquer",
         "description": "Assets header text"
     },
     "aboutAssetsUpdatePrompt" : {
-        "message": "Les actifs de <i>HTTP Switchboard</i> peuvent être mis à jour ici sans avoir à attendre la prochaine version de l'extension. La mise à jour de ces actifs se fait à partir du <a href=\"https://github.com/gorhill/httpswitchboard\">projet sur Github</a>.",
+        "message": "Les listes d'hôtes à bloquer pris en charge au sein de <i>HTTP Switchboard</i> peuvent être mis à jour ici sans avoir à attendre la prochaine version de l'extension. Le processus s'effectue à partir de la <a href=\"https://github.com/gorhill/httpswitchboard\">page du projet sur Github</a>.",
         "description": "Short descriptive text of the update feature"
     },
     "aboutAssetsUpdateColPath" : {
-        "message": "Actif",
+        "message": "Liste d'hôtes à bloquer",
         "description": "Path column header"
     },
     "aboutAssetsUpdateColStatus" : {
@@ -385,7 +385,7 @@
         "description": "Status column header"
     },
     "aboutAssetsUpdateGetListError" : {
-        "message": "Une erreur est survenue. Est-ce que <b>XHR</b> est bloqué pour <b>raw2.github.com</b>?",
+        "message": "Une erreur est survenue. Veuillez vous assurer que les requêtes de type <b>XHR</b> ne soient pas bloquées pour <b>raw2.github.com</b>",
         "description": "Successful outcome of clicking 'update' button"
     },
     "aboutAssetsUpdateStatusAdded" : {
@@ -401,7 +401,7 @@
         "description": "Displayed in the status column for each entry"
     },
     "aboutAssetsUpdateStatusRemoved" : {
-        "message": "À éliminer",
+        "message": "À supprimer",
         "description": "Displayed in the status column for each entry"
     },
     "aboutAssetsUpdateButton" : {
