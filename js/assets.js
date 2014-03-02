@@ -216,7 +216,7 @@ var writeLocalFile = function(path, content, msg) {
 
     var onFileWriteError = function(err) {
         console.error('HTTP Switchboard> writeLocalFile() / onFileWriteError("%s"):', path, err.name);
-        sendMessage(err);
+        sendMessage(err.name);
     };
 
     var onFileTruncateSuccess = function() {
@@ -229,7 +229,7 @@ var writeLocalFile = function(path, content, msg) {
 
     var onFileTruncateError = function(err) {
         console.error('HTTP Switchboard> writeLocalFile() / onFileTruncateError("%s"):', path, err.name);
-        sendMessage(err);
+        sendMessage(err.name);
     };
 
     var onCreateFileWriterSuccess = function(fwriter) {
@@ -240,7 +240,7 @@ var writeLocalFile = function(path, content, msg) {
 
     var onCreateFileWriterError = function(err) {
         console.error('HTTP Switchboard> writeLocalFile() / onCreateFileWriterError("%s"):', path, err.name);
-        sendMessage(err);
+        sendMessage(err.name);
     };
 
     var onCacheEntryFound = function(file) {
@@ -250,11 +250,12 @@ var writeLocalFile = function(path, content, msg) {
 
     var onCacheEntryError = function(err) {
         console.error('HTTP Switchboard> writeLocalFile() / onCacheEntryError("%s"):', path, err.name);
-        sendMessage(err);
+        sendMessage(err.name);
     };
 
     var onRequestFileSystemError = function(err) {
         console.error('HTTP Switchboard> writeLocalFile() / onRequestFileSystemError():', err.name);
+        sendMessage(err.name);
     };
 
     var onRequestFileSystem = function(fs) {
