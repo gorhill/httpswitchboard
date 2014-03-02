@@ -193,7 +193,12 @@ var readRemoteFile = function(path, msg) {
         this.onload = this.onerror = null;
     };
 
-    getTextFileFromURL(remoteRoot + path, onRemoteFileLoaded, onRemoteFileError);
+    // 'httpsb=...' is to skip browser cache
+    getTextFileFromURL(
+        remoteRoot + path + '?httpsb=' + Date.now(),
+        onRemoteFileLoaded,
+        onRemoteFileError
+        );
 };
 
 /******************************************************************************/
@@ -268,7 +273,8 @@ var writeLocalFile = function(path, content, msg) {
 /******************************************************************************/
 
 var updateFromRemote = function(path, msg) {
-    var remoteURL = remoteRoot + path;
+    // 'httpsb=...' is to skip browser cache
+    var remoteURL = remoteRoot + path + '?httpsb=' + Date.now();
 
     var onRemoteFileLoaded = function() {
         // console.log('HTTP Switchboard> updateFromRemote() / onRemoteFileLoaded()');
@@ -288,7 +294,11 @@ var updateFromRemote = function(path, msg) {
         this.onload = this.onerror = null;
     };
 
-    getTextFileFromURL(remoteURL, onRemoteFileLoaded, onRemoteFileError);
+    getTextFileFromURL(
+        remoteURL,
+        onRemoteFileLoaded,
+        onRemoteFileError
+        );
 };
 
 /******************************************************************************/

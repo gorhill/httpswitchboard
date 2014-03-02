@@ -38,13 +38,13 @@ var getUpdateList = function(msg) {
             return;
         }
         switch ( request.what ) {
-        case 'assetManagerLocalAssetChecksumsLoaded':
+        case 'assetManagerLocalChecksumsLoaded':
             localChecksumsText = request.error ? 'Error' : request.content;
             if ( remoteChecksumsText !== '' ) {
                 compareChecksums();
             }
             break;
-        case 'assetManagerRemoteAssetChecksumsLoaded':
+        case 'assetManagerRemoteChecksumsLoaded':
             remoteChecksumsText = request.error ? 'Error' : request.content;
             if ( localChecksumsText !== '' ) {
                 compareChecksums();
@@ -125,8 +125,15 @@ var getUpdateList = function(msg) {
     };
 
     chrome.runtime.onMessage.addListener(onMessage);
-    HTTPSB.assets.getRemote('assets/checksums.txt', 'assetManagerRemoteAssetChecksumsLoaded');
-    HTTPSB.assets.get('assets/checksums.txt', 'assetManagerLocalAssetChecksumsLoaded');
+
+    HTTPSB.assets.getRemote(
+        'assets/checksums.txt',
+        'assetManagerRemoteChecksumsLoaded'
+        );
+    HTTPSB.assets.get(
+        'assets/checksums.txt',
+        'assetManagerLocalChecksumsLoaded'
+        );
 };
 
 /******************************************************************************/
@@ -163,7 +170,11 @@ var updateList = function(list) {
         if ( assetToUpdateCount > 0 ) {
             return;
         }
-        HTTPSB.assets.put('assets/checksums.txt', updatedAssetChecksums.join('\n'), 'assetManagerAllLocalAssetsUpdated');
+        HTTPSB.assets.put(
+            'assets/checksums.txt',
+            updatedAssetChecksums.join('\n'),
+            'assetManagerAllLocalAssetsUpdated'
+            );
     };
 
     var onAllLocalAssetUpdated = function(details) {
