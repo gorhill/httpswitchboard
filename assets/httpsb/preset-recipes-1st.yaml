@@ -273,6 +273,19 @@ New Scientist:
         whitelist: |
             * www.newscientist.com
 
+The Next Web:
+    keys: thenextweb.com
+    scope: thenextweb.com
+        whitelist: |
+            * thenextweb.com
+            * tnwcdn.com
+
+OpenStreetMap:
+    keys: '*.openstreetmap.org'
+    scope: '*.openstreetmap.org'
+        whitelist: |
+            * openstreetmap.org
+
 RBC Royal Bank:
     keys: '*.royalbank.com'
     scope: '*.royalbank.com'
