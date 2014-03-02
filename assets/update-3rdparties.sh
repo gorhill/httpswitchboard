@@ -4,7 +4,7 @@
 
 TEMPFILE=/tmp/httpsb-asset
 
-echo "*** HTTP Switchboard: updating assets..."
+echo "*** HTTP Switchboard: updating remote assets..."
 
 THIRDPARTY_REMOTEURLS=(
     'http://mirror1.malwaredomains.com/files/immortal_domains.txt'
@@ -53,21 +53,7 @@ for THIRDPARTY_REMOTEURL in ${THIRDPARTY_REMOTEURLS[@]}; do
     let ENTRY_INDEX+=1
 done
 
-echo "*** Generating checksums.txt file..."
-pushd ..
-truncate -s 0 assets/checksums.txt
-LIST="$(find assets/httpsb assets/thirdparties -type f)"
-for ENTRY in $LIST; do
-    echo `md5sum $ENTRY` >> assets/checksums.txt
-done
-popd
+echo "*** HTTP Switchboard: remote assets updated."
 
-echo "*** Git adding changed assets..."
-git add --update --ignore-removal --ignore-errors ./*
-echo "*** Git committing assets..."
-git commit -m 'automatic update of third-party assets'
-echo "*** Git pushing assets to remote master..."
-git push origin master
-
-echo "Done."
+./update-checksums.sh
 
