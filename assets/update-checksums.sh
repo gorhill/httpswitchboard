@@ -13,3 +13,5 @@ popd
 
 echo "*** HTTP Switchboard: checksums updated."
 
+./update-git.sh
+
