@@ -369,15 +369,15 @@
 
 
     "aboutAssetsUpdateHeader" : {
-        "message": "Listes d'hôtes à bloquer",
+        "message": "Éléments dynamiques",
         "description": "Assets header text"
     },
     "aboutAssetsUpdatePrompt" : {
-        "message": "Les listes d'hôtes à bloquer pris en charge au sein de <i>HTTP Switchboard</i> peuvent être mis à jour ici sans avoir à attendre la prochaine version de l'extension. Le processus s'effectue à partir de la <a href=\"https://github.com/gorhill/httpswitchboard\">page du projet sur Github</a>.",
+        "message": "Les éléments dynamiques, comprenant entre autres listes d'hôtes à bloquer et recettes prédéfinies, peuvent être mis à jour ici sans avoir à attendre la prochaine version de HTTP Switchboard. Le processus s'effectue à partir de la <a href=\"https://github.com/gorhill/httpswitchboard\">page du projet sur Github</a>.",
         "description": "Short descriptive text of the update feature"
     },
     "aboutAssetsUpdateColPath" : {
-        "message": "Liste d'hôtes à bloquer",
+        "message": "Élément dynamique",
         "description": "Path column header"
     },
     "aboutAssetsUpdateColStatus" : {
