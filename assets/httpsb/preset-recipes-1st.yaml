@@ -248,8 +248,11 @@ Microsoft Account:
             * live.com
             frame live.com
             * live.net
-            * hotmail.com
             * gfx.ms
+            # Caldendar
+            * hotmail.com
+            # OneDrive
+            * sfx.ms
 
 NBC News:
     keys: www.nbcnews.com
