@@ -28,6 +28,7 @@ $(function() {
 var httpsb = chrome.extension.getBackgroundPage().HTTPSB;
 var updateList = {};
 var assetListSwitches = ['o', 'o', 'o'];
+var commitHistoryURLPrefix = 'https://github.com/gorhill/httpswitchboard/commits/master/';
 
 /******************************************************************************/
 
@@ -75,7 +76,7 @@ var renderAssetList = function(details) {
             html = [];
             html.push('<tr class="assetEntry ' + status.toLowerCase().replace(/ +/g, '-') + '">');
             html.push('<td>');
-            html.push('<a href="https://raw2.github.com/gorhill/httpswitchboard/master/' + path + '">');
+            html.push('<a href="' + commitHistoryURLPrefix + path + '">');
             html.push(path.replace(/^(assets\/[^/]+\/)(.+)$/, '$1<b>$2</b>'));
             html.push('</a>');
             html.push('<td>');
