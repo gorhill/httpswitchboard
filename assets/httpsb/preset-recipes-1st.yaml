@@ -211,6 +211,12 @@ JSFIDDLE:
             frame jshell.net    
             * togetherjs.com    
 
+Los Angeles Times:
+    keys: '*.latimes.com'
+    scope: '*.latimes.com'
+        whitelist: |
+            * latimes.com
+
 MarketWatch:
     keys: '*.marketwatch.com'
     scope: '*.marketwatch.com'
