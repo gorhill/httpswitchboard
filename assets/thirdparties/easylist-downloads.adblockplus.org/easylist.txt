@@ -1,8 +1,8 @@
 [Adblock Plus 2.0]
-! Checksum: avk5HAT6dL/5HTW21g3e8Q
-! Version: 201403021350
+! Checksum: snHV7tKHiRa9YuncODczOQ
+! Version: 201403021600
 ! Title: EasyList
-! Last modified: 02 Mar 2014 13:50 UTC
+! Last modified: 02 Mar 2014 16:00 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -14777,7 +14777,6 @@ _popunder+$popup
 ##.adtile
 ##.adtips
 ##.adtips1
-##.adtitle
 ##.adtop
 ##.adtop-border
 ##.adtops
@@ -40175,6 +40174,7 @@ literotica.com##tr[style="background: #fff; text-align: center; font-size: 80%; 
 @@||sharinspireds.co.nf/Images/Ads/$~third-party
 @@||shawfloors.com/adx/$image,~third-party
 @@||shopmanhattanite.com/affiliatebanners/$image,domain=catalogfavoritesvip.com|freeshipping.com|freeshippingrewards.com|habandvipplus.com|inthecompanyofdogsvip.com|naturesjewelryvip.com|northstylevip.com|pyramidcollectionvip.com|serengeticatalogvip.com|travelplus.com
+@@||siamautologistics.com/ads/$image,~third-party
 @@||sify.com/news/postcomments.php?*468x60.html
 @@||signin.verizon.com^*/affiliate/$subdocument,xmlhttprequest
 @@||sihanoukvilleonline.com/banners/sologo.png
