@@ -35,6 +35,7 @@ var HTTPSB = {
         deleteLocalStorage: false,
         displayTextSize: '13px',
         maxLoggedRequests: 50,
+        parseAllABPFilters: false,
         popupHideBlacklisted: false,
         popupCollapseDomains: false,
         popupCollapseSpecificDomains: {},
@@ -122,6 +123,7 @@ var HTTPSB = {
     browserCacheClearedCounter: 0,
     storageQuota: chrome.storage.local.QUOTA_BYTES,
     storageUsed: 0,
+    abpHitCount: 0,
 
     // internal state
     webRequestHandler: false,

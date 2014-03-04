@@ -29,6 +29,13 @@ $(function() {
 $('a').attr('target', '_blank');
 $('a[href*="dashboard.html"]').attr('target', '_parent');
 
+$('.whatisthis').on('click', function() {
+    $(this).parent()
+    .find('.whatisthis-expandable')
+    .toggleClass('whatisthis-expanded');
+});
+
+
 /******************************************************************************/
 
 });

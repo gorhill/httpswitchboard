@@ -215,6 +215,14 @@ function onBeforeRequestHandler(details) {
         block = httpsb.blacklisted(pageURL, type, hostname);
     }
 
+    // Block using ABP filters?
+    if ( !block ) {
+        block = httpsb.abpFilters.matchString(requestURL);
+        if ( block ) {
+            httpsb.abpHitCount += 1;
+        }
+    }
+
     // rhill 2014-01-15: Delay logging of non-blocked top `main_frame`
     // requests, in order to ensure any potential redirects is reported
     // in proper chronological order.

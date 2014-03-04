@@ -20,7 +20,6 @@ ul > li {
     margin: 0 0 0 1em;
     }
 .dim {
-    font-weight: 100;
     color: #888;
     }
 #userUbiquitousBlacklistedHosts {
@@ -42,12 +41,27 @@ ul > li {
     <p>All lists of blocked hosts are loaded as ubiquitous rules, hence these hosts are blacklisted in all scopes.</p>
     <span id="ubiquitousBlacklistCount">?</span> preset blacklisted hostnames from (number of distinct entries in parentheses):
     <ul id="blacklistTemplate" style="display:none">
-        <li class="blacklistDetails"><input type="checkbox" value="">&thinsp;<a href="" type="text/plain"></a>: <span>?</span> used out of <span>?</span>
+        <li class="blacklistDetails"><input type="checkbox" value="">&thinsp;<a href="" type="text/plain"></a>: 
+        <span class="dim"><span>?</span> used out of <span>?</span></span>
     </ul>
-    <ul id="blacklists" style="margin:0.5em 0 0 0;padding-left:1em;color:gray;list-style-type:none">
-        <li style="margin-top:0.5em"><button id="blacklistsApply" disabled="true">Apply changes</button>
+    <ul id="blacklists" style="margin:0.5em 0 0 0;padding-left:1em;list-style-type:none">
+        <li style="margin-top:0.75em"><input type="checkbox" id="parseAllABPFilters">Parse and enforce Adblock+ complex filters (beta). 
+        <span class="dim"><span>0</span> complex filters used.</span>
+        <button class="whatisthis"></button>
+        <div class="whatisthis-expandable para"><p>Normally, <i>HTTP Switchboard</i> will extract
+        from <i>Adblock Plus</i>-compatible filter lists <b>only</b> those filters which are used
+        to block an entire domain (example: "<b>||a.ucoz.net^</b>").</p>
+        <p>This option enables the parsing and enforcing of finer-grained <i>Adblock Plus</i>
+        filters (example: "<b>/adwords-conversion-tracking.</b>"). These complex filters are
+        incompatible with the matrix, and thus are only used internally to evaluate whether a
+        net request should be blocked: they have no user interface counterpart.</p>
+        <p>Even if this option is enabled, <i>Adblock Plus</i> filters used for allowing 
+        <a href="https://adblockplus.org/en/acceptable-ads">&ldquo;acceptable ads&rdquo;</a> and 
+        those used for <a href="https://adblockplus.org/en/filters#elemhide">element hiding</a> are
+        completely ignored.</p>
+        <p>Memory usage requirement is higher when this option is enabled.</p></div>
+        <li style="margin-top:0.75em"><button id="blacklistsApply" disabled="true">Apply changes</button>
     </ul>
-    <p>Obviously, more lists and/or larger lists enabled means larger memory footprint required by the extension.</p>
 </div>
 
 <h2 id="userUbiquitousBlacklistedHostsPrompt" data-i18n="ubiquitousUserBlockedHostsHeader">Your list of blocked hosts</h2>

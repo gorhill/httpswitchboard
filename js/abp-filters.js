@@ -1,0 +1,415 @@
+/*******************************************************************************
+
+    httpswitchboard - a Chromium browser extension to black/white list requests.
+    Copyright (C) 2013  Raymond Hill
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see {http://www.gnu.org/licenses/}.
+
+    Home: https://github.com/gorhill/httpswitchboard
+*/
+
+/******************************************************************************/
+
+(function(){
+
+/*******************************************************************************
+
+Some stats gathered on 2014-03-04
+
+Token size: 1
+Dict stats:
+	Token count: 10239
+	Largest list: "ad /_" has 223 ids
+
+Token size: 2
+Dict stats:
+	Token count: 10251
+	Largest list: "ad /_" has 223 ids
+
+Token size: 3
+Dict stats:
+	Token count: 10347
+	Largest list: "ads //" has 253 ids
+
+HTTPSB AA/BX
+URLs visited:	15
+Domains (3rd party / all):	39 / 40
+Hosts (3rd party / all):	83 / 134
+Scripts (3rd party / all):	161 / 255
+Outbound cookies (3rd party / all):	1 / 28
+Net requests (3rd party / all):	919 / 1,666
+Bandwidth:	25,102,732 bytes
+Requests blocked using Adblock+ filters: 449
+Idle mem after: 39 MB
+
+ABP
+URLs visited:	15
+Domains (3rd party / all):	52 / 53
+Hosts (3rd party / all):	95 / 151
+Scripts (3rd party / all):	175 / 283
+Outbound cookies (3rd party / all):	1 / 35
+Net requests (3rd party / all):	906 / 1,690
+Bandwidth:	25,440,697 bytes
+Idle mem after: 120 MB
+
+*/
+
+var runtimeId = 1;
+
+var filterDict = {};
+var filterDictFrozenCount = 0;
+var filterIndex = {};
+
+var reIgnoreFilter = /^\[|^!|##|@#|@@|^\|http/;
+var reConditionalRule = /\$/;
+var reHostnameRule = /^\|\|[a-z0-9.-]+\^?$/;
+var reToken = /[%0-9A-Za-z]{2,}/g;
+
+/******************************************************************************/
+
+var FilterEntry = function(token) {
+    this.id = runtimeId++;
+    this.token = token;
+    this.prefix = '';
+    this.suffix = '';
+};
+
+/******************************************************************************/
+
+// Reset all, thus reducing to a minimum memory footprint of the context.
+
+var reset = function() {
+    runtimeId = 1;
+    filterDict = {};
+    filterDictFrozenCount = 0;
+    filterIndex = {};
+};
+
+/******************************************************************************/
+
+// Given a string, find a good token. Tokens which are too generic, i.e. very
+// common while likely to be false positives, are not good, if possible.
+// These are collated manually. This has a *significant* positive impact on
+// performance.
+
+var badTokens = {
+    'com': true,
+    'http': true,
+    'https': true,
+    'js': true,
+    'www': true
+};
+
+var findGoodToken = function(s) {
+    reToken.lastIndex = 0;
+    var matches;
+    while ( matches = reToken.exec(s) ) {
+        if ( badTokens[matches[0]] === undefined ) {
+            return matches;
+        }
+    }
+    // No good token found, just return the first token found
+    reToken.lastIndex = 0;
+    return reToken.exec(s);
+};
+
+/******************************************************************************/
+
+var add = function(s) {
+    if ( filterDictFrozenCount !== 0 ) {
+        console.error("abpFilter.add()> Can't add, I'm frozen!");
+        return false;
+    }
+
+    // Ignore unsupported filters
+    if ( reIgnoreFilter.test(s) ) {
+        return false;
+    }
+
+    // Ignore rules with conditions for now
+    if ( reConditionalRule.test(s) ) {
+        return false;
+    }
+
+    // Ignore hostname rules, these will be taken care of by HTTPSB.
+    if ( reHostnameRule.test(s) ) {
+        return false;
+    }
+
+    // Ignore some directives for now
+    s = s.replace(/\^/g, '*');
+    s = s.replace(/\*\*+/g, '*');
+
+    // Remove pipes
+    s = s.replace(/^\|\|/, '');
+
+    // Already in dictionary?
+    var filter = filterDict[s];
+    if ( filter !== undefined ) {
+        return false;
+    }
+
+    // Index based on 1st token
+    var matches = findGoodToken(s);
+    if ( !matches ) {
+        return false;
+    }
+    var token = matches[0];
+
+    filter = new FilterEntry(token);
+    filterDict[s] = filter;
+
+    var prefix = s.slice(0, matches.index);
+    // Eliminate leading wildcards
+    var pos = 0;
+    while ( prefix.charAt(pos) === '*' ) {
+        pos += 1;
+    }
+    prefix = prefix.slice(pos);
+    filter.prefix = prefix;
+    var prefixClass;
+    if ( prefix.length > 0 ) {
+        prefixClass = prefix.charAt(prefix.length-1);
+    } else {
+        prefixClass = '0';
+    }
+
+    var suffix = s.slice(reToken.lastIndex);
+    // Eliminate trailing wildcards
+    pos = suffix.length;
+    while ( suffix.charAt(pos-1) === '*' ) {
+        pos -= 1;
+    }
+    suffix = suffix.slice(0, pos);
+    filter.suffix = suffix;
+    var suffixClass;
+    if ( suffix.length > 0 ) {
+        suffixClass = suffix.charAt(0);
+    } else {
+        suffixClass = '0';
+    }
+
+    // The filter index to use depends on the first character of prefix
+    var fidx = filterIndex;
+
+    if ( fidx[token] === undefined ) {
+        fidx[token] = {};
+    }
+    var classkey = prefixClass + suffixClass;
+    if ( fidx[token][classkey] === undefined ) {
+        fidx[token][classkey] = [filter.id];
+    } else {
+        fidx[token][classkey].push(filter.id);
+    }
+
+    return true;
+};
+
+
+/******************************************************************************/
+
+var mergeSubdict = function(token) {
+    var tokenEntry = filterIndex[token];
+    if ( tokenEntry === undefined ) {
+        return;
+    }
+    var list = [];
+    var value;
+    for ( var key in tokenEntry ) {
+        if ( !tokenEntry.hasOwnProperty(key) ) {
+            continue;
+        }
+        value = tokenEntry[key];
+        if ( typeof value === 'number' ) {
+            list.push(value);
+        } else {
+            list = list.concat(value);
+        }
+    }
+    filterIndex[token] = list.join(' ');
+};
+
+/******************************************************************************/
+
+var freeze = function() {
+    var fdict = filterDict;
+    var farr = [];
+    var f;
+    for ( var s in fdict ) {
+        if ( !fdict.hasOwnProperty(s) ) {
+            continue;
+        }
+        f = fdict[s];
+        farr[f.id] = f;
+    }
+    filterDict = farr;
+
+    var tokenEntry;
+    var key, value;
+    var lastKey;
+    var kCount, vCount, vCountTotal;
+    var tokenCountMax, kCountMax, vCountMax = 0;
+    for ( var token in filterIndex ) {
+        if ( !filterIndex.hasOwnProperty(token) ) {
+            continue;
+        }
+        tokenEntry = filterIndex[token];
+        kCount = vCount = vCountTotal = 0;
+        for ( key in tokenEntry ) {
+            if ( !tokenEntry.hasOwnProperty(key) ) {
+                continue;
+            }
+            // No need to mutate to a string if there is only one
+            // element in the array.
+            lastKey = key;
+            value = tokenEntry[key];
+            kCount += 1;
+            vCount = value.length;
+            vCountTotal += vCount;
+            if ( vCount < 2 ) {
+                tokenEntry[key] = value[0];
+            } else {
+                tokenEntry[key] = value.join(' ');
+            }
+            if ( vCount > vCountMax ) {
+                tokenCountMax = token;
+                kCountMax = key;
+                vCountMax = vCount;
+            }
+        }
+        // Merge all sub-dicts into a single one at token dict level, if there
+        // is not enough keys or values to justify the overhead.
+        // Also, no need for a sub-dict if there is only one key.
+        if ( kCount < 2 ) { 
+            filterIndex[token] = tokenEntry[lastKey];
+            continue;
+        }
+        if ( vCountTotal < 4 ) {
+            mergeSubdict(token);
+            continue;
+        }
+    }
+
+    filterDictFrozenCount = farr.length;
+
+    // console.log('Dict stats:');
+    // console.log('\tToken count:', Object.keys(filterIndex).length);
+    // console.log('\tLargest list: "%s %s" has %d ids', tokenCountMax, kCountMax, vCountMax);
+};
+
+/******************************************************************************/
+
+var matchFromIdList = function(s, tokenBeg, tokenEnd, list) {
+    if ( list === undefined ) {
+        return false;
+    }
+
+    var f;
+    if ( typeof list === 'number' ) {
+        f = filterDict[list];
+        if ( s.lastIndexOf(f.prefix, tokenBeg) !== (tokenBeg - f.prefix.length) ) {
+            return false;
+        }
+        if ( s.indexOf(f.suffix, tokenEnd) !== tokenEnd ) {
+            return false;
+        }
+        // console.log('HTTPBA.filters.matchFromIdList(): "%s" matches "%s"', f.prefix + f.token + f.suffix, s);
+        return true;
+    }
+
+    var idListEnd = list.length;
+    var idBeg = 0, idEnd;
+    while ( idBeg < idListEnd ) {
+        idEnd = list.indexOf(' ', idBeg);
+        if ( idEnd < 0 ) {
+            idEnd = idListEnd;
+        }
+        f = filterDict[list.slice(idBeg, idEnd)];
+        idBeg = idEnd + 1;
+        if ( s.lastIndexOf(f.prefix, tokenBeg) !== (tokenBeg - f.prefix.length) ) {
+            continue;
+        }
+        if ( s.indexOf(f.suffix, tokenEnd) !== tokenEnd ) {
+            continue;
+        }
+        // console.log('HTTPBA.filters.matchFromIdList(): "%s" matches "%s"', f.prefix + f.token + f.suffix, s);
+        return true;
+    }
+    return false;
+};
+
+/******************************************************************************/
+
+var matchString = function(s) {
+    if ( filterDictFrozenCount === 0 ) {
+        return false;
+    }
+
+    var matches;
+    var token, tokenEntry;
+    var tokenBeg, tokenEnd;
+    var prefixKey, suffixKey;
+
+    reToken.lastIndex = 0;
+    while ( matches = reToken.exec(s) ) {
+        token = matches[0];
+        tokenEntry = filterIndex[token];
+        if ( tokenEntry === undefined ) {
+            continue;
+        }
+        tokenBeg = matches.index;
+        tokenEnd = reToken.lastIndex;
+        if ( typeof tokenEntry !== 'object' ) {
+            if ( matchFromIdList(s, tokenBeg, tokenEnd, tokenEntry) ) {
+                return true;
+            }
+            continue;
+        }
+        prefixKey = tokenBeg > 0 ? s.charAt(matches.index-1) : '0';
+        suffixKey = tokenEnd < s.length ? s.charAt(tokenEnd) : '0';
+        if ( matchFromIdList(s, tokenBeg, tokenEnd, tokenEntry[prefixKey + suffixKey]) ) {
+            return true;
+        }
+        if ( matchFromIdList(s, tokenBeg, tokenEnd, tokenEntry[prefixKey + '0']) ) {
+            return true;
+        }
+        if ( matchFromIdList(s, tokenBeg, tokenEnd, tokenEntry['0' + suffixKey]) ) {
+            return true;
+        }
+    }
+
+    return false;
+};
+
+/******************************************************************************/
+
+var getFilterCount = function() {
+    return filterDictFrozenCount;
+};
+
+/******************************************************************************/
+
+HTTPSB.abpFilters = {
+    add: add,
+    freeze: freeze,
+    reset: reset,
+    matchString: matchString,
+    getFilterCount: getFilterCount
+};
+
+/******************************************************************************/
+
+})();
+
+/******************************************************************************/

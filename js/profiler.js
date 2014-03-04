@@ -23,14 +23,14 @@
 
 function Profiler() {
     this.time = 0;
-    this.count = 0;
+    this.count = -3;
     this._start = 0;
     this._lastlog = 0;
 }
 
 Profiler.prototype.reset = function() {
     this.time = 0;
-    this.count = 0;
+    this.count = -3;
     this._start = 0;
 };
 
@@ -39,12 +39,14 @@ Profiler.prototype.start = function() {
 };
 
 Profiler.prototype.stop = function(s) {
-    var now = Date.now();
-    this.time += now - this._start;
     this.count += 1;
-    if ( (now - this._lastlog) > 10000 ) {
-        console.log('HTTP Switchboard Profiler() > %s: %f ms per iteration', s, this.avg());
-        this._lastlog = now;
+    if ( this.count > 0 ) {
+        var now = Date.now();
+        this.time += now - this._start;
+        if ( (now - this._lastlog) > 10000 ) {
+            console.log('HTTP Switchboard Profiler() > %s: %f ms per iteration', s, this.avg());
+            this._lastlog = now;
+        }
     }
 };
 

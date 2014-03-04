@@ -154,6 +154,7 @@ function renderStats() {
         '#cookieHeaderFoiledCounter': httpsb.cookieHeaderFoiledCounter,
         '#refererHeaderFoiledCounter': httpsb.refererHeaderFoiledCounter,
         '#browserCacheClearedCounter': httpsb.browserCacheClearedCounter,
+        '#abpHitCount': httpsb.abpHitCount,
         '#blockedAllCount': requestStats.blocked.all,
         '#blockedMainFrameCount': blockedStats.main_frame,
         '#blockedCookieCount': blockedStats.cookie,

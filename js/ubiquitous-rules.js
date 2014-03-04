@@ -38,6 +38,16 @@ function gethttpsb() {
 
 /******************************************************************************/
 
+function changeUserSettings(name, value) {
+    chrome.runtime.sendMessage({
+        what: 'userSettings',
+        name: name,
+        value: value
+    });
+}
+
+/******************************************************************************/
+
 function renderNumber(value) {
     // TODO: localization
     if ( +value > 1000 ) {
@@ -83,12 +93,16 @@ function renderBlacklists() {
             child.attr('href', blacklistName);
             child.text(blacklistName);
         }
-        child = $('span:nth-of-type(1)', li);
+        child = $('span span:nth-of-type(1)', li);
         child.text(!blacklist.off && !isNaN(+blacklist.entryUsedCount) ? renderNumber(blacklist.entryUsedCount) : '0');
-        child = $('span:nth-of-type(2)', li);
+        child = $('span span:nth-of-type(2)', li);
         child.text(!isNaN(+blacklist.entryCount) ? renderNumber(blacklist.entryCount) : '?');
         ul.prepend(li);
     }
+    $('#parseAllABPFilters').attr('checked', httpsb.userSettings.parseAllABPFilters === true);
+    $('#parseAllABPFilters + span > span').text(renderNumber(httpsb.abpFilters.getFilterCount()));
+
+
     selectedBlacklistsHash = getSelectedBlacklistsHash();
 }
 
@@ -111,6 +125,9 @@ function getSelectedBlacklistsHash() {
         }
         hash += entryHash;
     }
+    // Factor in whether ABP filters are to be processed
+    hash += $('#parseAllABPFilters').prop('checked').toString();
+    
     return hash;
 }
 
@@ -165,6 +182,13 @@ function blacklistsApplyHandler() {
         switches: switches
     });
     $('#blacklistsApply').attr('disabled', true );
+}
+
+/******************************************************************************/
+
+function abpFiltersCheckboxChanged() {
+    changeUserSettings('parseAllABPFilters', $(this).is(':checked'));
+    selectedBlacklistsChanged();
 }
 
 /******************************************************************************/
@@ -250,8 +274,9 @@ function onMessageHandler(request, sender) {
 
 $(function() {
     // Handle user interaction
-    $('#blacklistsApply').on('click', blacklistsApplyHandler);
     $('#blacklists').on('change', '.blacklistDetails', selectedBlacklistsChanged);
+    $('#blacklistsApply').on('click', blacklistsApplyHandler);
+    $('#parseAllABPFilters').on('change', abpFiltersCheckboxChanged);
     $('#userBlacklistApply').on('click', userBlacklistApplyHandler);
     $('#userUbiquitousBlacklistedHosts').on('input propertychange', userBlacklistChanged);
     $('#importUserBlacklistFromFile').on('click', appentToUserBlacklistFromFile);

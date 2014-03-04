@@ -130,12 +130,6 @@ $(function() {
         changeUserSettings('processReferer', $(this).is(':checked'));
     });
 
-    $('.whatisthis').on('click', function() {
-        $(this).parent()
-        .find('.expandable')
-        .toggleClass('expanded');
-    });
-
     $('#bye').on('click', function() {
         onChangeValueHandler($('#delete-unused-session-cookies-after'), 'deleteUnusedSessionCookiesAfter', 15, 1440);
         onChangeValueHandler($('#clear-browser-cache-after'), 'clearBrowserCacheAfter', 15, 1440);

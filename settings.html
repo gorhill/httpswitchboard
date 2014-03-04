@@ -23,34 +23,6 @@ ul > li {
     font-weight: 100;
     color: #888;
     }
-.whatisthis {
-    margin: 0 0 0 8px;
-    border: 0;
-    padding: 0 0 4px 0;
-    width: 16px;
-    height: 16px;
-    background: url('img/help16.png') no-repeat right bottom 1px;
-    cursor: pointer;
-    opacity: 0.5;
-    }
-.whatisthis:hover {
-    opacity: 1.0;
-    }
-.expandable {
-    margin: 0.5em 0 1em 1.25em;
-    padding: 0.5em;
-    display: none;
-    border: 1px dotted black;
-    background-color: #F8F8F8;
-    }
-.expandable.expanded {
-    display: block;
-    }
-.warn {
-    margin: 0;
-    padding: 5px;
-    background-color: #FEDAE0;
-    }
 </style>
 </head>
 
@@ -66,22 +38,22 @@ ul > li {
     <li>&nbsp;
     <li>
         <input id="smart-auto-reload" type="checkbox" value=""><span data-i18n="settingsMatrixAutoReloadPrompt"></span> <button class="whatisthis"></button>
-        <div class="expandable para" data-i18n="settingsMatrixAutoReloadInfo"></div>
+        <div class="whatisthis-expandable para" data-i18n="settingsMatrixAutoReloadInfo"></div>
 
     <li><h3 data-i18n="settingsMatrixMoreSecurityHeader"></h3>
     <ul>
         <li>
             <input id="strict-blocking" type="checkbox" value=""><span data-i18n="settingsStrictBlockingPrompt"></span> <button class="whatisthis"></button>
-            <div class="expandable para" data-i18n="settingsStrictBlockingInfo"></div>
+            <div class="whatisthis-expandable para" data-i18n="settingsStrictBlockingInfo"></div>
         <li>
             <input id="auto-create-site-scope" type="checkbox" value=""><span data-i18n="settingsAutoCreateSiteScopePrompt"></span> <button class="whatisthis"></button>
-            <div class="expandable para" data-i18n="settingsAutoCreateSiteScopeInfo"></div>
+            <div class="whatisthis-expandable para" data-i18n="settingsAutoCreateSiteScopeInfo"></div>
         </ul>
     <li><h3 data-i18n="settingsMatrixLessSecurityHeader"></h3>
     <ul>
         <li>
             <input id="auto-whitelist-page-domain" type="checkbox" value=""><span data-i18n="settingsAutoWhitelistPrompt"></span> <button class="whatisthis"></button>
-            <div class="expandable para" data-i18n="settingsAutoWhitelistHelp"></div>
+            <div class="whatisthis-expandable para" data-i18n="settingsAutoWhitelistHelp"></div>
         </ul>
 </ul>
 
@@ -90,24 +62,24 @@ ul > li {
     <li>
         <input id="delete-blacklisted-cookies" type="checkbox" value=""><span data-i18n="settingsDeleteBlockedCookiesPrompt"></span>
         <button class="whatisthis"></button>
-        <div class="expandable para" data-i18n="settingsDeleteBlockedCookiesHelp"></div>
+        <div class="whatisthis-expandable para" data-i18n="settingsDeleteBlockedCookiesHelp"></div>
     <li>
         <input id="delete-unused-session-cookies" type="checkbox" value="">Delete non-blocked session cookies
         <input id="delete-unused-session-cookies-after" type="text" value="60" size="3">minutes after
         the last time they have been used.
         <button class="whatisthis"></button>
-        <div class="expandable para" data-i18n="settingsDeleteNonBlockedSessionCookiesHelp"></div>
+        <div class="whatisthis-expandable para" data-i18n="settingsDeleteNonBlockedSessionCookiesHelp"></div>
     <li>
         <input id="delete-blacklisted-localstorage" type="checkbox" value=""><span data-i18n="settingsDeleteBlockedLocalStoragePrompt"></span>
     <li>
         <input id="clear-browser-cache" type="checkbox" value="">Clear browser cache every
         <input id="clear-browser-cache-after" type="text" value="60" size="3">minutes.
         <button class="whatisthis"></button>
-        <div class="expandable para" data-i18n="settingsClearCacheHelp"></div>
+        <div class="whatisthis-expandable para" data-i18n="settingsClearCacheHelp"></div>
     <li>
         <input id="process-referer" type="checkbox" value=""><span data-i18n="settingsProcessRefererPrompt"></span>
         <button class="whatisthis"></button>
-        <div class="expandable para" data-i18n="settingsProcessRefererHelp"></div>
+        <div class="whatisthis-expandable para" data-i18n="settingsProcessRefererHelp"></div>
 </ul>
 
 <h2 data-i18n="settingsBehindTheSceneHeader"></h2>

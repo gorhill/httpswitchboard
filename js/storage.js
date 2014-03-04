@@ -202,6 +202,7 @@ function loadRemoteBlacklistsHandler(store) {
 
     // rhill 2013-12-10: set all existing entries to `false`.
     httpsb.ubiquitousBlacklist.reset();
+    httpsb.abpFilters.reset();
 
     // Load each preset blacklist which is not disabled.
     for ( var location in store.remoteBlacklists ) {
@@ -269,6 +270,7 @@ function onLoadUbiquitousBlacklistCompleted() {
     chrome.runtime.sendMessage({ what: 'loadUbiquitousBlacklistCompleted' });
 
     HTTPSB.ubiquitousBlacklist.freeze();
+    HTTPSB.abpFilters.freeze();
 }
 
 /******************************************************************************/
@@ -312,43 +314,44 @@ function mergeBlacklistedHosts(details) {
     };
 
     var ubiquitousBlacklist = httpsb.ubiquitousBlacklist;
+    var abpFilters = httpsb.userSettings.parseAllABPFilters ? httpsb.abpFilters : null;
     var thisListCount = 0;
     var thisListUsedCount = 0;
     var localhostRegex = /(^|\b)(localhost\.localdomain|localhost|local|broadcasthost|0\.0\.0\.0|127\.0\.0\.1|::1|fe80::1%lo0)(\b|$)/g;
     var lineBeg = 0;
     var lineEnd;
-    var key, pos;
+    var line, pos;
     while ( lineBeg < rawEnd ) {
         lineEnd = raw.indexOf('\n', lineBeg);
         if ( lineEnd < 0 ) {
             lineEnd = rawEnd;
         }
-        key = raw.slice(lineBeg, lineEnd);
+        line = raw.slice(lineBeg, lineEnd);
         lineBeg = lineEnd + 1;
 
         // rhill 2014-01-22: Transpose possible Adblock Plus-filter syntax
         // into a plain hostname if possible.
         // Useful reference: https://adblockplus.org/en/filter-cheatsheet#blocking2
         if ( adblock ) {
-            if ( key.indexOf('||') !== 0 ) {
+            if ( abpFilters && abpFilters.add(line) ) {
                 continue;
             }
-            key = hostFromAdblockFilter(key);
+            line = hostFromAdblockFilter(line);
         }
 
-        pos = key.indexOf('#');
+        pos = line.indexOf('#');
         if ( pos >= 0 ) {
-            key = key.slice(0, pos);
+            line = line.slice(0, pos);
         }
         // https://github.com/gorhill/httpswitchboard/issues/15
         // Ensure localhost et al. don't end up on the read-only blacklist.
-        key = key.replace(localhostRegex, ' ');
-        key = key.trim();
-        if ( !key.length ) {
+        line = line.replace(localhostRegex, ' ');
+        line = line.trim();
+        if ( !line.length ) {
             continue;
         }
         thisListCount++;
-        if ( ubiquitousBlacklist.add(key) ) {
+        if ( ubiquitousBlacklist.add(line) ) {
             thisListUsedCount++;
         }
     }
