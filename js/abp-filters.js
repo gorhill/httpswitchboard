@@ -239,8 +239,13 @@ var mergeSubdict = function(token) {
 /******************************************************************************/
 
 var freeze = function() {
-    var fdict = filterDict;
+    // TODO: find out if JS engine translate the stringified id into
+    // a number internally. I would think not, but if so, than there might
+    // be a performance hit. The JS array results in a smaller memory
+    // footprint... Need to evaluate the optimal representation.
     var farr = [];
+    var fdict = filterDict;
+
     var f;
     for ( var s in fdict ) {
         if ( !fdict.hasOwnProperty(s) ) {
