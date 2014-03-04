@@ -74,7 +74,10 @@ var filterIndex = {};
 var reIgnoreFilter = /^\[|^!|##|@#|@@|^\|http/;
 var reConditionalRule = /\$/;
 var reHostnameRule = /^\|\|[a-z0-9.-]+\^?$/;
+var reWildcardRule = /[^*][*]+[^*]/;
 var reToken = /[%0-9A-Za-z]{2,}/g;
+
+// My favorite regex tester: http://regexpal.com/
 
 /******************************************************************************/
 
@@ -142,14 +145,19 @@ var add = function(s) {
         return false;
     }
 
+    // Ignore some directives for now
+    s = s.replace(/\^/g, '*');
+    s = s.replace(/\*\*+/g, '*');
+
+    // Ignore rules with a wildcard in the middle
+    if ( reWildcardRule.test(s) ) {
+        return false;
+    }
+
     // Ignore hostname rules, these will be taken care of by HTTPSB.
     if ( reHostnameRule.test(s) ) {
         return false;
     }
-
-    // Ignore some directives for now
-    s = s.replace(/\^/g, '*');
-    s = s.replace(/\*\*+/g, '*');
 
     // Remove pipes
     s = s.replace(/^\|\|/, '');
@@ -178,12 +186,7 @@ var add = function(s) {
     }
     prefix = prefix.slice(pos);
     filter.prefix = prefix;
-    var prefixClass;
-    if ( prefix.length > 0 ) {
-        prefixClass = prefix.charAt(prefix.length-1);
-    } else {
-        prefixClass = '0';
-    }
+    var prefixKey = prefix.length > 0 ? prefix.charAt(prefix.length-1) : '0';
 
     var suffix = s.slice(reToken.lastIndex);
     // Eliminate trailing wildcards
@@ -193,24 +196,17 @@ var add = function(s) {
     }
     suffix = suffix.slice(0, pos);
     filter.suffix = suffix;
-    var suffixClass;
-    if ( suffix.length > 0 ) {
-        suffixClass = suffix.charAt(0);
-    } else {
-        suffixClass = '0';
-    }
+    var suffixKey = suffix.length > 0 ? suffix.charAt(0) : '0';
 
-    // The filter index to use depends on the first character of prefix
     var fidx = filterIndex;
-
     if ( fidx[token] === undefined ) {
         fidx[token] = {};
     }
-    var classkey = prefixClass + suffixClass;
-    if ( fidx[token][classkey] === undefined ) {
-        fidx[token][classkey] = [filter.id];
+    var listkey = prefixKey + suffixKey;
+    if ( fidx[token][listkey] === undefined ) {
+        fidx[token][listkey] = [filter.id];
     } else {
-        fidx[token][classkey].push(filter.id);
+        fidx[token][listkey].push(filter.id);
     }
 
     return true;
