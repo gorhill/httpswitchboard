@@ -88,6 +88,11 @@ CNN:
             frame cnn.com
             * turner.com
             * cnn-f.akamaihd.net
+    scope: chromium-behind-the-scene
+        whitelist: |
+            # Needed for video
+            plugin cnn.com
+            plugin turner.com
 
 Daily Motion:
     keys: www.dailymotion.com
