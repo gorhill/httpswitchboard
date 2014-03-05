@@ -263,31 +263,23 @@ var matchString = function(s) {
         token = matches[0];
         tokenBeg = matches.index;
         tokenEnd = reToken.lastIndex;
-        prefixKey = tokenBeg > 0 ? s.charAt(matches.index-1) : '0';
-        suffixKey = tokenEnd < s.length ? s.charAt(tokenEnd) : '0';
+        prefixKey = tokenBeg > 0 ? s.charAt(matches.index-1) : false;
+        suffixKey = tokenEnd < sLen ? s.charAt(tokenEnd) : false;
 
-        if ( tokenBeg > 0 && tokenEnd < sLen ) {
-            if ( matchFromSomething(s, tokenBeg, tokenEnd, fidx[prefixKey + token + suffixKey]) ||
-                 matchFromSomething(s, tokenBeg, tokenEnd, fidx[prefixKey + token + '0']) ||
-                 matchFromSomething(s, tokenBeg, tokenEnd, fidx['0' + token + suffixKey]) ||
-                 matchFromSomething(s, tokenBeg, tokenEnd, fidx['0' + token + '0']) ) {
+        if ( prefixKey && suffixKey ) {
+            if ( matchFromSomething(s, tokenBeg, tokenEnd, fidx[prefixKey + token + suffixKey]) ) {
                 return true;
             }
-            continue;
         }
-        if ( tokenBeg > 0 ) {
-            if ( matchFromSomething(s, tokenBeg, tokenEnd, fidx[prefixKey + token + '0']) ||
-                 matchFromSomething(s, tokenBeg, tokenEnd, fidx['0' + token + '0']) ) {
+        if ( prefixKey ) {
+            if ( matchFromSomething(s, tokenBeg, tokenEnd, fidx[prefixKey + token + '0']) ) {
                 return true;
             }
-            continue;
         }
-        if ( tokenEnd < sLen ) {
-            if ( matchFromSomething(s, tokenBeg, tokenEnd, fidx['0' + token + suffixKey]) ||
-                 matchFromSomething(s, tokenBeg, tokenEnd, fidx['0' + token + '0']) ) {
+        if ( suffixKey ) {
+            if ( matchFromSomething(s, tokenBeg, tokenEnd, fidx['0' + token + suffixKey]) ) {
                 return true;
             }
-            continue;
         }
         if ( matchFromSomething(s, tokenBeg, tokenEnd, fidx['0' + token + '0']) ) {
             return true;
