@@ -28,22 +28,14 @@ HTTPSB.turnOn();
 /******************************************************************************/
 
 function onUpdatedTabsHandler(tabId, changeInfo, tab) {
-    // Can this happen?
-    if ( !tab.url || !tab.url.length ) {
-        return;
-    }
-
-    var pageURL = uriTools.normalizeURI(tab.url);
-
-    // console.debug('tabs.onUpdated > tabId=%d changeInfo=%o tab=%o', tabId, changeInfo, tab);
-    var protocol = uriTools.schemeFromURI(pageURL);
-    if ( protocol !== 'http' && protocol !== 'https' ) {
-        return;
-    }
-
     // Following code is for script injection, which makes sense only if
     // web page in tab is completely loaded.
     if ( changeInfo.status !== 'complete' ) {
+        return;
+    }
+
+    // Can this happen?
+    if ( !tab.url || !tab.url.length ) {
         return;
     }
 
@@ -51,7 +43,13 @@ function onUpdatedTabsHandler(tabId, changeInfo, tab) {
     // better than building a state snapshot dynamically when requests are
     // recorded, because here we are not afflicted by the browser cache
     // mechanism.
-    var pageStats = HTTPSB.pageStatsFromPageUrl(pageURL);
+
+    // rhill 2014-03-05: Use tab id instead of page URL: this allows a
+    // blocked page using HTTPSB internal data URI-based page to be properly
+    // unblocked when user un-blacklist the hostname.
+    // https://github.com/gorhill/httpswitchboard/issues/198
+
+    var pageStats = HTTPSB.pageStatsFromTabId(tabId);
     if ( pageStats ) {
         pageStats.state = HTTPSB.computeTabState(tabId);
     }

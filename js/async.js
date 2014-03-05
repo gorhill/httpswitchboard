@@ -219,7 +219,11 @@ function onMessageHandler(request, sender, callback) {
             break;
 
         case 'gotoURL':
-            chrome.tabs.create({ url: request.url });
+            if ( request.tabId ) {
+                chrome.tabs.update(request.tabId, { url: request.url });
+            } else {
+                chrome.tabs.create({ url: request.url });
+            }
             break;
 
         case 'localAssetUpdated':
