@@ -97,6 +97,54 @@ background: #c00; \
 
 /******************************************************************************/
 
+// If it is HTTP Switchboard's root frame replacement URL, verify that
+// the page that was blacklisted is still blacklisted, and if not,
+// redirect to the previously blacklisted page.
+
+function onBeforeChromeExtensionRequestHandler(details) {
+    var requestURL = details.url;
+
+    // Is it me?
+    if ( requestURL.indexOf(chrome.runtime.id) < 0 ) {
+        return;
+    }
+
+    // Is it a top frame?
+    if ( details.parentFrameId >= 0 ) {
+        return;
+    }
+
+    // Is it the noop css file?
+    var httpsb = HTTPSB;
+    if ( requestURL.indexOf(httpsb.noopCSSURL) !== 0 ) {
+        return;
+    }
+
+    // rhill 2013-12-10: Avoid regex whenever a faster indexOf() can be used:
+    // here we can use fast indexOf() as a first filter -- which is executed
+    // for every single request (so speed matters).
+    var matches = requestURL.match(/url=([^&]+)&hostname=([^&]+)/);
+    if ( !matches ) {
+        return;
+    }
+
+    // Is the target page still blacklisted?
+    var pageURL = decodeURIComponent(matches[1]);
+    var hostname = decodeURIComponent(matches[2]);
+    if ( httpsb.blacklisted(pageURL, 'main_frame', hostname) ) {
+        return;
+    }
+
+    // Reload to cancel jailing
+    chrome.runtime.sendMessage({
+        what: 'gotoURL',
+        tabId: details.tabId,
+        url: pageURL
+    });
+}
+
+/******************************************************************************/
+
 // Intercept and filter web requests according to white and black lists.
 
 function onBeforeRequestHandler(details) {
@@ -111,43 +159,22 @@ function onBeforeRequestHandler(details) {
 
     // quickProfiler.start();
 
-    var canEvaluate = true;
     var httpsb = HTTPSB;
+
+    // Don't block chrome extensions
+    if ( requestURL.indexOf(httpsb.chromeExtensionURLPrefix) === 0 ) {
+        onBeforeChromeExtensionRequestHandler(details);
+        // quickProfiler.stop('onBeforeRequestHandler');
+        return;
+    }
+
+    var canEvaluate = true;
     var tabId = details.tabId;
 
     // Do not ignore traffic outside tabs
     if ( tabId < 0 ) {
         tabId = httpsb.behindTheSceneTabId;
         // console.debug('onBeforeRequestHandler()> behind-the-scene: "%s"', details.url);
-    }
-
-    var hostname, pageURL;
-
-    // Don't block chrome extensions
-    // rhill 2013-12-10: Avoid regex whenever a faster indexOf() can be used:
-    // here we can use fast indexOf() as a first filter -- which is executed
-    // for every single request (so speed matters).
-    if ( requestURL.indexOf(httpsb.chromeExtensionURLPrefix) === 0 ) {
-        // If it is HTTP Switchboard's root frame replacement URL, verify that
-        // the page that was blacklisted is still blacklisted, and if not,
-        // redirect to the previously blacklisted page.
-        if ( details.parentFrameId < 0 && requestURL.indexOf(httpsb.noopCSSURL) === 0 ) {
-            var matches = requestURL.match(/url=([^&]+)&hostname=([^&]+)/);
-            if ( matches ) {
-                pageURL = decodeURIComponent(matches[1]);
-                hostname = decodeURIComponent(matches[2]);
-                if ( httpsb.whitelisted(pageURL, 'main_frame', hostname) ) {
-                    chrome.runtime.sendMessage({
-                        what: 'gotoURL',
-                        tabId: tabId,
-                        url: pageURL
-                    });
-                }
-            }
-        }
-        // Chrome extensions are not processed further
-        // quickProfiler.stop('onBeforeRequestHandler');
-        return;
     }
 
     // Normalizing will get rid of the fragment part
@@ -194,8 +221,9 @@ function onBeforeRequestHandler(details) {
         pageStats.ignore = true;
     }
 
-    hostname = uriTools.hostnameFromURI(requestURL);
-    pageURL = httpsb.pageUrlFromPageStats(pageStats);
+    var hostname = uriTools.hostnameFromURI(requestURL);
+    var pageURL = httpsb.pageUrlFromPageStats(pageStats);
+
 
     // rhill 2013-12-15:
     // Try to transpose generic `other` category into something more
