@@ -331,6 +331,13 @@ function targetUrlChangeHandler() {
 
 /******************************************************************************/
 
+function prepareToDie() {
+    changeValueHandler($('#max-logged-requests'), 'maxLoggedRequests', 0, 999);
+    $('input,button,select').off();
+}
+
+/******************************************************************************/
+
 // Handle user interaction
 
 $(function(){
@@ -351,9 +358,10 @@ $(function(){
     $('#refresh-requests').on('click', renderRequests);
     $('input[id^="show-"][type="checkbox"]').on('change', changeFilterHandler);
     $('#selectPageUrls').on('change', targetUrlChangeHandler);
-    $('#max-logged-requests').on('change', function(){
-        changeValueHandler($(this), 'maxLoggedRequests', 0, 999);
-    });
+    $('#max-logged-requests').on('change', function(){ changeValueHandler($(this), 'maxLoggedRequests', 0, 999); })
+
+    // https://github.com/gorhill/httpswitchboard/issues/197
+    $(window).one('beforeunload', prepareToDie);
 
     renderTransientData(true);
     renderRequests();
