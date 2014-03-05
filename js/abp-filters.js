@@ -122,7 +122,7 @@ var findGoodToken = function(s) {
             return matches;
         }
     }
-    // No good token found, just return the first token found
+    // No good token found, just return the first token from left
     reToken.lastIndex = 0;
     return reToken.exec(s);
 };
@@ -168,7 +168,7 @@ var add = function(s) {
         return false;
     }
 
-    // Index based on 1st token
+    // Index based on 1st good token
     var matches = findGoodToken(s);
     if ( !matches ) {
         return false;
