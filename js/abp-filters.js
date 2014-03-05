@@ -65,8 +65,6 @@ Idle mem after: 120 MB
 
 */
 
-var runtimeId = 1;
-
 var filterDict = {};
 var filterDictFrozenCount = 0;
 var filterIndex = {};
@@ -82,7 +80,6 @@ var reToken = /[%0-9A-Za-z]{2,}/g;
 /******************************************************************************/
 
 var FilterEntry = function(token) {
-    this.id = runtimeId++;
     this.token = token;
     this.prefix = '';
     this.suffix = '';
@@ -101,7 +98,6 @@ FilterEntry.prototype.matchString = function(s, tokenBeg, tokenEnd) {
 // Reset all, thus reducing to a minimum memory footprint of the context.
 
 var reset = function() {
-    runtimeId = 1;
     filterDict = {};
     filterDictFrozenCount = 0;
     filterIndex = {};
@@ -110,9 +106,10 @@ var reset = function() {
 /******************************************************************************/
 
 // Given a string, find a good token. Tokens which are too generic, i.e. very
-// common while likely to be false positives, are not good, if possible.
-// These are collated manually. This has a *significant* positive impact on
+// common with a high probability of ending up as a false positive, are not
+// good. Avoid if possible. This has a *significant* positive impact on
 // performance.
+// These "bad tokens" are collated manually.
 
 var badTokens = {
     'com': true,
@@ -207,136 +204,34 @@ var add = function(s) {
     var suffixKey = suffix.length > 0 ? suffix.charAt(0) : '0';
 
     var fidx = filterIndex;
-    if ( fidx[token] === undefined ) {
-        fidx[token] = {};
-    }
-    var listkey = prefixKey + suffixKey;
-    if ( fidx[token][listkey] === undefined ) {
-        fidx[token][listkey] = [filter.id];
+    var tokenKey = prefixKey + token + suffixKey;
+    var tokenEntry = fidx[tokenKey];
+    if ( tokenEntry === undefined ) {
+        fidx[tokenKey] = filter;
+    } else if ( tokenEntry instanceof FilterEntry ) {
+        fidx[tokenKey] = [tokenEntry, filter];
     } else {
-        fidx[token][listkey].push(filter.id);
+        tokenEntry.push(filter);
     }
 
     return true;
 };
 
-
-/******************************************************************************/
-
-var mergeSubdict = function(token) {
-    var tokenEntry = filterIndex[token];
-    if ( tokenEntry === undefined ) {
-        return;
-    }
-    var list = [];
-    var value;
-    for ( var key in tokenEntry ) {
-        if ( !tokenEntry.hasOwnProperty(key) ) {
-            continue;
-        }
-        value = tokenEntry[key];
-        if ( typeof value === 'number' ) {
-            list.push(value);
-        } else {
-            list = list.concat(value);
-        }
-    }
-    filterIndex[token] = list.join(' ');
-};
-
 /******************************************************************************/
 
 var freeze = function() {
-    // TODO: find out if JS engine translate the stringified id into
-    // a number internally. I would think not, but if so, than there might
-    // be a performance hit. The JS array results in a smaller memory
-    // footprint... Need to evaluate the optimal representation.
-    var farr = [];
-    var fdict = filterDict;
-
-    var f;
-    for ( var s in fdict ) {
-        if ( !fdict.hasOwnProperty(s) ) {
-            continue;
-        }
-        f = fdict[s];
-        farr[f.id] = f;
-    }
-    filterDict = farr;
-
-    var tokenEntry;
-    var key, value;
-    var lastKey;
-    var kCount, vCount, vCountTotal;
-    var tokenCountMax, kCountMax, vCountMax = 0;
-    for ( var token in filterIndex ) {
-        if ( !filterIndex.hasOwnProperty(token) ) {
-            continue;
-        }
-        tokenEntry = filterIndex[token];
-        kCount = vCount = vCountTotal = 0;
-        for ( key in tokenEntry ) {
-            if ( !tokenEntry.hasOwnProperty(key) ) {
-                continue;
-            }
-            // No need to mutate to a string if there is only one
-            // element in the array.
-            lastKey = key;
-            value = tokenEntry[key];
-            kCount += 1;
-            vCount = value.length;
-            vCountTotal += vCount;
-            if ( vCount < 2 ) {
-                tokenEntry[key] = value[0];
-            } else {
-                tokenEntry[key] = value.join(' ');
-            }
-            if ( vCount > vCountMax ) {
-                tokenCountMax = token;
-                kCountMax = key;
-                vCountMax = vCount;
-            }
-        }
-        // Merge all sub-dicts into a single one at token dict level, if there
-        // is not enough keys or values to justify the overhead.
-        // Also, no need for a sub-dict if there is only one key.
-        if ( kCount < 2 ) { 
-            filterIndex[token] = tokenEntry[lastKey];
-            continue;
-        }
-        if ( vCountTotal < 4 ) {
-            mergeSubdict(token);
-            continue;
-        }
-    }
-
-    filterDictFrozenCount = farr.length;
-
-    // console.log('Dict stats:');
-    // console.log('\tToken count:', Object.keys(filterIndex).length);
-    // console.log('\tLargest list: "%s %s" has %d ids', tokenCountMax, kCountMax, vCountMax);
+    filterDictFrozenCount = Object.keys(filterDict).length;
+    filterDict = null;
 };
 
 /******************************************************************************/
 
-var matchFromFilterIndex = function(s, tokenBeg, tokenEnd, index) {
-    return filterDict[index].matchString(s, tokenBeg, tokenEnd);
-};
-
-/******************************************************************************/
-
-var matchFromFilterIndices = function(s, tokenBeg, tokenEnd, indices) {
-    var indicesEnd = indices.length;
-    var indexBeg = 0, indexEnd;
-    while ( indexBeg < indicesEnd ) {
-        indexEnd = indices.indexOf(' ', indexBeg);
-        if ( indexEnd < 0 ) {
-            indexEnd = indicesEnd;
-        }
-        if ( filterDict[indices.slice(indexBeg, indexEnd)].matchString(s, tokenBeg, tokenEnd) ) {
+var matchFromFilterArray = function(s, tokenBeg, tokenEnd, filters) {
+    var i = filters.length;
+    while ( i-- ) {
+        if ( filters[i].matchString(s, tokenBeg, tokenEnd) ) {
             return true;
         }
-        indexBeg = indexEnd + 1;
     }
     return false;
 };
@@ -347,54 +242,54 @@ var matchFromSomething = function(s, tokenBeg, tokenEnd, something) {
     if ( something === undefined ) {
         return false;
     }
-    if ( typeof something === 'number') {
-        return filterDict[something].matchString(s, tokenBeg, tokenEnd);
-    }
-    if ( typeof something === 'string') {
-        return matchFromFilterIndices(s, tokenBeg, tokenEnd, something);
-    }
     if ( something instanceof FilterEntry ) {
         return something.matchString(s, tokenBeg, tokenEnd);
     }
-    return false;
+    return matchFromFilterArray(s, tokenBeg, tokenEnd, something);
 };
 
 /******************************************************************************/
 
 var matchString = function(s) {
-    if ( filterDictFrozenCount === 0 ) {
-        return false;
-    }
-
+    var sLen = s.length;
     var matches;
-    var token, tokenEntry;
+    var token;
     var tokenBeg, tokenEnd;
     var prefixKey, suffixKey;
+    var fidx = filterIndex;
 
     reToken.lastIndex = 0;
     while ( matches = reToken.exec(s) ) {
         token = matches[0];
-        tokenEntry = filterIndex[token];
-        if ( tokenEntry === undefined ) {
-            continue;
-        }
         tokenBeg = matches.index;
         tokenEnd = reToken.lastIndex;
-        if ( typeof tokenEntry !== 'object' ) {
-            if ( matchFromSomething(s, tokenBeg, tokenEnd, tokenEntry) ) {
+        prefixKey = tokenBeg > 0 ? s.charAt(matches.index-1) : '0';
+        suffixKey = tokenEnd < s.length ? s.charAt(tokenEnd) : '0';
+
+        if ( tokenBeg > 0 && tokenEnd < sLen ) {
+            if ( matchFromSomething(s, tokenBeg, tokenEnd, fidx[prefixKey + token + suffixKey]) ||
+                 matchFromSomething(s, tokenBeg, tokenEnd, fidx[prefixKey + token + '0']) ||
+                 matchFromSomething(s, tokenBeg, tokenEnd, fidx['0' + token + suffixKey]) ||
+                 matchFromSomething(s, tokenBeg, tokenEnd, fidx['0' + token + '0']) ) {
                 return true;
             }
             continue;
         }
-        prefixKey = tokenBeg > 0 ? s.charAt(matches.index-1) : '0';
-        suffixKey = tokenEnd < s.length ? s.charAt(tokenEnd) : '0';
-        if ( matchFromSomething(s, tokenBeg, tokenEnd, tokenEntry[prefixKey + suffixKey]) ) {
-            return true;
+        if ( tokenBeg > 0 ) {
+            if ( matchFromSomething(s, tokenBeg, tokenEnd, fidx[prefixKey + token + '0']) ||
+                 matchFromSomething(s, tokenBeg, tokenEnd, fidx['0' + token + '0']) ) {
+                return true;
+            }
+            continue;
         }
-        if ( matchFromSomething(s, tokenBeg, tokenEnd, tokenEntry[prefixKey + '0']) ) {
-            return true;
+        if ( tokenEnd < sLen ) {
+            if ( matchFromSomething(s, tokenBeg, tokenEnd, fidx['0' + token + suffixKey]) ||
+                 matchFromSomething(s, tokenBeg, tokenEnd, fidx['0' + token + '0']) ) {
+                return true;
+            }
+            continue;
         }
-        if ( matchFromSomething(s, tokenBeg, tokenEnd, tokenEntry['0' + suffixKey]) ) {
+        if ( matchFromSomething(s, tokenBeg, tokenEnd, fidx['0' + token + '0']) ) {
             return true;
         }
     }

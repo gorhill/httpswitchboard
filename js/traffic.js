@@ -150,8 +150,8 @@ function onBeforeChromeExtensionRequestHandler(details) {
 function onBeforeRequestHandler(details) {
     // console.debug('onBeforeRequestHandler()> "%s": %o', details.url, details);
 
-    // rhill 2014-02-17: Ignore 'filesystem:chrome-extension://': this can
-    // happen when listening to 'chrome-extension://'.
+    // rhill 2014-02-17: Ignore 'filesystem:': this can happen when listening
+    // to 'chrome-extension://'.
     var requestURL = details.url;
     if ( requestURL.indexOf('filesystem:') === 0 ) {
         return;
