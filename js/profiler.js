@@ -42,7 +42,7 @@ Profiler.prototype.stop = function(s) {
     this.count += 1;
     if ( this.count > 0 ) {
         var now = Date.now();
-        this.time += now - this._start;
+        this.time += (now - this._start);
         if ( (now - this._lastlog) > 10000 ) {
             console.log('HTTP Switchboard Profiler() > %s: %f ms per iteration', s, this.avg());
             this._lastlog = now;

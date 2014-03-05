@@ -79,18 +79,16 @@ var reToken = /[%0-9A-Za-z]{2,}/g;
 
 /******************************************************************************/
 
-var FilterEntry = function(token) {
-    this.token = token;
-    this.prefix = '';
-    this.suffix = '';
+var FilterEntry = function(s, tokenBeg, tokenLen) {
+    this.s = s;
+    this.tokenBeg = tokenBeg;
+    this.tokenLen = tokenLen;
 };
 
-FilterEntry.prototype.matchString = function(s, tokenBeg, tokenEnd) {
-    if ( s.indexOf(this.suffix, tokenEnd) !== tokenEnd ) {
-        return false;
-    }
-    tokenBeg -= this.prefix.length;
-    return s.indexOf(this.prefix, tokenBeg) === tokenBeg;
+FilterEntry.prototype.matchString = function(s, tokenBeg) {
+    // rhill 2014-03-05: Benchmarking shows that's the fastest way to do this.
+    var filterBeg = tokenBeg - this.tokenBeg;
+    return s.indexOf(this.s, filterBeg) === filterBeg;
 };
 
 /******************************************************************************/
@@ -167,6 +165,18 @@ var add = function(s) {
     // Remove pipes
     s = s.replace(/^\|\|/, '');
 
+    // Remove leading and trailing wildcards
+    var pos = 0;
+    while ( s.charAt(pos) === '*' ) {
+        pos += 1;
+    }
+    s = s.slice(pos);
+    pos = s.length;
+    while ( s.charAt(pos-1) === '*' ) {
+        pos -= 1;
+    }
+    s = s.slice(0, pos);
+
     // Already in dictionary?
     var filter = filterDict[s];
     if ( filter !== undefined ) {
@@ -175,33 +185,18 @@ var add = function(s) {
 
     // Index based on 1st good token
     var matches = findGoodToken(s);
-    if ( !matches ) {
+    if ( !matches || !matches[0].length ) {
         return false;
     }
     var token = matches[0];
+    var tokenBeg = matches.index;
+    var tokenEnd = reToken.lastIndex;
 
-    filter = new FilterEntry(token);
+    filter = new FilterEntry(s, tokenBeg, token.length);
     filterDict[s] = filter;
 
-    var prefix = s.slice(0, matches.index);
-    // Eliminate leading wildcards
-    var pos = 0;
-    while ( prefix.charAt(pos) === '*' ) {
-        pos += 1;
-    }
-    prefix = prefix.slice(pos);
-    filter.prefix = prefix;
-    var prefixKey = prefix.length > 0 ? prefix.charAt(prefix.length-1) : '0';
-
-    var suffix = s.slice(reToken.lastIndex);
-    // Eliminate trailing wildcards
-    pos = suffix.length;
-    while ( suffix.charAt(pos-1) === '*' ) {
-        pos -= 1;
-    }
-    suffix = suffix.slice(0, pos);
-    filter.suffix = suffix;
-    var suffixKey = suffix.length > 0 ? suffix.charAt(0) : '0';
+    var prefixKey = tokenBeg > 0 ? s.charAt(tokenBeg-1) : '0';
+    var suffixKey = tokenEnd < s.length ? s.charAt(tokenEnd) : '0';
 
     var fidx = filterIndex;
     var tokenKey = prefixKey + token + suffixKey;
@@ -229,7 +224,7 @@ var freeze = function() {
 var matchFromFilterArray = function(s, tokenBeg, tokenEnd, filters) {
     var i = filters.length;
     while ( i-- ) {
-        if ( filters[i].matchString(s, tokenBeg, tokenEnd) ) {
+        if ( filters[i].matchString(s, tokenBeg) ) {
             return true;
         }
     }
@@ -243,7 +238,7 @@ var matchFromSomething = function(s, tokenBeg, tokenEnd, something) {
         return false;
     }
     if ( something instanceof FilterEntry ) {
-        return something.matchString(s, tokenBeg, tokenEnd);
+        return something.matchString(s, tokenBeg);
     }
     return matchFromFilterArray(s, tokenBeg, tokenEnd, something);
 };
