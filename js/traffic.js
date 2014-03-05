@@ -157,16 +157,15 @@ function onBeforeRequestHandler(details) {
         return;
     }
 
-    // quickProfiler.start();
-
     var httpsb = HTTPSB;
 
     // Don't block chrome extensions
     if ( requestURL.indexOf(httpsb.chromeExtensionURLPrefix) === 0 ) {
         onBeforeChromeExtensionRequestHandler(details);
-        // quickProfiler.stop('onBeforeRequestHandler');
         return;
     }
+
+    // quickProfiler.start();
 
     var canEvaluate = true;
     var tabId = details.tabId;

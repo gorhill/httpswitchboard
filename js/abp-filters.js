@@ -88,6 +88,14 @@ var FilterEntry = function(token) {
     this.suffix = '';
 };
 
+FilterEntry.prototype.matchString = function(s, tokenBeg, tokenEnd) {
+    if ( s.indexOf(this.suffix, tokenEnd) !== tokenEnd ) {
+        return false;
+    }
+    tokenBeg -= this.prefix.length;
+    return s.indexOf(this.prefix, tokenBeg) === tokenBeg;
+};
+
 /******************************************************************************/
 
 // Reset all, thus reducing to a minimum memory footprint of the context.
@@ -311,41 +319,42 @@ var freeze = function() {
 
 /******************************************************************************/
 
-var matchFromIdList = function(s, tokenBeg, tokenEnd, list) {
-    if ( list === undefined ) {
+var matchFromFilterIndex = function(s, tokenBeg, tokenEnd, index) {
+    return filterDict[index].matchString(s, tokenBeg, tokenEnd);
+};
+
+/******************************************************************************/
+
+var matchFromFilterIndices = function(s, tokenBeg, tokenEnd, indices) {
+    var indicesEnd = indices.length;
+    var indexBeg = 0, indexEnd;
+    while ( indexBeg < indicesEnd ) {
+        indexEnd = indices.indexOf(' ', indexBeg);
+        if ( indexEnd < 0 ) {
+            indexEnd = indicesEnd;
+        }
+        if ( filterDict[indices.slice(indexBeg, indexEnd)].matchString(s, tokenBeg, tokenEnd) ) {
+            return true;
+        }
+        indexBeg = indexEnd + 1;
+    }
+    return false;
+};
+
+/******************************************************************************/
+
+var matchFromSomething = function(s, tokenBeg, tokenEnd, something) {
+    if ( something === undefined ) {
         return false;
     }
-
-    var f;
-    if ( typeof list === 'number' ) {
-        f = filterDict[list];
-        if ( s.lastIndexOf(f.prefix, tokenBeg) !== (tokenBeg - f.prefix.length) ) {
-            return false;
-        }
-        if ( s.indexOf(f.suffix, tokenEnd) !== tokenEnd ) {
-            return false;
-        }
-        // console.log('HTTPBA.filters.matchFromIdList(): "%s" matches "%s"', f.prefix + f.token + f.suffix, s);
-        return true;
+    if ( typeof something === 'number') {
+        return filterDict[something].matchString(s, tokenBeg, tokenEnd);
     }
-
-    var idListEnd = list.length;
-    var idBeg = 0, idEnd;
-    while ( idBeg < idListEnd ) {
-        idEnd = list.indexOf(' ', idBeg);
-        if ( idEnd < 0 ) {
-            idEnd = idListEnd;
-        }
-        f = filterDict[list.slice(idBeg, idEnd)];
-        idBeg = idEnd + 1;
-        if ( s.lastIndexOf(f.prefix, tokenBeg) !== (tokenBeg - f.prefix.length) ) {
-            continue;
-        }
-        if ( s.indexOf(f.suffix, tokenEnd) !== tokenEnd ) {
-            continue;
-        }
-        // console.log('HTTPBA.filters.matchFromIdList(): "%s" matches "%s"', f.prefix + f.token + f.suffix, s);
-        return true;
+    if ( typeof something === 'string') {
+        return matchFromFilterIndices(s, tokenBeg, tokenEnd, something);
+    }
+    if ( something instanceof FilterEntry ) {
+        return something.matchString(s, tokenBeg, tokenEnd);
     }
     return false;
 };
@@ -372,20 +381,20 @@ var matchString = function(s) {
         tokenBeg = matches.index;
         tokenEnd = reToken.lastIndex;
         if ( typeof tokenEntry !== 'object' ) {
-            if ( matchFromIdList(s, tokenBeg, tokenEnd, tokenEntry) ) {
+            if ( matchFromSomething(s, tokenBeg, tokenEnd, tokenEntry) ) {
                 return true;
             }
             continue;
         }
         prefixKey = tokenBeg > 0 ? s.charAt(matches.index-1) : '0';
         suffixKey = tokenEnd < s.length ? s.charAt(tokenEnd) : '0';
-        if ( matchFromIdList(s, tokenBeg, tokenEnd, tokenEntry[prefixKey + suffixKey]) ) {
+        if ( matchFromSomething(s, tokenBeg, tokenEnd, tokenEntry[prefixKey + suffixKey]) ) {
             return true;
         }
-        if ( matchFromIdList(s, tokenBeg, tokenEnd, tokenEntry[prefixKey + '0']) ) {
+        if ( matchFromSomething(s, tokenBeg, tokenEnd, tokenEntry[prefixKey + '0']) ) {
             return true;
         }
-        if ( matchFromIdList(s, tokenBeg, tokenEnd, tokenEntry['0' + suffixKey]) ) {
+        if ( matchFromSomething(s, tokenBeg, tokenEnd, tokenEntry['0' + suffixKey]) ) {
             return true;
         }
     }

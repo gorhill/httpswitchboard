@@ -25,7 +25,7 @@ function Profiler() {
     this.time = 0;
     this.count = -3;
     this._start = 0;
-    this._lastlog = 0;
+    this._lastlog = Date.now();
 }
 
 Profiler.prototype.reset = function() {
