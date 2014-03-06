@@ -66,7 +66,7 @@ Idle mem after: 120 MB
 */
 
 var filterDict = {};
-var filterDictFrozenCount = 0;
+var filterCount = 0;
 var filterIndex = {};
 
 var reIgnoreFilter = /^\[|^!|##|@#|@@|^\|http/;
@@ -83,12 +83,7 @@ var FilterEntry = function(s, tokenBeg, tokenLen) {
     this.s = s;
     this.tokenBeg = tokenBeg;
     this.tokenLen = tokenLen;
-};
-
-FilterEntry.prototype.matchString = function(s, tokenBeg) {
-    // rhill 2014-03-05: Benchmarking shows that's the fastest way to do this.
-    var filterBeg = tokenBeg - this.tokenBeg;
-    return s.indexOf(this.s, filterBeg) === filterBeg;
+    this.next = undefined;
 };
 
 /******************************************************************************/
@@ -97,7 +92,7 @@ FilterEntry.prototype.matchString = function(s, tokenBeg) {
 
 var reset = function() {
     filterDict = {};
-    filterDictFrozenCount = 0;
+    filterCount = 0;
     filterIndex = {};
 };
 
@@ -133,11 +128,6 @@ var findGoodToken = function(s) {
 /******************************************************************************/
 
 var add = function(s) {
-    if ( filterDictFrozenCount !== 0 ) {
-        console.error("abpFilter.add()> Can't add, I'm frozen!");
-        return false;
-    }
-
     // Ignore unsupported filters
     if ( reIgnoreFilter.test(s) ) {
         return false;
@@ -195,19 +185,14 @@ var add = function(s) {
     filter = new FilterEntry(s, tokenBeg, token.length);
     filterDict[s] = filter;
 
-    var prefixKey = tokenBeg > 0 ? s.charAt(tokenBeg-1) : '0';
-    var suffixKey = tokenEnd < s.length ? s.charAt(tokenEnd) : '0';
+    var prefixKey = tokenBeg > 0 ? s.charAt(tokenBeg-1) : '';
+    var suffixKey = s.substr(tokenEnd, 2);
 
     var fidx = filterIndex;
     var tokenKey = prefixKey + token + suffixKey;
-    var tokenEntry = fidx[tokenKey];
-    if ( tokenEntry === undefined ) {
-        fidx[tokenKey] = filter;
-    } else if ( tokenEntry instanceof FilterEntry ) {
-        fidx[tokenKey] = [tokenEntry, filter];
-    } else {
-        tokenEntry.push(filter);
-    }
+    filter.next = fidx[tokenKey];
+    fidx[tokenKey] = filter;
+    filterCount += 1;
 
     return true;
 };
@@ -215,68 +200,68 @@ var add = function(s) {
 /******************************************************************************/
 
 var freeze = function() {
-    filterDictFrozenCount = Object.keys(filterDict).length;
-    filterDict = null;
+    filterDict = {};
 };
 
 /******************************************************************************/
 
-var matchFromFilterArray = function(s, tokenBeg, tokenEnd, filters) {
-    var i = filters.length;
-    while ( i-- ) {
-        if ( filters[i].matchString(s, tokenBeg) ) {
-            return true;
+var matchStringToFilterChain = function(filter, s, tokenBeg) {
+    var filterBeg;
+    while ( filter ) {
+        // rhill 2014-03-05: Benchmarking shows that's the fastest way to do this.
+        filterBeg = tokenBeg - filter.tokenBeg;
+        if ( s.indexOf(filter.s, filterBeg) === filterBeg ) {
+            return true
         }
+        filter = filter.next;
     }
     return false;
 };
 
 /******************************************************************************/
 
-var matchFromSomething = function(s, tokenBeg, tokenEnd, something) {
-    if ( something === undefined ) {
-        return false;
-    }
-    if ( something instanceof FilterEntry ) {
-        return something.matchString(s, tokenBeg);
-    }
-    return matchFromFilterArray(s, tokenBeg, tokenEnd, something);
-};
-
-/******************************************************************************/
-
 var matchString = function(s) {
-    var sLen = s.length;
+    var fidx = filterIndex;
     var matches;
     var token;
     var tokenBeg, tokenEnd;
     var prefixKey, suffixKey;
-    var fidx = filterIndex;
+    var matchFn = matchStringToFilterChain;
 
     reToken.lastIndex = 0;
     while ( matches = reToken.exec(s) ) {
         token = matches[0];
         tokenBeg = matches.index;
         tokenEnd = reToken.lastIndex;
-        prefixKey = tokenBeg > 0 ? s.charAt(matches.index-1) : false;
-        suffixKey = tokenEnd < sLen ? s.charAt(tokenEnd) : false;
+        prefixKey = tokenBeg > 0 ? s.charAt(matches.index-1) : '';
+        suffixKey = s.substr(tokenEnd, 2);
 
+        if ( prefixKey && suffixKey.length > 1 ) {
+            if ( matchFn(fidx[prefixKey + token + suffixKey], s, tokenBeg) ) {
+                return true;
+            }
+        }
         if ( prefixKey && suffixKey ) {
-            if ( matchFromSomething(s, tokenBeg, tokenEnd, fidx[prefixKey + token + suffixKey]) ) {
+            if ( matchFn(fidx[prefixKey + token + suffixKey.charAt(0)], s, tokenBeg) ) {
                 return true;
             }
         }
         if ( prefixKey ) {
-            if ( matchFromSomething(s, tokenBeg, tokenEnd, fidx[prefixKey + token + '0']) ) {
+            if ( matchFn(fidx[prefixKey + token], s, tokenBeg) ) {
+                return true;
+            }
+        }
+        if ( suffixKey.length > 1 ) {
+            if ( matchFn(fidx[token + suffixKey], s, tokenBeg) ) {
                 return true;
             }
         }
         if ( suffixKey ) {
-            if ( matchFromSomething(s, tokenBeg, tokenEnd, fidx['0' + token + suffixKey]) ) {
+            if ( matchFn(fidx[token + suffixKey.charAt(0)], s, tokenBeg) ) {
                 return true;
             }
         }
-        if ( matchFromSomething(s, tokenBeg, tokenEnd, fidx['0' + token + '0']) ) {
+        if ( matchFn(fidx[token], s, tokenBeg) ) {
             return true;
         }
     }
@@ -287,7 +272,7 @@ var matchString = function(s) {
 /******************************************************************************/
 
 var getFilterCount = function() {
-    return filterDictFrozenCount;
+    return filterCount;
 };
 
 /******************************************************************************/
