@@ -8,7 +8,7 @@
 # Please forward any additions, corrections or comments by email to
 # hosts@someonewhocares.org
 
-# Last updated: Feb 27th, 2014 at 04:10
+# Last updated: Mar 4th, 2014 at 12:41
 
 # Use this file to prevent your computer from connecting to selected
 # internet hosts. This is an easy and effective way to protect you from 
@@ -2532,6 +2532,7 @@ fe80::1%lo0	localhost
 127.0.0.1 bulldog.122.2o7.net
 127.0.0.1 businessweekpoc.112.2o7.net
 127.0.0.1 bzresults.122.2o7.net
+127.0.0.1 cablevision.112.2o7.net
 127.0.0.1 canwest.112.2o7.net
 127.0.0.1 canwestcom.112.2o7.net
 127.0.0.1 canwestglobal.112.2o7.net
@@ -2571,6 +2572,7 @@ fe80::1%lo0	localhost
 127.0.0.1 cnhregisterherald.122.2o7.net
 127.0.0.1 cnn.122.2o7.net
 127.0.0.1 computerworldcom.112.2o7.net
+127.0.0.1 condenast.112.2o7.net
 127.0.0.1 coxnetmasterglobal.112.2o7.net
 127.0.0.1 coxpalmbeachpost.112.2o7.net
 127.0.0.1 csoonlinecom.112.2o7.net
@@ -2835,6 +2837,7 @@ fe80::1%lo0	localhost
 127.0.0.1 omniture.112.2o7.net
 127.0.0.1 omnitureglobal.112.2o7.net
 127.0.0.1 onlineindigoca.112.2o7.net
+127.0.0.1 oracle.112.2o7.net
 127.0.0.1 oraclecom.112.2o7.net
 127.0.0.1 overstock.com.112.2o7.net
 127.0.0.1 overturecomvista.112.2o7.net
@@ -2872,6 +2875,7 @@ fe80::1%lo0	localhost
 127.0.0.1 suncom.112.2o7.net
 127.0.0.1 sunglobal.112.2o7.net
 127.0.0.1 sunonesearch.112.2o7.net
+127.0.0.1 survey.112.2o7.net
 127.0.0.1 sympmsnsports.112.2o7.net
 127.0.0.1 techreview.112.2o7.net
 127.0.0.1 thestar.122.2o7.net
@@ -5157,7 +5161,6 @@ fe80::1%lo0	localhost
 127.0.0.1 c7.zedo.com
 127.0.0.1 c8.zedo.com
 127.0.0.1 ca.adserver.yahoo.com
-127.0.0.1 cablevision.112.2o7.net
 127.0.0.1 cache-dev.addthis.com
 127.0.0.1 cache.addthis.com
 127.0.0.1 cache.addthiscdn.com
@@ -5356,7 +5359,6 @@ fe80::1%lo0	localhost
 127.0.0.1 computer-offer.net
 127.0.0.1 computers-electronics-rewardpath.com
 127.0.0.1 computersncs.com
-127.0.0.1 condenast.112.2o7.net
 127.0.0.1 connect.247media.ads.link4ads.com
 127.0.0.1 consumer-org.com
 127.0.0.1 consumergiftcenter.com
@@ -6463,7 +6465,6 @@ fe80::1%lo0	localhost
 127.0.0.1 optimized-by.rubiconproject.com
 127.0.0.1 optimized.by.vitalads.net
 127.0.0.1 optimzedby.rmxads.com
-127.0.0.1 oracle.112.2o7.net
 127.0.0.1 orange.weborama.fr
 127.0.0.1 ordie.adbureau.net
 127.0.0.1 origin.chron.com
@@ -7022,9 +7023,7 @@ fe80::1%lo0	localhost
 127.0.0.1 supremeadsonline.com
 127.0.0.1 suresafe1.adsovo.com
 127.0.0.1 surplus-suppliers.com
-127.0.0.1 survey.112.2o7.net
 127.0.0.1 surveycentral.directinsure.info
-127.0.0.1 surveygizmo.com
 127.0.0.1 surveymonkeycom.tt.omtrdc.net
 127.0.0.1 surveypass.com
 127.0.0.1 susi.adtech.fr
