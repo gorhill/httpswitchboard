@@ -88,6 +88,14 @@ var FilterEntry = function(s, tokenBeg, tokenLen) {
 
 /******************************************************************************/
 
+FilterEntry.prototype.match = function(s, tokenBeg) {
+    // rhill 2014-03-05: Benchmarking shows that's the fastest way to do this.
+    var filterBeg = tokenBeg - this.tokenBeg;
+    return s.indexOf(this.s, filterBeg) === filterBeg;
+};
+
+/******************************************************************************/
+
 // Reset all, thus reducing to a minimum memory footprint of the context.
 
 var reset = function() {
@@ -185,9 +193,8 @@ var add = function(s) {
     filter = new FilterEntry(s, tokenBeg, token.length);
     filterDict[s] = filter;
 
-    var prefixKey = tokenBeg > 0 ? s.charAt(tokenBeg-1) : '';
-    var suffixKey = s.substr(tokenEnd, 2);
-
+    var prefixKey = s.substring(tokenBeg - 1, tokenBeg);
+    var suffixKey = s.substring(tokenEnd, tokenEnd + 2);
     var fidx = filterIndex;
     var tokenKey = prefixKey + token + suffixKey;
     filter.next = fidx[tokenKey];
@@ -206,12 +213,9 @@ var freeze = function() {
 /******************************************************************************/
 
 var matchStringToFilterChain = function(filter, s, tokenBeg) {
-    var filterBeg;
     while ( filter !== undefined ) {
-        // rhill 2014-03-05: Benchmarking shows that's the fastest way to do this.
-        filterBeg = tokenBeg - filter.tokenBeg;
-        if ( s.indexOf(filter.s, filterBeg) === filterBeg ) {
-            return true
+        if ( filter.match(s, tokenBeg) ) {
+            return true;
         }
         filter = filter.next;
     }
@@ -233,8 +237,8 @@ var matchString = function(s) {
         token = matches[0];
         tokenBeg = matches.index;
         tokenEnd = reToken.lastIndex;
-        prefixKey = tokenBeg > 0 ? s.charAt(matches.index-1) : '';
-        suffixKey = s.substr(tokenEnd, 2);
+        prefixKey = s.substring(tokenBeg - 1, tokenBeg);
+        suffixKey = s.substring(tokenEnd, tokenEnd + 2);
 
         if ( suffixKey.length > 1 ) {
             if ( prefixKey !== '' ) {

@@ -223,7 +223,6 @@ function onBeforeRequestHandler(details) {
     var hostname = uriTools.hostnameFromURI(requestURL);
     var pageURL = httpsb.pageUrlFromPageStats(pageStats);
 
-
     // rhill 2013-12-15:
     // Try to transpose generic `other` category into something more
     // meaningful.
