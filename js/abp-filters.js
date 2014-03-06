@@ -207,7 +207,7 @@ var freeze = function() {
 
 var matchStringToFilterChain = function(filter, s, tokenBeg) {
     var filterBeg;
-    while ( filter ) {
+    while ( filter !== undefined ) {
         // rhill 2014-03-05: Benchmarking shows that's the fastest way to do this.
         filterBeg = tokenBeg - filter.tokenBeg;
         if ( s.indexOf(filter.s, filterBeg) === filterBeg ) {
@@ -236,28 +236,28 @@ var matchString = function(s) {
         prefixKey = tokenBeg > 0 ? s.charAt(matches.index-1) : '';
         suffixKey = s.substr(tokenEnd, 2);
 
-        if ( prefixKey && suffixKey.length > 1 ) {
-            if ( matchFn(fidx[prefixKey + token + suffixKey], s, tokenBeg) ) {
-                return true;
-            }
-        }
-        if ( prefixKey && suffixKey ) {
-            if ( matchFn(fidx[prefixKey + token + suffixKey.charAt(0)], s, tokenBeg) ) {
-                return true;
-            }
-        }
-        if ( prefixKey ) {
-            if ( matchFn(fidx[prefixKey + token], s, tokenBeg) ) {
-                return true;
-            }
-        }
         if ( suffixKey.length > 1 ) {
+            if ( prefixKey !== '' ) {
+                if ( matchFn(fidx[prefixKey + token + suffixKey], s, tokenBeg) ) {
+                    return true;
+                }
+            }
             if ( matchFn(fidx[token + suffixKey], s, tokenBeg) ) {
                 return true;
             }
         }
-        if ( suffixKey ) {
+        if ( suffixKey !== '' ) {
+            if ( prefixKey !== '' ) {
+                if ( matchFn(fidx[prefixKey + token + suffixKey.charAt(0)], s, tokenBeg) ) {
+                    return true;
+                }
+            }
             if ( matchFn(fidx[token + suffixKey.charAt(0)], s, tokenBeg) ) {
+                return true;
+            }
+        }
+        if ( prefixKey !== '' ) {
+            if ( matchFn(fidx[prefixKey + token], s, tokenBeg) ) {
                 return true;
             }
         }
