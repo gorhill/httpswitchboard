@@ -1,8 +1,8 @@
 [Adblock Plus 2.0]
-! Checksum: p+5w7hX1hQ6qXNUjucO+dA
-! Version: 201403060010
+! Checksum: eYTv50v4dhWPchinAybZSA
+! Version: 201403071820
 ! Title: EasyList
-! Last modified: 06 Mar 2014 00:10 UTC
+! Last modified: 07 Mar 2014 18:20 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -1609,7 +1609,6 @@
 /ads/ads.
 /ads/ads/*
 /ads/ads_
-/ads/advshow.
 /ads/afc/*
 /ads/aff-
 /ads/as_header.
@@ -2254,12 +2253,16 @@
 /adv/kelkoo_
 /adv/lrec_
 /adv/managers/*
+/adv/mjx.
+/adv/mobile/*
 /adv/preroll_
+/adv/rdb.
 /adv/script1.
 /adv/script2.
 /adv/skin.
 /adv/skin_
 /adv/sponsor/*
+/adv/sprintf-
 /adv/topBanners.
 /adv02.
 /adv03.
@@ -4889,7 +4892,6 @@
 /wp-content/plugins/wp-bannerize/*
 /wp-content/plugins/wp-super-popup-pro/*
 /wp-content/plugins/wp-super-popup/*$~stylesheet
-/wp-content/uploads/useful_banner_manager_banners/*
 /wp-popup-scheduler/*
 /wp-srv/ad/*
 /wpads/iframe.
@@ -5659,6 +5661,7 @@ takeover_banner_
 /300x250.
 /300x250/*
 /300x250_
+/300x250b.
 /300x250px-
 /300x250px_
 /300x350.
@@ -5771,6 +5774,7 @@ takeover_banner_
 /760x90_
 /768x90-
 /768x90.
+/780x90.
 /800x90.
 /80x468_
 /900x130_
@@ -6305,6 +6309,7 @@ _popunder+$popup
 ###Ads_CAD
 ###Ads_OV_BS
 ###Ads_Special
+###Adsense300x250
 ###Adtag300x250Bottom
 ###Adtag300x250Top
 ###Adv10
@@ -6882,6 +6887,9 @@ _popunder+$popup
 ###ad-recommend
 ###ad-rectangle
 ###ad-rectangle-flag
+###ad-rectangle1
+###ad-rectangle2
+###ad-rectangle3
 ###ad-region-1
 ###ad-results
 ###ad-rian
@@ -7632,6 +7640,7 @@ _popunder+$popup
 ###ad_hide_for_menu
 ###ad_holder
 ###ad_home
+###ad_home_middle
 ###ad_horizontal
 ###ad_horseshoe_left
 ###ad_horseshoe_right
@@ -8100,6 +8109,7 @@ _popunder+$popup
 ###ads-200x200-a
 ###ads-250
 ###ads-300
+###ads-300-250
 ###ads-336x280
 ###ads-468
 ###ads-5
@@ -8569,6 +8579,7 @@ _popunder+$popup
 ###adv300bottom
 ###adv300top
 ###adv300x250
+###adv300x250container
 ###adv468x90
 ###adv728
 ###adv768x90
@@ -8890,6 +8901,7 @@ _popunder+$popup
 ###after-header-ad-left
 ###after-header-ad-right
 ###after-header-ads
+###after_ad
 ###afterpostad
 ###agencies_ad
 ###agi-ad300x250
@@ -9378,6 +9390,8 @@ _popunder+$popup
 ###circad_wrapper
 ###city_House_Ad_300x137
 ###clickforad
+###cliczone-advert-left
+###cliczone-advert-right
 ###clientAds
 ###closeAdsDiv
 ###closeable-ad
@@ -11931,6 +11945,8 @@ _popunder+$popup
 ###topAdSpace_div
 ###topAdcontainer
 ###topAds
+###topAds1
+###topAds2
 ###topAdsContainer
 ###topAdsDiv
 ###topAdsG
@@ -12937,6 +12953,7 @@ _popunder+$popup
 ##.ad-mpu
 ##.ad-mrec
 ##.ad-mrect
+##.ad-msg
 ##.ad-msgunit
 ##.ad-msn
 ##.ad-national-1
@@ -13004,6 +13021,7 @@ _popunder+$popup
 ##.ad-sense
 ##.ad-sep
 ##.ad-served
+##.ad-shifted
 ##.ad-show-label
 ##.ad-showcase
 ##.ad-side
@@ -13174,6 +13192,7 @@ _popunder+$popup
 ##.ad250-h1
 ##.ad250-h2
 ##.ad250c
+##.ad250wrap
 ##.ad250x250
 ##.ad260x60
 ##.ad284x134
@@ -13247,6 +13266,7 @@ _popunder+$popup
 ##.ad612x80
 ##.ad620x70
 ##.ad626X35
+##.ad640x480
 ##.ad644
 ##.ad650x140
 ##.ad670x83
@@ -13288,6 +13308,7 @@ _popunder+$popup
 ##.adArticleTopText
 ##.adAuto
 ##.adBGcolor
+##.adBan
 ##.adBanner
 ##.adBanner300x250
 ##.adBanner728x90
@@ -13312,6 +13333,7 @@ _popunder+$popup
 ##.adBlockNext
 ##.adBlockSpacer
 ##.adBlock_1
+##.adBlock_17
 ##.adBlock_2
 ##.adBlock_3
 ##.adBodyBlockBottom
@@ -13805,6 +13827,7 @@ _popunder+$popup
 ##.ad_iframe2
 ##.ad_ifrwrap
 ##.ad_image
+##.ad_img
 ##.ad_index02
 ##.ad_indicator
 ##.ad_info_block
@@ -13828,6 +13851,7 @@ _popunder+$popup
 ##.ad_line
 ##.ad_line2
 ##.ad_link
+##.ad_link1
 ##.ad_link_468
 ##.ad_link_area
 ##.ad_link_label
@@ -13912,6 +13936,7 @@ _popunder+$popup
 ##.ad_section_300x250
 ##.ad_section_728x90
 ##.ad_segment
+##.ad_sense_01
 ##.ad_shuffling_text
 ##.ad_side
 ##.ad_sidebar
@@ -14253,6 +14278,7 @@ _popunder+$popup
 ##.ads-468
 ##.ads-468x60-bordered
 ##.ads-728-90
+##.ads-728x90
 ##.ads-728x90-wrap
 ##.ads-above-comments
 ##.ads-ads-top
@@ -14404,6 +14430,7 @@ _popunder+$popup
 ##.ads598x98
 ##.ads5blocks
 ##.ads667x100
+##.ads720x90
 ##.ads728
 ##.ads728_90
 ##.ads728x90
@@ -14474,6 +14501,7 @@ _popunder+$popup
 ##.ads_amazon
 ##.ads_amazon_outer
 ##.ads_area
+##.ads_article
 ##.ads_before
 ##.ads_bg
 ##.ads_big
@@ -14772,6 +14800,7 @@ _popunder+$popup
 ##.adspot-title
 ##.adspot1
 ##.adspot200x90
+##.adspot468x60
 ##.adspot728x90
 ##.adspot_468x60
 ##.adspot_728x90
@@ -14913,6 +14942,7 @@ _popunder+$popup
 ##.adv_info_text
 ##.adv_leaderboard
 ##.adv_left
+##.adv_link
 ##.adv_medium_rectangle
 ##.adv_panel
 ##.adv_pointer_home
@@ -15192,6 +15222,7 @@ _popunder+$popup
 ##.advertising-banner
 ##.advertising-block
 ##.advertising-box-top-teaser
+##.advertising-content
 ##.advertising-fixed
 ##.advertising-header
 ##.advertising-leaderboard
@@ -15205,6 +15236,7 @@ _popunder+$popup
 ##.advertising160
 ##.advertising2
 ##.advertising300_home
+##.advertising300x250
 ##.advertising728
 ##.advertising728_3
 ##.advertisingBanner
@@ -15997,6 +16029,7 @@ _popunder+$popup
 ##.container-adwords
 ##.container-rectangle-ad
 ##.container-top-adv
+##.containerAdsense
 ##.containerSqAd
 ##.container_ad
 ##.container_row_ad
@@ -16323,6 +16356,7 @@ _popunder+$popup
 ##.footerAdUnit
 ##.footerAdWrapper
 ##.footerAds
+##.footerAdsWrap
 ##.footerAdslot
 ##.footerAdverts
 ##.footerFullAd
@@ -18716,6 +18750,7 @@ _popunder+$popup
 ##.topLeaderboardAd
 ##.topNavRMAd
 ##.topPC-adWrap
+##.topPagination_ad
 ##.topRightAd
 ##.top_Ad
 ##.top_ad
@@ -19008,6 +19043,7 @@ _popunder+$popup
 ##.wpbrad
 ##.wpbrad-ad
 ##.wpbrad-zone
+##.wpi_ads
 ##.wpn_ad_content
 ##.wrap-ads
 ##.wrap_boxad
@@ -19255,6 +19291,7 @@ _popunder+$popup
 ###tadsto.c
 ###topstuff > #tads
 ##.GB3L-QEDGY .GB3L-QEDF- > .GB3L-QEDE-
+##.GJJKPX2N1 > .GJJKPX2M1 > .GJJKPX2P4
 ##.GPMV2XEDA2 > .GPMV2XEDP1 > .GPMV2XEDJBB
 ##.ch[onclick="ga(this,event)"]
 ##.commercial-unit-desktop-rhs
@@ -19631,6 +19668,7 @@ anobii.com#@#.advertisment
 grist.org#@#.advertorial
 trh.sk#@#.adverts
 stjornartidindi.is#@#.adverttext
+consumerist.com#@#.after-post-ad
 deluxemusic.tv#@#.article_ad
 annfammed.org#@#.banner-ads
 plus.net,putlocker.com#@#.banner300
@@ -20830,7 +20868,6 @@ tweaktown.com#@#div[id^="div-gpt-ad-"]
 ||doubleclick.net^*/ad/$~object-subrequest,third-party
 ||doubleclick.net^*/adi/$~object-subrequest,third-party
 ||doubleclick.net^*/adj/$~object-subrequest,third-party
-||doubleclick.net^*/pfadx/*_zattoo^$third-party
 ||doubleclick.net^*/pfadx/cmn_complextv/$third-party
 ||doubleclick.net^*/pfadx/ibs.orl.news/$third-party
 ||doubleclick.net^*/pfadx/muzumain/$third-party
@@ -21617,7 +21654,6 @@ tweaktown.com#@#div[id^="div-gpt-ad-"]
 ||pautaspr.com^$third-party
 ||pay-click.ru^$third-party
 ||paydotcom.com^$third-party
-||paygear.com^$third-party
 ||payperpost.com^$third-party
 ||pc-ads.com^$third-party
 ||peakclick.com^$third-party
@@ -22504,6 +22540,7 @@ tweaktown.com#@#div[id^="div-gpt-ad-"]
 ||pdfcomplete.com^$popup,third-party
 ||pexu.com^$popup,third-party
 ||pgmediaserve.com^$popup,third-party
+||pipaoffers.com^$popup,third-party
 ||pointroll.com^$popup,third-party
 ||popads.net^$popup,third-party
 ||prizegiveaway.org^$popup,third-party
@@ -26140,6 +26177,7 @@ tweaktown.com#@#div[id^="div-gpt-ad-"]
 ||filestube.com^*_banner.gif
 ||filipinojournal.com/images/banners/
 ||filmovizija.com/Images/ludovanjeaffilate.jpg
+||filmovizija.com/Images/photo4sell.jpg
 ||filmsite.org/dart-zones.js
 ||fimserve.ign.com^
 ||financialgazette.co.zw^*/banners/
@@ -26610,6 +26648,7 @@ tweaktown.com#@#div[id^="div-gpt-ad-"]
 ||iol.co.za/vuvuplaza/
 ||ip-adress.com/i/ewa/
 ||ip-adress.com/superb/
+||ip-ads.de^$domain=zattoo.com
 ||ipaddress.com/banner/
 ||ipinfodb.com/img/adds/
 ||ipsnews.net/_adv/
@@ -26627,6 +26666,7 @@ tweaktown.com#@#div[id^="div-gpt-ad-"]
 ||ironspider.ca/pics/hostgator_green120x600.gif
 ||ironsquid.tv/data/uploads/sponsors/
 ||irv2.com/attachments/banners/
+||irv2.com/forums/*show_banner
 ||irv2.com/images/sponsors/
 ||isitdownrightnow.com/graphics/speedupmypc*.png
 ||isitnormal.com/img/iphone_hp_promo_wide.png
@@ -29027,7 +29067,6 @@ tweaktown.com#@#div[id^="div-gpt-ad-"]
 ||onlinestars.net/br/
 ||openjavascript.com/jtools/jads.
 ||oporn.com/js/wspop.js
-||overthumbs.com/advshow.php
 ||overthumbs.com/js/banner.js
 ||overthumbs.com/js/dynamicjs.php
 ||partners.xhamster.com^
@@ -30084,7 +30123,6 @@ yourtango.com###block-tango-10
 yourtango.com###block-tango-9
 minnpost.com###block-views-hp_sponsors-block_1
 wisebread.com###block-views-nodequeue_14-block
-mnn.com###block-views-sponsor-block
 wbez.org###block-wbez-blocks-wbez-ad-bottom
 wbez.org###block-wbez-blocks-wbez-ad-top
 wpdaddy.com###block1
@@ -31805,7 +31843,7 @@ megarapid.net,megashare.com,scrapetorrent.com###rmiad
 megashare.com###rmishim
 brenz.net###rndBanner
 actiontrip.com,craveonline.com,dvdfile.com,ecnmag.com,gamerevolution.com,manchesterconfidential.co.uk,thefashionspot.com,videogamer.com###roadblock
-winsupersite.com###roadblockbackground
+windowsitpro.com,winsupersite.com###roadblockbackground
 winsupersite.com###roadblockcontainer
 mediafire.com###rockmeltTab
 mirror.co.uk###roffers-top
@@ -33003,7 +33041,6 @@ mail.google.com##.aeF > .nH > .nH[role="main"] > div + .mq
 redown.se##.af
 toptut.com##.af-form
 adventuregamers.com##.af_disclaimer
-news.com.au##.affiliate-footer
 deborah-bickel.de##.affiliate-werbe125
 coolest-gadgets.com,cutezee.com,haaretz.com##.affiliates
 americasautosite.com##.affiliatesDiv
@@ -33043,6 +33080,7 @@ mmorpg.com##.apante
 pcworld.com##.appBanners
 cultofmac.com##.appDetailPanel-ad
 channelchooser.com##.append-bottom.last
+liveonlineradio.net##.art-Header2
 skysports.com##.art-betlink
 carsession.com##.artBanner300
 ibtimes.com##.art_content
@@ -34226,6 +34264,7 @@ ratemyteachers.com##.intelius
 itweb.co.za##.intelli-box
 egmnow.com##.inter_vid
 bullz-eye.com##.internal_rn_plug_block
+gizmodo.co.uk##.interruptor
 12ozprophet.com##.intro
 jango.com##.intro_block_module:last-child
 hellobeautiful.com,theurbandaily.com##.ione-widget
@@ -36437,9 +36476,8 @@ ucoz.com,ucoz.net,ucoz.org##div[id^="adBar"]
 mahalo.com##div[id^="ads-section-"]
 streetmap.co.uk##div[id^="advert_"]
 askyourandroid.com##div[id^="advertisespace"]
-blogspot.co.nz,blogspot.com,coolsport.tv,kiwi-sportz.eu,myiplayer.eu,time4tv.com,tv-link.me##div[id^="bannerfloat"]
+blogspot.co.nz,blogspot.com,coolsport.tv,kiwi-sportz.eu,time4tv.com,tv-link.me##div[id^="bannerfloat"]
 theteacherscorner.net##div[id^="catfish"]
-myiplayer.eu##div[id^="centeredcontent"]
 video44.net##div[id^="container_ads"]
 downloadstube.org##div[id^="ddl_"] + div[id] + a[onclick] + br + a[onclick]
 alternet.org##div[id^="div-gpt-ad-"] + .ui-dialog
@@ -38247,7 +38285,6 @@ muchshare.net##td[width="189"][align="left"]
 avsforum.com##td[width="193"]
 tivocommunity.com##td[width="193"][valign="top"]
 boxingscene.com##td[width="200"][height="18"]
-myiplayer.eu##td[width="200"][valign="bottom"][rowspan="2"]:first-child
 dir.yahoo.com##td[width="215"]
 thesonglyrics.com##td[width="230"][align="center"]
 sci-tech-today.com##td[width="240"][style="border-left: #c0c0c0 solid 1px; padding-top:3px; padding-bottom:3px;"]
@@ -38322,11 +38359,11 @@ elizium.nu##ul[style="padding: 0; width: 100%; margin: 0; list-style: none;"]
 ! Anti-Adblock
 filmovizija.com###container + #footer-detalj + div[id]
 filmovizija.com###container + div[style*="background-color:"]
+filmovizija.com###container + div[style="display:none"] + div[id]
 videobug.net###flowplayer > [style]:first-child
 videofun.me###flowplayer > div[class][style]:first-child
 filmovizija.com###footer-detalj + div[style]
 filmovizija.com###header + #container + div[id]
-filmovizija.com###header + #container + div[id]:last-child
 themittani.com##.bf-
 videobug.net,videofun.me,vidzur.com##.randid
 play44.net,videobug.net,videofun.me,vidzur.com##[style^="position: absolute; width: 100%;"]
@@ -39966,6 +40003,7 @@ literotica.com##tr[style="background: #fff; text-align: center; font-size: 80%; 
 @@||metalmusicradio.com^*/banner.php
 @@||meviodisplayads.com/adholder.php$domain=mevio.com
 @@||mfcreative.com/lib/tgn/combo.ashx?$script,stylesheet,domain=ancestry.com|ancestry.com.au
+@@||militaryfleamarket.net/media/com_jomclassifieds/adverts/
 @@||miller-mccune.com/wp-content/plugins/*/oiopub-direct/images/style/output.css
 @@||miniclip.com/scripts/js.php?
 @@||miniclipcdn.com/content/push-ads/
@@ -40541,6 +40579,7 @@ literotica.com##tr[style="background: #fff; text-align: center; font-size: 80%; 
 @@||yimg.com/rq/darla/*/g-r-min.js$domain=answers.yahoo.com
 @@||yimg.com^*&yat/js/ads_
 @@||yimg.com^*/adplugin_*.swf$object,domain=games.yahoo.com
+@@||yimg.com^*/combo?$script,domain=yahoo.com
 @@||yimg.com^*/java/promotions/js/ad_eo_1.1.js
 @@||ykhandler.com/adframe.js
 @@||yokosonews.com/files/cache/
@@ -40594,6 +40633,7 @@ literotica.com##tr[style="background: #fff; text-align: center; font-size: 80%; 
 @@|http://$script,domain=kissanime.com
 @@|http://$subdocument,domain=uptobox.com
 @@|http://$third-party,xmlhttprequest,domain=filmovizija.com
+@@|http://*.biz^*.js?$script,third-party,domain=cbs.com
 @@|http://*.com^*.js?$script,third-party,domain=cbs.com
 @@|http://*.com^*.|$script,third-party,domain=eventhubs.com
 @@|http://*.com^*/|$script,third-party,domain=eventhubs.com
@@ -40691,7 +40731,6 @@ literotica.com##tr[style="background: #fff; text-align: center; font-size: 80%; 
 @@||cpxinteractive.com^$script,domain=kissanime.com
 @@||cyberdevilz.net^$elemhide
 @@||d2anfhdgjxf8s1.cloudfront.net/ajs.php?adserver=$script
-@@||dave.uktv.co.uk/static/js/ads.js
 @@||desionlinetheater.com^$elemhide
 @@||dinglydangly.com^$script,domain=eventhubs.com
 @@||dinozap.tv/adimages/
@@ -40832,11 +40871,11 @@ literotica.com##tr[style="background: #fff; text-align: center; font-size: 80%; 
 @@||own3d.tv/templates/*adsense$object-subrequest
 @@||own3d.tv^*_adsense.$object-subrequest
 @@||pagead2.googlesyndication.com/pagead/expansion_embed.js$domain=ffiles.com|full-ngage-games.blogspot.com|kingofgames.net|megaallday.com|ninjaraider.com|upfordown.com|wtf-teen.com
-@@||pagead2.googlesyndication.com/pagead/js/*/show_ads_impl.js$domain=360haven.com|9bis.net|afreesms.com|agame.com|atlanticcitywebcam.com|bitcoiner.net|chrissmoove.com|darkreloaded.com|dreamscene.org|drivearabia.com|dsero.com|file4go.com|free.smsmarkaz.urdupoint.com|ftlauderdalebeachcam.com|ftlauderdalewebcam.com|full-ngage-games.blogspot.com|gamespowerita.com|ilix.in|keywestharborwebcam.com|kingofgames.net|korean-candy.com|litecoiner.net|lordpyrak.net|misheel.net|morganhillwebcam.com|moviemistakes.com|needrom.com|numberempire.com|nyharborwebcam.com|omegadrivers.net|portarubawebcam.com|portbermudawebcam.com|portcanaveralwebcam.com|portevergladeswebcam.com|portmiamiwebcam.com|portnywebcam.com|priva.us|rapid8.com|rotoinfo.com|smashgamez.com|tech-blog.net|techydoor.com|tipstank.com|trutower.com|upfordown.com|urlink.at|washington.edu|winterrowd.com
+@@||pagead2.googlesyndication.com/pagead/js/*/show_ads_impl.js$domain=360haven.com|9bis.net|afreesms.com|agame.com|atlanticcitywebcam.com|bitcoiner.net|chrissmoove.com|darkreloaded.com|dreamscene.org|drivearabia.com|dsero.com|file4go.com|free.smsmarkaz.urdupoint.com|ftlauderdalebeachcam.com|ftlauderdalewebcam.com|full-ngage-games.blogspot.com|gamespowerita.com|ilix.in|keywestharborwebcam.com|kingofgames.net|korean-candy.com|litecoiner.net|lordpyrak.net|misheel.net|morganhillwebcam.com|moviemistakes.com|needrom.com|numberempire.com|nyharborwebcam.com|omegadrivers.net|portarubawebcam.com|portbermudawebcam.com|portcanaveralwebcam.com|portevergladeswebcam.com|portmiamiwebcam.com|portnywebcam.com|preemlinks.com|priva.us|rapid8.com|rotoinfo.com|smashgamez.com|tech-blog.net|techydoor.com|tipstank.com|trutower.com|upfordown.com|urlink.at|washington.edu|winterrowd.com
 @@||pagead2.googlesyndication.com/pagead/js/adsbygoogle.js$domain=chrissmoove.com
 @@||pagead2.googlesyndication.com/pagead/js/google_top_exp.js$domain=tvportugalhd.org|zuuk.pw
 @@||pagead2.googlesyndication.com/pagead/js/lidar.js$domain=majorleaguegaming.com
-@@||pagead2.googlesyndication.com/pagead/show_ads.js$domain=360haven.com|9bis.net|afreesms.com|agame.com|atlanticcitywebcam.com|bbc.com|bitcoiner.net|carsfromitaly.info|codeasily.com|darkreloaded.com|dreamscene.org|drivearabia.com|dsero.com|everythingon.tv|ffiles.com|file4go.com|filmovizija.com|free.smsmarkaz.urdupoint.com|freewaregenius.com|ftlauderdalebeachcam.com|ftlauderdalewebcam.com|full-ngage-games.blogspot.com|gamespowerita.com|gifmagic.com|ilix.in|keywestharborwebcam.com|kingofgames.net|korean-candy.com|litecoiner.net|lordpyrak.net|megaallday.com|misheel.net|morganhillwebcam.com|moviemistakes.com|needrom.com|ninjaraider.com|numberempire.com|nyharborwebcam.com|omegadrivers.net|photos.essence.com|portarubawebcam.com|portbermudawebcam.com|portcanaveralwebcam.com|portevergladeswebcam.com|portmiamiwebcam.com|portnywebcam.com|priva.us|rapid8.com|readersdigest.com.au|rotoinfo.com|seeingwithsound.com|smashgamez.com|tech-blog.net|techydoor.com|tipstank.com|top100clans.com|trutower.com|tv-kino.net|upfordown.com|uploadlw.com|urlink.at|warp2search.net|washington.edu|winterrowd.com|wtf-teen.com
+@@||pagead2.googlesyndication.com/pagead/show_ads.js$domain=360haven.com|9bis.net|afreesms.com|agame.com|atlanticcitywebcam.com|bbc.com|bitcoiner.net|carsfromitaly.info|codeasily.com|darkreloaded.com|dreamscene.org|drivearabia.com|dsero.com|everythingon.tv|ffiles.com|file4go.com|filmovizija.com|free.smsmarkaz.urdupoint.com|freewaregenius.com|ftlauderdalebeachcam.com|ftlauderdalewebcam.com|full-ngage-games.blogspot.com|gamespowerita.com|gifmagic.com|ilix.in|keywestharborwebcam.com|kingofgames.net|korean-candy.com|litecoiner.net|lordpyrak.net|megaallday.com|misheel.net|morganhillwebcam.com|moviemistakes.com|needrom.com|ninjaraider.com|numberempire.com|nyharborwebcam.com|omegadrivers.net|photos.essence.com|portarubawebcam.com|portbermudawebcam.com|portcanaveralwebcam.com|portevergladeswebcam.com|portmiamiwebcam.com|portnywebcam.com|preemlinks.com|priva.us|rapid8.com|readersdigest.com.au|rotoinfo.com|seeingwithsound.com|smashgamez.com|tech-blog.net|techydoor.com|tipstank.com|top100clans.com|trutower.com|tv-kino.net|upfordown.com|uploadlw.com|urlink.at|warp2search.net|washington.edu|winterrowd.com|wtf-teen.com
 @@||pandora.com/static/ads/
 @@||pipocas.tv/js/advertisement.js
 @@||pirlotv.tv^$elemhide

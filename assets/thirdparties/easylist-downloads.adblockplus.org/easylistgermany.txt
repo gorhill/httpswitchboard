@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: nvirJTc6bC1/voTNce8Z8g
-! Version: 201403061630
+! Checksum: xLUC/BEnIHKRNWlrlUTtCg
+! Version: 201403071820
 ! Title: EasyList Germany
 ! EasyList Germany - Deutsche Ergänzung zu EasyList
-! Last modified: 06 Mar 2014 16:30 UTC
+! Last modified: 07 Mar 2014 18:20 UTC
 ! Expires: 3 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -72,6 +72,7 @@
 /partneradzwerk/*
 /pic/werbung/*
 /pic/werbung_
+/styles/*/werbung/*
 /upload/werbung/*
 /usemax/*
 /werb.gif
@@ -462,6 +463,7 @@ macwelt.de#@#.advertisment
 reitbeteiligung.org#@#.adverts
 kalaydo.de#@#.adverttext
 web.de#@#.banner-728
+filmreporter.de#@#.boxadv
 openlimit.com#@#.content_ad
 lustiges-taschenbuch.de#@#.contentad
 delamar.de#@#.custom_ads
@@ -475,6 +477,7 @@ blesius.de#@#.text_werbung
 christophhubrich.blogspot.co.uk,christophhubrich.blogspot.de,delamar.de,ews-markt.de,mediamarkt.de,paolo-film.de#@#.werbung
 ebay.de#@#a[href^="http://ad-emea.doubleclick.net/"]
 zdnet.de#@#a[href^="http://ad.doubleclick.net/"]
+berlin.de#@#a[href^="http://adfarm.mediaplex.com/"]
 schnittberichte.com#@#a[href^="http://bs.serving-sys.com/"]
 hbf-info.de,rakuten.at,rakuten.de#@#div[id^="div-gpt-ad-"]
 ! Anti-Adblock
@@ -1021,6 +1024,7 @@ gamestar.de#@#div[id^="div-gpt-ad-"]
 ||catsms.de/images/banner/
 ||cdn.kaisergames.de/www.*/images/wallpaper_
 ||cdn.lotto24.de/webshop/minisite/$subdocument,third-party
+||cect-shop.com/CMBannerCECT-SHOP.gif
 ||china-gadgets.de^$subdocument,third-party
 ||clanmonster.de/clanmonster_gross.jpg$third-party
 ||clanplanet.de/cp-leaderboard.jpg
@@ -3147,7 +3151,6 @@ gamestar.de#@#div[id^="div-gpt-ad-"]
 ||sk-austriakaernten.at/images/bande_animation.swf
 ||slashhosting.de/wp-content/uploads/ad_
 ||sms-box.de/sms-popup.js
-||sms.at/werbung/
 ||sms4free.cc/js/more.php
 ||smsit.me^$subdocument,domain=g-stream.in|playporn.to|rapidvideo.com
 ||soft-ware.net/banner/
@@ -3509,6 +3512,7 @@ gamestar.de#@#div[id^="div-gpt-ad-"]
 ||ww-kurier.de/images/benderheader.gif
 ||ww-kurier.de/images/ferdihombach.gif
 ||ww-kurier.de/pic/dbeyer_250_200.swf
+||wz-newsline.de/polopoly_fs/*-900x120.
 ||xbox-newz.de/portal/images/brandings/
 ||xbox360freaks.de/images/baner.swf
 ||xdate.ch/banners/
@@ -4873,7 +4877,6 @@ fcbayern.de##.box-sponsors
 geizhals.at##.box10h + .gh_cat
 gesund.tv##.boxContent-brands
 androidpit.de##.boxLightLeft[style="width:620px; text-align:center; font-size:95%"]
-gamona.de##.box[style="padding:10px 0;min-height:250px;border-bottom:none;"]
 franchise-net.de##.box_174
 netzwelt.de##.box_content_body > div[style="margin-top: 10px;"]
 netzwelt.de##.box_content_footer > div[style="width: 310px; padding: 0px 0px 9px 130px;"]
@@ -5107,6 +5110,7 @@ eierkraulen.net##.header + .framenavi
 derwesten.de##.header > .g_1of1 > .box > .mod_pic > .hyph > .img
 downloadstube.net##.header > div:last-child > a[onclick]:first-child
 videothek.cc##.header-banner
+lintorfer.eu##.header-widget
 blick.ch##.headerPartners
 datensammler.org##.header_right_d
 kabel-blog.de##.header_top_banner
@@ -5533,7 +5537,6 @@ technorocker.info##.vim
 viviano.de##.vtext9
 bruder-schwester-fick.com##.w_b300x250
 xvideo-deutsch.com##.w_under_video
-rechtslupe.de##.wbginartikel
 abendzeitung-muenchen.de##.webtipps
 diefussballecke.de##.werbe_eigen_rahmen
 eastcomp.de##.werbehinweis + table
@@ -6198,7 +6201,6 @@ movie-blog.org##div[class^="post"] a[href^="http://movie-blog.org/"]
 gofeminin.de##div[class^="sas_FormatID_"]
 car.de##div[class^="wrb-"]
 amazon.de##div[id$="_adcontent"]
-uploaded-premium.ru##div[id$="_layer"]
 0o2.de##div[id$="spbox"]
 boerse.bz##div[id][class][style^="z-index:"][style*="background-color:"][style*="opacity:"][style*="height:"][style*="width:"][style*="display:"]
 vol.at##div[id^="AdContainer_"]
@@ -6764,7 +6766,6 @@ r-b-a.de##ul[style="padding: 0px; margin: 0px; border: 0px none;"]
 goldesel.to##.adsh
 mobilfunk-geschichte.de##body > :nth-child(n) + style + div[id]:last-child
 mobilfunk-geschichte.de##body > noscript > style + div[id]:last-child
-ul-load.com##div[style*="background-color: rgb("]
 !------------------Ausnahmeregeln zum Beheben von Problemen-------------------!
 ! *** easylistgermany:easylistgermany/easylistgermany_whitelist.txt ***
 @@|http://byte.to/js/javascript.js|
@@ -7296,7 +7297,6 @@ ul-load.com##div[style*="background-color: rgb("]
 @@||schuetzenrecht.de^$elemhide
 @@||schulzeux.de/js/show_ads.js
 @@||schweizer-abgeltungssteuer.ch^$elemhide
-@@||servedby.flashtalking.com/crossdomain.xml$object-subrequest,domain=n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
 @@||servedby.flashtalking.com/imp/$object-subrequest,domain=n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
 @@||serving-sys.com/BurstingRes/Site-*.flv$object-subrequest,domain=n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
 @@||serving-sys.com/BurstingRes/Site-*.mp4$object-subrequest,domain=n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de

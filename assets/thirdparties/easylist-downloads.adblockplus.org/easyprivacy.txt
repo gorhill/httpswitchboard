@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: J8QDPc4pyWn2Qy3g/lwU9Q
-! Version: 201403060010
+! Checksum: pVsgcSrmxaS+CVy2GGQ0kA
+! Version: 201403071820
 ! Title: EasyPrivacy
-! Last modified: 06 Mar 2014 00:10 UTC
+! Last modified: 07 Mar 2014 18:20 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -56,7 +56,6 @@
 .com/ga-*.js
 .com/ga.js;
 .com/ga.js?
-.com/ga.jsp?
 .com/HG?
 .com/hitlog?
 .com/i.gif?
@@ -324,6 +323,8 @@
 /beacon?
 /beaconimg.php?
 /BehaviourCaptureHandler.
+/betamax_tracker.gif?
+/betamax_tracker.js
 /bh_counter.js
 /bicomscore.
 /bicomscore_
@@ -503,7 +504,6 @@
 /com_joomlawatch/*
 /competeTracking_test.html?
 /comscore.
-/comscore/beacon.js
 /comscore_beacon.
 /comscore_stats.
 /comscorebeacon.
@@ -670,11 +670,11 @@
 /external/nielsen_
 /ezytrack.
 /FacebookTracking.
-/fast-google-analytics/*
 /fastcounter.
 /fb-app-tracker.
 /fbanalytics/*
 /fbcounter/*
+/federated-analytics.
 /files/ga.js
 /finalizestats.
 /firestats/*
@@ -1117,6 +1117,7 @@
 /mint/?record
 /mint8/?
 /mintstats/?js
+/mistats/*
 /mixpanel-measurement.
 /mixpanel.
 /mixpanel_beacon.
@@ -1500,7 +1501,6 @@
 /sikquantcast_
 /SilverPop.
 /silverpop/*
-/simple-google-analytics/*
 /simtracker.min.js
 /site-tracker-
 /site-tracker.
@@ -1755,6 +1755,7 @@
 /tracking_cookie_baker.
 /tracking_frame_
 /tracking_headerJS_
+/tracking_id_
 /tracking_iframe.
 /tracking_link_cookie.
 /tracking_pix.
@@ -1772,6 +1773,7 @@
 /trackings/addview/*
 /trackingScript1.
 /trackingScript2.
+/TrackingService.js
 /trackIt.js
 /trackit.php?
 /trackit.pl?
@@ -2206,7 +2208,6 @@ http://utm.
 ||adinsight.eu^$third-party
 ||adku.co^$third-party
 ||adku.com^$third-party
-||adobedtm.com^$third-party
 ||adobetag.com^$third-party
 ||adoftheyear.com^$third-party
 ||adprotraffic.com^$third-party
@@ -4556,7 +4557,6 @@ http://utm.
 ||cloudfront.net/analyticsengine/
 ||cloudfront.net/atrk.gif?
 ||cloudfront.net/atrk.js
-||cloudfront.net/beacon.js
 ||cloudfront.net/dough/*/recipe.js
 ||cloudfront.net/performable/
 ||cloudfront.net/pt1x1.gif
@@ -4696,7 +4696,6 @@ http://utm.
 ||ecustomeropinions.com/survey/nojs.php?
 ||ecustomeropinions.com^*/i.php?
 ||edge.bredg.com^$third-party
-||edgesuite.net/flash/analytics/
 ||edgesuite.net^*/googleanalyt
 ||edw.insideline.com^$third-party
 ||elasticbeanstalk.com/v1/event.gif?
@@ -4734,6 +4733,7 @@ http://utm.
 ||facebook.com/fr/u.php?
 ||facebook.com/js/conversions/tracking.js
 ||facebook.com/offsite_event.php$third-party
+||facebook.com/tr/?
 ||facebook.com^*/tracking.js$third-party
 ||fairfax.com.au/js/track/
 ||fastcounter.bcentral.com^
@@ -5013,6 +5013,7 @@ http://utm.
 ||om.1and1.co.uk^
 ||onescreen.net/os/static/pixels/
 ||onsugar.com/static/ck.php?
+||oogala.com/impression.php?
 ||ooyala.com/3rdparty/comscore_
 ||ooyala.com/authorized?analytics
 ||ooyala.com/verify?
@@ -5548,6 +5549,7 @@ http://utm.
 ||im.aol.de^
 ||info.elba.at^$third-party
 ||insene.de/tag/$third-party
+||ioam.de/?
 ||ioam.de/tx.io?
 ||ivw.discover-outdoor.de^
 ||ivw.dumontreise.de^
@@ -5769,6 +5771,7 @@ http://utm.
 ||bstracker.blogspirit.net^
 ||click.kataweb.it^
 ||contatore-di-visite.campusanuncios.com^
+||corriereobjects.it^*/tracking/
 ||counter.ksm.it^
 ||dd3p.com/sensor/ddsense.aspx?
 ||digiland.it/count.cgi?
@@ -6132,7 +6135,6 @@ http://utm.
 ||art.com/asp/robot/
 ||art.com/asp/UTERecording.asp
 ||as.com/est.pl?
-||asahi.com^*/beacon.js
 ||ashleymadison.com/app/public/track.p?
 ||asianblast.com/statx/
 ||askamum.co.uk/Shared/js/tracking.js
@@ -6553,6 +6555,7 @@ http://utm.
 ||flyjazz.ca/ow_ga.js
 ||fm.co.za/statistics/
 ||fncstatic.com/static/all/js/geo.js
+||foodcouture.net/public_html/ra/script.php$script
 ||foodnavigator.com/tracker/
 ||forbes.com/fps/cookie_backup.php?
 ||forbes.com/pepe/track.php?
@@ -6661,7 +6664,6 @@ http://utm.
 ||gosanangelo.com/metrics/
 ||gov.in/js/ga.js
 ||gq-magazine.co.uk^*/LogPageView
-||grooveshark.com^*/beacon.js
 ||groupon.com/analytic/
 ||groupon.com/tracking
 ||groupon.com/tracky
@@ -6749,12 +6751,12 @@ http://utm.
 ||imdb.com/video/*/metrics_
 ||imdb.com/video/*metrics?
 ||imgtrack.domainmarket.com^
+||imgur.com/imageview.gif?
 ||immassets.s3.amazonaws.com^
 ||imonitor.dhgate.com^
 ||imx.comedycentral.com^
 ||independentmail.com/metrics/
 ||indiatimes.com/trackjs10.
-||indiatimes.com^*/logger.js
 ||infomine.com/imcounter.js
 ||infoq.com/scripts/tracker.js
 ||informer.com/statistic?
@@ -6904,7 +6906,6 @@ http://utm.
 ||mdmpix.com/js/connector.php?
 ||media-imdb.com/images/*/imdbads/js/beacon-$script
 ||media-imdb.com^*/adblock.swf
-||media-imdb.com^*/beacon.js
 ||mediabistro.com/blogshare/js/trackingheader.js
 ||mediaplex.com^*/universal.html
 ||medium.com/_/stat
@@ -7040,7 +7041,6 @@ http://utm.
 ||nydailynews.com^*/tracker.js
 ||nymag.com/js/2/metrony
 ||nymag.com^*/analytics.js
-||nypost.com/horizon/track?
 ||nyse.com^*/stats/
 ||nyt.com/js/mtr.js
 ||nytimes.com/js/mtr.js
@@ -7054,6 +7054,7 @@ http://utm.
 ||officedepot.com/at/rules_*.js$script
 ||officelivecontent.com^*/Survey/
 ||oimg.m.cnbc.com^
+||oimg.mobile.cnbc.com^
 ||ok.co.uk/tracking/
 ||okcupid.com/poststat?
 ||olark.com/nrpc/c?c=create$script
@@ -7329,7 +7330,6 @@ http://utm.
 ||smallcapnetwork.com^*/viewtracker/
 ||smartmoney.com^*/s.gif?
 ||smartname.com/scripts/cookies.js
-||smartplanet.com/horizon/track?
 ||smetrics.delta.com^
 ||snakesworld.com/cgi-bin/hitometer/
 ||snippets.mozilla.com^
@@ -8282,7 +8282,6 @@ http://utm.
 ||webstat.kuwo.cn^
 ||wenku.baidu.com/tongji/
 ||wumii.com/images/pixel.png
-||xnimg.cn^*/beacon.js
 ||youdao.com/cf.gif?
 ||youdao.com/imp/cac.js
 ||youdao.com/rlog.js
@@ -8565,7 +8564,7 @@ http://utm.
 @@||cleananalytics.com/browser.js?$script,domain=cheapflights.com
 @@||clicktale.net/wrb.js$domain=microsoft.com
 @@||cloudflare.com/analytics?$domain=cloudflare.com
-@@||cloudfront.net/atrk.js$domain=karnaval.com|livestream.com
+@@||cloudfront.net/atrk.js$domain=karnaval.com|livestream.com|luxuryrealestate.com
 @@||cloudfront.net^*/jquery.google-analytics.js$domain=homepath.com
 @@||collegeboard.org/webanalytics/
 @@||computerworld.com/resources/scripts/lib/demandbase.js$script
@@ -8598,7 +8597,6 @@ http://utm.
 @@||dw.com.com/js/dw.js$domain=cbsnews.com|cnet.com|gamespot.com|tv.com
 @@||dw.de/js/xtcore.js
 @@||edgesuite.net/crossdomain.xml$object-subrequest,domain=sbs.com.au
-@@||edgesuite.net/flash/analytics/*/data.swf$object-subrequest,domain=cbs.com|player.theplatform.com
 @@||egencia.com/pubspec/scripts/include/siteanalytics_include.js
 @@||eircomphonebook.ie/js/wt_capi.js?
 @@||eloqua.com/include/livevalidation_standalone.compressed.js$domain=pbs.org
@@ -8643,7 +8641,6 @@ http://utm.
 @@||grapeshot.co.uk/sare-api/
 @@||graphracer.com/js/libs/heatmap.js
 @@||guim.co.uk/flash/video/embedded/player-$object,domain=thedailywh.at
-@@||haaretz.com/logger/p.gif?type=COMMENTS_VIEWS^$xmlhttprequest
 @@||healthcare.gov/marketplace/*/clear.gif?
 @@||hhgregg.com/wcsstore/MadisonsStorefrontAssetStore/javascript/Analytics/AnalyticsTagDataObject.js
 @@||hj.flxpxl.com^*.js?r=*&m=*&a=$domain=twitch.tv
@@ -8851,7 +8848,6 @@ http://utm.
 @@||x5.xclicks.net/js/x3165.js$domain=small-breasted-teens.com
 @@||xcweather.co.uk/*/geo.php?
 @@||yimg.com/bm/lib/fi/common/*/yfi_comscore.js$domain=finance.yahoo.com
-@@||yimg.com^*/combo?$script,domain=yahoo.com
 @@||yimg.com^*/ywa.js$domain=nydailynews.com|travelscream.com|yahoo.com
 @@||ynet.co.il/Common/App/Video/Gemius/gstream.js
 @@||ynetnews.com/Common/App/Video/Gemius/gstream.js
@@ -8963,9 +8959,7 @@ http://utm.
 @@||cache2.delvenetworks.com/ps/c/v1/$object-subrequest,domain=lapresse.ca
 @@||cot.priceminister.com/res/static/*/xtcore.js
 @@||easypari.fr^*/sitestat.js
-@@||edgesuite.net/flash/analytics/qos/*/data.swf$object-subrequest,domain=ici.radio-canada.ca
 @@||fdj.fr/oad/js/xiti/xtcore.js
-@@||fr.feedsportal.com/c/$image,domain=androidgen.fr|dsgen.fr|iphonegen.fr|ps3gen.fr|pspgen.com|psvitagen.fr|wiigen.fr|xboxgen.fr
 @@||media.sosh.fr/includes/wtbase.js
 @@||media.sosh.fr/includes/wtinit.js
 @@||orange.fr/medias/toolkit/js/Wtbase.js
@@ -8996,7 +8990,6 @@ http://utm.
 ! Greek
 @@||stats.e-go.gr/rx.asp?$object-subrequest,domain=megatv.com
 ! Hebrew
-@@||edgesuite.net/flash/analytics/$object-subrequest,domain=mako.co.il
 @@||haaretz.co.il/logger/p.gif?*=COMMENTS$xmlhttprequest
 @@||haaretz.com/logger/p.gif?*=COMMENTS$xmlhttprequest
 @@||themarker.com/logger/p.gif?*=COMMENTS$xmlhttprequest

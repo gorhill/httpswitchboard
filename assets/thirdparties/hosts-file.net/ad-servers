@@ -903,6 +903,7 @@
 127.0.0.1	activewin.us.intellitxt.com
 127.0.0.1	activity.serving-sys.com
 127.0.0.1	actonsoftware.com
+127.0.0.1	actvtrack.com
 127.0.0.1	acvs.mediaonenetwork.net
 127.0.0.1	acvsrv.mediaonenetwork.net
 127.0.0.1	acxiom.com
@@ -5105,7 +5106,6 @@
 127.0.0.1	cdn.iasrv.com
 127.0.0.1	cdn.innity.com
 127.0.0.1	cdn.insights.gravity.com
-127.0.0.1	cdn.jquerytools.org
 127.0.0.1	cdn.livechatinc.com
 127.0.0.1	cdn.nearbyad.com
 127.0.0.1	cdn.onescreen.net
@@ -6540,6 +6540,7 @@
 127.0.0.1	counter.fatcow.com
 127.0.0.1	counter.fateback.com
 127.0.0.1	counter.gamespy.com
+127.0.0.1	counter.goingup.com
 127.0.0.1	counter.gorodmsk.ru
 127.0.0.1	counter.hitbox.com
 127.0.0.1	counter.hitslink.com
@@ -9182,6 +9183,7 @@
 127.0.0.1	js.libertysurf.fr
 127.0.0.1	js.livehelper.com
 127.0.0.1	js.moatads.com
+127.0.0.1	js.realypay.com
 127.0.0.1	js.revsci.net
 127.0.0.1	js.rmbn.ru
 127.0.0.1	js.ru.redtram.com
@@ -9981,6 +9983,7 @@
 127.0.0.1	n.zeroredirect.com
 127.0.0.1	n.zeroredirect1.com
 127.0.0.1	n.zeroredirect2.com
+127.0.0.1	n0cgi.distributed.net
 127.0.0.1	n24.de
 127.0.0.1	n4052ad.doubleclick.net
 127.0.0.1	n4403ad.doubleclick.net
@@ -13176,6 +13179,7 @@
 127.0.0.1	www.active-advertising.com
 127.0.0.1	www.actively-seek.com
 127.0.0.1	www.actonsoftware.com
+127.0.0.1	www.actvtrack.com
 127.0.0.1	www.acxiom.com
 127.0.0.1	www.acxtrk.com
 127.0.0.1	www.ad-agent.com
@@ -14816,6 +14820,7 @@
 127.0.0.1	www.xrevtrk.com
 127.0.0.1	www.xstat.pl
 127.0.0.1	www.xtendmedia.com
+127.0.0.1	www.xtransfer.net
 127.0.0.1	www.xxxcounter.com
 127.0.0.1	www.xxxcounter.de
 127.0.0.1	www.ybotvisit.com
@@ -15055,6 +15060,7 @@
 127.0.0.1	xsltcache.alexa.com
 127.0.0.1	xstat.pl
 127.0.0.1	xtendmedia.com
+127.0.0.1	xtransfer.net
 127.0.0.1	xwne.wcdn.co.il
 127.0.0.1	xxx.cqcounter.com
 127.0.0.1	xxxcounter.com
@@ -15143,4 +15149,4 @@
 127.0.0.1	zxypenguin.people-group.su
 127.0.0.1	zz.cqcounter.com
 127.0.0.1	_thums.ero-advertising.com
-# Hosts: 15138
+# Hosts: 15144

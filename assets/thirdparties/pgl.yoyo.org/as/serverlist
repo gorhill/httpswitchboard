@@ -3,7 +3,7 @@
 # For more information about this list, see: http://pgl.yoyo.org/adservers/
 # ----
 # last updated:   Thu, 27 Feb 2014 09:56:13 GMT
-# entries:        2501
+# entries:        2499
 # format:         hosts (hosts -- in hosts file format)
 # credits:        Peter Lowe - pgl@yoyo.org - http://pgl.yoyo.org/
 # this URL:       http://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext
@@ -428,6 +428,7 @@
 127.0.0.1 ads.cybersales.cz
 127.0.0.1 ads.dada.it
 127.0.0.1 ads.datinggold.com
+127.0.0.1 ads.datingyes.com
 127.0.0.1 ads.dazoot.ro
 127.0.0.1 ads.deltha.hu
 127.0.0.1 ads.dennisnet.co.uk
@@ -665,6 +666,7 @@
 127.0.0.1 ads.thenewpaperclip.com
 127.0.0.1 ads.thestar.com
 127.0.0.1 ads.thestranger.com
+127.0.0.1 ads.thewebfreaks.com
 127.0.0.1 ads.timeout.com
 127.0.0.1 ads.tjwi.info
 127.0.0.1 ads.tmcs.net
@@ -792,7 +794,6 @@
 127.0.0.1 adserver.digitoday.com
 127.0.0.1 adserver.dotcommedia.de
 127.0.0.1 adserver.finditquick.com
-127.0.0.1 adserver.flossiemediagroup.com
 127.0.0.1 adserver.fmpub.net
 127.0.0.1 adserver.freecity.de
 127.0.0.1 adserver.freenet.de
@@ -937,7 +938,6 @@
 127.0.0.1 adviva.net
 127.0.0.1 advnt.com
 127.0.0.1 advprotraffic.com
-127.0.0.1 adware.hu
 127.0.0.1 adwareremovergold.com
 127.0.0.1 adwhirl.com
 127.0.0.1 adwitserver.com
@@ -1472,7 +1472,6 @@
 127.0.0.1 exitexchange.com
 127.0.0.1 exitfuel.com
 127.0.0.1 exoclick.com
-127.0.0.1 experteerads.com
 127.0.0.1 exponential.com
 127.0.0.1 express-submit.de
 127.0.0.1 extads.web.de
@@ -1728,6 +1727,7 @@
 127.0.0.1 linkstorms.com
 127.0.0.1 linkswaper.com
 127.0.0.1 linktarget.com
+127.0.0.1 liquidad.narrowcastmedia.com
 127.0.0.1 liveintent.com
 127.0.0.1 liveinternet.ru
 127.0.0.1 liverail.com
@@ -1770,7 +1770,6 @@
 127.0.0.1 media.funpic.de
 127.0.0.1 media6degrees.com
 127.0.0.1 mediaarea.eu
-127.0.0.1 mediacharger.com
 127.0.0.1 mediadvertising.ro
 127.0.0.1 mediageneral.com
 127.0.0.1 mediamayhemcorp.com
@@ -1862,7 +1861,6 @@
 127.0.0.1 newt1.adultworld.com
 127.0.0.1 newtopsites.com
 127.0.0.1 ng3.ads.warnerbros.com
-127.0.0.1 ngadcenter.net
 127.0.0.1 ngs.impress.co.jp
 127.0.0.1 nitroclicks.com
 127.0.0.1 novem.pl

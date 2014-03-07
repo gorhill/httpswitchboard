@@ -1,6 +1,6 @@
 [Adblock Plus 2.0]
-! Checksum: q6fSMpApM9XrkVsOaWscmQ
-! Version: 201403061631
+! Checksum: UKOQDllzkbRz0ma+cuAA5Q
+! Version: 201403071821
 ! Liste FR ~ Filtres francophones complémentaires à EasyList
 ! Title: Liste FR
 ! Licence : http://www.adblock-listefr.com/A_propos
@@ -12,6 +12,7 @@
 !
 !----------------------- Filtres génériques ----------------------!
 !
+.adserverpub.
 .be/ads/
 .fr/ads.
 .fr/ads/
@@ -60,7 +61,6 @@ _regiepub/
 ||ad.activaweb.fr^
 ||ad.adserverplus.com^
 ||ad.prismamediadigital.com^$third-party
-||ad.zanox.com^$popup,third-party
 ||ad4you.org^$third-party
 ||adecolo.com^$third-party
 ||adfever.com^$third-party
@@ -120,7 +120,6 @@ _regiepub/
 ||edi7.lu^$third-party
 ||edintorni.net^$third-party
 ||effiliation.com^$third-party
-||eravage.com^$third-party
 ||esoterweb.com^$third-party
 ||espace-plus.net^$popup,third-party
 ||espace-plus.net^$third-party
@@ -186,7 +185,6 @@ _regiepub/
 ||partner.uncadeau.com^$third-party
 ||payglad.com^$third-party
 ||piximedia.fr^$third-party
-||pornravage.com^$third-party
 ||pornstreet.com^$popup,third-party
 ||pourmajeurs.com^$third-party
 ||promo.alienbiz.com^$third-party
@@ -219,7 +217,6 @@ _regiepub/
 ||smartadserver.com^$popup,third-party
 ||spb2011.com^$third-party
 ||sperse.com^$third-party
-||sponsoreo.com^$third-party
 ||stickyads.tv^$third-party
 ||stigads.com^$third-party
 ||superadsoffers.com^$third-party
@@ -362,7 +359,6 @@ _regiepub/
 ||eurasie.eu/sponsors-
 ||euro-liste.net/affich_
 ||euroclix.fr^$domain=176.31.96.119
-||eurolive.com/index.php?module=
 ||eurosportbet.loa24.com^$domain=eurosport.fr
 ||evolucare.com/bannieres/
 ||faf.dz/media/0c9ebb2ded806d7ffda75cd0b95eb70c.jpg
@@ -708,6 +704,7 @@ _regiepub/
 ||blogduwebdesign.com/images/Pave300x250_1.gif
 ||blogmotion.fr/wp-content/partenaires/
 ||blogsbd.fr/pub/
+||boiteajeux.net/img/pub/
 ||boursier.com/ui/js/docs-partenaires.js
 ||brain-magazine.com/images/_habillages/
 ||brain-magazine.fr/images/banners/
@@ -1420,6 +1417,7 @@ _regiepub/
 ||topjetm.net^*/img/pub.gif
 ||topliste-fr.com/filmsdivx.gif
 ||topwarez.fr/promo/
+||topwarez.fr/promo/$popup
 ||topwarez.fr^*/trendglobes/images/promo.gif
 ||torrent-avenue.com/popup.js
 ||torrent-avenue.com/popup.php$popup
@@ -1537,8 +1535,11 @@ _regiepub/
 ||zoom-algerie.com/images/amazigh-united-250.jpg
 ||zoomdici.fr/media/pub/
 ! Anti-Adblock
-/http://www\.generation-nt\.com/([0-9a-zA-Z]*)\.(jpg|gif)/$image,domain=generation-nt.com
-/http://www\.generation-nt\.com/img/([0-9a-zA-Z]*)\.(jpg|gif)/$image,domain=generation-nt.com
+/http://www\.generation-nt\.com/.*/$image,domain=generation-nt.com
+/http://www\.generation-nt\.com/img/.*/$image,domain=generation-nt.com
+@@/http://www\.generation-nt\.com/.*(png|gif|jpg|ico)/$image,domain=generation-nt.com
+@@/http://www\.generation-nt\.com/img/.*(png|gif|jpg|ico)/$image,domain=generation-nt.com
+@@||generation-nt.com/img/ads.
 ||generation-nt.com/img/kiwi-
 !
 !------------------ Éléments génériques -----------------!
@@ -1609,7 +1610,7 @@ _regiepub/
 ###general_subpub
 ###head-pub
 ###head_pub
-~futura-sciences.com###header-pub
+###header-pub
 ###headerPub
 ###header_bloc2_pub
 ###header_pub
@@ -1664,7 +1665,7 @@ _regiepub/
 ###pubBottomRight
 ###pubCarre
 ###pubContainer
-~visitvar.fr###pubDroite
+###pubDroite
 ###pubEncart
 ###pubEncart1
 ###pubEncart2
@@ -1701,7 +1702,7 @@ _regiepub/
 ###pub_col_right
 ###pub_column
 ###pub_contener_right
-~di.com.pl###pub_content
+###pub_content
 ###pub_footer
 ###pub_geante
 ###pub_haut
@@ -1714,7 +1715,7 @@ _regiepub/
 ###pub_pave
 ###pub_pave_bottom
 ###pub_pave_top
-~di.com.pl###pub_right
+###pub_right
 ###pub_square
 ###pub_top
 ###pubbas
@@ -1727,7 +1728,7 @@ _regiepub/
 ###pubgoogle
 ###pubhaut
 ###pubheader
-~openedition.org###publicite
+###publicite
 ###publicite-bas
 ###publicite-principale
 ###publicite_728_90
@@ -1760,8 +1761,6 @@ _regiepub/
 ##._meltypub
 ##.adspave
 ##.advertisement-pub
-##.advertising-content
-##.advertising300x250
 ##.annonces_google
 ##.barre_adsense
 ##.bg-adsense
@@ -1774,7 +1773,7 @@ _regiepub/
 ##.block_pub
 ##.blocpub
 ##.cadre-pub-google
-~voyageforum.com##.carre_pub
+##.carre_pub
 ##.carrepub
 ##.container-pubcarre
 ##.contenedorAds
@@ -1820,7 +1819,7 @@ _regiepub/
 ##.pub-megabanner
 ##.pub-pave
 ##.pub160x600
-~pharmasite.fr##.pub300
+##.pub300
 ##.pub300250
 ##.pub300_contenu
 ##.pub300x250
@@ -1871,7 +1870,7 @@ _regiepub/
 ##.pub_middle
 ##.pub_mobile
 ##.pub_outer
-~sport24.com##.pub_pave
+##.pub_pave
 ##.pub_plus
 ##.pub_sky
 ##.pub_skyscraper
@@ -1887,14 +1886,14 @@ _regiepub/
 ##.pubimage
 ##.pubitem
 ##.publarge
-~love-hinax.com##.publicite
+##.publicite
 ##.publicite-bas
 ##.publicite1
 ##.publicite_3
 ##.publicite_locale
 ##.publicite_r
 ##.publiciteright
-~imdb.com##.publicity
+##.publicity
 ##.pubwrapper
 ##.row_pub
 ##.socialPromoteBox
@@ -2390,7 +2389,6 @@ des-amours.com##.big-button
 01net.com##.bilboard
 francefootball.fr##.bloc-autopromo
 leparisien.fr##.bloc-pratique
-surf-heures.com##.bloc-pub
 logitheque.com##.bloc-pub-center-left
 programme-tv.net##.blocLeguide
 leparisien.fr##.blocPartenaire
@@ -2615,6 +2613,7 @@ tasante.com##.pubcontent
 orangeinfo.fr,scifi-universe.com##.pubheader
 commentcamarche.net,journaldesfemmes.com,linternaute.com##.publi-info
 chuck-streaming.fr,hawaii-streaming.com,smash-streaming.com,the-big-bang-streaming.com,trone-de-fer-streaming.com##.publi_all
+jeuxvideo.com##.publi_info
 jeuxvideo.com##.publi_info + ul
 e-sante.fr##.public-info
 aussitot.fr##.pubmidtext
@@ -2685,7 +2684,6 @@ aujourdhui-en-france.fr,leparisien.fr##.venteprivee
 leparisien.fr##.vestiairecollective
 canalplus.fr##.video-preroll
 canalplus.fr##.visuel_preroll
-canalplus.fr##.vitrine_content
 viamichelin.fr##.vm-gdhmegaban
 viamichelin.fr##.vm-pub-home-google
 viamichelin.be,viamichelin.fr##.vm-pub-home300
@@ -2720,22 +2718,9 @@ brunotritsch.fr##[href^="http://rdinews.com/ads/"]
 radins.com##[href^="http://track.radins.com/regie.php?"]
 dhnet.be##[href^="http://www.livepartners.be/affiliate/"]
 ibidule.fr##[href^="https://www.1and1.fr/?kwk="] > img
-routard.com##[id^="A2dEmplacement"]
-football.fr##[id^="ad-rectangle"]
-depechedekabylie.com##[id^="adv_"]
 soonnight.com##[id^="ajax_bas_colonne_"].bas_colonne
 hitradio.ma##[id^="banner"]
 zero-complexe.com##[id^="block-adsense"]
-melty.fr,meltybuzz.fr,meltycampus.fr,meltyfashion.fr,meltyfood.fr,meltystyle.fr,meltyxtrem.fr##[id^="container_A2_"]
-wawacity.su##[id^="img_300x250_fiche_"]
-audiofanzine.com##[id^="lbs"]
-equirodi.be##[id^="partnerslinks"]
-estrepublicain.fr##[id^="pub-dfp-"]
-sofoot.com##[id^="pub_"]
-fansubresistance.net##[id^="pub_468x60"]
-fansubresistance.net##[id^="pub_728x90"]
-coupedafrique.com##[id^="pub_criteo_"]
-promo-perso.com##[style="float:right;min-height:2000px"]
 touslesdrivers.com##a.seo
 free-reseau.fr##a[href*="&tag=freereseaufr-"]
 artdeseduire.com##a[href*="/?part=ads"]
@@ -2844,13 +2829,22 @@ gratuit-xxx.com##div[class^="boost_g_"]
 lagazettedescommunes.com##div[class^="col-note-pub300x"]
 phpsources.org##div[class^="googleanal-"]
 lefigaro.fr##div[data-footer-label="Service Partenaire"]
-sfr.fr##div[id^="A2dEmplacement"]
+routard.com,sfr.fr##div[id^="A2dEmplacement"]
 actufoot.fr,livefootball.fr,mercato.fr##div[id^="ad6b_"]
 gratuitcul.com##div[id^="affidate_form_"]
+melty.fr,meltybuzz.fr,meltycampus.fr,meltyfashion.fr,meltyfood.fr,meltystyle.fr,meltyxtrem.fr##div[id^="container_A2_"]
 france2.fr,france3.fr,france4.fr,france5.fr,franceo.fr,francetv.fr,francetvinfo.fr,la1ere.fr,pluzz.fr,~sport.francetv.fr##div[id^="eShowPub"]
+wawacity.su##div[id^="img_300x250_fiche_"]
+audiofanzine.com##div[id^="lbs"]
+equirodi.be##div[id^="partnerslinks"]
 fr.news.yahoo.com##div[id^="pmBannerContainer"]
+estrepublicain.fr##div[id^="pub-dfp-"]
+sofoot.com##div[id^="pub_"]
+fansubresistance.net##div[id^="pub_468x60"]
 fansub-resistance.net##div[id^="pub_468x60_"]
+fansubresistance.net##div[id^="pub_728x90"]
 fansub-resistance.net##div[id^="pub_728x90_"]
+coupedafrique.com##div[id^="pub_criteo_"]
 clubic.com##div[id^="pub_dart_"]
 pagesjaunes.fr##div[id^="push"]
 herault-tribune.com##div[id^=content_right_pub]
@@ -2974,9 +2968,6 @@ people-looks.com##td[width="980"][height="40"][bgcolor="#FFFFFF"]
 drague.net##tr > td[height="95"][align="center"][colspan="2"]
 ! Anti-Adblock
 lokan.fr###anti-adblock
-generation-nt.com###coms + div > a > img
-generation-nt.com###ctBoc > div > div > a > img
-generation-nt.com###global > div > div > div + aside > div + a > img
 sofoot.com##.HOULALA
 netprof.fr##ins[style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px"]
 !
@@ -3191,7 +3182,6 @@ netprof.fr##ins[style="display:inline-table;border:none;height:600px;margin:0;pa
 @@||full-stream.net/uploads/advertisement-AdBlock.js.js
 @@||funeralforamanga.fr/js/advertisement.js
 @@||gamersconnexion.com/js/advertisement.js
-@@||generation-nt.com/pubs/ads.
 @@||googleads.g.doubleclick.net/favicon.ico$image
 @@||googleads.g.doubleclick.net/pagead/ads?$subdocument,domain=netprof.fr
 @@||googleads.g.doubleclick.net/pagead/html/$subdocument,domain=netprof.fr
@@ -3232,8 +3222,13 @@ radio-canada.ca#@##ad-header
 e-monsite.com#@##ad_link
 viedemerde.fr#@##ads_bottom
 fichier.net#@##contentAd
+futura-sciences.com#@##header-pub
+visitvar.fr#@##pubDroite
+di.com.pl#@##pub_content
 scan-manga.com#@##pub_haut
+di.com.pl#@##pub_right
 maxdebrideur.com#@##pubdirecte
+openedition.org#@##publicite
 ratus13.com#@#.ad-block
 jeuxjeuxjeux.fr,vente-a-domicile.fr#@#.ad-left
 vente-a-domicile.fr#@#.ad-right
@@ -3246,10 +3241,15 @@ jamesedition.fr#@#.advert2
 gamexpo.fr#@#.advertisment
 reseauforum.org#@#.block-ad
 vente-a-domicile.fr#@#.btn-ad
+voyageforum.com#@#.carre_pub
 latribune-online.com#@#.header_ads
 reseauforum.org#@#.html-advertisement
 bfmtv.com#@#.ligatus
 leboncoin.fr#@#.list-ads
+pharmasite.fr#@#.pub300
+sport24.com#@#.pub_pave
+love-hinax.com#@#.publicite
+imdb.com#@#.publicity
 maghrebspace.net#@#.top-publicite
 geekdefrance.fr#@#.topads
 wanimo.com#@#div[id^="div-gpt-ad-"]

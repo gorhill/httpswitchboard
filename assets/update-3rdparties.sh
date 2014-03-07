@@ -13,13 +13,24 @@ THIRDPARTY_REMOTEURLS=(
     'http://www.malwaredomainlist.com/hostslist/hosts.txt'
     'http://hosts-file.net/.%5Cad_servers.txt'
     'http://someonewhocares.org/hosts/hosts'
+    'http://winhelp2002.mvps.org/hosts.txt'
+    'http://hosts-file.net/download/hosts.txt'
+    'http://publicsuffix.org/list/effective_tld_names.dat'
     'https://easylist-downloads.adblockplus.org/easylist.txt'
     'https://easylist-downloads.adblockplus.org/easyprivacy.txt'
     'https://easylist-downloads.adblockplus.org/fanboy-annoyance.txt'
     'http://www.fanboy.co.nz/enhancedstats.txt'
-    'http://winhelp2002.mvps.org/hosts.txt'
-    'http://hosts-file.net/download/hosts.txt'
-    'http://publicsuffix.org/list/effective_tld_names.dat'
+    'https://easylist-downloads.adblockplus.org/easylistgermany.txt'
+    'https://easylist-downloads.adblockplus.org/easylistitaly.txt'
+    'https://easylist-downloads.adblockplus.org/easylistdutch.txt'
+    'https://easylist-downloads.adblockplus.org/liste_fr.txt'
+    'http://adblock-chinalist.googlecode.com/svn/trunk/adblock.txt'
+    'http://stanev.org/abp/adblock_bg.txt'
+    'http://indonesianadblockrules.googlecode.com/hg/subscriptions/abpindo.txt'
+    'http://liste-ar-adblock.googlecode.com/hg/Liste_AR.txt'
+    'http://adblock-czechoslovaklist.googlecode.com/svn/filters.txt'
+    'https://gitorious.org/adblock-latvian/adblock-latvian/raw/5f5fc83eb1a2d0e97df9a5c382febaa651511757:lists/latvian-list.txt'
+    'https://raw.github.com/AdBlockPlusIsrael/EasyListHebrew/master/EasyListHebrew.txt'
     )
 
 THIRDPARTY_LOCALURLS=(
@@ -29,13 +40,24 @@ THIRDPARTY_LOCALURLS=(
     'thirdparties/www.malwaredomainlist.com/hostslist/hosts.txt'
     'thirdparties/hosts-file.net/ad-servers'
     'thirdparties/someonewhocares.org/hosts/hosts'
+    'thirdparties/winhelp2002.mvps.org/hosts.txt'
+    'thirdparties/hosts-file.net/hosts.txt'
+    'thirdparties/publicsuffix.org/list/effective_tld_names.dat'
     'thirdparties/easylist-downloads.adblockplus.org/easylist.txt'
     'thirdparties/easylist-downloads.adblockplus.org/easyprivacy.txt'
     'thirdparties/easylist-downloads.adblockplus.org/fanboy-annoyance.txt'
     'thirdparties/www.fanboy.co.nz/enhancedstats.txt'
-    'thirdparties/winhelp2002.mvps.org/hosts.txt'
-    'thirdparties/hosts-file.net/hosts.txt'
-    'thirdparties/publicsuffix.org/list/effective_tld_names.dat'
+    'thirdparties/easylist-downloads.adblockplus.org/easylistgermany.txt'
+    'thirdparties/easylist-downloads.adblockplus.org/easylistitaly.txt'
+    'thirdparties/easylist-downloads.adblockplus.org/easylistdutch.txt'
+    'thirdparties/easylist-downloads.adblockplus.org/liste_fr.txt'
+    'thirdparties/adblock-chinalist.googlecode.com/svn/trunk/adblock.txt'
+    'thirdparties/stanev.org/abp/adblock_bg.txt'
+    'thirdparties/indonesianadblockrules.googlecode.com/hg/subscriptions/abpindo.txt'
+    'thirdparties/liste-ar-adblock.googlecode.com/hg/Liste_AR.txt'
+    'thirdparties/adblock-czechoslovaklist.googlecode.com/svn/filters.txt'
+    'thirdparties/gitorious.org/adblock-latvian/adblock-latvian/raw/5f5fc83eb1a2d0e97df9a5c382febaa651511757:lists/latvian-list.txt'
+    'thirdparties/raw.github.com/AdBlockPlusIsrael/EasyListHebrew/master/EasyListHebrew.txt'
     )
 
 ENTRY_INDEX=0
@@ -54,6 +76,4 @@ for THIRDPARTY_REMOTEURL in ${THIRDPARTY_REMOTEURLS[@]}; do
 done
 
 echo "*** HTTP Switchboard: remote assets updated."
-
-./update-checksums.sh
 
