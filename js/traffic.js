@@ -242,7 +242,7 @@ function onBeforeRequestHandler(details) {
     }
 
     // Block using ABP filters?
-    if ( !block ) {
+    if ( !block && !isWebPage ) {
         block = httpsb.abpFilters.matchString(requestURL);
         if ( block ) {
             httpsb.abpHitCount += 1;

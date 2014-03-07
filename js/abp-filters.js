@@ -79,19 +79,103 @@ var reToken = /[%0-9A-Za-z]{2,}/g;
 
 /******************************************************************************/
 
-var FilterEntry = function(s, tokenBeg, tokenLen) {
+var Filter = function(s, tokenBeg, tokenLen) {
     this.s = s;
     this.tokenBeg = tokenBeg;
     this.tokenLen = tokenLen;
     this.next = undefined;
 };
 
-/******************************************************************************/
-
-FilterEntry.prototype.match = function(s, tokenBeg) {
+Filter.prototype.match = function(s, tokenBeg) {
     // rhill 2014-03-05: Benchmarking shows that's the fastest way to do this.
     var filterBeg = tokenBeg - this.tokenBeg;
     return s.indexOf(this.s, filterBeg) === filterBeg;
+};
+
+/******************************************************************************/
+
+// Example:
+// given: "__/abcde-ghijk*mnopqr"
+// token:    "abcde"
+// this.tokenBeg: 3
+// this.tokenLen: 5
+// Align origins of global and local strings
+// Then loop for each segment
+// local l offset = 0
+// local r offset = indexOf('*') = 14
+// So test local segment "__/abcde-ghijk" against external segment with
+//   offset transposed into global coords.
+// Then repeat for next plain segment, after skipping wildcard. Etc.
+
+// This needs more work, and especially benchmarks against regex.
+// My expectation though is that using indexOf() is faster for filters
+// which have a single wildcard (large majority), while a regex would work
+// for maybe 2 or 3 and more wildcards (both approaches require an overhead).
+
+// I will collate here real cases which to use in a jsperf benchmark:
+
+// Hits:
+
+// l.yimg.com*/img/badge-
+// http://mail.yimg.com/nq/assets/micro2/v47/img/badge-sprites.png
+
+// yimg.com/ss/rapid-*.js
+// http://l.yimg.com/ss/rapid-3.11.js
+
+// arstechnica.net*/sponsor-
+// http://cdn.arstechnica.net/wp-content/themes/arstechnica/assets/images/smartstream/ibm/sponsor-msg.png
+
+// msn.com*/report.js
+// http://blu.stj.s-msn.com/br/csl/js/D8CC944FD882D1B64561551E54F9CF3B/report.js
+
+// /cnwk.1d/*/apex.js
+// http://cn.cbsimg.net/cnwk.1d/Aud/javascript/gamespot/apex.js?_=1394157449540
+
+// Misses:
+
+// ...
+
+var FilterWildcard = function(s, tokenBeg, tokenLen) {
+    Filter.apply(this, arguments);
+};
+
+FilterWildcard.prototype.match = function(s, tokenBeg) {
+    var globalLeftOffset = tokenBeg - this.tokenBeg;
+    var localStr = this.s;
+
+    // First segment must match exactly
+    var localLeftOffset = 0;
+    var localRightOffset = localStr.indexOf('*', localLeftOffset);
+    if ( s.indexOf(localStr.slice(localLeftOffset, localRightOffset), globalLeftOffset) !== globalLeftOffset ) {
+        return false;
+    }
+    globalLeftOffset += localRightOffset;
+    localLeftOffset = localRightOffset + 1;
+
+    var localLen = localStr.length;
+    while ( localLeftOffset < localLen ) {
+        localRightOffset = localStr.indexOf('*', localLeftOffset);
+        if ( localRightOffset < 0 ) {
+            localRightOffset = localLen;
+        }
+        globalLeftOffset = s.indexOf(localStr.slice(localLeftOffset, localRightOffset), globalLeftOffset);
+        if ( globalLeftOffset < 0 ) {
+            return false;
+        }
+        globalLeftOffset += localRightOffset - localLeftOffset;
+        localLeftOffset = localRightOffset + 1;
+    }
+    return true;
+};
+
+/******************************************************************************/
+
+FilterFactory = function(s, tokenBeg, tokenLen) {
+    var rWildcard = s.indexOf('*');
+    if ( rWildcard < 0 ) {
+        return new Filter(s, tokenBeg, tokenLen);
+    }
+    return new FilterWildcard(s, tokenBeg, tokenLen);
 };
 
 /******************************************************************************/
@@ -151,17 +235,17 @@ var add = function(s) {
     s = s.replace(/\*\*+/g, '*');
 
     // Ignore rules with a wildcard in the middle
-    if ( reWildcardRule.test(s) ) {
-        return false;
-    }
+//    if ( reWildcardRule.test(s) ) {
+//        return false;
+//    }
 
     // Ignore hostname rules, these will be taken care of by HTTPSB.
     if ( reHostnameRule.test(s) ) {
         return false;
     }
 
-    // Remove pipes
-    s = s.replace(/^\|\|/, '');
+    // Remove leading and trailing pipes
+    s = s.replace(/^\|+|\|+$/, '');
 
     // Remove leading and trailing wildcards
     var pos = 0;
@@ -190,7 +274,7 @@ var add = function(s) {
     var tokenBeg = matches.index;
     var tokenEnd = reToken.lastIndex;
 
-    filter = new FilterEntry(s, tokenBeg, token.length);
+    filter = FilterFactory(s, tokenBeg, token.length);
     filterDict[s] = filter;
 
     var prefixKey = s.substring(tokenBeg - 1, tokenBeg);

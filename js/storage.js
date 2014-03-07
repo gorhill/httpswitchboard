@@ -251,7 +251,7 @@ function loadRemoteBlacklistsHandler(store) {
         'loadUbiquitousBlacklistCompleted',
         null,
         onLoadUbiquitousBlacklistCompleted,
-        100,
+        1000,
         false
     );
 }
@@ -366,7 +366,7 @@ function mergeBlacklistedHosts(details) {
         'loadUbiquitousBlacklistCompleted',
         null,
         onLoadUbiquitousBlacklistCompleted,
-        100,
+        1000,
         false
     );
 }

@@ -68,6 +68,9 @@ var HTTPSB = {
         'assets/thirdparties/hosts-file.net/ad-servers': {},
         'assets/thirdparties/someonewhocares.org/hosts/hosts': {},
 
+        // Various
+        'assets/thirdparties/winhelp2002.mvps.org/hosts.txt': {},
+
         // From here on, any new list is 'off' by default
         // Adblock Plus
         'assets/thirdparties/easylist-downloads.adblockplus.org/easylist.txt': {},
@@ -77,8 +80,18 @@ var HTTPSB = {
         // Fanboy
         'assets/thirdparties/www.fanboy.co.nz/enhancedstats.txt': {},
 
-        // Various
-        'assets/thirdparties/winhelp2002.mvps.org/hosts.txt': {},
+        'assets/thirdparties/easylist-downloads.adblockplus.org/easylistgermany.txt': { off: true },
+        'assets/thirdparties/easylist-downloads.adblockplus.org/easylistitaly.txt': { off: true },
+        'assets/thirdparties/easylist-downloads.adblockplus.org/easylistdutch.txt': { off: true },
+        'assets/thirdparties/easylist-downloads.adblockplus.org/liste_fr.txt': { off: true },
+        'assets/thirdparties/adblock-chinalist.googlecode.com/svn/trunk/adblock.txt': { off: true },
+        'assets/thirdparties/stanev.org/abp/adblock_bg.txt': { off: true },
+        'assets/thirdparties/indonesianadblockrules.googlecode.com/hg/subscriptions/abpindo.txt': { off: true },
+        'assets/thirdparties/liste-ar-adblock.googlecode.com/hg/Liste_AR.txt': { off: true },
+        'assets/thirdparties/adblock-czechoslovaklist.googlecode.com/svn/filters.txt': { off: true },
+        'assets/thirdparties/gitorious.org/adblock-latvian/adblock-latvian/raw/5f5fc83eb1a2d0e97df9a5c382febaa651511757:lists/latvian-list.txt': { off: true },
+        'assets/thirdparties/raw.github.com/AdBlockPlusIsrael/EasyListHebrew/master/EasyListHebrew.txt': { off: true },
+
         'assets/thirdparties/hosts-file.net/hosts.txt': { off: true }
         },
 
