@@ -63,6 +63,9 @@ Net requests (3rd party / all):	906 / 1,690
 Bandwidth:	25,440,697 bytes
 Idle mem after: 120 MB
 
+
+Complex filters count no '*' support: 16,637
+Complex filters count with '*' support: 18,741
 */
 
 var filterDict = {};
@@ -82,100 +85,105 @@ var reToken = /[%0-9A-Za-z]{2,}/g;
 var Filter = function(s, tokenBeg, tokenLen) {
     this.s = s;
     this.tokenBeg = tokenBeg;
-    this.tokenLen = tokenLen;
+    // We do not need this at this point, so keep object size to a minimum
+    // this.tokenLen = tokenLen;
     this.next = undefined;
 };
 
 Filter.prototype.match = function(s, tokenBeg) {
-    // rhill 2014-03-05: Benchmarking shows that's the fastest way to do this.
-    var filterBeg = tokenBeg - this.tokenBeg;
-    return s.indexOf(this.s, filterBeg) === filterBeg;
+    return false;
 };
 
 /******************************************************************************/
 
-// Example:
-// given: "__/abcde-ghijk*mnopqr"
-// token:    "abcde"
-// this.tokenBeg: 3
-// this.tokenLen: 5
-// Align origins of global and local strings
-// Then loop for each segment
-// local l offset = 0
-// local r offset = indexOf('*') = 14
-// So test local segment "__/abcde-ghijk" against external segment with
-//   offset transposed into global coords.
-// Then repeat for next plain segment, after skipping wildcard. Etc.
-
-// This needs more work, and especially benchmarks against regex.
-// My expectation though is that using indexOf() is faster for filters
-// which have a single wildcard (large majority), while a regex would work
-// for maybe 2 or 3 and more wildcards (both approaches require an overhead).
-
-// I will collate here real cases which to use in a jsperf benchmark:
-
-// Hits:
-
-// l.yimg.com*/img/badge-
-// http://mail.yimg.com/nq/assets/micro2/v47/img/badge-sprites.png
-
-// yimg.com/ss/rapid-*.js
-// http://l.yimg.com/ss/rapid-3.11.js
-
-// arstechnica.net*/sponsor-
-// http://cdn.arstechnica.net/wp-content/themes/arstechnica/assets/images/smartstream/ibm/sponsor-msg.png
-
-// msn.com*/report.js
-// http://blu.stj.s-msn.com/br/csl/js/D8CC944FD882D1B64561551E54F9CF3B/report.js
-
-// /cnwk.1d/*/apex.js
-// http://cn.cbsimg.net/cnwk.1d/Aud/javascript/gamespot/apex.js?_=1394157449540
-
-// Misses:
-
-// ...
-
-var FilterWildcard = function(s, tokenBeg, tokenLen) {
+var FilterPlain = function(s, tokenBeg, tokenLen) {
     Filter.apply(this, arguments);
 };
 
-FilterWildcard.prototype.match = function(s, tokenBeg) {
-    var globalLeftOffset = tokenBeg - this.tokenBeg;
-    var localStr = this.s;
+FilterPlain.prototype.match = function(s, tokenBeg) {
+    tokenBeg -= this.tokenBeg;
+    return s.indexOf(this.s, tokenBeg) === tokenBeg;
+};
 
-    // First segment must match exactly
-    var localLeftOffset = 0;
-    var localRightOffset = localStr.indexOf('*', localLeftOffset);
-    if ( s.indexOf(localStr.slice(localLeftOffset, localRightOffset), globalLeftOffset) !== globalLeftOffset ) {
-        return false;
-    }
-    globalLeftOffset += localRightOffset;
-    localLeftOffset = localRightOffset + 1;
+/******************************************************************************/
 
-    var localLen = localStr.length;
-    while ( localLeftOffset < localLen ) {
-        localRightOffset = localStr.indexOf('*', localLeftOffset);
-        if ( localRightOffset < 0 ) {
-            localRightOffset = localLen;
-        }
-        globalLeftOffset = s.indexOf(localStr.slice(localLeftOffset, localRightOffset), globalLeftOffset);
-        if ( globalLeftOffset < 0 ) {
-            return false;
-        }
-        globalLeftOffset += localRightOffset - localLeftOffset;
-        localLeftOffset = localRightOffset + 1;
-    }
-    return true;
+FilterPlainPrefix0 = function(s, tokenBeg) {
+    Filter.apply(this, arguments);
+};
+
+FilterPlainPrefix0.prototype.match = function(s, tokenBeg) {
+    return s.indexOf(this.s, tokenBeg) === tokenBeg;
+};
+
+/******************************************************************************/
+
+FilterPlainPrefix1 = function(s, tokenBeg) {
+    Filter.apply(this, arguments);
+};
+
+FilterPlainPrefix1.prototype.match = function(s, tokenBeg) {
+    return s.indexOf(this.s, tokenBeg - 1) === tokenBeg - 1;
+};
+
+/******************************************************************************/
+
+// With a single wildcard, indexOf is best.
+// See: http://jsperf.com/regexp-vs-indexof-for-abp/4
+
+FilterSingleWildcard = function(s, tokenBeg, tokenLen) {
+    Filter.apply(this, arguments);
+    this.wcOffset = s.indexOf('*');
+    this.lSegment = s.slice(0, this.wcOffset);
+    this.rSegment = s.slice(this.wcOffset + 1);
+};
+
+FilterSingleWildcard.prototype.match = function(s, tokenBeg) {
+    tokenBeg - this.tokenBeg;
+    return s.indexOf(this.lSegment, tokenBeg) === tokenBeg &&
+           s.indexOf(this.rSegment, tokenBeg + this.wcOffset) > 0;
+};
+
+/******************************************************************************/
+
+// With many wildcards, a regex is best.
+
+FilterManyWildcards = function(s, tokenBeg, tokenLen) {
+    Filter.apply(this, arguments);
+    // Ref: escaper taken from:
+    // https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
+    // Except modified for the purpose here.
+    this.re = new RegExp('^' + s.replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1').replace(/\*/g, '.*'));
+};
+
+FilterManyWildcards.prototype.match = function(s, tokenBeg) {
+    return this.re.test(s.slice(tokenBeg - this.tokenBeg));
 };
 
 /******************************************************************************/
 
 FilterFactory = function(s, tokenBeg, tokenLen) {
-    var rWildcard = s.indexOf('*');
-    if ( rWildcard < 0 ) {
-        return new Filter(s, tokenBeg, tokenLen);
+    var wcOffset = s.indexOf('*');
+    if ( wcOffset > 0 ) {
+        return FilterWildcardFactory(s, tokenBeg, tokenLen);
     }
-    return new FilterWildcard(s, tokenBeg, tokenLen);
+    return FilterPlainFactory(s, tokenBeg, tokenLen);
+};
+
+FilterPlainFactory = function(s, tokenBeg, tokenLen) {
+    if ( tokenBeg === 0 ) {
+        return new FilterPlainPrefix0(s, 0, tokenLen);
+    }
+    if ( tokenBeg === 1 ) {
+        return new FilterPlainPrefix1(s, 1, tokenLen);
+    }
+    return new FilterPlain(s, tokenBeg, tokenLen);
+};
+
+FilterWildcardFactory = function(s, tokenBeg, tokenLen) {
+    if ( (/\*[^*]\*/).test(s) ) {
+        return FilterManyWildcards(s, tokenBeg, tokenLen);
+    }
+    return new FilterSingleWildcard(s, tokenBeg, tokenLen);
 };
 
 /******************************************************************************/
@@ -201,6 +209,7 @@ var badTokens = {
     'http': true,
     'https': true,
     'js': true,
+    'news': true,
     'www': true
 };
 
@@ -275,6 +284,9 @@ var add = function(s) {
     var tokenEnd = reToken.lastIndex;
 
     filter = FilterFactory(s, tokenBeg, token.length);
+    if ( !filter ) {
+        return false;
+    }
     filterDict[s] = filter;
 
     var prefixKey = s.substring(tokenBeg - 1, tokenBeg);
@@ -296,12 +308,13 @@ var freeze = function() {
 
 /******************************************************************************/
 
-var matchStringToFilterChain = function(filter, s, tokenBeg) {
-    while ( filter !== undefined ) {
-        if ( filter.match(s, tokenBeg) ) {
+var matchStringToFilterChain = function(f, s, tokenBeg) {
+    while ( f !== undefined ) {
+        if ( f.match(s, tokenBeg) ) {
+            // console.log('abp-filters.js> matchStringToFilterChain(): "%s" matches "%s"', f.s, s);
             return true;
         }
-        filter = filter.next;
+        f = f.next;
     }
     return false;
 };
