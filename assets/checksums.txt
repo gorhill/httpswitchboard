@@ -22,7 +22,6 @@ cad98a8c32066def9ddac3f83a838d3f assets/thirdparties/liste-ar-adblock.googlecode
 b634ce6f816afa58d0b31a1bbdafe6c7 assets/thirdparties/www.fanboy.co.nz/enhancedstats.txt
 042419405031f0fcfac3735bf4f05e21 assets/thirdparties/www.malwaredomainlist.com/hostslist/README.md
 5015cf6a179f6e54ec0bee770d8a0984 assets/thirdparties/www.malwaredomainlist.com/hostslist/hosts.txt
-25e6d2cacdf618cdaf1917c5d0fe1ad2 assets/thirdparties/gitorious.org/adblock-latvian/adblock-latvian/raw/5f5fc83eb1a2d0e97df9a5c382febaa651511757%3Alists/latvian-list.txt
 d004d817001f4359a1e105ee064272ec assets/thirdparties/indonesianadblockrules.googlecode.com/hg/subscriptions/abpindo.txt
 cfe6bcaf02eecb0451fcc5553a6a8077 assets/thirdparties/stanev.org/abp/adblock_bg.txt
 4d6a139c60b2dc910f976ccf314beab6 assets/thirdparties/hosts-file.net/hosts.txt
