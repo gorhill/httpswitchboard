@@ -90,7 +90,7 @@ function renderBlacklists() {
             child.attr('href', userListHref);
             child.text($(userListHref).text());
         } else {
-            child.attr('href', blacklistName);
+            child.attr('href', encodeURI(blacklistName));
             child.text(blacklistName);
         }
         child = $('span span:nth-of-type(1)', li);
