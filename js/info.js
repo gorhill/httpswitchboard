@@ -81,6 +81,9 @@ function updateRequestData() {
 /******************************************************************************/
 
 function renderNumber(value) {
+    if ( isNaN(value) ) {
+        return '0';
+    }
     // TODO: localization
     if ( +value > 1000 ) {
         value = value.toString();
