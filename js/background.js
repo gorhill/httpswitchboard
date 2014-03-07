@@ -50,6 +50,8 @@ var HTTPSB = {
     clearBrowserCacheCycle: 0,
     inlineFieldSeparator: '#',
 
+    projectServerRoot: 'https://raw2.github.com/gorhill/httpswitchboard/master/',
+
     // list of remote blacklist locations
     remoteBlacklists: {
         // User

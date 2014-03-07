@@ -61,7 +61,7 @@ Useful ref.: // Ref.: http://www.html5rocks.com/en/tutorials/file/filesystem/
 
 var fileSystem;
 var fileSystemQuota = 24 * 1024 * 1024;
-var remoteRoot = 'https://raw2.github.com/gorhill/httpswitchboard/master/';
+var remoteRoot = HTTPSB.projectServerRoot;
 
 /******************************************************************************/
 

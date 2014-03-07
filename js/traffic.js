@@ -156,6 +156,11 @@ function onBeforeRequestHandler(details) {
     if ( requestURL.indexOf('filesystem:') === 0 ) {
         return;
     }
+    // Do not block myself from updating assets
+    // https://github.com/gorhill/httpswitchboard/issues/202
+    if ( requestURL.indexOf(HTTPSB.projectServerRoot) === 0 ) {
+        return;
+    }
 
     var httpsb = HTTPSB;
 
