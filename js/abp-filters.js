@@ -128,7 +128,9 @@ FilterPlainPrefix1.prototype.match = function(s, tokenBeg) {
 /******************************************************************************/
 
 // With a single wildcard, indexOf is best.
-// See: http://jsperf.com/regexp-vs-indexof-for-abp/4
+// See:
+//   http://jsperf.com/regexp-vs-indexof-abp-miss
+//   http://jsperf.com/regexp-vs-indexof-abp-hit
 
 FilterSingleWildcard = function(s, tokenBeg, tokenLen) {
     Filter.apply(this, arguments);
