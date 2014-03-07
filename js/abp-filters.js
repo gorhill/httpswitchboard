@@ -75,7 +75,6 @@ var filterIndex = {};
 var reIgnoreFilter = /^\[|^!|##|@#|@@|^\|http/;
 var reConditionalRule = /\$/;
 var reHostnameRule = /^\|\|[a-z0-9.-]+\^?$/;
-var reWildcardRule = /[^*][*]+[^*]/;
 var reToken = /[%0-9A-Za-z]{2,}/g;
 
 // My favorite regex tester: http://regexpal.com/
@@ -107,7 +106,7 @@ FilterPlain.prototype.match = function(s, tokenBeg) {
 
 /******************************************************************************/
 
-FilterPlainPrefix0 = function(s, tokenBeg) {
+var FilterPlainPrefix0 = function(s, tokenBeg) {
     Filter.apply(this, arguments);
 };
 
@@ -117,7 +116,7 @@ FilterPlainPrefix0.prototype.match = function(s, tokenBeg) {
 
 /******************************************************************************/
 
-FilterPlainPrefix1 = function(s, tokenBeg) {
+var FilterPlainPrefix1 = function(s, tokenBeg) {
     Filter.apply(this, arguments);
 };
 
@@ -132,7 +131,7 @@ FilterPlainPrefix1.prototype.match = function(s, tokenBeg) {
 //   http://jsperf.com/regexp-vs-indexof-abp-miss
 //   http://jsperf.com/regexp-vs-indexof-abp-hit
 
-FilterSingleWildcard = function(s, tokenBeg, tokenLen) {
+var FilterSingleWildcard = function(s, tokenBeg, tokenLen) {
     Filter.apply(this, arguments);
     this.wcOffset = s.indexOf('*');
     this.lSegment = s.slice(0, this.wcOffset);
@@ -140,7 +139,7 @@ FilterSingleWildcard = function(s, tokenBeg, tokenLen) {
 };
 
 FilterSingleWildcard.prototype.match = function(s, tokenBeg) {
-    tokenBeg - this.tokenBeg;
+    tokenBeg -= this.tokenBeg;
     return s.indexOf(this.lSegment, tokenBeg) === tokenBeg &&
            s.indexOf(this.rSegment, tokenBeg + this.wcOffset) > 0;
 };
@@ -149,7 +148,7 @@ FilterSingleWildcard.prototype.match = function(s, tokenBeg) {
 
 // With many wildcards, a regex is best.
 
-FilterManyWildcards = function(s, tokenBeg, tokenLen) {
+var FilterManyWildcards = function(s, tokenBeg, tokenLen) {
     Filter.apply(this, arguments);
     // Ref: escaper taken from:
     // https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
@@ -163,7 +162,7 @@ FilterManyWildcards.prototype.match = function(s, tokenBeg) {
 
 /******************************************************************************/
 
-FilterFactory = function(s, tokenBeg, tokenLen) {
+var FilterFactory = function(s, tokenBeg, tokenLen) {
     var wcOffset = s.indexOf('*');
     if ( wcOffset > 0 ) {
         return FilterWildcardFactory(s, tokenBeg, tokenLen);
@@ -171,7 +170,7 @@ FilterFactory = function(s, tokenBeg, tokenLen) {
     return FilterPlainFactory(s, tokenBeg, tokenLen);
 };
 
-FilterPlainFactory = function(s, tokenBeg, tokenLen) {
+var FilterPlainFactory = function(s, tokenBeg, tokenLen) {
     if ( tokenBeg === 0 ) {
         return new FilterPlainPrefix0(s, 0, tokenLen);
     }
@@ -181,7 +180,7 @@ FilterPlainFactory = function(s, tokenBeg, tokenLen) {
     return new FilterPlain(s, tokenBeg, tokenLen);
 };
 
-FilterWildcardFactory = function(s, tokenBeg, tokenLen) {
+var FilterWildcardFactory = function(s, tokenBeg, tokenLen) {
     if ( (/\*[^*]\*/).test(s) ) {
         return FilterManyWildcards(s, tokenBeg, tokenLen);
     }
@@ -201,7 +200,7 @@ var reset = function() {
 /******************************************************************************/
 
 // Given a string, find a good token. Tokens which are too generic, i.e. very
-// common with a high probability of ending up as a false positive, are not
+// common with a high probability of ending up as a miss, are not
 // good. Avoid if possible. This has a *significant* positive impact on
 // performance.
 // These "bad tokens" are collated manually.
@@ -210,6 +209,8 @@ var badTokens = {
     'com': true,
     'http': true,
     'https': true,
+    'images': true,
+    'img': true,
     'js': true,
     'news': true,
     'www': true
@@ -230,6 +231,26 @@ var findGoodToken = function(s) {
 
 /******************************************************************************/
 
+// Trim leading/trailing char "c"
+
+var trimChar = function(s, c) {
+    // Remove leading and trailing wildcards
+    var pos = 0;
+    while ( s.charAt(pos) === c ) {
+        pos += 1;
+    }
+    s = s.slice(pos);
+    if ( pos = s.length ) {
+        while ( s.charAt(pos-1) === c ) {
+            pos -= 1;
+        }
+        s = s.slice(0, pos);
+    }
+    return s;
+};
+
+/******************************************************************************/
+
 var add = function(s) {
     // Ignore unsupported filters
     if ( reIgnoreFilter.test(s) ) {
@@ -245,11 +266,6 @@ var add = function(s) {
     s = s.replace(/\^/g, '*');
     s = s.replace(/\*\*+/g, '*');
 
-    // Ignore rules with a wildcard in the middle
-//    if ( reWildcardRule.test(s) ) {
-//        return false;
-//    }
-
     // Ignore hostname rules, these will be taken care of by HTTPSB.
     if ( reHostnameRule.test(s) ) {
         return false;
@@ -259,16 +275,7 @@ var add = function(s) {
     s = s.replace(/^\|+|\|+$/, '');
 
     // Remove leading and trailing wildcards
-    var pos = 0;
-    while ( s.charAt(pos) === '*' ) {
-        pos += 1;
-    }
-    s = s.slice(pos);
-    pos = s.length;
-    while ( s.charAt(pos-1) === '*' ) {
-        pos -= 1;
-    }
-    s = s.slice(0, pos);
+    s = trimChar(s, '*');
 
     // Already in dictionary?
     var filter = filterDict[s];
@@ -291,8 +298,8 @@ var add = function(s) {
     }
     filterDict[s] = filter;
 
-    var prefixKey = s.substring(tokenBeg - 1, tokenBeg);
-    var suffixKey = s.substring(tokenEnd, tokenEnd + 2);
+    var prefixKey = trimChar(s.substring(tokenBeg - 1, tokenBeg), '*');
+    var suffixKey = trimChar(s.substring(tokenEnd, tokenEnd + 2), '*');
     var fidx = filterIndex;
     var tokenKey = prefixKey + token + suffixKey;
     filter.next = fidx[tokenKey];
