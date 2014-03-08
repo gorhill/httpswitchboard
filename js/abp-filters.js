@@ -81,86 +81,81 @@ var reToken = /[%0-9A-Za-z]{2,}/g;
 
 /******************************************************************************/
 
-var Filter = function(s, tokenBeg, tokenLen) {
+var FilterPlain = function(s, tokenBeg) {
     this.s = s;
-    this.tokenBeg = tokenBeg;
-    // We do not need this at this point, so keep object size to a minimum
-    // this.tokenLen = tokenLen;
     this.next = undefined;
-};
-
-Filter.prototype.match = function(s, tokenBeg) {
-    return false;
-};
-
-/******************************************************************************/
-
-var FilterPlain = function(s, tokenBeg, tokenLen) {
-    Filter.apply(this, arguments);
+    this.tokenBeg = tokenBeg;
 };
 
 FilterPlain.prototype.match = function(s, tokenBeg) {
-    tokenBeg -= this.tokenBeg;
-    return s.indexOf(this.s, tokenBeg) === tokenBeg;
+    return s.substr(tokenBeg - this.tokenBeg, this.s.length) === this.s;
 };
 
 /******************************************************************************/
 
-var FilterPlainPrefix0 = function(s, tokenBeg) {
-    Filter.apply(this, arguments);
+var FilterPlainPrefix0 = function(s) {
+    this.s = s;
+    this.next = undefined;
 };
 
 FilterPlainPrefix0.prototype.match = function(s, tokenBeg) {
-    return s.indexOf(this.s, tokenBeg) === tokenBeg;
+    return s.substr(tokenBeg, this.s.length) === this.s;
 };
 
 /******************************************************************************/
 
-var FilterPlainPrefix1 = function(s, tokenBeg) {
-    Filter.apply(this, arguments);
+var FilterPlainPrefix1 = function(s) {
+    this.s = s;
+    this.next = undefined;
 };
 
 FilterPlainPrefix1.prototype.match = function(s, tokenBeg) {
-    return s.indexOf(this.s, tokenBeg - 1) === tokenBeg - 1;
+    return s.substr(tokenBeg - 1, this.s.length) === this.s;
 };
 
 /******************************************************************************/
 
-// With a single wildcard, indexOf is best.
+// With a single wildcard, regex is not optimal.
 // See:
-//   http://jsperf.com/regexp-vs-indexof-abp-miss
-//   http://jsperf.com/regexp-vs-indexof-abp-hit
+//   http://jsperf.com/regexp-vs-indexof-abp-miss/2
+//   http://jsperf.com/regexp-vs-indexof-abp-hit/2
 
-var FilterSingleWildcard = function(s, tokenBeg, tokenLen) {
-    Filter.apply(this, arguments);
-    this.wcOffset = s.indexOf('*');
+var FilterSingleWildcard = function(s, tokenBeg) {
+    this.s = s;
+    this.next = undefined;
+    this.tokenBeg = tokenBeg;
     this.lSegment = s.slice(0, this.wcOffset);
     this.rSegment = s.slice(this.wcOffset + 1);
 };
 
 FilterSingleWildcard.prototype.match = function(s, tokenBeg) {
     tokenBeg -= this.tokenBeg;
-    return s.indexOf(this.lSegment, tokenBeg) === tokenBeg &&
-           s.indexOf(this.rSegment, tokenBeg + this.wcOffset) > 0;
+    return s.substr(tokenBeg, this.lSegment.length) === this.lSegment &&
+           s.indexOf(this.rSegment, tokenBeg + this.lSegment.length) > 0;
 };
 
 /******************************************************************************/
 
-var FilterSingleWildcardPrefix0 = function(s, tokenBeg, tokenLen) {
-    FilterSingleWildcard.apply(this, arguments);
+var FilterSingleWildcardPrefix0 = function(s) {
+    this.s = s;
+    this.next = undefined;
+    this.lSegment = s.slice(0, this.wcOffset);
+    this.rSegment = s.slice(this.wcOffset + 1);
 };
 
 FilterSingleWildcardPrefix0.prototype.match = function(s, tokenBeg) {
-    return s.indexOf(this.lSegment, tokenBeg) === tokenBeg &&
-           s.indexOf(this.rSegment, tokenBeg + this.wcOffset) > 0;
+    return s.substr(tokenBeg, this.lSegment.length) === this.lSegment &&
+           s.indexOf(this.rSegment, tokenBeg + this.lSegment.length) > 0;
 };
 
 /******************************************************************************/
 
 // With many wildcards, a regex is best.
 
-var FilterManyWildcards = function(s, tokenBeg, tokenLen) {
-    Filter.apply(this, arguments);
+var FilterManyWildcards = function(s, tokenBeg) {
+    this.s = s;
+    this.next = undefined;
+    this.tokenBeg = tokenBeg;
     // Ref: escaper taken from:
     // https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
     // Except modified for the purpose here.
@@ -173,32 +168,32 @@ FilterManyWildcards.prototype.match = function(s, tokenBeg) {
 
 /******************************************************************************/
 
-var FilterFactory = function(s, tokenBeg, tokenLen) {
+var FilterFactory = function(s, tokenBeg) {
     var wcOffset = s.indexOf('*');
     if ( wcOffset > 0 ) {
-        return FilterWildcardFactory(s, tokenBeg, tokenLen);
+        return FilterWildcardFactory(s, tokenBeg);
     }
-    return FilterPlainFactory(s, tokenBeg, tokenLen);
+    return FilterPlainFactory(s, tokenBeg);
 };
 
-var FilterPlainFactory = function(s, tokenBeg, tokenLen) {
+var FilterPlainFactory = function(s, tokenBeg) {
     if ( tokenBeg === 0 ) {
-        return new FilterPlainPrefix0(s, 0, tokenLen);
+        return new FilterPlainPrefix0(s);
     }
     if ( tokenBeg === 1 ) {
-        return new FilterPlainPrefix1(s, 1, tokenLen);
+        return new FilterPlainPrefix1(s);
     }
-    return new FilterPlain(s, tokenBeg, tokenLen);
+    return new FilterPlain(s, tokenBeg);
 };
 
-var FilterWildcardFactory = function(s, tokenBeg, tokenLen) {
+var FilterWildcardFactory = function(s, tokenBeg) {
     if ( (/\*[^*]\*/).test(s) ) {
-        return FilterManyWildcards(s, tokenBeg, tokenLen);
+        return FilterManyWildcards(s, tokenBeg);
     }
     if ( tokenBeg === 0 ) {
-        return new FilterSingleWildcardPrefix0(s, tokenBeg, tokenLen);
+        return new FilterSingleWildcardPrefix0(s);
     }
-    return new FilterSingleWildcard(s, tokenBeg, tokenLen);
+    return new FilterSingleWildcard(s, tokenBeg);
 };
 
 /******************************************************************************/
@@ -208,6 +203,22 @@ var FilterWildcardFactory = function(s, tokenBeg, tokenLen) {
 var reset = function() {
     filterDict = {};
     filterCount = 0;
+
+    // Give chromium's GC a helpful hand
+    var fidx = filterIndex;
+    var f, fn;
+    for ( var k in fidx ) {
+        if ( !fidx.hasOwnProperty(k) ) {
+            continue;
+        }
+        f = fidx[k];
+        while ( f ) {
+            fn = f.next;
+            f.next = null;
+            f = fn;
+        }
+        fidx[k] = null;
+    }
     filterIndex = {};
 };
 
