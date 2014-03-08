@@ -117,15 +117,16 @@ FilterPlainPrefix1.prototype.match = function(s, tokenBeg) {
 
 // With a single wildcard, regex is not optimal.
 // See:
-//   http://jsperf.com/regexp-vs-indexof-abp-miss/2
-//   http://jsperf.com/regexp-vs-indexof-abp-hit/2
+//   http://jsperf.com/regexp-vs-indexof-abp-miss/3
+//   http://jsperf.com/regexp-vs-indexof-abp-hit/3
 
 var FilterSingleWildcard = function(s, tokenBeg) {
     this.s = s;
     this.next = undefined;
     this.tokenBeg = tokenBeg;
-    this.lSegment = s.slice(0, this.wcOffset);
-    this.rSegment = s.slice(this.wcOffset + 1);
+    var wcOffset = s.indexOf('*');
+    this.lSegment = s.slice(0, wcOffset);
+    this.rSegment = s.slice(wcOffset + 1);
 };
 
 FilterSingleWildcard.prototype.match = function(s, tokenBeg) {
@@ -139,8 +140,9 @@ FilterSingleWildcard.prototype.match = function(s, tokenBeg) {
 var FilterSingleWildcardPrefix0 = function(s) {
     this.s = s;
     this.next = undefined;
-    this.lSegment = s.slice(0, this.wcOffset);
-    this.rSegment = s.slice(this.wcOffset + 1);
+    var wcOffset = s.indexOf('*');
+    this.lSegment = s.slice(0, wcOffset);
+    this.rSegment = s.slice(wcOffset + 1);
 };
 
 FilterSingleWildcardPrefix0.prototype.match = function(s, tokenBeg) {
