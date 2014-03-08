@@ -192,7 +192,7 @@ var updateList = function(list) {
             continue;
         }
         entry = list[path];
-        if ( entry.status === 'New' || entry.status === 'Changed' ) {
+        if ( entry.status === 'Added' || entry.status === 'Changed' ) {
             HTTPSB.assets.update(path, 'assetManagerLocalAssetUpdated');
         } else {
             if ( entry.status === 'Unchanged' ) {
