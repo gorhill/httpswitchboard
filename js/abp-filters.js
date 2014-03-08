@@ -146,6 +146,17 @@ FilterSingleWildcard.prototype.match = function(s, tokenBeg) {
 
 /******************************************************************************/
 
+var FilterSingleWildcardPrefix0 = function(s, tokenBeg, tokenLen) {
+    FilterSingleWildcard.apply(this, arguments);
+};
+
+FilterSingleWildcardPrefix0.prototype.match = function(s, tokenBeg) {
+    return s.indexOf(this.lSegment, tokenBeg) === tokenBeg &&
+           s.indexOf(this.rSegment, tokenBeg + this.wcOffset) > 0;
+};
+
+/******************************************************************************/
+
 // With many wildcards, a regex is best.
 
 var FilterManyWildcards = function(s, tokenBeg, tokenLen) {
@@ -183,6 +194,9 @@ var FilterPlainFactory = function(s, tokenBeg, tokenLen) {
 var FilterWildcardFactory = function(s, tokenBeg, tokenLen) {
     if ( (/\*[^*]\*/).test(s) ) {
         return FilterManyWildcards(s, tokenBeg, tokenLen);
+    }
+    if ( tokenBeg === 0 ) {
+        return new FilterSingleWildcardPrefix0(s, tokenBeg, tokenLen);
     }
     return new FilterSingleWildcard(s, tokenBeg, tokenLen);
 };
