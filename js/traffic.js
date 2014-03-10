@@ -180,7 +180,7 @@ function onBeforeRequestHandler(details) {
         return;
     }
 
-     quickProfiler.start();
+    // quickProfiler.start();
 
     var requestHostname = httpsburi.hostname;
     var requestPath = httpsburi.path;
@@ -290,7 +290,7 @@ function onBeforeRequestHandler(details) {
             cookieHunter.recordPageCookiesAsync(pageStats);
         }
 
-         quickProfiler.stop('onBeforeRequestHandler');
+        // quickProfiler.stop('onBeforeRequestHandler');
         return;
     }
 
@@ -310,18 +310,18 @@ function onBeforeRequestHandler(details) {
         html = html.replace(/{{originalURL}}/g, encodeURIComponent(requestURL));
         html = html.replace(/{{now}}/g, String(Date.now()));
         dataURI = 'data:text/html;base64,' + btoa(html);
-         quickProfiler.stop('onBeforeRequestHandler');
+        // quickProfiler.stop('onBeforeRequestHandler');
         return { "redirectUrl": dataURI };
     } else if ( isSubFrame ) {
         html = subFrameReplacement;
         html = html.replace(/{{fontUrl}}/g, httpsb.fontCSSURL);
         html = html.replace(/{{hostname}}/g, requestHostname);
         dataURI = 'data:text/html;base64,' + btoa(html);
-         quickProfiler.stop('onBeforeRequestHandler');
+        // quickProfiler.stop('onBeforeRequestHandler');
         return { "redirectUrl": dataURI };
     }
 
-     quickProfiler.stop('onBeforeRequestHandler');
+    // quickProfiler.stop('onBeforeRequestHandler');
 
     return { "cancel": true };
 }
