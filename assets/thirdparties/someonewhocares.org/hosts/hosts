@@ -8,7 +8,7 @@
 # Please forward any additions, corrections or comments by email to
 # hosts@someonewhocares.org
 
-# Last updated: Mar 4th, 2014 at 12:41
+# Last updated: Mar 7th, 2014 at 23:24
 
 # Use this file to prevent your computer from connecting to selected
 # internet hosts. This is an easy and effective way to protect you from 
@@ -1763,6 +1763,7 @@ fe80::1%lo0	localhost
 127.0.0.1 shop.skin-safety.com
 127.0.0.1 signin-ebay-com-ws-ebayisapi-dll-signin-webscr.ocom.pl
 127.0.0.1 sinera.org
+127.0.0.1 sjguild.com
 127.0.0.1 smile-angel.com
 127.0.0.1 software-updates.co
 127.0.0.1 software-wenc.co.cc
@@ -1819,6 +1820,7 @@ fe80::1%lo0	localhost
 127.0.0.1 www.afantispy.com
 127.0.0.1 www.akoneplatit.sk
 127.0.0.1 www.allhqpics.com			# Facebook trojan
+127.0.0.1 www.alrpost69.com
 127.0.0.1 www.anatol.com
 127.0.0.1 www.articlefuns.cn
 127.0.0.1 www.articleidea.cn

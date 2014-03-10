@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: QfNpOe+/0C/gB0G+eqUljw
-! Version: 201403071821
+! Checksum: EhisG+8ctf7SGgPXuCzqzA
+! Version: 201403100201
 ! Title: EasyList Dutch
 ! Description: Dutch supplement for the Easylist filters
-! Last modified: 07 Mar 2014 18:21 UTC
+! Last modified: 10 Mar 2014 02:01 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -315,6 +315,7 @@
 ||camping-frankrijk.nl/Graphics/yelloh2011.swf
 ||camping-frankrijk.nl/hoofdpaginabanners.asp
 ||chatgirl.nl^*/dlf468.
+||chatmetvreemden.nl/static/html/
 ||chauffeursforum.nl^*tvm.swf
 ||christelijkvakantieplein.nl^*-banner.
 ||cip.nl/asp_includes/site_topbanners.
@@ -1021,6 +1022,7 @@ marktnet.nl##.textlink.snap_noshots
 tvgids.nl##.tips
 wetenschapsforum.nl##.top_banner
 limburger.nl##.top_story_banner
+chatmetvreemden.nl##.trackerclick
 nutech.nl##.trackevent[href^="/advertorial-"]
 uitburo.nl##.uitmail_banner_block
 voetbalzone.nl##.uniClick

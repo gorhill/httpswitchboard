@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: pVsgcSrmxaS+CVy2GGQ0kA
-! Version: 201403071820
+! Checksum: 50IBfC2XMzZM+ZNb0yYBbw
+! Version: 201403100200
 ! Title: EasyPrivacy
-! Last modified: 07 Mar 2014 18:20 UTC
+! Last modified: 10 Mar 2014 02:00 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -2648,6 +2648,7 @@ http://utm.
 ||footprintlive.com^$third-party
 ||foreseeresults.com^$third-party
 ||formalyzer.com^$third-party
+||formisimo.com^$third-party
 ||foundry42.com^$third-party
 ||fpctraffic2.com^$third-party
 ||fprnt.com^$third-party
@@ -4415,6 +4416,7 @@ http://utm.
 ||analytics.twitter.com^$third-party
 ||analytics.wildtangent.com^
 ||analytics.yola.net^
+||analytics.yolacdn.net^
 ||analyticsengine.s3.amazonaws.com^
 ||analyze.full-marke.com^
 ||anvato.com/anvatoloader.swf?analytics=
@@ -4798,6 +4800,7 @@ http://utm.
 ||grabnetworks.com/beacons/
 ||grabnetworks.com/ping?
 ||gravity.com^*/beacons/
+||grvcdn.com/moth-min.js
 ||gscounters.eu1.gigya.com^
 ||gscounters.gigya.com^
 ||gscounters.us1.gigya.com^
@@ -4862,6 +4865,7 @@ http://utm.
 ||interestsearch.net/videoTracker.js?
 ||internetfuel.com/tracking/
 ||intuitwebsites.com/tracking/
+||ioam.de/iam.js
 ||ipro.com^*/pixel.gif?
 ||isacglobal.com/sa.js
 ||iyisayfa.net/inc.php?
@@ -5226,6 +5230,7 @@ http://utm.
 ||stats.svpply.com^
 ||stats.topofblogs.com^
 ||stats.twistage.com^
+||stats.viddler.com^
 ||stats.vodpod.com^
 ||stats.webs.com^
 ||stats.webstarts.com^$third-party
@@ -5362,6 +5367,7 @@ http://utm.
 ||tracking.sokrati.com^
 ||tracking.sponsorpay.com^$third-party
 ||tracking.synthasite.net^
+||tracking.theeword.co.uk^
 ||tracking.tradeking.com^
 ||tracking.waterfrontmedia.com^
 ||tracking.worldmedia.net^$third-party
@@ -5607,6 +5613,7 @@ http://utm.
 ||stats.nekapuzer.at^$third-party
 ||stats.united-domains.de^
 ||stats2.algo.at^$third-party
+||stilanzeigen.net/track/
 ||strongvpn.com/aff/
 ||teleboy.ch/misc/tracker/track.php?id=
 ||top50-solar.de/solarcount/
@@ -6137,6 +6144,7 @@ http://utm.
 ||as.com/est.pl?
 ||ashleymadison.com/app/public/track.p?
 ||asianblast.com/statx/
+||ask.com/servlets/ulog?
 ||askamum.co.uk/Shared/js/tracking.js
 ||askmen.com/tracking/
 ||assets.olark.com^
@@ -6203,6 +6211,7 @@ http://utm.
 ||beacon.examiner.com^
 ||beacon.indieclicktv.com^
 ||beacon.lycos.com^
+||beacon.nuskin.com^
 ||beacon.search.yahoo.com^
 ||beacon.www.theguardian.com^
 ||beacons.helium.com^
@@ -6422,7 +6431,7 @@ http://utm.
 ||di-ve.com^*/stat2.aspx?
 ||diag.doba.com^
 ||dictionary.com/track/
-||digg.com/api/*/analytics/
+||digg.com/api/analytics/
 ||digitalchocolate.com/event/track?
 ||digitalriver.com^*/globaltracking
 ||digitalspy.co.uk/gip1.php
@@ -6843,7 +6852,7 @@ http://utm.
 ||lightreading.com/client_pathlog.asp
 ||likes.com/api/track_pv
 ||limelightmagazine.com.au/t.ashx?
-||linguee.com/white_pixel.gif
+||linguee.com*/white_pixel.gif?
 ||link.codeyear.com/img/
 ||link.ex.fm/img/*.gif
 ||linkbucks.com/track/
@@ -7179,6 +7188,7 @@ http://utm.
 ||quotesonic.com/vendor/pixel.cfm
 ||r.bbci.co.uk^
 ||radio-canada.ca/lib/TrueSight/markerFile.gif?
+||radio.cz/assets/js/analytics.js
 ||radioplayer.co.uk/v3/analytics.html?
 ||ralphlauren.com^*/icg.metrics.js
 ||rangers.co.uk^*/tracking.js

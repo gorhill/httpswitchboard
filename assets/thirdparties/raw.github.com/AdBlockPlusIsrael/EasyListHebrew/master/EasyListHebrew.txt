@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: BhM9Ucc96co21zHB188yzA
+! Checksum: Sz+qiKqQAVU//erFnBeW6g
 ! Title: EasyList Hebrew
-! Last modified: 01/03/14  22:23 Jerusalem Standard Time
+! Last modified: 09/03/14  00:33 Jerusalem Standard Time
 ! Expires: 4 days (update frequency)
 ! Homepage: https://github.com/AdBlockPlusIsrael/EasyListHebrew/
 ! Forums: https://github.com/AdBlockPlusIsrael/EasyListHebrew/issues
@@ -110,12 +110,13 @@
 ||adserv.mako.co.il^
 ||api.conduit.com^$domain=mako.co.il
 ||apps.mako.co.il/minicampaigns/
+||bz-vd-se02.se.c04dl.vds-is.castup.net/$object-subrequest,media
 ||castup.net/server12/468/127/12740581-115.mp4$object-subrequest,media
 ||cdn.mdigital.co.il^$third-party
-||bz-vd-se02.se.c04dl.vds-is.castup.net/$object-subrequest,media
 ||ds.keshet-i.com/jserver/
 ||img.mako.co.il/*/*/*/*apet*.jpg
 ||kz-vd-se01.se.c04dl.vds-is.castup.net/$object-subrequest,media
+||makostorepdl-a.akamaihd.net^$third-party
 ||pas-rahav.com^$third-party
 ||rcs.mako.co.il/rss/yad2.
 ||sdc.mako.co.il^

@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: xLUC/BEnIHKRNWlrlUTtCg
-! Version: 201403071820
+! Checksum: jLWyQ079defdictVvrLJcA
+! Version: 201403100200
 ! Title: EasyList Germany
 ! EasyList Germany - Deutsche Ergänzung zu EasyList
-! Last modified: 07 Mar 2014 18:20 UTC
+! Last modified: 10 Mar 2014 02:00 UTC
 ! Expires: 3 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -1630,6 +1630,7 @@ gamestar.de#@#div[id^="div-gpt-ad-"]
 ||ajaxstatic.ebook-hell.to^
 ||ak-kurier.de/akkurier/www/images/headerhoehn.gif
 ||ak-kurier.de/akkurier/www/images/headerhoehn.jpg
+||ak-kurier.de/akkurier/www/images/iphonerepa.gif
 ||ak-kurier.de/akkurier/www/pic/dbeyer_250_200.swf
 ||ak-kurier.de/akkurier/www/pic/indupamitte.png
 ||ak-kurier.de/akkurier/www/pic/tbechera13.png
@@ -6357,6 +6358,7 @@ der-postillon.com##div[style="height:250px;width:300px;white-space:nowrap;"]
 meintomtom.de##div[style="height:600px;padding:6px 0 6px 0;border: 1px solid #b4c39a; background:#f9fcf1 none;margin-top:0;"]
 meintomtom.de##div[style="height:600px;padding:6px 0 6px 0;border: 1px solid #b4c39a;background:#f9fcf1 none;margin:0;"]
 spektrumdirekt.de##div[style="height:90px;"]:first-child:last-child
+computerbase.de##div[style="height:92px;margin:15px 0;text-align:center"]
 schnelle-online.info##div[style="margin-bottom:10px;cursor:pointer;background:white url(/pictures/banner/lastminute-flughafen-3.png);width:760px;height:65px;"]
 supportnet.de##div[style="margin-left:0px; width:860px; background-color:#FFFFFF; height:100px;"]
 supportnet.de##div[style="margin-left:0px; width:860px; background-color:#FFFFFF; height:120px;"]

@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: OhlmPOzJlzfWxYx137XMIQ
-! Version: 201403071820
+! Checksum: k2hp9H7o5bO4Vdf5I64YPg
+! Version: 201403100200
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 07 Mar 2014 18:20 UTC
+! Ultima modifica: 10 Mar 2014 02:00 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -1917,6 +1917,7 @@ metropolisweb.it##.BannerMezzoNotizia
 nqnews.it##.Banner_box
 ciao.it##.CWContainerComparePrice
 meteo.it##.ImmobiliareIt
+foxcrime.it,foxlife.it,foxretro.it,foxtv.it##.MPU336
 foxsports.it##.Mpu
 alfemminile.com##.OffresSpe_cadre
 search.aol.it##.SLL
@@ -2064,8 +2065,8 @@ omniauto.it##.box_listinousato
 subito.it##.box_sponsor
 tiscali.it##.c1c6.f12
 quotidiano.net##.category-SPONSOR
-ansa.it##.channel-adv
 edilportale.com##.click-Skin
+tripadvisor.it##.commerce
 gazzetta.it##.contain-sisal-magicup
 borsaitaliana.it##.container_banner_top
 macitynet.it##.contentTop
@@ -2266,6 +2267,7 @@ ilroma.net##div[style=" width: 214px; height: 82px;"]
 ilroma.net##div[style=" width: 300px; height: 250px;"]
 ilroma.net##div[style=" width: 990px; height: 30px;"]
 laregione.ch##div[style=" width:980px; margin-left:auto; margin-right:auto;background:#d8d8d8;height:35px; z-index:150;"]
+globalist.it##div[style="background-color: #555555; width: 310px; float: left; margin-top: 0px; padding-top: 25px; height: 274px;"]
 ioleggoletichetta.it##div[style="background-color: #FFFFFF; width: 1200px; height: 100px; vertical-align: top"]
 tuttoshoppingmotori.com##div[style="background:url(/img/sfondo-video-tsm.png) no-repeat 0px 0px; width:297px; height:200px; padding-top:44px; padding-right:5px; margin-bottom:3px;"]
 centrometeoitaliano.it##div[style="border: -1px solid; border-color: #EEEEEE;width: 300px; height:243px ;  margin-top:0px; z-index:0;"]
