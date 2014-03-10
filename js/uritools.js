@@ -144,7 +144,11 @@ URI.set = function(uri) {
     this.scheme = matches[1] !== undefined ? matches[1].slice(0, -1) : '';
     this.authority = matches[2] !== undefined ? matches[2].slice(2).toLowerCase() : '';
     this.path = matches[3] !== undefined ? matches[3] : '';
-    if ( this.path.charAt(0) !== '/' ) {
+
+    // <http://tools.ietf.org/html/rfc3986#section-6.2.3>
+    // "In general, a URI that uses the generic syntax for authority
+    // "with an empty path should be normalized to a path of '/'."
+    if ( this.authority !== '' && this.path === '' ) {
         this.path = '/';
     }
     this.query = matches[4] !== undefined ? matches[4].slice(1) : '';
