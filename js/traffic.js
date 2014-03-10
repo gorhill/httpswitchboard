@@ -196,19 +196,11 @@ function onBeforeRequestHandler(details) {
     var type = details.type;
     var isSubFrame = type === 'sub_frame';
     var isMainFrame = type === 'main_frame';
+
     var isWebPage = isMainFrame && details.parentFrameId < 0;
-    var pageStats = httpsb.pageStatsFromTabId(tabId);
-
-    // rhill 2013-12-16: Do not interfere with apps. For now the heuristic is:
-    // If we have a `sub_frame` and no pageStats store, this is an app.
-    // https://github.com/gorhill/httpswitchboard/issues/91
-    var isApp = isSubFrame && !pageStats;
-
-    if ( isWebPage || isApp ) {
+    if ( isWebPage ) {
         httpsb.bindTabToPageStats(tabId, requestURL);
     }
-
-    pageStats = httpsb.pageStatsFromTabId(tabId);
 
     // Re-classify orphan HTTP requests as behind-the-scene requests. There is
     // not much else which can be done, because there are URLs
@@ -216,6 +208,8 @@ function onBeforeRequestHandler(details) {
     // as this would lead to complications with no obvious solution, like how
     // to scope on unknown scheme? Etc.
     // https://github.com/gorhill/httpswitchboard/issues/191
+    // https://github.com/gorhill/httpswitchboard/issues/91#issuecomment-37180275
+    var pageStats = httpsb.pageStatsFromTabId(tabId);
     if ( !pageStats ) {
         tabId = httpsb.behindTheSceneTabId;
         pageStats = httpsb.pageStatsFromTabId(tabId);
@@ -228,10 +222,6 @@ function onBeforeRequestHandler(details) {
     // if ( !pageStats ) {
     //    console.error('onBeforeRequestHandler() > no pageStats: %o', details);
     // }
-
-    if ( isApp ) {
-        pageStats.ignore = true;
-    }
 
     var pageURL = httpsb.pageUrlFromPageStats(pageStats);
 
@@ -338,11 +328,17 @@ function onBeforeSendHeadersHandler(details) {
         tabId = httpsb.behindTheSceneTabId;
     }
 
-    // rhill 2013-12-16: do not interfere with apps.
-    // https://github.com/gorhill/httpswitchboard/issues/91
+    // Re-classify orphan HTTP requests as behind-the-scene requests. There is
+    // not much else which can be done, because there are URLs
+    // which cannot be handled by HTTP Switchboard, i.e. `opera://startpage`,
+    // as this would lead to complications with no obvious solution, like how
+    // to scope on unknown scheme? Etc.
+    // https://github.com/gorhill/httpswitchboard/issues/191
+    // https://github.com/gorhill/httpswitchboard/issues/91#issuecomment-37180275
     var pageStats = httpsb.pageStatsFromTabId(tabId);
-    if ( pageStats && pageStats.ignore ) {
-        return;
+    if ( !pageStats ) {
+        tabId = httpsb.behindTheSceneTabId;
+        pageStats = httpsb.pageStatsFromTabId(tabId);
     }
 
     // Any cookie in there?
@@ -454,7 +450,20 @@ function onHeadersReceivedHandler(details) {
     if ( tabId >= 0 && isWebPage ) {
         httpsb.bindTabToPageStats(tabId, requestURL);
     }
+
+    // Re-classify orphan HTTP requests as behind-the-scene requests. There is
+    // not much else which can be done, because there are URLs
+    // which cannot be handled by HTTP Switchboard, i.e. `opera://startpage`,
+    // as this would lead to complications with no obvious solution, like how
+    // to scope on unknown scheme? Etc.
+    // https://github.com/gorhill/httpswitchboard/issues/191
+    // https://github.com/gorhill/httpswitchboard/issues/91#issuecomment-37180275
     var pageStats = httpsb.pageStatsFromTabId(tabId);
+    if ( !pageStats ) {
+        tabId = httpsb.behindTheSceneTabId;
+        pageStats = httpsb.pageStatsFromTabId(tabId);
+    }
+
     var headers = details.responseHeaders;
 
     // Simplify code paths by splitting func in two different handlers, one
@@ -552,7 +561,7 @@ function onHeadersReceivedHandler(details) {
     // and find out if the `sandbox` in the header interfere with a
     // `sandbox` attribute which might be present on the iframe.
     else {
-        // console.debug('onHeadersReceivedHandler()> FRAME CSP "%s": %o', details.url, details);
+        // console.debug('onHeadersReceivedHandler()> FRAME CSP "%s": %o, scope="%s"', details.url, details, pageURL);
         headers.push({
             'name': 'Content-Security-Policy',
             'value': 'sandbox allow-forms allow-same-origin'
