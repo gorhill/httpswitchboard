@@ -148,8 +148,6 @@ function onBeforeChromeExtensionRequestHandler(details) {
 // Intercept and filter web requests according to white and black lists.
 
 function onBeforeRequestHandler(details) {
-    // console.debug('onBeforeRequestHandler()> "%s": %o', details.url, details);
-
     var httpsb = HTTPSB;
     var httpsburi = httpsb.URI.set(details.url);
     var requestScheme = httpsburi.scheme;
@@ -165,6 +163,8 @@ function onBeforeRequestHandler(details) {
         onBeforeChromeExtensionRequestHandler(details);
         return;
     }
+
+    // console.debug('onBeforeRequestHandler()> "%s": %o', details.url, details);
 
     // Ignore non-http schemes
     if ( requestScheme.indexOf('http') !== 0 ) {
@@ -185,16 +185,14 @@ function onBeforeRequestHandler(details) {
     var requestHostname = httpsburi.hostname;
     var requestPath = httpsburi.path;
 
-    var canEvaluate = true;
-    var tabId = details.tabId;
-
     // Do not ignore traffic outside tabs
+    var tabId = details.tabId;
     if ( tabId < 0 ) {
         tabId = httpsb.behindTheSceneTabId;
-        // console.debug('onBeforeRequestHandler()> behind-the-scene: "%s"', details.url);
     }
 
     // If it's a root frame or an app, bind to a new page stats store
+    var canEvaluate = true;
     var type = details.type;
     var isSubFrame = type === 'sub_frame';
     var isMainFrame = type === 'main_frame';
@@ -276,7 +274,7 @@ function onBeforeRequestHandler(details) {
 
     // whitelisted?
     if ( !block ) {
-        // console.debug('onBeforeRequestHandler > allowing %s from %s', type, requestHostname);
+        // console.debug('onBeforeRequestHandler()> ALLOW "%s": %o', details.url, details);
 
         // If the request is not blocked, this means the response could contain
         // cookies. Thus, we go cookie hunting for this page url and record all
@@ -295,7 +293,7 @@ function onBeforeRequestHandler(details) {
     }
 
     // blacklisted
-    // console.debug('onBeforeRequestHandler > blocking %s from %s', type, requestHostname);
+    // console.debug('onBeforeRequestHandler()> BLOCK "%s": %o', details.url, details);
 
     // If it's a blacklisted frame, redirect to frame.html
     // rhill 2013-11-05: The root frame contains a link to noop.css, this
@@ -396,6 +394,7 @@ function onBeforeSendHeadersHandler(details) {
     }
 
     if ( changed ) {
+        // console.debug('onBeforeSendHeadersHandler()> CHANGED "%s": %o', details.url, details);
         return { requestHeaders: headers };
     }
 }
@@ -432,6 +431,13 @@ function onHeadersReceivedHandler(details) {
         return;
     }
 
+    // Do not ignore traffic outside tabs.
+    // https://github.com/gorhill/httpswitchboard/issues/91#issuecomment-37180275
+    var tabId = details.tabId;
+    if ( tabId < 0 ) {
+        tabId = httpsb.behindTheSceneTabId;
+    }
+
     var requestURL = httpsburi.normalizedURI();
     var requestHostname = httpsburi.hostname;
 
@@ -445,13 +451,14 @@ function onHeadersReceivedHandler(details) {
     // to not be able to lookup the pageStats. So let the code here bind
     // the page to a tab if not done yet.
     // https://github.com/gorhill/httpswitchboard/issues/75
-    var tabId = details.tabId;
     if ( tabId >= 0 && isWebPage ) {
         httpsb.bindTabToPageStats(tabId, requestURL);
     }
     var pageStats = httpsb.pageStatsFromTabId(tabId);
     var headers = details.responseHeaders;
 
+    // Simplify code paths by splitting func in two different handlers, one
+    // for main docs, one for sub docs.
     if ( isWebPage ) {
         // rhill 2014-01-15: Report redirects.
         // https://github.com/gorhill/httpswitchboard/issues/112
@@ -525,6 +532,7 @@ function onHeadersReceivedHandler(details) {
     // If javascript not allowed, say so through a `Content-Security-Policy`
     // directive.
     if ( isWebPage ) {
+        // console.debug('onHeadersReceivedHandler()> PAGE CSP "%s": %o', details.url, details);
         headers.push({
             'name': 'Content-Security-Policy',
             'value': "script-src 'none'"
@@ -544,6 +552,7 @@ function onHeadersReceivedHandler(details) {
     // and find out if the `sandbox` in the header interfere with a
     // `sandbox` attribute which might be present on the iframe.
     else {
+        // console.debug('onHeadersReceivedHandler()> FRAME CSP "%s": %o', details.url, details);
         headers.push({
             'name': 'Content-Security-Policy',
             'value': 'sandbox allow-forms allow-same-origin'

@@ -37,10 +37,13 @@ Naming convention from https://en.wikipedia.org/wiki/URI_scheme#Examples
 
 /******************************************************************************/
 
-// Ref: http://tools.ietf.org/html/rfc3986#page-50
-// I removed redundant capture groups: capture less = peform faster
+// Favorite regex tool: http://regex101.com/
+
+// Ref: <http://tools.ietf.org/html/rfc3986#page-50>
+// I removed redundant capture groups: capture less = peform faster. See
+// <http://jsperf.com/regex-capture-vs-non-capture>
 // Performance improvements welcomed.
-// jsperf: http://jsperf.com/hostname-from-url/9
+// jsperf: <http://jsperf.com/hostname-from-url/9>
 var reRFC3986 = /^([^:\/?#]+:)?(\/\/[^\/?#]*)?([^?#]*)(\?[^#]*)?(#.*)?/;
 
 // Derived
@@ -233,6 +236,8 @@ URI.authorityFromURI = function(uri) {
 };
 
 /******************************************************************************/
+
+// The most used function, so it better be fast.
 
 URI.hostnameFromURI = function(uri) {
     var matches = reAuthorityFromURI.exec(uri);
