@@ -60,7 +60,6 @@ HTTPSB.PresetManager.prototype.rememberFirstParty = function(preset) {
     this.presets[preset.id] = preset;
     this.firstPartyNameToPresetMap[preset.name] = preset;
     var hostnameTo1stPartyPresetMap = this.hostnameTo1stPartyPresetMap;
-    var ut = uriTools;
     var hostnames = Object.keys(preset.keys);
     var i = hostnames.length;
     var hostname;
@@ -150,7 +149,7 @@ HTTPSB.PresetManager.prototype.findMatches = function(firstParty, thirdParties) 
     // TODO: Ideally, only the hostnames for which there was effectively a
     // request should be in the input collection, for performance purpose.
     var hostnameTo1stPartyPresetMap = {};
-    var firstPartyList = uriTools.allHostnamesFromHostname(firstParty);
+    var firstPartyList = HTTPSB.URI.allHostnamesFromHostname(firstParty);
     i = 0;
     while ( firstParty = firstPartyList[i++] ) {
         hostnameTo1stPartyPresetMap[firstParty] = true;

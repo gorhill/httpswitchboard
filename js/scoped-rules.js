@@ -70,7 +70,7 @@ function renderRecipeStringToRule(recipe) {
     }
     // Validate hostname
     var hostname = parts[2];
-    if ( hostname !== '*' && !getBackground().uriTools.isValidHostname(hostname) ) {
+    if ( hostname !== '*' && !getHTTPSB().URI.isValidHostname(hostname) ) {
         return false;
     }
     // Validate type

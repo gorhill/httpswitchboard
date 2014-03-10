@@ -59,26 +59,13 @@ function PermissionScopes() {
     this.scopes['*'] = new PermissionScope();
 }
 
-function LogEntry() {
-    this.url = '';
-    this.type = '';
-    this.when = 0;
-    this.blocked = false;
-}
-
-function PageStatsRequests() {
-    this.requests = {};
-    this.ringBuffer = null;
-    this.ringBufferPointer = 0;
-}
-
 function PageStatsEntry(pageUrl) {
     this.pageUrl = '';
     this.pageHostname = '';
     this.pageDomain = '';
     this.pageScriptBlocked = false;
     this.thirdpartyScript = false;
-    this.requests = PageStatsRequests.factory();
+    this.requests = HTTPSB.PageRequestStats.factory();
     this.domains = {};
     this.state = {};
     this.visible = false;

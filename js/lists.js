@@ -265,7 +265,7 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
         }
 
         var strictBlocking = httpsb.userSettings.strictBlocking;
-        parents = uriTools.parentHostnamesFromHostname(hostname);
+        parents = httpsb.URI.parentHostnamesFromHostname(hostname);
 
         cellKey = '*|' + hostname;
         if ( whitelist[cellKey] ) {
@@ -359,7 +359,7 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
             return 'rdt';
         }
         // indirect: parent hostname nodes
-        parents = uriTools.parentHostnamesFromHostname(hostname);
+        parents = httpsb.URI.parentHostnamesFromHostname(hostname);
         i = 0;
         while ( parent = parents[i++] ) {
             // any type, specific hostname
@@ -573,9 +573,9 @@ PermissionScopes.prototype.scopeKeyFromPageURL = function(url) {
     if ( !url || url === '*' ) {
         return '*';
     }
-    var ut = uriTools;
-    var hostname = ut.hostnameFromURI(url);
-    if ( !hostname ) {
+    var httpsburi = HTTPSB.URI;
+    var hostname = httpsburi.hostnameFromURI(url);
+    if ( hostname === '' ) {
         return '*';
     }
     // if ( (/[^a-z0-9.-])/.test(scopeKey) ) {
@@ -588,8 +588,8 @@ PermissionScopes.prototype.scopeKeyFromPageURL = function(url) {
         return hostname;
     }
     // Try domain scope.
-    var domain = ut.domainFromHostname(hostname);
-    if ( !domain ) {
+    var domain = httpsburi.domainFromHostname(hostname);
+    if ( domain === '' ) {
         domain = hostname;
     }
     var scopeKey = '*.' + domain;

@@ -106,9 +106,11 @@ var cookieHunter = {
     },
 
     cookieKeyFromCookieURL: function(url, name) {
-        return uriTools.uri(url).assemble(uriTools.schemeBit |
-               uriTools.hostnameBit |
-               uriTools.pathBit) + '{cookie:' + name + '}';
+        var httpsburi = HTTPSB.URI.set(url);
+        return httpsburi.assemble(
+            httpsburi.schemeBit |
+            httpsburi.hostnameBit |
+            httpsburi.pathBit) + '{cookie:' + name + '}';
     },
 
     cookieMatchDomains: function(cookieKey, domains) {

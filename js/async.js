@@ -207,11 +207,13 @@ function onMessageHandler(request, sender, callback) {
             break;
 
         case 'checkScriptBlacklisted':
-            var requestHostname = uriTools.hostnameFromURI(request.url),
-                boolScriptBlacklisted = HTTPSB.blacklisted(request.url,
-                                                           'script',
-                                                           requestHostname);
-            response = { scriptBlacklisted : boolScriptBlacklisted };
+            response = {
+                scriptBlacklisted: HTTPSB.blacklisted(
+                    request.url,
+                    'script',
+                    HTTPSB.URI.hostnameFromURI(request.url)
+                    )
+                };
             break;
 
         case 'gotoExtensionURL':

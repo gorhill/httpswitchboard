@@ -150,27 +150,40 @@ function onBeforeChromeExtensionRequestHandler(details) {
 function onBeforeRequestHandler(details) {
     // console.debug('onBeforeRequestHandler()> "%s": %o', details.url, details);
 
+    var httpsb = HTTPSB;
+    var httpsburi = httpsb.URI.set(details.url);
+    var requestScheme = httpsburi.scheme;
+
     // rhill 2014-02-17: Ignore 'filesystem:': this can happen when listening
     // to 'chrome-extension://'.
-    var requestURL = details.url;
-    if ( requestURL.indexOf('filesystem:') === 0 ) {
+    if ( requestScheme === 'filesystem' ) {
         return;
     }
-    // Do not block myself from updating assets
-    // https://github.com/gorhill/httpswitchboard/issues/202
-    if ( requestURL.indexOf(HTTPSB.projectServerRoot) === 0 ) {
-        return;
-    }
-
-    var httpsb = HTTPSB;
 
     // Don't block chrome extensions
-    if ( requestURL.indexOf(httpsb.chromeExtensionURLPrefix) === 0 ) {
+    if ( requestScheme === 'chrome-extension' ) {
         onBeforeChromeExtensionRequestHandler(details);
         return;
     }
 
-    // quickProfiler.start();
+    // Ignore non-http schemes
+    if ( requestScheme.indexOf('http') !== 0 ) {
+        return;
+    }
+
+    // Normalizing will get rid of the fragment part
+    var requestURL = httpsburi.normalizedURI();
+
+    // Do not block myself from updating assets
+    // https://github.com/gorhill/httpswitchboard/issues/202
+    if ( requestURL.indexOf(httpsb.projectServerRoot) === 0 ) {
+        return;
+    }
+
+     quickProfiler.start();
+
+    var requestHostname = httpsburi.hostname;
+    var requestPath = httpsburi.path;
 
     var canEvaluate = true;
     var tabId = details.tabId;
@@ -180,9 +193,6 @@ function onBeforeRequestHandler(details) {
         tabId = httpsb.behindTheSceneTabId;
         // console.debug('onBeforeRequestHandler()> behind-the-scene: "%s"', details.url);
     }
-
-    // Normalizing will get rid of the fragment part
-    requestURL = uriTools.normalizeURI(requestURL);
 
     // If it's a root frame or an app, bind to a new page stats store
     var type = details.type;
@@ -225,14 +235,13 @@ function onBeforeRequestHandler(details) {
         pageStats.ignore = true;
     }
 
-    var hostname = uriTools.hostnameFromURI(requestURL);
     var pageURL = httpsb.pageUrlFromPageStats(pageStats);
 
     // rhill 2013-12-15:
     // Try to transpose generic `other` category into something more
     // meaningful.
     if ( type === 'other' ) {
-        type = httpsb.transposeType(type, requestURL);
+        type = httpsb.transposeType(type, requestPath);
     }
 
     if ( pageStats.ignore ) {
@@ -243,7 +252,7 @@ function onBeforeRequestHandler(details) {
     // https://github.com/gorhill/httpswitchboard/issues/27
     var block = false;
     if ( canEvaluate ) {
-        block = httpsb.blacklisted(pageURL, type, hostname);
+        block = httpsb.blacklisted(pageURL, type, requestHostname);
     }
 
     // Block using ABP filters?
@@ -267,7 +276,7 @@ function onBeforeRequestHandler(details) {
 
     // whitelisted?
     if ( !block ) {
-        // console.debug('onBeforeRequestHandler > allowing %s from %s', type, hostname);
+        // console.debug('onBeforeRequestHandler > allowing %s from %s', type, requestHostname);
 
         // If the request is not blocked, this means the response could contain
         // cookies. Thus, we go cookie hunting for this page url and record all
@@ -281,12 +290,12 @@ function onBeforeRequestHandler(details) {
             cookieHunter.recordPageCookiesAsync(pageStats);
         }
 
-        // quickProfiler.stop('onBeforeRequestHandler');
+         quickProfiler.stop('onBeforeRequestHandler');
         return;
     }
 
     // blacklisted
-    // console.debug('onBeforeRequestHandler > blocking %s from %s', type, hostname);
+    // console.debug('onBeforeRequestHandler > blocking %s from %s', type, requestHostname);
 
     // If it's a blacklisted frame, redirect to frame.html
     // rhill 2013-11-05: The root frame contains a link to noop.css, this
@@ -297,22 +306,22 @@ function onBeforeRequestHandler(details) {
         html = rootFrameReplacement;
         html = html.replace(/{{fontUrl}}/g, httpsb.fontCSSURL);
         html = html.replace(/{{cssURL}}/g, httpsb.noopCSSURL);
-        html = html.replace(/{{hostname}}/g, encodeURIComponent(hostname));
+        html = html.replace(/{{hostname}}/g, encodeURIComponent(requestHostname));
         html = html.replace(/{{originalURL}}/g, encodeURIComponent(requestURL));
         html = html.replace(/{{now}}/g, String(Date.now()));
         dataURI = 'data:text/html;base64,' + btoa(html);
-        // quickProfiler.stop('onBeforeRequestHandler');
+         quickProfiler.stop('onBeforeRequestHandler');
         return { "redirectUrl": dataURI };
     } else if ( isSubFrame ) {
         html = subFrameReplacement;
         html = html.replace(/{{fontUrl}}/g, httpsb.fontCSSURL);
-        html = html.replace(/{{hostname}}/g, hostname);
+        html = html.replace(/{{hostname}}/g, requestHostname);
         dataURI = 'data:text/html;base64,' + btoa(html);
-        // quickProfiler.stop('onBeforeRequestHandler');
+         quickProfiler.stop('onBeforeRequestHandler');
         return { "redirectUrl": dataURI };
     }
 
-    // quickProfiler.stop('onBeforeRequestHandler');
+     quickProfiler.stop('onBeforeRequestHandler');
 
     return { "cancel": true };
 }
@@ -339,8 +348,8 @@ function onBeforeSendHeadersHandler(details) {
     }
 
     // Any cookie in there?
-    var ut = uriTools;
-    var hostname = ut.hostnameFromURI(details.url);
+    var httpsburi = httpsb.URI;
+    var hostname = httpsburi.hostnameFromURI(details.url);
     var pageURL = httpsb.pageUrlFromTabId(tabId);
     var blacklistCookie = httpsb.blacklisted(pageURL, 'cookie', hostname);
     var processReferer = httpsb.userSettings.processReferer;
@@ -362,8 +371,8 @@ function onBeforeSendHeadersHandler(details) {
         headerName = headers[i].name.toLowerCase();
         if ( headerName === 'referer' ) {
             if ( processReferer ) {
-                fromDomain = ut.domainFromURI(headers[i].value);
-                toDomain = ut.domainFromHostname(hostname);
+                fromDomain = httpsburi.domainFromURI(headers[i].value);
+                toDomain = httpsburi.domainFromHostname(hostname);
                 if ( fromDomain !== toDomain ) {
                     if ( httpsb.blacklisted(pageURL, '*', hostname) ) {
                         // console.debug('onBeforeSendHeadersHandler()> nulling referer "%s" for "%s"', fromDomain, toDomain);
@@ -414,14 +423,17 @@ function onHeadersReceivedHandler(details) {
         return;
     }
 
+    var httpsb = HTTPSB;
+    var httpsburi = httpsb.URI.set(details.url);
+    var requestScheme = httpsburi.scheme;
+
     // Ignore schemes other than 'http...'
-    var requestURL = details.url;
-    if ( requestURL.indexOf('http') !== 0 ) {
+    if ( requestScheme.indexOf('http') !== 0 ) {
         return;
     }
-    requestURL = uriTools.normalizeURI(requestURL);
-    var requestHostname = uriTools.hostname();
-    var requestScheme = uriTools.scheme();
+
+    var requestURL = httpsburi.normalizedURI();
+    var requestHostname = httpsburi.hostname;
 
     // rhill 2013-12-08: ALWAYS evaluate for javascript, do not rely too much
     // on the top page to be bound to a tab.
@@ -433,7 +445,6 @@ function onHeadersReceivedHandler(details) {
     // to not be able to lookup the pageStats. So let the code here bind
     // the page to a tab if not done yet.
     // https://github.com/gorhill/httpswitchboard/issues/75
-    var httpsb = HTTPSB;
     var tabId = details.tabId;
     if ( tabId >= 0 && isWebPage ) {
         httpsb.bindTabToPageStats(tabId, requestURL);
@@ -451,9 +462,9 @@ function onHeadersReceivedHandler(details) {
             if ( i >= 0 ) {
                 // rhill 2014-01-20: Be ready to handle relative URLs.
                 // https://github.com/gorhill/httpswitchboard/issues/162
-                var locationURL = uriTools.normalizeURI(headers[i].value.trim());
-                if ( uriTools.scheme() === '' ) {
-                    locationURL = requestScheme + '://' + requestHostname + uriTools.path();
+                var locationURL = httpsburi.set(headers[i].value.trim()).normalizedURI();
+                if ( httpsburi.authority === '' ) {
+                    locationURL = requestScheme + '://' + requestHostname + httpsburi.path;
                 }
                 httpsb.redirectRequests[locationURL] = requestURL;
             }
@@ -565,7 +576,7 @@ function onErrorOccurredHandler(details) {
     // emit an error when a web page redirects apparently endlessly, so
     //  we need to unravel and report all these redirects upon error.
     // https://github.com/gorhill/httpswitchboard/issues/171
-    var requestURL = uriTools.normalizeURI(details.url);
+    var requestURL = httpsb.URI.set(details.url).normalizedURI();
     var mainFrameStack = [requestURL];
     var destinationURL = requestURL;
     var sourceURL;

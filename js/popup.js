@@ -255,8 +255,7 @@ function initMatrixStats() {
     matrixStats.reset();
 
     // collect all hostnames and ancestors from net traffic
-    var background = getBackgroundPage();
-    var uriTools = background.uriTools;
+    var httpsburi = getHTTPSB().URI;
     var pageUrl = pageStats.pageUrl;
     var hostname, reqType, nodes, iNode, node, reqKey, types;
     var pageRequests = pageStats.requests;
@@ -272,12 +271,12 @@ function initMatrixStats() {
         // rhill 2013-10-23: hostname can be empty if the request is a data url
         // https://github.com/gorhill/httpswitchboard/issues/26
         if ( hostname === '' ) {
-            hostname = uriTools.hostnameFromURI(pageUrl);
+            hostname = httpsburi.hostnameFromURI(pageUrl);
         }
         reqType = pageRequests.typeFromRequestKey(reqKey);
 
         // we want a row for self and ancestors
-        nodes = uriTools.allHostnamesFromHostname(hostname);
+        nodes = httpsburi.allHostnamesFromHostname(hostname);
         iNode = nodes.length;
         while ( iNode-- ) {
             node = nodes[iNode];
@@ -342,7 +341,7 @@ function getGroupStats() {
 
     // First, group according to whether at least one node in the domain
     // hierarchy is white or blacklisted
-    var background = getBackgroundPage();
+    var httpsburi = getHTTPSB().URI;
     var pageDomain = HTTPSBPopup.pageDomain;
     var hostname, domain, nodes, node;
     var temporaryColor;
@@ -362,7 +361,7 @@ function getGroupStats() {
         }
         // Walk upward the chain of hostname and find at least one which
         // is expressly whitelisted or blacklisted.
-        nodes = background.uriTools.allHostnamesFromHostname(hostname);
+        nodes = httpsburi.allHostnamesFromHostname(hostname);
         domain = nodes[nodes.length-1];
 
         while ( true ) {
@@ -408,7 +407,7 @@ function getGroupStats() {
             hostnames = Object.keys(group[domain].withRules);
             iHostname = hostnames.length;
             while ( iHostname-- ) {
-                nodes = background.uriTools.allHostnamesFromHostname(hostnames[iHostname]);
+                nodes = httpsburi.allHostnamesFromHostname(hostnames[iHostname]);
                 while ( true ) {
                     node = nodes.shift();
                     if ( !node ) {
@@ -1323,7 +1322,6 @@ function bindToTabHandler(tabs) {
         return;
     }
 
-    var background = getBackgroundPage();
     var httpsb = getHTTPSB();
     var tab = tabs[0];
 
@@ -1338,8 +1336,8 @@ function bindToTabHandler(tabs) {
         HTTPSBPopup.tabId = tab.id;
         HTTPSBPopup.pageURL = httpsb.pageUrlFromTabId(HTTPSBPopup.tabId);
     }
-    HTTPSBPopup.pageHostname = background.uriTools.hostnameFromURI(HTTPSBPopup.pageURL);
-    HTTPSBPopup.pageDomain = background.uriTools.domainFromHostname(HTTPSBPopup.pageHostname);
+    HTTPSBPopup.pageHostname = httpsb.URI.hostnameFromURI(HTTPSBPopup.pageURL);
+    HTTPSBPopup.pageDomain = httpsb.URI.domainFromHostname(HTTPSBPopup.pageHostname);
 
     // Now that tabId and pageURL are set, we can build our menu
     initMenuEnvironment();

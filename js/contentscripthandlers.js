@@ -28,11 +28,11 @@ function contentScriptSummaryHandler(details, sender) {
     if ( !details || !details.locationURL ) {
         return;
     }
-    var ut = uriTools;
     var httpsb = HTTPSB;
     var pageURL = httpsb.pageUrlFromTabId(sender.tab.id);
-    var frameURL = ut.normalizeURI(details.locationURL);
-    var pageHostname = ut.hostname();
+    var httpsburi = httpsb.URI.set(details.locationURL);
+    var frameURL = httpsburi.normalizedURI();
+    var pageHostname = httpsburi.hostname;
     var urls, url, hostname, block;
 
     // rhill 2014-01-17: I try not to use Object.keys() anymore when it can
@@ -51,8 +51,8 @@ function contentScriptSummaryHandler(details, sender) {
         if ( url === '{inline_script}' ) {
             url = frameURL + '{inline_script}';
         } else {
-            url = ut.normalizeURI(url);
-            hostname = ut.hostname();
+            url = httpsburi.set(url).normalizedURI();
+            hostname = httpsburi.hostname;
         }
         if ( !hostname ) {
             hostname = pageHostname;
@@ -68,8 +68,8 @@ function contentScriptSummaryHandler(details, sender) {
         if ( !urls.hasOwnProperty(url) ) {
             continue;
         }
-        url = ut.normalizeURI(url);
-        hostname = ut.hostname();
+        url = httpsburi.set(url).normalizedURI();
+        hostname = httpsburi.hostname;
         if ( !hostname ) {
             hostname = pageHostname;
         }
@@ -85,11 +85,12 @@ function contentScriptSummaryHandler(details, sender) {
 
 function contentScriptLocalStorageHandler(pageURL) {
     var httpsb = HTTPSB;
-    var response = httpsb.blacklisted(pageURL, 'cookie', uriTools.hostnameFromURI(pageURL));
+    var httpsburi = httpsb.URI.set(pageURL);
+    var response = httpsb.blacklisted(pageURL, 'cookie', httpsburi.hostname);
     httpsb.recordFromPageUrl(
         pageURL,
         'cookie',
-        uriTools.rootURLFromURI(pageURL) + '/{localStorage}',
+        httpsburi.rootURL() + '/{localStorage}',
         response
     );
     response = response && httpsb.userSettings.deleteLocalStorage;

@@ -77,7 +77,7 @@ var reConditionalRule = /\$/;
 var reHostnameRule = /^\|\|[a-z0-9.-]+\^?$/;
 var reToken = /[%0-9A-Za-z]{2,}/g;
 
-// My favorite regex tester: http://regexpal.com/
+// My favorite regex tester: http://www.gethifi.com/tools/regex#
 
 /******************************************************************************/
 
@@ -207,6 +207,7 @@ var reset = function() {
     filterCount = 0;
 
     // Give chromium's GC a helpful hand
+//    var stats = {}, n = 0;
     var fidx = filterIndex;
     var f, fn;
     for ( var k in fidx ) {
@@ -218,10 +219,13 @@ var reset = function() {
             fn = f.next;
             f.next = null;
             f = fn;
+//            n++;
         }
         fidx[k] = null;
+//        stats[k] = n; n = 0;
     }
     filterIndex = {};
+//    console.log('abp-filters.js stats:\n', Object.keys(stats).sort(function(a,b){return stats[b]-stats[a]}).map(function(a){return '\t'+a+': '+stats[a]}).join('\n'));
 };
 
 /******************************************************************************/

@@ -92,7 +92,7 @@ function onBeforeNavigateCallback(details) {
     }
     // console.debug('onBeforeNavigateCallback() > "%s" = %o', details.url, details);
 
-    HTTPSB.bindTabToPageStats(details.tabId, uriTools.normalizeURI(details.url));
+    HTTPSB.bindTabToPageStats(details.tabId, HTTPSB.URI.set(details.url).normalizedURI());
 }
 
 chrome.webNavigation.onBeforeNavigate.addListener(onBeforeNavigateCallback);
@@ -125,7 +125,7 @@ chrome.tabs.query({ url: '<all_urls>' }, function(tabs) {
     var tab;
     while ( i-- ) {
         tab = tabs[i];
-        HTTPSB.bindTabToPageStats(tab.id, uriTools.normalizeURI(tab.url));
+        HTTPSB.bindTabToPageStats(tab.id, HTTPSB.URI.set(tab.url).normalizedURI());
     }
     // Tabs are now bound to url stats stores, therefore it is now safe
     // to handle net traffic.

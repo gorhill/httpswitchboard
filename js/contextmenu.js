@@ -58,8 +58,9 @@ function contextMenuClickHandler(info, tab) {
         return;
     }
 
-    var pageURL = uriTools.normalizeURI(tab.url);
-    var pageDomain = uriTools.domainFromURI(pageURL);
+    var httpsburi = HTTPSB.URI.set(tab.url);
+    var pageURL = httpsburi.normalizedURI();
+    var pageDomain = httpsburi.domain();
 
     if ( !pageDomain ) {
         return;
@@ -97,9 +98,12 @@ function updateContextMenuHandler(tabs) {
     if ( !tab.url || !tab.url.length ) {
         return;
     }
-    var pageUrl = uriTools.normalizeURI(tab.url);
-    var pageDomain = uriTools.domainFromURI(pageUrl);
+
+    var httpsburi = HTTPSB.URI.set(tab.url);
+    var pageUrl = httpsburi.normalizedURI();
+    var pageDomain = httpsburi.domain();
     var color = HTTPSB.evaluate(pageUrl, '*', pageDomain);
+
     chrome.contextMenus.update('gdt-group0', {
         title: 'Temporarily whitelist *.' + punycode.toUnicode(pageDomain),
         enabled: color.charAt(0) !== 'g' && !HTTPSB.off

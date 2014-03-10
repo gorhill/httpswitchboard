@@ -41,16 +41,14 @@ HTTPSB.globalScopeKey = function() {
 };
 
 HTTPSB.domainScopeKeyFromURL = function(url) {
-    var ut = uriTools.uri(url);
-    var scheme = ut.scheme();
-    if ( scheme.indexOf('http') !== 0 ) {
+    if ( url.slice(0, 4) !== 'http' ) {
         return '';
     }
-    return this.domainScopeKeyFromHostname(ut.hostname());
+    return this.domainScopeKeyFromHostname(this.URI.hostnameFromURI(url));
 };
 
 HTTPSB.domainScopeKeyFromHostname = function(hostname) {
-    var domain = uriTools.domainFromHostname(hostname);
+    var domain = this.URI.domainFromHostname(hostname);
     if ( domain === '' ) {
         domain = hostname;
     }
@@ -58,7 +56,7 @@ HTTPSB.domainScopeKeyFromHostname = function(hostname) {
 };
 
 HTTPSB.siteScopeKeyFromURL = function(url) {
-    return uriTools.hostnameFromURI(url);
+    return this.URI.hostnameFromURI(url);
 };
 
 HTTPSB.siteScopeKeyFromHostname = function(hostname) {
@@ -326,9 +324,8 @@ HTTPSB.evaluateFromScopeKey = function(scopeKey, type, hostname) {
 
 /******************************************************************************/
 
-HTTPSB.transposeType = function(type, url) {
+HTTPSB.transposeType = function(type, path) {
     if ( type === 'other' ) {
-        var path = uriTools.uri(url).path();
         var pos = path.lastIndexOf('.');
         if ( pos > 0 ) {
             var ext = path.slice(pos);
@@ -363,7 +360,7 @@ HTTPSB.autoCreateTemporarySiteScope = function(pageURL) {
     }
     // Do not auto-create a site-level scope if there is a whitelist rule
     // for the domain or hostname of the pageURL
-    var pageDomain = uriTools.domainFromURI(pageURL);
+    var pageDomain = this.URI.domainFromURI(pageURL);
     var pageDomainLen = pageDomain.length;
     var scope = this.temporaryScopes.scopes['*'];
     var rules = scope.white.list;
@@ -400,7 +397,7 @@ HTTPSB.copyTemporaryWhiteRules = function(toScopeKey, fromScopeKey, pageURL) {
     if ( !toScope || !fromScope ) {
         return;
     }
-    var ut = uriTools;
+    var httpsburi = this.URI;
     var pageStats = this.pageStatsFromPageUrl(pageURL);
     var hostnames = pageStats ? pageStats.domains : {};
     var domains = {};
@@ -408,7 +405,7 @@ HTTPSB.copyTemporaryWhiteRules = function(toScopeKey, fromScopeKey, pageURL) {
         if ( !hostnames.hasOwnProperty(hostname) ) {
             continue;
         }
-        domains[ut.domainFromHostname(hostname)] = true;
+        domains[httpsburi.domainFromHostname(hostname)] = true;
     }
     var whitelist = fromScope.white.list;
     var pos, ruleHostname;
@@ -418,7 +415,7 @@ HTTPSB.copyTemporaryWhiteRules = function(toScopeKey, fromScopeKey, pageURL) {
         }
         pos = ruleKey.indexOf('|');
         ruleHostname = ruleKey.slice(pos + 1);
-        if ( ruleHostname !== '*' && !domains[ut.domainFromHostname(ruleHostname)] ) {
+        if ( ruleHostname !== '*' && !domains[httpsburi.domainFromHostname(ruleHostname)] ) {
             continue;
         }
         toScope.white.addOne(ruleKey);
@@ -459,7 +456,7 @@ HTTPSB.whitelistPermanently = function(scopeKey, type, hostname) {
 
 HTTPSB.autoWhitelistTemporarilyPageDomain = function(pageURL) {
     var scopeKey = this.temporaryScopeKeyFromPageURL(pageURL);
-    var domain = uriTools.domainFromURI(pageURL);
+    var domain = this.URI.domainFromURI(pageURL);
     // 'rp' as in 'red pale', i.e. graylisted-blocked:
     // Autowhitelist only if the domain is graylisted and blocked.
     if ( this.evaluateFromScopeKey(scopeKey, '*', domain).indexOf('rp') === 0 ) {

@@ -21,255 +21,6 @@
 
 /******************************************************************************/
 
-LogEntry.junkyard = [];
-
-/*----------------------------------------------------------------------------*/
-
-LogEntry.factory = function() {
-    var entry = LogEntry.junkyard.pop();
-    if ( entry ) {
-        return entry;
-    }
-    return new LogEntry();
-};
-
-/*----------------------------------------------------------------------------*/
-
-LogEntry.prototype.dispose = function() {
-    // Let's not grab and hold onto too much memory..
-    if ( LogEntry.junkyard.length < 200 ) {
-        LogEntry.junkyard.push(this);
-    }
-};
-
-/******************************************************************************/
-
-PageStatsRequests.factory = function() {
-    var requests = new PageStatsRequests();
-    requests.resizeLogBuffer(HTTPSB.userSettings.maxLoggedRequests);
-    return requests;
-};
-
-/*----------------------------------------------------------------------------*/
-
-// Request key:
-// index: 01234567...
-//        HHHHHHTN...
-//        ^     ^^
-//        |     ||
-//        |     |+--- short string code for hostname (dict-based)
-//        |     +--- single char code for type of request
-//        +--- FNV32a hash of whole URI (irreversible)
-
-PageStatsRequests.makeRequestKey = function(uri, reqType) {
-    // Ref: Given a URL, returns a unique 7-character long hash string
-    // Based on: FNV32a
-    // http://www.isthe.com/chongo/tech/comp/fnv/index.html#FNV-reference-source
-    // The rest is custom, suited for HTTPSB.
-    var hint = 0x811c9dc5;
-    var i = uri.length;
-    while ( i-- ) {
-        hint ^= uri.charCodeAt(i);
-        hint += hint<<1 + hint<<4 + hint<<7 + hint<<8 + hint<<24;
-    }
-    hint = hint >>> 0;
-
-    // convert 32-bit hash to str
-    var hstr = '';
-    i = 6;
-    while ( i-- ) {
-        hstr += PageStatsRequests.charCodes.charAt(hint & 0x3F);
-        hint >>= 6;
-    }
-
-    // append code for type
-    hstr += PageStatsRequests.typeToCode[reqType] || 'z';
-
-    // append code for hostname
-    hstr += stringPacker.pack(uriTools.hostnameFromURI(uri));
-
-    return hstr;
-};
-
-PageStatsRequests.charCodes = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
-PageStatsRequests.typeToCode = {
-    'main_frame'    : 'a',
-    'sub_frame'     : 'b',
-    'stylesheet'    : 'c',
-    'script'        : 'd',
-    'image'         : 'e',
-    'object'        : 'f',
-    'xmlhttprequest': 'g',
-    'other'         : 'h',
-    'cookie'        : 'i'
-};
-PageStatsRequests.codeToType = {
-    'a': 'main_frame',
-    'b': 'sub_frame',
-    'c': 'stylesheet',
-    'd': 'script',
-    'e': 'image',
-    'f': 'object',
-    'g': 'xmlhttprequest',
-    'h': 'other',
-    'i': 'cookie'
-};
-
-/*----------------------------------------------------------------------------*/
-
-PageStatsRequests.rememberRequestKey = function(reqKey) {
-    stringPacker.remember(reqKey.slice(7));
-};
-
-/*----------------------------------------------------------------------------*/
-
-PageStatsRequests.forgetRequestKey = function(reqKey) {
-    stringPacker.forget(reqKey.slice(7));
-};
-
-/*----------------------------------------------------------------------------*/
-
-PageStatsRequests.hostnameFromRequestKey = function(reqKey) {
-    return stringPacker.unpack(reqKey.slice(7));
-};
-PageStatsRequests.prototype.hostnameFromRequestKey = PageStatsRequests.hostnameFromRequestKey;
-
-/*----------------------------------------------------------------------------*/
-
-PageStatsRequests.typeFromRequestKey = function(reqKey) {
-    return PageStatsRequests.codeToType[reqKey.charAt(6)];
-};
-PageStatsRequests.prototype.typeFromRequestKey = PageStatsRequests.typeFromRequestKey;
-
-/*----------------------------------------------------------------------------*/
-
-PageStatsRequests.prototype.createEntryIfNotExists = function(url, type, block) {
-    this.logRequest(url, type, block);
-    var reqKey = PageStatsRequests.makeRequestKey(url, type);
-    if ( this.requests[reqKey] ) {
-        return false;
-    }
-    PageStatsRequests.rememberRequestKey(reqKey);
-    this.requests[reqKey] = Date.now();
-    return true;
-};
-
-/*----------------------------------------------------------------------------*/
-
-PageStatsRequests.prototype.resizeLogBuffer = function(size) {
-    if ( !this.ringBuffer ) {
-        this.ringBuffer = new Array(0);
-        this.ringBufferPointer = 0;
-    }
-    if ( size === this.ringBuffer.length ) {
-        return;
-    }
-    if ( !size ) {
-        this.ringBuffer = new Array(0);
-        this.ringBufferPointer = 0;
-        return;
-    }
-    var newBuffer = new Array(size);
-    var copySize = Math.min(size, this.ringBuffer.length);
-    var newBufferPointer = (copySize % size) | 0;
-    var isrc = this.ringBufferPointer;
-    var ides = newBufferPointer;
-    while ( copySize-- ) {
-        isrc--;
-        if ( isrc < 0 ) {
-            isrc = this.ringBuffer.length - 1;
-        }
-        ides--;
-        if ( ides < 0 ) {
-            ides = size - 1;
-        }
-        newBuffer[ides] = this.ringBuffer[isrc];
-    }
-    this.ringBuffer = newBuffer;
-    this.ringBufferPointer = newBufferPointer;
-};
-
-/*----------------------------------------------------------------------------*/
-
-PageStatsRequests.prototype.logRequest = function(url, type, block) {
-    var buffer = this.ringBuffer;
-    var len = buffer.length;
-    if ( !len ) {
-        return;
-    }
-    var pointer = this.ringBufferPointer;
-    if ( !buffer[pointer] ) {
-        buffer[pointer] = LogEntry.factory();
-    }
-    var logEntry = buffer[pointer];
-    logEntry.url = url;
-    logEntry.type = type;
-    logEntry.when = Date.now();
-    logEntry.blocked = block;
-    this.ringBufferPointer = ((pointer + 1) % len) | 0;
-};
-
-/*----------------------------------------------------------------------------*/
-
-PageStatsRequests.prototype.getLoggedRequests = function() {
-    var buffer = this.ringBuffer;
-    if ( !buffer.length ) {
-        return [];
-    }
-    // [0 - pointer] = most recent
-    // [pointer - length] = least recent
-    // thus, ascending order:
-    //   [pointer - length] + [0 - pointer]
-    var pointer = this.ringBufferPointer;
-    return buffer.slice(pointer).concat(buffer.slice(0, pointer)).reverse();
-};
-
-/*----------------------------------------------------------------------------*/
-
-PageStatsRequests.prototype.getLoggedRequestEntry = function(reqURL, reqType) {
-    return this.requests[PageStatsRequests.makeRequestKey(reqURL, reqType)];
-};
-
-/*----------------------------------------------------------------------------*/
-
-PageStatsRequests.prototype.getRequestKeys = function() {
-    return Object.keys(this.requests);
-};
-
-/*----------------------------------------------------------------------------*/
-
-PageStatsRequests.prototype.getRequestDict = function() {
-    return this.requests;
-};
-
-/*----------------------------------------------------------------------------*/
-
-PageStatsRequests.prototype.disposeOne = function(reqKey) {
-    if ( this.requests[reqKey] ) {
-        delete this.requests[reqKey];
-        PageStatsRequests.forgetRequestKey(reqKey);
-    }
-};
-
-/*----------------------------------------------------------------------------*/
-
-PageStatsRequests.prototype.dispose = function() {
-    var requests = this.requests;
-    for ( var reqKey in requests ) {
-        if ( requests.hasOwnProperty(reqKey) ) {
-            stringPacker.forget(reqKey.slice(7));
-            delete requests[reqKey];
-        }
-    }
-    var i = this.ringBuffer.length;
-    while ( i-- ) {
-        this.ringBuffer[i] = null;
-    }
-    this.ringBufferPointer = 0;
-};
-
-/******************************************************************************/
-
 PageStatsEntry.junkyard = [];
 
 PageStatsEntry.factory = function(pageUrl) {
@@ -284,11 +35,11 @@ PageStatsEntry.factory = function(pageUrl) {
 
 PageStatsEntry.prototype.init = function(pageUrl) {
     this.pageUrl = pageUrl;
-    this.pageHostname = uriTools.uri(pageUrl).hostname();
-    this.pageDomain = uriTools.domainFromHostname(this.pageHostname);
+    this.pageHostname = HTTPSB.URI.hostnameFromURI(pageUrl);
+    this.pageDomain = HTTPSB.URI.domainFromHostname(this.pageHostname);
     this.pageScriptBlocked = false;
     this.thirdpartyScript = false;
-    this.requests = PageStatsRequests.factory();
+    this.requests = HTTPSB.PageRequestStats.factory();
     this.domains = {};
     this.state = {};
     this.requestStats.reset();
@@ -343,7 +94,7 @@ PageStatsEntry.prototype.recordRequest = function(type, url, block) {
         return;
     }
 
-    var hostname = uriTools.hostnameFromURI(url);
+    var hostname = HTTPSB.URI.hostnameFromURI(url);
 
     // https://github.com/gorhill/httpswitchboard/issues/181
     if ( type === 'script' && hostname !== this.pageHostname ) {
@@ -708,12 +459,12 @@ HTTPSB.computeTabState = function(tabId) {
 
         // The evaluation code here needs to reflect the evaluation code in
         // beforeRequestHandler()
-        hostname = PageStatsRequests.hostnameFromRequestKey(reqKey);
+        hostname = this.PageRequestStats.hostnameFromRequestKey(reqKey);
 
         // rhill 2013-12-10: mind how stylesheets are to be evaluated:
         // `stylesheet` or `other`? Depends of domain of request.
         // https://github.com/gorhill/httpswitchboard/issues/85
-        type = PageStatsRequests.typeFromRequestKey(reqKey);
+        type = this.PageRequestStats.typeFromRequestKey(reqKey);
         if ( this.blacklistedFromScopeKey(scopeKey, type, hostname) ) {
             computedState[type +  '|' + hostname] = true;
         }
