@@ -1,8 +1,8 @@
 [Adblock Plus 2.0]
-! Checksum: ztPXLBSbL++C0kUr13A6mA
-! Version: 201403100200
+! Checksum: 25aEncqEKX23HuAzpyxXZQ
+! Version: 201403111750
 ! Title: Fanboy's Annoyance List
-! Last modified: 10 Mar 2014 02:00 UTC
+! Last modified: 11 Mar 2014 17:50 UTC
 ! Expires: 4 days (update frequency)
 ! License: http://creativecommons.org/licenses/by/3.0/
 ! Please report any unblocked content or problems by email or in our forums
@@ -2163,6 +2163,7 @@ _youtube_32.
 ##.cxEmailNewsletter
 ##.dailydeal_wrapper
 ##.dd_ajax_float
+##.divider-taboola
 ##.dmg-newsletter
 ##.dsq-global-toolbar-container
 ##.dsq-h3-reactions
@@ -4319,6 +4320,7 @@ _youtube_32.
 ##.icon--twitter
 ##.icon-facebook
 ##.icon-facebook-encircled
+##.icon-fb
 ##.icon-google-plus
 ##.icon-google-plus-sign
 ##.icon-googleplus
@@ -4383,6 +4385,7 @@ _youtube_32.
 ##.inpage-social-links
 ##.insideArticleShare
 ##.instagram-follow
+##.intro-share-container
 ##.ione-widget-facebook-activity
 ##.ishare
 ##.isocial
@@ -5269,7 +5272,9 @@ _youtube_32.
 ##.social_share_box
 ##.social_share_btn
 ##.social_share_buttons
+##.social_share_container
 ##.social_share_h
+##.social_share_left
 ##.social_share_privacy_area
 ##.social_shares
 ##.social_sharing
@@ -5421,6 +5426,7 @@ _youtube_32.
 ##.teasershare
 ##.ted-share-buttons
 ##.text_list_inline
+##.ticker-tweet
 ##.tipsy-social-icon-container
 ##.titleSocial
 ##.tlc-slide-facebook
@@ -7940,6 +7946,7 @@ game-debate.com##.bottom-fixed-bar
 patient.co.uk##.bottom-nudge
 imdb.com##.bottom-rhs
 ecosalon.com##.bottom_links
+gizmodo.in##.bottom_story
 alternet.org##.bottom_subscribe
 ctovision.com,fullepisode.info,medianama.com,phonerpt.com,thinkteletronics.com,umpcportal.com##.bottomcontainerBox
 petapixel.com##.bottommargined
@@ -10145,7 +10152,6 @@ nouvelobs.com###facebook_aime
 gamekult.com###follow
 jeuxvideo.com###partager_v2
 lepoint.fr###reseauxsociaux
-jeuxvideopc.com###social
 ##.blocSociaux
 rtl.be##.bulle_nombre
 radins.com##.fbMin
@@ -10156,9 +10162,9 @@ viedemerde.fr##.likebox
 marmiton.org##.m_content_recette_share
 marmiton.org##.m_suivez_nous_btn
 tempsreel.nouvelobs.com##.obs-galerie-bp-share
+jeuxvideopc.com##.pictos
 gamekult.com##.share
 buyindz.com,sudouest.fr##.social
-telerama.fr##.t12-bloc-in
 telerama.fr##.t12-user-resoc
 viedemerde.fr##.t_twitter
 radins.com##.twiMin

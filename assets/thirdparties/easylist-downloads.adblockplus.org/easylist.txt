@@ -1,8 +1,8 @@
 [Adblock Plus 2.0]
-! Checksum: I1teo7FHN2CiBsHd0h0+kg
-! Version: 201403100200
+! Checksum: 2ObChs6Y5zbyjlWLHGE9pg
+! Version: 201403111750
 ! Title: EasyList without element hiding rules
-! Last modified: 10 Mar 2014 02:00 UTC
+! Last modified: 11 Mar 2014 17:50 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -366,6 +366,7 @@
 .dartconfig.js
 .eg/ads/
 .eu/ads/
+.fm/ads/
 .gg/ads/
 .gif?ad=
 .gr/ads/
@@ -725,6 +726,7 @@
 /ad/spacer.
 /ad/sponsored-
 /ad/sponsors/*
+/ad/status?
 /ad/superbanner.
 /ad/swf/*
 /ad/takeover/*
@@ -2361,6 +2363,7 @@
 /advertisingbanner/*
 /advertisingbanner_
 /advertisingcontent/*
+/AdvertisingIsPresent6?
 /advertisinglinks_
 /advertisingmanual.
 /advertisingmodule.
@@ -3880,6 +3883,7 @@
 /myfreepaysitebanner.
 /mylayer-ad/*
 /mysimpleads/*
+/n/adv_
 /n_ads/*
 /namediaad.
 /nativeads/*
@@ -4300,6 +4304,7 @@
 /rightrailgoogleads.
 /rightsideaddisplay.
 /righttopads.
+/rollad.
 /rolloverads/*
 /rolloverbannerad.
 /root_ad.
@@ -6144,6 +6149,7 @@ _popunder+$popup
 ||2mdn.net/dot.gif$object-subrequest,third-party
 ||2mdn.net^$object-subrequest,third-party,domain=101cargames.com|1025thebull.com|1031iheartaustin.com|1037theq.com|1041beat.com|1057ezrock.com|1067litefm.com|10news.com|247comedy.com|3news.co.nz|49ers.com|610cktb.com|700wlw.com|850koa.com|940winz.com|94hjy.com|970espn.com|99kisscountry.com|abc15.com|abc2news.com|abcactionnews.com|am1300thezone.com|am570radio.com|am760.net|atlantafalcons.com|automobilemag.com|automotive.com|azcardinals.com|baltimoreravens.com|baynews9.com|bbc.co.uk|bbc.com|belfasttelegraph.co.uk|bengals.com|bet.com|big1059.com|bigdog1009.ca|bloomberg.com|bnn.ca|boom973.com|boom997.com|box10.com|brisbanetimes.com.au|buccaneers.com|buffalobills.com|bullz-eye.com|businessweek.com|calgaryherald.com|caller.com|canada.com|capitalfm.ca|cbs.com|cbsnews.com|cbssports.com|channel955.com|chargers.com|chicagobears.com|chicagotribune.com|cj104.com|cjad.com|cjbk.com|clevelandbrowns.com|cnettv.cnet.com|coast933.com|colts.com|commercialappeal.com|courierpress.com|cp24.com|cricketcountry.com|csmonitor.com|ctvnews.ca|dallascowboys.com|denverbroncos.com|detroitlions.com|drive.com.au|earthcam.com|edmontonjournal.com|egirlgames.net|elvisduran.com|enjoydressup.com|entrepreneur.com|eonline.com|escapegames.com|euronews.com|evolution935.com|fansportslive.com|fm98wjlb.com|foodnetwork.ca|four.co.nz|foxsportsradio.com|fresh100.com|gamingbolt.com|ghananation.com|giantbomb.com|giants.com|globalpost.com|globaltoronto.com|globaltv.com|globaltvbc.com|globaltvcalgary.com|go.com|gorillanation.com|gosanangelo.com|hallelujah1051.com|heraldsun.com.au|hgtv.ca|houstontexans.com|iheart.com|independent.ie|independentmail.com|jaguars.com|kase101.com|kcchiefs.com|kdvr.com|kfiam640.com|kgbx.com|khow.com|kiisfm.com|kitsapsun.com|kitv.com|kjrh.com|kmov.com|knoxnews.com|kogo.com|komonews.com|kshb.com|kwgn.com|kwnr.com|kxan.com|leaderpost.com|livestream.com|magic96.com|metacafe.com|miamidolphins.com|mix923fm.com|mojointhemorning.com|moneycontrol.com|montrealgazette.com|motorcyclistonline.com|mtv.ca|mydamnchannel.com|myezrock.com|mymagic97.com|naplesnews.com|nationalpost.com|nba.com|nba.tv|ndtv.com|neworleanssaints.com|newsmax.com|newsmaxhealth.com|newsnet5.com|newstalk1010.com|newstalk1130.com|newyorkjets.com|nydailynews.com|nymag.com|oktvusa.com|ottawacitizen.com|packers.com|panthers.com|patriots.com|pcworld.com|philadelphiaeagles.com|player.screenwavemedia.com|prowrestling.com|raaga.com|radio.com|raiders.com|rapbasement.com|redding.com|redskins.com|reporternews.com|reuters.com|rollingstone.com|rootsports.com|rottentomatoes.com|seahawks.com|sherdog.com|skynews.com.au|slice.ca|smh.com.au|sploder.com|steelers.com|stlouisrams.com|streetfire.net|stuff.co.nz|tcpalm.com|telegraph.co.uk|theage.com.au|theaustralian.com.au|thecomedynetwork.ca|thedenverchannel.com|thedrocks.com|theindychannel.com|theprovince.com|thestarphoenix.com|theteam1260.com|tide.com|timescolonist.com|timeslive.co.za|timesrecordnews.com|titansonline.com|totaljerkface.com|tripadvisor.ca|tripadvisor.co.id|tripadvisor.co.uk|tripadvisor.com|tripadvisor.com.au|tripadvisor.com.my|tripadvisor.com.sg|tripadvisor.ie|tripadvisor.in|turnto23.com|tvone.tv|tvoneonline.com|usmagazine.com|vancouversun.com|vcstar.com|veetle.com|vice.com|videojug.com|vikings.com|virginradio.ca|washingtonpost.com|washingtontimes.com|wcpo.com|wdfn.com|weather.com|wescfm.com|wgci.com|wibw.com|wikihow.com|windsorstar.com|wiod.com|wjdx.com|wkyt.com|wmyi.com|wor710.com|wptv.com|wxyz.com|yahoo.com|youtube.com|z100.com
 ||2mdn.net^$~object-subrequest,third-party
+||32b4oilo.com^$third-party
 ||3393.com^$third-party
 ||350media.com^$third-party
 ||360ads.com^$third-party
@@ -6462,6 +6468,7 @@ _popunder+$popup
 ||adsmoon.com^$third-party
 ||adsmws.cloudapp.net^$third-party
 ||adsnext.net^$third-party
+||adsniper.ru^$third-party
 ||adsonar.com^$third-party
 ||adsovo.com^$third-party
 ||adspaper.org^$third-party
@@ -7239,6 +7246,7 @@ _popunder+$popup
 ||escalatenetwork.com^$third-party
 ||escale.to^$third-party
 ||etargetnet.com^$third-party
+||etgdta.com^$third-party
 ||etology.com^$third-party
 ||eurew.com^$third-party
 ||euroclick.com^$third-party
@@ -11654,6 +11662,7 @@ _popunder+$popup
 ||afternoondc.in/banners/
 ||agriculturalreviewonline.com/images/banners/
 ||ahashare.com/cpxt_
+||ahk-usa.com/uploads/tx_bannermanagement/
 ||ajnad.aljazeera.net^
 ||akamai.net/*/Prerolls/Campaigns/
 ||akamaihd.net/zbar/takeovers/
@@ -12576,11 +12585,14 @@ _popunder+$popup
 ||futbol24.com/f24/rek/$~xmlhttprequest
 ||g.brothersoft.com^
 ||gabzfm.com/images/banners/
+||gaccmidwest.org/uploads/tx_bannermanagement/
+||gaccny.com/uploads/tx_bannermanagement/
+||gaccsouth.com/uploads/tx_bannermanagement/
+||gaccwest.com/uploads/tx_bannermanagement/
 ||gadget.co.za/siteimages/banners/
 ||gadgetmac.com^*/sponsors/
 ||gadgetshowlive.net^*/banners/
 ||gaeatimes.com/ctad/
-||gagasiradio.fm^*/3x2pt2/
 ||galatta.com^*/bannerimages/
 ||galatta.com^*/banners/
 ||game1games.com/exchange/
@@ -15124,6 +15136,7 @@ _popunder+$popup
 ||dirtypriest.com/sexpics/
 ||dominationtube.com/exit.js
 ||dot.eporner.com^
+||dot2.eporner.com^
 ||dronporn.com/main-video-place.html
 ||dronporn.com/tizer.html
 ||drtuber.com/promo/banners/
@@ -16503,6 +16516,7 @@ _popunder+$popup
 @@||inskinmedia.com^*/api/brightcove3.js$domain=computerandvideogames.com|virginmedia.com
 @@||inskinmedia.com^*/js/base/api/$domain=thesun.co.uk
 @@||inspire.net.nz/adverts/$image
+@@||intellitext.co^$~third-party
 @@||investors.com/Scripts/AdScript.js?
 @@||inviziads.com/crossdomain.xml$object-subrequest
 @@||ipcamhost.net/flashads/*.swf$object-subrequest,domain=canadianrockies.org
@@ -17261,6 +17275,7 @@ _popunder+$popup
 @@|http://*.com^*.|$script,third-party,domain=eventhubs.com
 @@|http://*.com^*/|$script,third-party,domain=eventhubs.com
 @@|http://*.com^*_|$script,third-party,domain=eventhubs.com
+@@|http://*.info^*.js?$script,third-party,domain=cbs.com
 @@|http://*.me^*.js?$script,third-party,domain=cbs.com
 @@|http://*.net^*.js?$script,third-party,domain=cbs.com
 @@|http://*.org^*.js?$script,third-party,domain=cbs.com
@@ -17799,6 +17814,7 @@ _popunder+$popup
 @@||accounts.google.com/adwords/$domain=accounts.google.com
 @@||accounts.google.com^$document,subdocument,domain=adwords.google.com
 @@||adwords.google.com^$domain=adwords.google.com
+@@||apps.admob.com/admob/*.adsense.$script,domain=apps.admob.com
 @@||bpui0.google.com^$document,subdocument,domain=adwords.google.com
 @@||google.com/help/hc/images/adwords/$image,~third-party
 @@||google.com/payments/*/adwords.$document,subdocument
@@ -17811,10 +17827,12 @@ _popunder+$popup
 @@||www.google.*/ads/css/$~third-party
 @@||www.google.*/ads/images/$~third-party
 @@||www.google.*/ads/js/$~third-party
+@@||www.google.com/ads/admob/images/$image,domain=google.com
 @@||www.google.com/ads/js/$script,domain=www.google.com
 @@||www.google.com/adsense/$domain=www.google.com
 @@||www.google.com/adwords/$domain=www.google.com
 @@||www.google.com/adwords/$elemhide
+@@||www.google.com/analytics/web/*?id=*&ds=$xmlhttprequest,domain=www.google.com
 accounts.google.com#@#.adwords
 ! Mobicow.com
 @@||adcenter.mobicow.com^$~third-party

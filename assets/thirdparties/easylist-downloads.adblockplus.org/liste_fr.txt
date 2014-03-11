@@ -1,6 +1,6 @@
 [Adblock Plus 2.0]
-! Checksum: ggT10ZdCF+Knegqxrb8aGg
-! Version: 201403100201
+! Checksum: RC4pC4r9Xybf2S3xRK/t/Q
+! Version: 201403111751
 ! Liste FR ~ Filtres francophones complémentaires à EasyList
 ! Title: Liste FR
 ! Licence : http://www.adblock-listefr.com/A_propos
@@ -1479,6 +1479,7 @@ _regiepub/
 ||videos-de-celebrites.com/pub/
 ||vidule.com^*/u.js
 ||viedemerde.fr/img/banner-
+||viedemerde.fr/modules/fr/drdc_2014/
 ||viedemerde.fr/placeholder/
 ||virtualdjing.com/include/js/refresh_pub.js?
 ||virusphoto.com/bannieres/
@@ -1538,17 +1539,19 @@ _regiepub/
 ||zoom-algerie.com/images/amazigh-united-250.jpg
 ||zoomdici.fr/media/pub/
 ! Anti-Adblock
-/http://www\.generation-nt\.com/.*/$image,domain=generation-nt.com
-/http://www\.generation-nt\.com/img/.*/$image,domain=generation-nt.com
-@@/http://www\.generation-nt\.com/.*(png|gif|jpg|ico)/$image,domain=generation-nt.com
-@@/http://www\.generation-nt\.com/img/.*(png|gif|jpg|ico)/$image,domain=generation-nt.com
-@@||generation-nt.com/img/ads.
-viedemerde.fr###submit + .cf > div:first-child > a > img
-viedemerde.fr##.post.special.border:first-child
-viedemerde.fr##.post.special.bordered:first-child
-viedemerde.fr##a[href^="http://cdn.dekalee.net/"]
-||generation-nt.com/img/kiwi-
-||media.viedemerde.fr/fmylife/data/fr/autopromo/8ac21b6f576a4f83c0a78bd6b98144b5.png
+@@||generation-nt.com^$elemhide
+@@||generation-nt.com^$image,script,subdocument,domain=generation-nt.com
+!
+viedemerde.fr##.cf + div > div:first-child > a > img
+viedemerde.fr##.post.special.bordered + .post.special.bordered + .post.special.bordered
+viedemerde.fr##.post.special:first-child
+viedemerde.fr##.post[style="width:300px; height:200px; background: url('/modules/fr/drdc_2014/images/300x200.png');"]
+@@||viedemerde.fr^*/ee42e3523382002a711e2a4a927d6287.png
+viedemerde.fr##a[href^="http://bit.ly/NQj6H7?utm_source="]
+viedemerde.fr##a[href^="http://lc.cx/pdB?"]
+viedemerde.fr##a[href^="http://ow.ly/uqPFf?"]
+viedemerde.fr##a[href^="http://uri.lv/"]
+||viedemerde.fr/fmylife/data/fr/autopromo/
 !
 !------------------ Éléments génériques -----------------!
 !
@@ -2424,6 +2427,7 @@ lemonde.fr##.bloc_part
 tv5.org##.bloc_promomiddle
 creativejuiz.fr##.bloc_pub
 algerie360.com##.bloc_pub_250_s_marge
+pcinpact.com##.bloc_pub_header
 premiere.fr##.bloc_rightcol.bloc_rightcol_dealjour.groupon
 lien-torrent.com##.block-banner
 liberation.fr##.block-cPublicite
@@ -2985,6 +2989,7 @@ netprof.fr##ins[style="display:inline-table;border:none;height:600px;margin:0;pa
 @@||ad2play.ftv-publicite.fr/js/ad2play.js$domain=mytaratata.com
 @@||adgear.com^*/adgear.js$domain=tetesaclaques.tv|tou.tv
 @@||admedia.rtl.fr/online/sound/$object-subrequest,domain=rtl.fr
+@@||adphoto.fr^$~third-party
 @@||ads.audience2media.com/crossdomain.xml$domain=videos.nt1.tv
 @@||ads.fusac.fr^$~third-party
 @@||ads.webedia.fr/crossdomain.xml$domain=ozap.com|purepeople.com

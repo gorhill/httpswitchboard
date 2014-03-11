@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: 50IBfC2XMzZM+ZNb0yYBbw
-! Version: 201403100200
+! Checksum: X1I+okfMle6NLgs4R5cmHg
+! Version: 201403111750
 ! Title: EasyPrivacy
-! Last modified: 10 Mar 2014 02:00 UTC
+! Last modified: 11 Mar 2014 17:50 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -2043,6 +2043,7 @@
 ://b.*/vanity/?
 ://c.*/c.gif?
 ://c1.*/c.gif?
+://click.*/open.aspx?
 ://email.*/blankpixel.gif
 ://eulerian.*/ea.js
 ://gdyn.*/1.gif?
@@ -3335,6 +3336,7 @@ http://utm.
 ||spylog.ru^$third-party
 ||spywords.com^$third-party
 ||squidanalytics.com^$third-party
+||srpx.net^$third-party
 ||stat08.com^$third-party
 ||stat24.com^$third-party
 ||statcount.com^$third-party
@@ -3485,6 +3487,7 @@ http://utm.
 ||ukrre-tea.info^$third-party
 ||umbel.com^$third-party
 ||unicaondemand.com^$third-party
+||upstats.ru^$third-party
 ||uptimeviewer.com^$third-party
 ||uptracs.com^$third-party
 ||urlbrief.com^$third-party
@@ -4375,6 +4378,7 @@ http://utm.
 ||amazonaws.com/wgntrk/
 ||amazonaws.com^*.kissinsights.com/
 ||amazonaws.com^*.kissmetrics.com/
+||ams.addflow.ru^
 ||analytic.xingcloud.com^$third-party
 ||analytics-beacon-*.amazonaws.com^
 ||analytics-v2.anvato.com^
@@ -4881,6 +4885,7 @@ http://utm.
 ||kbb.com/partner/$third-party
 ||kdpgroupe.com/ea.js
 ||key4web.com^*/set_cookie_by_referer/
+||kiwari.com^*/impressions.asp?
 ||knorex.asia/static-tracking/
 ||l.coincident.tv^
 ||l.ooyala.com^
@@ -5258,6 +5263,7 @@ http://utm.
 ||t.devnet.com^$third-party
 ||t.dgm-au.com^$third-party
 ||t.flux.com^
+||t.mail.sony-europe.com/r/?
 ||t.menepe.com^
 ||t.powerreviews.com^$third-party
 ||t.pswec.com^
@@ -8977,6 +8983,7 @@ http://utm.
 @@||stat.prsmedia.fr/tag/stat.js$domain=bienpublic.com
 @@||tv5.org/cms/javascript/*/sitestat.js
 ! Chinese
+@@||gridsumdissector.com^*/logger.js
 @@||hm.baidu.com/h.js?$domain=weaku.com
 @@||imrworldwide.com/novms/js/2/ggcmb353.js$domain=nexttv.com.tw
 @@||pingjs.qq.com/ping_tcss_ied.js$domain=dnf.qq.com

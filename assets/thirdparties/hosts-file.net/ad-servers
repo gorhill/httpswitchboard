@@ -3824,6 +3824,7 @@
 127.0.0.1	api.geosrv.info
 127.0.0.1	api.intensifier.de
 127.0.0.1	api.mixpanel.com
+127.0.0.1	api.mobpartner.mobi
 127.0.0.1	api.optimizely.com
 127.0.0.1	api.solvemedia.com
 127.0.0.1	api.v2.sslsecure1.com
@@ -7604,6 +7605,7 @@
 127.0.0.1	forbescom.112.2o7.net
 127.0.0.1	foreseeresults.com
 127.0.0.1	forexadvertisingnetwork.com
+127.0.0.1	fortumo.com
 127.0.0.1	forum.adspaces.ero-advertising.com
 127.0.0.1	forum.data.ero-advertising.com
 127.0.0.1	forum.ero-advertising.com
@@ -11266,6 +11268,7 @@
 127.0.0.1	searchesreveal.com
 127.0.0.1	searchfastresults.com
 127.0.0.1	searchindicates.com
+127.0.0.1	searching-mails.org
 127.0.0.1	searchintegral.com
 127.0.0.1	searchlinear.com
 127.0.0.1	searchmaybe.com
@@ -13848,6 +13851,7 @@
 127.0.0.1	www.folloyu.com
 127.0.0.1	www.foreseeresults.com
 127.0.0.1	www.forexadvertisingnetwork.com
+127.0.0.1	www.fortumo.com
 127.0.0.1	www.foxcounter.com
 127.0.0.1	www.fpctraffic.com
 127.0.0.1	www.fraston.info
@@ -14500,6 +14504,7 @@
 127.0.0.1	www.searchesreveal.com
 127.0.0.1	www.searchfastresults.com
 127.0.0.1	www.searchindicates.com
+127.0.0.1	www.searching-mails.org
 127.0.0.1	www.searchintegral.com
 127.0.0.1	www.searchlinear.com
 127.0.0.1	www.searchmaybe.com
@@ -15150,4 +15155,4 @@
 127.0.0.1	zxypenguin.people-group.su
 127.0.0.1	zz.cqcounter.com
 127.0.0.1	_thums.ero-advertising.com
-# Hosts: 15145
+# Hosts: 15150
