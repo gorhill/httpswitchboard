@@ -244,10 +244,6 @@ function onMessageHandler(request, sender, callback) {
             reloadPresetBlacklists(request.switches);
             break;
 
-        case 'startWebRequestHandler':
-            startWebRequestHandler(request.from);
-            break;
-
         case 'userSettings':
             if ( typeof request.name === 'string' && request.name !== '' ) {
                 response = changeUserSettings(request.name, request.value);

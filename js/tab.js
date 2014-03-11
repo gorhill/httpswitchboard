@@ -46,7 +46,7 @@ PageStatsEntry.prototype.init = function(pageUrl) {
     this.distinctRequestCount = 0;
     this.perLoadAllowedRequestCount = 0;
     this.perLoadBlockedRequestCount = 0;
-    this.ignore = HTTPSB.excludeRegex.test(pageUrl);
+    this.ignore = false;
     return this;
 };
 
@@ -71,14 +71,15 @@ PageStatsEntry.prototype.dispose = function() {
 /******************************************************************************/
 
 PageStatsEntry.prototype.recordRequest = function(type, url, block) {
+    // TODO: this makes no sense, I forgot why I put this here.
     if ( !this ) {
         // console.error('HTTP Switchboard > PageStatsEntry.recordRequest() > no pageStats');
         return;
     }
 
     // rhill 2013-10-26: This needs to be called even if the request is
-    // already logged, since the request stats are cached for a while after the
-    // page is no longer in the browser.
+    // already logged, since the request stats are cached for a while after
+    // the page is no longer visible in a browser tab.
     updateBadge(this.pageUrl);
 
     // Count blocked/allowed requests

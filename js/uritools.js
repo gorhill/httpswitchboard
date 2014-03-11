@@ -21,8 +21,6 @@
 
 /*******************************************************************************
 
-Deals *only* with absolute URI.
-
 RFC 3986 as reference: http://tools.ietf.org/html/rfc3986#appendix-A
 
 Naming convention from https://en.wikipedia.org/wiki/URI_scheme#Examples
@@ -41,7 +39,7 @@ Naming convention from https://en.wikipedia.org/wiki/URI_scheme#Examples
 
 // Ref: <http://tools.ietf.org/html/rfc3986#page-50>
 // I removed redundant capture groups: capture less = peform faster. See
-// <http://jsperf.com/regex-capture-vs-non-capture>
+// <http://jsperf.com/old-uritools-vs-new-uritools>
 // Performance improvements welcomed.
 // jsperf: <http://jsperf.com/hostname-from-url/9>
 var reRFC3986 = /^([^:\/?#]+:)?(\/\/[^\/?#]*)?([^?#]*)(\?[^#]*)?(#.*)?/;

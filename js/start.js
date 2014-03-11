@@ -85,11 +85,6 @@ function onBeforeNavigateCallback(details) {
     if ( details.frameId > 0 ) {
         return;
     }
-    // TODO: I think this should be removed and let the core code handle
-    // this.
-    if ( HTTPSB.excludeRegex.test(details.url) ) {
-        return;
-    }
     // console.debug('onBeforeNavigateCallback() > "%s" = %o', details.url, details);
 
     HTTPSB.bindTabToPageStats(details.tabId, HTTPSB.URI.set(details.url).normalizedURI());

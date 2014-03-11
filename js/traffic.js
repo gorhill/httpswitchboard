@@ -21,6 +21,15 @@
 
 /******************************************************************************/
 
+
+/******************************************************************************/
+
+// Start isolation from global scope
+
+(function() {
+
+/******************************************************************************/
+
 /*jshint multistr: true */
 var rootFrameReplacement = "<!DOCTYPE html> \
 <html> \
@@ -101,8 +110,10 @@ background: #c00; \
 // the page that was blacklisted is still blacklisted, and if not,
 // redirect to the previously blacklisted page.
 
-function onBeforeChromeExtensionRequestHandler(details) {
+var onBeforeChromeExtensionRequestHandler = function(details) {
     var requestURL = details.url;
+
+    // console.debug('onBeforeChromeExtensionRequestHandler()> "%s": %o', details.url, details);
 
     // Is it me?
     if ( requestURL.indexOf(chrome.runtime.id) < 0 ) {
@@ -141,16 +152,80 @@ function onBeforeChromeExtensionRequestHandler(details) {
         tabId: details.tabId,
         url: pageURL
     });
-}
+};
 
 /******************************************************************************/
 
 // Intercept and filter web requests according to white and black lists.
 
-function onBeforeRequestHandler(details) {
+var onBeforeRootFrameRequestHandler = function(details) {
     var httpsb = HTTPSB;
     var httpsburi = httpsb.URI.set(details.url);
-    var requestScheme = httpsburi.scheme;
+    var requestURL = httpsburi.normalizedURI();
+    var requestHostname = httpsburi.hostname;
+
+    // Do not ignore traffic outside tabs
+    var tabId = details.tabId;
+    if ( tabId < 0 ) {
+        tabId = httpsb.behindTheSceneTabId;
+    }
+    // It's a root frame, bind to a new page stats store
+    else {
+        httpsb.bindTabToPageStats(tabId, requestURL);
+    }
+
+    var pageStats = httpsb.pageStatsFromTabId(tabId);
+    var pageURL = httpsb.pageUrlFromPageStats(pageStats);
+    var block = httpsb.blacklisted(pageURL, 'main_frame', requestHostname);
+
+    // console.debug('onBeforeRequestHandler()> block=%s "%s": %o', block, details.url, details);
+
+    // Collect global stats
+    httpsb.requestStats.record('main_frame', block);
+
+    // whitelisted?
+    if ( !block ) {
+        // rhill 2013-11-07: Senseless to do this for behind-the-scene requests.
+        // rhill 2013-12-03: Do this here only for root frames.
+        if ( tabId !== httpsb.behindTheSceneTabId ) {
+            cookieHunter.recordPageCookiesAsync(pageStats);
+        }
+        return;
+    }
+
+    // blacklisted
+
+    // rhill 2014-01-15: Delay logging of non-blocked top `main_frame`
+    // requests, in order to ensure any potential redirects is reported
+    // in proper chronological order.
+    // https://github.com/gorhill/httpswitchboard/issues/112
+    pageStats.recordRequest('main_frame', requestURL, block);
+
+    // If it's a blacklisted frame, redirect to frame.html
+    // rhill 2013-11-05: The root frame contains a link to noop.css, this
+    // allows to later check whether the root frame has been unblocked by the
+    // user, in which case we are able to force a reload using a redirect.
+    var html = rootFrameReplacement;
+    html = html.replace(/{{fontUrl}}/g, httpsb.fontCSSURL);
+    html = html.replace(/{{cssURL}}/g, httpsb.noopCSSURL);
+    html = html.replace(/{{hostname}}/g, encodeURIComponent(requestHostname));
+    html = html.replace(/{{originalURL}}/g, encodeURIComponent(requestURL));
+    html = html.replace(/{{now}}/g, String(Date.now()));
+    var dataURI = 'data:text/html;base64,' + btoa(html);
+    // quickProfiler.stop('onBeforeRequestHandler');
+
+    return { "redirectUrl": dataURI };
+};
+
+/******************************************************************************/
+
+// Intercept and filter web requests according to white and black lists.
+
+var onBeforeRequestHandler = function(details) {
+    var httpsb = HTTPSB;
+    var httpsburi = httpsb.URI;
+    var requestURL = details.url;
+    var requestScheme = httpsburi.schemeFromURI(requestURL);
 
     // rhill 2014-02-17: Ignore 'filesystem:': this can happen when listening
     // to 'chrome-extension://'.
@@ -160,19 +235,19 @@ function onBeforeRequestHandler(details) {
 
     // Don't block chrome extensions
     if ( requestScheme === 'chrome-extension' ) {
-        onBeforeChromeExtensionRequestHandler(details);
-        return;
+        return onBeforeChromeExtensionRequestHandler(details);
     }
-
-    // console.debug('onBeforeRequestHandler()> "%s": %o', details.url, details);
 
     // Ignore non-http schemes
     if ( requestScheme.indexOf('http') !== 0 ) {
         return;
     }
 
-    // Normalizing will get rid of the fragment part
-    var requestURL = httpsburi.normalizedURI();
+    var type = details.type;
+
+    if ( type === 'main_frame' && details.parentFrameId < 0 ) {
+        return onBeforeRootFrameRequestHandler(details);
+    }
 
     // Do not block myself from updating assets
     // https://github.com/gorhill/httpswitchboard/issues/202
@@ -182,6 +257,9 @@ function onBeforeRequestHandler(details) {
 
     // quickProfiler.start();
 
+    // Normalizing will get rid of the fragment part
+    requestURL = httpsburi.set(requestURL).normalizedURI();
+
     var requestHostname = httpsburi.hostname;
     var requestPath = httpsburi.path;
 
@@ -189,17 +267,6 @@ function onBeforeRequestHandler(details) {
     var tabId = details.tabId;
     if ( tabId < 0 ) {
         tabId = httpsb.behindTheSceneTabId;
-    }
-
-    // If it's a root frame or an app, bind to a new page stats store
-    var canEvaluate = true;
-    var type = details.type;
-    var isSubFrame = type === 'sub_frame';
-    var isMainFrame = type === 'main_frame';
-
-    var isWebPage = isMainFrame && details.parentFrameId < 0;
-    if ( isWebPage ) {
-        httpsb.bindTabToPageStats(tabId, requestURL);
     }
 
     // Re-classify orphan HTTP requests as behind-the-scene requests. There is
@@ -214,15 +281,6 @@ function onBeforeRequestHandler(details) {
         tabId = httpsb.behindTheSceneTabId;
         pageStats = httpsb.pageStatsFromTabId(tabId);
     }
-
-    // rhill 2013-12-16: I don't remember... Can pageStats still be nil at
-    // this point?
-    // Answer: Yes. Requests might still be dispatched after
-    // closing a tab it appears.
-    // if ( !pageStats ) {
-    //    console.error('onBeforeRequestHandler() > no pageStats: %o', details);
-    // }
-
     var pageURL = httpsb.pageUrlFromPageStats(pageStats);
 
     // rhill 2013-12-15:
@@ -232,52 +290,27 @@ function onBeforeRequestHandler(details) {
         type = httpsb.transposeType(type, requestPath);
     }
 
-    if ( pageStats.ignore ) {
-        canEvaluate = false;
-    }
-
     // Block request?
     // https://github.com/gorhill/httpswitchboard/issues/27
-    var block = false;
-    if ( canEvaluate ) {
-        block = httpsb.blacklisted(pageURL, type, requestHostname);
-    }
+    var block = httpsb.blacklisted(pageURL, type, requestHostname);
 
     // Block using ABP filters?
-    if ( !block && !isWebPage ) {
+    if ( !block ) {
         block = httpsb.abpFilters.matchString(requestURL);
         if ( block ) {
             httpsb.abpHitCount += 1;
         }
     }
 
-    // rhill 2014-01-15: Delay logging of non-blocked top `main_frame`
-    // requests, in order to ensure any potential redirects is reported
-    // in proper chronological order.
-    // https://github.com/gorhill/httpswitchboard/issues/112
-    if ( !isWebPage || block ) {
-        pageStats.recordRequest(type, requestURL, block);
-    }
+    // Page stats
+    pageStats.recordRequest(type, requestURL, block);
 
-    // Collect global stats
+    // Global stats
     httpsb.requestStats.record(type, block);
 
     // whitelisted?
     if ( !block ) {
         // console.debug('onBeforeRequestHandler()> ALLOW "%s": %o', details.url, details);
-
-        // If the request is not blocked, this means the response could contain
-        // cookies. Thus, we go cookie hunting for this page url and record all
-        // those we find which hit any hostname found on this page.
-        // No worry, this is async.
-
-        // rhill 2013-11-07: Senseless to do this for behind-the-scene
-        // requests.
-        // rhill 2013-12-03: Do this here only for root frames.
-        if ( isWebPage && tabId !== httpsb.behindTheSceneTabId ) {
-            cookieHunter.recordPageCookiesAsync(pageStats);
-        }
-
         // quickProfiler.stop('onBeforeRequestHandler');
         return;
     }
@@ -290,17 +323,7 @@ function onBeforeRequestHandler(details) {
     // allows to later check whether the root frame has been unblocked by the
     // user, in which case we are able to force a reload using a redirect.
     var html, dataURI;
-    if ( isWebPage ) {
-        html = rootFrameReplacement;
-        html = html.replace(/{{fontUrl}}/g, httpsb.fontCSSURL);
-        html = html.replace(/{{cssURL}}/g, httpsb.noopCSSURL);
-        html = html.replace(/{{hostname}}/g, encodeURIComponent(requestHostname));
-        html = html.replace(/{{originalURL}}/g, encodeURIComponent(requestURL));
-        html = html.replace(/{{now}}/g, String(Date.now()));
-        dataURI = 'data:text/html;base64,' + btoa(html);
-        // quickProfiler.stop('onBeforeRequestHandler');
-        return { "redirectUrl": dataURI };
-    } else if ( isSubFrame ) {
+    if ( type === 'sub_frame' ) {
         html = subFrameReplacement;
         html = html.replace(/{{fontUrl}}/g, httpsb.fontCSSURL);
         html = html.replace(/{{hostname}}/g, requestHostname);
@@ -312,13 +335,13 @@ function onBeforeRequestHandler(details) {
     // quickProfiler.stop('onBeforeRequestHandler');
 
     return { "cancel": true };
-}
+};
 
 /******************************************************************************/
 
 // This is to handle cookies leaving the browser.
 
-function onBeforeSendHeadersHandler(details) {
+var onBeforeSendHeadersHandler = function(details) {
 
     var httpsb = HTTPSB;
 
@@ -393,7 +416,7 @@ function onBeforeSendHeadersHandler(details) {
         // console.debug('onBeforeSendHeadersHandler()> CHANGED "%s": %o', details.url, details);
         return { requestHeaders: headers };
     }
-}
+};
 
 /******************************************************************************/
 
@@ -405,7 +428,7 @@ function onBeforeSendHeadersHandler(details) {
 // This fixes:
 // https://github.com/gorhill/httpswitchboard/issues/35
 
-function onHeadersReceivedHandler(details) {
+var onHeadersReceivedHandler = function(details) {
 
     // console.debug('onHeadersReceivedHandler()> "%s": %o', details.url, details);
 
@@ -568,7 +591,7 @@ function onHeadersReceivedHandler(details) {
         });
     }
     return { responseHeaders: headers };
-}
+};
 
 /******************************************************************************/
 
@@ -576,7 +599,7 @@ function onHeadersReceivedHandler(details) {
 // one called in the sequence of webRequest events.
 // http://developer.chrome.com/extensions/webRequest.html
 
-function onErrorOccurredHandler(details) {
+var onErrorOccurredHandler = function(details) {
     // console.debug('onErrorOccurred()> "%s": %o', details.url, details);
 
     // Ignore all that is not a main document
@@ -607,16 +630,36 @@ function onErrorOccurredHandler(details) {
     while ( destinationURL = mainFrameStack.pop() ) {
         pageStats.recordRequest('main_frame', destinationURL, false);
     }
-}
+};
 
 /******************************************************************************/
+
+// Caller must ensure headerName is normalized to lower case.
+
+var headerIndexFromName = function(headerName, headers) {
+    var i = headers.length;
+    while ( i-- ) {
+        if ( headers[i].name.toLowerCase() === headerName ) {
+            return i;
+        }
+    }
+    return -1;
+};
+
+/******************************************************************************/
+
+var onMessageHandler = function(request) {
+    if ( request && request.what && request.what === 'startWebRequestHandler' ) {
+        startWebRequestHandler(request.from);
+    }
+};
 
 var webRequestHandlerRequirements = {
     'tabsBound': 0,
     'listsLoaded': 0
-    };
+};
 
-function startWebRequestHandler(from) {
+var startWebRequestHandler = function(from) {
     // Do not launch traffic handler if not all requirements are fullfilled.
     // This takes care of pages being blocked when chromium is launched
     // because there is no whitelist loaded and default is to block everything.
@@ -625,6 +668,8 @@ function startWebRequestHandler(from) {
     if ( Object.keys(o).map(function(k){return o[k];}).join().search('0') >= 0 ) {
         return;
     }
+
+    chrome.runtime.onMessage.removeListener(onMessageHandler);
 
     chrome.webRequest.onBeforeRequest.addListener(
         onBeforeRequestHandler,
@@ -681,19 +726,15 @@ function startWebRequestHandler(from) {
             ]
         }
     );
-}
+};
+
+chrome.runtime.onMessage.addListener(onMessageHandler);
 
 /******************************************************************************/
 
-// Caller must ensure headerName is normalized to lower case.
+// End isolation from global scope
 
-function headerIndexFromName(headerName, headers) {
-    var i = headers.length;
-    while ( i-- ) {
-        if ( headers[i].name.toLowerCase() === headerName ) {
-            return i;
-        }
-    }
-    return -1;
-}
+})();
+
+/******************************************************************************/
 

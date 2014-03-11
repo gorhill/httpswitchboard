@@ -125,12 +125,6 @@ var HTTPSB = {
     // just hostnames, '*/' is implied, this saves significantly on memory.
     ubiquitousBlacklist: null,
 
-    // https://github.com/gorhill/httpswitchboard/issues/19
-    // https://github.com/gorhill/httpswitchboard/issues/91
-    // TODO: remove, since maindoc-less requests are reclassified as
-    // behind-the-scene-requests
-    excludeRegex: /^https:\/\/(talkgadget\.google\.com\/talkgadget)/,
-
     // various stats
     requestStats: new WebRequestStats(),
     cookieRemovedCounter: 0,

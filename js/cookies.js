@@ -52,9 +52,6 @@ var cookieHunter = {
         this.name = cookie.name;
         this.value = cookie.value;
         this.tstamp = Date.now();
-        // Some cookies must be left alone:
-        // https://github.com/gorhill/httpswitchboard/issues/19
-        this.ignore = HTTPSB.excludeRegex.test(cookieHunter.cookieURLFromCookieEntry(this));
     },
 
     // Fill the cookie dictionary
