@@ -1218,7 +1218,6 @@ function toggleABPFiltering() {
 
 function updatePersistButton() {
     var ruleset = getTemporaryRuleset();
-
     var button = $('#buttonPersist');
     button.contents()
           .filter(function(){return this.nodeType===3;})
@@ -1227,9 +1226,7 @@ function updatePersistButton() {
     button.children('span.badge').text(ruleset.count > 0 ? ruleset.count : '');
     var disabled = ruleset.count === 0;
     button.toggleClass('disabled', disabled);
-
     $('#buttonRevertScope').toggleClass('disabled', disabled);
-
 }
 
 function persistScope() {
