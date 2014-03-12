@@ -74,7 +74,7 @@ PageStatsEntry.prototype.dispose = function() {
 // rhill 2014-03-11: If `block` !== false, then block.toString() may return
 // user legible information about the reason for the block.
 
-PageStatsEntry.prototype.recordRequest = function(type, url, block) {
+PageStatsEntry.prototype.recordRequest = function(type, url, block, reason) {
     // TODO: this makes no sense, I forgot why I put this here.
     if ( !this ) {
         // console.error('HTTP Switchboard > PageStatsEntry.recordRequest() > no pageStats');
@@ -95,6 +95,8 @@ PageStatsEntry.prototype.recordRequest = function(type, url, block) {
         this.perLoadAllowedRequestCount++;
     }
 
+    this.requests.logRequest(url, type, block, reason);
+
     if ( !this.requests.createEntryIfNotExists(url, type, block) ) {
         return;
     }
@@ -111,7 +113,10 @@ PageStatsEntry.prototype.recordRequest = function(type, url, block) {
     // result in unnecessary reloads (because requests can be made *after*
     // the page load has completed).
     // https://github.com/gorhill/httpswitchboard/issues/98
-    if ( block !== false ) {
+    // rhill 2014-03-12: disregard blocking operations which do not originate
+    // from matrix evaluation, or else this can cause a useless reload of the
+    // page if something important was blocked through ABP filtering.
+    if ( block !== false && reason === undefined ) {
         this.state[type + '|' + hostname] = true;
     }
 

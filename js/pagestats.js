@@ -165,6 +165,7 @@ var LogEntry = function() {
     this.type = '';
     this.when = 0;
     this.block = false;
+    this.reason = '';
 };
 
 var logEntryJunkyard = [];
@@ -267,7 +268,6 @@ PageRequestStats.prototype.typeFromRequestKey = typeFromRequestKey;
 /******************************************************************************/
 
 PageRequestStats.prototype.createEntryIfNotExists = function(url, type, block) {
-    this.logRequest(url, type, block);
     var reqKey = makeRequestKey(url, type);
     if ( this.requests[reqKey] ) {
         return false;
@@ -314,7 +314,7 @@ PageRequestStats.prototype.resizeLogBuffer = function(size) {
 
 /******************************************************************************/
 
-PageRequestStats.prototype.logRequest = function(url, type, block) {
+PageRequestStats.prototype.logRequest = function(url, type, block, reason) {
     var buffer = this.ringBuffer;
     var len = buffer.length;
     if ( !len ) {
@@ -329,6 +329,7 @@ PageRequestStats.prototype.logRequest = function(url, type, block) {
     logEntry.type = type;
     logEntry.when = Date.now();
     logEntry.block = block;
+    logEntry.reason = reason;
     this.ringBufferPointer = ((pointer + 1) % len) | 0;
 };
 

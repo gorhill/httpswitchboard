@@ -294,6 +294,7 @@ var onBeforeRequestHandler = function(details) {
     var scopeKey = httpsb.temporaryScopeKeyFromPageURL(pageURL);
     var scope = httpsb.temporaryScopeFromScopeKey(scopeKey);
     var block = scope.evaluate(type, requestHostname).charAt(0) === 'r';
+    var reason;
 
     // Block using ABP filters?
     if ( block === false && scope.abpFiltering === true ) {
@@ -301,12 +302,12 @@ var onBeforeRequestHandler = function(details) {
         if ( block !== false ) {
             pageStats.abpBlockCount += 1;
             httpsb.abpBlockCount += 1;
-            block = 'ABP filter: ' + block;
+            reason = 'ABP filter: ' + block;
         }
     }
 
     // Page stats
-    pageStats.recordRequest(type, requestURL, block);
+    pageStats.recordRequest(type, requestURL, block, reason);
 
     // Global stats
     httpsb.requestStats.record(type, block);

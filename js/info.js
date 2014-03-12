@@ -228,8 +228,8 @@ function renderRequestRow(row, request) {
     }
 
     // reason of why block, if available
-    text = request.block;
-    if ( typeof text === 'string' ) {
+    text = request.reason;
+    if ( typeof text === 'string' && text.length > 0 ) {
         $(cells[3]).text('\uf0b0');
         $(cells[3]).attr('data-tip', text);
     } else {
