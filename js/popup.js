@@ -1198,10 +1198,14 @@ function updateScopeCell() {
 
 function updateABPbutton() {
     var httpsb = getHTTPSB();
+    var button = $('#buttonABPFiltering');
+    if ( httpsb.userSettings.parseAllABPFilters !== true ) {
+        button.css('display', 'none');
+        return;
+    }
     var pageStats = getPageStats();
     var count = pageStats ? pageStats.abpBlockCount : '';
     var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
-    var button = $('#buttonABPFiltering');
     button.toggleClass('disabled', !httpsb.getTemporaryABPFiltering(scopeKey));
     button.children('span.badge').text(count);
     button.attr('data-tip', button.data('tip').replace('{{abpCount}}', count));

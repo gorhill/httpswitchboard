@@ -185,27 +185,27 @@
         "description": "..."
     },
     "matrixABPButtonTip" : {
-        "message": "Requests blocked through \u000a ABP filtering on this page: {{abpCount}}.\u000a Click to turn on/off ABP \u000a filtering for this scope.",
+        "message": "Nombre de requêtes bloquées via \u000a les filtre Adblock Plus: {{abpCount}}. \u000a Cliquez pour activer/désactiver \u000a les filtres ABP pour le contexte \u000a courant.",
         "description": "Tool tip for ABP button: {{}} is a placeholder for number of blocked requests."
     },
     "matrixPersistButtonTip" : {
-        "message": "Save all temporary changes \u000a for this scope.",
+        "message": "Sauvegarder les changements \u000a temporaires du contexte courant.",
         "description": "Tool tip for the persist button"
     },
     "matrixRevertButtonTip" : {
-        "message": "Remove temporary \u000a changes for this \u000a scope.",
+        "message": "Annuler les changements temporaires \u000a du contexte courant.",
         "description": "Tool tip for the revert local permission button"
     },
     "matrixRevertButtonAllTip" : {
-        "message": "Remove all temporary \u000a changes.",
+        "message": "Annuler les changements temporaires \u000a dans tous les contextes.",
         "description": "Tool tip for the revert all permissions button"
     },
     "matrixReloadButton" : {
-        "message": "Reload the page.",
+        "message": "Actualiser la page.",
         "description": "Tool tip for the reload button"
     },
     "matrixPowerButton" : {
-        "message": "Disable/enable HTTP Switchboard.",
+        "message": "Activer / désactiver HTTP Switchboard.",
         "description": "Tool tip for the 'power' button"
     },
 
