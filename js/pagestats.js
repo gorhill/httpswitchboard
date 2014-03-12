@@ -21,8 +21,6 @@
 
 /******************************************************************************/
 
-/******************************************************************************/
-
 (function() {
 
 /******************************************************************************/
@@ -166,7 +164,7 @@ var LogEntry = function() {
     this.url = '';
     this.type = '';
     this.when = 0;
-    this.blocked = false;
+    this.block = false;
 };
 
 var logEntryJunkyard = [];
@@ -330,7 +328,7 @@ PageRequestStats.prototype.logRequest = function(url, type, block) {
     logEntry.url = url;
     logEntry.type = type;
     logEntry.when = Date.now();
-    logEntry.blocked = block;
+    logEntry.block = block;
     this.ringBufferPointer = ((pointer + 1) % len) | 0;
 };
 

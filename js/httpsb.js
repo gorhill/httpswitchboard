@@ -563,6 +563,23 @@ HTTPSB.getPermanentColor = function(scopeKey, type, hostname) {
 
 /******************************************************************************/
 
+HTTPSB.getTemporaryABPFiltering = function(scopeKey) {
+    if ( this.off ) {
+        return false;
+    }
+    return this.temporaryScopes.getABPFiltering(scopeKey);
+};
+
+HTTPSB.getPermanentABPFiltering = function(scopeKey) {
+    return this.permanentScopes.getABPFiltering(scopeKey);
+};
+
+HTTPSB.toggleTemporaryABPFiltering = function(scopeKey, state) {
+    return this.temporaryScopes.toggleABPFiltering(scopeKey, state);
+};
+
+/******************************************************************************/
+
 // Commit temporary permissions.
 
 HTTPSB.commitPermissions = function(persist) {
@@ -595,6 +612,28 @@ HTTPSB.revertScopeRules = function(scopeKey) {
         pscope = this.factoryScope;
     }
     tscope.assign(pscope);
+};
+
+/******************************************************************************/
+
+HTTPSB.getTemporaryScopeDirtyCount = function(pageURL) {
+    var tScopeKey = this.temporaryScopeKeyFromPageURL(pageURL);
+    var tscope = this.temporaryScopeFromScopeKey(tScopeKey);
+    // This should not happen
+    if ( !tscope ) {
+        return 0;
+    }
+    // If there is no matching permanent scope, count is all
+    // items in temporary scope
+    var pscope = this.permanentScopeFromScopeKey(tScopeKey);
+    if ( !pscope ) {
+        return tscope.white.count +
+               tscope.black.count +
+               tscope.gray.count +
+               2;  // for new temporary scope and abpFiltering
+    }
+    // If there is a matching scope, return difference between both
+    return tscope.diff(pscope);
 };
 
 /******************************************************************************/

@@ -184,6 +184,30 @@
         "message": "Aucune activité réseau observée pour cet onglet jusqu'à présent.",
         "description": "..."
     },
+    "matrixABPButtonTip" : {
+        "message": "Requests blocked through \u000a ABP filtering on this page: {{abpCount}}.\u000a Click to turn on/off ABP \u000a filtering for this scope.",
+        "description": "Tool tip for ABP button: {{}} is a placeholder for number of blocked requests."
+    },
+    "matrixPersistButtonTip" : {
+        "message": "Save all temporary permissions \u000a for this scope.",
+        "description": "Tool tip for the persist button"
+    },
+    "matrixRevertButtonTip" : {
+        "message": "Remove temporary \u000a permissions for this \u000a scope.",
+        "description": "Tool tip for the revert local permission button"
+    },
+    "matrixRevertButtonAllTip" : {
+        "message": "Remove all temporary \u000a permissions.",
+        "description": "Tool tip for the revert all permissions button"
+    },
+    "matrixReloadButton" : {
+        "message": "Reload the page.",
+        "description": "Tool tip for the reload button"
+    },
+    "matrixPowerButton" : {
+        "message": "Disable/enable HTTP Switchboard.",
+        "description": "Tool tip for the 'power' button"
+    },
 
 
     "statsPageTitle" : {

@@ -352,7 +352,7 @@ var matchStringToFilterChain = function(f, s, tokenBeg) {
     while ( f !== undefined ) {
         if ( f.match(s, tokenBeg) ) {
             // console.log('abp-filters.js> matchStringToFilterChain(): "%s" matches "%s"', f.s, s);
-            return true;
+            return f.s;
         }
         f = f.next;
     }
@@ -362,7 +362,13 @@ var matchStringToFilterChain = function(f, s, tokenBeg) {
 /******************************************************************************/
 
 var matchString = function(s) {
-    var fidx = filterIndex;
+    // rhill 2014-03-12: need to skip ABP filtering if HTTP is turned off.
+    // https://github.com/gorhill/httpswitchboard/issues/208
+    if ( HTTPSB.off ) {
+        return false;
+    }
+
+    var fidx = filterIndex, f;
     var matches;
     var token;
     var tokenBeg, tokenEnd;
@@ -379,31 +385,37 @@ var matchString = function(s) {
 
         if ( suffixKey.length > 1 ) {
             if ( prefixKey !== '' ) {
-                if ( matchFn(fidx[prefixKey + token + suffixKey], s, tokenBeg) ) {
-                    return true;
+                f = matchFn(fidx[prefixKey + token + suffixKey], s, tokenBeg);
+                if ( f !== false ) {
+                    return f;
                 }
             }
-            if ( matchFn(fidx[token + suffixKey], s, tokenBeg) ) {
-                return true;
+            f = matchFn(fidx[token + suffixKey], s, tokenBeg);
+            if ( f !== false ) {
+                return f;
             }
         }
         if ( suffixKey !== '' ) {
             if ( prefixKey !== '' ) {
-                if ( matchFn(fidx[prefixKey + token + suffixKey.charAt(0)], s, tokenBeg) ) {
-                    return true;
+                f = matchFn(fidx[prefixKey + token + suffixKey.charAt(0)], s, tokenBeg);
+                if ( f !== false ) {
+                    return f;
                 }
             }
-            if ( matchFn(fidx[token + suffixKey.charAt(0)], s, tokenBeg) ) {
-                return true;
+            f = matchFn(fidx[token + suffixKey.charAt(0)], s, tokenBeg);
+            if ( f !== false ) {
+                return f;
             }
         }
         if ( prefixKey !== '' ) {
-            if ( matchFn(fidx[prefixKey + token], s, tokenBeg) ) {
-                return true;
+            f = matchFn(fidx[prefixKey + token], s, tokenBeg);
+            if ( f !== false ) {
+                return f;
             }
         }
-        if ( matchFn(fidx[token], s, tokenBeg) ) {
-            return true;
+        f = matchFn(fidx[token], s, tokenBeg);
+        if ( f !== false ) {
+            return f;
         }
     }
 

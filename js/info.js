@@ -28,6 +28,13 @@
 var targetUrl = 'All';
 var maxRequests = 500;
 
+var tableFriendlyTypeNames = {
+   'main_frame': 'page',
+   'stylesheet': 'css',
+   'sub_frame': 'frame',
+   'xmlhttprequest': 'xhr'
+};
+
 /******************************************************************************/
 
 function gethttpsb() {
@@ -47,12 +54,12 @@ function updateRequestData() {
     var pageUrls = targetUrl === 'All' ?
           Object.keys(gethttpsb().pageStats) :
           [targetUrl];
-    var iPageUrl, nPageUrls, pageUrl;
+    var pageUrl;
     var logEntries, i, n, logEntry;
     var pageStats, pageRequests;
 
-    nPageUrls = pageUrls.length;
-    for ( iPageUrl = 0; iPageUrl < nPageUrls; iPageUrl++ ) {
+    var nPageUrls = pageUrls.length;
+    for ( var iPageUrl = 0; iPageUrl < nPageUrls; iPageUrl++ ) {
         pageUrl = pageUrls[iPageUrl];
         pageStats = pageStatsFromPageUrl(pageUrl);
         // Unsure if it can happen... Just in case
@@ -157,8 +164,8 @@ function renderStats() {
         '#cookieHeaderFoiledCounter': httpsb.cookieHeaderFoiledCounter,
         '#refererHeaderFoiledCounter': httpsb.refererHeaderFoiledCounter,
         '#browserCacheClearedCounter': httpsb.browserCacheClearedCounter,
-        '#abpHitCount': httpsb.abpHitCount,
-        '#abpHitRate': (httpsb.abpHitCount * 100 / httpsb.requestStats.blocked.all).toFixed(1),
+        '#abpBlockCount': httpsb.abpBlockCount,
+        '#abpBlockRate': (httpsb.abpBlockCount * 100 / httpsb.requestStats.blocked.all).toFixed(1),
         '#blockedAllCount': requestStats.blocked.all,
         '#blockedMainFrameCount': blockedStats.main_frame,
         '#blockedCookieCount': blockedStats.cookie,
@@ -186,63 +193,77 @@ function renderStats() {
 /******************************************************************************/
 
 function renderRequestRow(row, request) {
+    var pos, text, attr;
     var jqRow = $(row);
     row = jqRow[0];
     jqRow.attr('id', '');
     jqRow.css('display', '');
     jqRow.removeClass();
-    if ( request.blocked ) {
+    jqRow.addClass('rendered');
+    if ( request.block !== false ) {
         jqRow.addClass('blocked-true');
     } else {
         jqRow.addClass('blocked-false');
     }
     jqRow.addClass('type-' + request.type);
     var cells = row.cells;
+
+    // when
     var when = new Date(request.when);
     $(cells[0]).text(when.toLocaleTimeString());
-    $(cells[1]).text(request.type);
-    var a = $('a', cells[2]);
+
+    // request type
+    text = tableFriendlyTypeNames[request.type] || request.type;
+    $(cells[1]).text(text);
+
     // Well I got back full control since not using Tempo.js, I can now
     // generate smarter hyperlinks, that is, not hyperlinking fake
     // request URLs, which are recognizable with their curly braces inside.
+    var a = $('a', cells[2]);
     if ( request.url.search('{') < 0 ) {
         a.attr('href', request.url);
         a.css('display', '');
     } else {
         a.css('display', 'none');
     }
-    $(cells[3]).text(request.url);
+
+    // reason of why block, if available
+    text = request.block;
+    if ( typeof text === 'string' ) {
+        $(cells[3]).text('\uf0b0');
+        $(cells[3]).attr('data-tip', text);
+    } else {
+        $(cells[3]).text('\u00a0');
+        $(cells[3]).removeAttr('data-tip');
+    }
+
+    // request URL
+    $(cells[4]).text(request.url);
 }
 
 /*----------------------------------------------------------------------------*/
 
 function renderRequests() {
-    var table = $('#requestsTable tbody');
+    var table = $('#requestsTable');
     var requests = updateRequestData();
-    var row;
-    var rowTemplate = $('#requestRowTemplate', table);
+    var i, row;
+    var rowTemplate = table.find('#requestRowTemplate').first();
 
     // Reuse whatever rows is already in there.
-    // Remember: order of elements returned by prevAll() is closest to farthest.
-    var rows = $(rowTemplate).prevAll().toArray();
-    var i = 0;
-    while ( i < requests.length && rows.length ) {
-        renderRequestRow(rows.pop(), requests[i]);
-        i++;
+    var rows = table.find('.rendered').toArray();
+    for ( i = 0; i < requests.length && rows.length; i++ ) {
+        renderRequestRow(rows[i], requests[i]);
     }
+    rows = rows.slice(i);
     // Create new rows to receive what is left
-    if ( i < requests.length ) {
-        do {
-            row = rowTemplate.clone();
-            renderRequestRow(row, requests[i]);
-            row.insertBefore(rowTemplate);
-            i++;
-        } while ( i < requests.length );
+    for ( ; i < requests.length; i++ ) {
+        row = rowTemplate.clone();
+        renderRequestRow(row, requests[i]);
+        row.insertBefore(rowTemplate);
     }
+
     // Remove extra rows
-    else if ( rows.length ) {
-        $(rows).remove();
-    }
+    $(rows).remove();
 
     syncWithFilters();
 }

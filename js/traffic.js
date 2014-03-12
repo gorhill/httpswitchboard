@@ -291,14 +291,17 @@ var onBeforeRequestHandler = function(details) {
     }
 
     // Block request?
-    // https://github.com/gorhill/httpswitchboard/issues/27
-    var block = httpsb.blacklisted(pageURL, type, requestHostname);
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(pageURL);
+    var scope = httpsb.temporaryScopeFromScopeKey(scopeKey);
+    var block = scope.evaluate(type, requestHostname).charAt(0) === 'r';
 
     // Block using ABP filters?
-    if ( !block ) {
+    if ( block === false && scope.abpFiltering === true ) {
         block = httpsb.abpFilters.matchString(requestURL);
-        if ( block ) {
-            httpsb.abpHitCount += 1;
+        if ( block !== false ) {
+            pageStats.abpBlockCount += 1;
+            httpsb.abpBlockCount += 1;
+            block = 'ABP filter: ' + block;
         }
     }
 

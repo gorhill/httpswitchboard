@@ -170,6 +170,28 @@ PermissionList.prototype.add = function(other) {
 };
 
 /******************************************************************************/
+
+// How much this list differs from the other
+
+PermissionList.prototype.diff = function(other) {
+    var count = 0;
+    // In this one but not the other
+    // In both but different
+    for ( var kthis in this.list ) {
+        if ( this.list.hasOwnProperty(kthis) && this.list[kthis] && !other.list[kthis] ) {
+            count++;
+        }
+    }
+    // In the other but not this one
+    for ( var kother in other.list ) {
+        if ( other.list.hasOwnProperty(kother) && other.list[kother] && !this.list[kother] ) {
+            count++;
+        }
+    }
+    return count;
+};
+
+/******************************************************************************/
 /******************************************************************************/
 
 // A scope exhibits three lists: white, black and gray.
@@ -178,11 +200,9 @@ PermissionScope.prototype.toString = function() {
     var bin = {
         whiteStr: this.white.toString(),
         blackStr: this.black.toString(),
-        grayStr: this.gray.toString()
+        grayStr: this.gray.toString(),
+        abpFiltering: this.abpFiltering
     };
-    if ( bin.whiteStr === '' && bin.blackStr === '' && bin.grayStr === '' ) {
-        return '';
-    }
     return JSON.stringify(bin);
 };
 
@@ -191,6 +211,7 @@ PermissionScope.prototype.fromString = function(s) {
     this.white.fromString(bin.whiteStr);
     this.black.fromString(bin.blackStr);
     this.gray.fromString(bin.grayStr);
+    this.abpFiltering = bin.abpFiltering !== undefined ? bin.abpFiltering : true;
 };
 
 /******************************************************************************/
@@ -200,6 +221,7 @@ PermissionScope.prototype.assign = function(other) {
     this.black.assign(other.black);
     this.gray.assign(other.gray);
     this.off = other.off;
+    this.abpFiltering = other.abpFiltering;
 };
 
 /******************************************************************************/
@@ -208,6 +230,19 @@ PermissionScope.prototype.add = function(other) {
     this.white.add(other.white);
     this.black.add(other.black);
     this.gray.add(other.gray);
+};
+
+/******************************************************************************/
+
+PermissionScope.prototype.diff = function(other) {
+    var count =
+        this.white.diff(other.white) +
+        this.black.diff(other.black) +
+        this.gray.diff(other.gray);
+    if ( !this.abpFiltering !== !other.abpFiltering ) {
+        count += 1;
+    }
+    return count;
 };
 
 /******************************************************************************/
@@ -400,16 +435,16 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
 
 /******************************************************************************/
 
-PermissionScope.prototype.addRule = function(list, type, hostname) {
-    var list = this[list];
+PermissionScope.prototype.addRule = function(listKey, type, hostname) {
+    var list = this[listKey];
     if ( !list ) {
         throw new Error('PermissionScope.addRule() > invalid list name');
     }
     return list.addOne(type + '|' + hostname);
 };
 
-PermissionScope.prototype.removeRule = function(list, type, hostname) {
-    var list = this[list];
+PermissionScope.prototype.removeRule = function(listKey, type, hostname) {
+    var list = this[listKey];
     if ( !list ) {
         throw new Error('PermissionScope.removeRule() > invalid list name');
     }
@@ -506,7 +541,7 @@ PermissionScopes.prototype.fromString = function(s) {
     // duplicates if any.
     // https://github.com/gorhill/httpswitchboard/issues/165
     // TODO: Remove once all users are beyond v0.7.9.0
-    var oldScopeKey, newScopeKey;
+    var newScopeKey;
     for ( var oldScopeKey in this.scopes ) {
         if ( !this.scopes.hasOwnProperty(oldScopeKey) ) {
             continue;
@@ -643,12 +678,36 @@ PermissionScopes.prototype.graylist = function(scopeKey, type, hostname) {
 
 /******************************************************************************/
 
+PermissionScopes.prototype.getABPFiltering = function(scopeKey) {
+    var scope = this.scopeFromScopeKey(scopeKey);
+    if ( scope ) {
+        return scope.abpFiltering;
+    }
+    return undefined;
+};
+
+PermissionScopes.prototype.toggleABPFiltering = function(scopeKey, state) {
+    var scope = this.scopeFromScopeKey(scopeKey);
+    if ( !scope ) {
+        return undefined;
+    }
+    if ( state === undefined ) {
+        scope.abpFiltering = !scope.abpFiltering;
+    } else {
+        scope.abpFiltering = !!state;
+    }
+    return scope.abpFiltering;
+};
+
+/******************************************************************************/
+
 PermissionScopes.prototype.applyRuleset = function(scopeKey, rules) {
     var rule, i;
     var changed = false;
     var scope = this.scopeFromScopeKey(scopeKey);
     if ( !scope ) {
-        throw new Error('PermissionScopes.applyRuleset() > scope not found');
+        console.error('HTTP Switchboard> PermissionScopes.applyRuleset(): scope not found');
+        return false;
     }
     i = rules.white.length;
     while ( i-- ) {
@@ -665,5 +724,10 @@ PermissionScopes.prototype.applyRuleset = function(scopeKey, rules) {
         rule = rules.gray[i];
         changed = scope.graylist(rule.type, rule.hostname) || changed;
     }
+    if ( rules.abpFiltering !== scope.abpFiltering ) {
+        scope.abpFiltering = !!rules.abpFiltering;
+        changed = true;
+    }
     return changed;
 };
+

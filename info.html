@@ -44,8 +44,12 @@ select {
 #requests tr.blocked-true {
     color: #c00;
     }
+#requests tr:first-child {
+    font-weight: bold;
+    background-color: #eee;
+    }
 #requests tr > td {
-    padding: 1px 1em 1px 0;
+    padding: 1px 0.75em 1px 0;
     white-space: nowrap;
     }
 #requests tr > td:nth-of-type(2) {
@@ -53,6 +57,26 @@ select {
     }
 .type-main_frame {
     font-weight: bold;
+    }
+
+/* http://stackoverflow.com/questions/2011142/how-to-change-the-style-of-title-attribute-inside-the-anchor-tag?answertab=votes */
+*[data-tip] {
+    position: relative;
+    cursor: pointer;
+    }
+*[data-tip]:hover:after {
+    content: attr(data-tip);
+    padding: 8px;
+    color: black;
+    background-color: white;
+    position: absolute;
+    left: -25%;
+    bottom: 120%;
+    white-space: nowrap;
+    z-index: 20px;
+    border: 1px solid gray;
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px gray;
     }
 </style>
 </head>
@@ -67,7 +91,7 @@ select {
 <li>Local cookies removed: <span id="cookieRemovedCounter"></span>
 <li><a href="http://diveintohtml5.info/storage.html">Local storages</a> emptied: <span id="localStorageRemovedCounter"></span>
 <li>Browser caches cleared: <span id="browserCacheClearedCounter"></span>
-<li>Requests blocked by Adblock+ complex filters: <span id="abpHitCount">?</span> (<span id="abpHitRate">?</span>% of all blocked requests)
+<li>Requests blocked by Adblock+ complex filters: <span id="abpBlockCount">?</span> (<span id="abpBlockRate">?</span>% of all blocked requests)
 </ul>
 </div>
 
@@ -133,7 +157,8 @@ select {
     </p>
     <div style="overflow-y:hidden">
     <table id="requestsTable">
-    <tr id="requestRowTemplate"><td>...<td><td><a href="" style="display:none">&lt;a&gt;</a><td></tr>
+    <tr><td>when<td>what<td><td class="fa">&#xf0b0;<td>where</tr>
+    <tr id="requestRowTemplate"><td><td><td><a href="" style="display:none">&lt;a&gt;</a><td class="fa"><td></tr>
     </table>
     </div>
 </div>

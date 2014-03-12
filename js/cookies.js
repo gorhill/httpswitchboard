@@ -154,9 +154,11 @@ var cookieHunter = {
         // rhill 2013-11-20:
         // https://github.com/gorhill/httpswitchboard/issues/60
         // Need to URL-encode cookie name
-        pageStats.recordRequest('cookie',
-                                this.cookieURLFromCookieEntry(cookieEntry) + '{cookie:' + encodeURIComponent(cookieEntry.name) + '}',
-                                block);
+        pageStats.recordRequest(
+            'cookie',
+            this.cookieURLFromCookieEntry(cookieEntry) + '{cookie:' + encodeURIComponent(cookieEntry.name) + '}',
+            block
+            );
         httpsb.requestStats.record('cookie', block);
 
         // rhill 2013-11-21:

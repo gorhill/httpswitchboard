@@ -47,6 +47,7 @@ PageStatsEntry.prototype.init = function(pageUrl) {
     this.perLoadAllowedRequestCount = 0;
     this.perLoadBlockedRequestCount = 0;
     this.ignore = false;
+    this.abpBlockCount = 0;
     return this;
 };
 
@@ -70,6 +71,9 @@ PageStatsEntry.prototype.dispose = function() {
 
 /******************************************************************************/
 
+// rhill 2014-03-11: If `block` !== false, then block.toString() may return
+// user legible information about the reason for the block.
+
 PageStatsEntry.prototype.recordRequest = function(type, url, block) {
     // TODO: this makes no sense, I forgot why I put this here.
     if ( !this ) {
@@ -85,7 +89,7 @@ PageStatsEntry.prototype.recordRequest = function(type, url, block) {
     // Count blocked/allowed requests
     this.requestStats.record(type, block);
 
-    if ( block ) {
+    if ( block !== false ) {
         this.perLoadBlockedRequestCount++;
     } else {
         this.perLoadAllowedRequestCount++;
@@ -107,7 +111,7 @@ PageStatsEntry.prototype.recordRequest = function(type, url, block) {
     // result in unnecessary reloads (because requests can be made *after*
     // the page load has completed).
     // https://github.com/gorhill/httpswitchboard/issues/98
-    if ( block ) {
+    if ( block !== false ) {
         this.state[type + '|' + hostname] = true;
     }
 

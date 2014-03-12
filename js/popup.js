@@ -208,7 +208,6 @@ var HTTPSBPopup = {
     pageHostname: '',
     pageDomain: '',
     scopeKey: '*',
-
     
     matrixDomains: {},
 
@@ -614,6 +613,7 @@ function handleFilter(button, leaning) {
     updateMatrixStats();
     updateMatrixColors();
     updateMatrixBehavior();
+    updateMatrixButtons();
 }
 
 function handleWhitelistFilter(button) {
@@ -627,84 +627,60 @@ function handleBlacklistFilter(button) {
 /******************************************************************************/
 
 function getTemporaryRuleset() {
-    var cells, i, cell;
+    var httpsb = getHTTPSB();
+    var tScopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
+    var pScopeKey = httpsb.permanentScopeKeyFromPageURL(HTTPSBPopup.pageURL);
     var rules = {
-        white: null,
-        black: null,
-        gray: null
+        tScopeKey: tScopeKey,
+        pScopeKey: pScopeKey,
+        white: [],
+        black: [],
+        gray: [],
+        abpFiltering: httpsb.getTemporaryABPFiltering(tScopeKey),
+        count: 0
     };
-    cells = $('.matRow.rw:not(.meta) .matCell.gdt');
-    i = cells.length;
-    rules.white = new Array(i);
-    while ( i-- ) {
-        cell = $(cells[i]);
-        rules.white[i] = {
-            hostname: cell.prop('hostname'),
-            type: cell.prop('reqType')
-        };
+    var typeStats, type, typeStat;
+    var tcolor, pcolor;
+    var matrixStats = HTTPSBPopup.matrixStats;
+    for ( var hostname in matrixStats ) {
+        if ( !matrixStats.hasOwnProperty(hostname) ) {
+            continue;
+        }
+        typeStats = matrixStats[hostname].types;
+        for ( type in typeStats ) {
+            if ( !typeStats.hasOwnProperty(type) ) {
+                continue;
+            }
+            typeStat = typeStats[type];
+            tcolor = typeStat.temporaryColor.slice(0, 2);
+            pcolor = typeStat.permanentColor.slice(0, 2);
+            if ( tcolor === pcolor ) {
+                continue;
+            }
+            if ( tcolor === 'gd' ) {
+                rules.white.push({ hostname: hostname, type: type });
+            } else if ( tcolor === 'rd' ) {
+                rules.black.push({ hostname: hostname, type: type });
+            } else if ( pcolor !== 'xx' ) {
+                rules.gray.push({ hostname: hostname, type: type });
+            }
+        }
     }
-    cells = $('.matRow.rw:not(.meta) .matCell.rdt');
-    i = cells.length;
-    rules.black = new Array(i);
-    while ( i-- ) {
-        cell = $(cells[i]);
-        rules.black[i] = {
-            hostname: cell.prop('hostname'),
-            type: cell.prop('reqType')
-        };
+    rules.count += rules.white.length + rules.black.length + rules.gray.length;
+    if ( rules.abpFiltering !== httpsb.getPermanentABPFiltering(pScopeKey) ) {
+        rules.count += 1;
     }
-    cells = $('.matRow.rw:not(.meta) .matCell.gpt, .matRow.rw:not(.meta) .matCell.rpt');
-    i = cells.length;
-    rules.gray = new Array(i);
-    while ( i-- ) {
-        cell = $(cells[i]);
-        rules.gray[i] = {
-            hostname: cell.prop('hostname'),
-            type: cell.prop('reqType')
-        };
+    // A temporary scope different from the permanent scope counts for one.
+    if ( tScopeKey !== pScopeKey ) {
+        rules.count += 1;
     }
+    // If temporary scope is different than permanent scope, all the rules in
+    // the permanent scope of narrower level would cease to exist, so we need
+    // to count them as well.
+    // TODO: Undecided whether this should be accounted for, as they are not
+    // seen by the user.
+
     return rules;
-}
-
-/******************************************************************************/
-
-// Handle user interaction with persistence buttons
-
-function persistScope() {
-    var httpsb = getHTTPSB();
-    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
-    if ( httpsb.isGlobalScopeKey(scopeKey) ) {
-        httpsb.createPermanentGlobalScope(HTTPSBPopup.pageURL);
-    } else if ( httpsb.isDomainScopeKey(scopeKey) ) {
-        httpsb.createPermanentDomainScope(HTTPSBPopup.pageURL);
-    } else if ( httpsb.isSiteScopeKey(scopeKey) ) {
-        httpsb.createPermanentSiteScope(HTTPSBPopup.pageURL);
-    }
-    httpsb.applyRulesetPermanently(scopeKey, getTemporaryRuleset());
-    updateMatrixStats();
-    updateScopeCell();
-    updateMatrixColors();
-    updateMatrixBehavior();
-}
-
-/******************************************************************************/
-
-function revertScope() {
-    var httpsb = getHTTPSB();
-    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
-    httpsb.revertScopeRules(scopeKey);
-    updateScopeCell();
-    updateMatrixStats();
-    updateMatrixColors();
-    updateMatrixBehavior();
-}
-
-function revertAll() {
-    getHTTPSB().revertAllRules();
-    updateScopeCell();
-    updateMatrixStats();
-    updateMatrixColors();
-    updateMatrixBehavior();
 }
 
 /******************************************************************************/
@@ -1115,6 +1091,10 @@ function makeMenu() {
     updateMatrixBehavior();
 
     HTTPSBPopup.matrixList.appendTo($('.paneContent'));
+
+    initScopeCell();
+    updateMatrixButtons();
+    populatePresets();
 }
 
 /******************************************************************************/
@@ -1146,9 +1126,9 @@ function createGlobalScope() {
     var httpsb = getHTTPSB();
     httpsb.createTemporaryGlobalScope(HTTPSBPopup.pageURL);
     updateMatrixStats();
-    updateScopeCell();
     updateMatrixColors();
     updateMatrixBehavior();
+    updateMatrixButtons();
     dropDownMenuHide();
 }
 
@@ -1156,9 +1136,9 @@ function createDomainScope() {
     var httpsb = getHTTPSB();
     httpsb.createTemporaryDomainScope(HTTPSBPopup.pageURL);
     updateMatrixStats();
-    updateScopeCell();
     updateMatrixColors();
     updateMatrixBehavior();
+    updateMatrixButtons();
     dropDownMenuHide();
 }
 
@@ -1166,9 +1146,9 @@ function createSiteScope() {
     var httpsb = getHTTPSB();
     httpsb.createTemporarySiteScope(HTTPSBPopup.pageURL);
     updateMatrixStats();
-    updateScopeCell();
     updateMatrixColors();
     updateMatrixBehavior();
+    updateMatrixButtons();
     dropDownMenuHide();
 }
 
@@ -1212,6 +1192,84 @@ function updateScopeCell() {
         .addClass(getClassFromTemporaryScopeKey(temporaryScopeKey))
         .addClass(getClassFromPermanentScopeKey(permanentScopeKey));
     $('#scopeCell').text(temporaryScopeKey.replace('*', '\u2217'));
+}
+
+/******************************************************************************/
+
+function updateABPbutton() {
+    var httpsb = getHTTPSB();
+    var pageStats = getPageStats();
+    var count = pageStats ? pageStats.abpBlockCount : '';
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
+    var button = $('#buttonABPFiltering');
+    button.toggleClass('disabled', !httpsb.getTemporaryABPFiltering(scopeKey));
+    button.children('span.badge').text(count);
+    button.attr('data-tip', button.data('tip').replace('{{abpCount}}', count));
+}
+
+function toggleABPFiltering() {
+    var httpsb = getHTTPSB();
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
+    httpsb.toggleTemporaryABPFiltering(scopeKey);
+    updateMatrixButtons();
+}
+
+/******************************************************************************/
+
+function updatePersistButton() {
+    var ruleset = getTemporaryRuleset();
+
+    var button = $('#buttonPersist');
+    button.contents()
+          .filter(function(){return this.nodeType===3;})
+          .first()[0]
+          .textContent = ruleset.count > 0 ? '\uf13e' : '\uf023';
+    button.children('span.badge').text(ruleset.count > 0 ? ruleset.count : '');
+    var disabled = ruleset.count === 0;
+    button.toggleClass('disabled', disabled);
+
+    $('#buttonRevertScope').toggleClass('disabled', disabled);
+
+}
+
+function persistScope() {
+    var httpsb = getHTTPSB();
+    var rulset = getTemporaryRuleset();
+    if ( httpsb.isGlobalScopeKey(rulset.tScopeKey) ) {
+        httpsb.createPermanentGlobalScope(HTTPSBPopup.pageURL);
+    } else if ( httpsb.isDomainScopeKey(rulset.tScopeKey) ) {
+        httpsb.createPermanentDomainScope(HTTPSBPopup.pageURL);
+    } else if ( httpsb.isSiteScopeKey(rulset.tScopeKey) ) {
+        httpsb.createPermanentSiteScope(HTTPSBPopup.pageURL);
+    }
+    httpsb.applyRulesetPermanently(rulset.tScopeKey, rulset);
+    updateMatrixStats();
+    updateMatrixColors();
+    updateMatrixBehavior();
+    updateMatrixButtons();
+}
+
+/******************************************************************************/
+
+// rhill 2014-03-12: revert completely ALL changes related to the
+// current page, including scopes.
+
+function revertScope() {
+    var httpsb = getHTTPSB();
+    var rulset = getTemporaryRuleset();
+    httpsb.revertScopeRules(rulset.tScopeKey);
+    if ( httpsb.isGlobalScopeKey(rulset.pScopeKey) ) {
+        httpsb.createTemporaryGlobalScope(HTTPSBPopup.pageURL);
+    } else if ( httpsb.isDomainScopeKey(rulset.pScopeKey) ) {
+        httpsb.createTemporaryDomainScope(HTTPSBPopup.pageURL);
+    } else if ( httpsb.isSiteScopeKey(rulset.pScopeKey) ) {
+        httpsb.createTemporarySiteScope(HTTPSBPopup.pageURL);
+    }
+    httpsb.revertScopeRules(rulset.pScopeKey);
+    updateMatrixStats();
+    updateMatrixColors();
+    updateMatrixBehavior();
+    updateMatrixButtons();
 }
 
 /******************************************************************************/
@@ -1265,10 +1323,10 @@ function populatePresets() {
 
     // Button
     // https://github.com/gorhill/httpswitchboard/issues/174
-    $('#buttonPresets').attr('disabled', !presets.length);
+    $('#buttonPresets').toggleClass('disabled', !presets.length);
 
     // Button badge
-    $('#buttonPresets > span').text(presets.length);
+    $('#buttonPresets > span.badge').text(presets.length);
 }
 
 function presetEntryHandler() {
@@ -1277,10 +1335,30 @@ function presetEntryHandler() {
         httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL),
         $(this).prop('presetId')
         );
-    updateScopeCell();
     updateMatrixStats();
     updateMatrixColors();
     updateMatrixBehavior();
+    updateMatrixButtons();
+}
+
+/******************************************************************************/
+
+// Buttons which are affected by any changes in the matrix
+
+function updateMatrixButtons() {
+    updateScopeCell();
+    updateABPbutton();
+    updatePersistButton();
+}
+
+/******************************************************************************/
+
+function revertAll() {
+    getHTTPSB().revertAllRules();
+    updateMatrixStats();
+    updateMatrixColors();
+    updateMatrixBehavior();
+    updateMatrixButtons();
 }
 
 /******************************************************************************/
@@ -1342,26 +1420,16 @@ function bindToTabHandler(tabs) {
     // Now that tabId and pageURL are set, we can build our menu
     initMenuEnvironment();
     makeMenu();
-    populatePresets();
 
     // After popup menu is built, check whether there is a non-empty matrix
     if ( !HTTPSBPopup.matrixHasRows ) {
-        $('#no-traffic').css('display', '');
         $('#matHead').remove();
-        $('#toolbarScope').remove();
-        $('#buttonPersist').remove();
-        $('#buttonPresets').remove();
-        $('#buttonReload').remove();
-        $('#buttonRevertScope').remove();
-        $('#buttonRevertAll').remove();
+        $('#toolbarLeft').remove();
 
         // https://github.com/gorhill/httpswitchboard/issues/191
         $('#noNetTrafficPrompt').text(chrome.i18n.getMessage('matrixNoNetTrafficPrompt'));
         $('#noNetTrafficPrompt').css('display', '');
     }
-
-    // Activate page scope if there is one
-    initScopeCell();
 
     // To know when to rebuild the matrix
     // TODO: What if this event is triggered before bindToTabHandler()
@@ -1427,9 +1495,9 @@ function dropDownMenuHide() {
 
 /******************************************************************************/
 
-// make menu only when popup html is fully loaded
+// Make menu only when popup html is fully loaded
 
-function initAll() {
+$(function() {
     chrome.tabs.query({currentWindow: true, active: true}, bindToTabHandler);
 
    // Below is UI stuff which is not key to make the menu, so this can
@@ -1463,12 +1531,13 @@ function initAll() {
     $('#scopeKeyGlobal').on('click', createGlobalScope);
     $('#scopeKeyDomain').on('click', createDomainScope);
     $('#scopeKeySite').on('click', createSiteScope);
+    $('#buttonABPFiltering').on('click', toggleABPFiltering);
     $('#buttonPersist').on('click', persistScope);
     $('#buttonRevertScope').on('click', revertScope);
-    $('#buttonRevertAll').on('click', revertAll);
 
     $('body').on('click', '.presetEntry', presetEntryHandler);
 
+    $('#buttonRevertAll').on('click', revertAll);
     $('#buttonReload').on('click', buttonReloadHandler);
     $('.extensionURL').on('click', gotoExtensionURL);
     $('.externalURL').on('click', gotoExternalURL);
@@ -1486,14 +1555,13 @@ function initAll() {
             value: separator.hasClass('g3Collapsed')
         });
     });
-}
 
-/******************************************************************************/
-
-// Entry point
-
-$(function(){
-    initAll();
+    // Tool tips
+    $('[data-i18n-tip]').each(function() {
+        var me = $(this);
+        var key = me.data('i18nTip');
+        me.attr('data-tip', chrome.i18n.getMessage(key));
+    });
 });
 
 /******************************************************************************/

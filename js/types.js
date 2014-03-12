@@ -52,6 +52,7 @@ function PermissionScope() {
     this.white = new PermissionList();
     this.black = new PermissionList(['*|*']);
     this.gray = new PermissionList();
+    this.abpFiltering = true;
 }
 
 function PermissionScopes() {
@@ -75,6 +76,7 @@ function PageStatsEntry(pageUrl) {
     this.perLoadAllowedRequestCount = 0;
     this.perLoadBlockedRequestCount = 0;
     this.off = false;
+    this.abpBlockCount = 0;
     this.init(pageUrl);
 }
 

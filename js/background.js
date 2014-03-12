@@ -134,7 +134,7 @@ var HTTPSB = {
     browserCacheClearedCounter: 0,
     storageQuota: chrome.storage.local.QUOTA_BYTES,
     storageUsed: 0,
-    abpHitCount: 0,
+    abpBlockCount: 0,
 
     // internal state
     webRequestHandler: false,

@@ -25,17 +25,34 @@ body {
     padding-top: 5.5em;
     }
 
-.pullright {
-    float: right;
-    }
 
 .toolbar {
-    padding-bottom: 0.5em;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    padding-bottom: 0.25em;
     display: inline-block;
     white-space: nowrap;
     vertical-align: top;
+    position: absolute;
+    top: 0;
     }
-.toolbar button {
+.toolbar.pullLeft {
+    left: 0;
+    }
+.toolbar.pullRight {
+    right: 0;
+    }
+
+
+body.powerOff #toolbarLeft {
+    visibility: hidden;
+    }
+
+
+
+
+body .toolbar button {
     margin: 0;
     border: 0;
     padding: 4px;
@@ -43,31 +60,45 @@ body {
     background-color: white;
     opacity: 0.9;
     cursor: pointer;
+    vertical-align: top;
     }
-.toolbar button:hover {
+body .toolbar button:hover {
     background-color: #eee;
     opacity: 1;
     }
-.toolbar button[disabled] {
+body .toolbar button[disabled] {
     color: #ccc;
     }
-.toolbar button.fa {
+body .toolbar button.disabled {
+    color: #ccc;
+    }
+body .toolbar button.fa {
     font: 1.75em 'FontAwesome';
     min-width: 1.1em;
     }
+body.tScopeGlobal .toolbar button.scopeRel:not(.disabled) {
+    color: #000;
+    }
+body.tScopeDomain .toolbar button.scopeRel:not(.disabled) {
+    color: #24c;
+    }
+body.tScopeSite .toolbar button.scopeRel:not(.disabled) {
+    color: #48c;
+    }
+body.powerOff #toolbarLeft {
+    visibility: hidden;
+    }
+
 
 .dropdown-menu {
     margin: 0;
     border: 0;
     padding: 3px 0 0 0;
     position: absolute;
-    z-index: 1000;
+    z-index: 50;
     font-size: 110%;
     display: none;
     white-space: normal;
-    }
-.dropdown-menu.pullright {
-    right: 0;
     }
 .dropdown-menu > ul {
     margin: 0;
@@ -115,28 +146,12 @@ body {
     background-color: transparent;
     opacity: 0.1;
     display: none;
-    z-index: 900;
+    z-index: 40;
     }
 .dropdown-menu.show ~ .dropdown-menu-capture {
     display: block;
     }
 
-body.tScopeGlobal #buttonPersist {
-    color: #000;
-    }
-body.tScopeDomain #buttonPersist {
-    color: #24c;
-    }
-body.tScopeSite #buttonPersist {
-    color: #48c;
-    }
-body #buttonRevertScope {
-    }
-body.powerOff #buttonPersist,
-body.powerOff #buttonRevertScope,
-body.powerOff #buttonRevertAll {
-    visibility: hidden;
-    }
 body #buttonRevertAll {
     position: relative;
     color: transparent;
@@ -163,25 +178,27 @@ body #buttonRevertAll > span:nth-of-type(4) {
     bottom: 3px;
     }
 
-#buttonPresets {
+button {
     position: relative;
     }
-#buttonPresets > span {
-    padding: 0 2px;
+button > span.badge {
+    padding: 1px 1px;
+    display: inline-block;
     font-size: 40%;
     position: absolute;
     right: 1px;
     bottom: 1px;
     color: #000;
-    background-color: #fff;
-    opacity: 0.75;
+    background-color: rgba(240,240,240,0.75)
     }
-button[disabled] > span {
+button[disabled] > span.badge,
+button.disabled > span.badge {
     display: none;
     }
 #buttonPresets + .dropdown-menu {
-    width: 80%;
-    left: 10%;
+    position: fixed;
+    left: 10vw;
+    width: 80vw;
     }
 body.powerOff #buttonPresets {
     visibility: hidden;
@@ -217,18 +234,6 @@ body.powerOff #buttonPower i {
     color: #c00;
     }
 
-body #toolbarScope {
-    margin: 0;
-    border: 0;
-    padding: 0;
-    display: inline-block;
-    box-sizing: content-box;
-    position: relative;
-    }
-body.powerOff #toolbarScope {
-    visibility: hidden;
-    }
-
 body .toolbar button#scopeCell {
     margin: 0;
     border: 1px dotted rgba(0,0,0,0.2);
@@ -242,6 +247,13 @@ body .toolbar button#scopeCell {
     color: white;
     background-repeat: no-repeat;
     background-position: -1px -1px;
+    }
+body #scopeCell + .dropdown-menu {
+    padding: 6px 1px 3px 1px;
+    left: 0;
+    right: 0;
+    text-align: right;
+    width: 16em;
     }
 body.tScopeGlobal #scopeCell {
     background-color: #000;
@@ -262,12 +274,6 @@ body.pScopeSite #scopeCell {
     background-image: url('/img/permanent-scope-site.png');
     }
 
-body #scopeKeys {
-    padding: 6px 1px 3px 1px;
-    left: 0;
-    right: 0;
-    text-align: right;
-    }
 
 .matrix {
     text-align: left;
@@ -309,8 +315,8 @@ body #scopeKeys {
     direction: rtl;
     }
 .matrix .matRow.l2 > .matCell:first-child {
-    margin-left: 3px;
-    width: calc(16em - 3px);
+    margin-left: 1px;
+    width: calc(16em - 1px);
     }
 .matrix .matRow > .matCell:hover {
     border-style: solid;
@@ -551,5 +557,35 @@ body.powerOff #whitelist, body.powerOff #blacklist {
     }
 #domainOnly:hover {
     opacity: 1;
+    }
+
+
+/* http://stackoverflow.com/questions/2011142/how-to-change-the-style-of-title-attribute-inside-the-anchor-tag?answertab=votes */
+*[data-tip] {
+    position: relative;
+    cursor: pointer;
+    }
+*[data-tip]:hover:after {
+    position: absolute;
+    content: attr(data-tip);
+    padding: 4px 6px;
+    font-size: 10px;
+    line-height: 150%;
+    text-align: left;
+    color: black;
+    background-color: white;
+    top: 110%;
+    white-space: pre;
+    z-index: 20;
+    border: 1px solid gray;
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px gray;
+    }
+
+.pullLeft *[data-tip]:hover:after {
+    left: 0;
+    }
+.pullRight *[data-tip]:hover:after {
+    right: 0;
     }
 

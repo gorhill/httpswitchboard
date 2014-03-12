@@ -37,7 +37,7 @@ _WebRequestStats.prototype.reset = function() {
 /******************************************************************************/
 
 WebRequestStats.prototype.record = function(type, blocked) {
-    if ( blocked ) {
+    if ( blocked !== false ) {
         this.blocked[type] += 1;
         this.blocked.all += 1;
     } else {
