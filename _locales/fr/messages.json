@@ -189,15 +189,15 @@
         "description": "Tool tip for ABP button: {{}} is a placeholder for number of blocked requests."
     },
     "matrixPersistButtonTip" : {
-        "message": "Save all temporary permissions \u000a for this scope.",
+        "message": "Save all temporary changes \u000a for this scope.",
         "description": "Tool tip for the persist button"
     },
     "matrixRevertButtonTip" : {
-        "message": "Remove temporary \u000a permissions for this \u000a scope.",
+        "message": "Remove temporary \u000a changes for this \u000a scope.",
         "description": "Tool tip for the revert local permission button"
     },
     "matrixRevertButtonAllTip" : {
-        "message": "Remove all temporary \u000a permissions.",
+        "message": "Remove all temporary \u000a changes.",
         "description": "Tool tip for the revert all permissions button"
     },
     "matrixReloadButton" : {
