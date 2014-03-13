@@ -283,6 +283,8 @@ var trimChar = function(s, c) {
 /******************************************************************************/
 
 var add = function(s) {
+    // ORDER OF TESTS IS IMPORTANT!
+
     // Ignore unsupported filters
     if ( reIgnoreFilter.test(s) ) {
         return false;
@@ -293,14 +295,14 @@ var add = function(s) {
         return false;
     }
 
-    // Ignore some directives for now
-    s = s.replace(/\^/g, '*');
-    s = s.replace(/\*\*+/g, '*');
-
     // Ignore hostname rules, these will be taken care of by HTTPSB.
     if ( reHostnameRule.test(s) ) {
         return false;
     }
+
+    // Ignore some directives for now
+    s = s.replace(/\^/g, '*');
+    s = s.replace(/\*\*+/g, '*');
 
     // Remove leading and trailing pipes
     s = s.replace(/^\|+|\|+$/, '');
