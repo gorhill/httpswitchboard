@@ -37,10 +37,10 @@ body {
     position: absolute;
     top: 0;
     }
-.toolbar.pullLeft {
+.toolbar.alignLeft {
     left: 0;
     }
-.toolbar.pullRight {
+.toolbar.alignRight {
     right: 0;
     }
 
@@ -557,35 +557,5 @@ body.powerOff #whitelist, body.powerOff #blacklist {
     }
 #domainOnly:hover {
     opacity: 1;
-    }
-
-
-/* http://stackoverflow.com/questions/2011142/how-to-change-the-style-of-title-attribute-inside-the-anchor-tag?answertab=votes */
-*[data-tip] {
-    position: relative;
-    cursor: pointer;
-    }
-*[data-tip]:hover:after {
-    position: absolute;
-    content: attr(data-tip);
-    padding: 4px 6px;
-    font: 11px sans-serif;
-    line-height: 150%;
-    text-align: left;
-    color: black;
-    background-color: white;
-    top: 110%;
-    white-space: pre;
-    z-index: 20;
-    border: 1px solid gray;
-    border-radius: 3px;
-    box-shadow: 1px 1px 3px gray;
-    }
-
-.pullLeft *[data-tip]:hover:after {
-    left: 0;
-    }
-.pullRight *[data-tip]:hover:after {
-    right: 0;
     }
 
