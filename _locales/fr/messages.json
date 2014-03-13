@@ -185,19 +185,19 @@
         "description": "..."
     },
     "matrixABPButtonTip" : {
-        "message": "Nombre de requêtes bloquées via \u000a les filtre Adblock Plus: {{abpCount}}. \u000a Cliquez pour activer/désactiver \u000a les filtres ABP pour le contexte \u000a courant.",
+        "message": "Nombre de requêtes bloquées via \u000a les filtres Adblock Plus: {{abpCount}}. \u000a Cliquez pour activer/désactiver \u000a les filtres ABP pour le contexte actuel.",
         "description": "Tool tip for ABP button: {{}} is a placeholder for number of blocked requests."
     },
     "matrixPersistButtonTip" : {
-        "message": "Sauvegarder les changements \u000a temporaires du contexte courant.",
+        "message": "Conserver définitivement les changements \u000a du contexte actuel.",
         "description": "Tool tip for the persist button"
     },
     "matrixRevertButtonTip" : {
-        "message": "Annuler les changements temporaires \u000a du contexte courant.",
+        "message": "Annuler les changements temporaires \u000a du contexte actuel.",
         "description": "Tool tip for the revert local permission button"
     },
     "matrixRevertButtonAllTip" : {
-        "message": "Annuler les changements temporaires \u000a dans tous les contextes.",
+        "message": "Annuler la totalité des changements \u000a temporaires de tous les contextes.",
         "description": "Tool tip for the revert all permissions button"
     },
     "matrixReloadButton" : {
