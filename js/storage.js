@@ -305,7 +305,7 @@ function mergeBlacklistedHosts(details) {
     //    https://adblockplus.org/en/filter-cheatsheet
     //    https://adblockplus.org/en/filters
     var adblock = (/^\[adblock +plus\ +\d\.\d\]/i).test(raw);
-    var abpFilters = adblock && httpsb.userSettings.parseAllABPFilters ? httpsb.abpFilters : null;
+    var abpFilters = httpsb.userSettings.parseAllABPFilters ? httpsb.abpFilters : null;
     var hostFromAdblockFilter = function(s) {
         var matches = s.match(/^\|\|([a-z0-9.-]+)\^(\$third-party|$)/);
         if ( matches && matches.length > 1 ) {
@@ -332,8 +332,8 @@ function mergeBlacklistedHosts(details) {
         // rhill 2014-01-22: Transpose possible Adblock Plus-filter syntax
         // into a plain hostname if possible.
         // Useful reference: https://adblockplus.org/en/filter-cheatsheet#blocking2
-        if ( abpFilters ) {
-            if ( abpFilters.add(line) ) {
+        if ( adblock ) {
+            if ( abpFilters && abpFilters.add(line) ) {
                 continue;
             }
             line = hostFromAdblockFilter(line);
