@@ -249,7 +249,8 @@ function renderRequests() {
 
     // Reuse whatever rows is already in there.
     var rows = table.find('tr:not(.ro)').toArray();
-    for ( i = 0; i < requests.length && i < rows.length; i++ ) {
+    var n = Math.min(requests.length, rows.length);
+    for ( i = 0; i < n; i++ ) {
         renderRequestRow(rows[i], requests[i]);
     }
 
@@ -258,7 +259,8 @@ function renderRequests() {
     $(rows.slice(i)).addClass('unused');
 
     // Create new rows to receive what is left
-    for ( ; i < requests.length; i++ ) {
+    n = requests.length;
+    for ( ; i < n; i++ ) {
         row = rowTemplate.clone();
         renderRequestRow(row, requests[i]);
         row.insertBefore(rowTemplate);
