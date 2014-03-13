@@ -52,6 +52,10 @@ var reAuthorityFromURI       = /^(?:[^:\/?#]+:)?(\/\/[^\/?#]+)/;
 // IPv6 is seen as an exception: a non-compatible IPv6 is first tried, and
 // if it fails, the IPv6 compatible regex istr used. This helps
 // peformance by avoiding the use of a too complicated regex first.
+
+// https://github.com/gorhill/httpswitchboard/issues/211
+// "While a hostname may not contain other characters, such as the
+// "underscore character (_), other DNS names may contain the underscore"
 var reHostPortFromAuthority  = /^(?:[^@]*@)?([0-9a-z._-]*)(:\d*)?$/i;
 var reIPv6PortFromAuthority  = /^(?:[^@]*@)?(\[[0-9a-f:]*\])(:\d*)?$/i;
 
