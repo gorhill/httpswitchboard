@@ -569,7 +569,7 @@ body.powerOff #whitelist, body.powerOff #blacklist {
     position: absolute;
     content: attr(data-tip);
     padding: 4px 6px;
-    font-size: 10px;
+    font: 11px sans-serif;
     line-height: 150%;
     text-align: left;
     color: black;
