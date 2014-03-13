@@ -1,6 +1,6 @@
 [Adblock Plus 2.0]
-! Checksum: RC4pC4r9Xybf2S3xRK/t/Q
-! Version: 201403111751
+! Checksum: c9jSF/OM/ZkFH8DiwjuulA
+! Version: 201403131401
 ! Liste FR ~ Filtres francophones complémentaires à EasyList
 ! Title: Liste FR
 ! Licence : http://www.adblock-listefr.com/A_propos
@@ -114,7 +114,7 @@ _regiepub/
 ||directionplaisir.com^$third-party
 ||discovery-ptp.eu^$third-party
 ||double6affiliation.com^third-party
-||doubleclick.net^$domain=cinefil.com|essentielle.be|gameone.net|rds.ca|videos.tmc.tv
+||doubleclick.net^$domain=basketusa.com|cinefil.com|essentielle.be|gameone.net|rds.ca|videos.tmc.tv
 ||duporno.biz^$third-party
 ||ebuzzing.fr^$third-party
 ||edi7.lu^$third-party
@@ -334,6 +334,7 @@ _regiepub/
 ||coupling.fr/widget_$third-party
 ||crm-pour-pme.fr/images/copie%20de%20728-90.png
 ||crocastuce.fr/images/Boutons/
+||dhtml.pornravage.com/infoslide/
 ||diagnostic-expertise.com^*-popunder.php?$popup
 ||dir-fr.com/banners/$domain=la-musique-rai.com
 ||disco-sexe.com/ban/$third-party
@@ -660,6 +661,7 @@ _regiepub/
 ||animes-streaming.net/images/ruedufric.png
 ||annonces-nc.com/PUBS/
 ||annonces.nc/PUBS/
+||annonces.nc/wam_pubs_
 ||annonciaweb.com/ZZ-intr-*.
 ||annuaire-inverse-gratuit.org/js/default.js
 ||aps.dz/pub-
@@ -767,14 +769,14 @@ _regiepub/
 ||cyclisme-mag.com/?specialSports$popup,domain=sports.fr
 ||cyclisme-mag.com/includes/*/habillage/
 ||days-media.fr^*/disclaimers.js
+||dayzguide.fr/images/partenaire/
 ||debrideurstream.fr/pub/
 ||degourdi.com/ban/
 ||degroupnews.com/css/commun/pub-
 ||degroupnews.com/images/banniere
 ||degrouptest.com/images/bonabo-promo/
 ||degrouptest.com/images/pub-divers/
-||degrouptest.com/styles/byou-*.css
-||degrouptest.com/styles/nc-*.css
+||degrouptest.com/styles/pub*.css
 ||delamusique.com/js/jquery.rotator.js
 ||deliv.leboncoin.fr^
 ||demooniak.com/ads_all1.php^$popup
@@ -1077,6 +1079,7 @@ _regiepub/
 ||lefigaro.fr/content/widgets/pure-shopping/
 ||lefigaro.fr^*/livingsocial/
 ||legalis.net^*/swf/pub_
+||lelogicielgratuit.com/media/js/popupGenerator.min.js
 ||lemaghrebdz.com/images/pub/
 ||lemaghrebdz.com/pub/
 ||lemde.fr/mmpub/img/partenaires/
@@ -1113,6 +1116,7 @@ _regiepub/
 ||libellules.ch/infomaniak-hosted-by-black-transparent.png
 ||libertyland.tv/libertyland/images/partenaire/
 ||libre.eu/homepage/relooking/
+||lien-torrent.com/alter/
 ||lien-torrent.com/pubs/
 ||liens-de-telechargement.com/popmodal/
 ||linternaute.com/*@*,position$script
@@ -2141,6 +2145,7 @@ wawacity.su###img_300x250_fiche_Middle
 wawacity.su###img_300x250_fiche_Top
 wawacity.su###img_468_Fiche_Adorika
 wawacity.su###img_home_300x250_6
+audiofanzine.com###index-sonicprice
 equirodi.be###index_module_pub
 loisirados.com###intersticiel
 conseils-courseapied.com###ja-banner
@@ -2205,7 +2210,7 @@ rtl.be###partnersblock
 equirodi.be###partnerslinks2
 lefigaro.fr###pave_article
 dzfoot.com###pave_twoh
-anime00.com,anime00.net,cinemay.com,e-booksland.com,filmscine.com,lastfilmstreaming.com,mesfilmsstreaming.com,movizfr.com,mu-streaming.com,seriesnostop.com,videonostop.com###pb1
+anime00.com,anime00.net,cinemay.com,e-booksland.com,filmscine.com,lastfilmstreaming.com,livre-technique.com,mesfilmsstreaming.com,movizfr.com,mu-streaming.com,seriesnostop.com,videonostop.com###pb1
 garytube.com,oumazik.com###pb2
 gladplayer.com,paygladplayer.com,pgflow.com,playglad.com###pg_banproll
 topanalyse.com###pid_f
@@ -2317,6 +2322,7 @@ copainsdavant.com###test-pub
 mobilefilmfestival.com###teteP2
 mega-divx.net###text-15
 mega-divx.net###text-17
+mymobilier.fr###text-2.shadowblock_out.widget_text
 mobigeeks.fr###text-395241271
 webactus.net###text-4
 mobigeeks.fr###text-417831879
@@ -2372,6 +2378,7 @@ actustar.com,beezik.com,cvya.dz,do-tube.org,floriankarmen.com,footespagnol.fr,me
 artdeseduire.com##.ads-books
 artdeseduire.com##.ads-information
 cvya.dz##.ads-vert
+toilef1.com##.ads615x60Actu
 abrutis.com,pooki.fr##.adsense
 la-musique-rai.com##.adsr p[style="background-color:#FFF; text-align:center;"]
 fusac.fr,rajacasablanca.com##.adv
@@ -2611,6 +2618,7 @@ clubic.com##.pub-300x250-du-bas
 degroupnews.com,degrouptest.com##.pub-bonaboSite
 clubic.com##.pub-carre-smart-php
 lefigaro.fr##.pub-double-bande
+millepertuis.eu##.pub-gauche-flottant
 1point2vue.com##.pub-header
 toplien.fr##.pub-index-gauche
 lematin.ma##.pub-medium
@@ -2847,7 +2855,7 @@ actufoot.fr,livefootball.fr,mercato.fr##div[id^="ad6b_"]
 gratuitcul.com##div[id^="affidate_form_"]
 melty.fr,meltybuzz.fr,meltycampus.fr,meltyfashion.fr,meltyfood.fr,meltystyle.fr,meltyxtrem.fr##div[id^="container_A2_"]
 france2.fr,france3.fr,france4.fr,france5.fr,franceo.fr,francetv.fr,francetvinfo.fr,la1ere.fr,pluzz.fr,~sport.francetv.fr##div[id^="eShowPub"]
-audiofanzine.com##div[id^="lbs"]
+audiofanzine.com##div[id^="lbr"]
 clubic.com##div[id^="pub_dart_"]
 pagesjaunes.fr##div[id^="push"]
 coco.fr##div[onclick="window.open('http://www.joker.net/poker.html');"]
@@ -2884,6 +2892,7 @@ lafermeduweb.net##div[style="overflow: hidden; width: 336px; height: 280px; marg
 regarder-film-gratuit.com##div[style="padding-top:5px;float:left;width:100%;font-size:13px;line-height:26px;height:31px;top: 12px;z-index:9999;text-align:left"]
 mistergooddeal.com##div[style="padding: 8px; border: 1px solid #CCC; border-radius: 3px; position: relative; margin-top: 10px; width: 728px; height: 200px; align: center; margin-left: "]
 accentice.com##div[style="padding:5;padding-top:0;background:#fffdf7;"]
+moviz.net##div[style="position: relative; display: block; margin-top: 0px; width: 100%; border-bottom: 1px solid rgb(0, 0, 0); height: auto; z-index: 100000; background: none repeat scroll 0% 0% rgb(255, 255, 225); line-height: 20px; font-family: Arial,Helvetica,sans-serif;"]
 egora.fr##div[style="position: relative; width: 1000px; height: 110px; z-index:10000;"]
 auto-utilitaire.com##div[style="position:relative;width:728px;height:90px;"]
 groupon.fr##div[style="width: 445px; margin: 8px auto; text-align: center; background-color: #fff; border: 1px solid #e4e4e4;"]

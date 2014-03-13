@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: X1I+okfMle6NLgs4R5cmHg
-! Version: 201403111750
+! Checksum: AoA+G45DuELS+TwiCi395w
+! Version: 201403131400
 ! Title: EasyPrivacy
-! Last modified: 11 Mar 2014 17:50 UTC
+! Last modified: 13 Mar 2014 14:00 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -4869,7 +4869,6 @@ http://utm.
 ||interestsearch.net/videoTracker.js?
 ||internetfuel.com/tracking/
 ||intuitwebsites.com/tracking/
-||ioam.de/iam.js
 ||ipro.com^*/pixel.gif?
 ||isacglobal.com/sa.js
 ||iyisayfa.net/inc.php?
@@ -5454,7 +5453,6 @@ http://utm.
 ||vvhp.net/read/view.gif
 ||vzaar.com/create?ref=
 ||w3track.com/newtrk/$third-party
-||w88.go.com^
 ||w88.m.espn.go.com^
 ||wantlive.com/pixel/
 ||watch.teroti.com^$third-party

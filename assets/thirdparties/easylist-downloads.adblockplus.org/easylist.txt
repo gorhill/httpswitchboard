@@ -1,8 +1,8 @@
 [Adblock Plus 2.0]
-! Checksum: 2ObChs6Y5zbyjlWLHGE9pg
-! Version: 201403111750
+! Checksum: ap5FBpLOKr//SASxWik3Vw
+! Version: 201403131400
 ! Title: EasyList without element hiding rules
-! Last modified: 11 Mar 2014 17:50 UTC
+! Last modified: 13 Mar 2014 14:00 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -8899,6 +8899,7 @@ _popunder+$popup
 ||zedo.com^$popup,third-party
 ! *** easylist:easylist_adult/adult_adservers.txt ***
 ||100pour.com^$third-party
+||10y5gehv.com^$third-party
 ||123advertising.nl^$third-party
 ||15yomodels.com^$third-party
 ||173.245.86.115^$domain=~yobt.com.ip
@@ -9822,6 +9823,7 @@ _popunder+$popup
 ||bijk.com^*/banners/
 ||binopt.net/banners/
 ||bit.ly^$subdocument,domain=adf.ly
+||bitcoindice.com/img/bitcoindice_$third-party
 ||bitcoinwebhosting.net/banners/$third-party
 ||bitshare.com^*/banner/
 ||bittorrent.am/serws.php?$third-party
@@ -10370,6 +10372,7 @@ _popunder+$popup
 ||link.link.ru^$third-party
 ||linkedin.com/csp/dtag?$subdocument,third-party
 ||lionheartdms.com^*/walmart_300.jpg
+||litecoinkamikaze.com/assets/images/banner$third-party
 ||literatureandlatte.com/gfx/buynowaffiliate.jpg
 ||liutilities.com/partners/$third-party
 ||liutilities.com^*/affiliate/
@@ -11587,6 +11590,7 @@ _popunder+$popup
 ||abovetopsecret.com/160_
 ||abovetopsecret.com/300_
 ||abovetopsecret.com/728_
+||abovetopsecret.com/images/plexidigest-300x300.jpg
 ||absolutcheats.com/images/changemy*.gif
 ||absolutewrite.com^*/48HrBooks4.jpg
 ||absolutewrite.com^*/doyle_editorial.jpg
@@ -13257,6 +13261,7 @@ _popunder+$popup
 ||malaysiabay.org^*/creative.js
 ||malaysiabay.org^*creatives.php?
 ||malaysiakini.com/misc/banners/
+||malwaredomains.com/ra.jpg
 ||mangafox.com/media/game321/
 ||mangareader.net/images/800-x-100
 ||mangarush.com/xtend.php
@@ -13616,6 +13621,7 @@ _popunder+$popup
 ||observer.ug/images/banners/
 ||ocforums.com/adj/
 ||ocp.cbssports.com/pacific/request.jsp?
+||oddschecker.com^*/takeover/
 ||ohmygore.com/ef_pub*.php
 ||oilprice.com/images/banners/
 ||oilprice.com/images/sponsors/
@@ -14979,6 +14985,7 @@ _popunder+$popup
 ||multiupload.nl/popunder/$popup
 ||nesk.co^$popup,domain=veehd.com
 ||newsgate.pw^$popup,domain=adjet.biz
+||oddschecker.com/clickout.htm?type=takeover-$popup
 ||picvi.com/news_picvi.html$popup
 ||pop.billionuploads.com^$popup
 ||rediff.com/uim/ads/$popup
@@ -17317,6 +17324,7 @@ _popunder+$popup
 @@||afreesms.com/js/adframe.js
 @@||afterburnerleech.com/js/show_ads.js
 @@||aka-cdn-ns.adtech.de/images/*.gif$image,domain=akam.no|amobil.no|gamer.no|hardware.no|teknofil.no
+@@||alcohoin-faucet.tk/advertisement.js
 @@||amazonaws.com/atzuma/ajs.php?adserver=$script
 @@||amazonaws.com/ssbss.ss/$script
 @@||amk.to/js/adcode.js?
@@ -17376,6 +17384,7 @@ _popunder+$popup
 @@||directrev.com/RealMedia/ads/adstream_sx.ads/$subdocument,domain=kissanime.com
 @@||dizi-mag.com/ads/$subdocument
 @@||dizicdn.com/i/ads/groupon.png$domain=dizi-mag.com
+@@||doge-faucet.tk/advertisement.js
 @@||dollarade.com/overlay_gateway.php?oid=$script,domain=dubs.me|filestore123.info|myfilestore.com|portable77download.blogspot.com|pspmaniaonline.com|streamaxonline.com
 @@||doodle.com^*/advertising/$script
 @@||doubleclick.net/adj/gn.eventhubs.com/*;sz=728x90;$script,domain=eventhubs.com
@@ -17413,6 +17422,7 @@ _popunder+$popup
 @@||fragflix.com^*.png?*=$image,domain=majorleaguegaming.com
 @@||free.smsmarkaz.urdupoint.com^$elemhide
 @@||free.smsmarkaz.urdupoint.com^*#-$image
+@@||freebitcoin.wmat.pl^*/advertisement.js
 @@||freegamehosting.nl/advertisement.js
 @@||freegamehosting.nl/js/advertisement.js
 @@||freesportsbet.com/js/advertisement.js
@@ -17459,6 +17469,7 @@ _popunder+$popup
 @@||linkcrypt.ws/image/*#$image
 @@||linkcrypt.ws^$elemhide
 @@||liquidcompass.net/js/advertisement.js
+@@||litecoin-faucet.tk/advertisement.js
 @@||litecoiner.net/advertisement.js
 @@||lordpyrak.net^$elemhide
 @@||mac2sell.net^$elemhide
@@ -17484,6 +17495,7 @@ _popunder+$popup
 @@||monsoonads.com:8080/crossdomain.xml$object-subrequest
 @@||monsoonads.com:8080/monsoon1/monsoonservice?$object-subrequest,domain=bollywoodhungama.com|videos.mid-day.com
 @@||monsoonads.com:8080/monsoon1/preparead?$object-subrequest,domain=bollywoodhungama.com
+@@||moon-faucet.tk/advertisement.js
 @@||mrtzcmp3.net/advertisement.js
 @@||multiup.org/img/theme/*?$image
 @@||muzu.tv/ads/advert.js

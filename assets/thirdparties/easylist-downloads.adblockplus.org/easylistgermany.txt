@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: 8TVzPwApFMRGm8Hp10334A
-! Version: 201403111750
+! Checksum: ETu2+y779p6g673PutrhPA
+! Version: 201403131400
 ! Title: EasyList Germany
 ! EasyList Germany - Deutsche Ergänzung zu EasyList
-! Last modified: 11 Mar 2014 17:50 UTC
+! Last modified: 13 Mar 2014 14:00 UTC
 ! Expires: 3 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -481,50 +481,20 @@ berlin.de#@#a[href^="http://adfarm.mediaplex.com/"]
 schnittberichte.com#@#a[href^="http://bs.serving-sys.com/"]
 hbf-info.de,rakuten.at,rakuten.de#@#div[id^="div-gpt-ad-"]
 ! Anti-Adblock
-gamestar.de#@##AdSky23
-gamestar.de#@##AdSpacing
-gamestar.de#@##AdTop
-gamestar.de#@##BF_BUZZBOX
-gamestar.de#@##WerbungObenRechts10_GesamtDIV
-gamestar.de#@##Werbung_Sky
-gamestar.de#@##ad-bereich1-08
-gamestar.de#@##ad-fullbanner2
 vol.at#@##ad-medrec
-gamestar.de#@##ad-popup1
 vol.at#@##adPopover
 vol.at#@##adSpace5
 tape.tv#@##ad_box
-gamestar.de#@##ad_comments
-gamestar.de#@##ad_container
-gamestar.de#@##ad_div
 vol.at#@##ad_region2
 vol.at#@##ad_two
 tape.tv#@##adframe:not(frameset)
 vol.at#@##adsense
 vol.at#@##adsense_top
-gamestar.de#@##adskinright
-gamestar.de#@##adskintop
-gamestar.de#@##adskyleftdiv
-gamestar.de#@##advt
 vol.at#@##bigadspot
-gamestar.de#@##textwerbung
-gamestar.de#@##topadcontainer
-gamestar.de#@##topwerbung
-gamestar.de#@##werbLayer1
-gamestar.de#@##werb_ps103
-gamestar.de#@##werbeadd
-gamestar.de#@##werbekasten
-gamestar.de#@##werbetrenner
 magistrix.de#@#.ads-content
 mufa.de#@#.adsbygoogle
 netzkino.de#@#.advertising-top
-netzkino.de#@#.advertising-top-box
-gamestar.de#@#.annons_themeBlock
 netzkino.de#@#.contentAdBox
-gamestar.de#@#.headeradhome
-gamestar.de#@#.mxl_ad_inText_250
-gamestar.de#@#.topAdvBox
-gamestar.de#@#div[id^="div-gpt-ad-"]
 !---------------------------Third-party Werbeserver---------------------------!
 ! *** easylistgermany:easylistgermany/easylistgermany_adservers.txt ***
 ||2mdn.net^$object-subrequest,third-party,domain=anleger-fernsehen.de|blick.ch|clipfish.de|fitforfun.de|focus.de|giga.de|golem.de|helpster.de|myspass.de|netzwelt.de|sueddeutsche.de|tvtoday.de
@@ -1377,6 +1347,7 @@ gamestar.de#@#div[id^="div-gpt-ad-"]
 ||server.nitrado.net/img.nitrado/nitrado_minecraft1_
 ||server4.pro/images/banner_$third-party
 ||shopfacer.de/images/banner/
+||shoplenaro.com^*/loadAd_
 ||shoplove.com^*/widget2.min.js?appKey=$third-party
 ||shopprops.de/flashbanner/$third-party
 ||shoutbox.de/ad/
@@ -3559,6 +3530,7 @@ gamestar.de#@#div[id^="div-gpt-ad-"]
 ||zweinullig.de/wp-content/uploads/125.png
 ||zweinullig.de/wp-content/uploads/chaershop.jpg
 ! Anti-Adblock
+||gamona.de/wp/uploads/2014/03/*.jpg
 ||mv-spion.de/ajax/lc?content=qwert
 ||mv-spion.de/ajax/lc|
 ! *** easylistgermany:easylistgermany/easylistgermany_specific_block_popup.txt ***
@@ -3584,6 +3556,7 @@ gamestar.de#@#div[id^="div-gpt-ad-"]
 ||adsfac.eu/link.asp?$popup,domain=iamgamer.de
 ||alturl.com^$popup,domain=byte.to
 ||amazon.de/?tag=bluray18-21$popup,domain=bluray-disc.de
+||amazon.de^*&tag=$popup,domain=gamona.de
 ||amazon.de^*&tag=bluray18-21&$popup,domain=bluray-disc.de
 ||amazon.de^*^tag=$popup,domain=wetteronline.de
 ||atomload.at/out.php$popup
@@ -3617,7 +3590,7 @@ gamestar.de#@#div[id^="div-gpt-ad-"]
 ||hifi-forum.de/forum/banner/$popup
 ||hoerbuch.in/enterpopup.php$popup
 ||jokermovie.org/out.php$popup
-||ligatus.com^$popup,domain=n-tv.de
+||ligatus.com^$popup,domain=gamona.de|n-tv.de
 ||lovoo.net^$popup,domain=smsform.de
 ||luschtiges.blogspot.de^$popup,domain=ragecomic.com
 ||lustich.de/img/$popup
@@ -4657,6 +4630,7 @@ sex-up.net##.BoxSidebarGoogleSexUp
 mactechnews.de##.CommercialPanel
 ksta.de##.ContainerContentKalaydoSmall
 mactechnews.de##.DfpNewsO
+mactechnews.de##.DfpPanel336
 fr-online.de##.DigiAnz
 pafnet.de##.FlyerRahmen1[width="125"]
 kimeta.de##.GoogleColSpan
@@ -5403,6 +5377,8 @@ allround-pc.com##.side_banner
 downloadstube.net##.side_frame
 fernsehlounge.de##.sidebanner
 hc-empor.de##.sidebar > ul > #text-6 + #text-13 + #text-9
+berriesandpassion.com##.sidebar-right > #text-11
+berriesandpassion.com##.sidebar-right > #text-9
 stern.de##.sidebarTeaserKastenAnzeige
 n-tv.de##.sidebar_block[style="width:300px;height:163px"]
 n-tv.de##.sidebar_block_dark[style="padding-left: 40px; height: 200px;"]
@@ -7235,6 +7211,7 @@ mobilfunk-geschichte.de##body > noscript > style + div[id]:last-child
 @@||g.doubleclick.net/gampad/ads?gdfp_req=*&callback=googletag.impl.pubads.setAdContentsBySlotForSync&$script,domain=gamona.de
 @@||game-advertising-online.com/images/s-l.gif$domain=anime-loads.org
 @@||game-advertising-online.com/index.php?section=serve&id=$subdocument,domain=anime-loads.org
+@@||gamestar.de^$elemhide
 @@||gamona.de^$elemhide
 @@||gamona.de^*.jpg-$image
 @@||gamona.de^*.png-$image

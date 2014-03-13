@@ -2,8 +2,8 @@
 #
 # For more information about this list, see: http://pgl.yoyo.org/adservers/
 # ----
-# last updated:   Thu, 27 Feb 2014 09:56:13 GMT
-# entries:        2499
+# last updated:   Thu, 13 Mar 2014 08:01:24 GMT
+# entries:        2501
 # format:         hosts (hosts -- in hosts file format)
 # credits:        Peter Lowe - pgl@yoyo.org - http://pgl.yoyo.org/
 # this URL:       http://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext
@@ -263,6 +263,7 @@
 127.0.0.1 adimages.sanomawsoy.fi
 127.0.0.1 adimg.cnet.com
 127.0.0.1 adimg.com.com
+127.0.0.1 adimg.uimserv.net
 127.0.0.1 adimg1.chosun.com
 127.0.0.1 adimgs.sapo.pt
 127.0.0.1 adimpact.com
@@ -932,6 +933,7 @@
 127.0.0.1 advertserve.com
 127.0.0.1 advertstream.com
 127.0.0.1 advertwizard.com
+127.0.0.1 advideo.uimserv.net
 127.0.0.1 adview.ppro.de
 127.0.0.1 advisormedia.cz
 127.0.0.1 adviva.com

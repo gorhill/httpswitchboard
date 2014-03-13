@@ -1,5 +1,5 @@
 [Adblock Plus 1.1]
-! Checksum: 3vpuxjxcVaABPoHyrWSr9w
+! Checksum: SmM+l0pBPCkULzr1/fLuJA
 ! This is bulgarian list hosted at http://stanev.org/abp
 ! Contact me at alex at stanev dot org
 !
@@ -57,6 +57,7 @@ ad.investor.bg/
 ads.garga.biz/ad/
 ads.ibox.bg/banners/*.swf
 adv.abv.bg
+||advbg.do.am/banners/
 adv.gepime.com
 ||adwise.bg/search/
 ||afera.bg/280x190*
@@ -146,6 +147,7 @@ b.grabo.bg
 ||bspnews.net/e107_images/banners/
 ||b.superdns.info/banners/
 ||bueno.bg/affiliates/
+||bukvi.bg/icon/nashite_planove.png
 ||bulborsa.com/images/120X90*
 ||bulborsa.com/images/banners/
 ||bulgaria-info.uni-web.net/banners/
@@ -327,6 +329,9 @@ img.zamunda.net/banners/
 ||interface-soft.com/BannerSitesFiles/
 ||intrastat-bg.com/intrastat/img/infoj.gif
 ||intrastat-bg.com/intrastat/img/yotov.gif
+||intrigi.bg/upload/images/87233_6369a_viaeventis.jpg
+||intrigi.bg/upload/images/*banner*
+||intrigi.bg/upload/images/d2d81_%D0%91%D0%BB%D0%B0%D1%81%D1%82%D0%BC%D0%BE%D0%BD%D1%82%D0%B0%D0%B6_%D0%BB%D0%BE%D0%B3%D0%BE_2_%D0%91%D0%93%20(1).jpg
 ||investor.bg/brandings
 ||ipo.bg/bannercache
 i.potv.bg/i/*728x90*
@@ -626,7 +631,6 @@ store.picbg.net/pubpic/D3/75/16a587896593d375.PNG
 store.picbg.net/pubpic/F0/56/c0f0a9066decf056.gif
 ||studiolight-bg.com/_tmp/Banner.gif
 ||subsbay.com/banner*
-||subsmania.info/Baners/
 subs.sab.bz/images/BANER.jpg
 subs.sab.bz/images/lev_ok.gif
 subs.sab.bz/images/reset.swf
@@ -656,6 +660,7 @@ torrent.alein.org/images/system/itnet_img_h.png
 torrent.alein.org/images/system/moreimg_img_top.png
 torrent.alein.org/images/system/place_for_you.png
 torrent.alein.org/images/system/wotlk_new_img.png
+||tribali.info/user_pic/flash/MegaSOD_3.swf
 ||trud.bg/BannerRotate.asp
 ||trud.bg/media/banners/
 ||tvevropa.com/public/images/site_images/*banner
@@ -702,6 +707,7 @@ webmoney.borsa.bg/BannerFactory.php5
 ||yambolnews.net/images/banners/
 ||yes.bg/ads/
 ||zadoma.com/res/standard/img/baneri
+||zajenata.bg/img/brand/*
 ||zamunda-bg.org/banner/
 ||zamunda-bg.org/upleft.php
 ||zamunda-bg.org/upright.php
@@ -728,6 +734,9 @@ afera.bg##div[align="center"]
 alo.bg###adv_zone_top
 animes-bg.com##.banneritem_text
 antenneair.com###topbanner
+apteka.framar.bg###adr_bot_240
+apteka.framar.bg###wallpaper_half_l
+apteka.framar.bg###wallpaper_half_r
 arenabg.com##.ads
 arenabg.com##.ads_left
 arenabg.com###banner_11
@@ -759,6 +768,7 @@ bivol.bg###sbox-overlay
 bivol.bg###sbox-window
 blitz.bg##.banner
 bourgas.org###bannerTop
+bukvi.bg##MARQUEE
 bulforums.com##DIV[style="height:100px !important; overflow:hidden; background:#8cc051 url(http://www.bulforums.com/source/public_html/images/bforums.jpg) no-repeat top left;"]
 bulgarianbasket.com##tr[id="top"]
 burgasinfo.com##.right_banner.load-banner
@@ -822,6 +832,8 @@ lifehacker.bg###header_banner
 lifestyle.ibox.bg###divbh1.lfs-top-banner-holder
 managerteams.com###footer_inner_wrapper
 media.easyads.bg##.easy_ads_main
+moreto.net##DIV[style="width: 462px; padding:3px; margin: 10px 0px 0px 0px; min-height: 60px; border: #dddddd solid 1px;"]
+moreto.net##DIV[style="width: 466px; height:58px; overflow:hidden; border: #dddddd solid 1px;"]
 mp3-muzika.eu###topbar
 mtel.bg##div[id^="banner_"]
 mtel.bg###splashFlash
@@ -867,6 +879,11 @@ samokov365.com###topbar
 sedmica.sliven.net###right
 segabg.com###advert_id
 sensebox.net##.bannerup
+serialmaniq.com###\5f _dimScreen
+serialmaniq.com###advm_preload
+serialmaniq.com##.banner1
+serialmaniq.com###pop_up_s
+serialmaniq.com###topbar
 sfilmi.com##.popup
 silabg.com###left_banner_img
 silabg.com###right_banner
@@ -880,6 +897,8 @@ sliven-news.com##.users_wrap
 snews.bg##IFRAME[src^="http://promograd.bg/affiliate/"]
 spesti.bg##.adv
 stuntteamhazart.com##.clip
+submatrixs.ovo.bg###banner
+subsmania.info##.blogname
 subs.sab.bz###adv
 svejo.net###hot_offers
 ticketpro.bg###baners_top
@@ -897,6 +916,8 @@ vesti.bg###topBannerBlock
 vnews.bg##.banner
 vplay7.com###topbar
 websbg.net###dinabar
+zajenata.bg###brand
+zajenata.bg###trendo_branding
 zamunda-bg.org###topbar
 zavedenia.com###bottomBanner
 zavedenia.com##.zbranding_left2
@@ -910,11 +931,13 @@ zovnews.com##.banner_top
 @@||conquiztador.bg/client_pre_frame.php
 @@||emediate.se/crossdomain.xml
 @@||emediate.se/eas$match-case,domain=play.novatv.bg
+@@||ndt1.com/images/articles/*
 ~noshtuvki.burkan.info###adbody
 @@||prodavalnik.com/ajax/ad/offer/
 @@||prodavalnik.com/ajax/ad/togglefollow/
 ~prodavalnik.com###newAd
 ~rbb.bg###Ads
+@@||serialmaniq.com
 @@||sportal.bg/uploads/video_advertising/
-@@||ndt1.com/images/articles/*
+@@||subsmania.info
 

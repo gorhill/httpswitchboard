@@ -1,8 +1,8 @@
 [Adblock Plus 2.0]
-! Checksum: 25aEncqEKX23HuAzpyxXZQ
-! Version: 201403111750
+! Checksum: CWXCzZO8aB0MvlZUkGH0EA
+! Version: 201403131400
 ! Title: Fanboy's Annoyance List
-! Last modified: 11 Mar 2014 17:50 UTC
+! Last modified: 13 Mar 2014 14:00 UTC
 ! Expires: 4 days (update frequency)
 ! License: http://creativecommons.org/licenses/by/3.0/
 ! Please report any unblocked content or problems by email or in our forums
@@ -919,6 +919,7 @@ _social_rss.
 /img/gplus_
 /img/instagram-
 /img/share/*
+/img/social-
 /img/social/*$image
 /img/social_
 /img/tumblr-
@@ -1256,6 +1257,7 @@ _social_rss.
 /social-locker/*$script
 /social-media-banner.
 /social-media-buttons.
+/social-media-icons.
 /social-media-widget/*$~stylesheet
 /social-myspace-
 /social-nav-
@@ -4126,6 +4128,10 @@ _youtube_32.
 ##.floating-share-bar
 ##.floatingShare
 ##.floatingSocial
+##.fodicon-facebook
+##.fodicon-google-plus
+##.fodicon-tumblr
+##.fodicon-twitter
 ##.follow-buttons
 ##.follow-facebook
 ##.follow-icons
@@ -8677,6 +8683,7 @@ gamenguide.com##.s_sns
 politico.com##.sb-button
 cultofmac.com##.sb-sp
 cultofmac.com##.sb-twit
+sacbee.com##.sb-ui-toolbar
 huffingtonpost.com,moviefone.com##.sbm-main
 huffingtonpost.co.uk,moviefone.com,news.moviefone.ca##.sbm-main-new
 rebelmouse.com##.scroll-up
