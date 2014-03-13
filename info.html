@@ -38,6 +38,9 @@ select {
     padding: 0;
     color: #070;
     }
+#requests tr.ro {
+    color: gray;
+    }
 #requests tr:hover {
     background-color: #eee;
     }
@@ -57,6 +60,9 @@ select {
     }
 .type-main_frame {
     font-weight: bold;
+    }
+tr.unused {
+    display: none;
     }
 
 /* http://stackoverflow.com/questions/2011142/how-to-change-the-style-of-title-attribute-inside-the-anchor-tag?answertab=votes */
@@ -157,8 +163,8 @@ select {
     </p>
     <div style="overflow-y:hidden">
     <table id="requestsTable">
-    <tr><td>when<td>what<td><td class="fa">&#xf0b0;<td>where</tr>
-    <tr id="requestRowTemplate"><td><td><td><a href="" style="display:none">&lt;a&gt;</a><td class="fa"><td></tr>
+    <tr class="ro"><td>when<td>what<td><td class="fa">&#xf0b0;<td>where</tr>
+    <tr class="ro" id="requestRowTemplate"><td><td><td><a href="" style="display:none">&lt;a&gt;</a><td class="fa"><td></tr>
     </table>
     </div>
 </div>

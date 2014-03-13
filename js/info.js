@@ -193,13 +193,11 @@ function renderStats() {
 /******************************************************************************/
 
 function renderRequestRow(row, request) {
-    var pos, text, attr;
     var jqRow = $(row);
     row = jqRow[0];
     jqRow.attr('id', '');
     jqRow.css('display', '');
     jqRow.removeClass();
-    jqRow.addClass('rendered');
     if ( request.block !== false ) {
         jqRow.addClass('blocked-true');
     } else {
@@ -213,7 +211,7 @@ function renderRequestRow(row, request) {
     $(cells[0]).text(when.toLocaleTimeString());
 
     // request type
-    text = tableFriendlyTypeNames[request.type] || request.type;
+    var text = tableFriendlyTypeNames[request.type] || request.type;
     $(cells[1]).text(text);
 
     // Well I got back full control since not using Tempo.js, I can now
@@ -250,20 +248,21 @@ function renderRequests() {
     var rowTemplate = table.find('#requestRowTemplate').first();
 
     // Reuse whatever rows is already in there.
-    var rows = table.find('.rendered').toArray();
+    var rows = table.find('tr:not(.ro)').toArray();
     for ( i = 0; i < requests.length && i < rows.length; i++ ) {
         renderRequestRow(rows[i], requests[i]);
     }
-    rows = rows.slice(i);
+
+    // Hide extra rows
+    $(rows.slice(0, i)).removeClass('unused');
+    $(rows.slice(i)).addClass('unused');
+
     // Create new rows to receive what is left
     for ( ; i < requests.length; i++ ) {
         row = rowTemplate.clone();
         renderRequestRow(row, requests[i]);
         row.insertBefore(rowTemplate);
     }
-
-    // Remove extra rows
-    $(rows).remove();
 
     syncWithFilters();
 }
@@ -383,7 +382,7 @@ $(function(){
     $('#refresh-requests').on('click', renderRequests);
     $('input[id^="show-"][type="checkbox"]').on('change', changeFilterHandler);
     $('#selectPageUrls').on('change', targetUrlChangeHandler);
-    $('#max-logged-requests').on('change', function(){ changeValueHandler($(this), 'maxLoggedRequests', 0, 999); })
+    $('#max-logged-requests').on('change', function(){ changeValueHandler($(this), 'maxLoggedRequests', 0, 999); });
 
     // https://github.com/gorhill/httpswitchboard/issues/197
     $(window).one('beforeunload', prepareToDie);
