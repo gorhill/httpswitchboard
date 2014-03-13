@@ -251,7 +251,7 @@ function renderRequests() {
 
     // Reuse whatever rows is already in there.
     var rows = table.find('.rendered').toArray();
-    for ( i = 0; i < requests.length && rows.length; i++ ) {
+    for ( i = 0; i < requests.length && i < rows.length; i++ ) {
         renderRequestRow(rows[i], requests[i]);
     }
     rows = rows.slice(i);
