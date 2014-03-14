@@ -214,10 +214,8 @@ var HTTPSBPopup = {
     matrixStats: MatrixStats.prototype.createMatrixStats(),
     matrixHeaderTypes: ['*'],
     matrixCellHotspots: null,
-    matrixRowTemplate: null,
     matrixHasRows: false,
     matrixGroup3Collapsed: false,
-    matrixList: null,
 
     groupsSnapshot: [],
     domainListSnapshot: 'do not leave this initial string empty',
@@ -576,7 +574,8 @@ function updateMatrixCounts() {
 //   - It is not part of group 3 (blacklisted hostnames)
 
 function updateMatrixBehavior() {
-    var sections = $('.matSection', HTTPSBPopup.matrixList);
+    matrixList = matrixList || $('#matList');
+    var sections = matrixList.find('.matSection');
     var i = sections.length;
     var section, subdomainRows, j, subdomainRow;
     while ( i-- ) {
@@ -685,6 +684,64 @@ function getTemporaryRuleset() {
 
 /******************************************************************************/
 
+var matrixRowPool = [];
+var matrixSectionPool = [];
+var matrixGroupPool = [];
+var matrixRowTemplate = null;
+var matrixList = null;
+
+var startMatrixUpdate = function() {
+    matrixList =  matrixList || $('#matList');
+    matrixList.detach();
+    var rows = matrixList.find('.matRow');
+    rows.detach();
+    matrixRowPool = matrixRowPool.concat(rows.toArray());
+    var sections = matrixList.find('.matSection');
+    sections.detach();
+    matrixSectionPool = matrixSectionPool.concat(sections.toArray());
+    var groups = matrixList.find('.matGroup');
+    groups.detach();
+    matrixGroupPool = matrixGroupPool.concat(groups.toArray());
+};
+
+var endMatrixUpdate = function() {
+    updateMatrixBehavior();
+    matrixList.appendTo($('.paneContent'));
+    matrixList.css('display', '');
+};
+
+var createMatrixGroup = function() {
+    var group = matrixGroupPool.pop();
+    if ( group ) {
+        return $(group).removeClass().addClass('matGroup');
+    }
+    return $('<div>').addClass('matGroup');
+};
+
+var createMatrixSection = function() {
+    var section = matrixSectionPool.pop();
+    if ( section ) {
+        return $(section).removeClass().addClass('matSection');
+    }
+    return $('<div>').addClass('matSection');
+};
+
+var createMatrixRow = function() {
+    var row = matrixRowPool.pop();
+    if ( row ) {
+        row = $(row);
+        row.children('.matCell').removeClass().addClass('matCell');
+        row.removeClass().addClass('matRow');
+        return row;
+    }
+    if ( matrixRowTemplate === null ) {
+        matrixRowTemplate = $('#templates .matRow');
+    }
+    return matrixRowTemplate.clone();
+};
+
+/******************************************************************************/
+
 function renderMatrixHeaderRow() {
     var matHead = $('#matHead.collapsible');
     matHead.toggleClass('collapsed', getUserSetting('popupCollapseDomains'));
@@ -704,26 +761,30 @@ function renderMatrixHeaderRow() {
 /******************************************************************************/
 
 function renderMatrixCellDomain(cell, domain) {
-    $(cell).prop({reqType: '*', hostname: domain})
+    var contents = $(cell)
+        .prop({reqType: '*', hostname: domain})
         .addClass(getCellClass(domain, '*'))
-        .children('b')
-        .text('\u202A'+punycode.toUnicode(domain));
+        .contents();
+    contents[0].textContent = '\u202A' + punycode.toUnicode(domain);
+    contents[1].textContent = ' ';
 }
 
 function renderMatrixCellSubdomain(cell, domain, subomain) {
-    $(cell).prop({reqType: '*', hostname: subomain})
+    var contents = $(cell)
+        .prop({reqType: '*', hostname: subomain})
         .addClass(getCellClass(subomain, '*'))
-        .children('b')
-        .text('\u202A'+punycode.toUnicode(subomain.slice(0, subomain.lastIndexOf(domain)-1)) + '.')
-        .after(punycode.toUnicode(domain));
+        .contents();
+    contents[0].textContent = '\u202A' + punycode.toUnicode(subomain.slice(0, subomain.lastIndexOf(domain)-1)) + '.';
+    contents[1].textContent = punycode.toUnicode(domain);
 }
 
 function renderMatrixMetaCellDomain(cell, domain) {
-    $(cell).prop({reqType: '*', hostname: domain})
+    var contents = $(cell)
+        .prop({reqType: '*', hostname: domain})
         .addClass(getCellClass(domain, '*'))
-        .children('b')
-        .text(punycode.toUnicode(domain))
-        .before('\u202A\u2217.');
+        .contents();
+    contents[0].textContent = '\u202A\u2217.' + punycode.toUnicode(domain);
+    contents[1].textContent = ' ';
 }
 
 function renderMatrixCellType(cell, hostname, type, stats) {
@@ -749,24 +810,24 @@ function renderMatrixCellTypes(cells, hostname, stats) {
 /******************************************************************************/
 
 function makeMatrixRowDomain(domain) {
-    var matrixRow = HTTPSBPopup.matrixRowTemplate.clone().addClass('rw');
-    var cells = $('.matCell', matrixRow);
+    var matrixRow = createMatrixRow().addClass('rw');
+    var cells = matrixRow.children('.matCell');
     renderMatrixCellDomain(cells[0], domain);
     renderMatrixCellTypes(cells, domain, HTTPSBPopup.matrixStats[domain].types);
     return matrixRow;
 }
 
 function makeMatrixRowSubdomain(domain, subdomain) {
-    var matrixRow = HTTPSBPopup.matrixRowTemplate.clone().addClass('rw');
-    var cells = $('.matCell', matrixRow);
+    var matrixRow = createMatrixRow().addClass('rw');
+    var cells = matrixRow.children('.matCell');
     renderMatrixCellSubdomain(cells[0], domain, subdomain);
     renderMatrixCellTypes(cells, subdomain, HTTPSBPopup.matrixStats[subdomain].types);
     return matrixRow;
 }
 
 function makeMatrixMetaRowDomain(domain, stats) {
-    var matrixRow = HTTPSBPopup.matrixRowTemplate.clone().addClass('rw');
-    var cells = $('.matCell', matrixRow);
+    var matrixRow = createMatrixRow().addClass('rw');
+    var cells = matrixRow.children('.matCell');
     renderMatrixMetaCellDomain(cells[0], domain);
     renderMatrixCellTypes(cells, domain, stats);
     return matrixRow;
@@ -784,11 +845,13 @@ function renderMatrixMetaCellType(cell, count) {
 
 function makeMatrixMetaRow(stats) {
     var typeStats = stats.types;
-    var matrixRow = HTTPSBPopup.matrixRowTemplate.clone().addClass('ro');
-    var cells = $('div', matrixRow);
-    $(cells[0])
+    var matrixRow = createMatrixRow().addClass('ro');
+    var cells = matrixRow.children('.matCell');
+    var contents = $(cells[0])
         .addClass('matCell rdt')
-        .html('\u202A' + typeStats['*'].count + ' blacklisted hostname(s)');
+        .contents();
+    contents[0].textContent = ' ';
+    contents[1].textContent = '\u202A' + typeStats['*'].count + ' blacklisted hostname(s)';
     renderMatrixMetaCellType(cells[1], typeStats.cookie.count);
     renderMatrixMetaCellType(cells[2], typeStats.stylesheet.count);
     renderMatrixMetaCellType(cells[3], typeStats.image.count);
@@ -866,8 +929,7 @@ function makeMatrixGroup0SectionMetaDomain(hostnames) {
 
 function makeMatrixGroup0Section(hostnames) {
     var domain = hostnames[0];
-    var domainDiv = $('<div>')
-        .addClass('matSection')
+    var domainDiv = createMatrixSection()
         .toggleClass('collapsed', getCollapseState(domain))
         .prop('domain', domain);
     if ( hostnames.length > 1 ) {
@@ -886,15 +948,15 @@ function makeMatrixGroup0Section(hostnames) {
 function makeMatrixGroup0(group) {
     var domains = Object.keys(group).sort(hostnameCompare);
     if ( domains.length ) {
-        var groupDiv = $('<div>')
-            .addClass('matGroup g0');
+        var groupDiv = createMatrixGroup()
+            .addClass('g0');
         makeMatrixGroup0Section(Object.keys(group[domains[0]].all).sort(hostnameCompare))
             .appendTo(groupDiv);
         for ( var i = 1; i < domains.length; i++ ) {
             makeMatrixGroup0Section(Object.keys(group[domains[i]].all).sort(hostnameCompare))
                 .appendTo(groupDiv);
         }
-        groupDiv.appendTo(HTTPSBPopup.matrixList);
+        groupDiv.appendTo(matrixList);
     }
 }
 
@@ -922,8 +984,7 @@ function makeMatrixGroup1SectionMetaDomain(hostnames) {
 
 function makeMatrixGroup1Section(hostnames) {
     var domain = hostnames[0];
-    var domainDiv = $('<div>')
-        .addClass('matSection')
+    var domainDiv = createMatrixSection()
         .toggleClass('collapsed', getCollapseState(domain))
         .prop('domain', domain);
     if ( hostnames.length > 1 ) {
@@ -942,15 +1003,15 @@ function makeMatrixGroup1Section(hostnames) {
 function makeMatrixGroup1(group) {
     var domains = Object.keys(group).sort(hostnameCompare);
     if ( domains.length) {
-        var groupDiv = $('<div>')
-            .addClass('matGroup g1');
+        var groupDiv = createMatrixGroup()
+            .addClass('g1');
         makeMatrixGroup1Section(Object.keys(group[domains[0]].all).sort(hostnameCompare))
             .appendTo(groupDiv);
         for ( var i = 1; i < domains.length; i++ ) {
             makeMatrixGroup1Section(Object.keys(group[domains[i]].all).sort(hostnameCompare))
                 .appendTo(groupDiv);
         }
-        groupDiv.appendTo(HTTPSBPopup.matrixList);
+        groupDiv.appendTo(matrixList);
     }
 }
 
@@ -978,8 +1039,7 @@ function makeMatrixGroup2SectionMetaDomain(hostnames) {
 
 function makeMatrixGroup2Section(hostnames) {
     var domain = hostnames[0];
-    var domainDiv = $('<div>')
-        .addClass('matSection')
+    var domainDiv = createMatrixSection()
         .toggleClass('collapsed', getCollapseState(domain))
         .prop('domain', domain);
     if ( hostnames.length > 1 ) {
@@ -998,15 +1058,15 @@ function makeMatrixGroup2Section(hostnames) {
 function makeMatrixGroup2(group) {
     var domains = Object.keys(group).sort(hostnameCompare);
     if ( domains.length) {
-        var groupDiv = $('<div>')
-            .addClass('matGroup g2');
+        var groupDiv = createMatrixGroup()
+            .addClass('g2');
         makeMatrixGroup2Section(Object.keys(group[domains[0]].all).sort(hostnameCompare))
             .appendTo(groupDiv);
         for ( var i = 1; i < domains.length; i++ ) {
             makeMatrixGroup2Section(Object.keys(group[domains[i]].all).sort(hostnameCompare))
                 .appendTo(groupDiv);
         }
-        groupDiv.appendTo(HTTPSBPopup.matrixList);
+        groupDiv.appendTo(matrixList);
     }
 }
 
@@ -1024,8 +1084,7 @@ function makeMatrixGroup3SectionSubomain(domain, subdomain) {
 
 function makeMatrixGroup3Section(hostnames) {
     var domain = hostnames[0];
-    var domainDiv = $('<div>')
-        .addClass('matSection')
+    var domainDiv = createMatrixSection()
         .prop('domain', domain);
     makeMatrixGroup3SectionDomain(domain)
         .appendTo(domainDiv);
@@ -1039,10 +1098,10 @@ function makeMatrixGroup3Section(hostnames) {
 function makeMatrixGroup3(group) {
     var domains = Object.keys(group).sort(hostnameCompare);
     if ( domains.length ) {
-        var groupDiv = $('<div>')
-            .addClass('matGroup g3');
-        $('<div>')
-            .addClass('matSection g3Meta')
+        var groupDiv = createMatrixGroup()
+            .addClass('g3');
+        createMatrixSection()
+            .addClass('g3Meta')
             .toggleClass('g3Collapsed', !!getUserSetting('popupHideBlacklisted'))
             .appendTo(groupDiv);
         makeMatrixMetaRow(computeMatrixGroupMetaStats(group), 'g3')
@@ -1053,7 +1112,7 @@ function makeMatrixGroup3(group) {
             makeMatrixGroup3Section(Object.keys(group[domains[i]].all).sort(hostnameCompare))
                 .appendTo(groupDiv);
         }
-        groupDiv.appendTo(HTTPSBPopup.matrixList);
+        groupDiv.appendTo(matrixList);
     }
 }
 
@@ -1077,20 +1136,12 @@ function makeMenu() {
 
     renderMatrixHeaderRow();
 
-    // Building outside the DOM is more efficient
-    HTTPSBPopup.matrixList.detach();
-
-    // TODO: reuse elements
-    HTTPSBPopup.matrixList.empty();
-
+    startMatrixUpdate();
     makeMatrixGroup0(groupStats[0]);
     makeMatrixGroup1(groupStats[1]);
     makeMatrixGroup2(groupStats[2]);
     makeMatrixGroup3(groupStats[3]);
-
-    updateMatrixBehavior();
-
-    HTTPSBPopup.matrixList.appendTo($('.paneContent'));
+    endMatrixUpdate();
 
     initScopeCell();
     updateMatrixButtons();
@@ -1102,9 +1153,6 @@ function makeMenu() {
 // Do all the stuff that needs to be done before building menu et al.
 
 function initMenuEnvironment() {
-    HTTPSBPopup.matrixRowTemplate = $('#templates .matRow');
-    HTTPSBPopup.matrixList = $('#matList');
-
     var prettyNames = HTTPSBPopup.matrixHeaderPrettyNames;
     var keys = Object.keys(prettyNames);
     var i = keys.length;
