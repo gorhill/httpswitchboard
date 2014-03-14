@@ -292,17 +292,19 @@ var onBeforeRequestHandler = function(details) {
 
     // Block request?
     var scopeKey = httpsb.temporaryScopeKeyFromPageURL(pageURL);
-    var scope = httpsb.temporaryScopeFromScopeKey(scopeKey);
-    var block = scope.evaluate(type, requestHostname).charAt(0) === 'r';
+    var block = httpsb.evaluateFromScopeKey(scopeKey, type, requestHostname).charAt(0) === 'r';
     var reason;
 
     // Block using ABP filters?
-    if ( block === false && scope.abpFiltering === true ) {
-        block = httpsb.abpFilters.matchString(requestURL);
-        if ( block !== false ) {
-            pageStats.abpBlockCount += 1;
-            httpsb.abpBlockCount += 1;
-            reason = 'ABP filter: ' + block;
+    if ( block === false ) {
+        var scope = httpsb.temporaryScopeFromScopeKey(scopeKey);
+        if ( scope.abpFiltering === true ) {
+            block = httpsb.abpFilters.matchString(requestURL);
+            if ( block !== false ) {
+                pageStats.abpBlockCount += 1;
+                httpsb.abpBlockCount += 1;
+                reason = 'ABP filter: ' + block;
+            }
         }
     }
 
