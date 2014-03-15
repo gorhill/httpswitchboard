@@ -168,20 +168,3 @@ function clearBrowserCacheCallback() {
 
 asyncJobQueue.add('clearBrowserCache', null, clearBrowserCacheCallback, 15 * 60 * 1000, true);
 
-/******************************************************************************/
-
-function onInstalledHandler(details) {
-    if ( details.reason !== 'install' ) {
-        return;
-    }
-    var httpsb = HTTPSB;
-    // rhill 2014-01-29: Opera requires that Youtube works out-of-the-box.
-    // Actually, why not do that for everybody, not just Opera.
-    if ( httpsb.isOpera() ) {
-        httpsb.presetManager.applyFromPresetName('Youtube');
-        httpsb.commitPermissions(true);
-    }
-}
-
-chrome.runtime.onInstalled.addListener(onInstalledHandler);
-
