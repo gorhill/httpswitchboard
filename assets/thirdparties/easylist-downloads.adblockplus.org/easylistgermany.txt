@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: ETu2+y779p6g673PutrhPA
-! Version: 201403131400
+! Checksum: UnMxubamd6gvC3911rdrfQ
+! Version: 201403161500
 ! Title: EasyList Germany
 ! EasyList Germany - Deutsche Ergänzung zu EasyList
-! Last modified: 13 Mar 2014 14:00 UTC
+! Last modified: 16 Mar 2014 15:00 UTC
 ! Expires: 3 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -491,6 +491,7 @@ tape.tv#@##adframe:not(frameset)
 vol.at#@##adsense
 vol.at#@##adsense_top
 vol.at#@##bigadspot
+lokalisten.de#@##sponsored-ad
 magistrix.de#@#.ads-content
 mufa.de#@#.adsbygoogle
 netzkino.de#@#.advertising-top
@@ -829,6 +830,7 @@ netzkino.de#@#.contentAdBox
 ||servertraffic.de^$third-party
 ||sexgoesmobile.com^$third-party
 ||shareifyoulike.com^$third-party
+||shoplenaro.com^$third-party
 ||shorkads.de^$third-party
 ||siyl.net^$third-party
 ||siylvi.de^$third-party
@@ -1056,6 +1058,7 @@ netzkino.de#@#.contentAdBox
 ||fachverlagshop.de^*/pujs.php
 ||fairvital.com/images/banner_$third-party
 ||fairvital.com/images/skyscraper_$third-party
+||faktenpedia.de/layer-
 ||fandealer.de^*/promo/
 ||fantasticzero.com^*/skinnings/$third-party
 ||farm.plista.com/iframewidget.php?*&widgetname=i$subdocument
@@ -1347,7 +1350,6 @@ netzkino.de#@#.contentAdBox
 ||server.nitrado.net/img.nitrado/nitrado_minecraft1_
 ||server4.pro/images/banner_$third-party
 ||shopfacer.de/images/banner/
-||shoplenaro.com^*/loadAd_
 ||shoplove.com^*/widget2.min.js?appKey=$third-party
 ||shopprops.de/flashbanner/$third-party
 ||shoutbox.de/ad/
@@ -2438,6 +2440,8 @@ netzkino.de#@#.contentAdBox
 ||hotel-tip-thailand.de/images2/best_deal_hotels.jpg
 ||hotel-tip-thailand.de/layer_add.js
 ||housetime.fm/banner/
+||hsc2000.de/files/livestream_2014_oben.png
+||hsc2000.de/files/livestream_2014_unten.png
 ||hsc2000.de^*/cosponsoren/$subdocument
 ||hsg-pohlheim.de/hsg/images/banner/sponsoren/
 ||hsg-wetzlar.de/uploads/tx_templavoila/*_Anzeige_
@@ -3614,6 +3618,7 @@ netzkino.de#@#.contentAdBox
 ||share-online.biz/affiliate/$popup,domain=linxcrypt.com
 ||simple-files.com^$popup,domain=3dl.tv
 ||slimtrade.com/out.php?$popup,domain=byte.to|ddl-porn.us|hd-load.org|porno-streams.com
+||sms2me.at^$popup,domain=superchat.at
 ||smsgott.de/click.php?url=$popup
 ||stream-box.net/out.php$popup
 ||stream-seiten.org/out.php$popup
@@ -4086,7 +4091,7 @@ wetter.de###lbs-offers-container
 pooltrax.com###lcontainer2
 appleunity.de###leader
 persoenlich.com###leaderbanner
-channelpartner.de,ebay.at,ebay.ch,ebay.de,ircgalerie.net,ringrocker.com,teccommunity.de,xboxfront.de###leaderboard
+boomerangtv.de,channelpartner.de,ebay.at,ebay.ch,ebay.de,ircgalerie.net,ringrocker.com,teccommunity.de,xboxfront.de###leaderboard
 silicon.de###leaderboard-top
 laut.de###leaderboardSpace
 depechemode.de###leaderboardtop
@@ -4455,7 +4460,7 @@ t-online.de,wetter.info###sky_anz
 frimon.de###sky_right
 xboxdynasty.de###skyright
 ebay.at,ebay.ch,ebay.de###skyscrape
-alternate.de,apotheke-adhoc.de,centertv.de,charivari986.de,china.ahk.de,curt.de,das-inserat.de,eurogamer.de,gamingxp.com,halle.de,msxfaq.de,nickles.de,sf.tv,surffact.de,vanion.eu###skyscraper
+alternate.de,apotheke-adhoc.de,boomerangtv.de,centertv.de,charivari986.de,china.ahk.de,curt.de,das-inserat.de,eurogamer.de,gamingxp.com,halle.de,msxfaq.de,nickles.de,sf.tv,surffact.de,vanion.eu###skyscraper
 apotheke-adhoc.de###skyscraper-left
 apotheke-adhoc.de###skyscraper-right
 dashitradio.de###skyscraper-wide
@@ -4775,7 +4780,7 @@ sachsen-fernsehen.de##.asidebar
 alternative-zu.de##.azuitem_googleAdSense
 alatest.de##.b_top_leaderboard
 walliserbote.ch##.ban-img
-antenne.de,apotheke-adhoc.de,bsdforen.de,buchmarkt.de,emfis.de,filmeforum.com,games.ch,goolive.de,hamm.biz,hammstars.de,jetztspielen.de,kle-point.de,komoedie-steinstrasse.de,kronehit.at,macerkopf.de,moneyspecial.de,naturundtherapie.at,radio.li,softonic.de,sonntagszeitung.ch,spielkarussell.de,suedostschweiz.ch,sunshine-live.de,talkteria.de,tu-berlin.de,voltigierzirkel.de,wein-plus.de,winrar.de,yourtv.to,zmk-aktuell.de##.banner
+anixehd.tv,antenne.de,apotheke-adhoc.de,bsdforen.de,buchmarkt.de,emfis.de,filmeforum.com,games.ch,goolive.de,hamm.biz,hammstars.de,jetztspielen.de,kle-point.de,komoedie-steinstrasse.de,kronehit.at,macerkopf.de,moneyspecial.de,naturundtherapie.at,radio.li,softonic.de,sonntagszeitung.ch,spielkarussell.de,suedostschweiz.ch,sunshine-live.de,talkteria.de,tu-berlin.de,voltigierzirkel.de,wein-plus.de,winrar.de,yourtv.to,zmk-aktuell.de##.banner
 hsvhandball.com##.banner-container
 bos-fahrzeuge.info,com-magazin.de,macnews.de##.banner-content
 macmagazin.de##.banner-detail
@@ -6991,6 +6996,7 @@ mobilfunk-geschichte.de##body > noscript > style + div[id]:last-child
 @@||monetenlos.com/components/com_marketplace/images/ads/$image
 @@||mp.apmebf.com/ad/ck/$image,domain=paypal-deutschland.de
 @@||msi-computer.de/js/topad/topad.css
+@@||mstat.freent.de^*/sms_advertising/sms_teaser_$image,domain=webmail.freenet.de
 @@||myfreefarm.de/city/ajax/buyad.php?
 @@||n-tv.de/ads/comdirect/$object-subrequest,domain=comdirect.de
 @@||n-tv.de/ads/images/kompakt_$image
@@ -7136,7 +7142,7 @@ mobilfunk-geschichte.de##body > noscript > style + div[id]:last-child
 @@.jpg#$image,domain=fakedaten.tk|green-24.de|juristische-suche.de|peugeot-metropolis.de|proverbia-iuris.de|rene-neuweiler.ch|streamit.ws|umweltlupe.de
 @@.net^*.js$script,domain=ul-load.com|uploaded-premium.ru
 @@.org^$script,domain=ul-load.com|uploaded-premium.ru
-@@.png#$image,domain=aktuelles-handelsrecht.info|aussenwirtschaftslupe.de|energielupe.de|europalupe.eu|finanzmarkttransaktionssteuer.de|gerichtsboulevard.de|grundrechteschutz.de|hartzbote.de|jagdlupe.de|kirchensteuerinfo.de|mediationslupe.de|medienrechtsnews.de|mutterschutz-rechner.de|rappers.in|rechtslupe.de|rechtslupe.net|rechtsschutzversicherunginfo.de|rentenbote.de|schuetzenrecht.de|sozialrechtsnews.de|steuerschmiede-aktuell.de|tobinsteuer.de|twixzo.de|ul-load.com|uploaded-premium.ru|vereinslupe.de|vorsorgebote.de|wintotal-forum.de|wirtschaft-recht-aktuell.de
+@@.png#$image,domain=aktuelles-handelsrecht.info|aussenwirtschaftslupe.de|energielupe.de|europalupe.eu|finanzmarkttransaktionssteuer.de|gerichtsboulevard.de|grundrechteschutz.de|hartzbote.de|jagdlupe.de|kirchensteuerinfo.de|mediationslupe.de|medienrechtsnews.de|mutterschutz-rechner.de|rappers.in|rechtslupe.de|rechtslupe.net|rechtsschutzversicherunginfo.de|rentenbote.de|schuetzenrecht.de|sozialrechtsnews.de|steuerschmiede-aktuell.de|teamspeak-ts.com|tobinsteuer.de|twixzo.de|ul-load.com|uploaded-premium.ru|vereinslupe.de|vorsorgebote.de|wintotal-forum.de|wirtschaft-recht-aktuell.de
 @@|http://*uk.to^$script,domain=ul-load.com|uploaded-premium.ru
 @@||2mdn.net/879366/flashwrite_1_2.js$domain=n-tv.de|teleboerse.de
 @@||2mdn.net/viewad/*-grey.gif|$domain=n-tv.de|teleboerse.de
@@ -7197,7 +7203,7 @@ mobilfunk-geschichte.de##body > noscript > style + div[id]:last-child
 @@||doubleclick.net^*^kw=iqadtile1^$script,domain=faz.net
 @@||drei.uk.to^$script
 @@||ebook-hell.to/js/ads.js
-@@||eclipso.ch/plugins/js/adframe.js
+@@||eclipso.*/plugins/js/adframe.js
 @@||einrichtungsbeispiele.de^*/click.js
 @@||energielupe.de^$elemhide
 @@||europalupe.eu^$elemhide
@@ -7258,8 +7264,8 @@ mobilfunk-geschichte.de##body > noscript > style + div[id]:last-child
 @@||onlinetvrecorder.com/buyclicks/weasel.php$document
 @@||onlinetvrecorder.com/v2/banner.php$document
 @@||otrworld.at^$script
-@@||pagead2.googlesyndication.com/pagead/*/show_ads_impl.js$domain=bullhost.de|green-24.de|java-forum.org|lablue.at|lablue.ch|lablue.de|mufa.de|peugeot-metropolis.de|rappers.in|rene-neuweiler.ch|risiko-gesundheit.de|vol.at|wintotal-forum.de
-@@||pagead2.googlesyndication.com/pagead/js/adsbygoogle.js$domain=java-forum.org|peugeot-metropolis.de
+@@||pagead2.googlesyndication.com/pagead/*/show_ads_impl.js$domain=bullhost.de|green-24.de|java-forum.org|lablue.at|lablue.ch|lablue.de|mufa.de|peugeot-metropolis.de|rappers.in|rene-neuweiler.ch|risiko-gesundheit.de|teamspeak-ts.com|vol.at|wintotal-forum.de
+@@||pagead2.googlesyndication.com/pagead/js/adsbygoogle.js$domain=java-forum.org|peugeot-metropolis.de|teamspeak-ts.com
 @@||pagead2.googlesyndication.com/pagead/show_ads.js$domain=bullhost.de|green-24.de|java-forum.org|lablue.at|lablue.ch|lablue.de|mufa.de|rappers.in|rene-neuweiler.ch|risiko-gesundheit.de|vol.at|wintotal-forum.de
 @@||partner.googleadservices.com/gampad/google_ads.js$domain=abfrager.de
 @@||partner.googleadservices.com/gampad/google_service.js$domain=abfrager.de
@@ -7300,6 +7306,7 @@ mobilfunk-geschichte.de##body > noscript > style + div[id]:last-child
 @@||streamit.ws^$elemhide
 @@||sudoku-space.de^$script
 @@||tape.tv/js/adblockdetection.js
+@@||teamspeak-ts.com^$elemhide
 @@||telemetryverification.net/?*;cb=$object-subrequest,domain=n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
 @@||telemetryverification.net/?cb=$object-subrequest,domain=n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
 @@||tobinsteuer.de^$elemhide

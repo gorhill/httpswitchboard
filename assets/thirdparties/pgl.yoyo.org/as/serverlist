@@ -2,8 +2,8 @@
 #
 # For more information about this list, see: http://pgl.yoyo.org/adservers/
 # ----
-# last updated:   Thu, 13 Mar 2014 08:01:24 GMT
-# entries:        2501
+# last updated:   Fri, 14 Mar 2014 17:08:51 GMT
+# entries:        2497
 # format:         hosts (hosts -- in hosts file format)
 # credits:        Peter Lowe - pgl@yoyo.org - http://pgl.yoyo.org/
 # this URL:       http://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext
@@ -63,7 +63,6 @@
 127.0.0.1 actualdeals.com
 127.0.0.1 ad-flow.com
 127.0.0.1 ad-images.suntimes.com
-127.0.0.1 ad-pay.de
 127.0.0.1 ad-rotator.com
 127.0.0.1 ad-server.gulasidorna.se
 127.0.0.1 ad-serverparc.nl
@@ -424,7 +423,6 @@
 127.0.0.1 ads.creative-serving.com
 127.0.0.1 ads.creativematch.com
 127.0.0.1 ads.cricbuzz.com
-127.0.0.1 ads.ctasnet.com
 127.0.0.1 ads.cyberfight.ru
 127.0.0.1 ads.cybersales.cz
 127.0.0.1 ads.dada.it
@@ -645,7 +643,6 @@
 127.0.0.1 ads.smartshopping.co.uk
 127.0.0.1 ads.soft32.com
 127.0.0.1 ads.space.com
-127.0.0.1 ads.spoonfeduk.com
 127.0.0.1 ads.sprotiv.org
 127.0.0.1 ads.sptimes.com
 127.0.0.1 ads.stackoverflow.com
@@ -667,7 +664,6 @@
 127.0.0.1 ads.thenewpaperclip.com
 127.0.0.1 ads.thestar.com
 127.0.0.1 ads.thestranger.com
-127.0.0.1 ads.thewebfreaks.com
 127.0.0.1 ads.timeout.com
 127.0.0.1 ads.tjwi.info
 127.0.0.1 ads.tmcs.net
@@ -795,6 +791,7 @@
 127.0.0.1 adserver.digitoday.com
 127.0.0.1 adserver.dotcommedia.de
 127.0.0.1 adserver.finditquick.com
+127.0.0.1 adserver.flossiemediagroup.com
 127.0.0.1 adserver.fmpub.net
 127.0.0.1 adserver.freecity.de
 127.0.0.1 adserver.freenet.de
@@ -895,6 +892,7 @@
 127.0.0.1 adtrade.net
 127.0.0.1 adtrading.de
 127.0.0.1 adtrak.net
+127.0.0.1 adtriplex.com
 127.0.0.1 adult-adv.com
 127.0.0.1 adultadvertising.com
 127.0.0.1 adv-adserver.com
@@ -945,8 +943,6 @@
 127.0.0.1 adwitserver.com
 127.0.0.1 adworldnetwork.com
 127.0.0.1 adworx.at
-127.0.0.1 adworx.be
-127.0.0.1 adworx.nl
 127.0.0.1 adx.allstar.cz
 127.0.0.1 adx.arip.co.th
 127.0.0.1 adx.atnext.com
@@ -1744,6 +1740,7 @@
 127.0.0.1 m.webtrends.com
 127.0.0.1 m1.webstats4u.com
 127.0.0.1 m4n.nl
+127.0.0.1 madclient.uimserv.net
 127.0.0.1 madisonavenue.com
 127.0.0.1 mads.cnet.com
 127.0.0.1 mads.gamespot.com
@@ -1903,7 +1900,6 @@
 127.0.0.1 onlinecash.com
 127.0.0.1 onlinecashmethod.com
 127.0.0.1 onlinerewardcenter.com
-127.0.0.1 onresponse.com
 127.0.0.1 openad.tf1.fr
 127.0.0.1 openad.travelnow.com
 127.0.0.1 openads.friendfinder.com

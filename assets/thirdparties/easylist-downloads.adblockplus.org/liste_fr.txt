@@ -1,6 +1,6 @@
 [Adblock Plus 2.0]
-! Checksum: c9jSF/OM/ZkFH8DiwjuulA
-! Version: 201403131401
+! Checksum: ARUUjmQH9U6IPRC8W3xZlw
+! Version: 201403161501
 ! Liste FR ~ Filtres francophones complémentaires à EasyList
 ! Title: Liste FR
 ! Licence : http://www.adblock-listefr.com/A_propos
@@ -853,7 +853,6 @@ _regiepub/
 ||emu-france.com/images/minilogos/
 ||emu-france.com^*/dnsbanner.png
 ||emule-island.ru/yoo.php
-||emuleed2k.com/rotation/ban.php
 ||ennaharonline.com/fr/files/banners/
 ||entrevue.fr^*/image/global/habillage-
 ||envirojob.fr/img/pub/
@@ -1543,19 +1542,6 @@ _regiepub/
 ||zoom-algerie.com/images/amazigh-united-250.jpg
 ||zoomdici.fr/media/pub/
 ! Anti-Adblock
-@@||generation-nt.com^$elemhide
-@@||generation-nt.com^$image,script,subdocument,domain=generation-nt.com
-!
-viedemerde.fr##.cf + div > div:first-child > a > img
-viedemerde.fr##.post.special.bordered + .post.special.bordered + .post.special.bordered
-viedemerde.fr##.post.special:first-child
-viedemerde.fr##.post[style="width:300px; height:200px; background: url('/modules/fr/drdc_2014/images/300x200.png');"]
-@@||viedemerde.fr^*/ee42e3523382002a711e2a4a927d6287.png
-viedemerde.fr##a[href^="http://bit.ly/NQj6H7?utm_source="]
-viedemerde.fr##a[href^="http://lc.cx/pdB?"]
-viedemerde.fr##a[href^="http://ow.ly/uqPFf?"]
-viedemerde.fr##a[href^="http://uri.lv/"]
-||viedemerde.fr/fmylife/data/fr/autopromo/
 !
 !------------------ Éléments génériques -----------------!
 !
@@ -2002,6 +1988,7 @@ infobebes.com###banner_container
 gamesplanet.com###banner_data
 lacanausurfinfo.com###banner_footer
 jeuxvideo.com###banner_jv
+tous-sports.tv###bannerfloat01
 france-pittoresque.com,matchendirect.mobi,radiofrance.fr###banniere
 jeux-gratuits.com###barre-partenaires
 lefigaro.fr###beead_flash
@@ -2030,6 +2017,7 @@ femmemag.re###block_regie_pub_bas_article
 magicmaman.com###boutiqueRight
 previmeteo.com###box_4_pub
 lefigaro.fr###boxshop3
+conseils-courseapied.com###cadre-vignette-carnet
 soonnight.com###cadre_partenaire
 astuce-facebook.com###cadrelonggoogle
 ogaming.tv###campain-leftPlaceHolder
@@ -2530,6 +2518,7 @@ orange.fr##.hp2-promo-area
 pagesblanches.be,rtbf.be##.imu
 megaupload-download.net##.infoblock
 zoomdici.fr##.innerArtAdd
+pix-geeks.com##.insert_pub_center
 youscribe.com##.interpage
 bienpublic.com##.iookaz
 idf1.fr##.jcarousel
@@ -2698,7 +2687,7 @@ slappyto.net##.sonicprice
 nouvelobs.com##.spectacles
 spi0n.com##.spion_single_pub
 lagazettedescommunes.com##.spons
-lokan.fr##.sponsors
+lokan.fr,moto85.com##.sponsors
 msn.com##.sponsorship
 espace.mu##.srcPubZone
 blogs.lesinrocks.com##.sub_headline.top
@@ -2979,8 +2968,6 @@ people-looks.com##td[width="980"][height="40"][bgcolor="#FFFFFF"]
 drague.net##tr > td[height="95"][align="center"][colspan="2"]
 ! Anti-Adblock
 lokan.fr###anti-adblock
-sofoot.com##.HOULALA
-netprof.fr##ins[style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px"]
 !
 !----------------------- Exceptions -----------------------!
 ! Note : le but des exceptions de la Liste FR n'est en aucun cas de laisser passer des publicités,
@@ -3166,66 +3153,38 @@ netprof.fr##ins[style="display:inline-table;border:none;height:600px;margin:0;pa
 @@||tracking.publicidees.com/clic.php?$subdocument,domain=track.radins.com
 @@||tracking.veoxa.com/click/banner?$subdocument,domain=track.radins.com
 ! Anti-Adblock
-@@|http://*.to^$script,domain=minecraft-france.fr
+@@|http://*.*.*.*.$script,domain=degrouptest.com|leetgamerz.net|loractu.fr|minecraft-france.fr|moto85.com|phonandroid.com|pix-geeks.com|sen.flam.me|xavboxforum.com
+@@||ad.advertstream.com/adjs_r.php?$script,domain=forum.virtualdjing.com
 @@||adspub.net/javascript/advertisement-AdBlock.js
-@@||adunblock.com/js/advertisement1.js
-@@||aidemu.fr^*/adBlock/advertisement.js
-@@||anime-story.com/js/show_ads.js
-@@||aub.*.info/js/advertisement1.js
-@@||awsclic.com/js/advertisement.js
-@@||cdn.jheberg.net/js/advertisement.js
-@@||claymore.fr/advertisement.js
-@@||coursdeprofs.fr/adframe.js
-@@||crabdance.com/js/advertisehere.js
-@@||crabdance.com/js/advertisement.js
-@@||crabdance.com/js/advertisementheader.js
-@@||crabdance.com/js/adwolf.js
-@@||crabdance.com/js/affilatebanner.js
-@@||crabdance.com/js/awepop.js
-@@||crabdance.com/js/curlad.js
-@@||crash-aerien.aero/www/news/%5C%22https://googleads.g.doubleclick.net/favicon.ico%5C%22
+@@||anime-story.com/css/advertise.css
+@@||d.adxcore.com/adjs_r.php?$script,domain=forum.virtualdjing.com
 @@||debrideurstream.fr^*/advertisement-AdBlock.js
-@@||dpstream.cc^$elemhide
 @@||dramapassion.com/js/advertisement.js
 @@||easybillets.com/js/advertisement.js
-@@||emuleed2k.com^*/advertisement-AdBlock.js
 @@||forumconstruire.com/ads.js
-@@||full-stream.net/uploads/advertisement-AdBlock.js.js
 @@||funeralforamanga.fr/js/advertisement.js
 @@||gamersconnexion.com/js/advertisement.js
-@@||googleads.g.doubleclick.net/favicon.ico$image
-@@||googleads.g.doubleclick.net/pagead/ads?$subdocument,domain=netprof.fr
-@@||googleads.g.doubleclick.net/pagead/html/$subdocument,domain=netprof.fr
-@@||googletagservices.com/tag/js/gpt.js$domain=replay.fr
+@@||generation-nt.com^$elemhide
+@@||generation-nt.com^$image,script,subdocument,domain=generation-nt.com
 @@||gratuitcul.com/ad.php?ad=$script
-@@||hamachifrance.com/advertisement-AdBlock.js
-@@||iphon-team-debrid.com/js/$script,~third-party
 @@||lafansubresistance.com/js/advertisement.js
 @@||meteomedia.com/common/js/master/adframe.js
-@@||nilsine.fr/js/advertisement1.js
-@@||oxnzf.homenet.org/js/ciaad.
-@@||pagead2.googlesyndication.com/pagead/js/*/show_ads_impl.js$domain=automobile-sportive.com|free-reseau.fr|freedom-ip.com|hugolescargot.com|netprof.fr|notre-planete.info|traductionjeux.com|universal-soundbank.com
+@@||notre-planete.info/scripts/ads.js
+@@||pagead2.googlesyndication.com/pagead/expansion_embed.js$domain=universal-soundbank.com
+@@||pagead2.googlesyndication.com/pagead/js/*/show_ads_impl.js$domain=automobile-sportive.com|freedom-ip.com|generation-nt.com|hugolescargot.com|universal-soundbank.com
+@@||pagead2.googlesyndication.com/pagead/js/adsbygoogle.js$domain=generation-nt.com
 @@||pagead2.googlesyndication.com/pagead/osd.js$domain=replay.fr
-@@||pagead2.googlesyndication.com/pagead/show_ads.js$domain=automobile-sportive.com|free-reseau.fr|freedom-ip.com|hugolescargot.com|netprof.fr|traductionjeux.com|universal-soundbank.com
+@@||pagead2.googlesyndication.com/pagead/show_ads.js$domain=automobile-sportive.com|freedom-ip.com|hugolescargot.com|universal-soundbank.com
 @@||partage-facile.com^$elemhide
 @@||partner.googleadservices.com/gampad/google_ads_gpt.js$domain=replay.fr
 @@||playtv.fr$elemhide
-@@||pro-zik.ws/js/_advertisement.js
+@@||pro-zik.ws/js/ads.js
 @@||pubads.g.doubleclick.net/gampad/ads?$script,domain=replay.fr
-@@||sanwilltv.net/advertisement.js
-@@||scan-manga.com/js/show_ads.js
-@@||scan-manga.com^*/advertise.css
-@@||sexytout.com/ad.php?$script
-@@||spox.fr/advertisement.js
+@@||scan-manga.com^$stylesheet
 @@||tous-sports.tv/js/advertisement-AdBlock.js
 @@||traductionjeux.com^$elemhide
+@@||turbodebrideur.com/banner/468/advertisement-AdBlock.js
 @@||unjourunerecette.fr/css/publicite-ads.css
-@@||videoxadulte.com/js/adframe.js
-@@||visoterra.com/scripts/ads.js
-@@||voyageforum.com/static/adframe.js?
-@@||wakanim.tv/Content/js/ads2.js
-@@||wdxjb.homenet.org/js/boxad1.js
-@@||yovoyages.com/js/advertisement.js
 !
 !----------------------- Exceptions d'éléments -----------------------!
 !
@@ -3248,6 +3207,8 @@ deyapa.fr,scooter-infos.com#@#.adlist
 flysurf.com#@#.ads_area
 astuces-trucs.com#@#.adsense_sidebar
 jamesedition.fr#@#.advert2
+longstonetires.fr#@#.advertLink
+longstonetires.fr#@#.advertText
 gamexpo.fr#@#.advertisment
 reseauforum.org#@#.block-ad
 vente-a-domicile.fr#@#.btn-ad
@@ -3264,7 +3225,4 @@ maghrebspace.net#@#.top-publicite
 geekdefrance.fr#@#.topads
 wanimo.com#@#div[id^="div-gpt-ad-"]
 ! Anti-Adblock
-virtualdjing.com#@#.adFrame
-notre-planete.info#@#.afs_ads
 freedom-ip.com#@#.pub_vertical
-crash-aerien.aero#@#.publicite

@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: Wajy01S2+AV0kGEDrOn6JA
+! Checksum: 1FrbdzBkbcL8gNpL27Irdw
 ! Title: ABPindo
-! Last modified: 24 Februari 2014, 19:23:13 WIB
+! Last modified: 16 Maret 2014, 15:58:57 WIB
 ! Expires: 4 days (update frequency)
 ! Homepage: http://abpindo.blogspot.com/
 ! Licence: http://indonesianadblockrules.googlecode.com/hg/subscriptions/COPYING
@@ -10,6 +10,7 @@
 ! in the forums (http://forums.lanik.us/viewforum.php?f=94)
 !
 ! *** abpindo_general_block.txt ***
+-iklan.gif|
 .biz/iklan/
 .com/iklan/
 .id/ads/$~object-subrequest
@@ -512,6 +513,7 @@ teknoup.com###fancybox_ajax
 metrotvnews.com###fixme
 forumbokep.com###floating_banner_bottom
 krucil.net###floating_banner_bottom.krucil_ads
+ganool.com###floating_banner_top2
 untukku.com###footer-adcont
 ketubanjiwa.com###g207
 resep.web.id###googlebox
@@ -588,6 +590,7 @@ antaranews.com##.ads_top_728
 utusan.com.my##.adspace_300
 m.iklanbaris.detik.com##.adtext01
 teknoup.com##.advertisement_box1
+teknoup.com##.advertisement_box2
 palingseru.com##.alignnone.size-large.wp-image-458
 kaskus.co.id##.banner-top-ads
 oktavita.com##.banner-zone
@@ -620,6 +623,7 @@ kompas.com##.boxSkinAd
 mforum.cari.com.my##.cari-ads
 modifikasi.com##.cell_banner_inside
 okezone.com##.center-ban
+sindonews.com##.clear.size-wide-custom.dummy
 tempo.co##.closebanner1
 tempo.co##.closebanner2
 lensaindonesia.com##.com-300x250
@@ -668,6 +672,8 @@ downloadfilem.com##a[href^="http://promosipraktis.com/"]
 republika.co.id##a[style="width: 100%; height: 100%; display: block; position: fixed; z-index: 1"]
 metrotvnews.com##div[style="height: 60px; margin:auto; background-color:#ccc; width:960px; bottom:0px;position:fixed;z-index:100"]
 situshp.com##div[style="height:260px;"]
+forums.mangafox.me##div[style="margin:10px 0;width:186px;height:90px;background:#fff;border:1px solid #dadada;overflow:hidden;padding:2px;text-align:center;float:right"]
+forums.mangafox.me##div[style="margin:10px 0;width:728px;height:90px;background:#fff;border:1px solid #dadada;overflow:hidden;padding:2px;text-align:center;float:left"]
 wardhanime.net##div[style="padding-top:5px;float:left;width:100%;font-size:13px;line-height:26px;height:31px;top: 12px;z-index:9999;text-align:left"]
 tabloidbintang.com##div[style="position:absolute; top:20px; left:45px; width:70px; background:#000; text-align:center;"]
 bokepgratiz.info##div[style="width:100%;text-align:center;"]
@@ -687,6 +693,7 @@ tribunnews.com##img[src="http://www.tribunnews.com/stylesheets/close.gif"]
 kompas.com##img[src^="http://img.ads."]
 ic31linkpage.com,icinema3satu.com##img[style="height: 125px; width: 125px;"]
 icinema3satu.com##img[style="height: 125x; width: 125px;"]
+icinema3satu.com##img[style="height:125x;width:125px;"]
 isdaryanto.com##img[style="width: 125px; height: 125px;"]
 bioskop21.us##img[title="pasang iklan"]
 downloadfilem.com##img[width="125"][height="125"]
@@ -695,3 +702,4 @@ stafaband.info##table[width="100%"] + #bottom
 zonamuda.com##td[valign="top"][height="55px"][align="center"]
 zonamuda.com##td[valign="top"][height="56px"][align="center"]
 ! *** abpindo_whitelist.txt ***
+@@||www2.melon.co.id/js/libs/angulartics-google-analytics.js

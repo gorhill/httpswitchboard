@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: AoA+G45DuELS+TwiCi395w
-! Version: 201403131400
+! Checksum: z4POgwzcdWg7xf9c7WJj/Q
+! Version: 201403161500
 ! Title: EasyPrivacy
-! Last modified: 13 Mar 2014 14:00 UTC
+! Last modified: 16 Mar 2014 15:00 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -3295,6 +3295,7 @@ http://utm.
 ||sitebro.tw^$third-party
 ||sitecompass.com^$third-party
 ||siteimprove.com^$third-party
+||sitelinktrack.com^$third-party
 ||sitemeter.com^$third-party
 ||sitereport.org^$third-party
 ||sitestat.com^$third-party
@@ -5793,6 +5794,7 @@ http://utm.
 ||eageweb.com/stats.php
 ||fcstats.altervista.org^$third-party
 ||forebase.com/r.gif?
+||gazzettaobjects.it^*/tracking/
 ||glomera.com/stats
 ||livestats.matrix.it^
 ||log.superweb.ws^
@@ -5982,7 +5984,6 @@ http://utm.
 ||stats.lnol.com.ar^
 ||stats.miarroba.info^
 ||track.bluecompany.cl^
-||trrsf.com/metrics/
 ! Swedish
 ||aftonbladet.se/blogportal/view/statistics?$third-party
 ||counter.mtgnewmedia.se^
@@ -9021,6 +9022,7 @@ http://utm.
 @@||lastampa.it/modulo/tracciatori/js/webtrekk.js
 @@||maxmind.com^*/geoip.js$domain=sportube.tv
 @@||tiscali.it/js/webtrends/$script,domain=mail.tiscali.it
+@@||video.repubblica.it^*/nielsen.js
 @@||webcenter.tiscali.it/distribuzione/_script/audience_science.js$domain=mail.tiscali.it
 ! Latvian
 @@/webtracking/*$domain=pasts.lv

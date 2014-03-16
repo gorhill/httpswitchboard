@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: pLDbrjdlsGM+pTdkfGGuxg
-! Version: 201403131400
+! Checksum: ZCup8DD8EhpU4ugP/r9IPg
+! Version: 201403161500
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 13 Mar 2014 14:00 UTC
+! Ultima modifica: 16 Mar 2014 15:00 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -700,6 +700,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||corriereromagna.it/upload/
 ||corrierinocampaniasport.it^*/banner_
 ||corrierinocampaniasport.it^*/menna.jpg
+||cronacaflegrea.it^*/ads/
 ||dagospia.com/_include/banner/
 ||datasport.it/graphic/img/banner_
 ||datasport.it/graphic/img/bannerspettacolo.gif
@@ -763,6 +764,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||filmstreamingporno.com^*/scaricagratis...2.png
 ||filmtv.it/skin/
 ||filodiritto.com/banner/
+||finanzainchiaro.it/images/ava-
 ||fiorentinanews.com^*/banner/
 ||firenzepost.it^*/Banner-
 ||firenzepost.it^*/bivigliano.jpg
@@ -1154,6 +1156,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||notizie-online.it/banner/
 ||nuovadelsud.it/images/banners/
 ||nyc-site.com/newyork/hotel/
+||oas.repubblica.it^
 ||occhiodisalerno.com/images/banners/
 ||oggitreviso.it/files/fascevittoriofilm.jpg
 ||oipamagazine.eu/banner_
@@ -1971,6 +1974,8 @@ advertiser.it,agi.it,agichina24.it,airdave.it,alessandrianews.it,casateonline.it
 rollingstonemagazine.it##.banner-abbonamenti
 telesud3.com##.banner-destra
 telesud3.com##.banner-destra-tyf
+algheroeco.com##.banner-header-dx
+algheroeco.com##.banner-header-sx
 genova24.it,ivg.it##.banner-middle-board
 milanofinanza.it##.banner-sfondo
 telesud3.com##.banner-sidebar
@@ -2241,6 +2246,7 @@ ilsalvagente.it##.video
 giallozafferano.it##.vini-sp
 tiscali.it##.w304.mB20
 tiscali.it##.w312.mB25
+algheroeco.com##.wallpaper-link
 fc-suedtirol.com##.werbung
 insegreto.it##.widget-banner
 ilfattoquotidiano.it##.widget_ifqbooks
@@ -2365,7 +2371,7 @@ unionesarda.it##div[style="width:300px; height:250px; float:left; margin-right:4
 unionesarda.it##div[style="width:300px; height:250px; float:left;"]
 f1passion.it##div[style="width:300px; height:250px; margin-bottom:24px;"]
 sologossip.it##div[style="width:300px; height:250px; margin:0 auto; margin-bottom: 5px;"]
-beppegrillo.it,giallozafferano.it,mmorpgitalia.it,tomshw.it##div[style="width:300px; height:250px;"]
+beppegrillo.it,giallozafferano.it,mmorpgitalia.it,siciliainformazioni.com,tomshw.it##div[style="width:300px; height:250px;"]
 palermomania.it##div[style="width:300px; height:300px; float:left; margin: 0 10px 10px 0;"]
 ilfattoquotidiano.it##div[style="width:300px; height:75px; margin-top: 10px; overflow:hidden; float:left"]
 ilfattoquotidiano.it##div[style="width:300px; height:75px; margin-top: 10px; overflow:hidden; float:left;line-height:15px;"]

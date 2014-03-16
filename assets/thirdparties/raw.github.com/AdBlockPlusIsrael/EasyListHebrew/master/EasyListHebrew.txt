@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: Sz+qiKqQAVU//erFnBeW6g
+! Checksum: 0xGCs59S5YGRmLb1W49ihQ
 ! Title: EasyList Hebrew
-! Last modified: 09/03/14  00:33 Jerusalem Standard Time
+! Last modified: 13/03/14  17:55 Jerusalem Standard Time
 ! Expires: 4 days (update frequency)
 ! Homepage: https://github.com/AdBlockPlusIsrael/EasyListHebrew/
 ! Forums: https://github.com/AdBlockPlusIsrael/EasyListHebrew/issues
@@ -115,6 +115,7 @@
 ||cdn.mdigital.co.il^$third-party
 ||ds.keshet-i.com/jserver/
 ||img.mako.co.il/*/*/*/*apet*.jpg
+||jwtdigital-media.co.il/$third-party
 ||kz-vd-se01.se.c04dl.vds-is.castup.net/$object-subrequest,media
 ||makostorepdl-a.akamaihd.net^$third-party
 ||pas-rahav.com^$third-party
@@ -224,6 +225,7 @@
 @@||c04dl.vds-is.castup.net/crossdomain.net
 @@||gplanet.co.il/js/adx.js
 @@||ifat.com/VideoControl/makoinformation$object-subrequest,domain=mako.co.il,media
+@@||ilgde.adocean.pl/$object-subrequest,domain=mako.co.il
 @@||kamaze.co.il/Advertisement/Image/callme/$~third-party,image
 @@||kamaze.co.il/Advertisement/Logos/$~third-party,image
 @@||lips.co.il/ads/$image,~third-party
