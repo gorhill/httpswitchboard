@@ -41,7 +41,7 @@ Naming convention from https://en.wikipedia.org/wiki/URI_scheme#Examples
 // I removed redundant capture groups: capture less = peform faster. See
 // <http://jsperf.com/old-uritools-vs-new-uritools>
 // Performance improvements welcomed.
-// jsperf: <http://jsperf.com/hostname-from-url/9>
+// jsperf: <http://jsperf.com/old-uritools-vs-new-uritools>
 var reRFC3986 = /^([^:\/?#]+:)?(\/\/[^\/?#]*)?([^?#]*)(\?[^#]*)?(#.*)?/;
 
 // Derived

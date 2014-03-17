@@ -45,9 +45,10 @@ File system structure:
             blacklisted-hosts.txt
                 ...
 
-Useful ref.: // Ref.: http://www.html5rocks.com/en/tutorials/file/filesystem/
-
 */
+
+// Ref: http://www.w3.org/TR/2012/WD-file-system-api-20120417/
+// Ref: http://www.html5rocks.com/en/tutorials/file/filesystem/
 
 /******************************************************************************/
 //
@@ -65,7 +66,12 @@ var remoteRoot = HTTPSB.projectServerRoot;
 
 /******************************************************************************/
 
+var nullFunc = function() { };
+
+/******************************************************************************/
+
 var getTextFileFromURL = function(url, onLoad, onError) {
+    // console.log('HTTP Switchboard> getTextFileFromURL("%s"):', url);
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'text';
     xhr.onload = onLoad;
@@ -109,6 +115,68 @@ var requestFileSystem = function(onSuccess, onError) {
 
 /******************************************************************************/
 
+// Flushed cached 3rd-party assets if these are from a prior version.
+// https://github.com/gorhill/httpswitchboard/issues/212
+
+var cacheSynchronized = false;
+
+var synchronizeCache = function(onCacheSynchronized) {
+    if ( cacheSynchronized ) {
+        onCacheSynchronized();
+        return;
+    }
+    cacheSynchronized =  true;
+
+    var directoryReader;
+
+    var onReadEntries = function(entries) {
+        var n = entries.length;
+        if ( !n ) {
+            onCacheSynchronized();
+            directoryReader = null;
+            return;
+        }
+        var entry;
+        for ( var i = 0; i < n; i++ ) {
+            entry = entries[i];
+            // Ignore whatever is in 'user' folder: these are
+            // NOT cached entries.
+            if ( pathFromCachePath(entry.fullPath).indexOf('/assets/user/') >= 0 ) {
+                continue;
+            }
+            entry.remove(nullFunc);
+        }
+        directoryReader.readEntries(onReadEntries, onReadEntriesError);
+    };
+
+    var onReadEntriesError = function(err) {
+        console.error('HTTP Switchboard> synchronizeCache() / onReadEntriesError("%s"):', err.name);
+        onCacheSynchronized();
+    };
+
+    var onRequestFileSystemSuccess = function(fs) {
+        directoryReader = fs.root.createReader();
+        directoryReader.readEntries(onReadEntries, onReadEntriesError);
+    };
+
+    var onRequestFileSystemError = function(err) {
+        console.error('HTTP Switchboard> synchronizeCache() / onRequestFileSystemError():', err.name);
+    };
+
+    var onLastVersionRead = function(store) {
+        var currentVersion = chrome.runtime.getManifest().version;
+        var lastVersion = store.extensionLastVersion || '0.0.0.0';
+        if ( currentVersion !== lastVersion ) {
+            chrome.storage.local.set({ 'extensionLastVersion': currentVersion });
+            requestFileSystem(onRequestFileSystemSuccess, onRequestFileSystemError);
+        }
+    };
+
+    chrome.storage.local.get('extensionLastVersion', onLastVersionRead);
+};
+
+/******************************************************************************/
+
 var readLocalFile = function(path, msg) {
     var sendMessage = function(content, err) {
         var details = {
@@ -127,8 +195,8 @@ var readLocalFile = function(path, msg) {
     };
 
     var onLocalFileError = function(ev) {
-        console.error('HTTP Switchboard> readLocalFile() / onLocalFileError("%s"):', path, this.statusText);
-        sendMessage('', this.statusText);
+        console.error('HTTP Switchboard> readLocalFile() / onLocalFileError("%s")', path);
+        sendMessage('', 'Error');
         this.onload = this.onerror = null;
     };
 
@@ -139,14 +207,16 @@ var readLocalFile = function(path, msg) {
     };
 
     var onCacheFileError = function(ev) {
-        console.error('HTTP Switchboard> readLocalFile() / onCacheFileError("%s"):', path, this.statusText);
-        getTextFileFromURL(chrome.runtime.getURL(path), onLocalFileLoaded);
+        // This handler may be called under normal circumstances: it appears
+        // the entry may still be present even after the file was removed.
+        // console.error('HTTP Switchboard> readLocalFile() / onCacheFileError("%s")', path);
+        getTextFileFromURL(chrome.runtime.getURL(path), onLocalFileLoaded, onLocalFileError);
         this.onload = this.onerror = null;
     };
 
-    var onCacheEntryFound = function(file) {
+    var onCacheEntryFound = function(entry) {
         // console.log('HTTP Switchboard> readLocalFile() / onCacheEntryFound():', file.toURL());
-        getTextFileFromURL(file.toURL(), onCacheFileLoaded, onCacheFileError);
+        getTextFileFromURL(entry.toURL(), onCacheFileLoaded, onCacheFileError);
     };
 
     var onCacheEntryError = function(err) {
@@ -156,16 +226,20 @@ var readLocalFile = function(path, msg) {
         getTextFileFromURL(chrome.runtime.getURL(path), onLocalFileLoaded, onLocalFileError);
     };
 
+    var onRequestFileSystemSuccess = function(fs) {
+        fs.root.getFile(cachePathFromPath(path), null, onCacheEntryFound, onCacheEntryError);
+    };
+
     var onRequestFileSystemError = function(err) {
         console.error('HTTP Switchboard> readLocalFile() / onRequestFileSystemError():', err.name);
         getTextFileFromURL(chrome.runtime.getURL(path), onLocalFileLoaded, onLocalFileError);
     };
 
-    var onRequestFileSystem = function(fs) {
-        fs.root.getFile(cachePathFromPath(path), null, onCacheEntryFound, onCacheEntryError);
+    var onCacheSynchronized = function() {
+        requestFileSystem(onRequestFileSystemSuccess, onRequestFileSystemError);
     };
 
-    requestFileSystem(onRequestFileSystem, onRequestFileSystemError);
+    synchronizeCache(onCacheSynchronized);
 };
 
 /******************************************************************************/
@@ -303,66 +377,13 @@ var updateFromRemote = function(path, msg) {
 
 /******************************************************************************/
 
-var getFileList = function(msg) {
-    var fsReader;
-    var fsEntries = [];
-    var fsEntryCount;
-    var allEntries = [];
-
-    var getMetadata = function(fsEntry) {
-        fsEntry.getMetadata(function(metadata) {
-            allEntries.push({
-                path: pathFromCachePath(fsEntry.name),
-                modificationTime: metadata.modificationTime.getTime(),
-                size: metadata.size
-            });
-            fsEntryCount -= 1;
-            if ( fsEntryCount === 0 ) {
-                chrome.runtime.sendMessage({
-                    'what': msg,
-                    'entries': allEntries
-                });
-            }
-        });
-    };
-    var getAllMetadata = function() {
-        fsEntryCount = fsEntries.length;
-        var i = fsEntries.length;
-        while ( i-- ) {
-            getMetadata(fsEntries[i]);
-        }
-    };
-    var onReadEntries = function(entries) {
-        if ( entries.length ) {
-            fsEntries = fsEntries.concat(entries);
-            fsReader.readEntries(onReadEntries, onReadEntriesError);
-        } else {
-            getAllMetadata();
-        }
-    };
-    var onReadEntriesError = function(err) {
-        console.error('HTTP Switchboard> getFileList() / onReadEntriesError("%s"):', err.name);
-    };
-    var onRequestFileSystemError = function(err) {
-        console.error('HTTP Switchboard> getFileList() / onRequestFileSystemError():', err.name);
-    };
-    var onRequestFileSystem = function(fs) {
-        fsReader = fs.root.createReader();
-        fsReader.readEntries(onReadEntries, onReadEntriesError);
-    };
-    requestFileSystem(onRequestFileSystem, onRequestFileSystemError);
-};
-
-/******************************************************************************/
-
 // Export API
 
 HTTPSB.assets = {
     'get': readLocalFile,
     'getRemote': readRemoteFile,
     'put': writeLocalFile,
-    'update': updateFromRemote,
-    'getEntries': getFileList
+    'update': updateFromRemote
 };
 
 /******************************************************************************/

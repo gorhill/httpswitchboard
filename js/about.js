@@ -32,27 +32,6 @@ var commitHistoryURLPrefix = 'https://github.com/gorhill/httpswitchboard/commits
 
 /******************************************************************************/
 
-var renderTime = function(time) {
-    // value => minutes
-    var value = (Date.now() - time) / 60000;
-    if ( value < 1 ) {
-        return 'just now';
-    }
-    if ( value < 60 ) {
-        return Math.ceil(value) + ' minutes ago';
-    }
-    // value => hours
-    value /= 60;
-    if ( value < 24 ) {
-        return Math.ceil(value) + ' hours ago';
-    }
-    // value => days
-    value /= 24;
-    return Math.ceil(value) + ' days ago';
-};
-
-/******************************************************************************/
-
 var setAssetListClassBit = function(bit, state) {
     assetListSwitches[assetListSwitches.length-1-bit] = !state ? 'o' : 'x';
     $('#assetList')
