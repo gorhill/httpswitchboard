@@ -115,7 +115,7 @@ var requestFileSystem = function(onSuccess, onError) {
 
 /******************************************************************************/
 
-// Flushed cached 3rd-party assets if these are from a prior version.
+// Flush cached 3rd-party assets if these are from a prior version.
 // https://github.com/gorhill/httpswitchboard/issues/212
 
 var cacheSynchronized = false;
