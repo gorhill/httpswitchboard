@@ -121,20 +121,21 @@ var requestFileSystem = function(onSuccess, onError) {
 var cacheSynchronized = false;
 
 var synchronizeCache = function(onCacheSynchronized) {
-    if ( cacheSynchronized ) {
+    var directoryReader;
+    var done = function() {
+        directoryReader = null;
         onCacheSynchronized();
-        return;
+    };
+
+    if ( cacheSynchronized ) {
+        return done();
     }
     cacheSynchronized =  true;
-
-    var directoryReader;
 
     var onReadEntries = function(entries) {
         var n = entries.length;
         if ( !n ) {
-            onCacheSynchronized();
-            directoryReader = null;
-            return;
+            return done();
         }
         var entry;
         for ( var i = 0; i < n; i++ ) {
@@ -151,7 +152,7 @@ var synchronizeCache = function(onCacheSynchronized) {
 
     var onReadEntriesError = function(err) {
         console.error('HTTP Switchboard> synchronizeCache() / onReadEntriesError("%s"):', err.name);
-        onCacheSynchronized();
+        done();
     };
 
     var onRequestFileSystemSuccess = function(fs) {
@@ -161,15 +162,17 @@ var synchronizeCache = function(onCacheSynchronized) {
 
     var onRequestFileSystemError = function(err) {
         console.error('HTTP Switchboard> synchronizeCache() / onRequestFileSystemError():', err.name);
+        done();
     };
 
     var onLastVersionRead = function(store) {
         var currentVersion = chrome.runtime.getManifest().version;
         var lastVersion = store.extensionLastVersion || '0.0.0.0';
-        if ( currentVersion !== lastVersion ) {
-            chrome.storage.local.set({ 'extensionLastVersion': currentVersion });
-            requestFileSystem(onRequestFileSystemSuccess, onRequestFileSystemError);
+        if ( currentVersion === lastVersion ) {
+            return done();
         }
+        chrome.storage.local.set({ 'extensionLastVersion': currentVersion });
+        requestFileSystem(onRequestFileSystemSuccess, onRequestFileSystemError);
     };
 
     chrome.storage.local.get('extensionLastVersion', onLastVersionRead);
@@ -215,7 +218,7 @@ var readLocalFile = function(path, msg) {
     };
 
     var onCacheEntryFound = function(entry) {
-        // console.log('HTTP Switchboard> readLocalFile() / onCacheEntryFound():', file.toURL());
+        // console.log('HTTP Switchboard> readLocalFile() / onCacheEntryFound():', entry.toURL());
         getTextFileFromURL(entry.toURL(), onCacheFileLoaded, onCacheFileError);
     };
 
