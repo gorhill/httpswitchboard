@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: 0xGCs59S5YGRmLb1W49ihQ
+! Checksum: jc00IUfIl49Tz1x0ykWN2w
 ! Title: EasyList Hebrew
-! Last modified: 13/03/14  17:55 Jerusalem Standard Time
+! Last modified: 19/03/14  17:59 Jerusalem Standard Time
 ! Expires: 4 days (update frequency)
 ! Homepage: https://github.com/AdBlockPlusIsrael/EasyListHebrew/
 ! Forums: https://github.com/AdBlockPlusIsrael/EasyListHebrew/issues
@@ -215,6 +215,7 @@
 @@||adserver.adtech.de/?advideo/$object-subrequest,domain=mako.co.il
 @@||adserver.adtech.de/rmevent/$object-subrequest,domain=mako.co.il,media
 @@||advertising.themarker.com^$~third-party
+@@||adworks.co.il^$~third-party
 @@||agenda.nana10.co.il/counter.asp
 @@||banners.e-dologic.co.il^$domain=bamba.co.il
 @@||banners.hosting-il.com^$domain=cinema-city.co.il
@@ -249,8 +250,7 @@
 @@||sfx-images.mozilla.org^$image
 @@||streambb.one.co.il/ads/$media
 @@||yad2.co.il/ajax/click_stat.php?BannerID=$xmlhttprequest
-@@||zvz.co.il/AdImages/$~third-party,image
-!
+@@||zvz.co.il/AdImages/$~third-party,image!
 !------Whitelists Element Hiding Rules (caused by EasyList / EasyPrivacy )----!
 !
 ad.co.il#@#.ad-link
@@ -258,6 +258,7 @@ bipbip.co.il#@#.adlist
 bipbip.co.il#@#.adpic
 blms.co.il#@#.addtitle
 homeless.co.il#@#.postad
+junkyard.co.il#@#.ad-body
 one.co.il#@#a[href^="http://xads.zedo.com/"]
 !
 !---------------------------------Mobile Ads----------------------------------!
@@ -279,7 +280,7 @@ calcalist.co.il,frogi.co.il,mynet.co.il,ynet.co.il###ads\.top
 feeder.co.il,rest.co.il###banner
 bhol-forums.co.il,bhol.co.il###divBanner_Plazma
 ladaat.info,tapuz.co.il###divTopBanner
-sdarot.tv,sdarot.wf###extra
+sdarot.pl,sdarot.tv,sdarot.wf,sdarot.ws###extra
 bhol-forums.co.il,bhol.co.il###sdera.width100pc
 nana10.co.il,nrg.co.il,wallashops.co.il###topBanner
 bizportal.co.il,bursagraph.co.il,saloona.co.il###top_banner
@@ -290,12 +291,13 @@ globes.co.il,onlife.co.il,sport5.co.il##.banner
 haaretz.co.il,themarker.com##.border-box.bottomStripBanners
 bhol-forums.co.il,bhol.co.il##.centered.padt10 > .clear
 globes.co.il,nrg.co.il##.sekindo
+sdarot.pl,sdarot.tv,sdarot.wf,sdarot.ws##.side
 haaretz.co.il,themarker.com##.topBanners
 haaretz.co.il,themarker.com##.topSectionBanners
-sdarot.tv,sdarot.wf##A[href^="http://cellebrate.mobi/il/heb"]
+sdarot.pl,sdarot.tv,sdarot.wf,sdarot.ws##A[href^="http://cellebrate.mobi/il/heb"]
 gamex.co.il,linicom.co.il##A[target="_blank"]
-sdarot.tv,sdarot.wf##DIV[style="position: fixed; z-index: 999; top: 0px; left: 0px; display: block;"]
-sdarot.tv,sdarot.wf##DIV[style="position: relative; height: 0; right: 450px; top: 155px; z-index: 99;"]
+sdarot.pl,sdarot.tv,sdarot.wf,sdarot.ws##DIV[style="position: fixed; z-index: 999; top: 0px; left: 0px; display: block;"]
+sdarot.pl,sdarot.tv,sdarot.wf,sdarot.ws##DIV[style="position: relative; height: 0; right: 450px; top: 155px; z-index: 99;"]
 doctors.co.il,globes.co.il##[id^="ads."]
 !
 !----------------------------Element hiding rules-----------------------------!
@@ -426,6 +428,8 @@ iphones.co.il##div[style="padding-top:10px;width:250px;height:250px"]
 israelhayom.co.il###mini-panel-top_banner
 israelhayom.co.il##.panel-pane.pane-panels-mini.pane-banners-art-op-bottom
 israelweather.co.il###weekFlashes
+junkyard.co.il##.plasma_banner
+junkyard.co.il##DIV[id^="banner"]
 jobmaster.co.il##TABLE[width="100%"][style="border-top:1px solid #EEEEEE;"]
 kikarhashabat.co.il###exposeMask
 kikarhashabat.co.il###maavaron_overlay

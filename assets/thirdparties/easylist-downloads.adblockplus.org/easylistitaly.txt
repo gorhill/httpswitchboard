@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: ZCup8DD8EhpU4ugP/r9IPg
-! Version: 201403161500
+! Checksum: u0ZYWlNfWJW5ALPB4wHBeg
+! Version: 201403211640
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 16 Mar 2014 15:00 UTC
+! Ultima modifica: 21 Mar 2014 16:40 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -922,6 +922,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||ilgiornaledellaprotezionecivile.it^*_banners/
 ||ilgiornaledelmolise.it/img/bannerlungo/
 ||ilgiornaledelpiemonte.com/pubb/
+||ilgiornaledelpiemonte.it/web/pubb/
 ||ilgiornaledienna.it/images/banners/
 ||ilgiornaledigela.it/images/banners/
 ||ilgiornalediragusa.it/images/banners/
@@ -1936,7 +1937,7 @@ pinkdna.it##.adds300x250
 zapster.it##.addx
 caserta24ore.it,fantagazzetta.com,gamemag.it,phicatube.net,radiospeaker.it,teleborsa.it##.ads
 meteowebcam.it##.ads_menu
-ilsecoloxix.it,pcprofessionale.it,pubblicitaitalia.it##.adsense
+ilmessaggero.it,ilsecoloxix.it,pcprofessionale.it,pubblicitaitalia.it##.adsense
 meteowebcam.it##.adsense_menu
 a-realestate.it,adessoin.tv,animalidalmondo.it,ansa.it,beauty.it,dagospia.com,esseresani.it,faidatemania.it,giornalettismo.com,guidecucina.it,ideeviaggi.it,ilsole24ore.com,iobloggo.com,iogames.it,iomobile.it,lavoroefinanza.it,mammaebambino.it,nonsolocultura.it,odiami.it,outcast.it,pianetagreen.it,pianetamotori.it,radiolina.it,radiomontecarlo.net,repubblica.it,romagnaoggi.it,sky.it,sportpower.it,tuttopercasa.it,verytech.it,virgilio.it,vivalascuola.it,vocenuova.tv##.adv
 famigliacristiana.it##.adv-box
@@ -1994,12 +1995,12 @@ fantagazzetta.com##.banner5
 ilsecoloxix.it##.banner650x60
 ilcalciocatania.it##.bannerArea
 zoover.ch,zoover.it##.bannerContainer
-ravennanotizie.it##.bannerH
+ilmessaggero.it,ravennanotizie.it##.bannerH
 beppegrillo.it##.bannerHeader
 cittaceleste.it,juvenews.eu##.bannerNelTesto
 key4biz.it##.bannerRight
 corriereirpinia.it##.bannerTd
-avvenire.it,borsaitaliana.it##.bannerTop
+avvenire.it,borsaitaliana.it,ilmessaggero.it##.bannerTop
 ilquotidianodellacalabria.it##.banner_186x290
 ilquotidianodellacalabria.it##.banner_234x90
 spaziofilm.it##.banner_300
@@ -2217,6 +2218,7 @@ ravennaedintorni.it##.strillo
 agichina24.it,trend-online.com##.strip
 loradellacalabria.it##.strisciane1
 style.it##.style_promo
+wired.it##.supported
 ciao.it##.tableSponsLinks
 genova24.it,ivg.it##.takeover
 panorama.it##.teaser-immobiliare
@@ -2395,6 +2397,7 @@ milanlive.it##div[style="width:468px; float:left; height:60px; margin-bottom:3px
 beppegrillo.it##div[style="width:475px; height:60px; display:none;"]
 asroma24.com,ilmilanista.it,interistaweb.it##div[style="width:480px; height:72px; padding: 6px; margin-left:auto; margin-right:auto;"]
 igossip.it##div[style="width:600px; height:360px;float:left;"]
+asca.it##div[style="width:659px; height:60px; float:left; margin-top:10px;margin-bottom:5px;"]
 beppegrillo.it##div[style="width:728px; height:45px;"]
 strettoweb.com##div[style="width:728px; height:90px; margin:9px auto; display:block; float:right !important;"]
 beppegrillo.it,mymovies.it##div[style="width:728px; height:90px;"]

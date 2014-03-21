@@ -5209,6 +5209,7 @@
 127.0.0.1	citrix.tradedoubler.com
 127.0.0.1	cityads.ru
 127.0.0.1	cityads.telus.net
+127.0.0.1	cj.dotomi.com
 127.0.0.1	cj.net
 127.0.0.1	cjbmanagement.com
 127.0.0.1	ck.jp.ap.valuecommerce.com
@@ -7074,6 +7075,7 @@
 127.0.0.1	dsp.bnmla.com
 127.0.0.1	dspads.sitescout.netdna-cdn.com
 127.0.0.1	dsply.com
+127.0.0.1	dt.adsafeprotected.com
 127.0.0.1	dtta.ero-advertising.com
 127.0.0.1	dublinca.org
 127.0.0.1	dummywebsitedatabase.com
@@ -9849,6 +9851,7 @@
 127.0.0.1	mobfox.com
 127.0.0.1	mobi.mobijo.tv
 127.0.0.1	mobi.pornhubpremium.com
+127.0.0.1	mobi.yanosik.pl
 127.0.0.1	mobilcom.ivwbox.de
 127.0.0.1	mobile.banzai.it
 127.0.0.1	mobile.biz.daum.net
@@ -10311,8 +10314,10 @@
 127.0.0.1	onlineads.magicvalley.com
 127.0.0.1	onlineemailmarketing.com
 127.0.0.1	onlineindigoca.112.2o7.net
+127.0.0.1	onlinetraffic.info
 127.0.0.1	onvis.ivwbox.de
 127.0.0.1	opads.ero-advertising.com
+127.0.0.1	open.vmdb.se
 127.0.0.1	openad.tf1.fr
 127.0.0.1	openad.travelnow.com
 127.0.0.1	openads.tvnorge.no
@@ -12950,6 +12955,7 @@
 127.0.0.1	webdessl.ivwbox.de
 127.0.0.1	webdiva3001.bravejournal.com
 127.0.0.1	webffreestuff.com
+127.0.0.1	webglobaltraffic.info
 127.0.0.1	webgozar.com
 127.0.0.1	webgozar.ir
 127.0.0.1	webhitcounter.com
@@ -14332,6 +14338,7 @@
 127.0.0.1	www.onelouder.com
 127.0.0.1	www.onestat.com
 127.0.0.1	www.onlineemailmarketing.com
+127.0.0.1	www.onlinetraffic.info
 127.0.0.1	www.openadserving.com
 127.0.0.1	www.opentracker.net
 127.0.0.1	www.openvn.com
@@ -14783,6 +14790,7 @@
 127.0.0.1	www.webcounter.cc
 127.0.0.1	www.webcounter.com
 127.0.0.1	www.webffreestuff.com
+127.0.0.1	www.webglobaltraffic.info
 127.0.0.1	www.webgozar.com
 127.0.0.1	www.webgozar.ir
 127.0.0.1	www.webhitcounter.com
@@ -15163,4 +15171,4 @@
 127.0.0.1	zxypenguin.people-group.su
 127.0.0.1	zz.cqcounter.com
 127.0.0.1	_thums.ero-advertising.com
-# Hosts: 15158
+# Hosts: 15166

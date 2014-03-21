@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: z4POgwzcdWg7xf9c7WJj/Q
-! Version: 201403161500
+! Checksum: f5iNTWDonYtidjrkmTW29w
+! Version: 201403211640
 ! Title: EasyPrivacy
-! Last modified: 16 Mar 2014 15:00 UTC
+! Last modified: 21 Mar 2014 16:40 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -2243,6 +2243,7 @@ http://utm.
 ||amxdt.com^$third-party
 ||analoganalytics.com^$third-party
 ||analysistools.net^$third-party
+||analytics-egain.com^$third-party
 ||analytics-engine.net^$third-party
 ||analyticswizard.com^$third-party
 ||analytk.com^$third-party
@@ -3105,6 +3106,7 @@ http://utm.
 ||performtracking.com^$third-party
 ||perion.com^$third-party
 ||personyze.com^$third-party
+||petametrics.com^$third-party
 ||phonalytics.com^$third-party
 ||phone-analytics.com^$third-party
 ||piano-media.com^$third-party
@@ -3129,7 +3131,6 @@ http://utm.
 ||popsample.com^$third-party
 ||porngraph.com^$third-party
 ||posst.co^$third-party
-||postaffiliatepro.com^$third-party
 ||postclickmarketing.com^$third-party
 ||ppclocation.biz^$third-party
 ||ppctracking.net^$third-party
@@ -4941,6 +4942,7 @@ http://utm.
 ||lycos.com/hb.js
 ||m.addthisedge.com^$third-party
 ||m.trb.com^
+||magnify.net/decor/track/
 ||magnify360-cdn.s3.amazonaws.com^
 ||mail-app.com/pvtracker/
 ||mail.ebay.com/img/*.gif
@@ -6018,6 +6020,7 @@ http://utm.
 ||6waves.com/trker/
 ||79.125.21.168/i.gif?
 ||86.63.194.248/js/measure.js$third-party,domain=feedcat.net
+||9msn.com.au/share/com/js/fb_google_intercept.js
 ||9msn.com.au^*.tracking.udc.
 ||a.huluad.com/beacons/
 ||a.jango.com^
@@ -6110,6 +6113,7 @@ http://utm.
 ||analytics.msnbc.msn.com^
 ||analytics.newsinc.com^
 ||analytics.omgpop.com/log
+||analytics.thenest.com^
 ||analytics.upworthy.com^
 ||analytics.us.archive.org^
 ||analytics.yahoo.com^
@@ -7030,6 +7034,7 @@ http://utm.
 ||newsarama.com/common/track.php
 ||newscom.com/js/v2/ga.js
 ||newser.com/utility.aspx?
+||newsinc.com/players/report.xml?$image
 ||newsletter.mybboard.net/open.php?
 ||newstatesman.com/js/NewStatesmanSDC.js
 ||newswire.ca/rt.gif?
@@ -7472,6 +7477,7 @@ http://utm.
 ||tab.co.nz/track?
 ||tacobell.com/tb_files/js/tracker.js
 ||tag-stats.huffpost.com^
+||tags.msnbc.com^
 ||tags.transportdirect.info^
 ||talktalk.co.uk^*/log.html
 ||talktalk.co.uk^*/tracking/
@@ -8569,7 +8575,7 @@ http://utm.
 @@||cdn-redfin.com^*/clicktracker.js$domain=redfin.com
 @@||cdn-redfin.com^*/page_analytics.js$domain=redfin.com
 @@||cdn-redfin.com^*/page_analytics.xd.js
-@@||cdn.optimizely.com/js/*.js$domain=heroku.com|hotukdeals.com
+@@||cdn.optimizely.com/js/*.js$domain=heroku.com|hotukdeals.com|policymic.com
 @@||chanel.com/js/chanel-tracking.js$script
 @@||chartbeat.com/*/chartbeat/$~third-party
 @@||chartbeat.com/js/chartbeat.js$domain=salon.com
@@ -8982,6 +8988,7 @@ http://utm.
 @@||stat.prsmedia.fr/tag/stat.js$domain=bienpublic.com
 @@||tv5.org/cms/javascript/*/sitestat.js
 ! Chinese
+@@||amazonaws.com/angular-ui-router.min.js*-google-analytics.js$script,domain=dcard.tw
 @@||gridsumdissector.com^*/logger.js
 @@||hm.baidu.com/h.js?$domain=weaku.com
 @@||imrworldwide.com/novms/js/2/ggcmb353.js$domain=nexttv.com.tw
@@ -9017,6 +9024,7 @@ http://utm.
 @@||codicefl.shinystat.com/cgi-bin/getserver.cgi?$script,domain=3bmeteo.com|quotidiano.net
 @@||codicefl.shinystat.com/cgi-bin/getswf.cgi?*PolymediaShow$object-subrequest,domain=corriereadriatico.it|ilgazzettino.it|ilmattino.it|ilmessaggero.it|leggo.it|quotidianodipuglia.it
 @@||imrworldwide.com/novms/*/ggcm*.js$domain=sky.it
+@@||lastampa.it/common/js/video-js-mm/webtrekk_media_flash.js
 @@||lastampa.it/common/js/webtrekk_v3.js
 @@||lastampa.it/modulo/tracciatori/js/nielsen.js
 @@||lastampa.it/modulo/tracciatori/js/webtrekk.js

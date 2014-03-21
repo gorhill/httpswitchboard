@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: 301qWONPmUehhBdqaAJIhg
-! Version: 201403161501
+! Checksum: yWUnybx5P+y9O9soMrzTXw
+! Version: 201403211641
 ! Title: EasyList Dutch
 ! Description: Dutch supplement for the Easylist filters
-! Last modified: 16 Mar 2014 15:01 UTC
+! Last modified: 21 Mar 2014 16:41 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -233,6 +233,7 @@
 ||thisislive.com/promo/
 ||tienerorgies.be/promo/
 ||tienertube.nl/banners/
+||tools.islive.nl^*/promo_
 ||totaalwijzer.nl/widget/$third-party
 ||triple-it.nl/itbizzer/
 ||tvgidsassets.nl/graphics/ad*.gif
@@ -627,6 +628,7 @@
 @@||ad4.liverail.com/?LR_VERTICALS=videostrip_nl,$xmlhttprequest,domain=twentefans.nl
 @@||adform.net/banners/scripts/bootstrap/Adform.Bootstrap.js?$domain=spel.nl
 @@||adform.net/Banners/scripts/rmb/Adform.RMB.js?$domain=spel.nl
+@@||adhese.be/tag/tagv1.js$domain=nieuwsblad.be
 @@||admatcher.videostrip.com/?format=mp4,$object-subrequest,domain=herhaling.nl|myradio.nl|radioveronica.nl|tvgids.tv|voetbalprimeur.nl
 @@||admatcher.videostrip.com/?format=mp4,$xmlhttprequest,domain=ongein.nl|twentefans.nl
 @@||admatcher.videostrip.com/crossdomain.xml$object-subrequest,domain=herhaling.nl|myradio.nl|radioveronica.nl|tvgids.tv|voetbalprimeur.nl
@@ -724,6 +726,7 @@
 ! Anti-Adblock
 @@||alfaforum.nl/forum/images/misc/vbulletin4_logo.png#$image
 @@||alfaforum.nl^$elemhide
+@@||autoblog.nl/javascript/advertisement.js
 @@||dumpert.nl^*/admatcher.doubleclick.net
 @@||motor-forum.nl/motorshopper/json/advertenties/$xmlhttprequest
 !--------Algemene verbergregels--------!

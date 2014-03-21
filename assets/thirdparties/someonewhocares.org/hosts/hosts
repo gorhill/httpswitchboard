@@ -8,7 +8,7 @@
 # Please forward any additions, corrections or comments by email to
 # hosts@someonewhocares.org
 
-# Last updated: Mar 12th, 2014 at 09:53
+# Last updated: Mar 19th, 2014 at 12:43
 
 # Use this file to prevent your computer from connecting to selected
 # internet hosts. This is an easy and effective way to protect you from 
@@ -4855,6 +4855,7 @@ fe80::1%lo0	localhost
 127.0.0.1 art-photo-music-savingblvd.com
 127.0.0.1 as.5to1.com
 127.0.0.1 as.casalemedia.com
+127.0.0.1 as.ebz.io
 127.0.0.1 as.sexad.net
 127.0.0.1 as.vs4entertainment.com
 127.0.0.1 as.webmd.com
@@ -7089,6 +7090,7 @@ fe80::1%lo0	localhost
 127.0.0.1 textsrv.com
 127.0.0.1 tf.nexac.com
 127.0.0.1 tgpmanager.com
+127.0.0.1 the-binary-trader.biz
 127.0.0.1 the-path-gateway.com
 127.0.0.1 the-smart-stop.com
 127.0.0.1 thepiratetrader.com
@@ -7370,6 +7372,7 @@ fe80::1%lo0	localhost
 127.0.0.1 widget.plugrush.com
 127.0.0.1 widget3.linkwithin.com
 127.0.0.1 widget5.linkwithin.com
+127.0.0.1 widgets.outbrain.com
 127.0.0.1 widgets.tcimg.com
 127.0.0.1 wigetmedia.com
 127.0.0.1 wikiforosh.ir

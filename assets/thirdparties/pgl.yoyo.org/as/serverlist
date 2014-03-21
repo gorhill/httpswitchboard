@@ -3,7 +3,7 @@
 # For more information about this list, see: http://pgl.yoyo.org/adservers/
 # ----
 # last updated:   Fri, 14 Mar 2014 17:08:51 GMT
-# entries:        2497
+# entries:        2498
 # format:         hosts (hosts -- in hosts file format)
 # credits:        Peter Lowe - pgl@yoyo.org - http://pgl.yoyo.org/
 # this URL:       http://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext
@@ -664,6 +664,7 @@
 127.0.0.1 ads.thenewpaperclip.com
 127.0.0.1 ads.thestar.com
 127.0.0.1 ads.thestranger.com
+127.0.0.1 ads.thewebfreaks.com
 127.0.0.1 ads.timeout.com
 127.0.0.1 ads.tjwi.info
 127.0.0.1 ads.tmcs.net
@@ -943,6 +944,8 @@
 127.0.0.1 adwitserver.com
 127.0.0.1 adworldnetwork.com
 127.0.0.1 adworx.at
+127.0.0.1 adworx.be
+127.0.0.1 adworx.nl
 127.0.0.1 adx.allstar.cz
 127.0.0.1 adx.arip.co.th
 127.0.0.1 adx.atnext.com
@@ -1537,7 +1540,6 @@
 127.0.0.1 geovisite.com
 127.0.0.1 german-linkindex.de
 127.0.0.1 getclicky.com
-127.0.0.1 getfreecounter.com
 127.0.0.1 globalismedia.com
 127.0.0.1 globaltakeoff.net
 127.0.0.1 globaltrack.com
@@ -1571,6 +1573,7 @@
 127.0.0.1 hightrafficads.com
 127.0.0.1 histats.com
 127.0.0.1 hit-parade.com
+127.0.0.1 hit-ranking.de
 127.0.0.1 hit.bg
 127.0.0.1 hit.ua
 127.0.0.1 hit.webcentre.lycos.co.uk
@@ -1712,7 +1715,6 @@
 127.0.0.1 link-booster.de
 127.0.0.1 link4ads.com
 127.0.0.1 linkadd.de
-127.0.0.1 linkbucks.net
 127.0.0.1 linkbuddies.com
 127.0.0.1 linkexchange.com
 127.0.0.1 linkexchange.ru
@@ -1928,13 +1930,11 @@
 127.0.0.1 pagerank-united.de
 127.0.0.1 pagerank4u.eu
 127.0.0.1 pagerank4you.com
-127.0.0.1 pagerankscout.de
 127.0.0.1 pageranktop.com
 127.0.0.1 partage-facile.com
 127.0.0.1 partner-ads.com
 127.0.0.1 partner.gonamic.de
 127.0.0.1 partner.pelikan.cz
-127.0.0.1 partner.topcities.com
 127.0.0.1 partnerad.l.google.com
 127.0.0.1 partnercash.de
 127.0.0.1 partners.priceline.com
@@ -1982,6 +1982,7 @@
 127.0.0.1 popupmoney.com
 127.0.0.1 popupnation.com
 127.0.0.1 popups.infostart.com
+127.0.0.1 popupsponsor.com
 127.0.0.1 popuptraffic.com
 127.0.0.1 porngraph.com
 127.0.0.1 porntrack.com
@@ -1999,7 +2000,6 @@
 127.0.0.1 primetime.net
 127.0.0.1 privatecash.com
 127.0.0.1 pro-advertising.com
-127.0.0.1 pro.i-doctor.co.kr
 127.0.0.1 proext.com
 127.0.0.1 profero.com
 127.0.0.1 professorbanner.com
@@ -2480,6 +2480,7 @@
 127.0.0.1 xtendmedia.com
 127.0.0.1 xtremetop100.com
 127.0.0.1 xxxcounter.com
+127.0.0.1 xzoomy.com
 127.0.0.1 y.ibsys.com
 127.0.0.1 yab-adimages.s3.amazonaws.com
 127.0.0.1 yabuka.com
