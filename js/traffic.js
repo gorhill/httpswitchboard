@@ -68,40 +68,58 @@ background: #c00; \
 </body> \
 </html>";
 
-var subFrameReplacement = "<!DOCTYPE html> \
-<html> \
-<head> \
-<style> \
-@font-face { \
-font-family: 'httpsb'; \
-font-style: normal; \
-font-weight: 400; \
-src: local('httpsb'), url('{{fontUrl}}') format('truetype'); \
-} \
-body { \
-margin: 0; \
-border: 0; \
-padding: 0; \
-font: 13px httpsb,sans-serif; \
-width: 100%; \
-height: 100%; \
-background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QkOFgcvc4DETwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAACGSURBVFjD7ZZBCsAgEAMT6f+/nJ5arYcqiKtIPAaFYR2DFCAAgEQ8iwzLCLxZWglSZgKUdgHJk2kdLEY5C4QAUxeIFOINfwUOBGkLPBnkAIEDQPoEDiw+uoGHBQ4ovv4GnvTMS4EvC+wvhBvYAltgC2yBLbAFPlTgvKG6vxXZB6QOl2S7gNw6ktgOp+IH7wAAAABJRU5ErkJggg==') repeat; \
-text-align: center; \
-} \
-div { \
-margin: 2px; \
-border: 0; \
-padding: 0 2px; \
-display: inline-block; \
-color: white; \
-background: #c00; \
-} \
-</style> \
-<title>Blocked by HTTPSB</title> \
-</head> \
-<body title='&ldquo;{{hostname}}&rdquo; blocked by HTTP Switchboard'> \
-<div>{{hostname}}</div> \
-</body> \
+var subFrameReplacement = "<!DOCTYPE html>\
+<html>\
+<head>\
+<style>\
+@font-face{\
+font-family:'httpsb';\
+font-style:normal;\
+font-weight:400;\
+src:local('httpsb'), url('{{fontUrl}}') format('truetype');\
+}\
+body{\
+margin:0;\
+border:0;\
+padding:0;\
+font:13px httpsb,sans-serif;\
+text-align:center;\
+}\
+#bg{\
+position:absolute;\
+top:0;\
+right:0;\
+bottom:0;\
+left:0;\
+background:transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QkOFgcvc4DETwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAACGSURBVFjD7ZZBCsAgEAMT6f+/nJ5arYcqiKtIPAaFYR2DFCAAgEQ8iwzLCLxZWglSZgKUdgHJk2kdLEY5C4QAUxeIFOINfwUOBGkLPBnkAIEDQPoEDiw+uoGHBQ4ovv4GnvTMS4EvC+wvhBvYAltgC2yBLbAFPlTgvKG6vxXZB6QOl2S7gNw6ktgOp+IH7wAAAABJRU5ErkJggg==') repeat;\
+opacity:{{opacity}};\
+}\
+#bgov{\
+border:1px dotted #c00;\
+position:absolute;\
+top:0;\
+right:0;\
+bottom:0;\
+left:0;\
+z-index:1;\
+opacity:{{opacity}};\
+}\
+#fg{\
+padding:0 2px;\
+display:inline-block;\
+position:relative;\
+z-index:9;\
+color:white;\
+background:#c00;\
+}\
+</style>\
+<title>Blocked by HTTPSB</title>\
+</head>\
+<body title='&ldquo;{{hostname}}&rdquo; frame\nblocked by HTTP Switchboard'>\
+<div id='bg'></div>\
+<div id='bgov'></div>\
+<span id='fg'>{{hostname}}</span>\
+</body>\
 </html>";
 
 /******************************************************************************/
@@ -249,6 +267,8 @@ var onBeforeRequestHandler = function(details) {
         return onBeforeRootFrameRequestHandler(details);
     }
 
+    // console.debug('onBeforeRequestHandler()> "%s": %o', details.url, details);
+
     // Do not block myself from updating assets
     // https://github.com/gorhill/httpswitchboard/issues/202
     if ( requestURL.indexOf(httpsb.projectServerRoot) === 0 ) {
@@ -328,14 +348,13 @@ var onBeforeRequestHandler = function(details) {
     // rhill 2013-11-05: The root frame contains a link to noop.css, this
     // allows to later check whether the root frame has been unblocked by the
     // user, in which case we are able to force a reload using a redirect.
-    var html, dataURI;
     if ( type === 'sub_frame' ) {
-        html = subFrameReplacement;
-        html = html.replace(/{{fontUrl}}/g, httpsb.fontCSSURL);
-        html = html.replace(/{{hostname}}/g, requestHostname);
-        dataURI = 'data:text/html;base64,' + btoa(html);
+        var html = subFrameReplacement
+            .replace(/{{fontUrl}}/g, httpsb.fontCSSURL)
+            .replace(/{{hostname}}/g, requestHostname)
+            .replace(/{{opacity}}/g, httpsb.userSettings.subframeOpacity.toFixed(2));
         // quickProfiler.stop('onBeforeRequestHandler');
-        return { "redirectUrl": dataURI };
+        return { 'redirectUrl': 'data:text/html,' + encodeURIComponent(html) };
     }
 
     // quickProfiler.stop('onBeforeRequestHandler');
@@ -348,6 +367,8 @@ var onBeforeRequestHandler = function(details) {
 // This is to handle cookies leaving the browser.
 
 var onBeforeSendHeadersHandler = function(details) {
+
+    // console.debug('onBeforeSendHeadersHandler()> "%s": %o', details.url, details);
 
     var httpsb = HTTPSB;
 

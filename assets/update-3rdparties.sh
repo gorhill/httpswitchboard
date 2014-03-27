@@ -29,6 +29,7 @@ THIRDPARTY_REMOTEURLS=(
     'http://liste-ar-adblock.googlecode.com/hg/Liste_AR.txt'
     'http://adblock-czechoslovaklist.googlecode.com/svn/filters.txt'
     'https://raw.github.com/AdBlockPlusIsrael/EasyListHebrew/master/EasyListHebrew.txt'
+    'http://download.wiltteri.net/wiltteri.txt'
     )
 
 THIRDPARTY_LOCALURLS=(
@@ -54,6 +55,7 @@ THIRDPARTY_LOCALURLS=(
     'thirdparties/liste-ar-adblock.googlecode.com/hg/Liste_AR.txt'
     'thirdparties/adblock-czechoslovaklist.googlecode.com/svn/filters.txt'
     'thirdparties/raw.github.com/AdBlockPlusIsrael/EasyListHebrew/master/EasyListHebrew.txt'
+    'thirdparties/download.wiltteri.net/wiltteri.txt'
     )
 
 ENTRY_INDEX=0
