@@ -793,6 +793,8 @@ function renderMatrixCellType(cell, hostname, type, stats) {
         .addClass(getCellClass(hostname, type));
     if ( stats.count ) {
         cell.text(stats.count);
+    } else {
+        cell.text('\u00A0');
     }
 }
 
