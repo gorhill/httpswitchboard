@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: f5iNTWDonYtidjrkmTW29w
-! Version: 201403211640
+! Checksum: ZfqvuPmoNBiThmoAtDV/Hg
+! Version: 201403281451
 ! Title: EasyPrivacy
-! Last modified: 21 Mar 2014 16:40 UTC
+! Last modified: 28 Mar 2014 14:51 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -157,6 +157,7 @@
 /activetrackphp.php?
 /activity-track/?
 /activity.gif?
+/ad/tr.gif?
 /ad_1_trans.
 /adam.js
 /AdCount/*
@@ -1131,6 +1132,7 @@
 /mmetrix.mobi/*
 /mngi/tracking/*
 /mobify_ga.gif
+/modoweb-tracking/*
 /moduleTracker.
 /monitus.js
 /morega.js
@@ -2259,6 +2261,7 @@ http://utm.
 ||aqtracker.com^$third-party
 ||arcadeweb.com^$third-party
 ||arena-quantum.co.uk^$third-party
+||areyouahuman.com^$third-party
 ||arkayne.com^$third-party
 ||arpuonline.com^$third-party
 ||arturtrack.com^$third-party
@@ -2441,6 +2444,7 @@ http://utm.
 ||convertglobal.com^$third-party
 ||convertmarketing.net^$third-party
 ||convertro.com^$third-party
+||cooladata.com^$third-party
 ||copacast.net^$third-party
 ||coremetrics.com^$third-party
 ||coremotives.com^$third-party
@@ -2882,6 +2886,7 @@ http://utm.
 ||leadformix.com^$third-party
 ||leadintelligence.co.uk^$third-party
 ||leadlife.com^$third-party
+||leadmanagerfx.com^$third-party
 ||leadsius.com^$third-party
 ||legolas-media.com^$third-party
 ||les-experts.com^$third-party
@@ -3131,6 +3136,7 @@ http://utm.
 ||popsample.com^$third-party
 ||porngraph.com^$third-party
 ||posst.co^$third-party
+||postaffiliatepro.com^$third-party
 ||postclickmarketing.com^$third-party
 ||ppclocation.biz^$third-party
 ||ppctracking.net^$third-party
@@ -4679,6 +4685,7 @@ http://utm.
 ||dirt.dennis.co.uk^
 ||discoverymail.com/a/*/spacer.gif
 ||disqus.com/api/ping?$third-party
+||disqus.com/event.js?$script
 ||disqus.com/stats.html
 ||distillery.wistia.com^
 ||dl1d2m8ri9v3j.cloudfront.net^
@@ -4886,8 +4893,10 @@ http://utm.
 ||kbb.com/partner/$third-party
 ||kdpgroupe.com/ea.js
 ||key4web.com^*/set_cookie_by_referer/
+||keyword.daumdn.com^
 ||kiwari.com^*/impressions.asp?
 ||knorex.asia/static-tracking/
+||l-host.net/etn/omnilog?
 ||l.coincident.tv^
 ||l.ooyala.com^
 ||l.player.ooyala.com^
@@ -4965,6 +4974,7 @@ http://utm.
 ||merchenta.com/track/
 ||metaffiliation.com^*^mclic=
 ||metering.pagesuite.com^$third-party
+||metric.nwsource.com^
 ||metrics.brightcove.com^
 ||metrics.chmedia.com^
 ||metrics.ctvdigital.net^
@@ -5278,6 +5288,7 @@ http://utm.
 ||tag.sonymusic.com^
 ||tags.master-perf-tools.com^
 ||teads.tv/track?
+||tealiumiq.com/*.gif?$third-party
 ||technorati.com/technoratimedia-pixel.js
 ||techweb.com/beacon/
 ||the-group.net/aether/
@@ -5376,6 +5387,7 @@ http://utm.
 ||tracking.sponsorpay.com^$third-party
 ||tracking.synthasite.net^
 ||tracking.theeword.co.uk^
+||tracking.thehut.net^
 ||tracking.tradeking.com^
 ||tracking.waterfrontmedia.com^
 ||tracking.worldmedia.net^$third-party
@@ -5732,6 +5744,7 @@ http://utm.
 ||log.v.iask.com^
 ||look.urs.tw^$third-party
 ||sinajs.cn/z.gif?
+||sitemaji.com/nownews.php?
 ||tanx.com/cms.gif?
 ||tns.simba.taobao.com^
 ||toruk.tanx.com^
@@ -5754,6 +5767,7 @@ http://utm.
 ||wwwportal.dk/statistik.php
 ! Dutch
 ||analytics.belgacom.be^
+||bbvms.com/zone/js/zonestats.js
 ||c.pebblemedia.be^
 ||cookies.reedbusiness.nl^
 ||hottraffic.nl^$third-party
@@ -6920,7 +6934,6 @@ http://utm.
 ||mate1.com^*/reg.logging.js
 ||mayoclinic.org/js/gconversion.js
 ||mayoclinic.org/js/tracker.js
-||mcdonalds.com^*/multitracker.js
 ||mdmpix.com/js/connector.php?
 ||media-imdb.com/images/*/imdbads/js/beacon-$script
 ||media-imdb.com^*/adblock.swf
@@ -7078,6 +7091,7 @@ http://utm.
 ||okcupid.com/poststat?
 ||olark.com/nrpc/c?c=create$script
 ||olark.com/track/
+||om.cbsi.com^
 ||omniture.stuff.co.nz^
 ||omniture.theglobeandmail.com^
 ||onetravel.com/TrackOnetravelAds.js
@@ -7437,6 +7451,7 @@ http://utm.
 ||stattrack.0catch.com^
 ||stbt.coupons.com^
 ||stcollection.moneysupermarket.com^
+||stg.nytimes.com^
 ||stickpage.com/counter.php
 ||stocktwits.com/spaceape-web.gif?
 ||stomp.com.sg/site/servlet/tracker
@@ -7893,6 +7908,7 @@ http://utm.
 ||mnginteractive.com/live/omniture/sccore_NEW_JRC.js$domain=delcotimes.com
 ||nwsource.com/shared/js/s_code.js?$domain=seattletimes.com
 ||nyteknik.se/ver02/javascript/2012_s_code_global.js
+||playstation.com/pscomauth/groups/public/documents/webasset/community_secured_s_code.js
 ||redbox.com^*/scripts/s_code.js
 ||riverisland.com^*/s_code.min.omniture_$script
 ||sephora.com/javascripts/analytics/wa2.js
@@ -8247,6 +8263,7 @@ http://utm.
 ||logstat.caixin.com^
 ||luobo.tv/staticts.html
 ||narutom.com/stat.js
+||nextmedia.com/ajax/addlog/?
 ||nsclick.baidu.com^
 ||nstat.tudou.com^
 ||on.cc^*/checkrev.gif?
@@ -8702,6 +8719,7 @@ http://utm.
 @@||lsi.com^*/google-analytics.js
 @@||mail-www.baynote.net^$domain=mail.com
 @@||mail.biz.rr.com/images/portal/blank.gif$domain=mail.biz.rr.com
+@@||mail.yahoo.com/neo/ymstat$xmlhttprequest
 @@||maps.google.*/gen_204?$xmlhttprequest
 @@||maxmind.com/app/country.js$domain=lenovo.com|nationalgeographic.com
 @@||maxmind.com^*/geoip.js$domain=aljazeera.com|ballerstatus.com|bikemap.net|carltonjordan.com|coolsport.tv|dereon.com|dr.dk|everydaysource.com|girlgames4u.com|incgamers.com|ip-address.cc|justin.tv|maaduu.com|qatarairways.com|sat-direction.com|sotctours.com|stoli.com|vibe.com
@@ -8750,6 +8768,7 @@ http://utm.
 @@||nytimes.com^*/wtinit.js
 @@||odcdn.com^*/cm.js
 @@||officeworks.com.au^*/site-tracker.js
+@@||ooyala.com/3rdparty/comscore_$object-subrequest,domain=livetvcafe.net
 @@||ooyala.com/3rdparty/comscore_*.swf$domain=bloomberg.com|businessweek.com|greentechmedia.com
 @@||ooyala.com/crossdomain.xml$object-subrequest
 @@||optimize.webtrends.com^$domain=peterboroughtoday.co.uk
@@ -8912,7 +8931,7 @@ http://utm.
 @@||buffaloshop.de^*/webtrekk.js
 @@||bundesliga.de/js/xtcore.js
 @@||classistatic.de^*/hitcounter.js$domain=mobile.de
-@@||code.etracker.com/t.js?et=$script,domain=compo-hobby.de|diabetes-ratgeber.net|kaguma.com|krombacher.de
+@@||code.etracker.com/t.js?et=$script,domain=apotheken-umschau.de|compo-hobby.de|diabetes-ratgeber.net|kaguma.com|krombacher.de
 @@||count.rtl.de/crossdomain.xml$object-subrequest,domain=n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
 @@||eatsmarter.de^*/webtrekk.js
 @@||edgesuite.net^*/frontend_webtrekk.js$domain=goertz.de
@@ -8976,6 +8995,8 @@ http://utm.
 ! French
 @@||analytics.ladmedia.fr/parismatch/xtcore_mod2.js$domain=parismatch.com
 @@||annuaire.118000.fr/js/xtcore.js
+@@||api.mixpanel.com/engage/?data=$xmlhttprequest,domain=deezer.com
+@@||api.mixpanel.com/track/?data=$xmlhttprequest,domain=deezer.com
 @@||cache2.delvenetworks.com/crossdomain.xml$domain=lapresse.ca
 @@||cache2.delvenetworks.com/ps/c/v1/$object-subrequest,domain=lapresse.ca
 @@||cot.priceminister.com/res/static/*/xtcore.js
@@ -8983,6 +9004,7 @@ http://utm.
 @@||fdj.fr/oad/js/xiti/xtcore.js
 @@||media.sosh.fr/includes/wtbase.js
 @@||media.sosh.fr/includes/wtinit.js
+@@||mxpnl.com/libs/mixpanel-*.min.js$domain=deezer.com
 @@||orange.fr/medias/toolkit/js/Wtbase.js
 @@||orange.fr/medias/toolkit/js/Wtinit.js
 @@||stat.prsmedia.fr/tag/stat.js$domain=bienpublic.com
@@ -8992,6 +9014,7 @@ http://utm.
 @@||gridsumdissector.com^*/logger.js
 @@||hm.baidu.com/h.js?$domain=weaku.com
 @@||imrworldwide.com/novms/js/2/ggcmb353.js$domain=nexttv.com.tw
+@@||pingan.com.cn^*/logger.js?
 @@||pingjs.qq.com/ping_tcss_ied.js$domain=dnf.qq.com
 @@||uwants.com/include/*/swfaddress.js
 @@||vanclimg.com/js.ashx?*/google-analytics.js$domain=vancl.com

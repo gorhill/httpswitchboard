@@ -1,5 +1,5 @@
 [Adblock Plus 1.1]
-! Checksum: SmM+l0pBPCkULzr1/fLuJA
+! Checksum: uQ2MShKehZkJwkveYu5UyQ
 ! This is bulgarian list hosted at http://stanev.org/abp
 ! Contact me at alex at stanev dot org
 !
@@ -74,6 +74,8 @@ aha.aukro.bg/banners.php
 ||amam.bg/bans/
 ||androidbg.com/banner*
 ||animes-bg.com/reklama/
+||apteka-optima.com/frontend/files/banners/
+||apteka-optima.com/frontend/files/static_pages/*Banner*
 ||ardanews.info/banners/
 ||ardanews.info/wp-content/uploads/2011/04/obredendom.png
 ||ardanews.info/wp-content/uploads/2013/04/baner_dps.jpg
@@ -276,6 +278,7 @@ hb.hostbulgaria.com/hb-banner*
 ||hide-my-ip.com/promo/
 ||hitceni.bg/banners/
 ||hls-bg.com/hls186x56.gif
+||homes.bg/images/branding
 ||host.click.bg/images/anim_banner*
 ||hotelsbg.net/banners/
 ||hotmail.bg/img/b*.gif
@@ -637,7 +640,6 @@ subs.sab.bz/images/reset.swf
 ||subsunacs.net/tvds*
 ||syndication.webwizguide.info/pagead/
 t.alein.org/images/banners/
-||technomarket.bg/files/BANNER/
 ||technomarket.bg/userfiles/files/banner*
 ||technooptima.com/catalog/images/banners/
 ||techshop.bg/adds/
@@ -730,6 +732,7 @@ absurdi.com##div[style="padding: 0 0 5px 0;"]
 absurdi.com##.right_banner
 abv.bg###aukcion
 abv.bg##iframe[src="/app/j/banner.jsp"]
+advokatibg.eu##.mod_bannerslider
 afera.bg##div[align="center"]
 alo.bg###adv_zone_top
 animes-bg.com##.banneritem_text
@@ -737,6 +740,7 @@ antenneair.com###topbanner
 apteka.framar.bg###adr_bot_240
 apteka.framar.bg###wallpaper_half_l
 apteka.framar.bg###wallpaper_half_r
+apteka-optima.com##.phAddsText
 arenabg.com##.ads
 arenabg.com##.ads_left
 arenabg.com###banner_11
@@ -818,6 +822,8 @@ gong.bg##.adwise
 gorgonbg.org##table[id="Table_06"]
 hardwarebg.com##TABLE[style="border: 1px solid #000000; margin: 0; padding: 0;"]
 hi7s.com###bgtp
+homes.bg##DIV[style="position:absolute;width:120px;right:-120px;"]
+homes.bg##DIV[style="position:absolute; width:130px;left:-130px;height:900px;"]
 hyundai-bg.com###reclama
 kaminata.net##.poop2
 kartelito.com###topbar
@@ -881,6 +887,7 @@ segabg.com###advert_id
 sensebox.net##.bannerup
 serialmaniq.com###\5f _dimScreen
 serialmaniq.com###advm_preload
+serialmaniq.com###advm_preload
 serialmaniq.com##.banner1
 serialmaniq.com###pop_up_s
 serialmaniq.com###topbar
@@ -905,6 +912,7 @@ ticketpro.bg###baners_top
 topsport.ibox.bg##.banner
 topsport.ibox.bg##.sponsor-logo
 topsport.ibox.bg##.ts-header-banner
+trud.bg##A[href*="mediamall.bg"]
 try.bg##.g300x600single
 tv7.bg###NOTJ
 tv.byalareka.com###topbar
@@ -933,6 +941,7 @@ zovnews.com##.banner_top
 @@||emediate.se/eas$match-case,domain=play.novatv.bg
 @@||ndt1.com/images/articles/*
 ~noshtuvki.burkan.info###adbody
+@@obiavi.data.bg/styles/ads.css
 @@||prodavalnik.com/ajax/ad/offer/
 @@||prodavalnik.com/ajax/ad/togglefollow/
 ~prodavalnik.com###newAd

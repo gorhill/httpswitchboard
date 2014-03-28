@@ -1,6 +1,6 @@
 [Adblock Plus 2.0]
-! Checksum: EQ37VImjNMTJNbl2iTqmXg
-! Version: 201403211641
+! Checksum: uQNsRVFmnSWWevqAEeqpjA
+! Version: 201403281451
 ! Liste FR ~ Filtres francophones complémentaires à EasyList
 ! Title: Liste FR
 ! Licence : http://www.adblock-listefr.com/A_propos
@@ -13,11 +13,12 @@
 !----------------------- Filtres génériques ----------------------!
 !
 .adserverpub.
+.adxcore.
 .be/ads/
 .fr/ads.
 .fr/ads/
+.pubdirecte.
 .publicite.
-/ad-manager/*
 /aff_pub_
 /affiliate/banner/*
 /bandeaupublicite/*
@@ -136,6 +137,7 @@ _regiepub/
 ||femme-cougar.tv^$popup,third-party
 ||gagner-une-console.com^$third-party
 ||gambling-france.com^$third-party
+||gdfspfg.com^$third-party
 ||genhit.com^$third-party
 ||goodaction.com^$third-party
 ||goracash.com^$third-party
@@ -188,7 +190,6 @@ _regiepub/
 ||piximedia.fr^$third-party
 ||pornstreet.com^$popup,third-party
 ||pourmajeurs.com^$third-party
-||priice.net^$domain=phonandroid.com
 ||promo.alienbiz.com^$third-party
 ||promo.ezstatic.com^$third-party
 ||promo.hysteriq.com^$third-party
@@ -319,6 +320,7 @@ _regiepub/
 ||carasexe.com/promo/$third-party
 ||cdn.a9fast.com^*/misc/partner/
 ||cdn.installclick.fr^*/ad.html
+||cdn.priice.net/js/widget.min.js
 ||cdscdn.com*^/footerPartnerOffers.js
 ||cdscdn.com/imagesok/tetiere/partners/
 ||cdscdn.com/other/banniere_
@@ -336,7 +338,7 @@ _regiepub/
 ||coupling.fr/widget_$third-party
 ||crm-pour-pme.fr/images/copie%20de%20728-90.png
 ||crocastuce.fr/images/Boutons/
-||dhtml.pornravage.com/infoslide/
+||dhtml.pornravage.com^
 ||diagnostic-expertise.com^*-popunder.php?$popup
 ||dir-fr.com/banners/$domain=la-musique-rai.com
 ||disco-sexe.com/ban/$third-party
@@ -602,6 +604,7 @@ _regiepub/
 ||widgetvillage.com/ministore/$third-party
 ||wtpn.twenga.com/publisher/$third-party
 ||wtpn.twenga.fr/publisher/$third-party
+||xavbox360.com/ban/
 ||yellowapi.com/twn/?
 ||youtube.com/embed/me3gonWZCW4?$domain=generation-nt.com
 ||youtube.com^$popup,domain=abdelghanisat.kazeo.com
@@ -921,7 +924,6 @@ _regiepub/
 ||francoischarron.com/datascontent/insertech.gif
 ||frandroid.com^*/pub_affichage_web/
 ||free-reseau.fr/images/ban_
-||free.fr/ayl.js
 ||free.fr^*/js/display_shopping_alice.js
 ||freenduro.com/images/banners/
 ||french-movies.net/btn_usenet.png
@@ -1121,8 +1123,7 @@ _regiepub/
 ||libellules.ch/infomaniak-hosted-by-black-transparent.png
 ||libertyland.tv/libertyland/images/partenaire/
 ||libre.eu/homepage/relooking/
-||lien-torrent.com/bupside/
-||lien-torrent.com/pubs/
+||lien-torrent.com^$subdocument
 ||liens-de-telechargement.com/popmodal/
 ||linternaute.com/*@*,position$script
 ||linternaute.com^*/0_pub/
@@ -1205,7 +1206,6 @@ _regiepub/
 ||mistergoodmovies.net^*/js.submgm.js
 ||mobilealgerie.com/files/banners/
 ||mobiles-actus.com/img/integrations/$image
-||mods.gdfspfg.com/load.js
 ||monaco.mc/pages/getbandeau.jsp?
 ||mondedux.com/catcher/
 ||mondissimo.com^*/bannerdisplay.asp?
@@ -1444,6 +1444,7 @@ _regiepub/
 ||touteladomotique.com/pub/
 ||toutporno.com/boost_niche/
 ||toutporno.com^*/pub_col.js
+||toutpratique.com/imgs/pub/
 ||tracking.easyzic.com^
 ||tranquille-emile.com/wp-content/uploads/*/pub.jpg
 ||trefle.com/js/modules/su.*.js
@@ -2179,7 +2180,7 @@ jeuxvideo.com###mc_sponso
 sfr.fr###meeticWrapper
 businessnews.com.tn###megaban-1000
 jeuxactu.com###megaban1
-elwatan.com,franceantilles.fr,franceguyane.fr,silicon.fr###megabanner
+elwatan.com,franceantilles.fr,franceguyane.fr,lerevenu.com,silicon.fr###megabanner
 jeuxvideo.com###menu_topventes
 logicielmac.com###milieu-de-page-728-90
 lessentiel.lu###min_rectangle
@@ -2379,7 +2380,7 @@ reverso.net##.adcontent
 gmx.fr##.add
 beaute-test.com##.addictbloc
 01net.com##.adnl_zone
-actustar.com,beezik.com,cvya.dz,do-tube.org,floriankarmen.com,footespagnol.fr,mercato365.com,metronews.fr,obturations.com,oujdacity.net,raje.fr,replay.fr,rugby365.fr,rugby365.fr.fr,scan-mx.com,sortiesdvd.com,sport365.fr,streaming-video3x.com,telesatellite.com,uzinagaz.com,webstar-auto.com,yourporno.fr##.ads
+actustar.com,beezik.com,cvya.dz,do-tube.org,fairytailmx.com,floriankarmen.com,footespagnol.fr,mercato365.com,metronews.fr,obturations.com,oujdacity.net,raje.fr,replay.fr,rugby365.fr,rugby365.fr.fr,scan-mx.com,sortiesdvd.com,sport365.fr,streaming-video3x.com,telesatellite.com,uzinagaz.com,webstar-auto.com,yourporno.fr##.ads
 artdeseduire.com##.ads-books
 artdeseduire.com##.ads-information
 cvya.dz##.ads-vert
@@ -3030,6 +3031,7 @@ lokan.fr###anti-adblock
 @@||bestofmedia.com/*/images/js/advertisement.js
 @@||blog.lemonde.fr/files/
 @@||blogdumac.com/pub/images/footer-bdm_02.png
+@@||bluesteel.fr/affiliation/$domain=bluesteel.fr
 @@||bourgogne-publicite.com/jeuxconcours/_bienpublic/$image,domain=bienpublic.com
 @@||ccmbenchmark.com^$~third-party
 @@||cdn.inskinmedia.com/isfe/*/swfs/core.swf$domain=rfi.fr
@@ -3174,10 +3176,7 @@ lokan.fr###anti-adblock
 ! Anti-Adblock
 ! A l'attention des webmasters : https://easylist.adblockplus.org/blog/2013/05/10/anti-adblock-guide-for-site-admins
 ! Adunblock
-@@|http://$script,third-party,domain=afrokanlife.com|applebigmac.fr|buzzer-manager.com|byothe.fr|consoledejeux.info|coolradio.be|degroupnews.com|degrouptest.com|dofusmotion.com|e-puzzles.fr|fight4craft.fr|gamewinner.fr|geoforum.fr|geowiki.fr|gridam.com|imagesia.com|jackieetmicheltv.fr|lebouletdunet.com|leetgamerz.net|lesarbres.fr|loractu.fr|maviesurleweb.fr|minecraft-france.fr|minecraftmod.fr|monlinker3ds.com|monlinkerds.com|monlinkerdsi.com|moto85.com|nifoune.com|phonandroid.com|physagreg.fr|pix-geeks.com|reef-guardian.com|rue89strasbourg.com|sen.flam.me|simonfr.org|space-blogs.com|space-blogs.net|space-forums.com|styled-gaming.eu|untourenchine.fr|visiban.com|wiilogic.com|xavbox.com|xavbox.info|xavbox.org|xavbox360.com|xavboxcube.com|xavboxds.com|xavboxforum.com|xavboxnews.com|xavboxone.com|xavboxphone.com|xavboxps2.com|xavboxps3.com|xavboxpsp.com|xavboxtuning.com|xavboxwii.com|xavboxwiiu.com|xavdrone.com
-@@||pagead2.googlesyndication.com/pagead/images/
-@@||pagead2.googlesyndication.com^$image,domain=afrokanlife.com|applebigmac.fr|buzzer-manager.com|byothe.fr|consoledejeux.info|coolradio.be|degroupnews.com|dofusmotion.com|e-puzzles.fr|fight4craft.fr|gamewinner.fr|geoforum.fr|geowiki.fr|gridam.com|imagesia.com|jackieetmicheltv.fr|lebouletdunet.com|leetgamerz.net|lesarbres.fr|loractu.fr|maviesurleweb.fr|minecraft-france.fr|minecraftmod.fr|monlinker3ds.com|monlinkerds.com|monlinkerdsi.com|moto85.com|nifoune.com|physagreg.fr|pix-geeks.com|reef-guardian.com|sen.flam.me|simonfr.org|space-blogs.com|space-blogs.net|space-forums.com|styled-gaming.eu|untourenchine.fr|visiban.com|wiilogic.com|xavbox.com|xavbox.info|xavbox.org|xavbox360.com|xavboxcube.com|xavboxds.com|xavboxforum.com|xavboxnews.com|xavboxone.com|xavboxphone.com|xavboxps2.com|xavboxps3.com|xavboxpsp.com|xavboxtuning.com|xavboxwii.com|xavboxwiiu.com|xavdrone.com
-!
+@@/http://(?!partner\.googleadservices\.com/gpt/pubads_impl_)([a-z0-9]*\.)*[a-z0-9]*//$image,script,third-party,domain=afrokanlife.com|applebigmac.fr|buzzer-manager.com|byothe.fr|consoledejeux.info|coolradio.be|degroupnews.com|degrouptest.com|dofusmotion.com|e-puzzles.fr|fight4craft.fr|gamewinner.fr|geoforum.fr|geowiki.fr|gridam.com|hitek.fr|imagesia.com|jackieetmicheltv.fr|lebouletdunet.com|leetgamerz.net|lesarbres.fr|loractu.fr|maviesurleweb.fr|minecraft-france.fr|minecraftmod.fr|monlinker3ds.com|monlinkerds.com|monlinkerdsi.com|moto85.com|nifoune.com|phonandroid.com|physagreg.fr|pix-geeks.com|reef-guardian.com|rue89strasbourg.com|sen.flam.me|simonfr.org|space-blogs.com|space-blogs.net|space-forums.com|styled-gaming.eu|tryandplay.com|untourenchine.fr|visiban.com|wiilogic.com|xavbox.com|xavbox.info|xavbox.org|xavbox360.com|xavboxcube.com|xavboxds.com|xavboxforum.com|xavboxnews.com|xavboxone.com|xavboxphone.com|xavboxps2.com|xavboxps3.com|xavboxpsp.com|xavboxtuning.com|xavboxwii.com|xavboxwiiu.com|xavdrone.com
 @@||afrokanlife.com^$elemhide
 @@||applebigmac.fr^$elemhide
 @@||buzzer-manager.com^$elemhide
@@ -3193,6 +3192,7 @@ lokan.fr###anti-adblock
 @@||geoforum.fr^$elemhide
 @@||geowiki.fr^$elemhide
 @@||gridam.com^$elemhide
+@@||hitek.fr^$elemhide
 @@||imagesia.com^$elemhide
 @@||jackieetmicheltv.fr^$elemhide
 @@||lebouletdunet.com^$elemhide
@@ -3218,6 +3218,7 @@ lokan.fr###anti-adblock
 @@||space-blogs.net^$elemhide
 @@||space-forums.com^$elemhide
 @@||styled-gaming.eu^$elemhide
+@@||tryandplay.com^$elemhide
 @@||untourenchine.fr^$elemhide
 @@||visiban.com^$elemhide
 @@||wiilogic.com^$elemhide
@@ -3242,6 +3243,8 @@ lokan.fr###anti-adblock
 @@||ad.advertstream.com/adjs_r.php?$script,domain=forum.virtualdjing.com
 @@||adspub.net/javascript/advertisement-AdBlock.js
 @@||anime-story.com/css/advertise.css
+@@||c.ad6media.fr/l.js$domain=programmes-cinema.com
+@@||cdnfiles.e-wok.tv/js/advertisement.js
 @@||cpagrip.com/script_include.php?$domain=streamenfrancais.com
 @@||d.adxcore.com/adjs_r.php?$script,domain=forum.virtualdjing.com
 @@||dramapassion.com/js/advertisement.js
@@ -3254,6 +3257,8 @@ lokan.fr###anti-adblock
 @@||gowonda.com/templates/default/images/ad/banner.gif
 @@||gratuitcul.com/ad.php?ad=$script
 @@||lafansubresistance.com^$script,~third-party
+@@||lien-torrent.com/addrating.php?
+@@||lien-torrent.com/pubs/affiche.php?f=lecteurpub
 @@||meteomedia.com/common/js/master/adframe.js
 @@||notre-planete.info/scripts/ads.js
 @@||pagead2.googlesyndication.com/pagead/expansion_embed.js$domain=universal-soundbank.com
@@ -3271,6 +3276,7 @@ lokan.fr###anti-adblock
 @@||tous-sports.tv/js/advertisement-AdBlock.js
 @@||traductionjeux.com^$elemhide
 @@||unjourunerecette.fr/css/publicite-ads.css
+@@||venez.fr/js/advert.js
 @@||zagaz.com/img/blogads.css
 !
 !----------------------- Exceptions d'éléments -----------------------!
@@ -3279,6 +3285,8 @@ radio-canada.ca#@##ad-header
 e-monsite.com#@##ad_link
 fichier.net#@##contentAd
 futura-sciences.com#@##header-pub
+chantefrance.com#@##pub300x250
+chantefrance.com#@##pub728x90
 visitvar.fr#@##pubDroite
 di.com.pl#@##pub_content
 scan-manga.com#@##pub_haut
@@ -3316,6 +3324,7 @@ wanimo.com#@#div[id^="div-gpt-ad-"]
 scan-manga.com#@##ft_mpu
 scan-manga.com#@##pub_head
 debrideurstream.fr#@##pubdirecte
+fairytailmx.com#@##sponsored-ad
 forum.virtualdjing.com#@#.adFrame
 freedom-ip.com#@#.pub_vertical
 fr.audiofanzine.com#@#div[id^="div-gpt-ad-"]

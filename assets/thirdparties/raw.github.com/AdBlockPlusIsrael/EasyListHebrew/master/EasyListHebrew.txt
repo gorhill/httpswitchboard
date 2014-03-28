@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: jc00IUfIl49Tz1x0ykWN2w
+! Checksum: WA9qsFSDlgxndv54+2c07g
 ! Title: EasyList Hebrew
-! Last modified: 19/03/14  17:59 Jerusalem Standard Time
+! Last modified: 22/03/14  21:40 Jerusalem Standard Time
 ! Expires: 4 days (update frequency)
 ! Homepage: https://github.com/AdBlockPlusIsrael/EasyListHebrew/
 ! Forums: https://github.com/AdBlockPlusIsrael/EasyListHebrew/issues
@@ -224,6 +224,7 @@
 @@||bs.serving-sys.com/BurstingPipe/adServer.bs$object-subrequest
 @@||bs.serving-sys.com/crossdomain.xml$object-subrequest
 @@||c04dl.vds-is.castup.net/crossdomain.net
+@@||ds.serving-sys.com/BurstingRes/$object-subrequest,domain=one.co.il
 @@||gplanet.co.il/js/adx.js
 @@||ifat.com/VideoControl/makoinformation$object-subrequest,domain=mako.co.il,media
 @@||ilgde.adocean.pl/$object-subrequest,domain=mako.co.il
@@ -250,7 +251,8 @@
 @@||sfx-images.mozilla.org^$image
 @@||streambb.one.co.il/ads/$media
 @@||yad2.co.il/ajax/click_stat.php?BannerID=$xmlhttprequest
-@@||zvz.co.il/AdImages/$~third-party,image!
+@@||zvz.co.il/AdImages/$~third-party,image
+!
 !------Whitelists Element Hiding Rules (caused by EasyList / EasyPrivacy )----!
 !
 ad.co.il#@#.ad-link

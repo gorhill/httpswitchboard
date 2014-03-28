@@ -2,8 +2,8 @@
 #
 # For more information about this list, see: http://pgl.yoyo.org/adservers/
 # ----
-# last updated:   Fri, 14 Mar 2014 17:08:51 GMT
-# entries:        2498
+# last updated:   Wed, 26 Mar 2014 07:55:19 GMT
+# entries:        2496
 # format:         hosts (hosts -- in hosts file format)
 # credits:        Peter Lowe - pgl@yoyo.org - http://pgl.yoyo.org/
 # this URL:       http://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext
@@ -126,7 +126,6 @@
 127.0.0.1 ad.jamba.net
 127.0.0.1 ad.jamster.co.uk
 127.0.0.1 ad.jetsoftware.com
-127.0.0.1 ad.keenspace.com
 127.0.0.1 ad.leadbolt.net
 127.0.0.1 ad.liveinternet.ru
 127.0.0.1 ad.lupa.cz
@@ -199,7 +198,6 @@
 127.0.0.1 adaos-ads.net
 127.0.0.1 adap.tv
 127.0.0.1 adapt.tv
-127.0.0.1 adbaaz.com
 127.0.0.1 adbanner.ro
 127.0.0.1 adbard.net
 127.0.0.1 adblade.com
@@ -1210,7 +1208,6 @@
 127.0.0.1 bwp.download.com
 127.0.0.1 c.bigmir.net
 127.0.0.1 c.compete.com
-127.0.0.1 c1.nowlinux.com
 127.0.0.1 campaign.bharatmatrimony.com
 127.0.0.1 canadatop.com
 127.0.0.1 caniamedia.com
@@ -1254,7 +1251,6 @@
 127.0.0.1 cjlog.com
 127.0.0.1 claria.com
 127.0.0.1 class-act-clicks.com
-127.0.0.1 clckm.com
 127.0.0.1 click-fr.com
 127.0.0.1 click.absoluteagency.com
 127.0.0.1 click.fool.com
@@ -1335,7 +1331,6 @@
 127.0.0.1 counter.fateback.com
 127.0.0.1 counter.mirohost.net
 127.0.0.1 counter.mojgorod.ru
-127.0.0.1 counter.nowlinux.com
 127.0.0.1 counter.rambler.ru
 127.0.0.1 counter.search.bg
 127.0.0.1 counter.sparklit.com
@@ -1585,6 +1580,7 @@
 127.0.0.1 hitlist.ru
 127.0.0.1 hitlounge.com
 127.0.0.1 hitometer.com
+127.0.0.1 hitpage.de
 127.0.0.1 hits.europuls.eu
 127.0.0.1 hits.informer.com
 127.0.0.1 hits.puls.lv
@@ -1987,6 +1983,7 @@
 127.0.0.1 porngraph.com
 127.0.0.1 porntrack.com
 127.0.0.1 postmasterbannernet.com
+127.0.0.1 postrelease.com
 127.0.0.1 potenza.cz
 127.0.0.1 pr-star.de
 127.0.0.1 pr-ten.de
@@ -2000,6 +1997,7 @@
 127.0.0.1 primetime.net
 127.0.0.1 privatecash.com
 127.0.0.1 pro-advertising.com
+127.0.0.1 pro.i-doctor.co.kr
 127.0.0.1 proext.com
 127.0.0.1 profero.com
 127.0.0.1 professorbanner.com
@@ -2458,7 +2456,6 @@
 127.0.0.1 wtlive.com
 127.0.0.1 www-banner.chat.ru
 127.0.0.1 www-google-analytics.l.google.com
-127.0.0.1 www.adsxchange.lv
 127.0.0.1 www.banner-link.com.br
 127.0.0.1 www.dnps.com
 127.0.0.1 www.kaplanindex.com
@@ -2493,6 +2490,7 @@
 127.0.0.1 yieldmanager.net
 127.0.0.1 yoc.mobi
 127.0.0.1 yoggrt.com
+127.0.0.1 yourtracking.net
 127.0.0.1 z.times.lv
 127.0.0.1 z5x.net
 127.0.0.1 zangocash.com

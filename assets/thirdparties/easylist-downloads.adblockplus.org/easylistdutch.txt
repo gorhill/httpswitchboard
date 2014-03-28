@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: yWUnybx5P+y9O9soMrzTXw
-! Version: 201403211641
+! Checksum: jTNbXvYIlP+wGphJLFQ5Xw
+! Version: 201403281451
 ! Title: EasyList Dutch
 ! Description: Dutch supplement for the Easylist filters
-! Last modified: 21 Mar 2014 16:41 UTC
+! Last modified: 28 Mar 2014 14:51 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -98,6 +98,7 @@
 ||schoorsteen.geenstijl.nl^$third-party
 ||semilo.com^$third-party
 ||site-id.nl^$third-party
+||sponsorportaal.nl^$third-party
 ||sxad.nl^$third-party
 ||system.adquick.nl^$third-party
 ||tel.adversitement.nl^$third-party
@@ -286,6 +287,7 @@
 ||am-forum.nl/kbc-logo.swf
 ||am-forum.nl/upload/logo_elektrodump.png
 ||amerika.nl^*/banners/
+||androidplanet.nl/wp-content/plugins/scroll-triggered-boxes/
 ||ans-online.nl/wp-content/themes/mimbo/images/Banner-
 ||antilliaansdagblad.com/images/banners/
 ||anwb.nl/binaries/swf/banners/
@@ -316,6 +318,7 @@
 ||camping-frankrijk.nl/Graphics/yelloh2011.swf
 ||camping-frankrijk.nl/hoofdpaginabanners.asp
 ||chatgirl.nl^*/dlf468.
+||chatmetvreemden.be/static/html/
 ||chatmetvreemden.nl/static/html/
 ||chauffeursforum.nl^*tvm.swf
 ||christelijkvakantieplein.nl^*-banner.
@@ -363,6 +366,7 @@
 ||frankrijk.nl/flash/banner_
 ||freakpyromaniacs.com/images/banners/
 ||froot.nl^*/campagnes/
+||gamesquare.nl/doc/game/ad_
 ||gay.nl/takeover/
 ||geilefotoverhalen.nl/banners/
 ||genemuidenactueel.nl/data/banners/
@@ -459,6 +463,7 @@
 ||ndss.nl/static/ak.gif
 ||nederland.fm/i/*banner
 ||nederland.fm/i/restaurantantoine120x60.gif
+||nederland.fm/livebanner.php?
 ||nederlandnieuws.nl/scripts/afb_
 ||netonline.be/reizen/ebookers/
 ||netonline.be/slices/banners/
@@ -475,6 +480,7 @@
 ||omroepflevoland.nl/sitefiles/banners/
 ||ondertitel.com/popup.js
 ||onderweg.nl/assets/templates/modxhost/flash/banners/
+||onemorething.nl/wp-content/header-takeovers/
 ||onestat.com/app/banneriframe.aspx?
 ||onestat.com/banners/adone-
 ||onlineluisteren.nl/banner.html
@@ -505,6 +511,7 @@
 ||rtv-arnhem.nl^*/fm/userfiles/banner/
 ||rtvutrecht.nl/data/img/reclame_
 ||ru.nl/web/upload/banner/bannerbanner
+||satellitemagazine.com/revda.php?
 ||scholieren.com/assets/images/*.jpg
 ||sexdumpert.nl/banner/
 ||sexdumpert.nl/banners/
@@ -667,7 +674,7 @@
 @@||spilcdn.com^*/js/advertisement/flowplayer/flowplayer-3.2.6.min.js$domain=girlsgogames.nl|spel.nl|spelletjes.nl
 @@||track.adform.net/adfscript/?$script,domain=spel.nl
 @@||track.adform.net/adfserve/?$script,domain=spel.nl
-@@||vtm.be/vmmaplayer/embed?videoUrl=*&adZone=$subdocument,domain=zita.be
+@@||vtm.be/vmmaplayer/embed?videoUrl=*&adZone=$subdocument,domain=knack.be|zita.be
 ! Anti-Adblock
 @@||pagead2.googlesyndication.com/pagead/show_ads.js$domain=alfaforum.nl
 !--------Uitzonderingen--------!
@@ -686,6 +693,7 @@
 @@||zeelandnet.nl/prikbord/assets/*/advertentie.js
 @@||zeelandnet.nl/prikbord/assets/*/advertenties.js
 ! Uitzonderingen voor EasyList
+@@||ad.nl/ad/css/$~third-party
 @@||adhese.standaard.be/jsonp/callback/sl_test_dso_ipad_optimized_avondeditie_-interstitial/?$script
 @@||adsense.nl^$domain=adsense.nl
 @@||adv.scoutingkatwijk.nl^$domain=scoutingkatwijk.nl
@@ -693,6 +701,7 @@
 @@||cinema.nl/ads/mediaplayer.jsp?$subdocument
 @@||doopsgezind.nl/templates/ads/$domain=doopsgezind.nl
 @@||earnieland.be/images/photolib/*_120_60.
+@@||facebook.com/AD.NL?$subdocument,~third-party
 @@||fakkert-electronica.nl/images/adds/
 @@||forum.scholieren.com/banman/$domain=forum.scholieren.com
 @@||hebbes.be^*/AdsImages/$image
@@ -897,6 +906,8 @@ voetbalzone.nl###uniGroot
 pokercollege.nl###verticalbanner
 telegraaf.nl###vsl_banner
 telegraaf.nl###widget4-300-250
+nederland.fm###xbtm
+nederland.fm###xttm
 vinden.nl###zoektip
 blog.nl##.ADV
 bokt.be##.PopupDiv
@@ -975,6 +986,7 @@ speeleiland.nl##.game-side-banner-wrap
 dumpert.nl##.geldbakje
 rijnmond.nl##.half_banner
 zoover.nl##.header-banner
+onemorething.nl##.headertakeover
 pathe.nl##.homepageBanner
 voetbalzone.nl##.info-col > .block
 rtl.nl##.inlineRectangle
@@ -1026,7 +1038,7 @@ marktnet.nl##.textlink.snap_noshots
 tvgids.nl##.tips
 wetenschapsforum.nl##.top_banner
 limburger.nl##.top_story_banner
-chatmetvreemden.nl##.trackerclick
+chatmetvreemden.be,chatmetvreemden.nl##.trackerclick
 nutech.nl##.trackevent[href^="/advertorial-"]
 uitburo.nl##.uitmail_banner_block
 voetbalzone.nl##.uniClick

@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: u0ZYWlNfWJW5ALPB4wHBeg
-! Version: 201403211640
+! Checksum: HDlFIS/91SqqwHY27Xsg3Q
+! Version: 201403281451
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 21 Mar 2014 16:40 UTC
+! Ultima modifica: 28 Mar 2014 14:51 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -119,6 +119,7 @@ _pubblicita_
 ##.adagiowritebanner_dmtag
 ##.adv-articolo
 ##.adv-iframe-sx
+##.adv300eni
 ##.advPostLibri
 ##.adv_esterno
 ##.adv_oriz
@@ -809,6 +810,8 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||gazzettadiparma.it/gfx/txtlink/
 ||gazzettadiparma.it/swf/autozatti_14062013.swf
 ||gazzettadisondrio.it/images/banner/
+||gazzettamatin.com/admin/banner_
+||gazzettamatin.com/admin/img_banner/
 ||gazzettaobjects.it/static_images/promo/
 ||gazzettaobjects.it^*/adv/
 ||gazzettaobjects.it^*/sponsor/
@@ -1089,6 +1092,8 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||mastertop100.org/advf1.php
 ||masterviaggi.it/banner/
 ||mattinonline.ch^*/banner_
+||maxleggeri.it^*/uni2.png
+||maxleggeri.it^*/UNICUSANO_
 ||mbenz.it/banner.swf
 ||mbenz.it/lidaolbia.jpg
 ||mediagol.it/images/sponsor/
@@ -1252,6 +1257,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||radioglobo.it/img/bg/bg_
 ||radiogold.it^*/banner/
 ||radioitaliacharleroi.com/adv/
+||radiomanasport.it^*/EU.jpg
 ||radiomarte.it/site/images/sponsor/
 ||radiomondo.it/images/banners/
 ||radionorba.it/sp/flash/banner-
@@ -1471,6 +1477,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||traderlink.it/images/skin/
 ||trasporti-italia.com^*/banner/
 ||treccani.it/Portale/resources/images/bg$image
+||treccani.it^*_300x100_
 ||trentotoday.it/images/skin/
 ||tribunasportiva.it/images/*350x200.jpg
 ||tribunasportiva.it/images/banners/
@@ -1591,7 +1598,7 @@ spaziogames.it###a_boder_bg
 digital-forum.it,esigarettaforum.com###ad_global_below_navbar
 bordighera.net,italianhack.org,mailexpress.it,spaziogames.it###ads
 ilgazzettinovesuviano.com###adsensing
-la7.it,ustation.it###adv
+la7.it,ustation.it,xvideoscopate.com###adv
 agarymathematics.net###adv1
 cinquequotidiano.it###adv2
 cinquequotidiano.it###adv_1
@@ -1742,6 +1749,7 @@ insegreto.it###footer-banners
 ladige.it###footer-leaderboard
 red-live.it###footer_banner
 fc-suedtirol.com###footersponsor
+xvideoscopate.com###footertop
 ilcap.it###gadsense
 rdf.it###gkBanner2
 telefonino.net###google300x250
@@ -2090,6 +2098,7 @@ ilsole24ore.com##.fabbrica24
 ilmanifesto.it##.fascia_Arial
 masterviaggi.it##.fieldset_sponsor
 livesicilia.it##.flash-box-a-sponsor-2
+netweek.it##.flexslider-header
 cazzofiga.com##.footer-banner-wrapper
 gazzettadasti.it##.footer-rotate-banner
 chievocalcio.tv##.footer-sponsor-container
@@ -2379,6 +2388,7 @@ ilfattoquotidiano.it##div[style="width:300px; height:75px; margin-top: 10px; ove
 ilfattoquotidiano.it##div[style="width:300px; height:75px; margin-top: 10px; overflow:hidden; float:left;line-height:15px;"]
 ilfattoquotidiano.it##div[style="width:300px; height:75px; overflow:hidden; float:left; margin-top: 10px;"]
 ilfattoquotidiano.it##div[style="width:300px; height:75px; overflow:hidden; float:left; margin-top: 10px;line-height:15px;"]
+xvideoscopate.com##div[style="width:300px;float:right;margin-right:15px;border: 4px solid rgb(85, 85, 85);padding: 40px 40px;"]
 outune.net##div[style="width:300px;height:180px; background:#fff;"]
 ticinolibero.ch##div[style="width:300px;height:250px;margin-bottom:10px"]
 strettoweb.com##div[style="width:307px; height:250px; text-align:left; margin:0 0 5px 5px; float:right;"]
@@ -2430,6 +2440,7 @@ elaborare.info##img[style="height: 960px;\a             margin-left: 970px;\a   
 rietilife.it##img[style="width: 205px; height: 82px;"]
 frosinoneweb.net##img[style="width: 930px; height: 115px;"]
 melamorsicata.it##img[width="160"][height="300"]
+parmaquotidiano.info##img[width="290"][height="90"]
 radiolombardia.it##img[width="300"][height="250"]
 mmorpgitalia.it##img[width="500"][height="122"]
 tuttoshoppingmotori.com##img[width="610px;"]
