@@ -142,7 +142,6 @@ Github:
             * githubapp.com
             * github.global.ssl.fastly.net
             * github-camo.global.ssl.fastly.net
-            * githubusercontent.com
             # To enable drag n drop of image
             xhr s3.amazonaws.com
     scope: chromium-behind-the-scene
