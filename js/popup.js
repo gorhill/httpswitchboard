@@ -1249,6 +1249,9 @@ function updateScopeCell() {
 function updateABPbutton() {
     var httpsb = getHTTPSB();
     var button = $('#buttonABPFiltering');
+    if ( button.length === 0 ) {
+        return;
+    }
     if ( httpsb.userSettings.parseAllABPFilters !== true ) {
         button.css('display', 'none');
         return;
