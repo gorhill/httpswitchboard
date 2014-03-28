@@ -156,27 +156,36 @@ var firstObservationHandler = function() {
     nodesAddedHandler(document.querySelectorAll('script, a[href^="javascript:"], object, embed'), summary);
 
     // Check with extension whether local storage must be emptied
-    if ( window.localStorage && window.localStorage.length ) {
-        summary.localStorage = true;
-        chrome.runtime.sendMessage({
-            what: 'contentScriptHasLocalStorage',
-            url: summary.locationURL
-        }, localStorageHandler);
+    // rhill 2014-03-28: we need an exception handler in case 3rd-party access
+    // to site data is disabled.
+    // https://github.com/gorhill/httpswitchboard/issues/215
+    try {
+        if ( window.localStorage && window.localStorage.length ) {
+            summary.localStorage = true;
+            chrome.runtime.sendMessage({
+                what: 'contentScriptHasLocalStorage',
+                url: summary.locationURL
+            }, localStorageHandler);
+        }
+
+        // TODO: indexedDB
+        if ( window.indexedDB && !!window.indexedDB.webkitGetDatabaseNames ) {
+            // var db = window.indexedDB.webkitGetDatabaseNames().onsuccess = function(sender) {
+            //    console.debug('webkitGetDatabaseNames(): result=%o', sender.target.result);
+            // };
+        }
+
+        // TODO: Web SQL
+        if ( window.openDatabase ) {
+            // Sad:
+            // "There is no way to enumerate or delete the databases available for an origin from this API."
+            // Ref.: http://www.w3.org/TR/webdatabase/#databases
+        }
+    }
+    catch (e) {
     }
 
-    // TODO: indexedDB
-    if ( window.indexedDB && !!window.indexedDB.webkitGetDatabaseNames ) {
-        // var db = window.indexedDB.webkitGetDatabaseNames().onsuccess = function(sender) {
-        //    console.debug('webkitGetDatabaseNames(): result=%o', sender.target.result);
-        // };
-    }
-
-    // TODO: Web SQL
-    if ( window.openDatabase ) {
-        // Sad:
-        // "There is no way to enumerate or delete the databases available for an origin from this API."
-        // Ref.: http://www.w3.org/TR/webdatabase/#databases
-    }
+    // console.debug('HTTPSB> firstObservationHandler(): found %d script tags', Object.keys(summary.scriptSources).length);
 
     chrome.runtime.sendMessage(summary);
 };
@@ -210,6 +219,9 @@ var loadHandler = function() {
 // I suspect this could only happen when I was using chrome.tabs.executeScript(),
 // because now a delarative content script is used, along with "http{s}" URL
 // pattern matching.
+
+// console.debug('HTTPSB> window.location.href = "%s"', window.location.href);
+
 if ( /^https?:\/\/./.test(window.location.href) ) {
     // rhill 2014-01-26: If document is already loaded, handle all immediately,
     // otherwise defer to later when document is loaded.
