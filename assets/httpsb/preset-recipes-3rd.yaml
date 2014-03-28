@@ -223,7 +223,7 @@ Youtube:
         plugin youtube.com
         script youtube.com
         xhr youtube.com
-        frame www.youtube.com
+        frame youtube.com
         css ytimg.com
         image ytimg.com
         plugin ytimg.com
