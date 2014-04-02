@@ -2,8 +2,8 @@
 #
 # For more information about this list, see: http://pgl.yoyo.org/adservers/
 # ----
-# last updated:   Wed, 26 Mar 2014 07:55:19 GMT
-# entries:        2496
+# last updated:   Wed, 02 Apr 2014 09:18:15 GMT
+# entries:        2499
 # format:         hosts (hosts -- in hosts file format)
 # credits:        Peter Lowe - pgl@yoyo.org - http://pgl.yoyo.org/
 # this URL:       http://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext
@@ -249,6 +249,8 @@
 127.0.0.1 adgardener.com
 127.0.0.1 adgoto.com
 127.0.0.1 adgridwork.com
+127.0.0.1 adhese.be
+127.0.0.1 adhese.com
 127.0.0.1 adhostcenter.com
 127.0.0.1 adi.mainichi.co.jp
 127.0.0.1 adimage.asiaone.com.sg
@@ -2136,6 +2138,7 @@
 127.0.0.1 servethis.com
 127.0.0.1 service1.adten.de
 127.0.0.1 services.hearstmags.com
+127.0.0.1 serving-sys.com
 127.0.0.1 sexaddpro.de
 127.0.0.1 sexcounter.com
 127.0.0.1 sexinyourcity.com

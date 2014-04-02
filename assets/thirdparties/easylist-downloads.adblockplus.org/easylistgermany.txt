@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: HlhMQ5BfDCgedK9BCbaiAQ
-! Version: 201403281450
+! Checksum: owyky8PTawvPNWCZdi6N9A
+! Version: 201404021620
 ! Title: EasyList Germany
 ! EasyList Germany - Deutsche Ergänzung zu EasyList
-! Last modified: 28 Mar 2014 14:50 UTC
+! Last modified: 02 Apr 2014 16:20 UTC
 ! Expires: 1 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -685,6 +685,7 @@ netzkino.de#@#.contentAdBox
 ||eletry.tk^$third-party
 ||elite-layer.de^$third-party
 ||eroppc.com^$third-party
+||erovation.com^$third-party
 ||et.twyn-group.com^$third-party
 ||et.twyn.com^$third-party
 ||ethnarc.de^$third-party
@@ -822,6 +823,7 @@ netzkino.de#@#.contentAdBox
 ||quartermedia.de^$third-party
 ||quarterserver.de^$third-party
 ||rapidads.de^$third-party
+||renegoads.com^$third-party
 ||revresrennab.de^$third-party
 ||rgadvert.com^$third-party
 ||rockvertise.net^$third-party
@@ -1641,6 +1643,7 @@ netzkino.de#@#.contentAdBox
 ||amazonaws.com/cloud-s.ndimg.de/$domain=netdoktor.de
 ||amerika-forum.de^*/ebay_logo.gif
 ||amerikanisch-kochen.de/bilder/GlamFood_
+||androidnext.de/ajax/products.php?page_type=detail&type=bestdevices&$xmlhttprequest
 ||androidpit.de/swf/app-seller.swf?xmlpath=$object
 ||androidpit.info/js/video/videoTakeOver.js
 ||anime-loads.org/images/c3on9.jpg
@@ -1787,6 +1790,7 @@ netzkino.de#@#.contentAdBox
 ||blickpunkt-brandenburg.de/typo3conf/ext/sbbanner/
 ||blockbusters.cc/partner/
 ||blockbusters.to^$script,domain=byte.to
+||blockfloete.eu/media/images/banners/
 ||blog-xx.net/pop-code.js
 ||blogprojekt.de/Bilder/bp/backlinkseller.gif
 ||blogprojekt.de/Bilder/Profi/bloggerjobs.gif
@@ -2637,6 +2641,7 @@ netzkino.de#@#.contentAdBox
 ||lokalanzeiger.de/images/banner/
 ||lokaleangebote.bild.de^
 ||lokalisten.de/eggs/cpi.php?acc=$script
+||lokalisten.de/lokiimg/kunden/$image
 ||lokalisten.de/scripts/ox_spc.js
 ||looki.de/ba/
 ||looki.de/gfx/cache/ba_*.png
@@ -3274,6 +3279,7 @@ netzkino.de#@#.contentAdBox
 ||svwehen-wiesbaden.de/medium/Hermann_Sample.png
 ||swimnews.de^*_250x880.jpg
 ||swimnews.de^*_960x120.jpg
+||symptomat.de/ama/
 ||synchronkartei.de/amazonproxy.php
 ||t-online.de/bidcs/web/bidcs/www-lcat?*^name=ebay^$xmlhttprequest
 ||t-online.de/lisa/em/html/ecommercebar/
@@ -3786,6 +3792,7 @@ excitingcommerce.de###alpha-inner > .module-typelist:first-child + .module-typel
 excitingcommerce.de###alpha-inner > .module-typelist:first-child + .module-typelist + .module-typelist
 downloadstube.net###alternative_download + a[onclick]
 eeepc.de###amazon1
+androidnext.de###amazon_headline
 crackajack.de###amazon_list
 chip.de###anchorSuperBanner
 tagesspiegel.de###anzeige_schnippsel
@@ -3835,6 +3842,7 @@ godmode-trader.de,tarifagent.com###banner_bigsize
 duckcrypt.info###banner_bottom
 persoenlich.com###banner_center2
 nrhz.de###banner_container_rc
+geemag.de###banner_content
 freizeitparks.de,suxedoo.ch###banner_left
 nrhz.de###banner_left_container_lc
 tageblatt.com.ar###banner_lufthansa_apaisado
@@ -3934,6 +3942,7 @@ neckar-chronik.de###container_bottom
 az-web.de###container_standard_oms
 biothemen.de###content + #right
 fernsehkritik.tv###content > #rclm[style="width:224px;"]:last-child
+wgvdl.com###content > #seitenblock > #seitenblockinhalt > #seitenblockzeilen
 oxygen-scene.com###content > .board_message
 netzwelt.de###content > .two-thirds > div[style="margin: 10px; margin-left: 0px;"]
 netzwelt.de###content > .two-thirds > div[style="margin: 10px;"]
@@ -4208,6 +4217,7 @@ orf.at###monsterdiv
 berlin-nutten.com,deutsche-erotikfilme.com###more-sex
 radio-teddy.de###mpl
 gamigo.de###mrbox
+androidnext.de###mrec_sidebar
 visions.de###mrect
 morgenpost.de###mrect01
 morgenpost.de###mrect02
@@ -4590,7 +4600,6 @@ wirtschaftslexikon.gabler.de###textBannerContainer
 fundanalyzer.de,fundresearch.de###ticker
 t-online.de###tl_anz-pos1
 de.msn.com###tonline
-testedich.de###top
 chip.de###top-banner
 fnweb.de###top-bannerrow
 awardfabrik.de###top2
@@ -4787,7 +4796,6 @@ oxygen-scene.com##.alert_green
 modernboard.de##.alt1[style="padding-top:0px"] > div[style="clear:both"] + ul[style="list-style-type:none; margin:0px; padding:0px"]
 dforum.net##.alt2[colspan="2"][style="background: #eaeab4"] > font[color="#000"]:first-child:last-child > table[width="100%"][cellspacing="0"][cellpadding="0"]:first-child:last-child
 winboard.org##.alt2[style="padding-top:0px"] > ul[style="list-style-type:none; margin:0px; padding:0px"] > br:first-child + div[align="center"]:last-child
-g-stream.in##.alt5.news.sidebar + * + *
 heise.de##.ama
 radiopsr.de,rsh.de##.amazon
 computerbase.de##.amazon-links
@@ -4890,6 +4898,7 @@ brokencomedy.de##.bc-medium-rectangle
 heise.de##.bcadv
 saarbruecker-zeitung.de##.beilagen
 movie-blog.org##.beitrag > div > div > a[href^="http://movie-blog.org/"]
+pcwelt.de##.best-products
 ariva.de##.bgAnzeige
 oilimperium.de##.bg_img
 yelp.de##.biz-details-yla
@@ -5615,6 +5624,7 @@ yelp.de##.yla
 magistrix.de##.zeezee
 german-bash.org##.zitat > div[style="width:300px;"]
 3dl.tv##:not(td) > a[target="_blank"][href*=".3dl.tv/"][href*=".php?"][href*="="]:first-child
+androidnext.de##A[onclick^="_gaq.push(['_trackEvent', 'Sidebar', 'Amazon App Store',"]
 npage.at,npage.ch,npage.de,~www.npage.at,~www.npage.ch,~www.npage.de##[class] > a[target="_blank"][href*=".npage.de/"][href$=".html"]
 npage.at,npage.ch,npage.de,~www.npage.at,~www.npage.ch,~www.npage.de##[class] > a[target="_blank"][href^="/"][href$=".html"]
 npage.at,npage.ch,npage.de,~www.npage.at,~www.npage.ch,~www.npage.de##[id] > a[target="_blank"][href^="/"][href$=".html"]
@@ -6312,6 +6322,7 @@ ragecomic.com##div[id^="vecoll"]
 ragecomic.com##div[id^="vertcol"]
 welt.de##div[id^="w_articlecoop_"]
 schnelle-online.info##div[onclick*="'familienurlaub'"]
+androidnext.de##div[onclick^="_gaq.push(['_trackEvent', 'Sidebar', 'Amazon App Store',"]
 gamestar.de##div[onclick^="location.href='http://www.gamestar.de/_misc/linkforward/linkforward.cfm?linkid="]
 suchen.de##div[onclick^="sl(PID.PpcClick);window.open('http://www.suchen.de/ad?"]
 rtl-now.rtl.de,voxnow.de##div[onclick^="window.open('/tools/count/xdot/count.php?id="]
@@ -6889,6 +6900,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||adtech.de/adrawdata$object-subrequest,domain=player.nowonscreen.com
 @@||adtech.de/apps/$object-subrequest,domain=cineman.de
 @@||adv.sportube.tv/adv/www/delivery/ajs.php?$script,domain=fc-suedtirol.com
+@@||adwords.safi-gmbh.ch^$~third-party
 @@||afcdn.com/world/ads.js$domain=gofeminin.de
 @@||affilinet-inside.de^*/affilinet/$stylesheet
 @@||aka-cdn-ns.adtech.de/apps/$image,domain=neckermann.de
@@ -7058,7 +7070,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||merkur-werbebanner.de^$~third-party
 @@||metzgerei-giering.de^*/advertising/$~third-party
 @@||milesandmore-aktionen.de^*://promo.$subdocument,domain=promo.milesandmore.com
-@@||mirapodo.de/a?rt=$script,domain=mytoys.de
+@@||mirapodo.de/a?rt=$script,domain=ambellis.de|mytoys.de
 @@||mirapodo.de/ads?$script
 @@||mmcomputer.de^*&BannerID=$subdocument
 @@||monetenlos.com/components/com_marketplace/images/ads/$image
@@ -7218,9 +7230,11 @@ pcwelt.de##div[id^="google_ads_"]
 @@||37.59.248.204^$script,domain=ul-load.com|uploaded-premium.ru
 @@||5.135.58.25^$script,domain=uploaded-premium.ru
 @@||ad.71i.de/global_js/*/adplayer.min.js$domain=gamestar.de
+@@||ad.71i.de/global_js/globalV6.js$domain=lokalisten.de
 @@||ad.71i.de/global_js/Sites/gamestarde.js$domain=gamestar.de
 @@||ad.71i.de/global_js/Sites/lokalistende.js$domain=lokalisten.de
 @@||ad.lokalisten.de/www/delivery/fl.js$domain=lokalisten.de
+@@||ad.lokalisten.de/www/delivery/spc.php?zones=$script
 @@||ad.lokalisten.de/www/delivery/spcjs.php?id=$script,domain=lokalisten.de
 @@||ad4.liverail.com/?LR_PUBLISHER_ID=$object-subrequest,domain=n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
 @@||ad4mat.de/ads/js/adtrust-min.php?*&w=468&h=60&$script,domain=mufa.de
@@ -7293,14 +7307,16 @@ pcwelt.de##div[id^="google_ads_"]
 @@||flashtalking.com/imp/*;BMWTVTeaser220x180/?click=$script,domain=teleboerse.de
 @@||forum-fuer-senioren.de^*/ad.js
 @@||free-klingeltoene-handy.de/adframe.js
+@@||g.doubleclick.net/activity;*/DE-AudiencePixel/Gamestar;dc_seg=$image,domain=gamestar.de
 @@||g.doubleclick.net/gampad/ads?gdfp_req=*&callback=window.parent.googletag.impl.pubads.setAdContentsBySlotForAsync&$script,domain=pcwelt.de
 @@||game-advertising-online.com/images/s-l.gif$domain=anime-loads.org
 @@||game-advertising-online.com/index.php?section=serve&id=$subdocument,domain=anime-loads.org
 @@||gamestar.de^$elemhide
+@@||gamona.de/ads/uploads/2014/03/$image
 @@||gassi-tv.de^*/adframe.js
 @@||gerichtsboulevard.de^$elemhide
-@@||gmads.net/crossdomain.xml$object-subrequest,domain=n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
-@@||gmads.net/r?$object-subrequest,domain=n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
+@@||gmads.net/crossdomain.xml$object-subrequest,domain=clipfish.de|n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
+@@||gmads.net/r?$object-subrequest,domain=clipfish.de|n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
 @@||goolive.de^*.js|
 @@||green-24.de^$elemhide
 @@||grundrechteschutz.de^$elemhide
@@ -7325,7 +7341,6 @@ pcwelt.de##div[id^="google_ads_"]
 @@||mirror-archiv.com/banner/ads/adserver/click/ad.js
 @@||mufa.de/js/advertisement.js
 @@||mutterschutz-rechner.de^$elemhide
-@@||myentertainment.$script,third-party
 @@||mypolonia.de^*/adframe.js
 @@||myvideo.*/ad.js
 @@||n-roms.de/adframe.js
@@ -7334,6 +7349,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||news.feed-reader.net/adimages/$subdocument
 @@||nuggad.net/bk?*&nuggtg=de_putpattv_music&$object-subrequest,domain=putpat.tv
 @@||nuggad.net/crossdomain.xml$object-subrequest,domain=putpat.tv|tape.tv
+@@||nuggad.net/rc?nuggn=$script,domain=gamestar.de
 @@||onlinetvrecorder.com/adcodes/?$subdocument
 @@||onlinetvrecorder.com/buyclicks/*.php?r=$subdocument
 @@||onlinetvrecorder.com/buyclicks/weasel.php$document
@@ -7359,6 +7375,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||rechtsschutzversicherunginfo.de^$elemhide
 @@||rene-neuweiler.ch^$elemhide
 @@||rentenbote.de^$elemhide
+@@||revsci.net/pql?placementIdList=*&cb=$script,domain=gamestar.de
 @@||schuetzenrecht.de^$elemhide
 @@||schulzeux.de/js/show_ads.js
 @@||schweizer-abgeltungssteuer.ch^$elemhide

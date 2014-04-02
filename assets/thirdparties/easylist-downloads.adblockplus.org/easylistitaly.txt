@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: HDlFIS/91SqqwHY27Xsg3Q
-! Version: 201403281451
+! Checksum: 7iN3Mf116KJYLQknuLA92g
+! Version: 201404021621
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 28 Mar 2014 14:51 UTC
+! Ultima modifica: 02 Apr 2014 16:21 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -815,6 +815,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||gazzettaobjects.it/static_images/promo/
 ||gazzettaobjects.it^*/adv/
 ||gazzettaobjects.it^*/sponsor/
+||gds.it/fileadmin/banner/
 ||gds.it^*-300x251-
 ||gdsannunci.it/images/bannerpub/
 ||geekissimo.com/images/5sms.gif

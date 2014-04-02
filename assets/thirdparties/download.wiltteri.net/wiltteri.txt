@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: ztLRlAWQjkvatNLWGj8exA
-! Version: 201403251950
+! Checksum: cITUEUqR25JUBCvYkR/a6A
+! Version: 201404021240
 ! Title: Wiltteri
 ! Description: Finnish supplement list for EasyList
-! Last modified: 25 Mar 2014 19:50 UTC
+! Last modified: 02 Apr 2014 12:40 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: http://wiltteri.net/
 ! License: http://creativecommons.org/licenses/by-sa/3.0/
@@ -101,10 +101,6 @@ _mainosnappi.
 ||193.93.132.142/*ads
 ||194.188.93.124/scripts/edoris/edoris.dll?
 ||216.92.95.133/parisuhde/ad
-||3t.fi/amt_hakubanneri/
-||3t.fi/files/images/cover/thumb/
-||3t.fi/files/promobox/
-||3t.fi/promobox/
 ||7ht.fi/nappi/
 ||80.64.13.37/vtoy/peltomaki/
 ||81.22.160.163/banners.php?
@@ -228,6 +224,7 @@ _mainosnappi.
 ||blogspot.com^*/sheinside.jpg$domain=kristakuparinen.blogspot.fi
 ||blues-finland.com/images/cdon/
 ||blues-finland.com/images/Commercial/
+||blues.fi^*/sponsorilogot/
 ||bmwforum.fi/ads/
 ||bodylehti.fi/customfiles/banner
 ||bomber.fi/ads/
@@ -350,12 +347,16 @@ _mainosnappi.
 ||fast.fi/pakkotoisto
 ||fauna.fi/images/banners/
 ||fbtpori.fi/etusivusponssi*.asp
+||fc.tps.fi/files/*_banner
 ||fchaka.fi/images/*banner
-||fclahti.fi/uploads/images/banners/
-||fctps.fi/files/sponssit
+||fchonka.fi^*/bannerit/
+||fchonka.fi^*/img/sponsors_all.png
+||fclahti.fi^*/etusivusliderlogot/
+||fctps.fi^*/sponssit_
 ||feed.etuovi.com/tabbedbanner/
 ||ferratum.fi/gfx/banners/
 ||festivals.fi/kuvat/yhteistyokumpp_tunnukset2.gif
+||ffjaro.fi/images/resize/banner_
 ||fga.fi/images/partners/
 ||fi-reggae.com/kamppikset/
 ||fiercermedia.fi/wp-content/uploads/2011/08/fiercer-media-referenssit.png^
@@ -476,7 +477,7 @@ _mainosnappi.
 ||himos.fi/images/stories/logot/banner-
 ||himosareena.fi/images/stories/banner
 ||himosareena.fi/images/stories/front/banner
-||himosfestival.com/images/stories/yhteistyo/
+||himosfestival.com^*/img/kumppanit.png
 ||himosmaailma.fi/images/banners/
 ||himosnews.com/images/banner
 ||himosteatteri.fi/images/logo
@@ -493,8 +494,7 @@ _mainosnappi.
 ||hiusyrittajat.fi^*/Kannatusj%C3%A4senent-20121112.jpg
 ||hiusyrittajat.fi^*/sam-images/
 ||hiusyrittäjät.fi^*/logo_
-||hjk.fi/adv/
-||hjk.fi/splash/
+||hjk.fi/adds/
 ||hoitonetti.fi/vimages/html/images/sponsoredby
 ||hollola.fi/Elixir_logo_150_lev200.jpg
 ||hollola.fi/paketti.jpg
@@ -530,8 +530,7 @@ _mainosnappi.
 ||ilmoituskone.mtv.fi^$subdocument
 ||ilmonet.*/ilmo/VAADIN/themes/pks-theme/img/toimittajalogo
 ||ilonpolku.fi/kauppa/logos/logot
-||ilosaarirock.fi/2013/images/_footer.png
-||ilosaarirock.fi^*/banners/
+||ilosaarirock.fi^*/images/_footer.png
 ||iltalehti.fi^*/alma_init_cjs.js
 ||iltapulu.fi/ads/
 ||iltapulu.fi^*/klikklik.png
@@ -612,7 +611,7 @@ _mainosnappi.
 ||juoksija-lehti.fi/portals/*/Bannerit/
 ||juoksukoulu.fi/sites/default/files/imagecache/Main_Sponsors/
 ||juoksukoulu.fi/sites/default/files/imagecache/Main_Sponsors_Bottom/
-||jypliiga.fi/themes/site_themes/jyp2011/images/partnerit/
+||jypliiga.fi^*/partnerit/
 ||jyvaskylankesa.fi^*/sponsors/
 ||k-kauppiasliitto.fi/banner/
 ||kaannos.com/img/nebula.jpg
@@ -623,7 +622,6 @@ _mainosnappi.
 ||kainuunsanomat.fi^*/meedio_kainuun_sanomat.js
 ||kainuunsanomat.fi^*/mpbanner/
 ||kalaan.fi/bannerit/
-||kalajoenjuhannus.com/images/*kiintea.swf
 ||kalajokimatkailu.fi/media/files/bannerit/
 ||kalamies.com/images/banners/
 ||kalastajanmaailma.com/PublisherFishinglordsBannerPicture?
@@ -689,7 +687,6 @@ _mainosnappi.
 ||kesyrottayhdistys.fi/images/banners/
 ||kevyt.net/images/bannerit/
 ||kevyt.net/images/kerta/banner
-||kierratystehdas.fi/wp-content/uploads/2013/02/*160.png
 ||kilometrikisa.fi/assets/files/
 ||kilpailumaailma.fi/kotelo*.png
 ||kilpailumaailma.fi/lasten*.png
@@ -700,9 +697,6 @@ _mainosnappi.
 ||kirkkojakaupunki.fi/kuvat/*banneri
 ||kirkkojakaupunki.fi/kuvat/verkkokirkko.gif/image
 ||kirkkojakaupunki.fi/kuvat/yhtyma.jpg/image
-||kissaliitto.fi/images/*banner
-||kissaliitto.fi/tiedostot/*logo
-||kissaliitto.fi/tiedostot/banneri
 ||kissarmyfinland.com/webpage/pictures/ad/
 ||kites.fi/images/stories/Digi_FIN
 ||kites.fi/images/stories/digibusinessfi
@@ -820,7 +814,7 @@ _mainosnappi.
 ||like.fi/sites/default/files/imagecache/oikean_laidan_nosto/
 ||lil.fi/images/banners/
 ||lilith.fi/images/sponsori_logot/
-||linnanmaki.fi^*/etusivu-tukijat.
+||linnanmaki.fi^*/logo/public/
 ||linssit.net/img/halvatnet.gif
 ||lintukuva.fi/birdlife.jpg
 ||lintukuva.fi/rajala.jpg
@@ -1069,7 +1063,7 @@ _mainosnappi.
 ||pakkotoisto.com/fast/
 ||pallokarhut.fi/jalkapallo/images/banners/
 ||pallokarhut.fi/lentopallo/logot/
-||palloliitto.fi/sites/default/files/styles/sponsor-front/public/
+||palloliitto.fi^*/sponsor-main-logo/
 ||palvelut.hameensanomat.fi/wp-content/rtm/
 ||palvelut.uusisuomi.fi/wp-content/rtm/nosto/cache/us1.js
 ||pan.fotovista.com/tradebanner/europe_nord/pixmania/
@@ -1083,8 +1077,8 @@ _mainosnappi.
 ||pelaajalehti.com/*_wallpaper.
 ||pelaajaporssi.net/*/i/nebula_tarjoaa_yhteydet.gif
 ||pelastetaankissat24.com/images/banners/
-||pelicans.fi/sites/www.pelicans.fi/files/image/kumppanit/
-||pelicans.fi/sites/www.pelicans.fi/themes/pelicans/images/logo*.png^
+||pelicans.fi^*/banner/
+||pelicans.fi^*/partner/
 ||pelikone.fi/embed/
 ||pelikone.fi/widget/iframe?
 ||peliveljet.com/images/*banner
@@ -1172,14 +1166,14 @@ _mainosnappi.
 ||progear.net/skin/frontend/default/progear/images/bottomlogos.gif^
 ||proseniorkummit.fi/images/stories/ET
 ||proseniorkummit.fi/images/stories/varamies
-||provinssirock.fi/images/sponsor_
-||provinssirock.net/images/sponsor_
+||provinssirock.fi/images/*_logo.
+||provinssirock.fi/images/sponsor
+||provinssirock.net/images/*_logo.
+||provinssirock.net/images/sponsor
 ||psyli.fi/banner/
 ||puhdastulevaisuus.fi/media/ulkoasu/bannerit/
 ||puhti.com/kuvat/*banner
-||puistoblues.fi/images/banner
-||puistoblues.fi/matsku/
-||puistoblues.fi/uploadkuvat/bannerit-oikea-reuna/
+||puistoblues.fi^*/bannerit-oikea-reuna/
 ||pulju.net/shop/mainpics/bannerit/
 ||punamustat.net/kumppanit/
 ||punkalaidun.fi/punkalaidun/liitetiedostot/bannerit/
@@ -1266,8 +1260,8 @@ _mainosnappi.
 ||riverball.fi/images/Puma.gif
 ||roi-press.mainostaja.com./images/ccdate-140x300.gif
 ||rokkizine.fi/bannerit*/
-||rops.fi/images/stories/Edustusjoukkue/*banner
-||rops.fi^*/pjmr.swf
+||rops.fi^*/bannerit/
+||rops.fi^*/kumppanit/
 ||rovaniemenmarkkinat.fi/images/banners/
 ||royalartistclub.com/addons/widget*.swf?
 ||rpthaku.fi/*banner
@@ -1289,9 +1283,10 @@ _mainosnappi.
 ||saastopankki.fi/VerkkopalvelutWeb/ip/sisalto.do?
 ||sahkoala.fi/bannerit/
 ||saiko.fi/images/banners/
+||saimaablues.fi/wp-content/uploads/*logo
 ||saimaatours.fi/images/*banner
 ||saimaavolley.fi/uploads/images/bannerit/
-||saipa.fi/templates/saipa/images/2012/sponsor_logos/
+||saipa.fi^*/sponsors/
 ||saituri.org/wp-content/uploads/*/Kiva_logo.
 ||sajl.fi/@Bin/30
 ||sakkinet.fi/easydata/customers/sakki/files/Bannerit/
@@ -1358,6 +1353,7 @@ _mainosnappi.
 ||sisustakotia.fi/uploads/images/banner
 ||sivistys.net/bannerit/
 ||sixdegrees.wm.fi/6d/images/banners/
+||sjk2007.fi/images/org/yhteistyo_
 ||ski.fi/files/skifi/*bannerit/
 ||skootterini.com/images/banners/
 ||slamitnet.1g.fi/kuvat/Bannerit$third-party
@@ -1779,7 +1775,6 @@ vesikatot.fi###ColumnBox + div#ColumnBox
 sonkajarvi.fi###ContentVersionEditView1_interface_iw_column_inner_iw_column_3.iw_column_inner > div
 rakentaja.fi###DOMWindow
 rakentaja.fi###DOMWindowOverlay
-fclahti.fi###EssTopBanners
 inhimillinenturhamaisuus.com###HTML17
 inhimillinenturhamaisuus.com###HTML7
 kaha.fi###HomeMidContainer
@@ -1803,6 +1798,7 @@ ahtarinelainpuisto.fi###SAContent6 > .Teksti
 ahtarinelainpuisto.fi###SAContent7
 flightforum.fi###TopBanner
 svosk.fi###Vasen_palkki > p > a > img
+sjk2007.fi###Yhteystyölogot
 kennelliitto.fi###_ctl0_cphMainContent_Koiramme1_radKoiramme_RadEditor
 ts.fi###aamuset_feed_div
 alueviesti.fi###above-everything
@@ -1847,7 +1843,7 @@ e-finland.org###area_sponsors
 taloussanomat.fi###articleMiddleAd
 kvaliitti.fi###asiakastyot > a > img
 meripaiva-areena.fi###aside
-ajantappo.fi,helsinkicup.fi,puskaradio.net,rops.fi,vuokraovi.com###banner
+ajantappo.fi,puskaradio.net,vuokraovi.com###banner
 ifpi.fi###banner-container
 demari.fi###banner-left
 autoluettelo.fi###banner-shadow
@@ -1867,7 +1863,6 @@ helvetin16.com###bannerSix
 lomarengas.fi###banner_bar
 mediakasvatus.fi###banner_block
 kotipuutarhuri.com###banner_carousel
-fchonka.fi###banner_column
 plastiroll.fi###banner_container
 tori.fi###banner_index_top
 tori.fi###banner_list_top
@@ -1909,7 +1904,6 @@ rakas.net###block-block-1 div.content
 snacky.fi###block-block-10 a > img
 sotiemmeveteraanit.fi###block-block-12 > div.content
 maailma.net###block-block-24 > h2 + div.content
-pelicans.fi###block-block-26
 lansi-savo.fi###block-block-2[style="height: 775px;"]
 aurinkogolf.fi###block-block-3
 sakury.net###block-block-7
@@ -1938,7 +1932,6 @@ kotijamokkikeskus.fi###body6
 svyl.net###botright
 a-kiltojenliitto.fi,perheyritystenliitto.fi###bottom
 matara.fi###bottom > .box2,.box3
-rops.fi###bottom a[target="_blank"] > img
 joulupukki.fi,santatelevision.com###bottom-banners
 saunarekka.fi###bottom-nav
 nettiauto.com,nettikaravaani.com,nettikone.com,nettimarkkina.com,nettivaraosa.com###bottom_list_adsense
@@ -2037,7 +2030,7 @@ hartwall.fi###flashContent2
 kotipuutarhuri.com###flash_banner
 minunasuntoni.fi###flashcontent
 flug.fi###flug-tukijat
-acoulu.fi,creativeleadership.fi,eliittikisat.fi,fchonka.fi,fillarikalenteri.fi,fillarikellari.fi,gameli.fi,harkaviikot.fi,internetforum.fi,k-trainee.fi,kaisafest.fi,kalajoenjuhannus.com,kassastaliittoon.fi,kattaakaupungin.fi,kirittaret.fi,kivakoulu.fi,kokkolaopera.com,kuntokuu.fi,kups.fi,langatontampere.fi,lautapeliseura.fi,lentajat.fi,luokkakokous.com,lykky.fi,meripaiva-areena.fi,ops.fi,oslalive.fi,rajatsi.fi,runoviikko.fi,sakuverkosto.net,sarkaa.fi,tammerfest.fi,tamperefilmfestival.fi,toisenlainentukholma.fi,udi.fi,verkatehdas.fi,wknd.fi,yleisotyo.fi,yyteribeachfutis.fi###footer
+acoulu.fi,creativeleadership.fi,eliittikisat.fi,fillarikalenteri.fi,fillarikellari.fi,gameli.fi,harkaviikot.fi,internetforum.fi,k-trainee.fi,kaisafest.fi,kassastaliittoon.fi,kattaakaupungin.fi,kirittaret.fi,kivakoulu.fi,kokkolaopera.com,kuntokuu.fi,kups.fi,langatontampere.fi,lautapeliseura.fi,lentajat.fi,luokkakokous.com,lykky.fi,meripaiva-areena.fi,ops.fi,oslalive.fi,rajatsi.fi,runoviikko.fi,sakuverkosto.net,sarkaa.fi,tammerfest.fi,tamperefilmfestival.fi,toisenlainentukholma.fi,udi.fi,verkatehdas.fi,wknd.fi,yleisotyo.fi,yyteribeachfutis.fi###footer
 visitkarelia.fi###footer .clear, .logos
 kolmasulottuvuus.fi###footer .maailma
 kolmasulottuvuus.fi###footer .yle
@@ -2062,11 +2055,11 @@ finlandiatalo.fi###footer-links
 mustapippuri.fi,pudottajat.fi,terkkari.fi,tohtori.fi###footer-row3
 turku2011.fi###footer-sponsors
 pirkka.fi###footer-top
+saimaablues.fi###footer-widgets
 lastensuvisoitto.com,sysmansuvisoitto.com###footer2
 raumalainen.fi###footerBannerBox div.view-content
 gloria.fi###footerContent
-3t.fi###footerContentTop
-3t.fi,kodinkuvalehti.fi,menaiset.fi,vauva.fi###footerCovers
+kodinkuvalehti.fi,menaiset.fi,vauva.fi###footerCovers
 kodinkuvalehti.fi,menaiset.fi,vauva.fi###footerLinks
 k-citymarket.fi###footerLogos
 visulahdenjuhannus.fi,wanajafestival.fi###footerLogot
@@ -2082,7 +2075,6 @@ rantajatkat.fi###footer_mainokset
 kennelliitto.fi###footer_middle
 kennelliitto.fi###footer_top
 urheiluakatemia.fi###footerbottom
-ilosaarirock.fi###footerimg
 hansaprint.fi###footerlinks + *
 smy.fi###forest
 kemora.fi###fotter
@@ -2106,13 +2098,13 @@ tapahtumainfo.fi###header > a
 iltapulu.fi###header > div
 lounaat.fi###header > td > a.header-img
 nimenhuuto.com###header-banner-text
-pelicans.fi###header-region
 kitarasankari.fi###header-wrap
 nopeustesti.com###header_banner
 metalfromfinland.com###heading > a:first-child
 netticaravan.fi###hintaseuranta
 nettimarkkina.com###home_right_banner
 finfun.fi###homeflashcontent
+fchonka.fi###honkaponssit
 sokoshotels.fi###hotels_banner2_etusivu
 sanakirja.org###hs_logo
 fi###hsfiHslice
@@ -2157,7 +2149,9 @@ toppari.fi###left > .banners-bottom:last-child
 koneviesti.fi###left > p > a.external > img
 kiinnostaakohuumeet.fi###left a > img
 liikkujanviikko.fi###left a[target="_blank"] > img
+kissaliitto.fi###left a[target="blank"] > img[style*="padding-bottom:"]
 gardengym.fi###left br + br + a > img
+helsinkicup.fi###left_column_banner_box
 turuntaiteidenyo.fi###left_links
 designforum.fi###leftcol img
 yritysporssi.fi,yritysporssi.yrittajat.fi###leftcolumn
@@ -2181,7 +2175,12 @@ golfpiste.com###logoGolfDigest
 konebox.fi,petsie.fi,uutissiturust.fi###logobar
 artgoeskapakka.fi,haikko.fi,isolehti.fi,musiikkimedia.fi,tuuri.fi###logos
 lippo.fi###logosNew
-apeced.org,kissakaveri.fi,lomasuomi.fi,pesis.fi,rantapallo.fi,smartia.fi,suomenurheilugaala.fi###logot
+fclahti.fi###logoslider
+apeced.org,kalajoenjuhannus.com,kissakaveri.fi,lomasuomi.fi,pesis.fi,rantapallo.fi,smartia.fi,suomenurheilugaala.fi###logot
+kierratystehdas.fi###logot strong:first-of-type
+kierratystehdas.fi###logot strong:first-of-type + br
+kierratystehdas.fi###logot strong:first-of-type + br + br
+kierratystehdas.fi###logot table
 hostellit.fi###lower_right p
 nika.fi###luotettava_kumppani
 hetkyajassa.fi###main > .image-list > li > a > img
@@ -2190,6 +2189,7 @@ iltasanomat.fi###main > .main-story + .html-container
 hetkyajassa.fi###main > .title
 karateliitto.fi###main img[width="150"]
 lukiolaistenkirjakauppa.fi###mainFlash
+hjk.fi###mainSP
 fillarikellari.fi###main_col1 > a > img
 aapeli.com###main_games_mid_center:first-child:last-child > div.ad:first-child
 puhtaastiparas.fi###main_navi > a > img
@@ -2207,6 +2207,7 @@ laureamko.fi###mainosp-1
 hangup.fi###mainospaikat_top
 sinunsavo.fi###mainostajat
 ffp-motorsport.com###mainright
+fclahti.fi###mainsponsors
 eat.fi###makuja-head-link
 dvdopas.fi###margincontent
 s-matkat.fi###mata_cycle_contentscroller
@@ -2236,6 +2237,7 @@ itviikko.fi###newsFrontAd2
 terassisaa.fi###newsbox
 oikotie.fi###newsservice-feeds
 kuvake.net###nn-big[style="height: 178px;"]
+fc.tps.fi###nostokuvat_rivi2
 mandatumlife.fi###nostot
 event-travel.fi###official_partners
 kangasniemenmusiikkiviikot.fi###ohje_teksti a img
@@ -2260,6 +2262,7 @@ aamuposti.fi,aamuset.fi###page-top
 mypa.fi###pagetopbanners
 saimaaspirit.fi###palsta-right + div#bottomline
 radiodei.fi###palsta3
+puistoblues.fi###palsta_oikea
 uusisuomi.fi###palvelut-nosto-389
 jukupark.fi###panel
 sportti.com###panorama_container
@@ -2267,8 +2270,7 @@ etuovi.com###panorama_top
 pk-35.fi###parallax_pagelast
 autotalli.com###partnerAdvertisementsWrapper
 jypliiga.fi###partnerit
-elamalapselle.fi,event-travel.fi,galleriaantares.fi,greenriders.fi,helsinkilivefestival.fi,helsinkiviikko.fi,hjk.fi,kotipuutarhuri.com,musiikkimedia.fi,musiikkitalo.fi,pelastakaalapset.fi,tampereairshow.fi,valo-cd.fi,vauhtiajot.fi,yritysmentorointi.fi###partners
-blues.fi###partners2
+elamalapselle.fi,event-travel.fi,galleriaantares.fi,greenriders.fi,helsinkilivefestival.fi,helsinkiviikko.fi,kotipuutarhuri.com,musiikkimedia.fi,musiikkitalo.fi,pelastakaalapset.fi,tampereairshow.fi,valo-cd.fi,vauhtiajot.fi,yritysmentorointi.fi###partners
 kotikokki.net###partners_lift_204
 konsolifin.net###pelaaja
 iltasanomat.fi###pelikone-widget
@@ -2296,6 +2298,7 @@ dbtl.fi###rbeat-logo
 kotipalvelu1.fi###really
 kuulokynnys.fi,kuuloliitto.fi,muistiliitto.fi,muistimarkkinat.fi###reference
 ruutu.fi###region-ad-top
+linnanmaki.fi###region-footer-second
 keskustelu.jatkoaika.com###reklaamiur1
 ostohyvitys.fi###retailersdiv
 backyardrock.com,helsinkicitymarathon.fi,helsinkicityrun.fi,minimarathon.fi,perkele.com,yyterintwist.fi###right
@@ -2304,7 +2307,6 @@ koneviesti.fi###right > div > p > a.external > img
 speedmotorcircus.fi###right > div.block.block-block > div.content
 raisio.fi###right > form[action*="raisio-opas.com/haku/"]
 paini.fi###right > h2 + p
-rops.fi###right a[target="_blank"] > img
 lennalomalle.com###right-column
 esp.fi###right-column-wrapper
 kuopiorock.com###right2
@@ -2380,6 +2382,7 @@ cosmopolitan.fi###smfFooter
 hyvaterveys.fi,kiloklubi.fi###smf_footer
 rallisprintsm.fi###solu121
 punainen.fi###some-logos
+rops.fi###sp-bottom-wrapper
 kerubi.fi###spanfooter
 artikla.com,tampere-talo.fi###spons
 kilometrikisa.fi###spons-ver
@@ -2389,7 +2392,7 @@ elitisti.net###sponsor-area
 viihteelle.com###sponsorad
 flamenco.fi###sponsoriasiakastieto.fi
 coss.fi###sponsorlogos
-helsinginjuhlaviikot.fi,juniorikalpa.fi,kalpa-hockey.fi,lieksabrass.com,liigariento.org,mtgsuomi.fi,provinssirock.fi,provinssirock.net,tourdehelsinki.fi###sponsors
+helsinginjuhlaviikot.fi,juniorikalpa.fi,kalpa-hockey.fi,lieksabrass.com,liigariento.org,mtgsuomi.fi,tourdehelsinki.fi###sponsors
 biitsi.fi###sponsors-container
 sirkusfinlandia.fi###sponssi
 turkusoundcheck.com###sponssit-row
@@ -2429,6 +2432,7 @@ ammattiautot.fi###top-banner-wrapper
 aromilehti.fi###top-banner2
 yyteribeachfutis.fi###top-logos-bg
 lippo.fi###top-right
+saipa.fi###top-sponsors
 plaza.fi###top-wide-ad
 kauppakamarikauppa.fi###top3_bannerarea
 kaupunkilehtiankkuri.fi###topBanner
@@ -2436,7 +2440,7 @@ telkka.com,telkku.com,telkku.fi###topBannerWrapper
 mediuutiset.fi###topBanners
 vuokraovi.com###topBarBanner
 sahkovertailu.fi###topSection
-aarremaanalla.com,cumulus.fi,pokerisivut.com,saipa.fi###top_banner
+aarremaanalla.com,cumulus.fi,pokerisivut.com###top_banner
 ankkarock.fi###top_banner:last-child
 fillarikalenteri.fi###top_banner_ad
 hok-elanto.fi###top_content
@@ -2458,6 +2462,7 @@ tietoteekkarikilta.fi###valikko div[style="text-align: center; border-top: 1px s
 kaustinen.net###vas_bannerit
 lentajienjuhannus.fi###vasenlohko
 finnboat.fi###vasenmenuspacer > center > p > a > img
+jypliiga.fi###veikkaus
 nettikaravaani.com,nettikone.com,nettivaraosa.com###vifAdLeaderBoard
 nettimarkkina.com###vif_right_banner
 toisenlainentukholma.fi###viking-expand-wrapper
@@ -2701,7 +2706,6 @@ jymy.net##.div_advert300
 jymy.net##.div_blackbox650 + div.div_blackbox650
 peliveljet.com##.div_whitebox650_table tr[height="10"] + * > td
 postiviidakko.fi##.divide
-pelicans.fi##.e2e-widget1
 huviopas.net##.esittelyt
 inthecity.fi##.etu-ala-mainos
 seutulanautomaalaamo.fi##.etusivuBannerit
@@ -2716,12 +2720,14 @@ mascus.fi##.farmitNews
 nelonen.fi##.field-name-field-promotion-main-image
 viskari.net##.fixcenter + * + center
 netmission.fi##.flashBanner
+veikkausliiga.com##.float-right-banner
 flowfestival.com##.flowfestival_widget_partners
 dexviihde.fi,helsinkipride.fi,leikkiluola.fi,yourmove.fi##.footer
 laatutakuu.fi##.footer > p > img
 ts.fi##.footer-banner
 saariselka.com##.footer-banners .external-link
 ampparit.com##.footer-copyright > a > img
+himosfestival.com##.footer-header
 golf.fi##.footer-logos
 poimuri.fi##.footerLogo
 seutunappi.fi##.footerLogos.noPrint
@@ -2733,7 +2739,7 @@ visitlakeland.fi##.footer_logot
 lahtiguide.fi##.footerbox
 porttipuistoshopping.fi##.footerimage0
 kohtaamo.net##.footerlogos
-saabclub.fi##.footerlogot
+saabclub.fi,tps.fi##.footerlogot
 tietoviikko.fi##.fp_promoPictureOnly
 kokkolanmatkatoimisto.fi##.fr
 suoraplus.fi##.frontBanner1
@@ -2793,7 +2799,6 @@ mansikkakarnevaalit.fi##.laatikossaviiva tbody
 fixgalleria.net##.layout_frame_lb + div
 oluset.fi##.left
 nuoriyrittajyys.fi##.left > div.moduletable + div.moduletable
-helsinkicup.fi##.left > div.moduletable > table.contentpaneopen
 saimaanvesityo.fi##.leftCol a > img
 saimaavolley.fi##.left_banner
 venajaseura.com##.left_banners
@@ -2827,7 +2832,6 @@ helsinginuutiset.fi##.mainos-karuselli-sidebar
 alueviesti.fi##.mainos-reunapalkissa
 gaming.fi,mtv.fi##.mainos-text
 vaikutus.fi##.mainos_etusivu
-hjk.fi##.mainos_lev
 variantclub.fi##.mainosbanneri-linkki
 yliopistovalmennus.fi##.mainoskikka
 vuokatti.fi##.mainospaikka_wide
@@ -2909,6 +2913,7 @@ relaa.com##.placeholder_180_150
 kaypahoito.fi##.portlet-borderless-container > div > img
 tyopaikat.oikotie.fi##.prefooter-last
 kaarle.com##.primulaCardHolder
+jypliiga.fi##.profile_sponsor
 rakennuslehti.fi##.promoBasic + * + * + * + * + * + * + * div.inner
 marmai.fi,talouselama.fi##.promoBox
 iltamakasiini.fi##.promo_slider_wrapper
@@ -2924,6 +2929,7 @@ geologia.fi##.right > .moduletable_sivusto:last-child
 fysioline.fi##.right > p > a > img
 villala.net##.right-column > .moduletable:last-child
 polttoaine.net##.rightCol
+helsinkicup.fi##.right_banner_box_edit
 ifbb.fi##.right_column
 luvy.fi##.right_logo
 jokipojat.com,mestis.fi,sapko.fi,tutohockey.fi##.rightbanner
@@ -2976,9 +2982,10 @@ livetulokset.com##.spacer10
 jklkarting.fi##.sponsor
 kipa90.com##.sponsor-slider
 jyvaskylankesa.fi##.sponsorHolder
-indietaivas.fi,lentoliikennejailmasto.fi,saimaavolley.fi##.sponsors
+indietaivas.fi,lentoliikennejailmasto.fi,provinssirock.fi,provinssirock.net,saimaavolley.fi##.sponsors
 tuska-festival.fi##.sponsors_bottom
 finnhandball.net##.sponssi-wrap
+rops.fi##.sprocket-mosaic
 dvdplaza.fi##.ss_rightcolumn_index
 hikingtravelhit.fi##.style10
 hikingtravelhit.fi##.style8
@@ -3024,6 +3031,7 @@ skvl.net##.vasen img
 sastamala.fi##.vasen_sisalto
 koovee.fi##.vasenala
 jatkoaika.com##.veikkaus
+fclahti.fi##.veikkausbox
 happee.fi##.video
 visithelsinki.fi##.view-banners-display
 ydinlehti.fi##.view-item.view-item-Mainokset > div.view-field.view-data-node-body
@@ -3143,7 +3151,7 @@ suisto.fi##div > table[border="0"]
 savonkinot.fi##div a > img
 lumiparkki.fi##div ul.xoxo > li.widget.widget_sp_image
 alypaa.com##div:first-child:last-child > div:first-child + div:last-child > a
-aarre.fi,devilskuopio.fi,edukouvola.fi,ffjaro.fi,fin5.fi,kalottjazzblues.net,lakiwiki.fi,lehtiapaja.fi,luontotupa.net,metsavetoomus.fi,orivedenponnistus.fi,outokummunkaupunki.fi,pelaa.org,ramasa.net,vantaalla.info,vapaatohjelmat.fi##div[align="center"]
+aarre.fi,devilskuopio.fi,edukouvola.fi,fin5.fi,kalottjazzblues.net,lakiwiki.fi,lehtiapaja.fi,luontotupa.net,metsavetoomus.fi,orivedenponnistus.fi,outokummunkaupunki.fi,pelaa.org,ramasa.net,vantaalla.info,vapaatohjelmat.fi##div[align="center"]
 teatterihelsinki.fi##div[align="center"] + * + * + * + * + * + p
 goldenring.fi##div[align="center"] + * > p
 helsinginkisaveikot.fi##div[align="center"] + * img
@@ -3484,7 +3492,7 @@ thairy.net##p[align="right"]
 adressit.com##p[class^="underMenuAd"]
 tilastopaja.fi##p[style="margin-top: 0pt; margin-bottom: 0pt;"]
 kaustinen.fi##p[style="margin-top: 5px; margin-bottom: 5px;"]
-digivideo.fi,finthai.net,hakarinteet.fi,jannenjamit.fi,kalajoenjuhannus.com,lomasuomi.fi,ocf.fi,politika.fi,tfp-markkinointi.fi,voitotkotiin.com##p[style="text-align: center;"]
+digivideo.fi,finthai.net,hakarinteet.fi,jannenjamit.fi,lomasuomi.fi,ocf.fi,politika.fi,tfp-markkinointi.fi,voitotkotiin.com##p[style="text-align: center;"]
 purjehtija.fi##p[style="text-align: center;"] > a[target="_new"] > img
 ringette.fi##p[style="text-align: left;"]
 www.mtv3.fi##section[class="ad"]
@@ -3545,11 +3553,13 @@ hukka-halli.com##table[style="width: 262px; height: 281px"]
 valoa-hanke.fi##table[style="width: 265px; height: 67px;"]
 kannus.fi##table[style="width: 291px; height: 72px;"]
 riista.fi##table[style="width: 438px; height: 81px;"]
+sjk2007.fi##table[style="width: 650px; height: 733px;"] tr:last-of-type
 kupiainen.net##table[width="108%"] img
 kupiainen.net##table[width="140%"] img
 blues-finland.com##table[width="142"] td > a > img
 finlandiaseura.com##table[width="181"]
 puutarha.net##table[width="188"]
+tangomarkkinat.fi##table[width="212"] a.linkki
 finlandiaseura.com##table[width="252"]
 finlandiaseura.com##table[width="265"]
 finlandiaseura.com##table[width="279"]
@@ -3558,6 +3568,7 @@ kirittaret.fi##table[width="340"]
 uittoyhdistys.fi##table[width="360"]
 purjehduskurssi.com##table[width="570"] > tbody > tr > td:last-child
 musiikinaika.org##table[width="614"]
+tangomarkkinat.fi##table[width="620"] td[bgcolor="#ffffff"]
 vaellusnet.com##table[width="623"]
 adventra.fi,matkavaruste.fi##table[width="700"]
 sateenkaariperheet.fi##table[width="980"] > tbody > tr:nth-of-type(6) h3[style="text-align: center;"]
@@ -3639,7 +3650,7 @@ kev.fi##td.captionModel2
 mulletoi.com##td.centered
 pikadeitti.com##td.desc
 tankkaus.com##td.footer
-eklu.fi,palloliitto.fi##td.homeRightCol
+eklu.fi##td.homeRightCol
 olennainen.fi##td.infoBoxWhite > br + a > img
 kuopiodancefestival.fi##td.kalenteri
 jamsek.fi##td.layoutRightTd
@@ -3683,7 +3694,6 @@ etelapohjanmaa.fi,muumimaailma.fi,veekasi.net##td[align="right"]
 vastuullinenyritys.fi##td[align="right"] > a > img
 kampaamoverkko.fi##td[background*="/mainostausta.gif"]
 deifestival.fi##td[background*="taustakuvat/yhteistyomoduuli"]
-tangomarkkinat.fi##td[bgcolor="#ffffff"]
 sfnet.fi##td[class="otsikko2"]
 skp.fi##td[colspan="14"]
 ilotalo.com##td[colspan="3"]
@@ -3757,7 +3767,7 @@ rmj.fi##td[width="147"]
 asuntotieto.com##td[width="150"]
 clubliberte.fi##td[width="150"]:last-child > a > img
 suomenlomapalvelu.fi##td[width="151#"]
-palloliitto.fi,sjl.fi,sporttisaitti.com,svu.fi##td[width="160"]
+sjl.fi,sporttisaitti.com,svu.fi##td[width="160"]
 niveltieto.net##td[width="173"]
 uratie.fi##td[width="176"]
 ytk-yhdistys.fi##td[width="180"]
@@ -3801,6 +3811,7 @@ como.fi,episodi.fi,inferno.fi,popmedia.fi,rumba.fi,rytmi.com##ul.pro15
 ! -------------------- wiltteri-adult-block.txt --------------------- !
 ||adults.fi/ads/
 ||adults.fi^*/homoseksi.jpg
+||adulttv.fi/images/kuvat/$domain=livechat.fi
 ||finswingers.com/img/logos/
 ||herkku.net/alabanneri.php
 ||herkku.net/bannerit/
@@ -3817,10 +3828,12 @@ como.fi,episodi.fi,inferno.fi,popmedia.fi,rumba.fi,rytmi.com##ul.pro15
 ||seksitreffit.fi/treffit/kuvat/*.swf
 ||seksitreffit.fi/treffit/kuvat/*_banner
 ||seksitreffit.org/button-
+||top100.valmiskauppa.fi/images/kuvat/$domain=livechat.fi
 ||turunerotiikkamessut.com^*/yhteistyo/$image
 ! -------------------- wiltteri-adult-hide.txt ---------------------- !
 turunerotiikkamessut.com###block-views-yhteisty-kumppanit-block
 porno-videot.com###footer img
+livechat.fi###frontrow
 livechat.fi###header td:not(:first-child)
 seksitreffit.org###topbar
 seksitreffit.org##.banner

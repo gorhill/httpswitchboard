@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: ZfqvuPmoNBiThmoAtDV/Hg
-! Version: 201403281451
+! Checksum: 4sCdpc08sAfb8XS/Chdl2w
+! Version: 201404021621
 ! Title: EasyPrivacy
-! Last modified: 28 Mar 2014 14:51 UTC
+! Last modified: 02 Apr 2014 16:21 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -1295,6 +1295,7 @@
 /ping?spacedesc
 /pingd?
 /PingPixel.
+/pingServerAction?
 /pistats/cgi-bin/*
 /piwik-$domain=~piwik.org
 /piwik.js
@@ -1911,6 +1912,7 @@
 /vtrack.php?
 /vtracker.
 /vTracker_
+/vztrack.gif?
 /vzTracker/*
 /wa01.gif?log=
 /wanalytics/*
@@ -4719,6 +4721,7 @@ http://utm.
 ||elb.amazonaws.com/partner.gif?
 ||elb.amazonaws.com/small.gif?
 ||els-cdn.com^*/analytics.js
+||email-edg.paypal.com/o/$image
 ||email.mediafire.com/wf/open?$third-party
 ||emarketeer.com/tracker/
 ||embed.docstoc.com/Flash.asmx/StoreReffer?
@@ -5254,6 +5257,7 @@ http://utm.
 ||stats.whicdn.com^$third-party
 ||stats.yourminis.com^
 ||stats2.lightningcast.net^
+||stats3.unrulymedia.com^
 ||statsadv.dadapro.com^$third-party
 ||statsdev.treesd.com^
 ||statsrv.451.com^
@@ -8669,7 +8673,7 @@ http://utm.
 @@||go.com/stat/flash/analyticreportingas3.swf
 @@||goldbet.com/Scripts/googleAnalytics.js
 @@||goldmansachs.com/a/pg/js/prod/gs-analytics-init.js
-@@||google-analytics.com/analytics.js$domain=deviantart.com
+@@||google-analytics.com/analytics.js$domain=afternic.com|deviantart.com
 @@||google-analytics.com/plugins/ga/inpage_linkid.js$domain=lovehoney.co.uk|opendns.com|openshift.com|vimeo.com
 @@||google-analytics.com/urchin.js$domain=denverbroncos.com|muselive.com|streetfire.net|wickedthemusical.com
 @@||google.com/js/gweb/analytics/$domain=google.com
