@@ -274,9 +274,19 @@ PermissionScope.prototype.diff = function(other) {
 // code, and I gain by making local references to global variables, which
 // is better if done once, which would happen for each recursive call
 // otherwise.
+//
+// rhill 2014-04-03: With the addition of ubiquitous whitelisting, the function
+// has grown to be quite large. The logic is relatively simple, though for an
+// outsider it may appear hairy. Now re. "I unwind it completely here", well
+// I need to come up with some numbers really. Who knows, maybe the javascript
+// engine optimize better when code paths are at a minimum? Specifically, the
+// code handling strict blocking is repeated four times, encapsulating it into
+// its own function would help tidy up the code, it all depends how much
+// performance is negatively affected, if any. Need to measure.
 
 PermissionScope.prototype.evaluate = function(type, hostname) {
     var httpsb = HTTPSB;
+    var ubiquitousWhitelist = httpsb.ubiquitousWhitelist;
     var ubiquitousBlacklist = httpsb.ubiquitousBlacklist;
     var blacklist = this.black.list;
     var whitelist = this.white.list;
@@ -304,8 +314,7 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
 
         cellKey = '*|' + hostname;
         if ( whitelist[cellKey] ) {
-            // If strict blocking, the type column must not be
-            // blacklisted
+            // If strict blocking, the type column must not be blacklisted
             if ( strictBlocking ) {
                 i = 0;
                 while ( parent = parents[i++] ) {
@@ -326,10 +335,36 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
             }
             return 'gpt';
         }
-        if ( blacklist[cellKey] || (!graylist[cellKey] && ubiquitousBlacklist.test(hostname)) ) {
+        if ( blacklist[cellKey] ) {
             return 'rpt';
         }
-
+        if ( !graylist[cellKey] ) {
+            if ( ubiquitousWhitelist.test(hostname) ) {
+                // If strict blocking, the type column must not be blacklisted
+                if ( strictBlocking ) {
+                    i = 0;
+                    while ( parent = parents[i++] ) {
+                        cellKey = type + '|' + parent;
+                        if ( whitelist[cellKey] ) {
+                            return 'gpt';
+                        }
+                        if ( blacklist[cellKey] ) {
+                            return 'rpt';
+                        }
+                    }
+                    if ( whitelist[typeKey] ) {
+                        return 'gpt';
+                    }
+                    if ( blacklist[typeKey] ) {
+                        return 'rpt';
+                    }
+                }
+                return 'gpt';
+            }
+            if ( ubiquitousBlacklist.test(hostname) ) {
+                return 'rpt';
+            }
+        }
         // rhill 2013-12-18:
         // If the type is blocked and strict blocking is on,
         // than the only way for the cell to be whitelisted is
@@ -345,8 +380,7 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
             }
             cellKey = '*|' + parent;
             if ( whitelist[cellKey] ) {
-                // If strict blocking, the type column must not be
-                // blacklisted
+                // If strict blocking, the type column must not be blacklisted
                 if ( strictBlocking ) {
                     while ( parent = parents[i++] ) {
                         cellKey = type + '|' + parent;
@@ -366,11 +400,36 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
                 }
                 return 'gpt';
             }
-            if ( blacklist[cellKey] || (!graylist[cellKey] && ubiquitousBlacklist.test(parent)) ) {
+            if ( blacklist[cellKey] ) {
                 return 'rpt';
             }
+            if ( !graylist[cellKey] ) {
+                if ( ubiquitousWhitelist.test(parent) ) {
+                    // If strict blocking, the type column must not be blacklisted
+                    if ( strictBlocking ) {
+                        while ( parent = parents[i++] ) {
+                            cellKey = type + '|' + parent;
+                            if ( whitelist[cellKey] ) {
+                                return 'gpt';
+                            }
+                            if ( blacklist[cellKey] ) {
+                                return 'rpt';
+                            }
+                        }
+                        if ( whitelist[typeKey] ) {
+                            return 'gpt';
+                        }
+                        if ( blacklist[typeKey] ) {
+                            return 'rpt';
+                        }
+                    }
+                    return 'gpt';
+                }
+                if ( ubiquitousBlacklist.test(parent) ) {
+                    return 'rpt';
+                }
+            }
         }
-
         // indirect: specific type, any hostname
         if ( whitelist[typeKey] ) {
             return 'gpt';
@@ -390,8 +449,16 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
         if ( whitelist[cellKey] ) {
             return 'gdt';
         }
-        if ( blacklist[cellKey] || (!graylist[cellKey] && ubiquitousBlacklist.test(hostname)) ) {
+        if ( blacklist[cellKey] ) {
             return 'rdt';
+        }
+        if ( !graylist[cellKey] ) {
+            if ( ubiquitousWhitelist.test(hostname) ) {
+                return 'gdt';
+            }
+            if ( ubiquitousBlacklist.test(hostname) ) {
+                return 'rdt';
+            }
         }
         // indirect: parent hostname nodes
         parents = httpsb.URI.parentHostnamesFromHostname(hostname);
@@ -402,8 +469,16 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
             if ( whitelist[cellKey] ) {
                 return 'gpt';
             }
-            if ( blacklist[cellKey] || (!graylist[cellKey] && ubiquitousBlacklist.test(parent)) ) {
+            if ( blacklist[cellKey] ) {
                 return 'rpt';
+            }
+            if ( !graylist[cellKey] ) {
+                if ( ubiquitousWhitelist.test(parent) ) {
+                    return 'gpt';
+                }
+                if ( ubiquitousBlacklist.test(parent) ) {
+                    return 'rpt';
+                }
             }
         }
         // indirect: any type, any hostname
@@ -456,9 +531,12 @@ PermissionScope.prototype.removeRule = function(listKey, type, hostname) {
 PermissionScope.prototype.whitelist = function(type, hostname) {
     var key = type + '|' + hostname;
     var changed = false;
-    changed = this.white.addOne(key) || changed;
     changed = this.black.removeOne(key) || changed;
     changed = this.gray.removeOne(key) || changed;
+    // Avoid duplicating ubiquitously whitelisted entries
+    if ( type !== '*' || !HTTPSB.ubiquitousWhitelist.test(hostname) ) {
+        changed = this.white.addOne(key) || changed;
+    }
     return changed;
 };
 
@@ -469,7 +547,7 @@ PermissionScope.prototype.blacklist = function(type, hostname) {
     var changed = false;
     changed = this.white.removeOne(key) || changed;
     changed = this.gray.removeOne(key) || changed;
-    // Avoid duplicating read-only blacklisted entries
+    // Avoid duplicating ubiquitously blacklisted entries
     // TODO: Is this really a good idea? If user explicitly blocked an entry
     // which is already in read-only blacklist (after graylisting or
     // whitelisting it), user expects entry to still be blacklisted if ever
@@ -493,8 +571,10 @@ PermissionScope.prototype.graylist = function(type, hostname) {
     // rhill 2013-10-25: special case, we expressly graylist only if the
     // key is '*' and hostname is found in read-only blacklist, so that the
     // express graylisting occults the read-only blacklist status.
-    if ( type === '*' && HTTPSB.ubiquitousBlacklist.test(hostname) ) {
-        changed = this.gray.addOne(key) || changed;
+    if ( type === '*' ) {
+        if ( HTTPSB.ubiquitousBlacklist.test(hostname) || HTTPSB.ubiquitousWhitelist.test(hostname) ) {
+            changed = this.gray.addOne(key) || changed;
+        }
     }
     return changed;
 };

@@ -21,69 +21,6 @@
 
 /******************************************************************************/
 
-// This object allows me to perform read-modify-write operations on
-// objects in chrome.store (otherwise not reliable because of asynchronicity).
-// Arguments for acquire() are same as with chrome.storage.{local|sync}.get(),
-// and release() *must* be called when done with stored object (or else changes
-// won't be committed).
-
-var storageBufferer = {
-    lock: 0,
-    store: {},
-    callbacks: [],
-    acquire: function(arg, callback) {
-        this.lock++;
-        var wantedKeys;
-        if ( typeof arg === 'string' ) {
-            wantedKeys = [arg];
-        } else if ( arg instanceof Array ) {
-            wantedKeys = arg.slice(0);
-        } else {
-            wantedKeys = Object.keys(arg);
-        }
-        var i = wantedKeys.length;
-        while ( i-- ) {
-            if ( wantedKeys[i] in this.store ) {
-                wantedKeys.splice(i, 1);
-            }
-        }
-        if ( wantedKeys.length ) {
-            var self = this;
-            this.callbacks.push(callback);
-            chrome.storage.local.get(arg, function(store) {
-                var i = wantedKeys.length;
-                var key;
-                while ( i-- ) {
-                    key = wantedKeys[i];
-                    if ( key in store ) {
-                        self.store[key] = store[key];
-                    } else if ( typeof arg === 'object' && key in arg ) {
-                        self.store[key] = arg[key];
-                    }
-                }
-                while ( self.callbacks.length ) {
-                    (self.callbacks.pop())(self.store);
-                }
-            });
-        } else {
-            callback(this.store);
-        }
-    },
-    release: function() {
-        this.lock--;
-        console.assert(this.lock >= 0, 'storageBufferer.lock is negative!');
-        if ( this.lock === 0 ) {
-            chrome.storage.local.set(this.store, getBytesInUse);
-            // rhill 20131017: Once all is persisted, no need to hold onto
-            // whatever is in the store, this reduce memory footprint of
-            // exension.
-            this.store = {};
-        }
-    }
-};
-
-/******************************************************************************/
-
 function getBytesInUseHandler(bytesInUse) {
     HTTPSB.storageUsed = bytesInUse;
 }
@@ -170,125 +107,174 @@ function loadUserLists() {
 
 /******************************************************************************/
 
-function loadRemoteBlacklists() {
-    // Get remote blacklist data (which may be saved locally).
-    // No need for storageBufferer.acquire() here because the fetched data
-    // won't be modified.
-    // rhill 2013-12-10: no need to use storageBufferer.
-    chrome.storage.local.get(
-        { 'remoteBlacklists': HTTPSB.remoteBlacklists },
-        loadRemoteBlacklistsHandler
-        );
-}
-
-/******************************************************************************/
-
-// rhill 2013-12-10: preset blacklists can now be reloaded after they have
-// been loaded, and the resulting preset blacklisted entries might differ from
-// the original.
-// This means, as opposed to the first time we load, there might be entries to
-// remove.
-//
-// So this will work this way:
-// - Set all existing entries as `false`.
-// - Reload will create or mark all valid entries as `true`.
-// - Post-reload, all entries which are false are removed. This is not really
-//   necessary, but I expect the result would be reduced memory footprint
-//   without having to reload the extension (maybe this is the reason the user
-//   disabled one or more preset blacklists).
-
-function loadRemoteBlacklistsHandler(store) {
-    var httpsb = HTTPSB;
-
-    // rhill 2013-12-10: set all existing entries to `false`.
-    httpsb.ubiquitousBlacklist.reset();
-    httpsb.abpFilters.reset();
-
-    // Load each preset blacklist which is not disabled.
-    for ( var location in store.remoteBlacklists ) {
-
-        if ( !store.remoteBlacklists.hasOwnProperty(location) ) {
-            continue;
+HTTPSB.loadUbiquitousWhitelists = function() {
+    var parseUbiquitousWhitelist = function(details) {
+        var httpsb = HTTPSB;
+        var ubiquitousWhitelist = httpsb.ubiquitousWhitelist;
+        var raw = details.content.toLowerCase();
+        var rawEnd = raw.length;
+        var lineBeg = 0;
+        var lineEnd;
+        var line, pos;
+        ubiquitousWhitelist.reset();
+        while ( lineBeg < rawEnd ) {
+            lineEnd = raw.indexOf('\n', lineBeg);
+            if ( lineEnd < 0 ) {
+                lineEnd = rawEnd;
+            }
+            line = raw.slice(lineBeg, lineEnd);
+            lineBeg = lineEnd + 1;
+            pos = line.indexOf('#');
+            if ( pos >= 0 ) {
+                line = line.slice(0, pos);
+            }
+            line = line.trim();
+            if ( !line.length ) {
+                continue;
+            }
+            ubiquitousWhitelist.add(line);
         }
+        ubiquitousWhitelist.freeze();
+    };
 
-        // rhill 2014-01-24: HTTPSB-maintained lists sit now in their
-        // own directory, "asset/httpsb/". Ensure smooth transition.
-        // TODO: Remove this code when everybody upgraded beyond 0.7.7.1
-        if ( location === 'assets/httpsb-blacklist.txt' &&
-             store.remoteBlacklists[location].off === true )
-        {
-            // In case it was already processed
-            httpsb.remoteBlacklists['assets/httpsb/blacklist.txt'].off = true;
-            // In case it was not yet processed
-            store.remoteBlacklists['assets/httpsb/blacklist.txt'].off = true;
+    var onMessageHandler = function(request) {
+        if ( !request || !request.what ) {
+            return;
         }
-
-        // If loaded list location is not part of default list locations,
-        // remove its entry from local storage.
-        if ( !httpsb.remoteBlacklists[location] ) {
-            chrome.runtime.sendMessage({
-                what: 'localRemoveRemoteBlacklist',
-                location: location
-            });
-            continue;
+        if ( request.what === 'userUbiquitousWhitelistLoaded' ) {
+            onLoadedHandler(request);
         }
+    };
 
-        // Store details of this preset blacklist
-        httpsb.remoteBlacklists[location] = store.remoteBlacklists[location];
-
-        // rhill 2013-12-09:
-        // Ignore list if disabled
-        // https://github.com/gorhill/httpswitchboard/issues/78
-        if ( store.remoteBlacklists[location].off ) {
-            continue;
+    var onLoadedHandler = function(details) {
+        if ( !details.error ) {
+            parseUbiquitousWhitelist(details);
         }
+        chrome.runtime.onMessage.removeListener(onMessageHandler);
+    };
 
-        HTTPSB.assets.get(location, 'mergeBlacklistedHosts');
-    }
+    chrome.runtime.onMessage.addListener(onMessageHandler);
 
-    // This is to wake up post-process tasks once all blacklists are loaded.
-    asyncJobQueue.add(
-        'loadUbiquitousBlacklistCompleted',
-        null,
-        onLoadUbiquitousBlacklistCompleted,
-        1000,
-        false
+    // ONLY the user decides what to whitelist uniquitously, so no need
+    // for code to handle 3rd-party lists.
+    HTTPSB.assets.get(
+        'assets/user/ubiquitous-whitelisted-hosts.txt',
+        'userUbiquitousWhitelistLoaded'
     );
-}
+};
 
 /******************************************************************************/
 
-// This is for:
-// - Efficient notifiying of listeners: only once per whole reload
-//   of lists (hopefully, chosen delay is enough).
-// - To prevent losing efficient pruning of the blocked hosts set: since the
-//   blocked hosts lists are loaded asynchronously, we must delay the prunin
-//   to when *all* lists are loaded, in order to avoid pruning entries which
-//   may be needed in a list which has not yet been processed.
+HTTPSB.loadUbiquitousBlacklists = function() {
+    var blacklists;
+    var blacklistLoadCount;
+    var obsoleteBlacklists = [];
 
-function onLoadUbiquitousBlacklistCompleted() {
-    chrome.runtime.sendMessage({ what: 'loadUbiquitousBlacklistCompleted' });
+    var onMessageHandler = function(details) {
+        if ( !details || !details.what ) {
+            return;
+        }
+        if ( details.what === 'mergeBlacklistedHosts' ) {
+            mergeBlacklist(details);
+        }
+    };
 
-    HTTPSB.ubiquitousBlacklist.freeze();
-    HTTPSB.abpFilters.freeze();
-}
-
-/******************************************************************************/
-
-function localRemoveRemoteBlacklist(location) {
-    storageBufferer.acquire('remoteBlacklists', function(store) {
-        if ( store.remoteBlacklists ) {
+    var removeObsoleteBlacklistsHandler = function(store) {
+        if ( !store.remoteBlacklists ) {
+            return;
+        }
+        var location;
+        while ( location = obsoleteBlacklists.pop() ) {
             delete store.remoteBlacklists[location];
         }
-        // *important*
-        storageBufferer.release();
-        console.log('HTTP Switchboard > removed cached %s', location);
-    });
-}
+        chrome.storage.local.set(store);
+    };
+
+    var removeObsoleteBlacklists = function() {
+        if ( obsoleteBlacklists.length === 0 ) {
+            return;
+        }
+        chrome.storage.local.get(
+            { 'remoteBlacklists': HTTPSB.remoteBlacklists },
+            removeObsoleteBlacklistsHandler
+        );
+    };
+
+    var mergeBlacklist = function(details) {
+        HTTPSB.mergeBlacklistedHosts(details);
+        blacklistLoadCount -= 1;
+        if ( blacklistLoadCount === 0 ) {
+            loadBlacklistsEnd();
+        }
+    };
+
+    var loadBlacklistsEnd = function() {
+        HTTPSB.ubiquitousBlacklist.freeze();
+        HTTPSB.abpFilters.freeze();
+        removeObsoleteBlacklists();
+        chrome.runtime.onMessage.removeListener(onMessageHandler);
+        chrome.runtime.sendMessage({ what: 'loadUbiquitousBlacklistCompleted' });
+    };
+
+    var loadBlacklistsStart = function(store) {
+        var httpsb = HTTPSB;
+        // rhill 2013-12-10: set all existing entries to `false`.
+        httpsb.ubiquitousBlacklist.reset();
+        httpsb.abpFilters.reset();
+
+        blacklists = store.remoteBlacklists;
+        var blacklistLocations = Object.keys(store.remoteBlacklists);
+
+        blacklistLoadCount = blacklistLocations.length;
+        if ( blacklistLoadCount === 0 ) {
+            loadBlacklistsEnd();
+            return;
+        }
+
+        // Load each preset blacklist which is not disabled.
+        var location;
+        while ( location = blacklistLocations.pop() ) {
+            // rhill 2014-01-24: HTTPSB-maintained lists sit now in their
+            // own directory, "asset/httpsb/". Ensure smooth transition.
+            // TODO: Remove this code when everybody upgraded beyond 0.7.7.1
+            if ( location === 'assets/httpsb-blacklist.txt' && store.remoteBlacklists[location].off === true ) {
+                // In case it was already processed
+                httpsb.remoteBlacklists['assets/httpsb/blacklist.txt'].off = true;
+                // In case it was not yet processed
+                store.remoteBlacklists['assets/httpsb/blacklist.txt'].off = true;
+            }
+            // If loaded list location is not part of default list locations,
+            // remove its entry from local storage.
+            if ( !httpsb.remoteBlacklists[location] ) {
+                obsoleteBlacklists.push(location);
+                blacklistLoadCount -= 1;
+                continue;
+            }
+            // Store details of this preset blacklist
+            httpsb.remoteBlacklists[location] = store.remoteBlacklists[location];
+            // rhill 2013-12-09:
+            // Ignore list if disabled
+            // https://github.com/gorhill/httpswitchboard/issues/78
+            if ( store.remoteBlacklists[location].off ) {
+                blacklistLoadCount -= 1;
+                continue;
+            }
+            HTTPSB.assets.get(location, 'mergeBlacklistedHosts');
+        }
+    };
+
+    chrome.runtime.onMessage.addListener(onMessageHandler);
+
+    // Get remote blacklist data (which may be saved locally).
+    chrome.storage.local.get(
+        { 'remoteBlacklists': HTTPSB.remoteBlacklists },
+        loadBlacklistsStart
+    );
+};
 
 /******************************************************************************/
 
-function mergeBlacklistedHosts(details) {
+HTTPSB.mergeBlacklistedHosts = function(details) {
     // console.log('HTTP Switchboard > mergeBlacklistedHosts from "%s": "%s..."', details.path, details.content.slice(0, 40));
 
     var httpsb = HTTPSB;
@@ -360,16 +346,7 @@ function mergeBlacklistedHosts(details) {
     // blacklist, user might be happy to know this information.
     httpsb.remoteBlacklists[details.path].entryCount = thisListCount;
     httpsb.remoteBlacklists[details.path].entryUsedCount = thisListUsedCount;
-
-    // This is to wake up post-process tasks once all blacklists are loaded.
-    asyncJobQueue.add(
-        'loadUbiquitousBlacklistCompleted',
-        null,
-        onLoadUbiquitousBlacklistCompleted,
-        1000,
-        false
-    );
-}
+};
 
 /******************************************************************************/
 
@@ -389,12 +366,10 @@ function reloadPresetBlacklists(switches) {
     }
 
     // Save switch states
-    // rhill 2013-12-10: I don't think there is any chance of a
-    // read-modify-write issue here, so I won't use storageBufferer
     chrome.storage.local.set({ 'remoteBlacklists': presetBlacklists }, getBytesInUse);
 
     // Now force reload
-    loadRemoteBlacklists();
+    HTTPSB.loadUbiquitousBlacklists();
 }
 
 /******************************************************************************/
@@ -419,7 +394,7 @@ HTTPSB.loadPublicSuffixList = function() {
         'assets/thirdparties/publicsuffix.org/list/effective_tld_names.dat',
         'publicSuffixListLoaded'
     );
-}
+};
 
 /******************************************************************************/
 
@@ -427,7 +402,7 @@ HTTPSB.loadPublicSuffixList = function() {
 // logically related code.
 
 HTTPSB.reloadAllLocalAssets = function() {
-    loadRemoteBlacklists();
+    this.loadUbiquitousBlacklists();
     this.loadPublicSuffixList();
     this.reloadAllPresets();
 };
@@ -439,7 +414,8 @@ HTTPSB.reloadAllLocalAssets = function() {
 function load() {
     loadUserSettings();
     loadUserLists();
-    loadRemoteBlacklists();
+    HTTPSB.loadUbiquitousBlacklists();
+    HTTPSB.loadUbiquitousWhitelists();
     HTTPSB.loadPublicSuffixList();
     HTTPSB.reloadAllPresets();
     getBytesInUse();

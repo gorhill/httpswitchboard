@@ -232,14 +232,6 @@ function onMessageHandler(request, sender, callback) {
             HTTPSB.onLocalAssetUpdated(request);
             break;
 
-        case 'localRemoveRemoteBlacklist':
-            localRemoveRemoteBlacklist(request.location);
-            break;
-
-        case 'mergeBlacklistedHosts':
-            mergeBlacklistedHosts(request);
-            break;
-
         case 'reloadPresetBlacklists':
             reloadPresetBlacklists(request.switches);
             break;

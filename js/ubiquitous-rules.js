@@ -25,9 +25,11 @@
 
 /******************************************************************************/
 
-var userListPath = 'assets/user/ubiquitous-blacklisted-hosts.txt';
+var userBlacklistPath = 'assets/user/ubiquitous-blacklisted-hosts.txt';
+var userWhitelistPath = 'assets/user/ubiquitous-whitelisted-hosts.txt';
 var userListHref = '#userUbiquitousBlacklistedHostsPrompt';
 var cachedUserUbiquitousBlacklistedHosts = '';
+var cachedUserUbiquitousWhitelistedHosts = '';
 var selectedBlacklistsHash = '';
 
 /******************************************************************************/
@@ -69,7 +71,10 @@ function renderBlacklists() {
 
     var httpsb = gethttpsb();
 
-    $('#ubiquitousBlacklistCount').text(renderNumber(httpsb.ubiquitousBlacklist.count));
+    $('#ubiquitousListsOfBlockedHostsPrompt2').text(
+        chrome.i18n.getMessage('ubiquitousListsOfBlockedHostsPrompt2')
+            .replace('{{ubiquitousBlacklistCount}}', renderNumber(httpsb.ubiquitousBlacklist.count))
+    );
 
     var blacklists = httpsb.remoteBlacklists;
     var ul = $('#blacklists');
@@ -86,7 +91,7 @@ function renderBlacklists() {
         child.prop('checked', !blacklist.off);
         child = $('a', li);
         // Special rendering: user list
-        if ( blacklistName === userListPath ) {
+        if ( blacklistName === userBlacklistPath ) {
             child.attr('href', userListHref);
             child.text($(userListHref).text());
         } else {
@@ -100,8 +105,10 @@ function renderBlacklists() {
         ul.prepend(li);
     }
     $('#parseAllABPFilters').attr('checked', httpsb.userSettings.parseAllABPFilters === true);
-    $('#parseAllABPFilters + span > span').text(renderNumber(httpsb.abpFilters.getFilterCount()));
-
+    $('#ubiquitousParseAllABPFiltersPrompt2').text(
+        chrome.i18n.getMessage("ubiquitousParseAllABPFiltersPrompt2")
+            .replace('{{abpFilterCount}}', renderNumber(httpsb.abpFilters.getFilterCount()))
+    );
 
     selectedBlacklistsHash = getSelectedBlacklistsHash();
 }
@@ -136,23 +143,72 @@ function getSelectedBlacklistsHash() {
 // This is to give a visual hint that the selection of blacklists has changed.
 
 function selectedBlacklistsChanged() {
-    $('#blacklistsApply').attr('disabled', getSelectedBlacklistsHash() === selectedBlacklistsHash);
+    $('#blacklistsApply').attr(
+        'disabled',
+        getSelectedBlacklistsHash() === selectedBlacklistsHash
+    );
 }
 
 // This is to give a visual hint that the content of user blacklist has changed.
 
 function userBlacklistChanged() {
-    $('#userBlacklistApply')
-        .attr('disabled', $('#userUbiquitousBlacklistedHosts')
-        .val()
-        .trim() === cachedUserUbiquitousBlacklistedHosts);
+    $('#userUbiquitousBlacklistApply')
+        .attr(
+            'disabled',
+            $('#userUbiquitousBlacklistedHosts').val().trim() === cachedUserUbiquitousBlacklistedHosts
+        );
     selectedBlacklistsChanged();
 }
 
 /******************************************************************************/
 
+function userWhitelistChanged() {
+    $('#userUbiquitousWhitelistApply')
+        .attr(
+            'disabled',
+             $('#userUbiquitousWhitelistedHosts').val().trim() === cachedUserUbiquitousWhitelistedHosts
+        );
+}
+
+/******************************************************************************/
+
 function renderUserBlacklist() {
-    gethttpsb().assets.get(userListPath, 'dashboardGetUbiquitousUserBlacklist');
+    var onMessageHandler = function(details) {
+        if ( !details || !details.what ) {
+            return;
+        }
+        if ( details.what !== 'dashboardGetUbiquitousUserBlacklist' ) {
+            return;
+        }
+        if ( !details.error ) {
+            cachedUserUbiquitousBlacklistedHosts = details.content.trim();
+            $('#userUbiquitousBlacklistedHosts').val(details.content);
+            renderBlacklists();
+        }
+        chrome.runtime.onMessage.removeListener(onMessageHandler);
+    };
+    chrome.runtime.onMessage.addListener(onMessageHandler);
+    gethttpsb().assets.get(userBlacklistPath, 'dashboardGetUbiquitousUserBlacklist');
+}
+
+/******************************************************************************/
+
+function renderUserWhitelist() {
+    var onMessageHandler = function(details) {
+        if ( !details || !details.what ) {
+            return;
+        }
+        if ( details.what !== 'dashboardGetUbiquitousUserWhitelist' ) {
+            return;
+        }
+        if ( !details.error ) {
+            cachedUserUbiquitousWhitelistedHosts = details.content.trim();
+            $('#userUbiquitousWhitelistedHosts').val(details.content);
+        }
+        chrome.runtime.onMessage.removeListener(onMessageHandler);
+    };
+    chrome.runtime.onMessage.addListener(onMessageHandler);
+    gethttpsb().assets.get(userWhitelistPath, 'dashboardGetUbiquitousUserWhitelist');
 }
 
 /******************************************************************************/
@@ -170,7 +226,7 @@ function blacklistsApplyHandler() {
     while ( i-- ) {
         path = $(lis[i]).children('a').attr('href');
         if ( path === userListHref ) {
-            path = userListPath;
+            path = userBlacklistPath;
         }
         switches.push({
             location: path,
@@ -193,47 +249,33 @@ function abpFiltersCheckboxChanged() {
 
 /******************************************************************************/
 
-function userBlacklistApplyHandler() {
-    gethttpsb().assets.put(
-        userListPath,
-        $('#userUbiquitousBlacklistedHosts').val(),
-        'dashboardPutUbiquitousUserBlacklist'
-    );
-}
-
-/******************************************************************************/
-
-function fileReaderOnLoadHandler() {
-    var textarea = $('#userUbiquitousBlacklistedHosts');
-    textarea.val(textarea.val() + '\n' + this.result);
-    userBlacklistChanged();
-}
-
-function filePickerOnChangeHandler() {
-    $(this).off('change', filePickerOnChangeHandler);
-    var file = this.files[0];
-    if ( !file ) {
-        return;
-    }
-    if ( file.type.indexOf('text') !== 0 ) {
-        return;
-    }
-    var fr = new FileReader();
-    fr.onload = fileReaderOnLoadHandler;
-    fr.readAsText(file);
-}
-
-function appentToUserBlacklistFromFile() {
+function appendToUserBlacklistFromFile() {
     var input = $('<input />').attr({
         type: 'file',
         accept: 'text/plain'
-        
     });
+    var fileReaderOnLoadHandler = function() {
+        var textarea = $('#userUbiquitousBlacklistedHosts');
+        textarea.val(textarea.val() + '\n' + this.result);
+        userBlacklistChanged();
+    };
+    var filePickerOnChangeHandler = function() {
+        $(this).off('change', filePickerOnChangeHandler);
+        var file = this.files[0];
+        if ( !file ) {
+            return;
+        }
+        if ( file.type.indexOf('text') !== 0 ) {
+            return;
+        }
+        var fr = new FileReader();
+        fr.onload = fileReaderOnLoadHandler;
+        fr.readAsText(file);
+        input.off('change', filePickerOnChangeHandler);
+    };
     input.on('change', filePickerOnChangeHandler);
     input.trigger('click');
 }
-
-/******************************************************************************/
 
 function exportUserBlacklistToFile() {
     chrome.downloads.download({
@@ -243,28 +285,99 @@ function exportUserBlacklistToFile() {
     });
 }
 
+function userBlacklistApplyHandler() {
+    var onMessageHandler = function(details) {
+        if ( !details || !details.what ) {
+            return;
+        }
+        if ( details.what !== 'dashboardPutUbiquitousUserBlacklist' ) {
+            return;
+        }
+        if ( !details.error ) {
+            cachedUserUbiquitousBlacklistedHosts = details.content.trim();
+            userBlacklistChanged();
+            blacklistsApplyHandler();
+        }
+        chrome.runtime.onMessage.removeListener(onMessageHandler);
+    };
+    chrome.runtime.onMessage.addListener(onMessageHandler);
+    gethttpsb().assets.put(
+        userBlacklistPath,
+        $('#userUbiquitousBlacklistedHosts').val(),
+        'dashboardPutUbiquitousUserBlacklist'
+    );
+}
+
 /******************************************************************************/
 
-function onMessageHandler(request, sender) {
-    if ( request && request.what ) {
-        switch ( request.what ) {
+function appendToUserWhitelistFromFile() {
+    var input = $('<input />').attr({
+        type: 'file',
+        accept: 'text/plain'
+    });
+    var fileReaderOnLoadHandler = function() {
+        var textarea = $('#userUbiquitousWhitelistedHosts');
+        textarea.val(textarea.val() + '\n' + this.result);
+        userWhitelistChanged();
+    };
+    var filePickerOnChangeHandler = function() {
+        $(this).off('change', filePickerOnChangeHandler);
+        var file = this.files[0];
+        if ( !file ) {
+            return;
+        }
+        if ( file.type.indexOf('text') !== 0 ) {
+            return;
+        }
+        var fr = new FileReader();
+        fr.onload = fileReaderOnLoadHandler;
+        fr.readAsText(file);
+        input.off('change', filePickerOnChangeHandler);
+    };
+    input.on('change', filePickerOnChangeHandler);
+    input.trigger('click');
+}
+
+function exportUserWhitelistToFile() {
+    chrome.downloads.download({
+        'url': 'data:text/plain,' + encodeURIComponent($('#userUbiquitousWhitelistedHosts').val()),
+        'filename': 'ubiquitous-whitelisted-hosts.txt',
+        'saveAs': true
+    });
+}
+
+function userWhitelistApplyHandler() {
+    var httpsb = gethttpsb();
+    var onMessageHandler = function(details) {
+        if ( !details || !details.what ) {
+            return;
+        }
+        if ( details.what !== 'dashboardPutUbiquitousUserWhitelist' ) {
+            return;
+        }
+        if ( !details.error ) {
+            cachedUserUbiquitousWhitelistedHosts = details.content.trim();
+            userWhitelistChanged();
+            httpsb.loadUbiquitousWhitelists();
+        }
+        chrome.runtime.onMessage.removeListener(onMessageHandler);
+    };
+    chrome.runtime.onMessage.addListener(onMessageHandler);
+    httpsb.assets.put(
+        userWhitelistPath,
+        $('#userUbiquitousWhitelistedHosts').val(),
+        'dashboardPutUbiquitousUserWhitelist'
+    );
+}
+
+/******************************************************************************/
+
+function onMessageHandler(details) {
+    if ( details && details.what ) {
+        switch ( details.what ) {
         case 'loadUbiquitousBlacklistCompleted':
             renderBlacklists();
             selectedBlacklistsChanged();
-            break;
-        case 'dashboardGetUbiquitousUserBlacklist':
-            if ( !request.error ) {
-                cachedUserUbiquitousBlacklistedHosts = request.content.trim();
-                $('#userUbiquitousBlacklistedHosts').val(request.content);
-                renderBlacklists();
-            }
-            break;
-        case 'dashboardPutUbiquitousUserBlacklist':
-            if ( !request.error ) {
-                cachedUserUbiquitousBlacklistedHosts = request.content.trim();
-                userBlacklistChanged();
-                blacklistsApplyHandler();
-            }
             break;
         }
     }
@@ -277,15 +390,22 @@ $(function() {
     $('#blacklists').on('change', '.blacklistDetails', selectedBlacklistsChanged);
     $('#blacklistsApply').on('click', blacklistsApplyHandler);
     $('#parseAllABPFilters').on('change', abpFiltersCheckboxChanged);
-    $('#userBlacklistApply').on('click', userBlacklistApplyHandler);
-    $('#userUbiquitousBlacklistedHosts').on('input propertychange', userBlacklistChanged);
-    $('#importUserBlacklistFromFile').on('click', appentToUserBlacklistFromFile);
+
+    $('#importUserBlacklistFromFile').on('click', appendToUserBlacklistFromFile);
     $('#exportUserBlacklistToFile').on('click', exportUserBlacklistToFile);
+    $('#userUbiquitousBlacklistedHosts').on('input propertychange', userBlacklistChanged);
+    $('#userUbiquitousBlacklistApply').on('click', userBlacklistApplyHandler);
+
+    $('#importUserWhitelistFromFile').on('click', appendToUserWhitelistFromFile);
+    $('#exportUserWhitelistToFile').on('click', exportUserWhitelistToFile);
+    $('#userUbiquitousWhitelistedHosts').on('input propertychange', userWhitelistChanged);
+    $('#userUbiquitousWhitelistApply').on('click', userWhitelistApplyHandler);
 
     chrome.runtime.onMessage.addListener(onMessageHandler);
 
     renderBlacklists();
     renderUserBlacklist();
+    renderUserWhitelist();
 });
 
 /******************************************************************************/

@@ -289,7 +289,7 @@
         "description": ""
     },
     "settingsStrictBlockingInfo": {
-        "message": "Introduit dans la <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log#036\">version 0.3.6</a>, le <strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Blocage strict</a></strong> signifie que même si vous allouez un nom d'hôte spécifique, une requête restera bloquée si le type d'objet en question (plugins, iframes, etc) est lui-même bloqué; en d'autres termes, le blocage du type d'objet prime sur le domaine concerné. Le choix vous est proposé de l'activer ou non, car cela peut se montrer trop restrictif aux yeux de certains utilisateurs. Si l'option est activée, la requête est autorisée à condition que les nom d'hôte ET le type de requête soient autorisés. Si l'option n'est pas cochée, le nom d'hôte alloué suffit à autoriser la requête.",
+        "message": "Introduit dans la <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log-0.0-to-0.5#036\">version 0.3.6</a>, le <strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Blocage strict</a></strong> signifie que même si vous allouez un nom d'hôte spécifique, une requête restera bloquée si le type d'objet en question (plugins, iframes, etc) est lui-même bloqué; en d'autres termes, le blocage du type d'objet prime sur le domaine concerné. Le choix vous est proposé de l'activer ou non, car cela peut se montrer trop restrictif aux yeux de certains utilisateurs. Si l'option est activée, la requête est autorisée à condition que les nom d'hôte ET le type de requête soient autorisés. Si l'option n'est pas cochée, le nom d'hôte alloué suffit à autoriser la requête.",
         "description": "To help user understand the purpose of strict blocking"
     },
     "settingsAutoCreateSiteScopePrompt": {
@@ -382,13 +382,61 @@
     },
 
 
+    "ubiquitousWhatIsThisHeader" : {
+        "message": "De quoi s'agit-il?",
+        "description": "English: What is this?"
+    },
+    "ubiquitousWhatIsThisPrompt" : {
+        "message": "Les &ldquo;règles universelles&rdquo; sont des règles qui s'appliquent dans tous les contextes.",
+        "description": "English: &ldquo;Ubiquitous rules&rdquo; are rules which applies everywhere, i.e. in all scopes."
+    },
+    "ubiquitousListsOfBlockedHostsPrompt1" : {
+        "message": "Tous les hôtes des listes prédéfinies sont traités comme étant des règles universelles.",
+        "description": "English: All lists of blocked hosts are loaded as ubiquitous rules, hence these hosts are blacklisted in all scopes."
+    },
+    "ubiquitousListsOfBlockedHostsPrompt2" : {
+        "message": "{{ubiquitousBlacklistCount}} hôtes à bloquer:",
+        "description": "English: {{ubiquitousBlacklistCount}} distinct blocked hostnames from:"
+    },
+    "ubiquitousParseAllABPFiltersPrompt1" : {
+        "message": "Lire et appliquer les filtres ABP complexes (beta).",
+        "description": "English: Parse and enforce Adblock+ complex filters (beta)."
+    },
+    "ubiquitousParseAllABPFiltersPrompt2" : {
+        "message": "{{abpFilterCount}} filtres ABP complexes utilisés.",
+        "description": "English: Parse and enforce Adblock+ complex filters (beta)."
+    },
+    "ubiquitousParseAllABPFiltersInfo" : {
+        "message": "<p>Normally, <i>HTTP Switchboard</i> will extract from <i>Adblock Plus</i>-compatible filter lists <b>only</b> those filters which are used to block an entire domain (example: &ldquo;<b>||a.ucoz.net^</b>&rdquo;).</p><p>This option enables the parsing and enforcing of finer-grained <i>Adblock Plus</i> filters (example: &ldquo;<b>/adwords-conversion-tracking.</b>&rdquo;). These complex filters are incompatible with the matrix, and thus are only used internally to evaluate whether a net request should be blocked: they have no user interface counterpart.</p><p>Even if this option is enabled, <i>Adblock Plus</i> filters used for <a href=\"https://adblockplus.org/en/filters#elemhide\">element hiding</a> are completely ignored.</p><p>Memory usage requirement is higher when this option is enabled.</p>",
+        "description": "English: ..."
+    },
     "ubiquitousListsOfBlockedHostsHeader" : {
         "message": "Listes d'hôtes à bloquer",
-        "description": "header of ubiquitous lists of blocked hosts section"
+        "description": "English: Lists of blocked hosts"
     },
-    "ubiquitousUserBlockedHostsHeader" : {
+    "userUbiquitousBlacklistHeader" : {
         "message": "Votre liste d'hôtes à bloquer",
-        "description": "header of user's list of blocked hosts section"
+        "description": "English: Your blacklisted hosts"
+    },
+    "userUbiquitousWhitelistHeader" : {
+        "message": "Votre liste d'hôtes à allouer",
+        "description": "English: Your whitelisted hosts"
+    },
+    "ubiquitousApplyChanges" : {
+        "message": "Appliquer",
+        "description": "English: Apply changes"
+    },
+    "ubiquitousFormatHint" : {
+        "message": "Un nom d'hôte par ligne. Les lignes débutant par &lsquo;#&rsquo; seront ignorées.",
+        "description": "English: One hostname per line. Line prefixed with &lsquo;#&rsquo; will be ignored."
+    },
+    "ubiquitousImport" : {
+        "message": "Importer",
+        "description": "English: Import and append"
+    },
+    "ubiquitousExport" : {
+        "message": "Exporter",
+        "description": "English: Export"
     },
 
 

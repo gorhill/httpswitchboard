@@ -123,9 +123,10 @@ var HTTPSB = {
     permanentScopes: null,
     factoryScope: null,
 
-    // Current entries from remote blacklists --
+    // Current entries from ubiquitous lists --
     // just hostnames, '*/' is implied, this saves significantly on memory.
     ubiquitousBlacklist: null,
+    ubiquitousWhitelist: null,
 
     // various stats
     requestStats: new WebRequestStats(),

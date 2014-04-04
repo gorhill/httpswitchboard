@@ -555,8 +555,13 @@ HTTPSB.getPermanentColor = function(scopeKey, type, hostname) {
             return 'xxx';
         }
     }
-    if ( type === '*' && this.ubiquitousBlacklist.test(hostname) ) {
-        return 'rdp';
+    if ( type === '*' ) {
+        if ( this.ubiquitousWhitelist.test(hostname) ) {
+            return 'gdp';
+        }
+        if ( this.ubiquitousBlacklist.test(hostname) ) {
+            return 'rdp';
+        }
     }
     return 'xxx';
 };

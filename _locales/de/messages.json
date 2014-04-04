@@ -289,7 +289,7 @@
         "description": ""
     },
     "settingsStrictBlockingInfo": {
-        "message": "<p><strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Striktes\nBlockieren</a></strong>,\neingeführt in <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log#036\">version 0.3.6</a>,\nbedeutet: Selbst\nwenn du einen spezifischen Hostnamen auf die Whitelist setzt, bleiben die Arten von Anfragen, die standardmäßig blockiert sind (<i>Plugins</i>,\n<i>Frames</i>, etc.), weiterhin auf der Blacklist. Für einige Benutzer ist das möglicherweise\nzu lästig, daher dieser Schalter.</p>\n<p><strong>Striktes Blockieren an</strong>: blockierte Arten von Anfragen (falls vorhanden)\nfür einen Hostnamen auf der Whitelist bleiben weiterhin auf der Blacklist (sofern du diese Arten von Anfragen für diesen Hostnamen nicht ausdrücklich erlaubst.)</p>\n<p><strong>Striktes Blockieren aus</strong>: blockierte Arten von Anfragen (falls vorhanden)\nfür einen Hostnamen auf der Whitelist sind erlaubt (sofern du diese Arten von Anfragen für diesen Hostnamen nicht ausdrücklich verbietest.)</p>",
+        "message": "<p><strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Striktes\nBlockieren</a></strong>,\neingeführt in <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log-0.0-to-0.5#036\">version 0.3.6</a>,\nbedeutet: Selbst\nwenn du einen spezifischen Hostnamen auf die Whitelist setzt, bleiben die Arten von Anfragen, die standardmäßig blockiert sind (<i>Plugins</i>,\n<i>Frames</i>, etc.), weiterhin auf der Blacklist. Für einige Benutzer ist das möglicherweise\nzu lästig, daher dieser Schalter.</p>\n<p><strong>Striktes Blockieren an</strong>: blockierte Arten von Anfragen (falls vorhanden)\nfür einen Hostnamen auf der Whitelist bleiben weiterhin auf der Blacklist (sofern du diese Arten von Anfragen für diesen Hostnamen nicht ausdrücklich erlaubst.)</p>\n<p><strong>Striktes Blockieren aus</strong>: blockierte Arten von Anfragen (falls vorhanden)\nfür einen Hostnamen auf der Whitelist sind erlaubt (sofern du diese Arten von Anfragen für diesen Hostnamen nicht ausdrücklich verbietest.)</p>",
         "description": "To help user understand the purpose of strict blocking"
     },
     "settingsAutoCreateSiteScopePrompt": {
@@ -386,13 +386,61 @@
     },
 
 
+    "ubiquitousWhatIsThisHeader" : {
+        "message": "What is this?",
+        "description": "English: What is this?"
+    },
+    "ubiquitousWhatIsThisPrompt" : {
+        "message": "&ldquo;Ubiquitous rules&rdquo; are rules which applies everywhere, i.e. in all scopes.",
+        "description": "English: &ldquo;Ubiquitous rules&rdquo; are rules which applies everywhere, i.e. in all scopes."
+    },
+    "ubiquitousListsOfBlockedHostsPrompt1" : {
+        "message": "All lists of blocked hosts are loaded as ubiquitous rules, hence these hosts are blacklisted in all scopes.",
+        "description": "English: All lists of blocked hosts are loaded as ubiquitous rules, hence these hosts are blacklisted in all scopes."
+    },
+    "ubiquitousListsOfBlockedHostsPrompt2" : {
+        "message": "{{ubiquitousBlacklistCount}} distinct blocked hostnames from:",
+        "description": "English: {{ubiquitousBlacklistCount}} distinct blocked hostnames from:"
+    },
+    "ubiquitousParseAllABPFiltersPrompt1" : {
+        "message": "Parse and enforce Adblock+ complex filters (beta).",
+        "description": "English: Parse and enforce Adblock+ complex filters (beta)."
+    },
+    "ubiquitousParseAllABPFiltersPrompt2" : {
+        "message": "{{abpFilterCount}} complex filters used.",
+        "description": "English: Parse and enforce Adblock+ complex filters (beta)."
+    },
+    "ubiquitousParseAllABPFiltersInfo" : {
+        "message": "<p>Normally, <i>HTTP Switchboard</i> will extract from <i>Adblock Plus</i>-compatible filter lists <b>only</b> those filters which are used to block an entire domain (example: &ldquo;<b>||a.ucoz.net^</b>&rdquo;).</p><p>This option enables the parsing and enforcing of finer-grained <i>Adblock Plus</i> filters (example: &ldquo;<b>/adwords-conversion-tracking.</b>&rdquo;). These complex filters are incompatible with the matrix, and thus are only used internally to evaluate whether a net request should be blocked: they have no user interface counterpart.</p><p>Even if this option is enabled, <i>Adblock Plus</i> filters used for <a href=\"https://adblockplus.org/en/filters#elemhide\">element hiding</a> are completely ignored.</p><p>Memory usage requirement is higher when this option is enabled.</p>",
+        "description": "English: ..."
+    },
     "ubiquitousListsOfBlockedHostsHeader" : {
         "message": "Lists of blocked hosts",
-        "description": "header of ubiquitous lists of blocked hosts section"
+        "description": "English: Lists of blocked hosts"
     },
-    "ubiquitousUserBlockedHostsHeader" : {
-        "message": "Your list of blocked hosts",
-        "description": "header of user's list of blocked hosts section"
+    "userUbiquitousBlacklistHeader" : {
+        "message": "Your blacklisted hosts",
+        "description": "English: Your blacklisted hosts"
+    },
+    "userUbiquitousWhitelistHeader" : {
+        "message": "Your whitelisted hosts",
+        "description": "English: Your whitelisted hosts"
+    },
+    "ubiquitousApplyChanges" : {
+        "message": "Apply changes",
+        "description": "English: Apply changes"
+    },
+    "ubiquitousFormatHint" : {
+        "message": "One hostname per line. Lines prefixed with &lsquo;#&rsquo; will be ignored.",
+        "description": "English: One hostname per line. Line prefixed with &lsquo;#&rsquo; will be ignored."
+    },
+    "ubiquitousImport" : {
+        "message": "Import and append",
+        "description": "English: Import and append"
+    },
+    "ubiquitousExport" : {
+        "message": "Export",
+        "description": "English: Export"
     },
 
 

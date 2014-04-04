@@ -172,5 +172,5 @@ HTTPSB.LiquidDict.prototype.reset = function() {
 /******************************************************************************/
 
 HTTPSB.ubiquitousBlacklist = new HTTPSB.LiquidDict();
-// HTTPSB.ubiquitousWhitelist = new HTTPSB.LiquidDict();
+HTTPSB.ubiquitousWhitelist = new HTTPSB.LiquidDict();
 
