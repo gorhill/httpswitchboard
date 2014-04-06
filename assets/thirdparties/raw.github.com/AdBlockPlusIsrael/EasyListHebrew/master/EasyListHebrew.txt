@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: RJfkj4nzFKj94g+yFXkT3w
+! Checksum: dzzL/7jQf8fvzQ73EVPFZw
 ! Title: EasyList Hebrew
-! Last modified: 30/03/14  09:57 Jerusalem Daylight Time
+! Last modified: 03/04/14  16:03 Jerusalem Daylight Time
 ! Expires: 4 days (update frequency)
 ! Homepage: https://github.com/AdBlockPlusIsrael/EasyListHebrew/
 ! Forums: https://github.com/AdBlockPlusIsrael/EasyListHebrew/issues
@@ -121,7 +121,6 @@
 ||pas-rahav.com^$third-party
 ||rcs.mako.co.il/rss/yad2.
 ||sdc.mako.co.il^
-||tbwacdn.pas-rahav.com^$object-subrequest,domain=mako.co.il,media
 !
 !--------------------------1st party blocking rules---------------------------!
 !
@@ -144,7 +143,6 @@
 ||ddlil.com/banners/
 ||dimpact.co.il/Live/Banner/
 ||gear.co.il/Content/MediaItems/Campaigns/
-||golanadv.pas-rahav.com/frozen/*.swf
 ||gozlan.co/st_p.js
 ||haflla.com/download/banners/
 ||holesinthenet.co.il/uploads/*/res/*.swf

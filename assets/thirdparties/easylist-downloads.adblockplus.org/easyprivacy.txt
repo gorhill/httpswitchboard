@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: 4sCdpc08sAfb8XS/Chdl2w
-! Version: 201404021621
+! Checksum: h+S6f+O1V3yJcbtZo4XOpA
+! Version: 201404061721
 ! Title: EasyPrivacy
-! Last modified: 02 Apr 2014 16:21 UTC
+! Last modified: 06 Apr 2014 17:21 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -2945,6 +2945,7 @@ http://utm.
 ||mbotvisit.com^$third-party
 ||mbsy.co^$third-party
 ||md-ia.info^$third-party
+||mdotlabs.com^$third-party
 ||measure.ly^$third-party
 ||measuremap.com^$third-party
 ||mediaarmor.com^$third-party
@@ -3415,6 +3416,7 @@ http://utm.
 ||tentaculos.net^$third-party
 ||terabytemedia.com^$third-party
 ||tetoolbox.com^$third-party
+||theadex.com^$third-party
 ||thebestlinks.com^$third-party
 ||thebrighttag.com^$third-party
 ||thecounter.com^$third-party
@@ -4382,6 +4384,7 @@ http://utm.
 ||amazonaws.com/cdn.barilliance.com/
 ||amazonaws.com/g.aspx$third-party
 ||amazonaws.com/initialize/$third-party
+||amazonaws.com/js/reach.js
 ||amazonaws.com/ki.js/
 ||amazonaws.com/new.cetrk.com/
 ||amazonaws.com/statics.reedge.com/
@@ -4574,6 +4577,7 @@ http://utm.
 ||cloudfront.net/atrk.gif?
 ||cloudfront.net/atrk.js
 ||cloudfront.net/dough/*/recipe.js
+||cloudfront.net/js/reach.js
 ||cloudfront.net/performable/
 ||cloudfront.net/pt1x1.gif
 ||cloudfront.net/sso.js
@@ -5291,7 +5295,6 @@ http://utm.
 ||tag.myplay.com^
 ||tag.sonymusic.com^
 ||tags.master-perf-tools.com^
-||teads.tv/track?
 ||tealiumiq.com/*.gif?$third-party
 ||technorati.com/technoratimedia-pixel.js
 ||techweb.com/beacon/
@@ -5411,6 +5414,7 @@ http://utm.
 ||tritondigital.net/activity.php?
 ||trk.pswec.com^$third-party
 ||trk.sele.co^
+||trk.vidible.tv^
 ||trk.vindicosuite.com^
 ||trove.com^*&uid=$image
 ||trumba.com/et.aspx?$third-party
@@ -5884,6 +5888,7 @@ http://utm.
 ||liczniki.org/hit.php
 ||nextclick.pl/widget/s.gif?
 ||stats.asp24.pl^
+||stats.media.onet.pl^
 ||statystyki.panelek.com^
 ||tracking.novem.pl^
 ||wymiana.org/stat/
@@ -6791,6 +6796,7 @@ http://utm.
 ||immassets.s3.amazonaws.com^
 ||imonitor.dhgate.com^
 ||imx.comedycentral.com^
+||indeed.com/rpc/preccount?
 ||independentmail.com/metrics/
 ||indiatimes.com/trackjs10.
 ||infomine.com/imcounter.js
@@ -7039,6 +7045,7 @@ http://utm.
 ||neatorama.com/story/view/*.gif?hash
 ||ned.itv.com^
 ||net-a-porter.com/intl/trackpage.nap?
+||netflix.com/beacons?
 ||netflix.com/EpicCounter?
 ||netlog.com/track
 ||netmag.co.uk/matchbox/traffic/
@@ -7535,6 +7542,7 @@ http://utm.
 ||thenewsroom.com//playerreporting/
 ||theolivepress.es/cdn-cgi/cl/
 ||thesaurus.com/track/
+||theseforums.com/track/
 ||thesmokinggun.com^*/jsmd.js
 ||theweek.com/decor/track/
 ||thinkgeek.com/js/rts.js
@@ -7830,6 +7838,8 @@ http://utm.
 ||yahoo.com/track/
 ||yahoo.com/yi?bv=
 ||yahoo.com^*/pageview/
+||yahoo.com^*/rt.gif?
+||yahoo.com^*/ultLog?
 ||yahoo.net^*/hittail.js
 ||yahooapis.com/get/Valueclick/CapAnywhere.getAnnotationCallback?
 ||ybinst2.ec.yimg.com/ec/*&Type=Event.CPT&$domain=search.yahoo.com
@@ -8474,6 +8484,7 @@ http://utm.
 ||dot.wp.pl^
 ||kropka.onet.pl^
 ||nasza-klasa.pl^*/pp_gemius
+||onet.pli^*/px.gif?
 ||rek.www.wp.pl^
 ||stats.teledyski.info^
 ! Portuguese
@@ -8847,7 +8858,7 @@ http://utm.
 @@||track2.royalmail.com^
 @@||tracker.mattel.com/tracker.aspx?site=$script
 @@||tracker.mattel.com^$domain=barbie.com
-@@||trackjs.com/css/trackjs.css$~third-party
+@@||trackjs.com^$~third-party
 @@||trc.taboolasyndication.com^$domain=bloomberg.com|breitbart.com|breitbart.tv|nme.com|slatev.com
 @@||turner.com/cnn/*/video/chartbeat.js$domain=cnn.com
 @@||ultimedia.com/js/common/jquery.gatracker.js

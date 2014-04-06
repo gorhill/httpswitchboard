@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: cITUEUqR25JUBCvYkR/a6A
-! Version: 201404021240
+! Checksum: B+fqrLJ+uYz8hxfTkUQjmQ
+! Version: 201404022010
 ! Title: Wiltteri
 ! Description: Finnish supplement list for EasyList
-! Last modified: 02 Apr 2014 12:40 UTC
+! Last modified: 02 Apr 2014 20:10 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: http://wiltteri.net/
 ! License: http://creativecommons.org/licenses/by-sa/3.0/
@@ -303,7 +303,6 @@ _mainosnappi.
 ||eastrockbikemeet.com/images/logos/V8.png
 ||eastway-event.fi/vag/banner/$third-party
 ||eat.fi/vartti/
-||ecess1.cdn.continent8.com/wlbetclic/bannerflow/$domain=livetulokset.com
 ||ecross.fi/*files/imagemanagermodule/@random
 ||educations.com^*/partners/$domain=koulutus.fi|utbildning.se
 ||ekoenergia.fi/bannerit/
@@ -674,6 +673,7 @@ _mainosnappi.
 ||kelkkailijat.net/pix/os_banner.gif
 ||kelkkalehti.com/bannerit/
 ||kelkkapalsta.com/bannerit/
+||keltamustat.com^*/images/friends/
 ||kemi.fi/jalokivigalleria/footer.gif
 ||kemi.fi/logo
 ||kennelliitto.fi/NR/rdonlyres/*banner
@@ -759,7 +759,6 @@ _mainosnappi.
 ||kuvaton.com/*mainos.jpg
 ||kuvaton.com/banners/
 ||kuvaton.com/bansku
-||kvaak.fi/keskustelu/adseller/
 ||kvps.fi/pics/muut-logot/
 ||kyamk.fi/folders/Images/Etusivun%20bannerit/
 ||kymppipaikka.fi/wp-content/banners/
@@ -1054,6 +1053,7 @@ _mainosnappi.
 ||oulunkarpat.fi/20*/bannerit/
 ||ouluthisweek.net/banners/
 ||overdrive.fi/bannerit/
+||overdrive.fi/mainonta/
 ||paf.com/cmsstatic/PAF/bannergraphics/
 ||paihdelinkki.fi/images/172.gif
 ||paijannepurjehdus.fi/DesktopModules/Thumbnailer/Thumbnail.ashx?src=/Portals/20/Pictures/Logot/
@@ -1245,7 +1245,6 @@ _mainosnappi.
 ||remax.fi/files/flash/*banner
 ||remontti.net/Logot/
 ||rentalcars.com/affiliates/
-||resources.kiosked.com^$third-party
 ||reverbnation.com^$domain=verkkomedia.org
 ||rgline.com/medialibrary/data/*banner
 ||riemurasia.net/images/banner_
@@ -2081,7 +2080,7 @@ kemora.fi###fotter
 festarit.fi###fp-downloads-box
 runtoshop.fi###fpwidget
 budosport.fi,palkintokauppa.fi###freetextbox
-saipafanit.com###friends
+keltamustat.com,saipafanit.com###friends
 s-pankki.fi###frontBottom
 jypliiga.fi###front_mini_ads
 kansanmusiikki.fi###frontnote
@@ -2535,7 +2534,6 @@ ampparit.com##.ad-lazy
 aamulehti.fi,jamsanseutu.fi,janakkalansanomat.fi,kainuunsanomat.fi,kankaanpaanseutu.fi,kmvlehti.fi,kuhmolainen.fi,lapinkansa.fi,lounaislappi.fi,luoteisvayla.fi,merikarvialehti.fi,nokianuutiset.fi,pohjolansanomat.fi,pyhajokiseutu.fi,raahenseutu.fi,rannikkoseutu.fi,satakunnankansa.fi,sotkamolehti.fi,suurkeuruu.fi,sydansatakunta.fi,tyrvaansanomat.fi,uusirovaniemi.fi,valkeakoskensanomat.fi,ylakainuu.fi##.adContainer
 jamsanseutu.fi,janakkalansanomat.fi,kankaanpaanseutu.fi,kmvlehti.fi,kuhmolainen.fi,luoteisvayla.fi,merikarvialehti.fi,nokianuutiset.fi,rannikkoseutu.fi,sotkamolehti.fi,suurkeuruu.fi,sydansatakunta.fi,tyrvaansanomat.fi,uusirovaniemi.fi,valkeakoskensanomat.fi,ylakainuu.fi##.adContainerWithMeta
 marmai.fi,talouselama.fi##.adDisclaimer
-ts.fi##.adOuterContainer
 kotikokki.net##.ad_container_right
 mestis.fi##.add
 valepa.fi##.add_scroll_box
@@ -3039,6 +3037,7 @@ audiovideo.fi##.view-mainospaikka-j-ttibanneri
 audiovideo.fi##.view-mainospaikka-suurtaulu-vasen
 audiovideo.fi##.view-panoraama-mainospaikka
 poljin.fi##.visualPadding
+mersuforum.net##.vt-seperator + .content
 hellapoliisi.fi##.w1 + h2.text-heading
 hellapoliisi.fi##.w1 + h2.text-heading + .box-section
 kaustinen.net##.wbAdvert.m56
@@ -3053,6 +3052,7 @@ finnishcanadian.com##.xj_sidebar_content img.align-center
 nuortenlaturi.fi##.xmldoc + div.xmldoc
 northpride.fi##.yhteis
 polttoaine.net##.yhteistyo
+mersuforum.net##.ylabanneri
 eastway.fi,tampereunited.com##a + a > img
 lbvaatekauppa.fi##a + br + br + a > img
 kotirinki.fi##a + br + p + div
@@ -3085,7 +3085,6 @@ visitkarelia.fi##a[href^="/fi?bannerredirect="]
 yla-savo.fi##a[href^="/modules/Banner/public/banner_redirect.aspx?id="]
 kuvaton.com##a[href^="http://affiliate."]
 randomi.fi##a[href^="http://clk.tradedoubler.com/click?"]
-v2.fi##a[href^="http://track.adform.net/"]
 blogit.fi##a[href^="http://tracking.euroads.fi"]
 viikonloppu.com##a[href^="http://www.orkki.org/click_counter.php?"]
 tollerit.fi##a[href^="http://www.tollerit.fi/@Banner/Goto?num="]
@@ -3182,7 +3181,6 @@ irc-galleria.net##div[id^="advzone"]
 findance.com##div[id^="mediaad"]
 vartti.fi##div[id^="oikotie"]
 ylilauta.org##div[id^="thread_"] + * + .center
-ylilauta.org##div[id^="thread_"] + br + .center
 ylilauta.org##div[id^="thread_"] + br + .center + .center
 ylilauta.org##div[id^="thread_"] + br:last-of-type + *
 keltainenporssi.fi##div[onclick="document.getElementById('banner_text').click()"]
@@ -3268,6 +3266,7 @@ bjjliitto.fi##div[style="width:500px;float:left;font-size:12px;height:100px;bord
 superjymy.fi##div[style="z-index: 5; position: relative; top: 35px;"]
 mypa.fi##div[style^="float:left; height: 180px; width: 140px;"]
 mypa.fi##div[style^="float:left; height: 300px; width: 962px;"]
+karppakannattajat.com##div[width="325"]
 oulunsalo.fi##dt
 huoneistokeskus.fi##embed
 megachat.fi##font > a > img
@@ -3287,6 +3286,7 @@ fatalii.net##hr + a > img
 fcjjk.com##hr + center > table[border="0"]
 retailhosting.fi##hr + p.center > img
 tiilikatto.fi##hr + p[style="text-align: center;"]
+overdrive.fi##hr:last-of-type + div.last.textcenter
 taloussanomat.fi##iframe#rak_otsikot
 taloussanomat.fi##iframe[src$="/radiohelsinki/app.php"]
 sosiaalisestirajoittuneet.fi##iframe[src*="amazon"]
@@ -3538,7 +3538,6 @@ rockmodels.fi##table.smalltext td + td
 ssl.fi##table.tableborder
 finnexpo.fi##table.tblBottomBanner
 nokianteatteri.fi##table.valikonAlusZone td[align="center"]
-mersuforum.net##table.ylabanneri
 pislaploki.com,rytmiraide.fi##table[align="center"]
 pirkanmaanviestinvaihto.fi##table[align="left"]
 digishop.fi##table[cellspacing="5"]
@@ -3828,6 +3827,7 @@ como.fi,episodi.fi,inferno.fi,popmedia.fi,rumba.fi,rytmi.com##ul.pro15
 ||seksitreffit.fi/treffit/kuvat/*.swf
 ||seksitreffit.fi/treffit/kuvat/*_banner
 ||seksitreffit.org/button-
+||sexwork.net/click/
 ||top100.valmiskauppa.fi/images/kuvat/$domain=livechat.fi
 ||turunerotiikkamessut.com^*/yhteistyo/$image
 ! -------------------- wiltteri-adult-hide.txt ---------------------- !

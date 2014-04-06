@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: owyky8PTawvPNWCZdi6N9A
-! Version: 201404021620
+! Checksum: oujHw9SGeEOGoTHsbT+Ggw
+! Version: 201404061720
 ! Title: EasyList Germany
 ! EasyList Germany - Deutsche Ergänzung zu EasyList
-! Last modified: 02 Apr 2014 16:20 UTC
+! Last modified: 06 Apr 2014 17:20 UTC
 ! Expires: 1 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -67,6 +67,7 @@
 /includes/werbung/*
 /layer_werbg.
 /media/werbung/*
+/medien/werbung/*
 /mod/werbung/*
 /o2-layer.
 /partneradzwerk/*
@@ -664,6 +665,7 @@ netzkino.de#@#.contentAdBox
 ||doubleclick.net/pfadx/P5238.videos/$object-subrequest
 ||doubleclick.net/pfadx/rtlregional.de/$third-party
 ||doubleclick.net/pfadx/telewest.de/$third-party
+||doubleclick.net/pfadx/toggo.de/$third-party
 ||doubleclick.net/pfadx/www.teleboerse.de/$third-party
 ||doubleclick.net^$third-party,domain=augsburger-allgemeine.de|autobild.de|bigbrother.de|bild.de|buffed.de|bunch.tv|bundesliga.de|cnet.de|comedycentral.de|computerbild.de|dashausanubis.de|de.msn.com|dooloop.tv|eyep.tv|filmjunkies.de|flashgames.de|focus.de|frauenzimmer.de|gameone.de|gamepro.de|gamesaktuell.de|gamestar.de|gameswelt.at|gameswelt.ch|gameswelt.de|gameswelt.tv|gamezone.de|gzsz.rtl.de|hatenight.com|homerj.de|icarly.de|kabeleins.de|kino.de|kochbar.de|laola1.tv|lustich.de|motorvision.de|myvideo.at|myvideo.ch|myvideo.de|n-tv.de|onlinewelten.com|pcaction.de|pcgames.de|pcgameshardware.de|pcwelt.de|prosieben.at|prosieben.ch|prosieben.de|radio.de|ran.de|rtlregional.de|sat1.de|southpark.de|spiegel.tv|spiele-zone.de|spongebob.de|sport.de|spox.com|spreeradio.de|t-online.de|tape.tv|teleboerse.de|the-hills.tv|the-voice-of-germany.at|the-voice-of-germany.ch|the-voice-of-germany.de|trailerseite.de|tvmovie.de|video.de|videogameszone.de|vip.de|vodafonelive.de|vox.de|welt.de|wetter.de|wetterschnecken.de|wikifit.de|www.rtl.de|www.rtl2.de|zdnet.de
 ||doubleclick.net^*/DE_PUTPATTV/$third-party
@@ -1599,6 +1601,8 @@ netzkino.de#@#.contentAdBox
 ||achtzehn99.de/assets/banner/*x526
 ||achtzehn99.de/themes/hoffenheim/images/banner_
 ||ad-hoc-news.de/js/jquery.lightboxad.js
+||ad-hoc-news.de/theme/classic/swf/billboard-
+||ad-hoc-news.de/theme/classic/swf/headbanner-
 ||ad.dslr-forum.de^
 ||ad.games.ch^
 ||ad.main-netz.de^
@@ -3574,6 +3578,7 @@ netzkino.de#@#.contentAdBox
 ||zweinullig.de/wp-content/uploads/125.png
 ||zweinullig.de/wp-content/uploads/chaershop.jpg
 ! Anti-Adblock
+||gamona.de/wp-content/uploads/46
 ||mv-spion.de/ajax/lc?content=qwert
 ||mv-spion.de/ajax/lc|
 ! *** easylistgermany:easylistgermany/easylistgermany_specific_block_popup.txt ***
@@ -3756,6 +3761,7 @@ unterwasserwelt.de###Tabelle673
 t-online.de###Tadspacefootlb
 t-online.de###Tamrecbox
 t-online.de###Tcmd1 > .Tmect
+t-online.de###Tcontboxi > .Tagbox > .Tart > #Ttub2
 cio.de###TopBanner
 onvista-bank.de,onvista.de###WALLPAPER
 ww3.cad.de###WzTtDiV + table[width="100%"][border="0"]
@@ -4717,15 +4723,20 @@ aol.de##.SLL
 fcbayern.telekom.de##.SectionPresenting
 derstandard.at##.SponsorCFrame
 buerschgens.de##.SponsorFuss
+t-online.de##.TFlashPlayer[style="height:200px; width:300px;"]
 rtl.de##.T_partner
 rtl.de##.T_shopKoop
 t-online.de##.Tadc
 t-online.de##.Tamrecbox
 eltern-zentrum.de##.Text1[valign="top"]:last-child > .tabberlive:last-child
 adhs-zentrum.de##.Text[width="100%"][valign="top"] + td[valign="top"]:last-child
+t-online.de##.Thpx600
 kleinreport.ch##.TopBannerContainer
 kellysearch.de##.TopBanners
+t-online.de##.Toyota
+t-online.de##.Tshlogobox
 t-online.de##.Tsshopst
+t-online.de##.Tsshopst1
 t-online.de##.Ttsc.Ttsh65.Tmc4a
 aol.de##.WOL
 gullipics.com##.a-zone
@@ -5034,6 +5045,9 @@ filmpalast.to##.detail > li > span > a
 muenchen.de##.dienste_anzeige
 muensterschezeitung.de,ruhrnachrichten.de##.digitaleAnzeigen
 morgensex.com##.dim_b945_h100
+volksblatt.li##.divAnzeige
+volksblatt.li##.divBanner
+volksblatt.li##.divPdfAnzeigen
 volksblatt.li##.divRectangle
 ladies.de##.div_head_main_anzeige
 gamestar.de##.dlightboxContainerBody > div[style="color: #5D5D5D; font-size: 18px; margin: 10px 10px 10px 20px; text-align: left;"] + .standardcontent > [type="text/css"] + .articlelb > table
@@ -6174,6 +6188,7 @@ gamestar.de##a[target="_blank"][href^="http://goo.gl/"] > img
 t-online.de##a[target="_blank"][href^="http://im.banner.t-online.de/?adlink"] > img
 apfeleimer.de##a[target="_blank"][href^="http://j.mp/"]
 hoerbuch.in,lesen.to##a[target="_blank"][href^="http://megacache.net/free"]
+t-online.de##a[target="_blank"][href^="http://nachricht.sptopf.de/tshp/RE?ID="]
 gamereactor.de##a[target="_blank"][href^="http://openx.gamereactor.dk/adclick.php?"]
 oyox.de##a[target="_blank"][href^="http://partners.webmasterplan.com/click.asp?ref="] > img
 rtl-now.rtl.de##a[target="_blank"][href^="http://rtl-now.rtl.de/tools/count/xdot/count.php?id="]
@@ -6333,6 +6348,7 @@ boerse.bz##div[onclick^="window.open('http://www.boerse.bz/go/?register=new&m=gu
 suchen.de##div[onclick^="window.open('http://www.suchen.de/ad?"]
 wetter.info##div[onfocus*=";mp=gelbeseiten;"]
 t-online.de##div[onfocus="A('mp=TopPartner')"]
+t-online.de##div[onfocus="A('mp=TopPartner-1')"]
 mikrocontroller.net##div[style$="120px; text-align:center; font-size:12px; border:2px solid #ffa500; padding:3px; background:#EEE; overflow:hidden;"]
 mikrocontroller.net##div[style$="120px; text-align:center; font-size:12px; border:2px solid #ffa500; padding:3px; background:-moz-linear-gradient(top, #EEE, #ffa500); background:-webkit-gradient(linear, left top, left bottom, from(#EEE), to(#ffa500)); overflow: hidden;"]
 mikrocontroller.net##div[style$="160px; text-align:center; font-size:12px; border:2px solid #ffa500; padding:3px; background:#EEE; overflow:hidden;"]
@@ -6604,6 +6620,7 @@ g-stream.in##img[width="468"][height="59"]
 3druck.com,amilo-forum.de,awekas.at,fake-it.biz,gntm-blog.de,mafia-linkz.to,novalja-zrce.de,technorocker.info,vampirediaries.in,velderboard.li,xboxdome.de##img[width="468"][height="60"]
 e-bol.net##img[width="469"][height="61"]
 emuenzen.de##img[width="486"][height="60"]
+t-online.de##img[width="609"][usemap^="#immap"]
 t-online.de##img[width="610"][usemap^="#immap"]
 t-online.de##img[width="641"][usemap^="#immap"]
 cinebee.org##img[width="660"]
@@ -7183,6 +7200,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||ticketonline.de/tickets.html?affiliate=$subdocument
 @@||tkqlhce.com/click-$subdocument,domain=eule.de
 @@||toggo.de/js/advertise.js
+@@||toggo.de/xml/admeta.xml?$object-subrequest
 @@||tradedoubler.com/click?$subdocument,domain=eule.de|gutscheindoktor.de|preismafia.com
 @@||tradedoubler.com/file/$image,domain=sunsteps.org
 @@||tradedoubler.com/redirect/*^affID^$subdocument,domain=gutscheindoktor.de
@@ -7312,7 +7330,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||game-advertising-online.com/images/s-l.gif$domain=anime-loads.org
 @@||game-advertising-online.com/index.php?section=serve&id=$subdocument,domain=anime-loads.org
 @@||gamestar.de^$elemhide
-@@||gamona.de/ads/uploads/2014/03/$image
+@@||gamona.de^$image
 @@||gassi-tv.de^*/adframe.js
 @@||gerichtsboulevard.de^$elemhide
 @@||gmads.net/crossdomain.xml$object-subrequest,domain=clipfish.de|n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
@@ -7438,3 +7456,4 @@ pcwelt.de##div[id^="google_ads_"]
 ! *** easylistgermany:easylistgermany/easylistgermany_whitelist_popup.txt ***
 @@||ad.doubleclick.net/clk;$popup,domain=gutscheindoktor.de
 @@||ads.qipu.de/www/delivery/ck.php?zoneid=$popup
+@@||casino.williamhill.com^$popup,domain=online-casino.de

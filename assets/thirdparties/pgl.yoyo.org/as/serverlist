@@ -3,7 +3,7 @@
 # For more information about this list, see: http://pgl.yoyo.org/adservers/
 # ----
 # last updated:   Wed, 02 Apr 2014 09:18:15 GMT
-# entries:        2499
+# entries:        2498
 # format:         hosts (hosts -- in hosts file format)
 # credits:        Peter Lowe - pgl@yoyo.org - http://pgl.yoyo.org/
 # this URL:       http://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext
@@ -22,7 +22,6 @@
 127.0.0.1 24log.com
 127.0.0.1 24log.de
 127.0.0.1 24pm-affiliation.com
-127.0.0.1 2log.com
 127.0.0.1 2o7.net
 127.0.0.1 360yield.com
 127.0.0.1 4affiliate.net
@@ -528,7 +527,6 @@
 127.0.0.1 ads.internic.co.il
 127.0.0.1 ads.ipowerweb.com
 127.0.0.1 ads.isoftmarketing.com
-127.0.0.1 ads.itoot.net
 127.0.0.1 ads.itv.com
 127.0.0.1 ads.iwon.com
 127.0.0.1 ads.jewishfriendfinder.com
@@ -1230,6 +1228,7 @@
 127.0.0.1 casinotraffic.com
 127.0.0.1 casinotreasure.com
 127.0.0.1 cbanners.virtuagirlhd.com
+127.0.0.1 cben1.net
 127.0.0.1 cbmall.com
 127.0.0.1 cbx.net
 127.0.0.1 cecash.com
@@ -1745,7 +1744,6 @@
 127.0.0.1 mads.cnet.com
 127.0.0.1 mads.gamespot.com
 127.0.0.1 madvertise.de
-127.0.0.1 mailusnow123.com
 127.0.0.1 malware-scan.com
 127.0.0.1 marchex.com
 127.0.0.1 marketing.888.com
@@ -1780,7 +1778,6 @@
 127.0.0.1 mediax.angloinfo.com
 127.0.0.1 mediaz.angloinfo.com
 127.0.0.1 medleyads.com
-127.0.0.1 megacash.de
 127.0.0.1 megago.com
 127.0.0.1 megastats.com
 127.0.0.1 megawerbung.de
@@ -1889,7 +1886,6 @@
 127.0.0.1 oinadserver.com
 127.0.0.1 olivebrandresponse.com
 127.0.0.1 omniture.com
-127.0.0.1 onclickads.com
 127.0.0.1 onclickads.net
 127.0.0.1 oneandonlynetwork.com
 127.0.0.1 onenetworkdirect.com
@@ -1933,6 +1929,7 @@
 127.0.0.1 partner-ads.com
 127.0.0.1 partner.gonamic.de
 127.0.0.1 partner.pelikan.cz
+127.0.0.1 partner.topcities.com
 127.0.0.1 partnerad.l.google.com
 127.0.0.1 partnercash.de
 127.0.0.1 partners.priceline.com
@@ -2044,6 +2041,8 @@
 127.0.0.1 radiate.com
 127.0.0.1 rampidads.com
 127.0.0.1 rank-master.com
+127.0.0.1 rank-master.de
+127.0.0.1 rank8.de
 127.0.0.1 rankchamp.de
 127.0.0.1 ranking-charts.de
 127.0.0.1 ranking-hits.de
@@ -2105,6 +2104,7 @@
 127.0.0.1 roar.com
 127.0.0.1 robotreplay.com
 127.0.0.1 roia.biz
+127.0.0.1 roings.com
 127.0.0.1 rok.com.com
 127.0.0.1 rose.ixbt.com
 127.0.0.1 rotabanner.com
@@ -2437,7 +2437,6 @@
 127.0.0.1 webtrendslive.com
 127.0.0.1 wegcash.com
 127.0.0.1 werbung.meteoxpress.com
-127.0.0.1 werbung.world4you.com
 127.0.0.1 wetrack.it
 127.0.0.1 whaleads.com
 127.0.0.1 whenu.com

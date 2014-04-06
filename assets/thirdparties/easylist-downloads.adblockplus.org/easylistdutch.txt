@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: efA+mPI9rw0Zjm880QbEyw
-! Version: 201404021621
+! Checksum: q/+U1te8EOGsknOavOpMjA
+! Version: 201404061721
 ! Title: EasyList Dutch
 ! Description: Dutch supplement for the Easylist filters
-! Last modified: 02 Apr 2014 16:21 UTC
+! Last modified: 06 Apr 2014 17:21 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -166,6 +166,7 @@
 ||goldenpalaceaffiliates.com/marketing_tools/
 ||hetsportmagazine.nl^*/externelinks/banner_
 ||honig.nl/extern/honig-commercial-videobanner-
+||images-speurders.nl/content_erectipillen
 ||images.m4n.nl^*/hosting/
 ||images.textopus.nl^*/css_img/adflabel.png
 ||images2-telegraaf.nl/multimedia/archive/*/fitban_*.jpg
@@ -1178,3 +1179,4 @@ telegraaf.nl#@#.imgad
 ad.nl#@#.nav_ad
 amonis.be#@#.text-ad
 kamernet.nl#@#.topAdd
+tweakers.net#@#a[href^="http://pubads.g.doubleclick.net/"]
