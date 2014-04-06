@@ -372,7 +372,13 @@ The Verge:
     scope: www.theverge.com
         whitelist: |
             * theverge.com
-            * sbnation.com
+            script cdnjs.cloudflare.com
+            # Comments
+            * vox-cdn.com
+            # Fonts
+            script fonts.sbnation.com
+            # Typekit requires a valid referer...
+            * typekit.net
 
 Vine:
     keys: vine.co
