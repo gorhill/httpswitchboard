@@ -26,22 +26,23 @@ function changeUserSettings(name, value) {
         return;
     }
 
+    var httpsb = HTTPSB;
+
     // Do not allow an unknown user setting to be created
-    if ( HTTPSB.userSettings[name] === undefined ) {
+    if ( httpsb.userSettings[name] === undefined ) {
         return;
     }
 
     if ( value === undefined ) {
-        return HTTPSB.userSettings[name];
+        return httpsb.userSettings[name];
     }
 
     switch ( name ) {
-
         // Need to visit each pageStats object to resize ring buffer
         case 'maxLoggedRequests':
             value = Math.max(Math.min(value, 500), 0); 
-            HTTPSB.userSettings[name] = value;
-            var pageStats = HTTPSB.pageStats;
+            httpsb.userSettings[name] = value;
+            var pageStats = httpsb.pageStats;
             for ( var pageUrl in pageStats ) {
                 if ( pageStats.hasOwnProperty(pageUrl) ) {
                     pageStats[pageUrl].requests.resizeLogBuffer(value);
@@ -50,10 +51,10 @@ function changeUserSettings(name, value) {
             break;
 
         default:        
-            HTTPSB.userSettings[name] = value;
+            httpsb.userSettings[name] = value;
             break;
     }
 
-    saveUserSettings();
+    httpsb.saveUserSettings();
 }
 

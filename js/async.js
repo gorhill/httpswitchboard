@@ -233,7 +233,7 @@ function onMessageHandler(request, sender, callback) {
             break;
 
         case 'reloadPresetBlacklists':
-            reloadPresetBlacklists(request.switches);
+            HTTPSB.reloadPresetBlacklists(request.switches);
             break;
 
         case 'userSettings':

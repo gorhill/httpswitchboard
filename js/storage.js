@@ -21,38 +21,35 @@
 
 /******************************************************************************/
 
-function getBytesInUseHandler(bytesInUse) {
-    HTTPSB.storageUsed = bytesInUse;
-}
-
-function getBytesInUse() {
+HTTPSB.getBytesInUse = function() {
+    var getBytesInUseHandler = function(bytesInUse) {
+        HTTPSB.storageUsed = bytesInUse;
+    };
     chrome.storage.local.getBytesInUse(null, getBytesInUseHandler);
-}
+};
 
 /******************************************************************************/
 
-function saveUserSettings() {
-    chrome.storage.local.set(HTTPSB.userSettings, getBytesInUse);
-}
+HTTPSB.saveUserSettings = function() {
+    chrome.storage.local.set(this.userSettings, function() {
+        HTTPSB.getBytesInUse();
+    });
+};
 
 /******************************************************************************/
 
-function loadUserSettings() {
-    chrome.storage.local.get(HTTPSB.userSettings, function(store) {
+HTTPSB.loadUserSettings = function() {
+    chrome.storage.local.get(this.userSettings, function(store) {
         // console.log('HTTP Switchboard > loaded user settings');
         HTTPSB.userSettings = store;
     });
-}
+};
 
 /******************************************************************************/
 
-function loadUserLists() {
-    var httpsb = HTTPSB;
-    var defaults = {
-        version: httpsb.manifest.version,
-        scopes: ''
-    };
-    chrome.storage.local.get(defaults, function(store) {
+HTTPSB.loadScopedRules = function() {
+    var loadHandler = function(store) {
+        var httpsb = HTTPSB;
         if ( store.scopes !== '' ) {
             httpsb.temporaryScopes.fromString(store.scopes);
             // All this ugly special handling to smoothly transition between
@@ -102,8 +99,14 @@ function loadUserLists() {
             'what': 'startWebRequestHandler',
             'from': 'listsLoaded'
         });
-    });
-}
+    };
+
+    var defaults = {
+        version: this.manifest.version,
+        scopes: ''
+    };
+    chrome.storage.local.get(defaults, loadHandler);
+};
 
 /******************************************************************************/
 
@@ -353,8 +356,8 @@ HTTPSB.mergeBlacklistedHosts = function(details) {
 // `switches` contains the preset blacklists for which the switch must be
 // revisited.
 
-function reloadPresetBlacklists(switches) {
-    var presetBlacklists = HTTPSB.remoteBlacklists;
+HTTPSB.reloadPresetBlacklists = function(switches) {
+    var presetBlacklists = this.remoteBlacklists;
 
     // Toggle switches
     var i = switches.length;
@@ -366,11 +369,13 @@ function reloadPresetBlacklists(switches) {
     }
 
     // Save switch states
-    chrome.storage.local.set({ 'remoteBlacklists': presetBlacklists }, getBytesInUse);
+    chrome.storage.local.set({ 'remoteBlacklists': presetBlacklists }, function() {
+        HTTPSB.getBytesInUse();
+    });
 
     // Now force reload
-    HTTPSB.loadUbiquitousBlacklists();
-}
+    this.loadUbiquitousBlacklists();
+};
 
 /******************************************************************************/
 
@@ -412,12 +417,12 @@ HTTPSB.reloadAllLocalAssets = function() {
 // Load white/blacklist
 
 function load() {
-    loadUserSettings();
-    loadUserLists();
+    HTTPSB.loadUserSettings();
+    HTTPSB.loadScopedRules();
     HTTPSB.loadUbiquitousBlacklists();
     HTTPSB.loadUbiquitousWhitelists();
     HTTPSB.loadPublicSuffixList();
     HTTPSB.reloadAllPresets();
-    getBytesInUse();
+    HTTPSB.getBytesInUse();
 }
 
