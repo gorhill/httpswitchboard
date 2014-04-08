@@ -331,6 +331,15 @@ Reddit (with account):
             * redditstatic.s3.amazonaws.com
             script ajax.googleapis.com
 
+Sketchfab:
+    keys: sketchfab.com
+    scope: sketchfab.com
+        whitelist: |
+            * sketchfab.com
+            frame sketchfab.com
+            script d2f25wgezub9nf.cloudfront.net
+            xhr d35krx4ujqgbcr.cloudfront.net
+
 StackExchange:
     keys: '*.stackexchange.com'
     scope: '*.stackexchange.com'
