@@ -111,35 +111,6 @@ HTTPSB.loadScopedRules = function() {
 /******************************************************************************/
 
 HTTPSB.loadUbiquitousWhitelists = function() {
-    var parseUbiquitousWhitelist = function(details) {
-        var httpsb = HTTPSB;
-        var ubiquitousWhitelist = httpsb.ubiquitousWhitelist;
-        var raw = details.content.toLowerCase();
-        var rawEnd = raw.length;
-        var lineBeg = 0;
-        var lineEnd;
-        var line, pos;
-        ubiquitousWhitelist.reset();
-        while ( lineBeg < rawEnd ) {
-            lineEnd = raw.indexOf('\n', lineBeg);
-            if ( lineEnd < 0 ) {
-                lineEnd = rawEnd;
-            }
-            line = raw.slice(lineBeg, lineEnd);
-            lineBeg = lineEnd + 1;
-            pos = line.indexOf('#');
-            if ( pos >= 0 ) {
-                line = line.slice(0, pos);
-            }
-            line = line.trim();
-            if ( !line.length ) {
-                continue;
-            }
-            ubiquitousWhitelist.add(line);
-        }
-        ubiquitousWhitelist.freeze();
-    };
-
     var onMessageHandler = function(request) {
         if ( !request || !request.what ) {
             return;
@@ -151,7 +122,10 @@ HTTPSB.loadUbiquitousWhitelists = function() {
 
     var onLoadedHandler = function(details) {
         if ( !details.error ) {
-            parseUbiquitousWhitelist(details);
+            var httpsb = HTTPSB;
+            httpsb.ubiquitousWhitelist.reset();
+            httpsb.mergeUbiquitousWhitelist(details);
+            httpsb.ubiquitousWhitelist.freeze();
         }
         chrome.runtime.onMessage.removeListener(onMessageHandler);
     };
@@ -160,10 +134,38 @@ HTTPSB.loadUbiquitousWhitelists = function() {
 
     // ONLY the user decides what to whitelist uniquitously, so no need
     // for code to handle 3rd-party lists.
-    HTTPSB.assets.get(
+    this.assets.get(
         'assets/user/ubiquitous-whitelisted-hosts.txt',
         'userUbiquitousWhitelistLoaded'
     );
+};
+
+/******************************************************************************/
+
+HTTPSB.mergeUbiquitousWhitelist = function(details) {
+    var ubiquitousWhitelist = this.ubiquitousWhitelist;
+    var raw = details.content.toLowerCase();
+    var rawEnd = raw.length;
+    var lineBeg = 0;
+    var lineEnd;
+    var line, pos;
+    while ( lineBeg < rawEnd ) {
+        lineEnd = raw.indexOf('\n', lineBeg);
+        if ( lineEnd < 0 ) {
+            lineEnd = rawEnd;
+        }
+        line = raw.slice(lineBeg, lineEnd);
+        lineBeg = lineEnd + 1;
+        pos = line.indexOf('#');
+        if ( pos >= 0 ) {
+            line = line.slice(0, pos);
+        }
+        line = line.trim();
+        if ( !line.length ) {
+            continue;
+        }
+        ubiquitousWhitelist.add(line);
+    }
 };
 
 /******************************************************************************/
@@ -177,7 +179,7 @@ HTTPSB.loadUbiquitousBlacklists = function() {
         if ( !details || !details.what ) {
             return;
         }
-        if ( details.what === 'mergeBlacklistedHosts' ) {
+        if ( details.what === 'mergeUbiquitousBlacklist' ) {
             mergeBlacklist(details);
         }
     };
@@ -204,7 +206,7 @@ HTTPSB.loadUbiquitousBlacklists = function() {
     };
 
     var mergeBlacklist = function(details) {
-        HTTPSB.mergeBlacklistedHosts(details);
+        HTTPSB.mergeUbiquitousBlacklist(details);
         blacklistLoadCount -= 1;
         if ( blacklistLoadCount === 0 ) {
             loadBlacklistsEnd();
@@ -262,7 +264,7 @@ HTTPSB.loadUbiquitousBlacklists = function() {
                 blacklistLoadCount -= 1;
                 continue;
             }
-            HTTPSB.assets.get(location, 'mergeBlacklistedHosts');
+            httpsb.assets.get(location, 'mergeUbiquitousBlacklist');
         }
     };
 
@@ -270,17 +272,16 @@ HTTPSB.loadUbiquitousBlacklists = function() {
 
     // Get remote blacklist data (which may be saved locally).
     chrome.storage.local.get(
-        { 'remoteBlacklists': HTTPSB.remoteBlacklists },
+        { 'remoteBlacklists': this.remoteBlacklists },
         loadBlacklistsStart
     );
 };
 
 /******************************************************************************/
 
-HTTPSB.mergeBlacklistedHosts = function(details) {
-    // console.log('HTTP Switchboard > mergeBlacklistedHosts from "%s": "%s..."', details.path, details.content.slice(0, 40));
+HTTPSB.mergeUbiquitousBlacklist = function(details) {
+    // console.log('HTTP Switchboard > mergeUbiquitousBlacklist from "%s": "%s..."', details.path, details.content.slice(0, 40));
 
-    var httpsb = HTTPSB;
     var raw = details.content.toLowerCase();
     var rawEnd = raw.length;
 
@@ -294,7 +295,7 @@ HTTPSB.mergeBlacklistedHosts = function(details) {
     //    https://adblockplus.org/en/filter-cheatsheet
     //    https://adblockplus.org/en/filters
     var adblock = (/^\[adblock +plus\ +\d\.\d\]/i).test(raw);
-    var abpFilters = httpsb.userSettings.parseAllABPFilters ? httpsb.abpFilters : null;
+    var abpFilters = this.userSettings.parseAllABPFilters ? this.abpFilters : null;
     var hostFromAdblockFilter = function(s) {
         var matches = s.match(/^\|\|([a-z0-9.-]+)\^(\$third-party|$)/);
         if ( matches && matches.length > 1 ) {
@@ -303,7 +304,7 @@ HTTPSB.mergeBlacklistedHosts = function(details) {
         return '';
     };
 
-    var ubiquitousBlacklist = httpsb.ubiquitousBlacklist;
+    var ubiquitousBlacklist = this.ubiquitousBlacklist;
     var thisListCount = 0;
     var thisListUsedCount = 0;
     var localhostRegex = /(^|\b)(localhost\.localdomain|localhost|local|broadcasthost|0\.0\.0\.0|127\.0\.0\.1|::1|fe80::1%lo0)(\b|$)/g;
@@ -347,8 +348,8 @@ HTTPSB.mergeBlacklistedHosts = function(details) {
 
     // For convenience, store the number of entries for this
     // blacklist, user might be happy to know this information.
-    httpsb.remoteBlacklists[details.path].entryCount = thisListCount;
-    httpsb.remoteBlacklists[details.path].entryUsedCount = thisListUsedCount;
+    this.remoteBlacklists[details.path].entryCount = thisListCount;
+    this.remoteBlacklists[details.path].entryUsedCount = thisListUsedCount;
 };
 
 /******************************************************************************/
@@ -403,9 +404,6 @@ HTTPSB.loadPublicSuffixList = function() {
 
 /******************************************************************************/
 
-// TODO: move to a new file-module, 'asset-loader.js', along with all
-// logically related code.
-
 HTTPSB.reloadAllLocalAssets = function() {
     this.loadUbiquitousBlacklists();
     this.loadPublicSuffixList();
@@ -414,15 +412,18 @@ HTTPSB.reloadAllLocalAssets = function() {
 
 /******************************************************************************/
 
-// Load white/blacklist
+// Load all
 
-function load() {
-    HTTPSB.loadUserSettings();
-    HTTPSB.loadScopedRules();
-    HTTPSB.loadUbiquitousBlacklists();
-    HTTPSB.loadUbiquitousWhitelists();
-    HTTPSB.loadPublicSuffixList();
-    HTTPSB.reloadAllPresets();
-    HTTPSB.getBytesInUse();
-}
+HTTPSB.load = function() {
+    // user
+    this.loadUserSettings();
+    this.loadScopedRules();
+    this.loadUbiquitousBlacklists();
+    this.loadUbiquitousWhitelists();
+
+    // system
+    this.loadPublicSuffixList();
+    this.reloadAllPresets();
+    this.getBytesInUse();
+};
 

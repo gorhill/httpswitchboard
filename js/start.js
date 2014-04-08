@@ -94,9 +94,9 @@ chrome.webNavigation.onBeforeNavigate.addListener(onBeforeNavigateCallback);
 
 /******************************************************************************/
 
-// Load user settings
+// Load everything
 
-load();
+HTTPSB.load();
 
 /******************************************************************************/
 
