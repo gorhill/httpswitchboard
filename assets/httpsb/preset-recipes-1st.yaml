@@ -101,6 +101,14 @@ Daily Motion:
             * dailymotion.com
             * dmcdn.net
 
+ebay:
+    keys: www.ebay.com
+    scope: www.ebay.com
+        whitelist: |
+            * ebay.com
+            * ebayrtm.com
+            * ebaystatic.com
+
 Embedly:
     keys: embed.ly
     scope: embed.ly
