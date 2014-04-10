@@ -440,9 +440,25 @@
     },
 
 
-    "aboutAssetsUpdateHeader" : {
-        "message": "Assets",
-        "description": "Assets header text"
+    "aboutUserDataHeader" : {
+        "message": "Your data",
+        "description": "English: Your data"
+    },
+    "aboutUserDataBackupButton" : {
+        "message": "Backup all...",
+        "description": "English: Backup all..."
+    },
+    "aboutUserDataRestoreButton" : {
+        "message": "Restore all...",
+        "description": "English: Restore all..."
+    },
+    "aboutUserDataRestoreConfirm" : {
+        "message": "All your settings and rules will be overwritten\nusing data backed up on {{time}},\nand HTTP Switchboard will restart.\n\nOverwrite all existing data using backed up data?",
+        "description": "Message asking user to confirm restore"
+    },
+    "aboutExtensionDataHeader" : {
+        "message": "Extension data",
+        "description": "English: Extension data"
     },
     "aboutAssetsUpdatePrompt" : {
         "message": "<i>HTTP Switchboard</i> assets can be updated here without having to wait for the next release of the extension. These assets are pulled from the <a href=\"https://github.com/gorhill/httpswitchboard\">project's Github repository</a>.",

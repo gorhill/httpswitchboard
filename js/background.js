@@ -128,6 +128,9 @@ var HTTPSB = {
     ubiquitousBlacklist: null,
     ubiquitousWhitelist: null,
 
+    userBlacklistPath: 'assets/user/ubiquitous-blacklisted-hosts.txt',
+    userWhitelistPath: 'assets/user/ubiquitous-whitelisted-hosts.txt',
+
     // various stats
     requestStats: new WebRequestStats(),
     cookieRemovedCounter: 0,

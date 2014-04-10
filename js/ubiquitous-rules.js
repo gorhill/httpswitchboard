@@ -25,8 +25,6 @@
 
 /******************************************************************************/
 
-var userBlacklistPath = 'assets/user/ubiquitous-blacklisted-hosts.txt';
-var userWhitelistPath = 'assets/user/ubiquitous-whitelisted-hosts.txt';
 var userListHref = '#userUbiquitousBlacklistedHostsPrompt';
 var cachedUserUbiquitousBlacklistedHosts = '';
 var cachedUserUbiquitousWhitelistedHosts = '';
@@ -91,7 +89,7 @@ function renderBlacklists() {
         child.prop('checked', !blacklist.off);
         child = $('a', li);
         // Special rendering: user list
-        if ( blacklistName === userBlacklistPath ) {
+        if ( blacklistName === httpsb.userBlacklistPath ) {
             child.attr('href', userListHref);
             child.text($(userListHref).text());
         } else {
@@ -188,7 +186,8 @@ function renderUserBlacklist() {
         chrome.runtime.onMessage.removeListener(onMessageHandler);
     };
     chrome.runtime.onMessage.addListener(onMessageHandler);
-    gethttpsb().assets.get(userBlacklistPath, 'dashboardGetUbiquitousUserBlacklist');
+    var httpsb = gethttpsb();
+    httpsb.assets.get(httpsb.userBlacklistPath, 'dashboardGetUbiquitousUserBlacklist');
 }
 
 /******************************************************************************/
@@ -208,7 +207,8 @@ function renderUserWhitelist() {
         chrome.runtime.onMessage.removeListener(onMessageHandler);
     };
     chrome.runtime.onMessage.addListener(onMessageHandler);
-    gethttpsb().assets.get(userWhitelistPath, 'dashboardGetUbiquitousUserWhitelist');
+    var httpsb = gethttpsb();
+    httpsb.assets.get(httpsb.userWhitelistPath, 'dashboardGetUbiquitousUserWhitelist');
 }
 
 /******************************************************************************/
@@ -219,6 +219,7 @@ function blacklistsApplyHandler() {
         return;
     }
     // Reload blacklists
+    var httpsb = gethttpsb();
     var switches = [];
     var lis = $('#blacklists .blacklistDetails');
     var i = lis.length;
@@ -226,7 +227,7 @@ function blacklistsApplyHandler() {
     while ( i-- ) {
         path = $(lis[i]).children('a').attr('href');
         if ( path === userListHref ) {
-            path = userBlacklistPath;
+            path = httpsb.userBlacklistPath;
         }
         switches.push({
             location: path,
@@ -301,8 +302,9 @@ function userBlacklistApplyHandler() {
         chrome.runtime.onMessage.removeListener(onMessageHandler);
     };
     chrome.runtime.onMessage.addListener(onMessageHandler);
-    gethttpsb().assets.put(
-        userBlacklistPath,
+    var httpsb = gethttpsb();
+    httpsb.assets.put(
+        httpsb.userBlacklistPath,
         $('#userUbiquitousBlacklistedHosts').val(),
         'dashboardPutUbiquitousUserBlacklist'
     );
@@ -364,7 +366,7 @@ function userWhitelistApplyHandler() {
     };
     chrome.runtime.onMessage.addListener(onMessageHandler);
     httpsb.assets.put(
-        userWhitelistPath,
+        httpsb.userWhitelistPath,
         $('#userUbiquitousWhitelistedHosts').val(),
         'dashboardPutUbiquitousUserWhitelist'
     );

@@ -440,9 +440,25 @@
     },
 
 
-    "aboutAssetsUpdateHeader" : {
-        "message": "Éléments dynamiques",
-        "description": "Assets header text"
+    "aboutUserDataHeader" : {
+        "message": "Vos données",
+        "description": "English: Your data"
+    },
+    "aboutUserDataBackupButton" : {
+        "message": "Exporter...",
+        "description": "English: Backup all..."
+    },
+    "aboutUserDataRestoreButton" : {
+        "message": "Importer...",
+        "description": "English: Restore all..."
+    },
+    "aboutUserDataRestoreConfirm" : {
+        "message": "Tous vos paramètres et règles seront remplacés\npar les données sauvegardées le {{time}},\net HTTP Switchboard redémarrera.\n\nProcéder à la restauration ?",
+        "description": "Message asking user to confirm restore"
+    },
+    "aboutExtensionDataHeader" : {
+        "message": "Données de l'extension",
+        "description": "English: Extension data"
     },
     "aboutAssetsUpdatePrompt" : {
         "message": "Les éléments dynamiques, comprenant entre autres listes d'hôtes à bloquer et recettes prédéfinies, peuvent être mis à jour ici sans avoir à attendre la prochaine version de HTTP Switchboard. Le processus s'effectue à partir de la <a href=\"https://github.com/gorhill/httpswitchboard\">page du projet sur Github</a>.",

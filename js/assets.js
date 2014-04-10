@@ -282,6 +282,9 @@ var readRemoteFile = function(path, msg) {
 
 var writeLocalFile = function(path, content, msg) {
     var sendMessage = function(err) {
+        if ( msg === undefined ) {
+            return;
+        }
         var details = {
             'what': msg,
             'path': path,

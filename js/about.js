@@ -25,10 +25,150 @@ $(function() {
 
 /******************************************************************************/
 
-var httpsb = chrome.extension.getBackgroundPage().HTTPSB;
 var updateList = {};
 var assetListSwitches = ['o', 'o', 'o'];
 var commitHistoryURLPrefix = 'https://github.com/gorhill/httpswitchboard/commits/master/';
+
+/******************************************************************************/
+
+var getHTTPSB = function() {
+    return chrome.extension.getBackgroundPage().HTTPSB;
+}
+
+/******************************************************************************/
+
+var backupUserDataToFile = function() {
+    var httpsb = getHTTPSB();
+
+    var allUserData = {
+        timeStamp: Date.now(),
+        version: '',
+        userSettings: {},
+        scopes: '',
+        remoteBlacklists: {},
+        ubiquitousBlacklist: '',
+        ubiquitousWhitelist: ''
+    };
+
+    var userSettingsReady = function(store) {
+        allUserData.userSettings = store;
+        chrome.storage.local.get(['version', 'scopes', 'remoteBlacklists'], ruleDataReady);
+    };
+
+    var ruleDataReady = function(store) {
+        allUserData.version = store.version;
+        allUserData.scopes = store.scopes;
+        allUserData.remoteBlacklists = store.remoteBlacklists;
+        httpsb.assets.get(
+            httpsb.userBlacklistPath,
+            'userUbiquitousBlacklistReady'
+        );
+    };
+
+    var onMessageHandler = function(request) {
+        if ( !request || !request.what ) {
+            return;
+        }
+        switch ( request.what ) {
+        case 'userUbiquitousBlacklistReady':
+            allUserData.ubiquitousBlacklist = request.content;
+            httpsb.assets.get(
+                httpsb.userWhitelistPath,
+                'userUbiquitousWhitelistReady'
+            );
+            break;
+        case 'userUbiquitousWhitelistReady':
+            allUserData.ubiquitousWhitelist = request.content;
+            saveToFile();
+            break;
+        }
+    };
+
+    var saveToFile = function() {
+        chrome.downloads.download({
+            'url': 'data:text/plain,' + encodeURIComponent(JSON.stringify(allUserData)),
+            'filename': 'httpsb-alluserdata-backup.txt',
+            'saveAs': true
+        });
+        chrome.runtime.onMessage.removeListener(onMessageHandler);
+    };
+
+    chrome.runtime.onMessage.addListener(onMessageHandler);
+    chrome.storage.local.get(httpsb.userSettings, userSettingsReady);
+};
+
+/******************************************************************************/
+
+var restoreUserDataFromFile = function() {
+    var input = $('<input />').attr({
+        type: 'file',
+        accept: 'text/plain'
+    });
+
+    var restoreBackup = function(data) {
+        var httpsb = getHTTPSB();
+        chrome.storage.local.set(data.userSettings);
+        chrome.storage.local.set({
+            'version': data.version,
+            'scopes': data.scopes,
+            'remoteBlacklists': data.remoteBlacklists
+        });
+        httpsb.assets.put(httpsb.userBlacklistPath, data.ubiquitousBlacklist);
+        httpsb.assets.put(httpsb.userWhitelistPath, data.ubiquitousWhitelist);
+        chrome.runtime.reload();
+    };
+
+    var validateBackup = function(s) {
+        var data;
+        try {
+            data = JSON.parse(s);
+        }
+        catch (e) {
+            data = undefined;
+        }
+        if ( typeof data !== 'object' ||
+             typeof data.timeStamp !== 'number' ||
+             typeof data.version !== 'string' ||
+             typeof data.userSettings !== 'object' ||
+             typeof data.scopes !== 'string' ||
+             typeof data.remoteBlacklists !== 'object' ||
+             typeof data.ubiquitousBlacklist !== 'string' ||
+             typeof data.ubiquitousWhitelist !== 'string' ) {
+            alert('File content is not valid backed up data.');
+        }
+        return data;
+    };
+
+    var fileReaderOnLoadHandler = function() {
+        var data = validateBackup(this.result);
+        if ( !data ) {
+            return;
+        }
+        var time = new Date(data.timeStamp);
+        var msg = chrome.i18n.getMessage('aboutUserDataRestoreConfirm').replace('{{time}}', time.toLocaleString());
+        var proceed = window.confirm(msg);
+        if ( proceed ) {
+            restoreBackup(data);
+        }
+    };
+
+    var filePickerOnChangeHandler = function() {
+        $(this).off('change', filePickerOnChangeHandler);
+        var file = this.files[0];
+        if ( !file ) {
+            return;
+        }
+        if ( file.type.indexOf('text') !== 0 ) {
+            return;
+        }
+        var fr = new FileReader();
+        fr.onload = fileReaderOnLoadHandler;
+        fr.readAsText(file);
+        input.off('change', filePickerOnChangeHandler);
+    };
+    input.on('change', filePickerOnChangeHandler);
+    input.trigger('click');
+};
 
 /******************************************************************************/
 
@@ -73,6 +213,7 @@ var renderAssetList = function(details) {
 /******************************************************************************/
 
 var updateAssets = function() {
+    var httpsb = getHTTPSB();
     setAssetListClassBit(2, true);
     httpsb.assetUpdater.update(updateList);
 };
@@ -80,35 +221,51 @@ var updateAssets = function() {
 /******************************************************************************/
 
 var onAllLocalAssetsUpdated = function() {
+    var httpsb = getHTTPSB();
+    var onMessageHandler = function(request) {
+        if ( !request || !request.what ) {
+            return;
+        }
+        if ( request.what !== 'dashboardAboutCachedAssetList' ) {
+            return;
+        }
+        renderAssetList(request);
+        chrome.runtime.onMessage.removeListener(onMessageHandler);
+    };
+    chrome.runtime.onMessage.addListener(onMessageHandler);
     httpsb.assetUpdater.getList('dashboardAboutCachedAssetList');
 };
 
 /******************************************************************************/
 
-var onMessageHandler = function(request, sender) {
-    if ( request && request.what ) {
-        switch ( request.what ) {
-
-        case 'dashboardAboutCachedAssetList':
-            renderAssetList(request);
-            break;
-
-        case 'allLocalAssetsUpdated':
-            onAllLocalAssetsUpdated();
-            break;
-        }
+var onMessageHandler = function(request) {
+    if ( !request || !request.what ) {
+        return;
+    }
+    if ( request.what === 'allLocalAssetsUpdated' ) {
+        onAllLocalAssetsUpdated();
     }
 };
 
 /******************************************************************************/
 
-$('#aboutVersion').html(httpsb.manifest.version);
-$('#aboutStorageUsed').html(httpsb.storageQuota ? (httpsb.storageUsed / httpsb.storageQuota * 100).toFixed(1) : 0);
+(function() {
+    var httpsb = getHTTPSB();
+    $('#aboutVersion').html(httpsb.manifest.version);
+    $('#aboutStorageUsed').html(httpsb.storageQuota ? (httpsb.storageUsed / httpsb.storageQuota * 100).toFixed(1) : 0);
+})();
+
+/******************************************************************************/
+
 $('#aboutAssetsUpdateButton').on('click', updateAssets);
+$('#backupUserDataButton').on('click', backupUserDataToFile);
+$('#restoreUserDataButton').on('click', restoreUserDataFromFile);
+
+/******************************************************************************/
 
 chrome.runtime.onMessage.addListener(onMessageHandler);
 
-httpsb.assetUpdater.getList('dashboardAboutCachedAssetList');
+onAllLocalAssetsUpdated();
 
 /******************************************************************************/
 
