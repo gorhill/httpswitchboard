@@ -80,6 +80,15 @@ Businessweek:
             * businessweek.com
             * btrd.net
 
+CNET:
+    keys: '*.cnet.com'
+    scope: '*.cnet.com'
+        whitelist: |
+            * cnet.com
+            * cbsistatic.com
+            # This allows livefyre to become "seen"
+            * dw.cbsi.com
+
 CNN:
     keys: '*.cnn.com'
     scope: '*.cnn.com'
@@ -366,6 +375,14 @@ StackOverflow:
             * sstatic.net
             * stackauth.com
             frame stackauth.com
+            script ajax.googleapis.com
+
+Superuser:
+    keys: superuser.com
+    scope: superuser.com
+        whitelist: |
+            * superuser.com
+            * sstatic.net
             script ajax.googleapis.com
 
 Tumblr:
