@@ -449,11 +449,11 @@
         "description": "English: Your data"
     },
     "aboutUserDataBackupButton" : {
-        "message": "Backup all...",
+        "message": "Backup to file...",
         "description": "English: Backup all..."
     },
     "aboutUserDataRestoreButton" : {
-        "message": "Restore all...",
+        "message": "Restore from file...",
         "description": "English: Restore all..."
     },
     "aboutUserDataRestoreConfirm" : {

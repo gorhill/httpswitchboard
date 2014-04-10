@@ -445,12 +445,12 @@
         "description": "English: Your data"
     },
     "aboutUserDataBackupButton" : {
-        "message": "Exporter...",
-        "description": "English: Backup all..."
+        "message": "Exporter à un fichier...",
+        "description": "English: Backup to file..."
     },
     "aboutUserDataRestoreButton" : {
-        "message": "Importer...",
-        "description": "English: Restore all..."
+        "message": "Importer d'un fichier...",
+        "description": "English: Restore from file..."
     },
     "aboutUserDataRestoreConfirm" : {
         "message": "Tous vos paramètres et règles seront remplacés\npar les données sauvegardées le {{time}},\net HTTP Switchboard redémarrera.\n\nProcéder à la restauration ?",
