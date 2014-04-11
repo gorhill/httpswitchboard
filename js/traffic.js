@@ -319,7 +319,7 @@ var onBeforeRequestHandler = function(details) {
     if ( block === false ) {
         var scope = httpsb.temporaryScopeFromScopeKey(scopeKey);
         if ( scope.abpFiltering === true ) {
-            block = httpsb.abpFilters.matchString(requestURL);
+            block = httpsb.abpFilters.matchString(requestURL, pageStats.pageDomain, requestHostname);
             if ( block !== false ) {
                 pageStats.abpBlockCount += 1;
                 httpsb.abpBlockCount += 1;

@@ -76,6 +76,7 @@ var reIgnoreFilter = /^\[|^!|##|@#|@@|^\|http/;
 var reConditionalRule = /\$/;
 var reHostnameRule = /^\|\|[a-z0-9.-]+\^?$/;
 var reToken = /[%0-9A-Za-z]{2,}/g;
+var reThirdPartyCondition = /\$third-party$/;
 
 // My favorite regex tester: http://www.gethifi.com/tools/regex#
 
@@ -93,6 +94,18 @@ FilterPlain.prototype.match = function(s, tokenBeg) {
 
 /******************************************************************************/
 
+var FilterPlainThirdParty = function(s, tokenBeg) {
+    this.s = s;
+    this.next = undefined;
+    this.tokenBeg = tokenBeg;
+};
+
+FilterPlainThirdParty.prototype.match = function(s, tokenBeg, thirdParty) {
+    return s.substr(tokenBeg - this.tokenBeg, this.s.length) === this.s && thirdParty;
+};
+
+/******************************************************************************/
+
 var FilterPlainPrefix0 = function(s) {
     this.s = s;
     this.next = undefined;
@@ -104,6 +117,17 @@ FilterPlainPrefix0.prototype.match = function(s, tokenBeg) {
 
 /******************************************************************************/
 
+var FilterPlainPrefix0ThirdParty = function(s) {
+    this.s = s;
+    this.next = undefined;
+};
+
+FilterPlainPrefix0ThirdParty.prototype.match = function(s, tokenBeg, thirdParty) {
+    return s.substr(tokenBeg, this.s.length) === this.s && thirdParty;
+};
+
+/******************************************************************************/
+
 var FilterPlainPrefix1 = function(s) {
     this.s = s;
     this.next = undefined;
@@ -111,6 +135,17 @@ var FilterPlainPrefix1 = function(s) {
 
 FilterPlainPrefix1.prototype.match = function(s, tokenBeg) {
     return s.substr(tokenBeg - 1, this.s.length) === this.s;
+};
+
+/******************************************************************************/
+
+var FilterPlainPrefix1ThirdParty = function(s) {
+    this.s = s;
+    this.next = undefined;
+};
+
+FilterPlainPrefix1ThirdParty.prototype.match = function(s, tokenBeg, thirdParty) {
+    return s.substr(tokenBeg - 1, this.s.length) === this.s && thirdParty;
 };
 
 /******************************************************************************/
@@ -137,6 +172,24 @@ FilterSingleWildcard.prototype.match = function(s, tokenBeg) {
 
 /******************************************************************************/
 
+var FilterSingleWildcardThirdParty = function(s, tokenBeg) {
+    this.s = s;
+    this.next = undefined;
+    this.tokenBeg = tokenBeg;
+    var wcOffset = s.indexOf('*');
+    this.lSegment = s.slice(0, wcOffset);
+    this.rSegment = s.slice(wcOffset + 1);
+};
+
+FilterSingleWildcardThirdParty.prototype.match = function(s, tokenBeg, thirdParty) {
+    tokenBeg -= this.tokenBeg;
+    return s.substr(tokenBeg, this.lSegment.length) === this.lSegment &&
+           s.indexOf(this.rSegment, tokenBeg + this.lSegment.length) > 0 &&
+           thirdParty;
+};
+
+/******************************************************************************/
+
 var FilterSingleWildcardPrefix0 = function(s) {
     this.s = s;
     this.next = undefined;
@@ -148,6 +201,22 @@ var FilterSingleWildcardPrefix0 = function(s) {
 FilterSingleWildcardPrefix0.prototype.match = function(s, tokenBeg) {
     return s.substr(tokenBeg, this.lSegment.length) === this.lSegment &&
            s.indexOf(this.rSegment, tokenBeg + this.lSegment.length) > 0;
+};
+
+/******************************************************************************/
+
+var FilterSingleWildcardPrefix0ThirdParty = function(s) {
+    this.s = s;
+    this.next = undefined;
+    var wcOffset = s.indexOf('*');
+    this.lSegment = s.slice(0, wcOffset);
+    this.rSegment = s.slice(wcOffset + 1);
+};
+
+FilterSingleWildcardPrefix0ThirdParty.prototype.match = function(s, tokenBeg, thirdParty) {
+    return s.substr(tokenBeg, this.lSegment.length) === this.lSegment &&
+           s.indexOf(this.rSegment, tokenBeg + this.lSegment.length) > 0 &&
+           thirdParty;
 };
 
 /******************************************************************************/
@@ -170,30 +239,64 @@ FilterManyWildcards.prototype.match = function(s, tokenBeg) {
 
 /******************************************************************************/
 
-var FilterFactory = function(s, tokenBeg) {
-    var wcOffset = s.indexOf('*');
-    if ( wcOffset > 0 ) {
-        return FilterWildcardFactory(s, tokenBeg);
-    }
-    return FilterPlainFactory(s, tokenBeg);
+var FilterManyWildcardsThirdParty = function(s, tokenBeg) {
+    this.s = s;
+    this.next = undefined;
+    this.tokenBeg = tokenBeg;
+    // Ref: escaper taken from:
+    // https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
+    // Except modified for the purpose here.
+    this.re = new RegExp('^' + s.replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1').replace(/\*/g, '.*'));
 };
 
-var FilterPlainFactory = function(s, tokenBeg) {
-    if ( tokenBeg === 0 ) {
+FilterManyWildcardsThirdParty.prototype.match = function(s, tokenBeg, thirdParty) {
+    return this.re.test(s.slice(tokenBeg - this.tokenBeg)) && thirdParty;
+};
+
+/******************************************************************************/
+
+var FilterFactory = function(s, tokenBeg, tokenLen, thirdParty) {
+    var wcOffset = s.indexOf('*');
+    if ( wcOffset > 0 ) {
+        return FilterWildcardFactory(s, tokenBeg, thirdParty);
+    }
+    return FilterPlainFactory(s, tokenBeg, thirdParty);
+};
+
+var FilterPlainFactory = function(s, tokenBeg, thirdParty) {
+    if ( tokenBeg === false ) {
+        if ( thirdParty ) {
+            return new FilterPlainPrefix0ThirdParty(s);
+        }
         return new FilterPlainPrefix0(s);
     }
     if ( tokenBeg === 1 ) {
+        if ( thirdParty ) {
+            return new FilterPlainPrefix1ThirdParty(s);
+        }
         return new FilterPlainPrefix1(s);
+    }
+    if ( thirdParty ) {
+        return new FilterPlainThirdParty(s, tokenBeg);
     }
     return new FilterPlain(s, tokenBeg);
 };
 
-var FilterWildcardFactory = function(s, tokenBeg) {
+var FilterWildcardFactory = function(s, tokenBeg, thirdParty) {
     if ( (/\*[^*]\*/).test(s) ) {
-        return FilterManyWildcards(s, tokenBeg);
+        if ( thirdParty ) {
+            return new FilterManyWildcardsThirdParty(s, tokenBeg);
+        }
+        return new FilterManyWildcards(s, tokenBeg);
     }
     if ( tokenBeg === 0 ) {
+        if ( thirdParty ) {
+            return new FilterSingleWildcardPrefix0ThirdParty(s);
+        }
         return new FilterSingleWildcardPrefix0(s);
+    }
+    if ( thirdParty ) {
+        return new FilterSingleWildcardThirdParty(s, tokenBeg);
     }
     return new FilterSingleWildcard(s, tokenBeg);
 };
@@ -290,14 +393,22 @@ var add = function(s) {
         return false;
     }
 
-    // Ignore rules with conditions for now
+    // Accept `third-party` condition if it is the only condition
+    var thirdParty = reThirdPartyCondition.test(s);
+    if ( thirdParty ) {
+        s = s.replace('$third-party', '');
+    }
+
+    // Ignore rules with other conditions for now
     if ( reConditionalRule.test(s) ) {
         return false;
     }
 
-    // Ignore hostname rules, these will be taken care of by HTTPSB.
-    if ( reHostnameRule.test(s) ) {
-        return false;
+    // Ignore unconditional hostname rules, these will be taken care of by HTTPSB.
+    if ( thirdParty === false ) {
+        if ( reHostnameRule.test(s) ) {
+            return false;
+        }
     }
 
     // Ignore some directives for now
@@ -325,7 +436,7 @@ var add = function(s) {
     var tokenBeg = matches.index;
     var tokenEnd = reToken.lastIndex;
 
-    filter = FilterFactory(s, tokenBeg, token.length);
+    filter = FilterFactory(s, tokenBeg, token.length, thirdParty);
     if ( !filter ) {
         return false;
     }
@@ -350,9 +461,9 @@ var freeze = function() {
 
 /******************************************************************************/
 
-var matchStringToFilterChain = function(f, s, tokenBeg) {
+var matchStringToFilterChain = function(f, s, tokenBeg, thirdParty) {
     while ( f !== undefined ) {
-        if ( f.match(s, tokenBeg) ) {
+        if ( f.match(s, tokenBeg, thirdParty) ) {
             // console.log('abp-filters.js> matchStringToFilterChain(): "%s" matches "%s"', f.s, s);
             return f.s;
         }
@@ -363,7 +474,7 @@ var matchStringToFilterChain = function(f, s, tokenBeg) {
 
 /******************************************************************************/
 
-var matchString = function(s) {
+var matchString = function(s, srcHostname, dstHostname) {
     // rhill 2014-03-12: need to skip ABP filtering if HTTP is turned off.
     // https://github.com/gorhill/httpswitchboard/issues/208
     if ( HTTPSB.off ) {
@@ -376,6 +487,7 @@ var matchString = function(s) {
     var tokenBeg, tokenEnd;
     var prefixKey, suffixKey;
     var matchFn = matchStringToFilterChain;
+    var thirdParty = dstHostname.lastIndexOf(srcHostname) !== (dstHostname.length - srcHostname.length);
 
     reToken.lastIndex = 0;
     while ( matches = reToken.exec(s) ) {
@@ -387,35 +499,35 @@ var matchString = function(s) {
 
         if ( suffixKey.length > 1 ) {
             if ( prefixKey !== '' ) {
-                f = matchFn(fidx[prefixKey + token + suffixKey], s, tokenBeg);
+                f = matchFn(fidx[prefixKey + token + suffixKey], s, tokenBeg, thirdParty);
                 if ( f !== false ) {
                     return f;
                 }
             }
-            f = matchFn(fidx[token + suffixKey], s, tokenBeg);
+            f = matchFn(fidx[token + suffixKey], s, tokenBeg, thirdParty);
             if ( f !== false ) {
                 return f;
             }
         }
         if ( suffixKey !== '' ) {
             if ( prefixKey !== '' ) {
-                f = matchFn(fidx[prefixKey + token + suffixKey.charAt(0)], s, tokenBeg);
+                f = matchFn(fidx[prefixKey + token + suffixKey.charAt(0)], s, tokenBeg, thirdParty);
                 if ( f !== false ) {
                     return f;
                 }
             }
-            f = matchFn(fidx[token + suffixKey.charAt(0)], s, tokenBeg);
+            f = matchFn(fidx[token + suffixKey.charAt(0)], s, tokenBeg, thirdParty);
             if ( f !== false ) {
                 return f;
             }
         }
         if ( prefixKey !== '' ) {
-            f = matchFn(fidx[prefixKey + token], s, tokenBeg);
+            f = matchFn(fidx[prefixKey + token], s, tokenBeg, thirdParty);
             if ( f !== false ) {
                 return f;
             }
         }
-        f = matchFn(fidx[token], s, tokenBeg);
+        f = matchFn(fidx[token], s, tokenBeg, thirdParty);
         if ( f !== false ) {
             return f;
         }

@@ -297,7 +297,7 @@ HTTPSB.mergeUbiquitousBlacklist = function(details) {
     var adblock = (/^\[adblock +plus\ +\d\.\d\]/i).test(raw);
     var abpFilters = this.userSettings.parseAllABPFilters ? this.abpFilters : null;
     var hostFromAdblockFilter = function(s) {
-        var matches = s.match(/^\|\|([a-z0-9.-]+)\^(\$third-party|$)/);
+        var matches = s.match(/^\|\|([a-z0-9.-]+)\^$/);
         if ( matches && matches.length > 1 ) {
             return matches[1];
         }
