@@ -113,9 +113,8 @@ var restoreUserDataFromFile = function() {
             'scopes': data.scopes,
             'remoteBlacklists': data.remoteBlacklists
         });
-        httpsb.assets.put(httpsb.userBlacklistPath, data.ubiquitousBlacklist);
-        httpsb.assets.put(httpsb.userWhitelistPath, data.ubiquitousWhitelist);
-        chrome.runtime.reload();
+        httpsb.assets.put(httpsb.userBlacklistPath, data.ubiquitousBlacklist, 'restoreUserDataFromFileUserRestartCountdown');
+        httpsb.assets.put(httpsb.userWhitelistPath, data.ubiquitousWhitelist, 'restoreUserDataFromFileUserRestartCountdown');
     };
 
     var validateBackup = function(s) {
@@ -166,6 +165,23 @@ var restoreUserDataFromFile = function() {
         fr.readAsText(file);
         input.off('change', filePickerOnChangeHandler);
     };
+
+    var restartCountdown = 2;
+    var onMessageHandler = function(request) {
+        if ( !request || !request.what ) {
+            return;
+        }
+        if ( request.what === 'restoreUserDataFromFileUserRestartCountdown' ) {
+            restartCountdown -= 1;
+            if ( restartCountdown > 0 ) {
+                return;
+            }
+        }
+        chrome.runtime.onMessage.removeListener(onMessageHandler);
+        chrome.runtime.reload();
+    };
+    chrome.runtime.onMessage.addListener(onMessageHandler);
+
     input.on('change', filePickerOnChangeHandler);
     input.trigger('click');
 };
