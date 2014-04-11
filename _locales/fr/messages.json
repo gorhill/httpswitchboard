@@ -399,15 +399,15 @@
         "description": "English: {{ubiquitousBlacklistCount}} distinct blocked hostnames from:"
     },
     "ubiquitousParseAllABPFiltersPrompt1" : {
-        "message": "Lire et appliquer les filtres ABP complexes (beta).",
+        "message": "Utiliser en plus les règles ABP avancées (beta).",
         "description": "English: Parse and enforce Adblock+ complex filters (beta)."
     },
     "ubiquitousParseAllABPFiltersPrompt2" : {
-        "message": "{{abpFilterCount}} filtres ABP complexes utilisés.",
+        "message": "{{abpFilterCount}} règles ABP avancées utilisées.",
         "description": "English: Parse and enforce Adblock+ complex filters (beta)."
     },
     "ubiquitousParseAllABPFiltersInfo" : {
-        "message": "<p>Normally, <i>HTTP Switchboard</i> will extract from <i>Adblock Plus</i>-compatible filter lists <b>only</b> those filters which are used to block an entire domain (example: &ldquo;<b>||a.ucoz.net^</b>&rdquo;).</p><p>This option enables the parsing and enforcing of finer-grained <i>Adblock Plus</i> filters (example: &ldquo;<b>/adwords-conversion-tracking.</b>&rdquo;). These complex filters are incompatible with the matrix, and thus are only used internally to evaluate whether a net request should be blocked: they have no user interface counterpart.</p><p>Even if this option is enabled, <i>Adblock Plus</i> filters used for <a href=\"https://adblockplus.org/en/filters#elemhide\">element hiding</a> are completely ignored.</p><p>Memory usage requirement is higher when this option is enabled.</p>",
+        "message": "<p>En temps normal, <i>HTTP Switchboard</i> n'extrait depuis les listes compatibles <i>Adblock Plus</i> <b>que</b> les filtres utilisés pour bloquer un domaine entier spécifique (par exemple : &ldquo;<b>||a.ucoz.net^</b>&rdquo;).</p><p>Cette option permet d'également utiliser des filtres <i>Adblock Plus</i> plus élaborés (par exemple: &ldquo;<b>/adwords-conversion-tracking.</b>&rdquo;). Ces filtres complexes sont incompatibles avec la matrice; ainsi ils sont utilisés "en interne" pour vérifier si une requête réseau devrait être bloquée ou non, et l'interaction utilisateur est limitée.</p><p>Même si cette option est activée, les filtres <i>Adblock Plus</i> utilisés pour <a href=\"https://adblockplus.org/en/filters#elemhide\">cacher des éléments</a> demeureront ignorés.</p><p>L'utilisation en mémoire vive est plus importante lorsque vous utilisez cette fonctionnalité.</p>",
         "description": "English: ..."
     },
     "ubiquitousListsOfBlockedHostsHeader" : {
@@ -445,11 +445,11 @@
         "description": "English: Your data"
     },
     "aboutUserDataBackupButton" : {
-        "message": "Exporter à un fichier...",
+        "message": "Exporter vers un fichier...",
         "description": "English: Backup to file..."
     },
     "aboutUserDataRestoreButton" : {
-        "message": "Importer d'un fichier...",
+        "message": "Importer depuis un fichier...",
         "description": "English: Restore from file..."
     },
     "aboutUserDataRestoreConfirm" : {
