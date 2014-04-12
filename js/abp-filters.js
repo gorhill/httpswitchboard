@@ -42,30 +42,6 @@ Dict stats:
 	Token count: 10347
 	Largest list: "ads //" has 253 ids
 
-HTTPSB AA/BX
-URLs visited:	15
-Domains (3rd party / all):	39 / 40
-Hosts (3rd party / all):	83 / 134
-Scripts (3rd party / all):	161 / 255
-Outbound cookies (3rd party / all):	1 / 28
-Net requests (3rd party / all):	919 / 1,666
-Bandwidth:	25,102,732 bytes
-Requests blocked using Adblock+ filters: 449
-Idle mem after: 39 MB
-
-ABP
-URLs visited:	15
-Domains (3rd party / all):	52 / 53
-Hosts (3rd party / all):	95 / 151
-Scripts (3rd party / all):	175 / 283
-Outbound cookies (3rd party / all):	1 / 35
-Net requests (3rd party / all):	906 / 1,690
-Bandwidth:	25,440,697 bytes
-Idle mem after: 120 MB
-
-
-Complex filters count no '*' support: 16,637
-Complex filters count with '*' support: 18,741
 */
 
 var filterDict = {};
@@ -238,28 +214,6 @@ var reset = function() {
 };
 
 /******************************************************************************/
-/*
-var histogram = function(label, collection) {
-    var h = [];
-    var n, f;
-    for ( var k in collection ) {
-        if ( !collection.hasOwnProperty(k) ) {
-            continue;
-        }
-        n = 1;
-        f = collection[k];
-        while ( f.next ) {
-            f = f.next;
-            n += 1;
-        }
-        h.push({ k: k, n: n });
-    }
-    h.sort(function(a, b) { return b.n - a.n; });
-    h = h.slice(0, 20);
-    console.log('Histogram %s: %o', label, h);
-};
-*/
-/******************************************************************************/
 
 // Given a string, find a good token. Tokens which are too generic, i.e. very
 // common with a high probability of ending up as a miss, are not
@@ -428,6 +382,91 @@ var addFilterToCollection = function(s, tokenBeg, tokenEnd, filterCollection) {
     return true;
 };
 
+/******************************************************************************/
+
+/*
+2014-04-12
+Top 20 bucket size:
+Histogram anyPartyFilters
+	key=/ad_s  count=28
+	key=cloudfront.n  count=25
+	key=yahoo.c  count=25
+	key=/cgi-b  count=24
+	key=/wp-c  count=22
+	key=amazonaws.c  count=22
+	key=/ads/s  count=21
+	key=distrowatch.c  count=21
+	key=/ads/p  count=18
+	key=/ad_l  count=18
+	key=/ad_b  count=17
+	key=/ads/  count=17
+	key=/ads/b  count=17
+	key=.gif?  count=17
+	key=/ad_c  count=17
+	key=messianictimes.c  count=16
+	key=/ad_t  count=16
+	key=/ad_h  count=15
+	key=/ad_f  count=15
+	key=/ad_r  count=14
+    Total buckets count: 13312
+
+Histogram thirdPartyFilters
+	key=doubleclick.n  count=90
+	key=facebook.c  count=23
+	key=apis.g  count=7
+	key=assoc-a  count=7
+	key=platform.t  count=6
+	key=reddit.c  count=6
+	key=draugiem.l  count=6
+	key=free-c  count=4
+	key=vk.c  count=4
+	key=banners.p  count=4
+	key=hit-c  count=4
+	key=images-a  count=4
+	key=ad-s  count=4
+	key=a-c  count=4
+	key=777-p  count=4
+	key=pricegrabber.c  count=4
+	key=adultfriendfinder.c  count=4
+	key=e-p  count=3
+	key=widgets.t  count=3
+	key=api.t  count=3 
+    Total buckets count: 6244
+
+TL;DR:
+    Worst case scenario for `anyPartyFilters` = 28 filters to test
+    Worst case scenario for `thirdPartyFilters` = 90 filters to test
+
+    In both collections, worst case scenarios are a very small minority of the
+    whole set.
+*/
+/*
+var histogram = function(label, collection) {
+    var h = [];
+    var n, f;
+    for ( var k in collection ) {
+        if ( !collection.hasOwnProperty(k) ) {
+            continue;
+        }
+        n = 1;
+        f = collection[k];
+        while ( f.next ) {
+            f = f.next;
+            n += 1;
+        }
+        h.push({ k: k, n: n });
+    }
+    var total = h.length;
+    h.sort(function(a, b) { return b.n - a.n; });
+    h = h.slice(0, 20);
+
+    console.log('Histogram %s', label);
+    h.forEach(function(v) {
+        console.log('\tkey=%s  count=%d', v.k, v.n);
+    });
+    console.log('\tTotal buckets count: %d', total);
+};
+*/
 /******************************************************************************/
 
 var freeze = function() {
