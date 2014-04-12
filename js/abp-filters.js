@@ -70,12 +70,16 @@ Complex filters count with '*' support: 18,741
 
 var filterDict = {};
 var filterCount = 0;
-var filterIndex = {};
+
+var anyPartyFilters = {}; // any party, anywhere
+var thirdPartyFilters = {}; // 3rd party, anywhere
 
 var reIgnoreFilter = /^\[|^!|##|@#|@@|^\|http/;
 var reConditionalRule = /\$/;
 var reHostnameRule = /^\|\|[a-z0-9.-]+\^?$/;
-var reToken = /[%0-9A-Za-z]{2,}/g;
+var reHostnameToken = /^[0-9a-z]+/g;
+var reGoodToken = /[%0-9A-Za-z]{2,}/g;
+var reAnyToken = /[%0-9A-Za-z]+/g;
 var reThirdPartyCondition = /\$third-party$/;
 
 // My favorite regex tester: http://www.gethifi.com/tools/regex#
@@ -88,20 +92,8 @@ var FilterPlain = function(s, tokenBeg) {
     this.tokenBeg = tokenBeg;
 };
 
-FilterPlain.prototype.match = function(s, tokenBeg) {
-    return s.substr(tokenBeg - this.tokenBeg, this.s.length) === this.s;
-};
-
-/******************************************************************************/
-
-var FilterPlainThirdParty = function(s, tokenBeg) {
-    this.s = s;
-    this.next = undefined;
-    this.tokenBeg = tokenBeg;
-};
-
-FilterPlainThirdParty.prototype.match = function(s, tokenBeg, thirdParty) {
-    return s.substr(tokenBeg - this.tokenBeg, this.s.length) === this.s && thirdParty;
+FilterPlain.prototype.match = function(url, tokenBeg) {
+    return url.substr(tokenBeg - this.tokenBeg, this.s.length) === this.s;
 };
 
 /******************************************************************************/
@@ -111,19 +103,8 @@ var FilterPlainPrefix0 = function(s) {
     this.next = undefined;
 };
 
-FilterPlainPrefix0.prototype.match = function(s, tokenBeg) {
-    return s.substr(tokenBeg, this.s.length) === this.s;
-};
-
-/******************************************************************************/
-
-var FilterPlainPrefix0ThirdParty = function(s) {
-    this.s = s;
-    this.next = undefined;
-};
-
-FilterPlainPrefix0ThirdParty.prototype.match = function(s, tokenBeg, thirdParty) {
-    return s.substr(tokenBeg, this.s.length) === this.s && thirdParty;
+FilterPlainPrefix0.prototype.match = function(url, tokenBeg) {
+    return url.substr(tokenBeg, this.s.length) === this.s;
 };
 
 /******************************************************************************/
@@ -133,19 +114,8 @@ var FilterPlainPrefix1 = function(s) {
     this.next = undefined;
 };
 
-FilterPlainPrefix1.prototype.match = function(s, tokenBeg) {
-    return s.substr(tokenBeg - 1, this.s.length) === this.s;
-};
-
-/******************************************************************************/
-
-var FilterPlainPrefix1ThirdParty = function(s) {
-    this.s = s;
-    this.next = undefined;
-};
-
-FilterPlainPrefix1ThirdParty.prototype.match = function(s, tokenBeg, thirdParty) {
-    return s.substr(tokenBeg - 1, this.s.length) === this.s && thirdParty;
+FilterPlainPrefix1.prototype.match = function(url, tokenBeg) {
+    return url.substr(tokenBeg - 1, this.s.length) === this.s;
 };
 
 /******************************************************************************/
@@ -164,28 +134,10 @@ var FilterSingleWildcard = function(s, tokenBeg) {
     this.rSegment = s.slice(wcOffset + 1);
 };
 
-FilterSingleWildcard.prototype.match = function(s, tokenBeg) {
+FilterSingleWildcard.prototype.match = function(url, tokenBeg) {
     tokenBeg -= this.tokenBeg;
-    return s.substr(tokenBeg, this.lSegment.length) === this.lSegment &&
-           s.indexOf(this.rSegment, tokenBeg + this.lSegment.length) > 0;
-};
-
-/******************************************************************************/
-
-var FilterSingleWildcardThirdParty = function(s, tokenBeg) {
-    this.s = s;
-    this.next = undefined;
-    this.tokenBeg = tokenBeg;
-    var wcOffset = s.indexOf('*');
-    this.lSegment = s.slice(0, wcOffset);
-    this.rSegment = s.slice(wcOffset + 1);
-};
-
-FilterSingleWildcardThirdParty.prototype.match = function(s, tokenBeg, thirdParty) {
-    tokenBeg -= this.tokenBeg;
-    return s.substr(tokenBeg, this.lSegment.length) === this.lSegment &&
-           s.indexOf(this.rSegment, tokenBeg + this.lSegment.length) > 0 &&
-           thirdParty;
+    return url.substr(tokenBeg, this.lSegment.length) === this.lSegment &&
+           url.indexOf(this.rSegment, tokenBeg + this.lSegment.length) > 0;
 };
 
 /******************************************************************************/
@@ -198,25 +150,9 @@ var FilterSingleWildcardPrefix0 = function(s) {
     this.rSegment = s.slice(wcOffset + 1);
 };
 
-FilterSingleWildcardPrefix0.prototype.match = function(s, tokenBeg) {
-    return s.substr(tokenBeg, this.lSegment.length) === this.lSegment &&
-           s.indexOf(this.rSegment, tokenBeg + this.lSegment.length) > 0;
-};
-
-/******************************************************************************/
-
-var FilterSingleWildcardPrefix0ThirdParty = function(s) {
-    this.s = s;
-    this.next = undefined;
-    var wcOffset = s.indexOf('*');
-    this.lSegment = s.slice(0, wcOffset);
-    this.rSegment = s.slice(wcOffset + 1);
-};
-
-FilterSingleWildcardPrefix0ThirdParty.prototype.match = function(s, tokenBeg, thirdParty) {
-    return s.substr(tokenBeg, this.lSegment.length) === this.lSegment &&
-           s.indexOf(this.rSegment, tokenBeg + this.lSegment.length) > 0 &&
-           thirdParty;
+FilterSingleWildcardPrefix0.prototype.match = function(url, tokenBeg) {
+    return url.substr(tokenBeg, this.lSegment.length) === this.lSegment &&
+           url.indexOf(this.rSegment, tokenBeg + this.lSegment.length) > 0;
 };
 
 /******************************************************************************/
@@ -233,70 +169,36 @@ var FilterManyWildcards = function(s, tokenBeg) {
     this.re = new RegExp('^' + s.replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1').replace(/\*/g, '.*'));
 };
 
-FilterManyWildcards.prototype.match = function(s, tokenBeg) {
-    return this.re.test(s.slice(tokenBeg - this.tokenBeg));
+FilterManyWildcards.prototype.match = function(url, tokenBeg) {
+    return this.re.test(url.slice(tokenBeg - this.tokenBeg));
 };
 
 /******************************************************************************/
 
-var FilterManyWildcardsThirdParty = function(s, tokenBeg) {
-    this.s = s;
-    this.next = undefined;
-    this.tokenBeg = tokenBeg;
-    // Ref: escaper taken from:
-    // https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
-    // Except modified for the purpose here.
-    this.re = new RegExp('^' + s.replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1').replace(/\*/g, '.*'));
-};
-
-FilterManyWildcardsThirdParty.prototype.match = function(s, tokenBeg, thirdParty) {
-    return this.re.test(s.slice(tokenBeg - this.tokenBeg)) && thirdParty;
-};
-
-/******************************************************************************/
-
-var FilterFactory = function(s, tokenBeg, tokenLen, thirdParty) {
+var FilterFactory = function(s, tokenBeg, tokenLen) {
     var wcOffset = s.indexOf('*');
     if ( wcOffset > 0 ) {
-        return FilterWildcardFactory(s, tokenBeg, thirdParty);
+        return FilterWildcardFactory(s, tokenBeg);
     }
-    return FilterPlainFactory(s, tokenBeg, thirdParty);
+    return FilterPlainFactory(s, tokenBeg);
 };
 
-var FilterPlainFactory = function(s, tokenBeg, thirdParty) {
+var FilterPlainFactory = function(s, tokenBeg) {
     if ( tokenBeg === false ) {
-        if ( thirdParty ) {
-            return new FilterPlainPrefix0ThirdParty(s);
-        }
         return new FilterPlainPrefix0(s);
     }
     if ( tokenBeg === 1 ) {
-        if ( thirdParty ) {
-            return new FilterPlainPrefix1ThirdParty(s);
-        }
         return new FilterPlainPrefix1(s);
-    }
-    if ( thirdParty ) {
-        return new FilterPlainThirdParty(s, tokenBeg);
     }
     return new FilterPlain(s, tokenBeg);
 };
 
-var FilterWildcardFactory = function(s, tokenBeg, thirdParty) {
+var FilterWildcardFactory = function(s, tokenBeg) {
     if ( (/\*[^*]\*/).test(s) ) {
-        if ( thirdParty ) {
-            return new FilterManyWildcardsThirdParty(s, tokenBeg);
-        }
         return new FilterManyWildcards(s, tokenBeg);
     }
     if ( tokenBeg === 0 ) {
-        if ( thirdParty ) {
-            return new FilterSingleWildcardPrefix0ThirdParty(s);
-        }
         return new FilterSingleWildcardPrefix0(s);
-    }
-    if ( thirdParty ) {
-        return new FilterSingleWildcardThirdParty(s, tokenBeg);
     }
     return new FilterSingleWildcard(s, tokenBeg);
 };
@@ -310,27 +212,53 @@ var reset = function() {
     filterCount = 0;
 
     // Give chromium's GC a helpful hand
-//    var stats = {}, n = 0;
-    var fidx = filterIndex;
-    var f, fn;
-    for ( var k in fidx ) {
-        if ( !fidx.hasOwnProperty(k) ) {
-            continue;
+    var collections = [
+        thirdPartyFilters,
+        anyPartyFilters
+    ];
+    var filters;
+    while ( filters = collections.pop() ) {
+        var f, fn;
+        for ( var k in filters ) {
+            if ( !filters.hasOwnProperty(k) ) {
+                continue;
+            }
+            f = filters[k];
+            while ( f ) {
+                fn = f.next;
+                f.next = null;
+                f = fn;
+            }
+            filters[k] = null;
         }
-        f = fidx[k];
-        while ( f ) {
-            fn = f.next;
-            f.next = null;
-            f = fn;
-//            n++;
-        }
-        fidx[k] = null;
-//        stats[k] = n; n = 0;
     }
-    filterIndex = {};
-//    console.log('abp-filters.js stats:\n', Object.keys(stats).sort(function(a,b){return stats[b]-stats[a]}).map(function(a){return '\t'+a+': '+stats[a]}).join('\n'));
+
+    thirdPartyFilters = {};
+    anyPartyFilters = {};
 };
 
+/******************************************************************************/
+/*
+var histogram = function(label, collection) {
+    var h = [];
+    var n, f;
+    for ( var k in collection ) {
+        if ( !collection.hasOwnProperty(k) ) {
+            continue;
+        }
+        n = 1;
+        f = collection[k];
+        while ( f.next ) {
+            f = f.next;
+            n += 1;
+        }
+        h.push({ k: k, n: n });
+    }
+    h.sort(function(a, b) { return b.n - a.n; });
+    h = h.slice(0, 20);
+    console.log('Histogram %s: %o', label, h);
+};
+*/
 /******************************************************************************/
 
 // Given a string, find a good token. Tokens which are too generic, i.e. very
@@ -350,17 +278,24 @@ var badTokens = {
     'www': true
 };
 
-var findGoodToken = function(s) {
-    reToken.lastIndex = 0;
+var findFirstGoodToken = function(s) {
+    reGoodToken.lastIndex = 0;
     var matches;
-    while ( matches = reToken.exec(s) ) {
+    while ( matches = reGoodToken.exec(s) ) {
         if ( badTokens[matches[0]] === undefined ) {
             return matches;
         }
     }
     // No good token found, just return the first token from left
-    reToken.lastIndex = 0;
-    return reToken.exec(s);
+    reGoodToken.lastIndex = 0;
+    return reGoodToken.exec(s);
+};
+
+/******************************************************************************/
+
+var findHostnameToken = function(s) {
+    reHostnameToken.lastIndex = 0;
+    return reHostnameToken.exec(s);
 };
 
 /******************************************************************************/
@@ -385,6 +320,14 @@ var trimChar = function(s, c) {
 
 /******************************************************************************/
 
+// How the key is derived dictates the number and size of buckets.
+
+var makeKey = function(s) {
+    return s;
+};
+
+/******************************************************************************/
+
 var add = function(s) {
     // ORDER OF TESTS IS IMPORTANT!
 
@@ -404,22 +347,20 @@ var add = function(s) {
         return false;
     }
 
-    // Ignore unconditional hostname rules, these will be taken care of by HTTPSB.
-    if ( thirdParty === false ) {
-        if ( reHostnameRule.test(s) ) {
-            return false;
-        }
+    // Ignore optionless hostname rules, these will be taken care of by HTTPSB.
+    if ( thirdParty === false && reHostnameRule.test(s) ) {
+        return false;
     }
 
     // Ignore some directives for now
     s = s.replace(/\^/g, '*');
     s = s.replace(/\*\*+/g, '*');
 
-    // Remove leading and trailing pipes
-    s = s.replace(/^\|+|\|+$/, '');
-
     // Remove leading and trailing wildcards
     s = trimChar(s, '*');
+
+    // Remove trailing pipes
+    s = s.replace(/\|+$/, '');
 
     // Already in dictionary?
     var filter = filterDict[s];
@@ -427,16 +368,49 @@ var add = function(s) {
         return false;
     }
 
-    // Index based on 1st good token
-    var matches = findGoodToken(s);
+    // Leading pipe(s) means filter is anchored before the end of hostname
+    var hostnameAnchored = s.indexOf('||') === 0;
+    s = s.replace(/^\|+/, '');
+
+
+    if ( thirdParty ) {
+        if ( hostnameAnchored ) {
+            return addHostnameAnchoredFilter(s, thirdPartyFilters);
+        }
+        return addAnywhereAnchoredFilter(s, thirdPartyFilters);
+    }
+    if ( hostnameAnchored ) {
+        return addHostnameAnchoredFilter(s, anyPartyFilters);
+    }
+    return addAnywhereAnchoredFilter(s, anyPartyFilters);
+};
+
+/******************************************************************************/
+
+var addHostnameAnchoredFilter = function(s, filterCollection) {
+    var matches = findHostnameToken(s);
     if ( !matches || !matches[0].length ) {
         return false;
     }
-    var token = matches[0];
-    var tokenBeg = matches.index;
-    var tokenEnd = reToken.lastIndex;
+    return addFilterToCollection(s, matches.index, reHostnameToken.lastIndex, filterCollection);
+};
 
-    filter = FilterFactory(s, tokenBeg, token.length, thirdParty);
+/******************************************************************************/
+
+var addAnywhereAnchoredFilter = function(s, filterCollection) {
+    var matches = findFirstGoodToken(s);
+    if ( !matches || !matches[0].length ) {
+        return false;
+    }
+    return addFilterToCollection(s, matches.index, reGoodToken.lastIndex, filterCollection);
+};
+
+/******************************************************************************/
+
+var addFilterToCollection = function(s, tokenBeg, tokenEnd, filterCollection) {
+    var token = s.slice(tokenBeg, tokenEnd);
+
+    var filter = FilterFactory(s, tokenBeg, token.length);
     if ( !filter ) {
         return false;
     }
@@ -444,10 +418,11 @@ var add = function(s) {
 
     var prefixKey = trimChar(s.substring(tokenBeg - 1, tokenBeg), '*');
     var suffixKey = trimChar(s.substring(tokenEnd, tokenEnd + 2), '*');
-    var fidx = filterIndex;
-    var tokenKey = prefixKey + token + suffixKey;
-    filter.next = fidx[tokenKey];
-    fidx[tokenKey] = filter;
+    var tokenKey = makeKey(prefixKey + token + suffixKey);
+
+    filter.next = filterCollection[tokenKey];
+    filterCollection[tokenKey] = filter;
+
     filterCount += 1;
 
     return true;
@@ -457,13 +432,15 @@ var add = function(s) {
 
 var freeze = function() {
     filterDict = {};
+    //histogram('anyPartyFilters', anyPartyFilters);
+    //histogram('thirdPartyFilters', thirdPartyFilters);
 };
 
 /******************************************************************************/
 
-var matchStringToFilterChain = function(f, s, tokenBeg, thirdParty) {
+var matchStringToFilterChain = function(f, url, tokenBeg) {
     while ( f !== undefined ) {
-        if ( f.match(s, tokenBeg, thirdParty) ) {
+        if ( f.match(url, tokenBeg, tokenBeg) ) {
             // console.log('abp-filters.js> matchStringToFilterChain(): "%s" matches "%s"', f.s, s);
             return f.s;
         }
@@ -474,60 +451,77 @@ var matchStringToFilterChain = function(f, s, tokenBeg, thirdParty) {
 
 /******************************************************************************/
 
-var matchString = function(s, srcHostname, dstHostname) {
+var matchStringToFilterCollection = function(filterCollection, url, tokenBeg, tokenEnd) {
+    var f;
+    var token = url.slice(tokenBeg, tokenEnd);
+    var prefixKey = url.substring(tokenBeg - 1, tokenBeg);
+    var suffixKey = url.substring(tokenEnd, tokenEnd + 2);
+    var matchFn = matchStringToFilterChain;
+
+    if ( suffixKey.length > 1 ) {
+        if ( prefixKey !== '' ) {
+            f = matchFn(filterCollection[makeKey(prefixKey + token + suffixKey)], url, tokenBeg);
+            if ( f !== false ) {
+                return f;
+            }
+        }
+        f = matchFn(filterCollection[makeKey(token + suffixKey)], url, tokenBeg);
+        if ( f !== false ) {
+            return f;
+        }
+    }
+    if ( suffixKey !== '' ) {
+        if ( prefixKey !== '' ) {
+            f = matchFn(filterCollection[makeKey(prefixKey + token + suffixKey.charAt(0))], url, tokenBeg);
+            if ( f !== false ) {
+                return f;
+            }
+        }
+        f = matchFn(filterCollection[makeKey(token + suffixKey.charAt(0))], url, tokenBeg);
+        if ( f !== false ) {
+            return f;
+        }
+    }
+    if ( prefixKey !== '' ) {
+        f = matchFn(filterCollection[makeKey(prefixKey + token)], url, tokenBeg);
+        if ( f !== false ) {
+            return f;
+        }
+    }
+    f = matchFn(filterCollection[makeKey(token)], url, tokenBeg);
+    if ( f !== false ) {
+        return f;
+    }
+
+    return false;
+};
+
+/******************************************************************************/
+
+var matchString = function(url, srcDomain, dstHostname) {
     // rhill 2014-03-12: need to skip ABP filtering if HTTP is turned off.
     // https://github.com/gorhill/httpswitchboard/issues/208
     if ( HTTPSB.off ) {
         return false;
     }
 
-    var fidx = filterIndex, f;
-    var matches;
-    var token;
+    var matches, f;
     var tokenBeg, tokenEnd;
-    var prefixKey, suffixKey;
-    var matchFn = matchStringToFilterChain;
-    var thirdParty = dstHostname.lastIndexOf(srcHostname) !== (dstHostname.length - srcHostname.length);
+    var thirdParty = dstHostname.lastIndexOf(srcDomain) !== (dstHostname.length - srcDomain.length);
 
-    reToken.lastIndex = 0;
-    while ( matches = reToken.exec(s) ) {
-        token = matches[0];
+    reAnyToken.lastIndex = 0;
+    while ( matches = reAnyToken.exec(url) ) {
         tokenBeg = matches.index;
-        tokenEnd = reToken.lastIndex;
-        prefixKey = s.substring(tokenBeg - 1, tokenBeg);
-        suffixKey = s.substring(tokenEnd, tokenEnd + 2);
+        tokenEnd = reAnyToken.lastIndex;
 
-        if ( suffixKey.length > 1 ) {
-            if ( prefixKey !== '' ) {
-                f = matchFn(fidx[prefixKey + token + suffixKey], s, tokenBeg, thirdParty);
-                if ( f !== false ) {
-                    return f;
-                }
-            }
-            f = matchFn(fidx[token + suffixKey], s, tokenBeg, thirdParty);
+        if ( thirdParty ) {
+            f = matchStringToFilterCollection(thirdPartyFilters, url, tokenBeg, tokenEnd);
             if ( f !== false ) {
                 return f;
             }
         }
-        if ( suffixKey !== '' ) {
-            if ( prefixKey !== '' ) {
-                f = matchFn(fidx[prefixKey + token + suffixKey.charAt(0)], s, tokenBeg, thirdParty);
-                if ( f !== false ) {
-                    return f;
-                }
-            }
-            f = matchFn(fidx[token + suffixKey.charAt(0)], s, tokenBeg, thirdParty);
-            if ( f !== false ) {
-                return f;
-            }
-        }
-        if ( prefixKey !== '' ) {
-            f = matchFn(fidx[prefixKey + token], s, tokenBeg, thirdParty);
-            if ( f !== false ) {
-                return f;
-            }
-        }
-        f = matchFn(fidx[token], s, tokenBeg, thirdParty);
+
+        f = matchStringToFilterCollection(anyPartyFilters, url, tokenBeg, tokenEnd);
         if ( f !== false ) {
             return f;
         }
