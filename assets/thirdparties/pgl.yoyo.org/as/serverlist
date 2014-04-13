@@ -3,7 +3,7 @@
 # For more information about this list, see: http://pgl.yoyo.org/adservers/
 # ----
 # last updated:   Wed, 02 Apr 2014 09:18:15 GMT
-# entries:        2498
+# entries:        2495
 # format:         hosts (hosts -- in hosts file format)
 # credits:        Peter Lowe - pgl@yoyo.org - http://pgl.yoyo.org/
 # this URL:       http://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext
@@ -22,6 +22,7 @@
 127.0.0.1 24log.com
 127.0.0.1 24log.de
 127.0.0.1 24pm-affiliation.com
+127.0.0.1 2log.com
 127.0.0.1 2o7.net
 127.0.0.1 360yield.com
 127.0.0.1 4affiliate.net
@@ -62,6 +63,7 @@
 127.0.0.1 actualdeals.com
 127.0.0.1 ad-flow.com
 127.0.0.1 ad-images.suntimes.com
+127.0.0.1 ad-pay.de
 127.0.0.1 ad-rotator.com
 127.0.0.1 ad-server.gulasidorna.se
 127.0.0.1 ad-serverparc.nl
@@ -907,7 +909,6 @@
 127.0.0.1 adv08.edintorni.net
 127.0.0.1 advariant.com
 127.0.0.1 adventory.com
-127.0.0.1 adverlinkz.com
 127.0.0.1 advert.bayarea.com
 127.0.0.1 advert.dyna.ultraweb.hu
 127.0.0.1 advertarium.com.ua
@@ -1300,6 +1301,7 @@
 127.0.0.1 clkads.com
 127.0.0.1 cluster.adultworld.com
 127.0.0.1 clustrmaps.com
+127.0.0.1 cmpstar.com
 127.0.0.1 cnomy.com
 127.0.0.1 cnt.one.ru
 127.0.0.1 cnt.spbland.ru
@@ -1416,7 +1418,6 @@
 127.0.0.1 e-m.fr
 127.0.0.1 e-planning.net
 127.0.0.1 e.kde.cz
-127.0.0.1 e2give.com
 127.0.0.1 eadexchange.com
 127.0.0.1 easyad.info
 127.0.0.1 easyhits4u.com
@@ -1581,7 +1582,6 @@
 127.0.0.1 hitlist.ru
 127.0.0.1 hitlounge.com
 127.0.0.1 hitometer.com
-127.0.0.1 hitpage.de
 127.0.0.1 hits.europuls.eu
 127.0.0.1 hits.informer.com
 127.0.0.1 hits.puls.lv
@@ -1857,6 +1857,7 @@
 127.0.0.1 newt1.adultworld.com
 127.0.0.1 newtopsites.com
 127.0.0.1 ng3.ads.warnerbros.com
+127.0.0.1 ngadcenter.net
 127.0.0.1 ngs.impress.co.jp
 127.0.0.1 nitroclicks.com
 127.0.0.1 novem.pl
@@ -1865,7 +1866,6 @@
 127.0.0.1 oas-central.realmedia.com
 127.0.0.1 oas.benchmark.fr
 127.0.0.1 oas.foxnews.com
-127.0.0.1 oas.heise.de
 127.0.0.1 oas.repubblica.it
 127.0.0.1 oas.roanoke.com
 127.0.0.1 oas.salon.com
@@ -1936,7 +1936,6 @@
 127.0.0.1 passion-4.net
 127.0.0.1 passport.baidu.com
 127.0.0.1 pay-ads.com
-127.0.0.1 pay-to-promote.com
 127.0.0.1 paycounter.com
 127.0.0.1 paydayasap.com
 127.0.0.1 paypopup.com
@@ -2022,7 +2021,6 @@
 127.0.0.1 pub.realmedia.fr
 127.0.0.1 pubdirecte.com
 127.0.0.1 publicidad.elmundo.es
-127.0.0.1 publisher.to
 127.0.0.1 pubmatic.com
 127.0.0.1 pubs.lemonde.fr
 127.0.0.1 pulse360.com
@@ -2104,7 +2102,6 @@
 127.0.0.1 roar.com
 127.0.0.1 robotreplay.com
 127.0.0.1 roia.biz
-127.0.0.1 roings.com
 127.0.0.1 rok.com.com
 127.0.0.1 rose.ixbt.com
 127.0.0.1 rotabanner.com

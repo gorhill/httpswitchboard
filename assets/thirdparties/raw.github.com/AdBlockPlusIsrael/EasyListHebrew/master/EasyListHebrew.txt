@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: dzzL/7jQf8fvzQ73EVPFZw
+! Checksum: PmBqlFhbCOH1NSY2q+VD9A
 ! Title: EasyList Hebrew
-! Last modified: 03/04/14  16:03 Jerusalem Daylight Time
+! Last modified: 13/04/14  20:48 Jerusalem Daylight Time
 ! Expires: 4 days (update frequency)
 ! Homepage: https://github.com/AdBlockPlusIsrael/EasyListHebrew/
 ! Forums: https://github.com/AdBlockPlusIsrael/EasyListHebrew/issues
@@ -25,6 +25,7 @@
 !
 ||213.8.137.51^
 ||3dots.co.il^$third-party,domain=~maple-team.com
+||ad-sys.com^$third-party
 ||adland.co.il^$third-party
 ||amazing-offers.co.il^$popup
 ||clickcenter.net^$third-party
@@ -142,8 +143,10 @@
 ||date.dacho.co.il^
 ||ddlil.com/banners/
 ||dimpact.co.il/Live/Banner/
+||fcdn.co.il/a/du/s.php
 ||gear.co.il/Content/MediaItems/Campaigns/
-||gozlan.co/st_p.js
+||gozlan.co/st_j.js
+//gozlan.co/st_j.js|
 ||haflla.com/download/banners/
 ||holesinthenet.co.il/uploads/*/res/*.swf
 ||hometheater.co.il/opx/
@@ -151,8 +154,7 @@
 ||hwzone.co.il/jobs/
 ||images.fxp.co.il/a/*/*.php
 ||images.fxp.co.il/a/*/*.php$popup
-||images.fxp.co.il/skinfxp/image.php?$image
-||images.fxp.co.il/skinfxp/show_skin.php
+||images.fxp.co.il/skinfxp
 ||images.fxp.co.il/skins/
 ||israelpost.co.il/content.nsf/0/D4413A7599E19E34C2257B2300467D0D/$FILE/*.swf
 ||jobmaster.co.il/code/kot/$object

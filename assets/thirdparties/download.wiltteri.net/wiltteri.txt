@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: B+fqrLJ+uYz8hxfTkUQjmQ
-! Version: 201404022010
+! Checksum: jeQUXVNhGHrb6x2WG+2wpQ
+! Version: 201404120950
 ! Title: Wiltteri
 ! Description: Finnish supplement list for EasyList
-! Last modified: 02 Apr 2014 20:10 UTC
+! Last modified: 12 Apr 2014 09:50 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: http://wiltteri.net/
 ! License: http://creativecommons.org/licenses/by-sa/3.0/
@@ -350,6 +350,7 @@ _mainosnappi.
 ||fchaka.fi/images/*banner
 ||fchonka.fi^*/bannerit/
 ||fchonka.fi^*/img/sponsors_all.png
+||fckuusysi.fi/sponsors/
 ||fclahti.fi^*/etusivusliderlogot/
 ||fctps.fi^*/sponssit_
 ||feed.etuovi.com/tabbedbanner/
@@ -364,8 +365,7 @@ _mainosnappi.
 ||fillari-lehti.fi/ybannerit.asp
 ||fillarifoorumi.fi/forum/images/bannerit/
 ||fillaristit.fi/images/banners/
-||fillaritori.com/kuvat/1074x59_ending3.jpg
-||fillaritori.com/kuvat/fillariosa2013.jpg
+||fillaritori.com/kuvat/
 ||fin-tuning.net/bannerit/
 ||fin5.fi/SSL/sslweb.nsf/images/fin5_mainospalkki_ala.gif/$FILE/fin5_mainospalkki_ala.gif
 ||finanssi.org/cms/images/logot/
@@ -488,6 +488,8 @@ _mainosnappi.
 ||hintaseuranta.fi/static/css/affiliatebannerit.css?
 ||hintaseuranta.fi/static/kuvat/affiliatebannerit/
 ||hintaseuranta.fi/static/kuvat/kampanjat/
+||hintavertailu.muropaketti.com/a/
+||hintavertailu.muropaketti.com^*/ilmoitus_bg.gif
 ||hippos.fi/banner/
 ||historicralli.net/images/*mainos.jpg
 ||hiusyrittajat.fi^*/Kannatusj%C3%A4senent-20121112.jpg
@@ -509,6 +511,7 @@ _mainosnappi.
 ||hunks.fi^*/sponsors.swf
 ||hurrikaani.fi/SIRA_Files/images/Logot/Kumppanit_Sponsorit/
 ||huumaa.net/images/banners/
+||hvs-tennis.fi^*/hvs_partnerit.
 ||hymy.fi^*/bannerit/
 ||hyria.fi/files/*/textsize/
 ||hyvasanomapalvelut.fi/filebank/*aikamedia
@@ -1306,6 +1309,7 @@ _mainosnappi.
 ||satakunnankansa.fi^*/meedio_satakunnan_kansa.js
 ||satakunnankansa.fi^*/mpbanner/
 ||sateenkaariperheet.fi^*/banneri_perheaikaa.jpg
+||satshop.fi/huoltovalikko.php$domain=huoltovalikko.com
 ||sauna-open-air.fi/soa/wp-content/themes/soa/img/links_*.jpg^
 ||saunacenterruka.fi/images/finfun.gif
 ||saunacenterruka.fi/images/kelomestarit.gif
@@ -1334,6 +1338,7 @@ _mainosnappi.
 ||seniorinetti.fi/sites/seniorinetti.fi/files/banners/
 ||seniorinetti.fi/themes/base/images/kumppanit/
 ||services.corame.fi/tervemedia/partner-feed/$third-party
+||sestatic.net^*/banner.
 ||seutuneloset.fi/images/CCDeitti-silma-200x200.jpg
 ||seven-1.com/matkalehti/
 ||sey.fi/files/*banner
@@ -2090,6 +2095,7 @@ nettiauto.com,nettikaravaani.com,nettikone.com,nettimoto.com###ge_money
 iltasanomat.fi###geouutiset
 urheiluveikkaus.com###gkBottom1
 polkupyoraily.net###googleAdsBottom
+high.fi###googlejs
 ruokala.net,tapahtumaopas.fi###hdr_container
 fuengirola.fi,uusifuengirola.fi###header #block-block-1
 konetori.com###header > #newsletter
@@ -2262,6 +2268,7 @@ mypa.fi###pagetopbanners
 saimaaspirit.fi###palsta-right + div#bottomline
 radiodei.fi###palsta3
 puistoblues.fi###palsta_oikea
+fckuusysi.fi###palsta_right > div#black_top:first-of-type
 uusisuomi.fi###palvelut-nosto-389
 jukupark.fi###panel
 sportti.com###panorama_container
@@ -2388,6 +2395,7 @@ kilometrikisa.fi###spons-ver
 artikla.com###spons_footer
 avantimusic.fi,nups.fi###sponsor
 elitisti.net###sponsor-area
+fckuusysi.fi###sponsor_images
 viihteelle.com###sponsorad
 flamenco.fi###sponsoriasiakastieto.fi
 coss.fi###sponsorlogos
@@ -2476,6 +2484,7 @@ muskleforum.com###widgetlist_column2
 muskleforum.com###widgetlist_column3 > li > div:not(.activitystream)
 elisa.net###wrapelement_ads_right div
 nahkafoorumi.com###wrapheader
+hintavertailu.muropaketti.com###wrapper-left-hv
 finhockey.fi,leimahdus.com,saaristo-open.fi,suursoudut.fi###yhteistyo
 oulufutis.com###ylakuva
 esitetilaus.fi###ylaosa embed
@@ -2568,7 +2577,7 @@ toppari.fi##.article_column > .article_separator + .contentpaneopen td[valign="t
 leffatykki.com##.aside
 helsinginvihreat.fi##.aside.main-aside > a > img
 smilehouse.com##.aukiolo + a > img
-ampumaurheiluliitto.fi,autoliitto.fi,basket.fi,buumi.net,hiihtoliitto.fi,hsk.fi,hyps.fi,ilmainensanakirja.fi,jamsek.fi,judoliitto.fi,kainuunliikunta.fi,karavaanarit.fi,kunto.fi,kuono.fi,luisteluliitto.fi,martat.fi,movie-tv.fi,myllymaki.com,nokiankaupunki.fi,oulutourism.fi,paratiisi.fi,pepofutis.net,pesis.fi,puskaradio.net,sana.fi,sanasto.fi,seurakuntalainen.fi,sotajumala.com,sportsacademy.fi,suomenlatu.fi,suomenmaa.fi,tikkuri.fi,tups.fi,vanajanlinna.fi,varsinaissuomenkokoomus.fi,voimistelu.fi,ylojarvi.fi##.banner
+ampumaurheiluliitto.fi,autoliitto.fi,basket.fi,buumi.net,hiihtoliitto.fi,hsk.fi,hyps.fi,ilmainensanakirja.fi,jamsek.fi,judoliitto.fi,kainuunliikunta.fi,karavaanarit.fi,kunto.fi,kuono.fi,luisteluliitto.fi,martat.fi,movie-tv.fi,myllymaki.com,nokiankaupunki.fi,oulutourism.fi,paratiisi.fi,pepofutis.net,pesis.fi,puskaradio.net,sana.fi,sanasto.fi,sestatic.net,seurakuntalainen.fi,sotajumala.com,sportsacademy.fi,suomenlatu.fi,suomenmaa.fi,tikkuri.fi,tups.fi,vanajanlinna.fi,varsinaissuomenkokoomus.fi,voimistelu.fi,ylojarvi.fi##.banner
 hps.fi##.banner a[href*="jalkkis.net"]
 hps.fi##.banner a[href*="www.eerikkila.fi"]
 lentopalloliitto.fi##.banner a[href*="www.newbody.fi"]
@@ -2603,6 +2612,7 @@ musikantit.fi##.bannerbox > div.content
 imatrangolf.fi,juhlaikkuna.fi,leijonat.fi,marineparts.fi,naisfutis.net,oikeuttaelaimille.net,painiliitto.net##.bannergroup
 kaukalopalloliiga.fi##.bannergroup_text
 evl.fi##.banneri
+fcreipas.fi##.banneriboxi_980
 tennis.fi##.banneripaikka_top
 ilves.com,kyronniemi.fi,tune.fi##.bannerit
 imps.fi,netticasino.com,radiofinlandia.net,radiorex.fi,ruokamenot.fi,urheiluveikkaus.com##.banneritem
@@ -2902,7 +2912,7 @@ leijonat.fi##.partner-logos
 aromilehti.fi##.partner-top-wrapper
 veikkausliiga.com##.partnerbar > img
 matkailu.fi.msn.com##.partnerlogo
-mamk.fi,ruisrock.fi,tampereunited.com##.partners
+hvs-tennis.fi,mamk.fi,ruisrock.fi,tampereunited.com##.partners
 fin5.fi##.partners.clear
 mascus.fi##.partnersBox
 kp24.fi##.perusblokkisisaltoAd
@@ -3838,6 +3848,7 @@ livechat.fi###header td:not(:first-child)
 seksitreffit.org###topbar
 seksitreffit.org##.banner
 seksi.fi##.bannerlink
+adulttv.fi##.box_main_sisalto_sisaltotila a[target="_blank"] > img
 seksisalonki.fi##.divBoxiBannerimainos
 seksitreffit.fi##.etusivuvasen
 alastonsuomi.com##.jb

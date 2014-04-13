@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: lj7JLEAt+5Gls8PKFwy0bQ
+! Checksum: C+k2ZA5Hz+yEte+ckMjAuQ
 ! Title: ABPindo
-! Last modified: 02 April 2014, 12:55:35 WIB
+! Last modified: 13 April 2014, 20:06:08 WIB
 ! Expires: 4 days (update frequency)
 ! Homepage: http://abpindo.blogspot.com/
 ! Licence: http://indonesianadblockrules.googlecode.com/hg/subscriptions/COPYING
@@ -23,11 +23,12 @@
 /ads/iklan.
 /bb17-iklan.
 /images/iklan/*
+/obat-kuat-sex.gif|
 /SkinADkanan.
 /SkinADkiri.
 /uploads/iklan/*
-/usaha-berhasil.gif
-/usahaberhasil.gif
+/usaha-berhasil.gif|
+/usahaberhasil.gif|
 ! *** abpindo_general_hide.txt ***
 ###Box-Banner-ads
 ###adsground
@@ -391,7 +392,6 @@ blogspot.com##img[alt="ads"]
 ||blogspot.com/$popup,domain=bioskop21.us|bokepgratiz.info
 ||blogspot.com/*.gif$domain=asik.me|duniasex.ws
 ||bokepgratiz.info/banner/
-||bolanews.com/application/views/web/default/images/close-icon.png
 ||bolavegas.com/ads/
 ||ceriwis.us/banner/
 ||coblos.net^*.swf$domain=bintangmawar.net
@@ -403,23 +403,22 @@ blogspot.com##img[alt="ads"]
 ||duniasex.ws/banner-
 ||ebsoft.web.id/wp-content/banners/
 ||ewetot.com^$image,object,domain=bintangmawar.net
-||forumbola.org/close3.png
 ||forumbookie.com/banner/
 ||forumkami.net/ad125x125/
 ||forumkami.net/ad200x50/
-||forumkami.net/close.gif
 ||ganool.com/wp-content/uploads/*.gif
 ||googleusercontent.com/*.gif$domain=asik.me|duniasex.ws
 ||harakah.net.my/images/stories/iklan/
 ||harianjogja.com/banner/
 ||harianjogja.com/img/bnr/
 ||id.hao123.com/resource/id/banner/
+||iklanbaris.detik.com/
 ||images.gameweb.co.id/gw/ads/
 ||images.indoforum.org/banners/
+||imgur.com/*.gif$domain=unduhfilm21.net
 ||indobokepz.com/images/banner/
 ||indochanger.com/banner/
 ||indomp3z.us/banner/
-||inilah.com/assets/image/airasia/skin-
 ||jagatreview.com/wp-content/uploads/*-SKIN-
 ||kad.kaskus.co.id/banner/$subdocument
 ||kad.kaskus.com/banner/$subdocument
@@ -450,25 +449,21 @@ blogspot.com##img[alt="ads"]
 ||musisi.com/musifile/images_banner/
 ||my.postsgenius.com/style/banners/
 ||newopenx.detik.com/images/
-||oprekpc.com/banner/
 ||pancet.com/kbads/
-||ranjangternoda.com/images/banner/
 ||resep.web.id/banner/
 ||semprot.com/x_ads/
 ||serbiansoftware.com^$popup,domain=bioskop21.us
 ||sodasusu.com/banner/
 ||solopos.com/banner/
-||static.republika.co.id/files/images/btn_close.png
 ||suaramedia.com/images/banners/
 ||suaramerdeka.com/v1/images/iklan_ffi.$image
 ||tabloidbintang.com^*/space-iklan/
 ||tambahketinggian.com/banner/
 ||tinypic.com^$image,domain=bioskopkita.com
-||tutorblog.us/wp-content/uploads/2013/08/obat-kuat-sex.gif
 ||upload.coblos.net/images/*.gif
+||usnewopenx.detik.com/images/
 ||utusan.com.my/utusan/iklan/
 ||videogamesindonesia.com/banners/
-||viva.co.id/appaux/images/close-button1.png
 ||widih.modifikasi.com/images/banners/$domain=widih.modifikasi.com
 ||zonabola.com/wp-content/uploads/*/Banner-
 ||zonabola.com^*/iklan/
@@ -499,8 +494,6 @@ detik.com###bottom_banner
 indogamers.com###bottombanner
 bioskop21.us###box-message
 tribunnews.com###boxright [style="width:300px; height:250px;"]
-oploverz.net###bsaCApAn3o
-oploverz.net###bsaQXerGNl
 adipedia.com,bokepgratiz.info,downloadfilmbaru.com,movie76.com,nusareborn.in###btm_banner
 movie76.com###close-teaser
 gudang.tv###container-bottom-menu-ads
@@ -510,12 +503,10 @@ lintas.me###facebox_overlay
 bioskop21.us###fadeinbox
 teknoup.com###fancybox-wrap
 teknoup.com###fancybox_ajax
-metrotvnews.com###fixme
 forumbokep.com###floating_banner_bottom
 krucil.net###floating_banner_bottom.krucil_ads
 ganool.com###floating_banner_top2
 untukku.com###footer-adcont
-ketubanjiwa.com###g207
 resep.web.id###googlebox
 indosiar.com###headerbanner
 indosiar.com###headerbanner + div[style="height:50px"]
@@ -536,8 +527,9 @@ harakahdaily.net###jsemrp_374_469
 harakahdaily.net###jsemrp_380_290
 zonabola.com###lAds
 komikbaru.com,mangafox.me###left-skyscraper
-asik.me,bb17.us,duniasex.ws###main_content_section > div[align="center"]
+asik.me,duniasex.ws###main_content_section > div[align="center"]
 dapurpacu.com###mid-banner
+indosat.com###preloader
 zonabola.com###rAds
 utusan.com.my###rec_ad4
 movie76.com###related_posts img[alt="ads"]
@@ -546,15 +538,15 @@ kapanlagi.com###scmicrosite
 gopego.com###showcase1
 gopego.com###showcase2
 lintas.me###showcasedown
-panduanpercuma.info###sidebar-banner300
 zonabola.com###simplemodal-container
 zonabola.com###simplemodal-overlay
 detik.com###skinad
 harianjogja.com,solopos.com###solopos_float
 downloadfilmbaru.com###sticky-ads
 detik.com###sto_banner
-downloadfilmbaru.com,galaxymaya.com,unikgaul.com###teaser2
-downloadfilmbaru.com,galaxymaya.com,movie76.com,unikgaul.com###teaser3
+unduhfilm21.net###teaser1
+downloadfilmbaru.com,galaxymaya.com,unduhfilm21.net,unikgaul.com###teaser2
+downloadfilmbaru.com,galaxymaya.com,movie76.com,unduhfilm21.net,unikgaul.com###teaser3
 sodasusu.com###teaser4
 detik.com###top_banner
 bioskopkita.com###topbanner
@@ -577,6 +569,8 @@ komikbaru.com##.ad.b300x250
 m.kapanlagi.com##.ad2
 gugling.com##.ad336x280atas
 mangafox.com##.ad728x90.left + .right
+indobokepz.com##.adBar-vertical.left
+indobokepz.com##.adBar-vertical.right
 bharian.com.my##.adbtm
 dapurpacu.com,kompas.com##.ads
 republika.co.id##.ads-160-600
@@ -629,9 +623,6 @@ okezone.com##.center-ban
 sindonews.com##.clear.size-wide-custom.dummy
 tempo.co##.closebanner1
 tempo.co##.closebanner2
-lensaindonesia.com##.com-300x250
-lensaindonesia.com##.com-728x90
-lensaindonesia.com##.comspc
 tribunnews.com##.content [style="width:160px; height:600px;"]
 lensaindonesia.com##.ctnitem.ctncom
 dapurpacu.com##.fixed-ads-atas
@@ -650,7 +641,6 @@ krucil.net##.krucil_ads > .krucil_ads
 krucil.net##.krucil_ads > div[style="margin-bottom:0.3em"]
 krucil.net##.krucil_ads.krucil_floating_banner_top
 kaskus.co.id##.l-link
-metrotvnews.com##.left.banner-160x600
 lapar.com##.leftcontent[style="padding:0px; margin:0px auto; height:250px; width:720px; border:0px; background:none; "]
 dapurpacu.com##.mid-banner
 detik.com##.otp_banner_close
@@ -673,21 +663,13 @@ kaskus.co.id##a[href^="http://kad.kaskus."]
 m.inilah.com##a[href^="http://mkhoj.com"]
 downloadfilem.com##a[href^="http://promosipraktis.com/"]
 republika.co.id##a[style="width: 100%; height: 100%; display: block; position: fixed; z-index: 1"]
-metrotvnews.com##div[style="height: 60px; margin:auto; background-color:#ccc; width:960px; bottom:0px;position:fixed;z-index:100"]
 situshp.com##div[style="height:260px;"]
 forums.mangafox.me##div[style="margin:10px 0;width:186px;height:90px;background:#fff;border:1px solid #dadada;overflow:hidden;padding:2px;text-align:center;float:right"]
 forums.mangafox.me##div[style="margin:10px 0;width:728px;height:90px;background:#fff;border:1px solid #dadada;overflow:hidden;padding:2px;text-align:center;float:left"]
-wardhanime.net##div[style="padding-top:5px;float:left;width:100%;font-size:13px;line-height:26px;height:31px;top: 12px;z-index:9999;text-align:left"]
 tabloidbintang.com##div[style="position:absolute; top:20px; left:45px; width:70px; background:#000; text-align:center;"]
 bokepgratiz.info##div[style="width:100%;text-align:center;"]
-metrotvnews.com##div[style="width:960px; height:60px;  background-color:#666666; position:fixed; z-index:1000; top:0;"]
-unikgaul.com##img[alt="Distributor Vimax"]
-unikgaul.com##img[alt="Obat Herbal"]
 widih.modifikasi.com##img[alt="Pasang iklan di widih.com"]
 komikbaru.com##img[alt="Pemasangan Iklan"]
-unikgaul.com##img[alt="Toko vitalitas"]
-unikgaul.com##img[alt="agen bola online"]
-unikgaul.com##img[alt="cara cepat sukses"]
 remo-xp.com##img[alt="iklan 440x90"]
 zonamuda.com##img[alt="iklan"]
 bokepgratiz.info##img[alt="smart-forex-system.com"]
@@ -698,6 +680,7 @@ ic31linkpage.com,icinema3satu.com##img[style="height: 125px; width: 125px;"]
 icinema3satu.com##img[style="height: 125x; width: 125px;"]
 icinema3satu.com##img[style="height:125x;width:125px;"]
 isdaryanto.com##img[style="width: 125px; height: 125px;"]
+unduhfilm21.net##img[style="width: 728px; height: 60px;"]
 bioskop21.us##img[title="pasang iklan"]
 movie76.com##img[title="pasang-iklan"]
 downloadfilem.com##img[width="125"][height="125"]

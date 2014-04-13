@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: ICENJtC/8dRBWzmvp9zRYg
-! Version: 201404061721
+! Checksum: rHxdR8HuTQa45Of5j5+xIA
+! Version: 201404131741
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 06 Apr 2014 17:20 UTC
+! Ultima modifica: 13 Apr 2014 17:41 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -51,6 +51,7 @@ _pubblicita-
 _pubblicita.
 _pubblicita/
 _pubblicita_
+_sito/adv/
 ! Anti-Adblock
 /antipubblicita.js
 /noadblock.jpg
@@ -533,6 +534,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||alfamitoclub.it/images/sponsor/
 ||alfamitoclub.it^*_banner_180.swf
 ||altervista.org/adv/
+||altoadigetv.it/images/social/banner
 ||alverde.net/banner/
 ||amadeusonline.net/banner/
 ||amadeusonline.net/partner/
@@ -575,6 +577,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||avmagazine.it/css/2010/skin/
 ||avmagazine.it/immagini/2013_05_02_educal_2013_500.jpg
 ||avvenire.it/Lists/Banners/
+||avvenire.it^*/skin_
 ||aziendeonline.biz/db/banner_
 ||babboleo.it/images/banners/
 ||badtaste.it/file/amazon/
@@ -952,6 +955,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||ilpost.it^*/home_adv.css
 ||ilquotidiano.it/userdata/banner/
 ||ilquotidianodellazio.it/img/banners/
+||ilroma.net^*/rotor/
 ||ilromanista.it/images/banners/
 ||ilsalvagente.it/imgmol/
 ||ilsalvagente.it/immagini/banner120x60-
@@ -1161,6 +1165,9 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||notebookitalia.it/images/stories/*_wallpaper_jpg.jpg
 ||notiziarioitaliano.it^*/banner/
 ||notizie-online.it/banner/
+||novara.com/images/Banners/
+||novara.com/public/WAPPS/LinksBannerData/
+||novara.com^*/MainBanner_
 ||nuovadelsud.it/images/banners/
 ||nyc-site.com/newyork/hotel/
 ||oas.repubblica.it^
@@ -1180,6 +1187,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||ondarock.it/skin/
 ||orvietosi.it^*298x100.swf
 ||oxfordparavia.it/img/babylon.gif
+||padovanews.it/images/banners/
 ||paeimprese.it^*/downloadfilebanner.php?
 ||palermomania.com/images/banner/
 ||palermomania.it/public/banner/
@@ -1479,6 +1487,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||trasporti-italia.com^*/banner/
 ||treccani.it/Portale/resources/images/bg$image
 ||treccani.it^*_300x100_
+||trentinotv.it/images/social/banner
 ||trentotoday.it/images/skin/
 ||tribunasportiva.it/images/*350x200.jpg
 ||tribunasportiva.it/images/banners/
@@ -1581,6 +1590,7 @@ hostingtalk.it###BannerBottom
 hostingtalk.it###BannerTop
 comingsoon.it###BnrRight1
 comingsoon.it###BnrRight2
+novara.com###BoxBlock_8
 tgcom24.mediaset.it###ContentSpecialBox
 comingsoon.it###ExpTop
 sardegna24.net###Hbanner300x250c20
@@ -1931,6 +1941,7 @@ nqnews.it##.Banner_box
 ciao.it##.CWContainerComparePrice
 meteo.it##.ImmobiliareIt
 foxcrime.it,foxlife.it,foxretro.it,foxtv.it##.MPU336
+novara.com##.MainBanner
 foxsports.it##.Mpu
 alfemminile.com##.OffresSpe_cadre
 search.aol.it##.SLL
@@ -2086,7 +2097,7 @@ gazzetta.it##.contain-sisal-magicup
 borsaitaliana.it##.container_banner_top
 macitynet.it##.contentTop
 tiscali.it,unita.it##.dannperdere
-ebay.it##.dart-banner-slot
+ebay.it,kijiji.it##.dart-banner-slot
 giornaledibrescia.it##.dealboxTop
 immobiliare.it##.det_pub_box_content
 nokioteca.net##.dex_box

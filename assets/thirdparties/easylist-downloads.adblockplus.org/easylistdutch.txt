@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: q/+U1te8EOGsknOavOpMjA
-! Version: 201404061721
+! Checksum: MNFrUTdssLAmyWpEFB2GIQ
+! Version: 201404131741
 ! Title: EasyList Dutch
 ! Description: Dutch supplement for the Easylist filters
-! Last modified: 06 Apr 2014 17:21 UTC
+! Last modified: 13 Apr 2014 17:41 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -47,6 +47,7 @@
 ||ad-skills-copy.nl^$third-party
 ||adrcdn.com^$third-party
 ||affiliatepartners.com^$third-party
+||am.seoptics.nl^$third-party
 ||asp.unitedconsumers.com^$third-party
 ||autotekoop.nl^$third-party
 ||banners.vip.nl^$third-party
@@ -91,7 +92,6 @@
 ||partnerwebsites.financereview.nl^$third-party
 ||partnerwebsites.mistermedia.nl^$third-party
 ||pics.obedo.nl^$third-party
-||privatecams.nl^$third-party
 ||promotions.teasemedia.nl^$third-party
 ||radiocoupon.nl^$third-party
 ||sallandacties.nl^$third-party
@@ -489,6 +489,7 @@
 ||onzetaal.nl/banners/
 ||optimaalfm.nl/upload/files/banner-left/
 ||optimalegezondheid.com/wp-content/plugins/mowpop/
+||opwindend.net/BroodNodig.php?
 ||partyflock.nl/images/*=http://partyflock.nl/jlnk/$object
 ||partyzone.be/rotatingbanner.php?
 ||pd5hw.nl/images/banner_*.jpg
@@ -654,6 +655,7 @@
 @@||doubleclick.net^*;tile=$script,domain=syndication.vmma.be|vtm.be
 @@||doubleclick.net^*adj/hbvl/homepage;tile=15;sz=160x600;$script,domain=hbvl.be
 @@||doubleclick.net^*adj/ster_cinema.nl/preroll;$script,domain=cinema.nl
+@@||g.doubleclick.net/gampad/ads?$script,domain=marktplaats.nl
 @@||google.com/ads/search/module/ads/*/search.js$domain=zoover.be|zoover.nl
 @@||google.com/adsense/$subdocument,domain=sedo.nl
 @@||google.com/adsense/search/ads.js$domain=zoover.be|zoover.nl
@@ -670,6 +672,7 @@
 @@||openad.tf1.fr/RealMedia/ads/adstream_mjx.ads/www.eurosportplayer.nl/home/$script,domain=eurosportplayer.nl
 @@||pagead2.googlesyndication.com/pagead/show_ads.js$domain=spel.nl|spelletjes.nl
 @@||partner.googleadservices.com/gampad/$domain=jaggle.nl
+@@||partner.googleadservices.com/gpt/pubads_impl_36.js$domain=marktplaats.nl
 @@||smartinit.webads.nl/bin/smartinit.dll?$script,domain=vi.nl
 @@||spilcdn.com^*/js/advertisement/css/sgadgirls.css$domain=girlsgogames.nl
 @@||spilcdn.com^*/js/advertisement/flowplayer/flowplayer-3.2.6.min.js$domain=girlsgogames.nl|spel.nl|spelletjes.nl
@@ -736,7 +739,7 @@
 ! Anti-Adblock
 @@||alfaforum.nl/forum/images/misc/vbulletin4_logo.png#$image
 @@||alfaforum.nl^$elemhide
-@@||autoblog.nl/javascript/advertisement.js
+@@||autoblog.nl/javascript/advertisement2.js
 @@||dumpert.nl^*/admatcher.doubleclick.net
 @@||motor-forum.nl/motorshopper/json/advertenties/$xmlhttprequest
 !--------Algemene verbergregels--------!
@@ -807,6 +810,7 @@ landbouwagenda.nl,nos.nl,paginamarkt.nl,vcmw-sigma.nl###banner
 buienradar.be###banner-a
 buienradar.be###banner-b
 seks-verhalen.nl###banner-blok-vier
+marktplaats.nl###banner-marketing
 marktplaats.nl###banner-mr
 wiebetaaltwat.nl###banner-panel-right
 dwtonline.com###banner1
@@ -903,6 +907,7 @@ mistermoney.nl###theLayer
 valuta.nl,wisselkoers.nl###theLayerSpaarrenteVergelijken
 valuta.nl,wisselkoers.nl###theLayerZorg
 scholieren.com###top
+marktplaats.nl###top-banner-wrapper
 voetbalzone.nl###uniGroot
 pokercollege.nl###verticalbanner
 telegraaf.nl###vsl_banner
@@ -913,6 +918,7 @@ vinden.nl###zoektip
 blog.nl##.ADV
 bokt.be##.PopupDiv
 bokt.be##.PopupScreen
+opwindend.net##.Tab > div > a
 marktnet.nl##.ThumbGoogle
 checkcams.com##.ab
 androidplanet.nl,dewereldmorgen.be,ipadclub.nl,iphoneclub.nl,metronieuws.nl,nu.nl,stemwijzer.nl,tvgids.nl,vkmag.com,z24.nl##.ad
@@ -1102,7 +1108,6 @@ treinreiziger.nl##div[id^="subbanner"]
 phphulp.nl##div[style$="background: #ff0000 url(/img/ads/bhosted.png) top left no-repeat; margin-bottom: 10px;"]
 voetbalzone.nl##div[style*="url(http://static-voetbalzone.nl/images/adfactor/"]
 voetbalzone.nl##div[style*="url(http://static-voetbalzone.nl/images/banners/bannerback.gif)"]
-opwindend.net##div[style="Height: 50Px; Width: 600Px;"]
 gpupdate.net##div[style="margin: 0px; background-color: #BDCDE4;"]
 moviescene.nl##form[name="justeat"]
 promootjesite.nl##iframe[width="728"][height="90"] + style + script + div[id]
@@ -1122,6 +1127,7 @@ kilroynews.net##table[width="792"]
 telegraaf.nl##table[width][border="0"][style="border:1px solid #e0e0e0;padding-left:5px;padding-right:5px;"]
 oops.nl##table[width][cellspacing="30"][align="center"]
 kapsels.net##td[width="164"] a[target="_blank"]
+dreamboxclub.nl##td[width="227"] > a[target="_blank"]
 kopen.marktplaats.nl##tr[onclick^="document.location.href=logAdmarktClick"]
 kopen.marktplaats.nl##tr[onclick^="window.open(logAdmarktClick('"]
 ! Anti-Adblock

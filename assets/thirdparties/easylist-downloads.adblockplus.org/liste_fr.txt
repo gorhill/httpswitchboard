@@ -1,6 +1,6 @@
 [Adblock Plus 2.0]
-! Checksum: pRSc4SFn3Cs2/K9fIA4v8Q
-! Version: 201404061721
+! Checksum: Je/8NowyD3PKCQswx2WYcQ
+! Version: 201404131741
 ! Liste FR ~ Filtres francophones complémentaires à EasyList
 ! Title: Liste FR
 ! Licence : http://www.adblock-listefr.com/A_propos
@@ -593,6 +593,7 @@ _regiepub/
 ||uncadeau.com/partner_widgets/$third-party
 ||unifinance.net/images/banners/
 ||untravailadomicile.info/images/banner
+||vernimmen.net/images/flash/300x300_$third-party
 ||videoplaza.tv/creatives/assets/$object-subrequest,domain=rfi.fr
 ||videos-de-celebrites.com/CMF_Banners/
 ||viwii.net/banners/$third-party
@@ -1091,6 +1092,7 @@ _regiepub/
 ||lemde.fr/mmpub/img/partenaires/
 ||lemeilleurdupsg.com/pub/
 ||lemoteurdusexe.com/img/promo/
+||lepape-info.com/pub/
 ||leparisien.fr/img/partenaires/
 ||lepetiteconomiste.com^*/swf_banniere_
 ||lepoint.fr/html/timekeeper/
@@ -1342,6 +1344,7 @@ _regiepub/
 ||scifi-movies.com/images/autre/promo/
 ||scoopers.com/?o=$popup
 ||securite.01net.com^
+||senioractu.com/photo/bann
 ||seriesstreaming.fr/images/partenaire_
 ||serre-editeur.fr/images/banners/
 ||sexe-clip.com/infopop/
@@ -2184,7 +2187,7 @@ sfr.fr###meeticWrapper
 businessnews.com.tn###megaban-1000
 jeuxactu.com###megaban1
 elwatan.com,franceantilles.fr,franceguyane.fr,lerevenu.com,silicon.fr###megabanner
-forumconstruire.com###menu_bas_2
+forumconstruire.com###menu_bas_4
 jeuxvideo.com###menu_topventes
 logicielmac.com###milieu-de-page-728-90
 lessentiel.lu###min_rectangle
@@ -2395,7 +2398,7 @@ la-musique-rai.com##.adsr p[style="background-color:#FFF; text-align:center;"]
 fusac.fr,rajacasablanca.com##.adv
 arabzik.org,korben.info,lesoir.be,midilibre.fr##.advert
 decitre.fr##.advertise
-skipass.com##.advertisement
+lemoniteur.fr,skipass.com##.advertisement
 traildesforts.com,wat.tv##.advertising
 statistiks.fr##.adz
 aufeminin.com##.af_bloc_partners
@@ -2788,7 +2791,7 @@ onetube.org##a[href="http://www.money-cpm.fr"]
 astuce-facebook.com##a[href="http://www.rent-a-lease.com/chinese/"]
 itespresso.fr##a[href^=" http://pubads.g.doubleclick.net/"]
 tadpu.com##a[href^="//fr.ulule.com/insidezecube/?utm_campaign="]
-ophtalmo.tv,prorussia.tv,rewmi.com,zinfos974.com##a[href^="/ads/"]
+ophtalmo.tv,prorussia.tv,rewmi.com,senioractu.com,zinfos974.com##a[href^="/ads/"]
 tunisie-news.com##a[href^="/artpublic/banniere/click3.php?"]
 marianne.net##a[href^="/blogsecretdefense/ads/"]
 mayottehebdo.com##a[href^="/index.php?option=com_banners"]
@@ -2874,6 +2877,7 @@ clubic.com##div[id^="pub_dart_"]
 pagesjaunes.fr##div[id^="push"]
 coco.fr##div[onclick="window.open('http://www.joker.net/poker.html');"]
 android-france.fr##div[onclick^="location.href='http://adserver.adtech.de/?adlink|"]
+forumconstruire.com##div[onclick^="window.open('http://www.forumconstruire.com/construire/devis-"]
 superphysique.org##div[style*="text-align: center"][style*="width:250px"]
 pixiz.com##div[style*="width:336px; height:280px; display:inline; padding:5px;"]
 gameblog.fr##div[style=" background-color: #c0c0c0; padding: 7px; height: 260px; overflow: hidden;"]
@@ -3029,8 +3033,10 @@ lokan.fr###anti-adblock
 @@||adworks.fr^$~third-party
 @@||afcdn.com/world/ads.js?$domain=marmiton.org
 @@||afe2.specificclick.net/crossdomain.xml$domain=videos.nt1.tv|videos.tmc.tv
+@@||agir.bloomassociation.org/adserver2/
 @@||allocine.fr/crossdomain.xml
 @@||amnesty.be/adserver*/
+@@||appeals.diabetes.org.uk/adserver2/
 @@||assiste.free.fr/Assiste/media/images/Ad-Aware_
 @@||aw-experience.com/banners/b0.png
 @@||banners.oxiads.fr/player/
@@ -3081,6 +3087,11 @@ lokan.fr###anti-adblock
 @@||ib.adnxs.com/crossdomain.xml$object-subrequest,domain=jeux-fille-gratuit.com|mahjonggratuit.fr
 @@||ib.adnxs.com/ptv?$object-subrequest,domain=jeux-fille-gratuit.com|mahjonggratuit.fr
 @@||images.newmedia.lu^*/adtech_video/
+@@||info.amnesty.be/adserver2/
+@@||infos.carefrance.org/adserver2/
+@@||infos.enfantsdumekong.com/adserver2/
+@@||infos.peuples-solidaires.org/adserver2/
+@@||infos.wwf.fr/adserver2/
 @@||iphone4.fr/bannieres/header_icons.png
 @@||iscoolcdn.com/versioned/prod/bundles/iscoolkitchen/adblock/advertisement.
 @@||jeux-geographiques.com/js/adblock_detector.js
@@ -3183,41 +3194,42 @@ lokan.fr###anti-adblock
 ! Anti-Adblock
 ! A l'attention des webmasters : https://easylist.adblockplus.org/blog/2013/05/10/anti-adblock-guide-for-site-admins
 ! Adunblock
+@@/http://(?!a\.ligatus\.com/timeout)([a-z0-9]*\.)*[a-z0-9]*//$subdocument,third-party,domain=rue89strasbourg.com
 @@/http://(?!ad\.zanox\.com/ppv/)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=maviesurleweb.fr
-@@/http://(?!ad\.zanox\.com/ppv/|pagead2\.googlesyndication\.com/pagead/js/adsbygoogle)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=maviesurleweb.fr
-@@/http://(?!ads\.ayads\.co/delivery/|googleads\.g\.doubleclick\.net/pagead/ads\?client=ca-pub-)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=pix-geeks.com
 @@/http://(?!assets\.ebuzzing\.com/crunch/)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=dofusmotion.com
 @@/http://(?!banniere\.reussissonsensemble\.fr/view\.asp)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=tryandplay.com
-@@/http://(?!c\.ad6media\.fr/l\.js|api\.adyoulike\.com/tag\.js|googleads\.g\.doubleclick\.net/pagead/ads\?client=ca-pub-)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=loractu.fr
 @@/http://(?!c\.ad6media\.fr/l\.js|c\.ad6media\.fr/fo\.js)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=buzzwebzine.fr|culture-communication.fr|leetgamerz.net
-@@/http://(?!cdn\.adikteev\.com/lib/v|ktu\.sv2\.biz/cd_|googleads\.g\.doubleclick\.net/pagead/ads\?client=ca-pub-)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=imagesia.com
-@@/http://(?!cdn\.adikteev\.com/lib/v|pagead2\.googlesyndication\.com/pagead/show_ads|pubads\.g\.doubleclick\.net/gampad/ads\?|c\.ad6media\.fr/l\.js)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=degroupnews.com
-@@/http://(?!comandclick\.com/accounts/|pagead2\.googlesyndication\.com/pagead/show_ads|googleads\.g\.doubleclick\.net/pagead/ads\?client=ca-pub-)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=styled-gaming.eu
+@@/http://(?!cdn\.adikteev\.com/lib/v|pagead2\.googlesyndication\.com/pagead/show_ads|pubads\.g\.doubleclick\.net/gampad/ads\?|c\.ad6media\.fr/l\.js)([a-z0-9]*\.)*[a-z0-9]*//$image,script,third-party,domain=degroupnews.com
+@@/http://(?!comandclick\.com/accounts/|pagead2\.googlesyndication\.com/pagead/show_ads|pagead2\.googlesyndication\.com/pagead/js/adsbygoogle)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=styled-gaming.eu
 @@/http://(?!dhtml\.pornravage\.com/)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=jackieetmicheltv.fr
-@@/http://(?!eulerian\.motoblouz\.com/adview/)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=moto85.com
+@@/http://(?!eulerian\.motoblouz\.com/adview/|pagead2\.googlesyndication\.com/pagead/show_ads)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=moto85.com
 @@/http://(?!fr\.slidein\.clickintext\.net/\?)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=arnaques-internet.info
 @@/http://(?!fr\.slidein\.clickintext\.net/\?|fr\.92\.clickintext.net/|impfr\.tradedoubler\.com/imp\?type|tracking\.veoxa\.com/|ad\.zanox\.com/ppv/)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=space-forums.com
 @@/http://(?!fr\.slidein\.clickintext\.net/\?|fr\.92\.clickintext.net/|impfr\.tradedoubler\.com/imp\?type|tracking\.veoxa\.com/|ad\.zanox\.com/ppv/|pagead2\.googlesyndication\.com/pagead/show_ads|hst\.tradedoubler\.com/file/)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=reef-guardian.com
-@@/http://(?!googleads\.g\.doubleclick\.net/pagead/ads\?client=ca-pub-)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=gridam.com|untourenchine.fr|xavboxtuning.com
-@@/http://(?!googleads\.g\.doubleclick\.net/pagead/ads\?client=ca-pub-|c\.ad6media\.fr/l\.js)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=gamewinner.fr
 @@/http://(?!impfr\.tradedoubler\.com/imp\?type|pagead2\.googlesyndication\.com/pagead/show_ads)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=cle-usb.info
-@@/http://(?!impfr\.tradedoubler\.com/imp\?type|tracking\.veoxa\.com/|ad\.zanox\.com/ppv/|googleads\.g\.doubleclick\.net/pagead/ads\?client=ca-pub-|script\.weborama\.fr/gold|track\.effiliation\.com/servlet/effi\.show)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=space-blogs.com|space-blogs.net
 @@/http://(?!pagead2\.googlesyndication\.com/pagead/js/)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=anthonix.fr|byothe.fr|donnemoilinfo.com|geoforum.fr|geowiki.fr|lesarbres.fr
-@@/http://(?!pagead2\.googlesyndication\.com/pagead/js/adsbygoogle)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=geneanum.com|phonandroid.com
-@@/http://(?!pagead2\.googlesyndication\.com/pagead/js/adsbygoogle|widget1\.priice\.net/ads/)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=applicationsandroidfrance.com
+@@/http://(?!pagead2\.googlesyndication\.com/pagead/js/adsbygoogle|pagead2\.googlesyndication\.com/pagead/show)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=geneanum.com|gridam.com|phonandroid.com|untourenchine.fr|xavboxtuning.com
+@@/http://(?!pagead2\.googlesyndication\.com/pagead/js/adsbygoogle|pagead2\.googlesyndication\.com/pagead/show_ads|c\.ad6media\.fr/l\.js|ad\.zanox\.com/ppv/)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=gamewinner.fr|ogame-winner.com
 @@/http://(?!pagead2\.googlesyndication\.com/pagead/show_ads)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=addons-wow.fr|physagreg.fr
+@@/http://(?!pagead2\.googlesyndication\.com/pagead/show_ads|ad\.zanox\.com/ppv/|pagead2\.googlesyndication\.com/pagead/js/adsbygoogle)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=maviesurleweb.fr
+@@/http://(?!pagead2\.googlesyndication\.com/pagead/show_ads|ads\.ayads\.co/delivery/|pagead2\.googlesyndication\.com/pagead/js/adsbygoogle)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=pix-geeks.com
+@@/http://(?!pagead2\.googlesyndication\.com/pagead/show_ads|c\.ad6media\.fr/l\.js|api\.adyoulike\.com/tag\.js|pagead2\.googlesyndication\.com/pagead/js/adsbygoogle|ads\.ayads\.co/ajs)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=loractu.fr
+@@/http://(?!pagead2\.googlesyndication\.com/pagead/show_ads|cdn\.adikteev\.com/lib/v|ktu\.sv2\.biz/cd_|pagead2\.googlesyndication\.com/pagead/js/adsbygoogle)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=imagesia.com
+@@/http://(?!pagead2\.googlesyndication\.com/pagead/show_ads|impfr\.tradedoubler\.com/imp\?type|tracking\.veoxa\.com/|ad\.zanox\.com/ppv/|pagead2\.googlesyndication\.com/pagead/js/adsbygoogle|script\.weborama\.fr/gold|track\.effiliation\.com/servlet/effi\.show)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=space-blogs.com|space-blogs.net
+@@/http://(?!pagead2\.googlesyndication\.com/pagead/show_ads|pagead2\.googlesyndication\.com/pagead/js/adsbygoogle|widget1\.priice\.net/ads/)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=applicationsandroidfrance.com
+@@/http://(?!pagead2\.googlesyndication\.com/pagead/show_ads|www\.arcalide\.com/affiliate_show_banner|pagead2\.googlesyndication\.com/pagead/js/adsbygoogle)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=xavboxphone.com
 @@/http://(?!pagead2\.googlesyndication\.com/simgad/)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=iski.fr
+@@/http://(?!pubads\.g\.doubleclick\.net/gampad/ads)([a-z0-9]*\.)*[a-z0-9]*//$image,script,third-party,domain=rue89strasbourg.com
 @@/http://(?!pubads\.g\.doubleclick\.net/gampad/ads\?)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=hitek.fr
-@@/http://(?!pubads\.g\.doubleclick\.net/gampad/ads|a\.ligatus\.com/timeout)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=rue89strasbourg.com
 @@/http://(?!roule\.nepasmanquer\.com/|dhtml\.pornravage\.com/|mods\.gdfspfg\.com/2/)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=lebouletdunet.com
 @@/http://(?!static\.pubdirecte\.com/b-images/)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=minecraftmod.fr
 @@/http://(?!www\.aircig\.com/media/)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=xavbox.org
 @@/http://(?!www\.arcalide\.com/affiliate_show_banner)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=wiilogic.com
-@@/http://(?!www\.arcalide\.com/affiliate_show_banner|googleads\.g\.doubleclick\.net/pagead/ads\?client=ca-pub-)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=xavboxphone.com
 @@/http://(?!www\.clicmanager\.fr/img/)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=sen.flam.me
 @@/http://(?!www\.r4menu\.com/media/)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=monlinker3ds.com|monlinkerds.com|monlinkerdsi.com
 @@/http://(?!xavboxnews\.com/files/|www\.aircig.com/media/affiliation/banner/|pagead2\.googlesyndication\.com/pagead/show_ads)([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=nifoune.com
 @@/http://([a-z0-9]*\.)*[a-z0-9]*//$image,script,subdocument,third-party,domain=actu95.net|applebigmac.fr|buzzer-manager.com|consoledejeux.info|coolradio.be|e-puzzles.fr|fight4craft.fr|mangacity.org|minecraft-france.fr|opalenews.com|seomaker.estsurle.net|simonfr.org|sucha.net|suchablog.com|visiban.com|xavbox.com|xavbox.info|xavbox36f0.com|xavboxcube.com|xavboxds.com|xavboxforum.com|xavboxnews.com|xavboxone.com|xavboxps2.com|xavboxps3.com|xavboxpsp.com|xavboxwii.com|xavboxwiiu.com|xavdrone.com|xavfun.com
+@@/http://([a-z0-9]*\.)*[a-z0-9]*//$subdocument,third-party,domain=degroupnews.com
 @@||actu95.net^$elemhide
 @@||addons-wow.fr^$elemhide
 @@||afrokanlife.com^$elemhide
@@ -3258,6 +3270,7 @@ lokan.fr###anti-adblock
 @@||monlinkerdsi.com^$elemhide
 @@||moto85.com^$elemhide
 @@||nifoune.com^$elemhide
+@@||ogame-winner.com^$elemhide
 @@||opalenews.com^$elemhide
 @@||phonandroid.com^$elemhide
 @@||physagreg.fr^$elemhide
