@@ -23,27 +23,6 @@
 
 (function(){
 
-/*******************************************************************************
-
-Some stats gathered on 2014-03-04
-
-Token size: 1
-Dict stats:
-	Token count: 10239
-	Largest list: "ad /_" has 223 ids
-
-Token size: 2
-Dict stats:
-	Token count: 10251
-	Largest list: "ad /_" has 223 ids
-
-Token size: 3
-Dict stats:
-	Token count: 10347
-	Largest list: "ads //" has 253 ids
-
-*/
-
 var filterDict = {};
 var filterCount = 0;
 
@@ -385,6 +364,63 @@ var addFilterToCollection = function(s, tokenBeg, tokenEnd, filterCollection) {
 /******************************************************************************/
 
 /*
+var adbProfiler = {
+    testCount: 0,
+    urlCount: 0,
+    dumpTimestamp: Date.now(),
+    dumpDelay: 10000,
+    countUrl: function() {
+        this.urlCount += 1;
+        var now = Date.now();
+        if ( (now - this.dumpTimestamp) > this.dumpDelay ) {
+            this.dump();
+            this.dumpTimestamp = now;
+        }
+    },
+    countTest: function() {
+        this.testCount += 1;
+    },
+    dump: function() {
+        console.log('HTTPSB.adbProfiler> number or URLs tested: %d', this.urlCount);
+        console.log('HTTPSB.adbProfiler> number or filters tested per URL: %d', this.testCount / this.urlCount);
+    },
+    reset: function() {
+        this.testCount = 0;
+        this.urlCount = 0;
+    },
+    dummy: 0
+};
+*/
+
+/*
+var histogram = function(label, collection) {
+    var h = [];
+    var n, f;
+    for ( var k in collection ) {
+        if ( !collection.hasOwnProperty(k) ) {
+            continue;
+        }
+        n = 1;
+        f = collection[k];
+        while ( f.next ) {
+            f = f.next;
+            n += 1;
+        }
+        h.push({ k: k, n: n });
+    }
+    var total = h.length;
+    h.sort(function(a, b) { return b.n - a.n; });
+    h = h.slice(0, 20);
+
+    console.log('Histogram %s', label);
+    h.forEach(function(v) {
+        console.log('\tkey=%s  count=%d', v.k, v.n);
+    });
+    console.log('\tTotal buckets count: %d', total);
+};
+*/
+
+/*
 2014-04-12
 Top 20 bucket size:
 Histogram anyPartyFilters
@@ -439,34 +475,27 @@ TL;DR:
 
     In both collections, worst case scenarios are a very small minority of the
     whole set.
-*/
-/*
-var histogram = function(label, collection) {
-    var h = [];
-    var n, f;
-    for ( var k in collection ) {
-        if ( !collection.hasOwnProperty(k) ) {
-            continue;
-        }
-        n = 1;
-        f = collection[k];
-        while ( f.next ) {
-            f = f.next;
-            n += 1;
-        }
-        h.push({ k: k, n: n });
-    }
-    var total = h.length;
-    h.sort(function(a, b) { return b.n - a.n; });
-    h = h.slice(0, 20);
 
-    console.log('Histogram %s', label);
-    h.forEach(function(v) {
-        console.log('\tkey=%s  count=%d', v.k, v.n);
-    });
-    console.log('\tTotal buckets count: %d', total);
-};
+2014-04-13:
+    Did collect some objective measurements today, using "15 top
+    news web sites" benchmark. Here:
+
+    Adblock Plus:
+        ABP.adbProfiler> number or URLs tested: 8364
+        ABP.adbProfiler> number or filters tested per URL: 114
+
+    HTTPSB:
+        HTTPSB.adbProfiler> number or URLs tested: 8307
+        HTTPSB.adbProfiler> number or filters tested per URL: 4
+
+    ABP on average tests 114 filters per URL.
+    HTTPSB on average tests 4 filters per URL.
+
+    The low average number of filters to per URL to test is key to
+    HTTPSB excellent performance over ABP. It's all in the much smaller bucket
+    size...
 */
+
 /******************************************************************************/
 
 var freeze = function() {
@@ -479,6 +508,7 @@ var freeze = function() {
 
 var matchStringToFilterChain = function(f, url, tokenBeg) {
     while ( f !== undefined ) {
+        //adbProfiler.countTest();
         if ( f.match(url, tokenBeg, tokenBeg) ) {
             // console.log('abp-filters.js> matchStringToFilterChain(): "%s" matches "%s"', f.s, s);
             return f.s;
@@ -543,6 +573,8 @@ var matchString = function(url, srcDomain, dstHostname) {
     if ( HTTPSB.off ) {
         return false;
     }
+
+    //adbProfiler.countUrl();
 
     var matches, f;
     var tokenBeg, tokenEnd;
