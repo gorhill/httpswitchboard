@@ -294,6 +294,16 @@ NBC News:
         whitelist: |
             * nbcnews.com
 
+Netflix:
+    facode: f008
+    keys: '*.netflix.com'
+    scope: '*.netflix.com'
+        whitelist: |
+            * netflix.com
+            * nflxext.com
+            # ref: http://www.wilderssecurity.com/threads/http-switchboard-for-chrome-chromium.356427/page-25#post-2361625
+            plugin *
+
 New York Times:
     keys: '*.nytimes.com'
     scope: '*.nytimes.com'
