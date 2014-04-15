@@ -78,10 +78,10 @@ var HTTPSB = {
         // Adblock Plus
         'assets/thirdparties/easylist-downloads.adblockplus.org/easylist.txt': {},
         'assets/thirdparties/easylist-downloads.adblockplus.org/easyprivacy.txt': {},
-        'assets/thirdparties/easylist-downloads.adblockplus.org/fanboy-annoyance.txt': {},
+        'assets/thirdparties/easylist-downloads.adblockplus.org/fanboy-annoyance.txt': { off: true },
 
         // Fanboy
-        'assets/thirdparties/www.fanboy.co.nz/enhancedstats.txt': {},
+        'assets/thirdparties/www.fanboy.co.nz/enhancedstats.txt': { off: true },
 
         'assets/thirdparties/easylist-downloads.adblockplus.org/easylistgermany.txt': { off: true },
         'assets/thirdparties/easylist-downloads.adblockplus.org/easylistitaly.txt': { off: true },
