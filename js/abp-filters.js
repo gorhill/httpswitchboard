@@ -24,12 +24,17 @@
 (function(){
 
 var filterDict = {};
-var filterCount = 0;
+var filterDenyCount = 0;
+var filterProcessedCount = 0;
 
 var anyPartyFilters = {}; // any party, anywhere
 var thirdPartyFilters = {}; // 3rd party, anywhere
 
-var reIgnoreFilter = /^\[|^!|##|@#|@@|^\|http/;
+var reIgnoreEmpty = /^\s+$/;
+var reIgnoreComment = /^\[|^!/;
+var reIgnoreElementHide = /##|@#/;
+var reIgnoreWhitelist = /^@@/;
+var reIgnoreFilter = /^\|http/;
 var reConditionalRule = /\$/;
 var reHostnameRule = /^\|\|[a-z0-9.-]+\^?$/;
 var reHostnameToken = /^[0-9a-z]+/g;
@@ -164,7 +169,8 @@ var FilterWildcardFactory = function(s, tokenBeg) {
 
 var reset = function() {
     filterDict = {};
-    filterCount = 0;
+    filterDenyCount = 0;
+    filterProcessedCount = 0;
 
     // Give chromium's GC a helpful hand
     var collections = [
@@ -264,6 +270,28 @@ var makeKey = function(s) {
 var add = function(s) {
     // ORDER OF TESTS IS IMPORTANT!
 
+    // Ignore empty lines
+    if ( reIgnoreEmpty.test(s) ) {
+        return false;
+    }
+
+    // Ignore comments
+    if ( reIgnoreComment.test(s) ) {
+        return false;
+    }
+
+    // Ignore element-hiding filters
+    if ( reIgnoreElementHide.test(s) ) {
+        return false;
+    }
+
+    filterProcessedCount += 1;
+
+    // Ignore whitelist filters
+    if ( reIgnoreWhitelist.test(s) ) {
+        return false;
+    }
+
     // Ignore unsupported filters
     if ( reIgnoreFilter.test(s) ) {
         return false;
@@ -356,7 +384,7 @@ var addFilterToCollection = function(s, tokenBeg, tokenEnd, filterCollection) {
     filter.next = filterCollection[tokenKey];
     filterCollection[tokenKey] = filter;
 
-    filterCount += 1;
+    filterDenyCount += 1;
 
     return true;
 };
@@ -365,24 +393,26 @@ var addFilterToCollection = function(s, tokenBeg, tokenEnd, filterCollection) {
 
 /*
 var adbProfiler = {
+    testSwitch: false,
     testCount: 0,
     urlCount: 0,
-    dumpTimestamp: Date.now(),
-    dumpDelay: 10000,
+    dumpEach: 200,
     countUrl: function() {
         this.urlCount += 1;
-        var now = Date.now();
-        if ( (now - this.dumpTimestamp) > this.dumpDelay ) {
+        if ( (this.urlCount % this.dumpEach) === 0 ) {
             this.dump();
-            this.dumpTimestamp = now;
         }
     },
+    testCounter: function(on) {
+        this.testSwitch = on;
+    },
     countTest: function() {
-        this.testCount += 1;
+        if ( this.testSwitch ) {
+            this.testCount += 1;
+        }
     },
     dump: function() {
-        console.log('HTTPSB.adbProfiler> number or URLs tested: %d', this.urlCount);
-        console.log('HTTPSB.adbProfiler> number or filters tested per URL: %d', this.testCount / this.urlCount);
+        console.log('ABP.adbProfiler> number or filters tested per URL: %d (sample: %d URLs)', this.testCount / this.urlCount, this.urlCount);
     },
     reset: function() {
         this.testCount = 0;
@@ -575,6 +605,7 @@ var matchString = function(url, srcDomain, dstHostname) {
     }
 
     //adbProfiler.countUrl();
+    //adbProfiler.testCounter(true);
 
     var matches, f;
     var tokenBeg, tokenEnd;
@@ -598,13 +629,15 @@ var matchString = function(url, srcDomain, dstHostname) {
         }
     }
 
+    //adbProfiler.testCounter(false);
+
     return false;
 };
 
 /******************************************************************************/
 
 var getFilterCount = function() {
-    return filterCount;
+    return filterDenyCount;
 };
 
 /******************************************************************************/
