@@ -358,6 +358,14 @@ Reddit (with account):
             * redditstatic.s3.amazonaws.com
             script ajax.googleapis.com
 
+Rogers Radio:
+    keys: player.rogersradio.ca
+    scope: player.rogersradio.ca
+        whitelist: |
+            * rogersradio.ca
+            * rogersdigitalmedia.com
+            script analytics.rogersmedia.com
+
 Sketchfab:
     keys: sketchfab.com
     scope: sketchfab.com
