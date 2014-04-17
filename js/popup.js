@@ -1545,10 +1545,7 @@ function bindToTabHandler(tabs) {
 function gotoExtensionURL() {
     var url = $(this).data('extensionUrl');
     if ( url ) {
-        chrome.runtime.sendMessage({
-            what: 'gotoExtensionURL',
-            url: url
-        });
+        chrome.runtime.sendMessage({ what: 'gotoExtensionURL', url: url });
     }
 }
 
@@ -1557,10 +1554,7 @@ function gotoExtensionURL() {
 function gotoExternalURL() {
     var url = $(this).data('externalUrl');
     if ( url ) {
-        chrome.runtime.sendMessage({
-            what: 'gotoURL',
-            url: url
-        });
+        chrome.runtime.sendMessage({ what: 'gotoURL', url: url });
     }
 }
 
