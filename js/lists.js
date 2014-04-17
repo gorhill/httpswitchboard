@@ -173,10 +173,9 @@ PermissionList.prototype.add = function(other) {
 
 // How much this list differs from the other
 
-PermissionList.prototype.diff = function(other) {
+PermissionList.prototype.diffCount = function(other) {
     var count = 0;
     // In this one but not the other
-    // In both but different
     for ( var kthis in this.list ) {
         if ( this.list.hasOwnProperty(kthis) && this.list[kthis] && !other.list[kthis] ) {
             count++;
@@ -201,6 +200,7 @@ PermissionScope.prototype.toString = function() {
         whiteStr: this.white.toString(),
         blackStr: this.black.toString(),
         grayStr: this.gray.toString(),
+        mtxFiltering: this.mtxFiltering,
         abpFiltering: this.abpFiltering
     };
     return JSON.stringify(bin);
@@ -211,6 +211,7 @@ PermissionScope.prototype.fromString = function(s) {
     this.white.fromString(bin.whiteStr);
     this.black.fromString(bin.blackStr);
     this.gray.fromString(bin.grayStr);
+    this.mtxFiltering = bin.mtxFiltering !== undefined ? bin.mtxFiltering : true;
     this.abpFiltering = bin.abpFiltering !== undefined ? bin.abpFiltering : true;
 };
 
@@ -221,6 +222,7 @@ PermissionScope.prototype.assign = function(other) {
     this.black.assign(other.black);
     this.gray.assign(other.gray);
     this.off = other.off;
+    this.mtxFiltering = other.mtxFiltering;
     this.abpFiltering = other.abpFiltering;
 };
 
@@ -234,11 +236,17 @@ PermissionScope.prototype.add = function(other) {
 
 /******************************************************************************/
 
-PermissionScope.prototype.diff = function(other) {
+PermissionScope.prototype.diffCount = function(other) {
+    if ( !other ) {
+        return this.white.count + this.black.count + this.gray.count + 2;
+    }
     var count =
-        this.white.diff(other.white) +
-        this.black.diff(other.black) +
-        this.gray.diff(other.gray);
+        this.white.diffCount(other.white) +
+        this.black.diffCount(other.black) +
+        this.gray.diffCount(other.gray);
+    if ( !this.mtxFiltering !== !other.mtxFiltering ) {
+        count += 1;
+    }
     if ( !this.abpFiltering !== !other.abpFiltering ) {
         count += 1;
     }
@@ -285,6 +293,12 @@ PermissionScope.prototype.diff = function(other) {
 // performance is negatively affected, if any. Need to measure.
 
 PermissionScope.prototype.evaluate = function(type, hostname) {
+    // rhill 2013-12-03: When matrix filtering is turned off, all requests are
+    // considered being "allowed temporarily".
+    if ( this.mtxFiltering === false ) {
+        return 'gpt';
+    }
+
     var httpsb = HTTPSB;
     var ubiquitousWhitelist = httpsb.ubiquitousWhitelist;
     var ubiquitousBlacklist = httpsb.ubiquitousBlacklist;
@@ -758,6 +772,29 @@ PermissionScopes.prototype.graylist = function(scopeKey, type, hostname) {
 
 /******************************************************************************/
 
+PermissionScopes.prototype.getMtxFiltering = function(scopeKey) {
+    var scope = this.scopeFromScopeKey(scopeKey);
+    if ( scope ) {
+        return scope.mtxFiltering;
+    }
+    return undefined;
+};
+
+PermissionScopes.prototype.toggleMtxFiltering = function(scopeKey, state) {
+    var scope = this.scopeFromScopeKey(scopeKey);
+    if ( !scope ) {
+        return undefined;
+    }
+    if ( state === undefined ) {
+        scope.mtxFiltering = !scope.mtxFiltering;
+    } else {
+        scope.mtxFiltering = !!state;
+    }
+    return scope.mtxFiltering;
+};
+
+/******************************************************************************/
+
 PermissionScopes.prototype.getABPFiltering = function(scopeKey) {
     var scope = this.scopeFromScopeKey(scopeKey);
     if ( scope ) {
@@ -782,27 +819,39 @@ PermissionScopes.prototype.toggleABPFiltering = function(scopeKey, state) {
 /******************************************************************************/
 
 PermissionScopes.prototype.applyRuleset = function(scopeKey, rules) {
-    var rule, i;
-    var changed = false;
     var scope = this.scopeFromScopeKey(scopeKey);
     if ( !scope ) {
         console.error('HTTP Switchboard> PermissionScopes.applyRuleset(): scope not found');
         return false;
     }
-    i = rules.white.length;
-    while ( i-- ) {
-        rule = rules.white[i];
-        changed = scope.whitelist(rule.type, rule.hostname) || changed;
-    }
-    i = rules.black.length;
-    while ( i-- ) {
-        rule = rules.black[i];
-        changed = scope.blacklist(rule.type, rule.hostname) || changed;
-    }
-    i = rules.gray.length;
-    while ( i-- ) {
-        rule = rules.gray[i];
-        changed = scope.graylist(rule.type, rule.hostname) || changed;
+    var addRules = function(rules, scope, listKey) {
+        var changed = false;
+        var i = rules.length, rule;
+        while ( i-- ) {
+            rule = rules[i];
+            changed = scope.addRule(listKey, rule.type, rule.hostname) || changed;
+        }
+        return changed;
+    };
+    var removeRules = function(rules, scope, listKey) {
+        var changed = false;
+        var i = rules.length, rule;
+        while ( i-- ) {
+            rule = rules[i];
+            changed = scope.removeRule(listKey, rule.type, rule.hostname) || changed;
+        }
+        return changed;
+    };
+    var changed = false;
+    changed = addRules(rules.add.white, scope, 'white') || changed;
+    changed = addRules(rules.add.black, scope, 'black') || changed;
+    changed = addRules(rules.add.gray, scope, 'gray') || changed;
+    changed = removeRules(rules.remove.white, scope, 'white') || changed;
+    changed = removeRules(rules.remove.black, scope, 'black') || changed;
+    changed = removeRules(rules.remove.gray, scope, 'gray') || changed;
+    if ( rules.mtxFiltering !== scope.mtxFiltering ) {
+        scope.mtxFiltering = !!rules.mtxFiltering;
+        changed = true;
     }
     if ( rules.abpFiltering !== scope.abpFiltering ) {
         scope.abpFiltering = !!rules.abpFiltering;

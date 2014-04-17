@@ -26,6 +26,7 @@ body {
     }
 
 
+
 .toolbar {
     margin: 0;
     border: 0;
@@ -43,12 +44,6 @@ body {
 .toolbar.alignRight {
     right: 0;
     }
-
-
-body.powerOff #toolbarLeft {
-    visibility: hidden;
-    }
-
 
 
 
@@ -85,9 +80,7 @@ body.tScopeDomain .toolbar button.scopeRel:not(.disabled) {
 body.tScopeSite .toolbar button.scopeRel:not(.disabled) {
     color: #48c;
     }
-body.powerOff #toolbarLeft {
-    visibility: hidden;
-    }
+
 
 
 .dropdown-menu {
@@ -200,9 +193,6 @@ button.disabled > span.badge {
     left: 10vw;
     width: 80vw;
     }
-body.powerOff #buttonPresets {
-    visibility: hidden;
-    }
 .presetInfo {
     margin: 0.25em 0.5em;
     text-align: center;
@@ -226,12 +216,6 @@ body.powerOff #buttonPresets {
 .dropdown-menu > li > a > i {
     padding: 0 6px;
     font-size: 1.2em;
-    }
-body #buttonPower i {
-    color: #080;
-    }
-body.powerOff #buttonPower i {
-    color: #c00;
     }
 
 body .toolbar button#scopeCell {

@@ -161,32 +161,15 @@ PageStatsEntry.prototype.updateBadge = function(tabId) {
     chrome.browserAction.setIcon({ tabId: tabId, path: iconPath });
 
     // Badge text & color
-    var badgeStr, badgeColor;
-    if ( httpsb.off ) {
-        badgeStr = '!!!';
-        badgeColor = '#F00';
+    var badgeColor;
+    var badgeStr = httpsb.formatCount(this.distinctRequestCount);
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(this.pageUrl);
+    if ( httpsb.isDomainScopeKey(scopeKey) ) {
+        badgeColor = '#24c';
+    } else if ( httpsb.isSiteScopeKey(scopeKey) ) {
+        badgeColor = '#48c';
     } else {
-        var count = this.distinctRequestCount;
-        badgeStr = count.toFixed(0);
-        if ( count >= 1000 ) {
-            if ( count < 10000 ) {
-                badgeStr = '>' + badgeStr.slice(0,1) + 'K';
-            } else if ( count < 1000000 ) {
-                badgeStr = badgeStr.slice(0,2) + 'K';
-            } else if ( count < 10000000 ) {
-                badgeStr = badgeStr.slice(0,1) + 'M';
-            } else {
-                badgeStr = badgeStr.slice(0,-6) + 'M';
-            }
-        }
-        var scopeKey = httpsb.temporaryScopeKeyFromPageURL(this.pageUrl);
-        if ( httpsb.isDomainScopeKey(scopeKey) ) {
-            badgeColor = '#24c';
-        } else if ( httpsb.isSiteScopeKey(scopeKey) ) {
-            badgeColor = '#48c';
-        } else {
-            badgeColor = '#000';
-        }
+        badgeColor = '#000';
     }
 
     chrome.browserAction.setBadgeText({ tabId: tabId, text: badgeStr });

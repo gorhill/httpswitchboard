@@ -598,12 +598,6 @@ var matchStringToFilterCollection = function(filterCollection, url, tokenBeg, to
 /******************************************************************************/
 
 var matchString = function(url, srcDomain, dstHostname) {
-    // rhill 2014-03-12: need to skip ABP filtering if HTTP is turned off.
-    // https://github.com/gorhill/httpswitchboard/issues/208
-    if ( HTTPSB.off ) {
-        return false;
-    }
-
     //adbProfiler.countUrl();
     //adbProfiler.testCounter(true);
 

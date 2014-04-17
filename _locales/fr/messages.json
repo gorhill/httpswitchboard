@@ -184,8 +184,12 @@
         "message": "Aucune activité réseau observée pour cet onglet jusqu'à présent.",
         "description": "..."
     },
+    "matrixMtxButtonTip" : {
+        "message": "Cliquez pour activer/désactiver \u000a les filtres matriciels pour le contexte actuel. \u000aNombre de requêtes bloquées via \u000a les filtres matriciels: {{count}}.",
+        "description": "Tool tip for matrix button: {{}} is a placeholder for number of blocked requests."
+    },
     "matrixABPButtonTip" : {
-        "message": "Nombre de requêtes bloquées via \u000a les filtres Adblock Plus: {{abpCount}}. \u000a Cliquez pour activer/désactiver \u000a les filtres ABP pour le contexte actuel.",
+        "message": "Cliquez pour activer/désactiver \u000a les filtres ABP pour le contexte actuel. \u000aNombre de requêtes bloquées via \u000a les filtres Adblock Plus: {{count}}.",
         "description": "Tool tip for ABP button: {{}} is a placeholder for number of blocked requests."
     },
     "matrixPersistButtonTip" : {
@@ -203,10 +207,6 @@
     "matrixReloadButton" : {
         "message": "Actualiser la page.",
         "description": "Tool tip for the reload button"
-    },
-    "matrixPowerButton" : {
-        "message": "Activer / désactiver HTTP Switchboard.",
-        "description": "Tool tip for the 'power' button"
     },
 
 

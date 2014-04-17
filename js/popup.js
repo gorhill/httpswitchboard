@@ -632,41 +632,64 @@ function getTemporaryRuleset() {
     var rules = {
         tScopeKey: tScopeKey,
         pScopeKey: pScopeKey,
-        white: [],
-        black: [],
-        gray: [],
+        add: { white: [], black: [], gray: [] },
+        remove: { white: [], black: [], gray: [] },
+        mtxFiltering: httpsb.getTemporaryMtxFiltering(tScopeKey),
         abpFiltering: httpsb.getTemporaryABPFiltering(tScopeKey),
         count: 0
     };
-    var typeStats, type, typeStat;
-    var tcolor, pcolor;
+    var tscope = httpsb.temporaryScopeFromScopeKey(tScopeKey);
+    var pscope = pScopeKey === tScopeKey ? httpsb.permanentScopeFromScopeKey(pScopeKey) : null;
     var matrixStats = HTTPSBPopup.matrixStats;
-    for ( var hostname in matrixStats ) {
-        if ( !matrixStats.hasOwnProperty(hostname) ) {
+    var rule, parts;
+    var listKeys = [ 'white', 'black', 'gray' ];
+    while ( listKey = listKeys.pop() ) {
+        // This loop is to find rules in temporary scope which are not found
+        // in permanent scope (if any).
+        for ( rule in tscope[listKey].list ) {
+            if ( pscope && pscope[listKey].list[rule] ) {
+                continue;
+            }
+            // 0 = type, 1 = hostname
+            parts = rule.split('|');
+            // For global scope, limit the set of rules to those which
+            // intersect the matrix content: because the global
+            // scope means "all of internet", we wouldn't want to
+            // report temporary rules which are unrelated to the current
+            // matrix.
+            if ( tScopeKey === '*' && matrixStats.hasOwnProperty(parts[1]) === false ) {
+                continue;
+            }
+            rules.add[listKey].push({ hostname: parts[1], type: parts[0] });
+            rules.count += 1;
+        }
+        // This loop is to find rules in permanent scope (if any) which
+        // are not found in temporary scope.
+        if ( !pscope ) {
             continue;
         }
-        typeStats = matrixStats[hostname].types;
-        for ( type in typeStats ) {
-            if ( !typeStats.hasOwnProperty(type) ) {
+        for ( rule in pscope[listKey].list ) {
+            if ( tscope[listKey].list[rule] ) {
                 continue;
             }
-            typeStat = typeStats[type];
-            tcolor = typeStat.temporaryColor.slice(0, 2);
-            pcolor = typeStat.permanentColor.slice(0, 2);
-            if ( tcolor === pcolor ) {
+            // 0 = type, 1 = hostname
+            parts = rule.split('|');
+            // For global scope, limit the set of rules to those which
+            // intersect the matrix content: because the global
+            // scope means "all of internet", we wouldn't want to
+            // report temporary rules which are unrelated to the current
+            // matrix.
+            if ( pScopeKey === '*' && matrixStats.hasOwnProperty(parts[1]) === false ) {
                 continue;
             }
-            if ( tcolor === 'gd' ) {
-                rules.white.push({ hostname: hostname, type: type });
-            } else if ( tcolor === 'rd' ) {
-                rules.black.push({ hostname: hostname, type: type });
-            } else if ( pcolor !== 'xx' ) {
-                rules.gray.push({ hostname: hostname, type: type });
-            }
+            rules.remove[listKey].push({ hostname: parts[1], type: parts[0] });
+            rules.count += 1;
         }
     }
-    rules.count += rules.white.length + rules.black.length + rules.gray.length;
-    if ( rules.abpFiltering !== httpsb.getPermanentABPFiltering(pScopeKey) ) {
+    if ( !pscope || rules.mtxFiltering !== pscope.mtxFiltering ) {
+        rules.count += 1;
+    }
+    if ( !pscope || rules.abpFiltering !== pscope.abpFiltering ) {
         rules.count += 1;
     }
     // A temporary scope different from the permanent scope counts for one.
@@ -1246,6 +1269,31 @@ function updateScopeCell() {
 
 /******************************************************************************/
 
+function updateMtxbutton() {
+    var httpsb = getHTTPSB();
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
+    var masterSwitch = httpsb.getTemporaryMtxFiltering(scopeKey);
+    var pageStats = getPageStats();
+    var count = pageStats ? pageStats.requestStats.blocked.all : '';
+    var button = $('#buttonMtxFiltering');
+    button.toggleClass('disabled', !masterSwitch);
+    button.children('span.badge').text(httpsb.formatCount(count));
+    button.attr('data-tip', button.data('tip').replace('{{count}}', count));
+    $('body').toggleClass('powerOff', !masterSwitch);
+}
+
+function toggleMtxFiltering() {
+    var httpsb = getHTTPSB();
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
+    httpsb.toggleTemporaryMtxFiltering(scopeKey);
+    updateMatrixStats();
+    updateMatrixColors();
+    updateMatrixBehavior();
+    updateMatrixButtons();
+}
+
+/******************************************************************************/
+
 function updateABPbutton() {
     var httpsb = getHTTPSB();
     var button = $('#buttonABPFiltering');
@@ -1261,7 +1309,7 @@ function updateABPbutton() {
     var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
     button.toggleClass('disabled', !httpsb.getTemporaryABPFiltering(scopeKey));
     button.children('span.badge').text(count);
-    button.attr('data-tip', button.data('tip').replace('{{abpCount}}', count));
+    button.attr('data-tip', button.data('tip').replace('{{count}}', count));
 }
 
 function toggleABPFiltering() {
@@ -1401,6 +1449,7 @@ function presetEntryHandler() {
 
 function updateMatrixButtons() {
     updateScopeCell();
+    updateMtxbutton();
     updateABPbutton();
     updatePersistButton();
 }
@@ -1457,8 +1506,6 @@ function bindToTabHandler(tabs) {
     var httpsb = getHTTPSB();
     var tab = tabs[0];
 
-    $('body').toggleClass('powerOff', httpsb.off);
-
     // Important! Before calling makeMenu()
     // Allow to scope on behind-the-scene virtual tab
     if ( tab.url.indexOf('chrome-extension://' + chrome.runtime.id + '/') === 0 ) {
@@ -1491,26 +1538,6 @@ function bindToTabHandler(tabs) {
     if ( HTTPSBPopup.port ) {
         HTTPSBPopup.port.onMessage.addListener(onMessageHandler);
     }
-}
-
-/******************************************************************************/
-
-function togglePower(force) {
-    var httpsb = getHTTPSB();
-    var off;
-    if ( typeof force === 'boolean' ) {
-        off = force;
-    } else {
-        off = !httpsb.off;
-    }
-    if ( off ) {
-        httpsb.turnOff();
-    } else {
-        httpsb.turnOn();
-    }
-    $('body').toggleClass('powerOff', off);
-    updateMatrixStats();
-    updateMatrixColors();
 }
 
 /******************************************************************************/
@@ -1585,6 +1612,7 @@ $(function() {
     $('#scopeKeyGlobal').on('click', createGlobalScope);
     $('#scopeKeyDomain').on('click', createDomainScope);
     $('#scopeKeySite').on('click', createSiteScope);
+    $('#buttonMtxFiltering').on('click', toggleMtxFiltering);
     $('#buttonABPFiltering').on('click', toggleABPFiltering);
     $('#buttonPersist').on('click', persistScope);
     $('#buttonRevertScope').on('click', revertScope);
@@ -1595,7 +1623,6 @@ $(function() {
     $('#buttonReload').on('click', buttonReloadHandler);
     $('.extensionURL').on('click', gotoExtensionURL);
     $('.externalURL').on('click', gotoExternalURL);
-    $('#buttonPower').on('click', togglePower);
 
     $('body').on('click', '.dropdown-menu-button', dropDownMenuShow);
     $('body').on('click', '.dropdown-menu-capture', dropDownMenuHide);

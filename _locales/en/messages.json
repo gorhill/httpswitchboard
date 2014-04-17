@@ -184,8 +184,12 @@
         "message": "No net traffic seen for this tab so far.",
         "description": "..."
     },
+    "matrixMtxButtonTip" : {
+        "message": "Disable/enable matrix filtering \u000a for this scope. \u000aRequests blocked through \u000a matrix filtering on this page: {{count}}.",
+        "description": "Tool tip for matrix button: {{}} is a placeholder for number of blocked requests."
+    },
     "matrixABPButtonTip" : {
-        "message": "Requests blocked through \u000a ABP filtering on this page: {{abpCount}}.\u000a Click to turn on/off ABP \u000a filtering for this scope.",
+        "message": "Disable/enable ABP filtering \u000a for this scope. \u000aRequests blocked through \u000a ABP filtering on this page: {{count}}.",
         "description": "Tool tip for ABP button: {{}} is a placeholder for number of blocked requests."
     },
     "matrixPersistButtonTip" : {
@@ -193,7 +197,7 @@
         "description": "Tool tip for the persist button"
     },
     "matrixRevertButtonTip" : {
-        "message": "Remove temporary \u000a changes for this \u000a scope.",
+        "message": "Remove temporary changes \u000a for this scope.",
         "description": "Tool tip for the revert local permission button"
     },
     "matrixRevertButtonAllTip" : {
@@ -203,10 +207,6 @@
     "matrixReloadButton" : {
         "message": "Reload the page.",
         "description": "Tool tip for the reload button"
-    },
-    "matrixPowerButton" : {
-        "message": "Disable/enable HTTP Switchboard.",
-        "description": "Tool tip for the 'power' button"
     },
 
 

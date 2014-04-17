@@ -53,8 +53,6 @@ function onUpdatedTabsHandler(tabId, changeInfo, tab) {
     if ( pageStats ) {
         pageStats.state = HTTPSB.computeTabState(tabId);
     }
-
-    updateContextMenu();
 }
 
 chrome.tabs.onUpdated.addListener(onUpdatedTabsHandler);
@@ -71,10 +69,6 @@ function onRemovedTabHandler(tabId) {
 }
 
 chrome.tabs.onRemoved.addListener(onRemovedTabHandler);
-
-/******************************************************************************/
-
-chrome.tabs.onActivated.addListener(updateContextMenu);
 
 /******************************************************************************/
 

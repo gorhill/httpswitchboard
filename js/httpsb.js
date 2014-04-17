@@ -302,11 +302,6 @@ HTTPSB.permanentScopeKeyFromPageURL = function(url) {
 /******************************************************************************/
 
 HTTPSB.evaluate = function(src, type, hostname) {
-    // rhill 2013-12-03: When HTTPSB is disengaged, all requests are
-    // considered being "allowed temporarily".
-    if ( this.off ) {
-        return 'gpt';
-    }
     return this.temporaryScopes.evaluate(
         this.temporaryScopes.scopeKeyFromPageURL(src),
         type,
@@ -314,11 +309,6 @@ HTTPSB.evaluate = function(src, type, hostname) {
 };
 
 HTTPSB.evaluateFromScopeKey = function(scopeKey, type, hostname) {
-    // rhill 2013-12-03: When HTTPSB is disengaged, all requests are
-    // considered being "allowed temporarily".
-    if ( this.off ) {
-        return 'gpt';
-    }
     return this.temporaryScopes.evaluate(scopeKey, type, hostname);
 };
 
@@ -386,12 +376,6 @@ HTTPSB.autoCreateTemporarySiteScope = function(pageURL) {
 // it will be used to filter the rules according to the hostname.
 
 HTTPSB.copyTemporaryRules = function(toScopeKey, fromScopeKey, pageURL) {
-    this.copyTemporaryWhiteRules(toScopeKey, fromScopeKey, pageURL);
-    this.copyTemporaryGrayRules(toScopeKey, fromScopeKey);
-    this.copyTemporaryBlackRules(toScopeKey, fromScopeKey);
-};
-
-HTTPSB.copyTemporaryWhiteRules = function(toScopeKey, fromScopeKey, pageURL) {
     var toScope = this.temporaryScopeFromScopeKey(toScopeKey);
     var fromScope = this.temporaryScopeFromScopeKey(fromScopeKey);
     if ( !toScope || !fromScope ) {
@@ -407,37 +391,23 @@ HTTPSB.copyTemporaryWhiteRules = function(toScopeKey, fromScopeKey, pageURL) {
         }
         domains[httpsburi.domainFromHostname(hostname)] = true;
     }
-    var whitelist = fromScope.white.list;
+    var listKeys = [ 'white', 'black', 'gray' ];
+    var listKey, list;
     var pos, ruleHostname;
-    for ( var ruleKey in whitelist ) {
-        if ( !whitelist.hasOwnProperty(ruleKey) ) {
-            continue;
+    while ( listKey = listKeys.pop() ) {
+        list = fromScope[listKey].list;
+        for ( var ruleKey in list ) {
+            if ( list.hasOwnProperty(ruleKey) === false ) {
+                continue;
+            }
+            pos = ruleKey.indexOf('|');
+            ruleHostname = ruleKey.slice(pos + 1);
+            if ( ruleHostname !== '*' && domains.hasOwnProperty(httpsburi.domainFromHostname(ruleHostname)) === false ) {
+                continue;
+            }
+            toScope[listKey].addOne(ruleKey);
         }
-        pos = ruleKey.indexOf('|');
-        ruleHostname = ruleKey.slice(pos + 1);
-        if ( ruleHostname !== '*' && !domains[httpsburi.domainFromHostname(ruleHostname)] ) {
-            continue;
-        }
-        toScope.white.addOne(ruleKey);
     }
-};
-
-HTTPSB.copyTemporaryGrayRules = function(toScopeKey, fromScopeKey) {
-    var toScope = this.temporaryScopeFromScopeKey(toScopeKey);
-    var fromScope = this.temporaryScopeFromScopeKey(fromScopeKey);
-    if ( !toScope || !fromScope ) {
-        return;
-    }
-    toScope.gray.fromList(fromScope.gray);
-};
-
-HTTPSB.copyTemporaryBlackRules = function(toScopeKey, fromScopeKey) {
-    var toScope = this.temporaryScopeFromScopeKey(toScopeKey);
-    var fromScope = this.temporaryScopeFromScopeKey(fromScopeKey);
-    if ( !toScope || !fromScope ) {
-        return;
-    }
-    toScope.black.fromList(fromScope.black);
 };
 
 /******************************************************************************/
@@ -533,11 +503,6 @@ HTTPSB.whitelistedFromScopeKey = function(scopeKey, type, hostname) {
 
 HTTPSB.getTemporaryColor = function(scopeKey, type, hostname) {
     // console.debug('HTTP Switchboard > getTemporaryColor(%s, %s, %s) = %s', src, type, hostname, evaluate(src, type, hostname));
-    // rhill 2013-12-03: When HTTPSB is disengaged, all requests are
-    // considered being "allowed temporarily".
-    if ( this.off ) {
-        return 'gpt';
-    }
     return this.temporaryScopes.evaluate(scopeKey, type, hostname);
 };
 
@@ -568,10 +533,21 @@ HTTPSB.getPermanentColor = function(scopeKey, type, hostname) {
 
 /******************************************************************************/
 
+HTTPSB.getTemporaryMtxFiltering = function(scopeKey) {
+    return this.temporaryScopes.getMtxFiltering(scopeKey);
+};
+
+HTTPSB.getPermanentMtxFiltering = function(scopeKey) {
+    return this.permanentScopes.getMtxFiltering(scopeKey);
+};
+
+HTTPSB.toggleTemporaryMtxFiltering = function(scopeKey, state) {
+    return this.temporaryScopes.toggleMtxFiltering(scopeKey, state);
+};
+
+/******************************************************************************/
+
 HTTPSB.getTemporaryABPFiltering = function(scopeKey) {
-    if ( this.off ) {
-        return false;
-    }
     return this.temporaryScopes.getABPFiltering(scopeKey);
 };
 
@@ -635,10 +611,10 @@ HTTPSB.getTemporaryScopeDirtyCount = function(pageURL) {
         return tscope.white.count +
                tscope.black.count +
                tscope.gray.count +
-               2;  // for new temporary scope and abpFiltering
+               3;  // for new temporary scope, abpFiltering, mtxFiltering
     }
     // If there is a matching scope, return difference between both
-    return tscope.diff(pscope);
+    return tscope.diffCount(pscope);
 };
 
 /******************************************************************************/
@@ -705,3 +681,27 @@ HTTPSB.turnOn = function() {
 HTTPSB.isOpera = function() {
     return navigator.userAgent.indexOf(' OPR/') > 0;
 };
+
+/******************************************************************************/
+
+HTTPSB.formatCount = function(count) {
+    if ( typeof count !== 'number' ) {
+        return '';
+    }
+    var s = count.toFixed(0);
+    if ( count >= 1000 ) {
+        if ( count < 10000 ) {
+            s = '>' + s.slice(0,1) + 'K';
+        } else if ( count < 100000 ) {
+            s = s.slice(0,2) + 'K';
+        } else if ( count < 1000000 ) {
+            s = s.slice(0,3) + 'K';
+        } else if ( count < 10000000 ) {
+            s = s.slice(0,1) + 'M';
+        } else {
+            s = s.slice(0,-6) + 'M';
+        }
+    }
+    return s;
+};
+
