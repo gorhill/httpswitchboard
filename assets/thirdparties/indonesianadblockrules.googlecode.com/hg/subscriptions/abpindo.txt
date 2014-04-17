@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: C+k2ZA5Hz+yEte+ckMjAuQ
+! Checksum: 7eo3U/MyEYKAH+Xmy/cXCg
 ! Title: ABPindo
-! Last modified: 13 April 2014, 20:06:08 WIB
+! Last modified: 14 April 2014, 22:51:40 WIB
 ! Expires: 4 days (update frequency)
 ! Homepage: http://abpindo.blogspot.com/
 ! Licence: http://indonesianadblockrules.googlecode.com/hg/subscriptions/COPYING
@@ -689,4 +689,6 @@ stafaband.info##table[width="100%"] + #bottom
 zonamuda.com##td[valign="top"][height="55px"][align="center"]
 zonamuda.com##td[valign="top"][height="56px"][align="center"]
 ! *** abpindo_whitelist.txt ***
+@@.png#$domain=oploverz.net
+@@||oploverz.net^$elemhide
 @@||www2.melon.co.id/js/libs/angulartics-google-analytics.js

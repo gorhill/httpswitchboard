@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: PmBqlFhbCOH1NSY2q+VD9A
+! Checksum: 4dtnKtlPZan8oiKlfklMFg
 ! Title: EasyList Hebrew
-! Last modified: 13/04/14  20:48 Jerusalem Daylight Time
+! Last modified: 18/04/14  00:22 Jerusalem Daylight Time
 ! Expires: 4 days (update frequency)
 ! Homepage: https://github.com/AdBlockPlusIsrael/EasyListHebrew/
 ! Forums: https://github.com/AdBlockPlusIsrael/EasyListHebrew/issues
@@ -28,8 +28,10 @@
 ||ad-sys.com^$third-party
 ||adland.co.il^$third-party
 ||amazing-offers.co.il^$popup
+||asafnewcalc.mataniphone.tempurl.co.il/calculator3/$popup
 ||clickcenter.net^$third-party
 ||clickon.co.il^$third-party
+||ha-deal.co.il^$popup
 ||hiro.co.il^$third-party
 ||infomed.co.il^$third-party
 ||jdate.co.il^$third-party
@@ -39,6 +41,7 @@
 ||movies-club.com/$popup
 ||multidown.co.il/affiliates.php$third-party
 ||mvertex.co.il^$third-party
+||oceanmedia.co.il/landingpages/$popup
 ||osef.co.il^$third-party
 ||pera.co.il^$third-party
 ||s.tool-site.com^$third-party
@@ -173,11 +176,9 @@
 ||rol.co.il/files/banners/
 ||rotter.net/edit/text/
 ||scity.co.il/scity_728_sdarot.swf
-||sdarot.tv/banners
-||sdarot.tv/pyoutube.js
-||sdarot.wf/banners
-||sdarot.wf/pyoutube.js
+||sdarot.*/banner
 ||seret.co.il/images/banners/pagehasut/PageHasut
+||seretil.me/cdn-cgi/nexp/dok9v=02fcfa4f56/cloudflare/rocket.js
 ||sport5.co.il/banners2/
 ||static.vgames.co.il/cdn/css/global.bg_comm.css?v=
 ||tgspot.co.il/wp-content/cache/minify/000000/yygpKbDS18_JzMtMzs_VS87Xy8wB8bKL9ZPz88pSi0riTS31sooB.js
@@ -578,6 +579,7 @@ seret.co.il##.RightColWhiteBox312x262
 seret.co.il##.cbthfds
 seret.co.il##DIV[style="width:100%;text-align:center;"]
 seret.co.il##SPAN[style="line-height:192px;height:192px;clear:both;display:block;"]
+seretil.me###ads516516as
 sport5.co.il###ucHeader_rptLinks_lnkAnchor_3
 sport5.co.il###ucHeader_rptLinks_lnkAnchor_4
 sport5.co.il##.article-holder > .alt

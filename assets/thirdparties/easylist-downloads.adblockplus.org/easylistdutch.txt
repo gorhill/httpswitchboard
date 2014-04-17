@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: MNFrUTdssLAmyWpEFB2GIQ
-! Version: 201404131741
+! Checksum: 7IUHhCudGPpMZFD5eWpJDg
+! Version: 201404172341
 ! Title: EasyList Dutch
 ! Description: Dutch supplement for the Easylist filters
-! Last modified: 13 Apr 2014 17:41 UTC
+! Last modified: 17 Apr 2014 23:41 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -190,6 +190,7 @@
 ||mobqo.nl^*/banner
 ||moneymiljonair.nl^*ban$third-party
 ||morren-consultancy.nl/$domain=rijden-op-aardgas.startkabel.nl
+||museter.com/player-banner/
 ||neckermann.be/~/media/images/staticpart/instroom/448-60hlnnl.ashx
 ||newkit.info^*/banner
 ||nieuws-2.nl/lokaal/banner/
@@ -489,7 +490,7 @@
 ||onzetaal.nl/banners/
 ||optimaalfm.nl/upload/files/banner-left/
 ||optimalegezondheid.com/wp-content/plugins/mowpop/
-||opwindend.net/BroodNodig.php?
+||opwindend.net/*.php?$subdocument
 ||partyflock.nl/images/*=http://partyflock.nl/jlnk/$object
 ||partyzone.be/rotatingbanner.php?
 ||pd5hw.nl/images/banner_*.jpg
@@ -918,7 +919,6 @@ vinden.nl###zoektip
 blog.nl##.ADV
 bokt.be##.PopupDiv
 bokt.be##.PopupScreen
-opwindend.net##.Tab > div > a
 marktnet.nl##.ThumbGoogle
 checkcams.com##.ab
 androidplanet.nl,dewereldmorgen.be,ipadclub.nl,iphoneclub.nl,metronieuws.nl,nu.nl,stemwijzer.nl,tvgids.nl,vkmag.com,z24.nl##.ad
@@ -1081,6 +1081,7 @@ filmtotaal.nl##a[href^="http://openx.adfactor.nl/www/delivery/ck.php?"]
 voetbalzone.nl##a[href^="http://openx.adfactor.nl/www/delivery/ck.php?bannerid="]
 dutchcharts.nl##a[href^="http://partnerprogramma.bol.com/"]
 bet.nl##a[href^="http://vergelijkdata.com/"]
+opwindend.net##a[href^="http://www.lauwebut.nl/"]
 rtvutrecht.nl##a[href^="http://www.rtvutrecht.nl/reclame/"]
 meppelercourant.nl##a[href^="javascript:trackBanner("]
 janvissersweer.nl##a[id^="bannerclient"]

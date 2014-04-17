@@ -1,8 +1,8 @@
 [Adblock Plus 2.0]
-! Checksum: xQvCM0jMcCECbQ50zWhEVw
-! Version: 201404131741
+! Checksum: 2zN2qrEwpLeAkeec7v6NIA
+! Version: 201404172341
 ! Title: Fanboy's Annoyance List
-! Last modified: 13 Apr 2014 17:41 UTC
+! Last modified: 17 Apr 2014 23:41 UTC
 ! Expires: 4 days (update frequency)
 ! License: http://creativecommons.org/licenses/by/3.0/
 ! Please report any unblocked content or problems by email or in our forums
@@ -712,7 +712,9 @@ _social_rss.
 /head-social.
 /head_facebook.
 /head_twitter.
+/header-facebook.png
 /header-social-
+/header-twitter.png
 /header/fb-
 /header/share.
 /header/twitter-
@@ -1186,7 +1188,6 @@ _social_rss.
 /share-twitter-
 /share-twitter.
 /share-twitter1a.
-/share.js
 /share.png
 /share/*/facebook.png
 /share/*/twitter.png
@@ -1450,6 +1451,7 @@ _social_rss.
 /socialbar_
 /socialBarSprite.
 /SocialBookmark/*
+/socialbookmarkerbot_images/*
 /socialbookmarks.
 /socialbookmarks/*
 /socialBtns.
@@ -2556,6 +2558,7 @@ _youtube_32.
 ###ShareTools
 ###ShowsRightSocial
 ###Side_Block_Facebook
+###Social-Left
 ###SocialBookmarksContainer
 ###SocialIcons
 ###SocialLinks
@@ -4364,6 +4367,7 @@ _youtube_32.
 ##.footer-social
 ##.footer-social-links
 ##.footer-social-list
+##.footer-social-network
 ##.footer-socialmedia-share
 ##.footer-twitter
 ##.footer-twitterLink
@@ -5874,6 +5878,7 @@ _youtube_32.
 ##.widget-facebook
 ##.widget-facebook-box
 ##.widget-fb-recommendations
+##.widget-followus
 ##.widget_FacebookActivity
 ##.widget_FacebookLikeBox
 ##.widget_Twidget
@@ -7488,6 +7493,7 @@ details.com,self.com###newsletter-form
 engadget.com###newsletter-mod
 seriouseats.com###newsletter-promo
 bleacherreport.com###newsletter-promotion-step-1
+hardware.info###newsletterForm
 mrfood.com###newsletterSignUpDivAnime
 accuradio.com###newsletterWrapper
 realsimple.com###newsletter_articles
@@ -9599,6 +9605,7 @@ pcb.cc###WRchTxti
 connectify.me###actions-desktop
 makeuseof.com###activity
 digitalrev.com###ajaxGet_Subscribe
+yify.tv###alkcontainer
 joblo.com###announcement
 realtytoday.com###anotherBox
 huffingtonpost.com###ap_chicklets
@@ -9850,6 +9857,7 @@ billionuploads.com##.dtsha
 designyoutrust.com##.dyt-social
 el33tonline.com##.el33t_social_container
 bloomberg.com##.entry_sharing
+timesofindia.indiatimes.com##.esocial
 9gag.tv,absoluteradio.co.uk,al-shorfa.com,computingunleashed.com,deathandtaxesmag.com,digitimes.com,discountsstory.com,eurogamer.net,fightthesmears.com,fixya.com,forvo.com,gizmodo.com,huffingtonpost.com,kickstarter.com,lifehacker.com,macrumors.com,mademan.com,mzhiphop.com,npr.org,pcworld.in,pinknews.co.uk,recode.net,reuters.com,slate.com,smashingmagazine.com,sourcefednews.com,stepstone.be,t3.com,take.fm,techradar.com,techspot.com,thedailyshow.com,thedigitalfix.com,tineye.com,tvland.com,tweaktown.com,usvsth3m.com,yoink.com##.facebook
 lovefilm.com##.facebook-title
 singularityhub.com##.facebook_connect
@@ -10002,6 +10010,7 @@ techpp.com##.social_network
 impactloud.com,technobuffalo.com,thenextweb.com##.socialize
 popdust.com##.socialpopdust
 thevine.com.au##.socialreader
+math-linux.com##.socialtags
 ex.fm##.song_action_share_icons
 sonymobile.com##.stay-connected
 cbc.ca##.stayconnected
@@ -10106,6 +10115,7 @@ hwcompare.com##div[style="float:right; padding: 10px;"]
 tipstrickshack.blogspot.co.uk##div[style="float:right;width:250px;"]
 seriouslyforreal.com##div[style="height: 90px;"]
 fansshare.com##div[style="height:100px;"]
+timesofindia.indiatimes.com##div[style="position:absolute;top:0px;right:0px;padding:4px 5px 0px 25px;background-image:url(/photo/17572538.cms);background-repeat:no-repeat; background-position: 0 1px"]
 skinnytaste.com##div[style="text-align:left; margin-left:auto; margin-right:auto;"]
 jimdoforum.com##div[style="width: 19.95%;"]
 planetivy.com##div[style="width:100%;height:90px"]
@@ -10525,25 +10535,32 @@ nouvelobs.com###facebook_aime
 gamekult.com###follow
 jeuxvideo.com###partager_v2
 lepoint.fr###reseauxsociaux
+cowcotland.com###rezo
 leforem.be###suivi
 ##.blocSociaux
 rtl.be##.bulle_nombre
-pebkac.fr##.facebook
+clubic.com,lci.tf1.fr,lesoir.be,pebkac.fr,silicon.fr##.facebook
 radins.com##.fbMin
 lefigaro.fr##.fig-micronav-share-figures
 nouvelobs.com##.follobs
 francetvinfo.fr##.follow
+comptoir-hardware.com##.footer-fb
+comptoir-hardware.com##.footer-tw
+lci.tf1.fr,silicon.fr##.google
 viedemerde.fr##.likebox
 marmiton.org##.m_content_recette_share
 marmiton.org##.m_suivez_nous_btn
 tempsreel.nouvelobs.com##.obs-galerie-bp-share
+lemonde.fr##.partage
 jeuxvideopc.com##.pictos
 gamekult.com,nieuwsblad.be##.share
 buyindz.com,korben.info,sudouest.fr##.social
+lemonde.fr##.sociaux
 telerama.fr##.t12-user-resoc
 viedemerde.fr##.t_twitter
 radins.com##.twiMin
-pebkac.fr##.twitter
+clubic.com,lci.tf1.fr,lesoir.be,pebkac.fr,silicon.fr##.twitter
+blogs.dhnet.be##a[target="_blank"][href^="https://www.facebook.com/pages/"] > img
 ||nioutaik.fr/themes/freshy/images/facedebouc.gif
 ||nioutaik.fr/themes/freshy/images/googlepeuluss.gif
 ||nioutaik.fr/themes/freshy/images/zoiseau.gif
@@ -10780,7 +10797,6 @@ acceptableads.org#@#img[alt="Reddit"]
 @@||zdnet.com/images/base/sprites-social.png
 ! *** easylist:fanboy-addon/fanboy_social_whitelist.txt ***
 @@/followbutton.js$domain=instagram.com
-@@||192.168.*/share.js$domain=~linksys.router
 @@||3dmark.com/proxycon/images/fb_icon.png
 @@||about.me^*/googleplus?
 @@||acceptableads.org/images/manifesto/reddit.png
@@ -10815,6 +10831,7 @@ acceptableads.org#@#img[alt="Reddit"]
 @@||comcastnets.net/thyme/img/button-login-facebook.png$domain=eonline.com
 @@||comcastnets.net/thyme/img/button-login-twitter.png$domain=eonline.com
 @@||coveritlive.com/templates/coveritlive/images/twitter_$~third-party
+@@||crowdin.net/images/social/
 @@||daddydesign.com/*/wp-social-toolbar/
 @@||discountsstory.com/image/facebook_icon.png
 @@||disquscdn.com^*/social-icons$image
@@ -10852,7 +10869,6 @@ acceptableads.org#@#img[alt="Reddit"]
 @@||handmadebydominos.com^*/socialShare.js
 @@||huffpost.com/images/social-profile/lightbox/snn_lightbox_close.png
 @@||i.po.st/static/v3/post-widget.js$domain=seenive.com
-@@||imgur.com/min/share.js
 @@||immowelt.de/_scripts/iwag/socialmedia/
 @@||imwx.com/cssRollup?$stylesheet
 @@||imwx.com/cssRollup?*-social-share.$domain=weather.com
@@ -10860,7 +10876,6 @@ acceptableads.org#@#img[alt="Reddit"]
 @@||inoreader.com/images/login/but_facebook.png
 @@||jtvnw.net/static/images/redesign/categories/social.png$domain=justin.tv
 @@||kpopstarz.com^*/ic_comment_facebook.png
-@@||lasoomedia2.com.au^*/share.js
 @@||last.fm/flatness/partners/facebook_32x32.png
 @@||mediafirerepack.net^*/facebook-page-promoter-lightbox/$script
 @@||meetmecdna.com/images/Connect/btn_facebook_custom_text.png$domain=meetme.com
@@ -10878,8 +10893,7 @@ acceptableads.org#@#img[alt="Reddit"]
 @@||pinterest.com^*/desktop/images/social$~third-party
 @@||platform.linkedin.com/in.js$domain=businessinsider.com|globalpost.com
 @@||platform.twitter.com/anywhere.js?$domain=ge.tt|mtv.com|pennsundayschool.com|projects.wsj.com|soychile.cl
-@@||platform.twitter.com/widgets.js$domain=agame.com|beatsbydre.com|breal.tv|businessinsider.com|cbsnews.com|cnet.com|complex.com|dailymail.co.uk|delfi.lt|designntrend.com|egotastic.com|engadget.com|fansided.com|globalpost.com|guardian.co.uk|guildwars2.com|hoopsworld.com|huffingtonpost.com|ign.com|letudiant.fr|livestream.com|mandatory.com|medium.com|neowin.net|nydailynews.com|nzherald.co.nz|pawnation.com|pennsundayschool.com|puma.de|reddit.com|refinery29.com|salon.com|simcity.com|soychile.cl|spielen.com|storify.com|sueddeutsche.de|teamliquid.net|theawl.com|thedailyshow.com|theguardian.com|theroot.com|toplessrobot.com|wikia.com|wwe.com|yahoo.com
-@@||platform.twitter.com/widgets.js?$domain=zeit.de
+@@||platform.twitter.com/widgets.js$domain=agame.com|beatsbydre.com|breal.tv|businessinsider.com|cbsnews.com|cnet.com|complex.com|dailymail.co.uk|delfi.lt|designntrend.com|egotastic.com|engadget.com|fansided.com|globalpost.com|guardian.co.uk|guildwars2.com|hoopsworld.com|huffingtonpost.com|ign.com|letudiant.fr|livestream.com|mandatory.com|medium.com|neowin.net|nydailynews.com|nzherald.co.nz|pawnation.com|pennsundayschool.com|puma.de|reddit.com|refinery29.com|salon.com|simcity.com|soychile.cl|spielen.com|storify.com|sueddeutsche.de|teamliquid.net|theawl.com|thedailyshow.com|theguardian.com|theroot.com|toplessrobot.com|wikia.com|wwe.com|yahoo.com|zeit.de
 @@||platform.twitter.com/widgets/$domain=theguardian.com
 @@||platform.twitter.com^$domain=klout.com|twimg.com|twitpic.com
 @@||plus.im/static/img/facebook.png
@@ -10901,7 +10915,6 @@ acceptableads.org#@#img[alt="Reddit"]
 @@||sharethis.com^$domain=cbslocal.com|colbertnation.com|fandango.com|fox23.com|imgur.com|salon.com|thedailybeast.com|thedailyshow.com
 @@||skiddoo.com.au/min/*/social-buttons.css
 @@||slacker.com/*/google/google-plus-sign-in.png
-@@||slacker.com/*/util/social/Share.js
 @@||slidesharecdn.com/images/share_icon_transparent.png$domain=slideshare.net
 @@||softicons.com/download/$image
 @@||sstatic.net/img/share-sprite-new.png$domain=askubuntu.com|mathoverflow.net|serverfault.com|stackapps.com|stackexchange.com|stackoverflow.com|superuser.com
@@ -10921,7 +10934,6 @@ acceptableads.org#@#img[alt="Reddit"]
 @@||twitlonger.com/images/sign-in-with-twitter.png
 @@||underverse.su/min/index.php*/js/share42.js
 @@||vk.com/js/al/sharebox.js
-@@||vk.com/js/api/share.js?$domain=mamba.ru
 @@||wappalyzer.com/sites/default/files/icons/$image
 @@||weather.com/cssRollup?*-social-share.css
 @@||weather.com/jsRollup?*/social-share.js
@@ -10939,5 +10951,3 @@ acceptableads.org#@#img[alt="Reddit"]
 @@||xda-developers.com^*/google-plus-login-small.png
 @@||xkcd.com/comics/$image,~third-party
 @@||xmarks.com/share/share_$~third-party
-@@||yandex.st/share/share.js
-@@||yukons.net/share.js

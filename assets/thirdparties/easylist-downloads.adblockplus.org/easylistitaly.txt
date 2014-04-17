@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: rHxdR8HuTQa45Of5j5+xIA
-! Version: 201404131741
+! Checksum: oScwl+CtVoCkLQTIER1GHQ
+! Version: 201404172341
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 13 Apr 2014 17:41 UTC
+! Ultima modifica: 17 Apr 2014 23:41 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -269,6 +269,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||viralbeat.com^$third-party
 ||wbusiness.fr^$third-party
 ||widebanner.com^$third-party
+||xgpub.com^$third-party
 ||zanox-affiliate.de^$third-party
 ||zodiakactive.com^$third-party
 ! *** easylistitaly:easylistitaly/easylistitaly_adservers_popup.txt ***
@@ -279,6 +280,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||135.it/frame/
 ||24hassistance.com^*/banner_$third-party
 ||377d936c10e6811f484c-6402e46c712497f58e3f77a59f47bbd5.r17.cf2.rackcdn.com^
+||4minuti.it/img/imgpartner/
 ||6sicuro.it/widgets/$third-party
 ||85.115.8.249^$image,domain=~chunnel.de.ip
 ||ad.edision-nord.it^
@@ -394,6 +396,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||netweek.it/ban_
 ||nexths.it/widget/$third-party
 ||nextmediavideo.com/inc/ova.swf$object-subrequest
+||nohup.it^*_110x40_
 ||noicattolici.it/x_banner/
 ||oasjs.kataweb.it^
 ||overlays.fr/js/launcher.js
@@ -933,6 +936,8 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||ilgiornaledienna.it/images/banners/
 ||ilgiornaledigela.it/images/banners/
 ||ilgiornalediragusa.it/images/banners/
+||ilgiornaledireggio.it/images/banner/
+||ilgiornaledireggio.it/img/bh/
 ||ilmamilio.it^*/banners/
 ||ilmanifesto.it^*/sponsors/
 ||ilmattino.it/300x200Banner.php
@@ -1627,7 +1632,7 @@ libero.it###b468x60bottoms
 calciomercato.com###background_left
 calciomercato.com###background_right
 lastampa.it###badge
-advertiser.it,asylumitalia.it,bitcity.it,car4you.it,forzapescara.net,grandefratellonews.com,ilmanifesto.it,meteo-emiliaromagna.it,tendenzeonline.info,webpedia.altervista.org###banner
+advertiser.it,asylumitalia.it,bitcity.it,car4you.it,forzapescara.net,grandefratellonews.com,meteo-emiliaromagna.it,tendenzeonline.info,webpedia.altervista.org###banner
 serviziopubblico.it###banner-1
 gustissimo.it###banner-alto
 telesud3.com###banner-header
@@ -1689,7 +1694,7 @@ cwi.it###banners
 si24.it###banners_middle
 telefonino.net###bannerstrip
 senigallianotizie.it###bbitalia_banner
-altalex.com,sentenze.net###bglink
+altalex.com,primopianomolise.it,sentenze.net###bglink
 gizmodo.it###big-mega
 neveitalia.it,tuttogratis.it###bleft
 rumors.it###block-block-19
@@ -1786,6 +1791,7 @@ avvenire.it###htmlcomponent18 > .boxAggiuntivi
 ladige.it,panorama.it###immob_box_ricerca
 r101.it###innamorarsiA101
 cittaceleste.it,juvenews.eu###itemBannerSottoImg
+unita.it###ixeBanner
 prowrestling.it###landingbanner
 macitynet.it###leader-wrapper
 boomerangtv.it,discoverychannel.it,dissacration.com,ebay.it,eurogamer.it,fiscaleweb.com,geekissimo.com,gingerandtomato.com,healthdesk.it,historychannel.it,ilcinemaniaco.com,ilgazzettinovesuviano.com,ilsannioquotidiano.it,iochiamo.com,lasiciliaweb.it,lussuosissimo.com,medicinalive.com,mondoreality.com,musickr.it,theapplelounge.com###leaderboard
@@ -1869,6 +1875,7 @@ canzoni.it###sponsor_footer
 omnifurgone.it###sponsor_logo_header
 html5today.it###sponsored-article
 lastampa.it###sponsoredBy
+ilgiornaledireggio.it###sponsorn
 acmilan.com,inter.it###sponsors
 ilsole24ore.com###spot
 zeusnews.it###spotEsterno
@@ -1935,8 +1942,10 @@ foxsports.it##.Ad
 foxsports.it##.Adtext
 hostingtalk.it##.Banner
 lavoratorio.it##.BannerAltoHP
+primopianomolise.it##.BannerDinamico
 liberoquotidiano.it##.BannerHead
 metropolisweb.it##.BannerMezzoNotizia
+primopianomolise.it##.Banner_Modulabile
 nqnews.it##.Banner_box
 ciao.it##.CWContainerComparePrice
 meteo.it##.ImmobiliareIt
@@ -1991,7 +2000,7 @@ piacenzanight.com##.back_style
 avmagazine.it,ilcrotonese.it,tomshw.it##.background-link
 lavorincasa.it##.bak
 milanofinanza.it,oggitreviso.it##.ban
-advertiser.it,agi.it,agichina24.it,airdave.it,alessandrianews.it,casateonline.it,corrieremercantile.it,gazzettahockey.it,giochidicalcio.com,html.it,ilcambiamento.it,ilfriuli.it,ilgiornale.it,ilmanifesto.it,insegreto.it,lindro.it,lipari.biz,macitynet.it,merateonline.it,oggitreviso.it,orangedropdesign.com,orvietosi.it,pmi.it,programmitv.com,pubblicitaitalia.it,r101.it,rcdc.it,rockit.it,softonic.it,strettoweb.com,ticinolibero.ch,vocenuova.tv##.banner
+advertiser.it,agi.it,agichina24.it,airdave.it,alessandrianews.it,casateonline.it,corrieremercantile.it,gazzettahockey.it,giochidicalcio.com,html.it,ilcambiamento.it,ilfriuli.it,ilgiornale.it,insegreto.it,lindro.it,lipari.biz,macitynet.it,merateonline.it,oggitreviso.it,orangedropdesign.com,orvietosi.it,pmi.it,programmitv.com,pubblicitaitalia.it,r101.it,rcdc.it,rockit.it,softonic.it,strettoweb.com,ticinolibero.ch,vocenuova.tv##.banner
 rollingstonemagazine.it##.banner-abbonamenti
 telesud3.com##.banner-destra
 telesud3.com##.banner-destra-tyf
@@ -2039,7 +2048,7 @@ softonic.it##.banner_box
 voceditalia.it##.banner_casino2
 digital-sat.it##.banner_centrale
 parmasera.it,piacenzasera.it##.banner_doc_bottom_foto
-digital-sat.it,finanza.com,motori24.ilsole24ore.com##.banner_dx
+digital-sat.it,finanza.com,ilgiornaledireggio.it,motori24.ilsole24ore.com##.banner_dx
 ecodibergamo.it,ilcittadinomb.it,laprovinciadicomo.it,laprovinciadivarese.it##.banner_footer
 parmasera.it,piacenzasera.it##.banner_globaltop
 smtvsanmarino.sm##.banner_head
@@ -2107,7 +2116,6 @@ gossipetv.com##.ebuzzing_box
 gazzettadiparma.it##.elenco-textlink
 comingsoon.it##.expanding-footer-container
 ilsole24ore.com##.fabbrica24
-ilmanifesto.it##.fascia_Arial
 masterviaggi.it##.fieldset_sponsor
 livesicilia.it##.flash-box-a-sponsor-2
 netweek.it##.flexslider-header
@@ -2129,6 +2137,7 @@ ilgiornaledivicenza.it##.header-box
 bow.it,cronacamilano.it##.header_banner
 bora.la##.headerbtm
 gazzettadasti.it##.homepage-central-ban
+radioitalia.it##.iTunes
 autoline-eu.it##.index-center-banners-1
 autoline-eu.it##.index-main-banners
 gazzetta.it##.info-quote
@@ -2136,6 +2145,7 @@ sardegnareporter.it##.innerfade[style="margin-bottom: 10px; position: relative; 
 motousate.it##.item.link
 rtl.it##.itunes-btn
 jacktech.it##.jk_banner
+vivastreet.it##.kiwii-box-300x250
 corrieredellosport.it##.label_sponsor_sp
 alessandrianews.it##.leader-board-225x90
 alessandrianews.it##.leader-board-728x90
@@ -2219,12 +2229,11 @@ soldionline.it##.sm_widget_contenitore
 tgcom24.mediaset.it##.spaceBanner
 ciao.it##.specialOfferMod
 gazzetta.it,ilgiornale.it,pubblicitaitalia.it,repubblica.it,stickmangames.altervista.org##.sponsor
-ilmanifesto.it##.sponsor-box
 fcparma.com##.sponsor-group
 erbanotizie.com,lecconotizie.com##.sponsor-rubrica
 treccani.it##.sponsorLogo
 tuttosport.com##.sponsor_peroni
-gazzetta.it##.sponsored
+gazzetta.it,wired.it##.sponsored
 fc-suedtirol.com##.sponsorliste
 acfontemeravigliosa.it,alfamasera.it,aracelipallacanestrovicenza.it,ascsanrocco.it,asdcmozzo.it,asdeasytennis.it,asdfrentania.it,asdgranarolobasket.it,asdroccaprioracalcio.it,asdvillanova.it,asrivoltanacalcio.it,atleticoacquaviva.it,basketclubsansperate.it,basketmogliano.it,belmontecalcio.it,cestisticasavonese.it,cgb-basketbrugherio.it,delfinosalento.it,excelsiorcalcio.it,falcoalbino.it,fcbolzano.it,federazioneitalianacalciodasala.it,franzinvalnocebasket.it,gsdedelweiss.it,interclubparma.it,juventussanmichelefoggia.it,napolimamafutsal.it,nuovafrontiera.it,pallacanestroalassio.it,podisticapomigliano.it,podisticasannicandro.it,poldgaviese1920.it,polysportlavagna.it,reggioemiliafive.it,rinascitarutiglianese.it,robur1905macerata.it,saronnorobur.it,scanzorosciatebasket.it,sccampanilepianura.it,scuolacalciofrancodellamonica.it,sgsturritana.it,ssdcolonna.it,usaclitrecella.it,usdmiranesecalcio.it,villaggiobasket.it,villaggiocalcio.it,virtusapriliabasket.it##.sponsors
 inter.it##.sponsorsSlider
@@ -2267,6 +2276,7 @@ turistipercaso.it##.utilink
 bresciaoggi.it,larena.it##.v2_banner-wrapper
 ilsalvagente.it##.video
 giallozafferano.it##.vini-sp
+vivastreet.it##.vs-summary-300x250
 tiscali.it##.w304.mB20
 tiscali.it##.w312.mB25
 algheroeco.com##.wallpaper-link
@@ -2292,6 +2302,8 @@ zapster.it##a[href^="http://www.paperbox.it/"]
 piratestreaming.com##a[href^="http://www.piratestreaming.com/video"]
 classifichemusica.com##a[href^="http://www.viagogo.it/Biglietti-Concerti?affiliateID="]
 traderlink.it##a[style="display: block; width: 100%; height: 1080px; filter:alpha(opacity=0); -moz-opacity: 0; opacity: 0; background-color: rgb(255, 255, 255);"]
+gpone.com##div[style=" margin:auto; margin-top:0px; margin-bottom:0px; width:730px; height:92px;"]
+gpone.com##div[style=" margin:auto; margin-top:5px; margin-bottom:5px; width:730px; height:92px;"]
 ilroma.net##div[style=" width: 214px; height: 82px;"]
 ilroma.net##div[style=" width: 300px; height: 250px;"]
 ilroma.net##div[style=" width: 990px; height: 30px;"]
@@ -2303,6 +2315,10 @@ centrometeoitaliano.it##div[style="border: -1px solid; border-color: #EEEEEE;wid
 petizioni24.com##div[style="border: solid #95bce2 1px;  padding: 1em 0; margin: 0; margin-right: 6px; width: 200px; height: 600px; background-color: #fff; text-align: center; margin-bottom: 1em;"]
 wallstreetitalia.com##div[style="border:0px none #FFF !important;position:fixed; background-image:url('/img/skin_ipadronidel mondo2.jpg');background-position:center top;background-repeat:no-repeat;z-index:0;height:100%;left:0px; top:55px; width:100%;"]
 filodiritto.com##div[style="border:1px solid #002035;width:120px;height:600px;"]
+unita.it##div[style="border:1px solid #D1D1D1;padding:1px; position:absolute;right:0;top:274px;width:300px;"]
+unita.it##div[style="border:1px solid #D1D1D1;padding:1px; position:absolute;right:0;top:288px;width:300px;"]
+unita.it##div[style="border:1px solid #D1D1D1;padding:1px; position:absolute;right:0;top:551px;width:300px;"]
+unita.it##div[style="border:1px solid #D1D1D1;padding:1px; position:absolute;right:0;top:829px;width:300px;"]
 androidiani.com##div[style="border:4px dashed orange;height:90px;width:728px;margin:0 auto"]
 radioromacapitale.it,retesport.it##div[style="border:solid 1px #000000; width: 298px; height: 78px;"]
 sanihelp.it##div[style="clear: both; width: 670px; padding:4px; height: 88px; margin-bottom: 15px; margin-top: 10px; line-height: 14px; border: 1px solid #DDEBF4;"]
@@ -2326,6 +2342,7 @@ techassistance.it##div[style="height:90px; width:980px;display:block; text-align
 iphoneitalia.com##div[style="height:90px;display:block;width:1045px;"]
 iphoneitalia.com##div[style="height:90px;display:block;width:1045px;margin-top:40px;"]
 pronostici-scommesse.info##div[style="height:90px;width:728px;position:relative;left:136px;"]
+adagio.it##div[style="margin-top: 4px; width: 468px; height: 60px;"]
 calciomercato.napoli.it##div[style="margin-top:-25px; margin-bottom:20px; height:90px;width:728px; margin-left:110px;"]
 affaritaliani.it##div[style="margin-top:10px;height:90px"]
 horsemoonpost.com##div[style="margin: 0 auto; width: 728px; height: 90px; background: #ccc;"]
@@ -2510,14 +2527,14 @@ termometropolitico.it##[id^="bsa"]
 @@||cdn-wx.rainbowtgx.com/*/adaptive-content/js/speweb-001.js$domain=quotidiano.net
 @@||centrosangiorgio.com^*_pubblicita.
 @@||centrosangiorgio.com^*_pubblicita/
-@@||dotandad.com/crossdomain.xml$object-subrequest,domain=r101.it
-@@||dotandad.com/mediamond.jsp?$object-subrequest,domain=r101.it
-@@||dotandad.com/mediamond?mpo=$script,domain=panorama.it
-@@||dotandad.com^*.flv$object-subrequest,domain=donnamoderna.com
+@@||dotandad.com/crossdomain.xml$object-subrequest,domain=r101.it|radioitalia.it
+@@||dotandad.com/mediamond.jsp?$object-subrequest,domain=r101.it|radioitalia.it
+@@||dotandad.com/mediamond?mpo=$script,domain=panorama.it|radioitalia.it
+@@||dotandad.com^*.flv$object-subrequest,domain=donnamoderna.com|radioitalia.it
 @@||dotandad.com^*.mp3$object-subrequest,domain=r101.it
 @@||doubleclick.net/adj/tuttosport.home/home;sz=336x600,300x250,300x600;=$script,domain=tuttosport.com
 @@||download.deejay.it/adv/podcast/$object-subrequest
-@@||edintorni.net/related/service/*/jscript/$script,domain=amicidimotociclismo.it|armietiro.it|articolotre.com|automobilismo.it|businessmagazine.it|ciclismo.it|cucinare.meglio.it|fotografidigitali.it|freeonline.org|gamemag.it|giallozafferano.it|girlpower.it|hwfiles.it|hwupgrade.it|ilfattoquotidiano.it|ilgiorno.it|ilquotidianodellacalabria.it|ilquotidianoweb.it|ilrestodelcarlino.it|ilsecoloxix.it|iltempo.it|informarexresistere.fr|internazionale.it|invidia.it|italia24ore.it|lagazzettadelmezzogiorno.it|lanazione.it|lastampa.it|macitynet.it|metropolisweb.it|modenaonline.info|motociclismo.it|parmaonline.info|pianetadonna.it|quotidiano.net|reggionline.com|runnersworld.it|studenti.it|tennisitaliano.it|torinofree.it|unita.it|velaemotore.it|voceditalia.it|yourself.it
+@@||edintorni.net/related/service/*/jscript/$script,domain=amicidimotociclismo.it|armietiro.it|articolotre.com|automobilismo.it|businessmagazine.it|ciclismo.it|cucinare.meglio.it|fotografidigitali.it|freeonline.org|gamemag.it|giallozafferano.it|girlpower.it|gpone.com|hwfiles.it|hwupgrade.it|ilfattoquotidiano.it|ilgiorno.it|ilquotidianodellacalabria.it|ilquotidianoweb.it|ilrestodelcarlino.it|ilsecoloxix.it|iltempo.it|informarexresistere.fr|internazionale.it|invidia.it|italia24ore.it|lagazzettadelmezzogiorno.it|lanazione.it|lastampa.it|macitynet.it|metropolisweb.it|modenaonline.info|motociclismo.it|parmaonline.info|pianetadonna.it|quotidiano.net|reggionline.com|runnersworld.it|studenti.it|tennisitaliano.it|torinofree.it|unita.it|velaemotore.it|voceditalia.it|yourself.it
 @@||eyewonder.com^*/video/$object-subrequest,domain=serviziopubblico.it
 @@||files.adform.net/banners/stream/$object-subrequest,domain=la7.tv|liberoquotidiano.it|sky.it
 @@||foolbite.com/foolbite/*_pubblicita_$~third-party
@@ -2541,7 +2558,7 @@ termometropolitico.it##[id^="bsa"]
 @@||mail.virgilio.it/common/tech_includes/mail/$subdocument,domain=webmail.virgilio.it
 @@||mail.virgilio.it/google/$subdocument,domain=webmail.virgilio.it
 @@||mda.matrixspa.it/RealMedia/ads/adstream_jx.ads/virgilio.it/Mail/$script,domain=webmail.virgilio.it
-@@||mediamond.it/MediamondAds.js$domain=panorama.it
+@@||mediamond.it/MediamondAds.js$domain=panorama.it|radioitalia.it
 @@||mediamond.it/MediamondAdsAsync.js$domain=video.mediaset.it
 @@||mymovies.it/live/myads/preroll/$object-subrequest
 @@||oasjs.kataweb.it/adsetup.js$domain=video.repubblica.it

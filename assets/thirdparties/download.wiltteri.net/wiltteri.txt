@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: jeQUXVNhGHrb6x2WG+2wpQ
-! Version: 201404120950
+! Checksum: oD12oPH5kLvF3Ns6fiTdrw
+! Version: 201404161850
 ! Title: Wiltteri
 ! Description: Finnish supplement list for EasyList
-! Last modified: 12 Apr 2014 09:50 UTC
+! Last modified: 16 Apr 2014 18:50 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: http://wiltteri.net/
 ! License: http://creativecommons.org/licenses/by-sa/3.0/
@@ -361,6 +361,7 @@ _mainosnappi.
 ||fi-reggae.com/kamppikset/
 ||fiercermedia.fi/wp-content/uploads/2011/08/fiercer-media-referenssit.png^
 ||fightclubfinland.fi/tiedostot/elmo_sports_grill_logo.jpg
+||files.snstatic.fi^*/KCM/$domain=iltasanomat.fi
 ||fillari-lehti.fi/obannerit.asp
 ||fillari-lehti.fi/ybannerit.asp
 ||fillarifoorumi.fi/forum/images/bannerit/
@@ -399,6 +400,7 @@ _mainosnappi.
 ||foreca.fi/img/*sunny
 ||foreca.fi/img/*takeover
 ||foreca.fi/img/wallpaper/
+||foreca.fi^*/foreca_haltuunotto_kehys.
 ||formamessut.fi/*banner
 ||fortone.fi/*bann
 ||forum24.fi/admin/db/bannerit/
@@ -511,6 +513,7 @@ _mainosnappi.
 ||hunks.fi^*/sponsors.swf
 ||hurrikaani.fi/SIRA_Files/images/Logot/Kumppanit_Sponsorit/
 ||huumaa.net/images/banners/
+||huuto.net/mso/
 ||hvs-tennis.fi^*/hvs_partnerit.
 ||hymy.fi^*/bannerit/
 ||hyria.fi/files/*/textsize/
@@ -2004,6 +2007,7 @@ taloustaito.fi###ctl00_body_ctl00_banner_ctl01_sectionFlashContent
 eckeroline.fi###ctl00_cphRightBar_UcWeather1_pnlFinnish + * td
 eckeroline.fi###ctl00_cphRightBar_rightBar td[align="center"]
 keltainenporssi.fi###dBannerGoogleAdPlace
+keltainenporssi.fi###dBannerTop
 imaginedayspa.fi###div_logo
 paijannepurjehdus.fi###dnn_RightPane > .Container:first-of-type
 offerium.fi###dontmiss
@@ -2760,6 +2764,10 @@ itnyt.fi##.ftBanner
 telvis.fi##.fullad-wide
 taloussanomat.fi##.generalPromo.sitePromo.isPromo
 plaza.fi##.google-ads-landscape
+sportti.com##.grid_12 > div[style$=";margin-bottom:6px;"] > a
+sportti.com##.grid_12 > div[style$=";margin-bottom:6px;"] > div[style^="float:left;"]
+sportti.com##.grid_12 > div[style$=";margin-top:6px;"]
+sportti.com##.grid_4 > div[style$=";margin-bottom:6px;"] > a
 intokustannus.fi##.hakukentta + * > td[align="center"]
 ampparit.com##.header > div
 ampparit.com##.header > object
@@ -2768,8 +2776,9 @@ laihduta-helposti.net,lautapeliopas.fi##.headerright
 nkl.fi##.headlines > .logos img
 opaskoirakoulu.fi##.headlines.single
 metropoli.net##.hentry-sidebar
+keltainenporssi.fi##.hintaseuranta
 sanakirja.org##.hs-links
-keltainenporssi.fi##.huuto_search
+keltainenporssi.fi##.huuto-search
 muropaketti.com##.hv--ad
 hengenveto.fi##.hv_banner_image
 hengenveto.fi##.hv_footer

@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: ta6f5yMyc2+ssNWxre709g
-! Version: 201404131741
+! Checksum: gXY9WDsrnNqLuSVaDVow/g
+! Version: 201404172341
 ! Title: EasyPrivacy
-! Last modified: 13 Apr 2014 17:41 UTC
+! Last modified: 17 Apr 2014 23:41 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -2276,6 +2276,7 @@ http://utm.
 ||audienceamplify.com^$third-party
 ||audienceiq.com^$third-party
 ||audiencerate.com^$third-party
+||audrte.com^$third-party
 ||auto-ping.com^$third-party
 ||autoaffiliatenetwork.com^$third-party
 ||avantlink.com^$third-party
@@ -3889,6 +3890,7 @@ http://utm.
 ||statistiq.com^$third-party
 ||stats.de^$third-party
 ||stats4free.de^$third-party
+||stroeerdigitalmedia.de^$third-party
 ||suchmaschinen-ranking-hits.de^$third-party
 ||sunios.de^$third-party
 ||t4ft.de^$third-party
@@ -3957,6 +3959,7 @@ http://utm.
 ||stats.fr^$third-party
 ||titag.com^$third-party
 ||tnsinternet.be^$third-party
+||toc.io^$third-party
 ||track.effiliation.com^$third-party
 ||tradelab.fr^$third-party
 ||trafiz.net^$third-party
@@ -5021,6 +5024,7 @@ http://utm.
 ||neocounter.neoworx-blog-tools.net^
 ||neon-lab.com/neonbctracker.js
 ||netalpaca.com/beacon
+||netbiscuits.net^*/analytics/
 ||netne.net/stats/
 ||netscape.com/c.cgi?
 ||neulion.vo.llnwd.net^*/track.js
@@ -5535,7 +5539,6 @@ http://utm.
 ||yellowbrix.com/images/content/cimage.gif?
 ||yellowpages.com^*.gif?tid$third-party
 ||yext.com/plpixel?
-||yimg.com/ss/rapid-*.js
 ||yimg.com^*/l?ig=$image
 ||ypcdn.com/*/webyp?
 ||zoover.co.uk/tracking/
@@ -5848,6 +5851,7 @@ http://utm.
 ||top100.tuttoperinternet.it^
 ||tr.bt.matrixspa.it^
 ||track.adintend.com^
+||track.youniversalmedia.com^
 ||tracker.bestshopping.com^
 ||tracking.conversion-lab.it^
 ||tracking.conversionlab.it^
@@ -7938,6 +7942,7 @@ http://utm.
 ||ssl-images-amazon.com^*/wcs-help-omniture-$script
 ||vitacost.com/Javascripts/s_code.js
 ||vmware.com/files/templates/inc/s_code_my.js
+||westernunion.*/_globalAssets/js/omniture/AppMeasurement.js
 ||wp.com/wp-content/themes/vip/metrouk/js/site-catalyst.js$domain=metro.co.uk
 !-----------------International individual tracking systems-----------------!
 ! *** easylist:easyprivacy/easyprivacy_specific_international.txt ***
@@ -8585,6 +8590,7 @@ http://utm.
 @@||aolcdn.com^*/beacon.min.js$domain=autoblog.com|dailyfinance.com
 @@||api.chartbeat.com^script,domain=financialpost.com|wcpo.com|couriermail.com.au|betabeat.com
 @@||apps.beta620.nytimes.com^*/EventTracker.js
+@@||arkadiumhosted.com^*/google-analytics-logger.swf$object-subrequest
 @@||arstechnica.com/services/incr.php?*=interactions.adblock-annoy.click$xmlhttprequest
 @@||assets.espn.go.com/espn360/builds/nielsen/ggce*.swf$object-subrequest
 @@||autoscout24.net/unifiedtracking/ivw.js
@@ -8609,6 +8615,7 @@ http://utm.
 @@||canada.com/js/ooyala/comscore.js
 @@||canadiantire.ca^*/analytics.sitecatalyst.js
 @@||care2.com/assets/scripts/cookies/care2/NitroCookies.js
+@@||cbsimg.net/js/cbsi/dw.js$domain=cbssports.com
 @@||cbsistatic.com/fly/bundles/flyjs/js/managers/clicktale-1.0.js$domain=cbsnews.com
 @@||ccom-cdn.com/assets/img/clear.gif?ccom_md5=$domain=credit.com
 @@||cdn-redfin.com^*/clicktracker.js$domain=redfin.com
@@ -8692,8 +8699,8 @@ http://utm.
 @@||go.com/stat/flash/analyticreportingas3.swf
 @@||goldbet.com/Scripts/googleAnalytics.js
 @@||goldmansachs.com/a/pg/js/prod/gs-analytics-init.js
-@@||google-analytics.com/analytics.js$domain=afternic.com|deviantart.com
-@@||google-analytics.com/plugins/ga/inpage_linkid.js$domain=lovehoney.co.uk|opendns.com|openshift.com|vimeo.com
+@@||google-analytics.com/analytics.js$domain=afternic.com|deviantart.com|westernunion.at|westernunion.be|westernunion.ca|westernunion.ch|westernunion.cl|westernunion.co.jp|westernunion.co.nz|westernunion.co.uk|westernunion.co.za|westernunion.com|westernunion.com.au|westernunion.com.co|westernunion.com.hk|westernunion.com.my|westernunion.com.pe|westernunion.de|westernunion.fr|westernunion.ie|westernunion.it|westernunion.nl|westernunion.ph|westernunion.pl|westernunion.se|westernunion.sg
+@@||google-analytics.com/plugins/ga/inpage_linkid.js$domain=lovehoney.co.uk|opendns.com|openshift.com|vimeo.com|westernunion.at|westernunion.be|westernunion.ca|westernunion.ch|westernunion.cl|westernunion.co.jp|westernunion.co.nz|westernunion.co.uk|westernunion.co.za|westernunion.com|westernunion.com.au|westernunion.com.co|westernunion.com.hk|westernunion.com.my|westernunion.com.pe|westernunion.de|westernunion.fr|westernunion.ie|westernunion.it|westernunion.nl|westernunion.ph|westernunion.pl|westernunion.se|westernunion.sg
 @@||google-analytics.com/urchin.js$domain=denverbroncos.com|muselive.com|streetfire.net|wickedthemusical.com
 @@||google.com/js/gweb/analytics/$domain=google.com
 @@||google.com/js/gweb/analytics/doubletrack.js$domain=android.com
@@ -8793,6 +8800,7 @@ http://utm.
 @@||nytimes.com^*/wtinit.js
 @@||odcdn.com^*/cm.js
 @@||officeworks.com.au^*/site-tracker.js
+@@||omtrdc.net^*/mbox/standard?$script,domain=blogtalkradio.com
 @@||ooyala.com/3rdparty/comscore_$object-subrequest,domain=livetvcafe.net
 @@||ooyala.com/3rdparty/comscore_*.swf$domain=bloomberg.com|businessweek.com|greentechmedia.com
 @@||ooyala.com/crossdomain.xml$object-subrequest
@@ -9043,7 +9051,6 @@ http://utm.
 @@||pingjs.qq.com/ping_tcss_ied.js$domain=dnf.qq.com
 @@||uwants.com/include/*/swfaddress.js
 @@||vanclimg.com/js.ashx?*/google-analytics.js$domain=vancl.com
-@@||yimg.com/ss/rapid-3.7.js$domain=deals.yahoo.com
 ! Czech
 @@||adobetag.com/d2/vodafonecz/live/VodafoneCZ.js
 ! Danish
@@ -9061,15 +9068,14 @@ http://utm.
 ! Greek
 @@||stats.e-go.gr/rx.asp?$object-subrequest,domain=megatv.com
 ! Hebrew
-@@||haaretz.co.il/logger/p.gif?*=COMMENTS$xmlhttprequest
-@@||haaretz.com/logger/p.gif?*=COMMENTS$xmlhttprequest
-@@||themarker.com/logger/p.gif?*=COMMENTS$xmlhttprequest
-@@||themarker.com/logger/p.gif?a=$image
+@@||haaretz.co.il/logger/p.gif?a=$image,xmlhttprequest
+@@||haaretz.com/logger/p.gif?a=$image,xmlhttprequest
+@@||themarker.com/logger/p.gif?a=$image,xmlhttprequest
 ! Italian
 @@||androidgalaxys.net/wp-content/plugins/*/google-analyticator/$script
 @@||beppegrillo.it/mt-static/js/ga_social_tracking.js
 @@||codicebusiness.shinystat.com/cgi-bin/getcod.cgi?USER=panoramait&P=2$script,domain=panorama.it
-@@||codicefl.shinystat.com/cgi-bin/getserver.cgi?$script,domain=3bmeteo.com|quotidiano.net
+@@||codicefl.shinystat.com/cgi-bin/getserver.cgi?$script,domain=3bmeteo.com|quotidiano.net|radioitalia.it
 @@||codicefl.shinystat.com/cgi-bin/getswf.cgi?*PolymediaShow$object-subrequest,domain=corriereadriatico.it|ilgazzettino.it|ilmattino.it|ilmessaggero.it|leggo.it|quotidianodipuglia.it
 @@||imrworldwide.com/novms/*/ggcm*.js$domain=sky.it
 @@||lastampa.it/common/js/video-js-mm/webtrekk_media_flash.js
@@ -9077,6 +9083,7 @@ http://utm.
 @@||lastampa.it/modulo/tracciatori/js/nielsen.js
 @@||lastampa.it/modulo/tracciatori/js/webtrekk.js
 @@||maxmind.com^*/geoip.js$domain=sportube.tv
+@@||nohup.it/js/webtrekk_js-media.js$domain=radioitalia.it
 @@||tiscali.it/js/webtrends/$script,domain=mail.tiscali.it
 @@||video.repubblica.it^*/nielsen.js
 @@||webcenter.tiscali.it/distribuzione/_script/audience_science.js$domain=mail.tiscali.it
@@ -9100,6 +9107,7 @@ http://utm.
 @@||labrc.pw/advstats/$xmlhttprequest
 @@||swa.mail.ru/cgi-bin/counters?$script
 @@||wargag.ru/public/js/counter.js?
+@@||widget.myrentacar.me^$script,subdocument
 @@||yandex.ru/metrika/watch.js$domain=anoncer.net
 @@||yandex.ru/watch/$xmlhttprequest,domain=anoncer.net
 @@||yandex.ru/webvisor/$xmlhttprequest,domain=anoncer.net
