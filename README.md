@@ -14,7 +14,11 @@ and more can be enabled).
 
 ## The filtering engine
 
-<p align="center"><img src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-overview.png" /></p>
+<p align="center">
+ <a href="https://github.com/gorhill/httpswitchboard/wiki/Net-request-filtering:-overview">
+  <img src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-overview.png" />
+ </a>
+</p>
 
 ## Installation
 
