@@ -483,6 +483,8 @@ Wired:
             * dnkzzz1hlto79.cloudfront.net
             * dp8hsntg6do36.cloudfront.net
             * dwgyu36up6iuz.cloudfront.net
+            # Some pages required this, ex: http://www.wired.com/2014/04/high-tech/
+            script ajax.googleapis.com
 
 Wired UK:
     keys: www.wired.co.uk
