@@ -15,7 +15,7 @@ and more can be enabled).
 ## The filtering engine
 
 <p align="center">
- Click for more details.<br>
+ <a href="https://github.com/gorhill/httpswitchboard/wiki/Net-request-filtering:-overview">Click for more details</a><br>
  <a href="https://github.com/gorhill/httpswitchboard/wiki/Net-request-filtering:-overview">
   <img src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-overview.png" />
  </a>
