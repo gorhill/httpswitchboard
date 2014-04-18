@@ -8,6 +8,10 @@ as per domain name. As of December 2013, the extension comes with preset
 blacklists totaling over 45,000 distinct hostnames (these lists can be disabled,
 and more can be enabled).
 
+## Installation
+
+Available from [Chrome web store](https://chrome.google.com/webstore/detail/httpswitchboard/mghdpehejfekicfjcdbfofhcmnjhgaag), [Opera add-ons collection](https://addons.opera.com/en-gb/extensions/details/http-switchboard/), or you can [install manually](https://github.com/gorhill/httpswitchboard/tree/master/dist). I expect the extension to work on any Chromium-based browser.
+
 ## The matrix: front end to the matrix filtering engine
 
 <p align="center"><img src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/screenshot1.png" /></p>
@@ -20,10 +24,6 @@ and more can be enabled).
   <img src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-overview.png" />
  </a>
 </p>
-
-## Installation
-
-Available from [Chrome web store](https://chrome.google.com/webstore/detail/httpswitchboard/mghdpehejfekicfjcdbfofhcmnjhgaag), [Opera add-ons collection](https://addons.opera.com/en-gb/extensions/details/http-switchboard/), or you can [install manually](https://github.com/gorhill/httpswitchboard/tree/master/dist). I expect the extension to work on any Chromium-based browser.
 
 ## Documentation
 
