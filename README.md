@@ -16,7 +16,7 @@ Available from [Chrome web store](https://chrome.google.com/webstore/detail/http
 
 [More at the wiki](https://github.com/gorhill/httpswitchboard/wiki)
 
-![HTTP Switchboard](doc/img/screenshot1.png)
+![HTTP Switchboard: The matrix](doc/img/screenshot1.png)
 
 HTTP Switchboard (FOSS) put you in FULL control of where your browser is allowed to connect, what type of data it is allowed to download, and what it is allowed to execute. Nobody else decides for you: You choose. You are in full control of your privacy.
 
