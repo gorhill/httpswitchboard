@@ -339,6 +339,11 @@ HTTPSB.autoCreateTemporarySiteScope = function(pageURL) {
     if ( !this.isGlobalScopeKey(scopeKey) ) {
         return;
     }
+    // Do not auto-create a site-level scope if a matrix filtering is off.
+    // https://github.com/gorhill/httpswitchboard/issues/237
+    if ( this.getTemporaryMtxFiltering('*') !== true ) {
+        return;
+    }
     // Do not auto-create a site-level scope if there is a whitelist rule
     // for the domain or hostname of the pageURL
     var pageDomain = this.URI.domainFromURI(pageURL);
@@ -417,6 +422,11 @@ HTTPSB.whitelistPermanently = function(scopeKey, type, hostname) {
 
 HTTPSB.autoWhitelistTemporarilyPageDomain = function(pageURL) {
     var scopeKey = this.temporaryScopeKeyFromPageURL(pageURL);
+    // Do not auto-whitelist if a matrix filtering is off.
+    // https://github.com/gorhill/httpswitchboard/issues/237
+    if ( this.getTemporaryMtxFiltering(scopeKey) !== true ) {
+        return false;
+    }
     var domain = this.URI.domainFromURI(pageURL);
     // 'rp' as in 'red pale', i.e. graylisted-blocked:
     // Autowhitelist only if the domain is graylisted and blocked.
