@@ -8,13 +8,13 @@ as per domain name. As of December 2013, the extension comes with preset
 blacklists totaling over 45,000 distinct hostnames (these lists can be disabled,
 and more can be enabled).
 
+## The matrix: front end to the matrix filtering engine
+
+![The matrix](doc/img/screenshot1.png)
+
 ## The filtering engine
 
 ![The filtering engine](https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-overview.png)
-
-## The matrix, front for the matrix filtering engine
-
-![The matrix](doc/img/screenshot1.png)
 
 ## Installation
 
