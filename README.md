@@ -8,6 +8,14 @@ as per domain name. As of December 2013, the extension comes with preset
 blacklists totaling over 45,000 distinct hostnames (these lists can be disabled,
 and more can be enabled).
 
+## The filtering engine
+
+![The filtering engine](https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-overview.png)
+
+## The matrix, front for the matrix filtering engine
+
+![The matrix](doc/img/screenshot1.png)
+
 ## Installation
 
 Available from [Chrome web store](https://chrome.google.com/webstore/detail/httpswitchboard/mghdpehejfekicfjcdbfofhcmnjhgaag), [Opera add-ons collection](https://addons.opera.com/en-gb/extensions/details/http-switchboard/), or you can [install manually](https://github.com/gorhill/httpswitchboard/tree/master/dist). I expect the extension to work on any Chromium-based browser.
@@ -15,8 +23,6 @@ Available from [Chrome web store](https://chrome.google.com/webstore/detail/http
 ## Documentation
 
 [More at the wiki](https://github.com/gorhill/httpswitchboard/wiki)
-
-![HTTP Switchboard: The matrix](doc/img/screenshot1.png)
 
 HTTP Switchboard (FOSS) put you in FULL control of where your browser is allowed to connect, what type of data it is allowed to download, and what it is allowed to execute. Nobody else decides for you: You choose. You are in full control of your privacy.
 
