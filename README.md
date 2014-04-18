@@ -14,15 +14,20 @@ Available from [Chrome web store](https://chrome.google.com/webstore/detail/http
 
 ## The matrix: front end to the matrix filtering engine
 
-<p align="center"><img src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/screenshot1.png" /></p>
+<p align="center">
+ <a href="https://github.com/gorhill/httpswitchboard/wiki/Net-request-filtering:-overview#matrix-filtering">
+  <img src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/screenshot1.png" />
+ </a><br>
+ <a href="https://github.com/gorhill/httpswitchboard/wiki/Net-request-filtering:-overview#matrix-filtering">Click for more details</a>
+</p>
 
 ## The filtering engine
 
 <p align="center">
- <a href="https://github.com/gorhill/httpswitchboard/wiki/Net-request-filtering:-overview">Click for more details</a><br>
  <a href="https://github.com/gorhill/httpswitchboard/wiki/Net-request-filtering:-overview">
   <img src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-overview.png" />
- </a>
+ </a><br>
+ <a href="https://github.com/gorhill/httpswitchboard/wiki/Net-request-filtering:-overview">Click for more details</a>
 </p>
 
 ## Documentation
