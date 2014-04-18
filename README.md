@@ -10,11 +10,11 @@ and more can be enabled).
 
 ## The matrix: front end to the matrix filtering engine
 
-![The matrix](doc/img/screenshot1.png)
+<p align="center"><img src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/screenshot1.png" /></p>
 
 ## The filtering engine
 
-![The filtering engine](https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-overview.png)
+<p align="center"><img src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-overview.png" /></p>
 
 ## Installation
 
