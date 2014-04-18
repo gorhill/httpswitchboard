@@ -219,7 +219,9 @@ var readLocalFile = function(path, msg) {
 
     var onCacheEntryFound = function(entry) {
         // console.log('HTTP Switchboard> readLocalFile() / onCacheEntryFound():', entry.toURL());
-        getTextFileFromURL(entry.toURL(), onCacheFileLoaded, onCacheFileError);
+        // rhill 2014-04-18: `httpsb` query parameter is added to ensure
+        // the browser cache is bypassed.
+        getTextFileFromURL(entry.toURL() + '?httpsb=' + Date.now(), onCacheFileLoaded, onCacheFileError);
     };
 
     var onCacheEntryError = function(err) {

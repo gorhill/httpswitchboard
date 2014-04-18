@@ -145,6 +145,7 @@ HTTPSB.loadUbiquitousWhitelists = function() {
 
 HTTPSB.mergeUbiquitousWhitelist = function(details) {
     var ubiquitousWhitelist = this.ubiquitousWhitelist;
+    var reAdblockFilter = /^[^a-z0-9:]|[^a-z0-9]$|[^a-z0-9_:.-]/;
     var raw = details.content.toLowerCase();
     var rawEnd = raw.length;
     var lineBeg = 0;
@@ -153,16 +154,23 @@ HTTPSB.mergeUbiquitousWhitelist = function(details) {
     while ( lineBeg < rawEnd ) {
         lineEnd = raw.indexOf('\n', lineBeg);
         if ( lineEnd < 0 ) {
-            lineEnd = rawEnd;
+            lineEnd = raw.indexOf('\r', lineBeg);
+            if ( lineEnd < 0 ) {
+                lineEnd = rawEnd;
+            }
         }
-        line = raw.slice(lineBeg, lineEnd);
+        line = raw.slice(lineBeg, lineEnd).trim();
         lineBeg = lineEnd + 1;
         pos = line.indexOf('#');
         if ( pos >= 0 ) {
             line = line.slice(0, pos);
         }
         line = line.trim();
-        if ( !line.length ) {
+        if ( line === '' ) {
+            continue;
+        }
+        // Ignore whatever appears to be an Adblock filters
+        if ( reAdblockFilter.test(line) ) {
             continue;
         }
         ubiquitousWhitelist.add(line);
@@ -295,52 +303,81 @@ HTTPSB.mergeUbiquitousBlacklist = function(details) {
     // Useful references:
     //    https://adblockplus.org/en/filter-cheatsheet
     //    https://adblockplus.org/en/filters
-    var adblock = (/^\[adblock +plus\ +\d\.\d\]/i).test(raw);
     var abpFilters = this.userSettings.parseAllABPFilters ? this.abpFilters : null;
-    var hostFromAdblockFilter = function(s) {
-        var matches = s.match(/^\|\|([a-z0-9.-]+)\^$/);
-        if ( matches && matches.length > 1 ) {
-            return matches[1];
-        }
-        return '';
-    };
-
     var ubiquitousBlacklist = this.ubiquitousBlacklist;
     var thisListCount = 0;
     var thisListUsedCount = 0;
-    var localhostRegex = /(^|\b)(localhost\.localdomain|localhost|local|broadcasthost|0\.0\.0\.0|127\.0\.0\.1|::1|fe80::1%lo0)(\b|$)/g;
-    var lineBeg = 0;
-    var lineEnd;
-    var line, pos;
+    var reLocalhost = /(^|\s)(localhost\.localdomain|localhost|local|broadcasthost|0\.0\.0\.0|127\.0\.0\.1|::1|fe80::1%lo0)(?=\s|$)/g;
+    var reAdblockFilter = /^[^a-z0-9:]|[^a-z0-9]$|[^a-z0-9_:.-]/;
+    var reAdblockHostFilter = /^\|\|([a-z0-9.-]+[a-z0-9])\^?$/;
+    var reAsciiSegment = /[\x21-\x7e]+/;
+    var matches;
+    var lineBeg = 0, lineEnd;
+    var line, c;
+
     while ( lineBeg < rawEnd ) {
         lineEnd = raw.indexOf('\n', lineBeg);
         if ( lineEnd < 0 ) {
-            lineEnd = rawEnd;
+            lineEnd = raw.indexOf('\r', lineBeg);
+            if ( lineEnd < 0 ) {
+                lineEnd = rawEnd;
+            }
         }
-        line = raw.slice(lineBeg, lineEnd);
+
+        // rhill 2014-04-18: The trim is important here, as without it there
+        // could be a lingering `\r` which would cause problems in the
+        // following parsing code.
+        line = raw.slice(lineBeg, lineEnd).trim();
         lineBeg = lineEnd + 1;
 
-        // rhill 2014-01-22: Transpose possible Adblock Plus-filter syntax
-        // into a plain hostname if possible.
-        // Useful reference: https://adblockplus.org/en/filter-cheatsheet#blocking2
-        if ( adblock ) {
-            if ( abpFilters && abpFilters.add(line) ) {
-                continue;
-            }
-            line = hostFromAdblockFilter(line);
-        }
-
-        pos = line.indexOf('#');
-        if ( pos >= 0 ) {
-            line = line.slice(0, pos);
-        }
-        // https://github.com/gorhill/httpswitchboard/issues/15
-        // Ensure localhost et al. don't end up on the read-only blacklist.
-        line = line.replace(localhostRegex, ' ');
-        line = line.trim();
-        if ( !line.length ) {
+        // Strip comments
+        c = line.charAt(0);
+        if ( c === '#' || c === '!' || c === '[' ) {
             continue;
         }
+        line = line.replace(/\s+#.*$/, '');
+
+        // https://github.com/gorhill/httpswitchboard/issues/15
+        // Ensure localhost et al. don't end up in the ubiquitous blacklist.
+        line = line.replace(reLocalhost, '');
+
+        line = line.trim();
+
+        // The filter is whatever sequence of printable ascii character without
+        // whitespaces
+        matches = reAsciiSegment.exec(line);
+        if ( !matches || matches.length === 0 ) {
+            continue;
+        }
+
+        // Bypass anomalies
+        if ( matches[0] !== line ) {
+            console.error('"%s": "%s" !== "%s"', details.path, matches[0], line);
+            continue;
+        }
+
+        line = matches[0];
+
+        // Likely an ABP filter?
+        if ( reAdblockFilter.test(line) ) {
+            if ( abpFilters !== null ) {
+                if ( abpFilters.add(line) ) {
+                    continue;
+                }
+            }
+            // rhill 2014-01-22: Transpose possible Adblock Plus-filter syntax
+            // into a plain hostname if possible.
+            matches = reAdblockHostFilter.exec(line);
+            if ( !matches || matches.length < 2 ) {
+                continue;
+            }
+            line = matches[1];
+        }
+
+        if ( line === '' ) {
+            continue;
+        }
+
         thisListCount++;
         if ( ubiquitousBlacklist.add(line) ) {
             thisListUsedCount++;
