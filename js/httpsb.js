@@ -131,9 +131,6 @@ HTTPSB.createPermanentGlobalScope = function(url) {
     if ( this.removePermanentScopeFromScopeKey(scopeKey) ) {
         changed = true;
     }
-    if ( changed ) {
-        this.savePermissions();
-    }
     return changed;
 };
 
@@ -167,15 +164,10 @@ HTTPSB.createPermanentDomainScope = function(url) {
         this.permanentScopes.scopes[scopeKey] = scope;
         changed = true;
     }
-
     // Remove potentially existing site scope: it would occlude domain scope.
     scopeKey = this.siteScopeKeyFromURL(url);
     if ( this.removePermanentScopeFromScopeKey(scopeKey) ) {
         changed = true;
-    }
-
-    if ( changed ) {
-        this.savePermissions();
     }
     return changed;
 };
@@ -206,7 +198,6 @@ HTTPSB.createPermanentSiteScope = function(url) {
     scope = new PermissionScope();
     scope.whitelist('main_frame', '*');
     this.permanentScopes.scopes[scopeKey] = scope;
-    this.savePermissions();
     return true;
 };
 

@@ -85,6 +85,7 @@ HTTPSB.loadScopedRules = function() {
             httpsb.createTemporaryScopeFromScopeKey(httpsb.behindTheSceneScopeKey);
             httpsb.whitelistTemporarily(httpsb.behindTheSceneScopeKey, '*', '*');
             httpsb.toggleTemporaryMtxFiltering(httpsb.behindTheSceneScopeKey, false);
+            httpsb.toggleTemporaryABPFiltering(httpsb.behindTheSceneScopeKey, false);
         }
 
         // rhill 2013-09-23: ok, there is no point in blacklisting

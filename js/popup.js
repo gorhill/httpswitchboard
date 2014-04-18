@@ -1336,15 +1336,19 @@ function updatePersistButton() {
 
 function persistScope() {
     var httpsb = getHTTPSB();
-    var rulset = getTemporaryRuleset();
-    if ( httpsb.isGlobalScopeKey(rulset.tScopeKey) ) {
-        httpsb.createPermanentGlobalScope(HTTPSBPopup.pageURL);
-    } else if ( httpsb.isDomainScopeKey(rulset.tScopeKey) ) {
-        httpsb.createPermanentDomainScope(HTTPSBPopup.pageURL);
-    } else if ( httpsb.isSiteScopeKey(rulset.tScopeKey) ) {
-        httpsb.createPermanentSiteScope(HTTPSBPopup.pageURL);
+    var ruleset = getTemporaryRuleset();
+    var changed = false;
+    if ( httpsb.isGlobalScopeKey(ruleset.tScopeKey) ) {
+        changed = httpsb.createPermanentGlobalScope(HTTPSBPopup.pageURL);
+    } else if ( httpsb.isDomainScopeKey(ruleset.tScopeKey) ) {
+        changed = httpsb.createPermanentDomainScope(HTTPSBPopup.pageURL);
+    } else if ( httpsb.isSiteScopeKey(ruleset.tScopeKey) ) {
+        changed = httpsb.createPermanentSiteScope(HTTPSBPopup.pageURL);
     }
-    httpsb.applyRulesetPermanently(rulset.tScopeKey, rulset);
+    changed = httpsb.applyRulesetPermanently(ruleset.tScopeKey, ruleset) || changed;
+    if ( changed ) {
+        httpsb.savePermissions();
+    }
     updateMatrixStats();
     updateMatrixColors();
     updateMatrixBehavior();
@@ -1358,16 +1362,16 @@ function persistScope() {
 
 function revertScope() {
     var httpsb = getHTTPSB();
-    var rulset = getTemporaryRuleset();
-    httpsb.revertScopeRules(rulset.tScopeKey);
-    if ( httpsb.isGlobalScopeKey(rulset.pScopeKey) ) {
+    var ruleset = getTemporaryRuleset();
+    httpsb.revertScopeRules(ruleset.tScopeKey);
+    if ( httpsb.isGlobalScopeKey(ruleset.pScopeKey) ) {
         httpsb.createTemporaryGlobalScope(HTTPSBPopup.pageURL);
-    } else if ( httpsb.isDomainScopeKey(rulset.pScopeKey) ) {
+    } else if ( httpsb.isDomainScopeKey(ruleset.pScopeKey) ) {
         httpsb.createTemporaryDomainScope(HTTPSBPopup.pageURL);
-    } else if ( httpsb.isSiteScopeKey(rulset.pScopeKey) ) {
+    } else if ( httpsb.isSiteScopeKey(ruleset.pScopeKey) ) {
         httpsb.createTemporarySiteScope(HTTPSBPopup.pageURL);
     }
-    httpsb.revertScopeRules(rulset.pScopeKey);
+    httpsb.revertScopeRules(ruleset.pScopeKey);
     updateMatrixStats();
     updateMatrixColors();
     updateMatrixBehavior();
