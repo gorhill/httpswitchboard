@@ -495,7 +495,10 @@ HTTPSB.pageStatsFromTabId = function(tabId) {
 };
 
 HTTPSB.pageStatsFromPageUrl = function(pageUrl) {
-    return this.pageStats[pageUrl];
+    if ( pageUrl ) {
+        return this.pageStats[pageUrl];
+    }
+    return null;
 };
 
 /******************************************************************************/

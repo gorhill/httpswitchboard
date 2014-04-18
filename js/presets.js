@@ -234,9 +234,7 @@ HTTPSB.PresetManager.prototype.applyToScope = function(targetScopeKey, presetId)
         if ( scopeKey !== '*' && httpsb.temporaryScopeExists(scopeKey) === false ) {
             httpsb.createTemporaryScopeFromScopeKey(scopeKey);
             httpsb.whitelistTemporarily(scopeKey, 'main_frame', '*');
-            httpsb.whitelistTemporarily(scopeKey, 'stylesheet', '*');
-            httpsb.whitelistTemporarily(scopeKey, 'image', '*');
-            httpsb.copyTemporaryBlackRules(scopeKey, '*');
+            httpsb.copyTemporaryRules(scopeKey, '*');
         }
         rules = scopeFields[1].split(',');
         j = rules.length;
