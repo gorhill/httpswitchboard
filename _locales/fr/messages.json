@@ -218,9 +218,9 @@
         "message": "Liste blanche/liste noire",
         "description": "header for 'whitelists/blacklists' section"
     },
-    "statsPageGeekyStats" : {
+    "statsPageDetailedStats" : {
         "message": "Statistiques détaillées",
-        "description": "header for 'geeky stats' section"
+        "description": "header for 'detailed stats' section"
     },
     "statsPageOverview" : {
         "message": "Aperçu",
@@ -228,7 +228,7 @@
     },
     "statsPageRequests" : {
         "message": "Requêtes",
-        "description": "in geeky stats section, header for the type of request"
+        "description": "in detailed stats section, header for the type of request"
     },
     "statsPageAllowed" : {
         "message": "Allouées",
@@ -373,7 +373,7 @@
         "description": "header of Log section"
     },
     "settingsLogSizeHelp" : {
-        "message": "<p>Vous pouvez inspecter les détails des requêtes HTTP effectuées par une page Web dans la page des <a href='info.html#geeky-stats' style='font-style:italic'>Statistiques</a> (en bas).</p><p>C'est surtout utile pour les utilisateurs chevronnés qui veulent s'enquérir de ce que fait précisément une page Web. Mais journaliser ces requêtes HTTP nécessite de la mémoire vive, et si vous ne vous souciez guère de ces informations, la mémoire utilisée est gaspillée.</p><p>Cette option vous permet de saisir le nombre de requêtes HTTP les plus récentes à journaliser pour une inspection ultérieure.<p><p>Saisissez &ldquo;<code>0</code>&rdquo; pour désactiver la journalisation détaillée (et ainsi réduire l'empreinte mémoire de <i>HTTP Switchboard</i>).</p>",
+        "message": "<p>Vous pouvez inspecter les détails des requêtes HTTP effectuées par une page Web dans la page des <a href='info.html#detailed-stats' style='font-style:italic'>Statistiques</a> (en bas).</p><p>C'est surtout utile pour les utilisateurs chevronnés qui veulent s'enquérir de ce que fait précisément une page Web. Mais journaliser ces requêtes HTTP nécessite de la mémoire vive, et si vous ne vous souciez guère de ces informations, la mémoire utilisée est gaspillée.</p><p>Cette option vous permet de saisir le nombre de requêtes HTTP les plus récentes à journaliser pour une inspection ultérieure.<p><p>Saisissez &ldquo;<code>0</code>&rdquo; pour désactiver la journalisation détaillée (et ainsi réduire l'empreinte mémoire de <i>HTTP Switchboard</i>).</p>",
         "description": "To help user understand the purpose of the log size value"
     },
     "settingsDoneButton" : {

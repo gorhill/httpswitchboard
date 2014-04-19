@@ -218,9 +218,9 @@
         "message": "Whitelists/Blacklists",
         "description": "header for 'whitelists/blacklists' section"
     },
-    "statsPageGeekyStats" : {
+    "statsPageDetailedStats" : {
         "message": "Detaillierte Statistik",
-        "description": "header for 'geeky stats' section"
+        "description": "header for 'detailed stats' section"
     },
     "statsPageOverview" : {
         "message": "Übersicht",
@@ -228,7 +228,7 @@
     },
     "statsPageRequests" : {
         "message": "Requests (Anfragen des Browsers)",
-        "description": "in geeky stats section, header for the type of request"
+        "description": "in detailed stats section, header for the type of request"
     },
     "statsPageAllowed" : {
         "message": "Erlaubt",
@@ -377,7 +377,7 @@
         "description": "header of Log section"
     },
     "settingsLogSizeHelp" : {
-        "message": "<p>Die Details der letzten HTTP Anfragen einer Webseite kannst du dir auf der <a href='info.html#geeky-stats' style='font-style:italic'>Statistik</a>-Seite anschauen (unten).</p><p>Das ist besonders nützlich für neugierige bzw. erfahrene Benutzer, die genau wissen wollen, was eine Webseite gemacht hat. Allerdings benötigt das Logging dieser HTTP Anfragen Arbeitsspeicher, und wenn du an diesen detaillierten Informationen nicht interessiert bist, belegst du diesen Speicher unnötigerweise.</p><p>Daher lässt sich mit diesem Feld die maximale Zahl der letzten HTTP Anfragen, die aufgezeichnet werden sollen, festlegen.<p><p>Gib &ldquo;<code>0</code>&rdquo; ein, um dieses detaillierte Logging ganz abzuschalten (und entsprechend die Speicherbelegung von <i>HTTP Switchboard</i> zu reduzieren).</p>",
+        "message": "<p>Die Details der letzten HTTP Anfragen einer Webseite kannst du dir auf der <a href='info.html#detailed-stats' style='font-style:italic'>Statistik</a>-Seite anschauen (unten).</p><p>Das ist besonders nützlich für neugierige bzw. erfahrene Benutzer, die genau wissen wollen, was eine Webseite gemacht hat. Allerdings benötigt das Logging dieser HTTP Anfragen Arbeitsspeicher, und wenn du an diesen detaillierten Informationen nicht interessiert bist, belegst du diesen Speicher unnötigerweise.</p><p>Daher lässt sich mit diesem Feld die maximale Zahl der letzten HTTP Anfragen, die aufgezeichnet werden sollen, festlegen.<p><p>Gib &ldquo;<code>0</code>&rdquo; ein, um dieses detaillierte Logging ganz abzuschalten (und entsprechend die Speicherbelegung von <i>HTTP Switchboard</i> zu reduzieren).</p>",
         "description": "To help user understand the purpose of the log size value"
     },
     "settingsDoneButton" : {

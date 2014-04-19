@@ -218,9 +218,9 @@
         "message": "Whitelists/blacklists",
         "description": "header for 'whitelists/blacklists' section"
     },
-    "statsPageGeekyStats" : {
-        "message": "Geeky stats",
-        "description": "header for 'geeky stats' section"
+    "statsPageDetailedStats" : {
+        "message": "Detailed stats",
+        "description": "header for 'detailed stats' section"
     },
     "statsPageOverview" : {
         "message": "Overview",
@@ -228,7 +228,7 @@
     },
     "statsPageRequests" : {
         "message": "Requests",
-        "description": "in geeky stats section, header for the type of request"
+        "description": "in detailed stats section, header for the type of request"
     },
     "statsPageAllowed" : {
         "message": "Allowed",
@@ -373,7 +373,7 @@
         "description": "header of Log section"
     },
     "settingsLogSizeHelp" : {
-        "message": "<p>You can inspect details of the most recent raw HTTP requests which have been made by a web page in the <a href='info.html#geeky-stats' style='font-style:italic'>Statistics</a> page (at the bottom).</p><p>This is mostly useful to geeky users who want to investigate exactly what a web page has been doing. But logging these HTTP requests requires memory, and if you don't care about this geeky information, then memory is being wasted.</p><p>Hence this field which lets you adjust the maximum number of the most recent HTTP requests which are to be logged for further inspection.<p><p>Enter &ldquo;<code>0</code>&rdquo; to turn off detailed logging (and consequently reduce the memory footprint of <i>HTTP Switchboard</i>).</p>",
+        "message": "<p>You can inspect details of the most recent raw HTTP requests which have been made by a web page in the <a href='info.html#detailed-stats' style='font-style:italic'>Statistics</a> page (at the bottom).</p><p>This is mostly useful to advanced users who want to investigate exactly what a web page has been doing. But logging these HTTP requests requires memory, and if you don't care about this technical information, then memory is being wasted.</p><p>Hence this field which lets you adjust the maximum number of the most recent HTTP requests which are to be logged for further inspection.<p><p>Enter &ldquo;<code>0</code>&rdquo; to turn off detailed logging (and consequently reduce the memory footprint of <i>HTTP Switchboard</i>).</p>",
         "description": "To help user understand the purpose of the log size value"
     },
     "settingsDoneButton" : {
