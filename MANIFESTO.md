@@ -1,6 +1,6 @@
 ### This is HTTP Switchboard's manifesto
 
-1. The **user decides** what web content in their browser is acceptable or not.
+1. The **user decides** what web content is acceptable or not in their browser.
 
 This is it.
 
