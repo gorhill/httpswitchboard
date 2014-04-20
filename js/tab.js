@@ -239,8 +239,8 @@ function garbageCollectStalePageStatsCallback() {
 
 // Time somewhat arbitrary: If a web page has not been in a tab for 10 minutes,
 // flush its stats.
-//                                                                          min  sec   1sec
-asyncJobQueue.add('gcPageStats', null, garbageCollectStalePageStatsCallback, 10 * 60 * 1000, true);
+//                                                                              min  sec   1sec
+HTTPSB.asyncJobs.add('gcPageStats', null, garbageCollectStalePageStatsCallback, 10 * 60 * 1000, true);
 
 /******************************************************************************/
 
@@ -355,7 +355,7 @@ function smartReloadTabsCallback() {
 }
 
 function smartReloadTabs() {
-    asyncJobQueue.add('smartReloadTabs', null, smartReloadTabsCallback, 500);
+    HTTPSB.asyncJobs.add('smartReloadTabs', null, smartReloadTabsCallback, 500);
 }
 
 /******************************************************************************/

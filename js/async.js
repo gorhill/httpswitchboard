@@ -21,47 +21,49 @@
 
 /******************************************************************************/
 
-function asyncJobEntry(name) {
-    this.name = name;
-    this.data = null;
-    this.callback = null;
-    this.when = 0;
-    this.period = 0;
-}
+// Async job queue module
 
-asyncJobEntry.prototype._nullify = function() {
-    this.name = '';
-    this.data = null;
-    this.callback = null;
-};
+(function() {
 
-var asyncJobQueue = {
-    jobs: {},
-    jobCount: 0,
-    junkyard: [],
-    resolution: 200,
+    var timeResolution = 200;
+    var jobs = {};
+    var jobCount = 0;
+    var jobJunkyard = [];
 
-    add: function(name, data, callback, delay, recurrent) {
-        var job = this.jobs[name];
+    var asyncJobEntry = function(name) {
+        this.name = name;
+        this.data = null;
+        this.callback = null;
+        this.when = 0;
+        this.period = 0;
+    };
+
+    asyncJobEntry.prototype.destroy = function() {
+        this.name = '';
+        this.data = null;
+        this.callback = null;
+    };
+
+    var addJob = function(name, data, callback, delay, recurrent) {
+        var job = jobs[name];
         if ( !job ) {
-            job = this.junkyard.pop();
+            job = jobJunkyard.pop();
             if ( !job ) {
                 job = new asyncJobEntry(name);
             } else {
                 job.name = name;
             }
-            this.jobs[name] = job;
-            this.jobCount++;
+            jobs[name] = job;
+            jobCount++;
         }
         job.data = data;
         job.callback = callback;
         job.when = Date.now() + delay;
         job.period = recurrent ? delay : 0;
-    },
+    };
 
-    _process: function() {
+    var processJobs = function() {
         var now = Date.now();
-        var jobs = this.jobs;
         var job;
         for ( var jobName in jobs ) {
             if ( !jobs.hasOwnProperty(jobName) ) {
@@ -76,19 +78,20 @@ var asyncJobQueue = {
                 job.when = now + job.period;
             } else {
                 delete jobs[jobName];
-                job._nullify();
-                this.jobCount--;
-                this.junkyard.push(job);
+                job.destroy();
+                jobCount--;
+                jobJunkyard.push(job);
             }
         }
-    }
-};
+    };
 
-function asyncJobQueueHandler() {
-    asyncJobQueue._process();
-}
+    setInterval(processJobs, timeResolution);
 
-setInterval(asyncJobQueueHandler, asyncJobQueue.resolution);
+    // Publish async jobs module
+    HTTPSB.asyncJobs = {
+        add: addJob
+    };
+})();
 
 /******************************************************************************/
 
@@ -114,7 +117,7 @@ function updateBadgeCallback(pageUrl) {
 }
 
 function updateBadge(pageUrl) {
-    asyncJobQueue.add('updateBadge ' + pageUrl, pageUrl, updateBadgeCallback, 250);
+    HTTPSB.asyncJobs.add('updateBadge ' + pageUrl, pageUrl, updateBadgeCallback, 250);
 }
 
 /******************************************************************************/
@@ -129,7 +132,7 @@ function permissionChangedCallback() {
 }
 
 function permissionsChanged() {
-    asyncJobQueue.add('permissionsChanged', null, permissionChangedCallback, 250);
+    HTTPSB.asyncJobs.add('permissionsChanged', null, permissionChangedCallback, 250);
 }
 
 /******************************************************************************/
@@ -177,7 +180,7 @@ function urlStatsChangedCallback(pageUrl) {
 }
 
 function urlStatsChanged(pageUrl) {
-    asyncJobQueue.add('urlStatsChanged ' + pageUrl, pageUrl, urlStatsChangedCallback, 1000);
+    HTTPSB.asyncJobs.add('urlStatsChanged ' + pageUrl, pageUrl, urlStatsChangedCallback, 1000);
 }
 
 /******************************************************************************/

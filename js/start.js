@@ -160,5 +160,5 @@ function clearBrowserCacheCallback() {
     }
 }
 
-asyncJobQueue.add('clearBrowserCache', null, clearBrowserCacheCallback, 15 * 60 * 1000, true);
+HTTPSB.asyncJobs.add('clearBrowserCache', null, clearBrowserCacheCallback, 15 * 60 * 1000, true);
 

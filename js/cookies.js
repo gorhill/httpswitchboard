@@ -137,7 +137,7 @@ var cookieHunter = {
         }
         var pageURL = HTTPSB.pageUrlFromPageStats(pageStats);
         this.queuePageRecord[pageURL] = pageStats;
-        asyncJobQueue.add(
+        HTTPSB.asyncJobs.add(
             'cookieHunterPageRecord',
             null,
             function() { cookieHunter.processPageRecordQueue(); },
@@ -185,7 +185,7 @@ var cookieHunter = {
         }
         var pageURL = HTTPSB.pageUrlFromPageStats(pageStats);
         this.queuePageRemove[pageURL] = pageStats;
-        asyncJobQueue.add(
+        HTTPSB.asyncJobs.add(
             'cookieHunterPageRemove',
             null,
             function() { cookieHunter.processPageRemoveQueue(); },
@@ -435,12 +435,12 @@ var cookieHunter = {
 function cookieHunterRemoveCallback() {
     cookieHunter.processRemoveQueue();
 }
-asyncJobQueue.add('cookieHunterRemove', null, cookieHunterRemoveCallback, 2 * 60 * 1000, true);
+HTTPSB.asyncJobs.add('cookieHunterRemove', null, cookieHunterRemoveCallback, 2 * 60 * 1000, true);
 
 function cookieHunterCleanCallback() {
     cookieHunter.processClean();
 }
-asyncJobQueue.add('cookieHunterClean', null, cookieHunterCleanCallback, 15 * 60 * 1000, true);
+HTTPSB.asyncJobs.add('cookieHunterClean', null, cookieHunterCleanCallback, 15 * 60 * 1000, true);
 
 /******************************************************************************/
 

@@ -352,8 +352,10 @@ HTTPSB.mergeUbiquitousBlacklist = function(details) {
         }
 
         // Bypass anomalies
+        // For example, when a filter contains whitespace characters, or
+        // whatever else outside the range of printable ascii characters.
         if ( matches[0] !== line ) {
-            console.error('"%s": "%s" !== "%s"', details.path, matches[0], line);
+            // console.error('"%s": "%s" !== "%s"', details.path, matches[0], line);
             continue;
         }
 

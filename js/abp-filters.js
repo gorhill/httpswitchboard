@@ -333,7 +333,6 @@ var add = function(s) {
     var hostnameAnchored = s.indexOf('||') === 0;
     s = s.replace(/^\|+/, '');
 
-
     if ( thirdParty ) {
         if ( hostnameAnchored ) {
             return addHostnameAnchoredFilter(s, thirdPartyFilters);

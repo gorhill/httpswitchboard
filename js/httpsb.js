@@ -36,6 +36,74 @@
 
 /******************************************************************************/
 
+// Temporary scopes janitor module
+
+(function() {
+    var getLiveScopeKeys = function(httpsb) {
+        var liveScopeKeys = {};
+        var pageUrlToTabId = httpsb.pageUrlToTabId;
+        for ( var pageURL in pageUrlToTabId ) {
+            if ( !pageUrlToTabId.hasOwnProperty(pageURL) ) {
+                continue;
+            }
+            liveScopeKeys[httpsb.temporaryScopeKeyFromPageURL(pageURL)] = true;
+        }
+        // Global and behind-the-scene scopes are always live
+        liveScopeKeys['*'] = true;
+        liveScopeKeys[httpsb.behindTheSceneScopeKey] = true;
+        return liveScopeKeys;
+    };
+
+    var deleteUnusedTemporaryScopes = function() {
+        var httpsb = HTTPSB;
+        if ( httpsb.userSettings.deleteUnusedTemporaryScopes === false ) {
+            return;
+        }
+        var liveScopeKeys = null;
+        var ttl = httpsb.userSettings.deleteUnusedTemporaryScopesAfter * 60 * 1000;
+        var now = Date.now();
+        var tscopes = httpsb.temporaryScopes.scopes;
+        var pscopes = httpsb.permanentScopes.scopes;
+        var tscope;
+        for ( var scopeKey in tscopes ) {
+            if ( !tscopes.hasOwnProperty(scopeKey) ) {
+                continue;
+            }
+            // Do not remove temporary scopes for which there is a permanent
+            // counterpart
+            if ( pscopes.hasOwnProperty(scopeKey) ) {
+                continue;
+            }
+            tscope = tscopes[scopeKey];
+            if ( (now - tscope.lastUsedTime) < ttl ) {
+                continue;
+            }
+            // Do not remove live scopes, i.e. scopes which might have not
+            // been used for a while, but for which there are matching
+            // web pages currently opened
+            if ( liveScopeKeys === null ) {
+                liveScopeKeys = getLiveScopeKeys(httpsb);
+            }
+            if ( liveScopeKeys.hasOwnProperty(scopeKey) ) {
+                tscope.lastUsedTime = Date.now();
+                continue;
+            }
+            //console.log('HTTPSB> deleteUnusedTemporaryScopes(): "%s"', scopeKey);
+            httpsb.removeTemporaryScopeFromScopeKey(scopeKey, false);
+        }
+    };
+
+    HTTPSB.asyncJobs.add(
+        'deleteUnusedTemporaryScopes',
+        null,
+        deleteUnusedTemporaryScopes,
+        10 * 60 * 1000, // launching janitor every 10 minutes
+        true
+    );
+})();
+
+/******************************************************************************/
+
 HTTPSB.globalScopeKey = function() {
     return '*';
 };
@@ -593,6 +661,7 @@ HTTPSB.revertScopeRules = function(scopeKey) {
     if ( !pscope ) {
         pscope = this.factoryScope;
     }
+    // TODO: if global scope, intersect using ruleset
     tscope.assign(pscope);
 };
 

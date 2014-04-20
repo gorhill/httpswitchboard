@@ -218,9 +218,13 @@
         "message": "Whitelists/blacklists",
         "description": "header for 'whitelists/blacklists' section"
     },
+    "statsPageGenericStats" : {
+        "message": "Generic statistics",
+        "description": "English: Generic statistics"
+    },
     "statsPageDetailedStats" : {
-        "message": "Detailed stats",
-        "description": "header for 'detailed stats' section"
+        "message": "Detailed statistics",
+        "description": "English: Detailed statistics"
     },
     "statsPageOverview" : {
         "message": "Overview",
@@ -239,8 +243,8 @@
         "description": "capitalized"
     },
     "statsPageDetailed" : {
-        "message": "Detailed",
-        "description": "header for 'detailed' section"
+        "message": "Request log",
+        "description": "English: Request log"
     },
     "statsPageRefresh" : {
         "message": "Refresh",
@@ -270,14 +274,6 @@
     },
     "settingsMatrixDisplayTextSizeLarge" : {
         "message": "Large",
-        "description": "..."
-    },
-    "settingsMatrixAutoReloadPrompt" : {
-        "message": "Smart auto-reload of page(s) when matrix is closed.",
-        "description": "..."
-    },
-    "settingsMatrixAutoReloadInfo" : {
-        "message": "Whenever you make changes in the matrix which can affect the display and/or behavior of one or more pages, <i>HTTP Switchboard</i> will reload all affected pages automatically when you close the matrix.",
         "description": "..."
     },
     "settingsMatrixMoreSecurityHeader" : {
@@ -312,6 +308,26 @@
         "message": "<p>Some users do not like to constantly whitelist the domain of the page by default. This feature enables automatic temporary whitelisting of a page's whole domain whenever it is first loaded in the browser. The temporary auto-whitelisting will occur <b>only</b> if the page domain is currently graylisted.</p><p>Although it is not a recommended feature from a security perspective, it has been included due to popular demand -- I would rather give users this feature than see them give up completely on a blocker.</p><p>If you use this feature, I advise that you at least blacklist <b>frame</b> requests and turn on <b>strict blocking</b>.</p>",
         "description": "To help user understand the purpose of auto-whitelist"
     },
+    "settingsMatrixConvenienceHeader" : {
+        "message": "Convenience",
+        "description": "English: Convenience"
+    },
+    "settingsMatrixAutoReloadPrompt" : {
+        "message": "Smart auto-reload of page(s) when matrix is closed.",
+        "description": "..."
+    },
+    "settingsMatrixAutoReloadInfo" : {
+        "message": "Whenever you make changes in the matrix which can affect the display and/or behavior of one or more pages, <i>HTTP Switchboard</i> will reload all affected pages automatically when you close the matrix.",
+        "description": "..."
+    },
+    "settingsMatrixDeleteUnusedTemporaryScopesPrompt1" : {
+        "message": "Auto delete unused temporary scopes.",
+        "description": "English: Auto delete unused temporary scopes."
+    },
+    "settingsMatrixDeleteUnusedTemporaryScopesPrompt2" : {
+        "message": "",
+        "description": "English:"
+    },
     "settingsPrivacyHeader" : {
         "message": "Privacy",
         "description": "header of Privacy section"
@@ -324,9 +340,13 @@
         "message": "<p>Blacklisted cookies are not prevented by <i>HTTP Switchboard</i> from entering your browser. However they are prevented from leaving your browser, which is what really matters. Not blocking cookies before they enter your browser gives you the opportunity to be informed that a site tried to use cookies, and furthermore to inspect their contents if you wish.</p><p>Once these blacklisted cookies have been accounted for by <i>HTTP Switchboard</i>, they can be removed from your browser if you wish so.</p><p><b>Important note:</b> Extensions can make web requests during the course of their normal operation. These requests can result in cookies being created in the browser. If the hostname from where a cookie originate is not whitelisted, the cookie will be removed from the browser by <i>HTTP Switchboard</i> if this option is checked. So be sure that the hostname(s) with which an extension communicate is whitelisted.</p>",
         "description": "..."
     },
-    "settingsDeleteNonBlockedSessionCookiesPrompt" : {
-        "message": "TODO: variable layout of embedded input tags according to language",
-        "description": "..."
+    "settingsDeleteNonBlockedSessionCookiesPrompt1" : {
+        "message": "Delete non-blocked session cookies ",
+        "description": "English: Delete non-blocked session cookies"
+    },
+    "settingsDeleteNonBlockedSessionCookiesPrompt2" : {
+        "message": " minutes after the last time they have been used.",
+        "description": "English: minutes after the last time they have been used."
     },
     "settingsDeleteNonBlockedSessionCookiesHelp" : {
         "message": "<p><a href='http://www.w3.org/2001/tag/2010/09/ClientSideStorage.html'>W3C</a>: &ldquo;A session cookie ... is erased when you end the browser session. The session cookie is stored in temporary memory and is not retained after the browser is closed.&rdquo;</p><p>Except that this <a href='https://code.google.com/p/chromium/issues/detail?id=128513'>might not be happening</a> when using a Chromium-based browser. Also, to some, having to close the browser in order for the session cookies to clear might not be early enough.</p>",
@@ -365,7 +385,7 @@
         "description": "..."
     },
     "settingsProcessBehindTheSceneHelp" : {
-        "message": "<p>According to <a href='http://www.google.com/intl/en/chrome/browser/privacy/whitepaper.html'>Google Chrome Privacy Whitepaper</a>, <i>Chromium</i> might send HTTP requests to <i>Google</i> without the user expressly visiting a web page. Let's call these special requests <strong>behind-the-scene</strong> requests. Also, other installed browser extensions can send <strong>behind-the-scene</strong> HTTP requests.</p><p><i>HTTP Switchboard</i> lets you intercept and treat these requests like any other request: they can be processed in order to allow/block them as per your whitelist/blacklist.</p><div class='warn'><p><span style='color:red; font-weight:bold'>Beware!</span> Blocking <strong>behind-the-scene</strong> net requests is potentially causing <a href='https://github.com/gorhill/httpswitchboard/issues/27'>an issue</a> when the user wants to install an extension from the Chrome store (including maybe preventing extensions from being updated), hence the ability to disable the feature here. Blocking can also cause other installed extensions to not work properly (those querying for remote data).</p> <p>Even if this feature is not enabled, <strong>behind-the-scene</strong> requests are still logged by <i>HTTP Switchboard</i>. You can inspect these requests on the (from the <a href='dashboard.html#statistics'>Stats</a> page).</p>",
+        "message": "<p>According to <a href='http://www.google.com/intl/en/chrome/browser/privacy/whitepaper.html'>Google Chrome Privacy Whitepaper</a>, <i>Chromium</i> might send HTTP requests to <i>Google</i> without the user expressly visiting a web page. Let's call these special requests <strong>behind-the-scene</strong> requests. Also, other installed browser extensions can send <strong>behind-the-scene</strong> HTTP requests.</p><p><i>HTTP Switchboard</i> lets you intercept and treat these requests like any other request: they can be processed in order to allow/block them as per your whitelist/blacklist.</p><div class='warn'><p><span style='color:red; font-weight:bold'>Beware!</span> Blocking <strong>behind-the-scene</strong> net requests is potentially causing <a href='https://github.com/gorhill/httpswitchboard/issues/27'>an issue</a> when the user wants to install an extension from the Chrome store (including maybe preventing extensions from being updated), hence the ability to disable the feature here. Blocking can also cause other installed extensions to not work properly (those querying for remote data).</p> <p>Even if this feature is not enabled, <strong>behind-the-scene</strong> requests are still logged by <i>HTTP Switchboard</i>. You can inspect these requests on the (from the <a href='dashboard.html#statistics'>Statistics</a> page).</p>",
         "description": "..."
     },
     "settingsLogHeader" : {

@@ -84,6 +84,7 @@ $(function() {
     $('#smart-auto-reload').attr('checked', userSettings.smartAutoReload === true);
     $('#auto-create-site-scope').attr('checked', userSettings.autoCreateSiteScope === true);
     $('#auto-whitelist-page-domain').attr('checked', userSettings.autoWhitelistPageDomain === true);
+    $('#delete-unused-temporary-scopes').attr('checked', userSettings.deleteUnusedTemporaryScopes === true);
     $('#delete-unused-session-cookies').attr('checked', userSettings.deleteUnusedSessionCookies === true);
     $('#delete-unused-session-cookies-after').val(userSettings.deleteUnusedSessionCookiesAfter);
     $('#delete-blacklisted-cookies').attr('checked', userSettings.deleteCookies === true);
@@ -107,6 +108,9 @@ $(function() {
     });
     $('#auto-whitelist-page-domain').on('change', function(){
         changeUserSettings('autoWhitelistPageDomain', $(this).is(':checked'));
+    });
+    $('#delete-unused-temporary-scopes').on('change', function(){
+        changeUserSettings('deleteUnusedTemporaryScopes', $(this).is(':checked'));
     });
     $('#delete-unused-session-cookies').on('change', function(){
         changeUserSettings('deleteUnusedSessionCookies', $(this).is(':checked'));

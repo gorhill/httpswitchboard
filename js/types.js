@@ -54,6 +54,7 @@ function PermissionScope() {
     this.gray = new PermissionList();
     this.mtxFiltering = true;
     this.abpFiltering = true;
+    this.lastUsedTime = Date.now();
 }
 
 function PermissionScopes() {

@@ -218,9 +218,13 @@
         "message": "Liste blanche/liste noire",
         "description": "header for 'whitelists/blacklists' section"
     },
+    "statsPageGenericStats" : {
+        "message": "Statistiques générales",
+        "description": "English: Generic statistics"
+    },
     "statsPageDetailedStats" : {
         "message": "Statistiques détaillées",
-        "description": "header for 'detailed stats' section"
+        "description": "English: Detailed statistics"
     },
     "statsPageOverview" : {
         "message": "Aperçu",
@@ -239,8 +243,8 @@
         "description": "capitalized"
     },
     "statsPageDetailed" : {
-        "message": "Vue détaillée",
-        "description": "header for 'detailed' section"
+        "message": "Carnet des requêtes",
+        "description": "English: Request log"
     },
     "statsPageRefresh" : {
         "message": "Actualiser",
@@ -270,14 +274,6 @@
     },
     "settingsMatrixDisplayTextSizeLarge" : {
         "message": "Large",
-        "description": "..."
-    },
-    "settingsMatrixAutoReloadPrompt" : {
-        "message": "Rechargement automatique des pages Web à la fermeture post-édition de la matrice",
-        "description": "..."
-    },
-    "settingsMatrixAutoReloadInfo" : {
-        "message": "Lorsque vous avez modifié des permissions susceptibles d'affecter l'apparence et/ou le comportement d'une page Web, cette dernière sera automatiquement rechargée par l'extension en fermant la matrice. Si l'option ci-dessus n'est pas activée, vous devrez actualiser la page vous-même pour appliquer les modifications",
         "description": "..."
     },
     "settingsMatrixMoreSecurityHeader" : {
@@ -312,6 +308,26 @@
         "message": "<p>Certains utilisateurs n'aiment pas devoir constamment mettre en liste blanche le domaine de la page visitée. Cette option permet de mettre automatiquement en liste blanche tout le domaine d'une page lors de son premier chargement dans le navigateur. Cette procédure automatique ne se produira <b>uniquement</b> que si le domaine de la page visitée est actuellement sur liste grise.</p><p>Bien que d'un point de vue sécurité, il n'est pas recommandé d'utiliser cette fonctionnalité, elle a été incluse suite à une forte demande (il m'a paru plus pertinent de leur donner cette possibilité que d'abandonner l'utilisation de mon extension).</p><p>Si vous activez cette option, je vous recommande d'au moins mettre sur liste noire globale les requêtes de type <b>frame</b> et d'activer le <b>blocage strict</b>.</p>",
         "description": "To help user understand the purpose of auto-whitelist"
     },
+    "settingsMatrixConvenienceHeader" : {
+        "message": "Ergonomie",
+        "description": "English: Convenience"
+    },
+    "settingsMatrixAutoReloadPrompt" : {
+        "message": "Rechargement automatique des pages Web à la fermeture post-édition de la matrice",
+        "description": "..."
+    },
+    "settingsMatrixAutoReloadInfo" : {
+        "message": "Lorsque vous avez modifié des permissions susceptibles d'affecter l'apparence et/ou le comportement d'une page Web, cette dernière sera automatiquement rechargée par l'extension en fermant la matrice. Si l'option ci-dessus n'est pas activée, vous devrez actualiser la page vous-même pour appliquer les modifications",
+        "description": "..."
+    },
+    "settingsMatrixDeleteUnusedTemporaryScopesPrompt1" : {
+        "message": "Effacer automatiquement les règles à portée restreinte inutilisées.",
+        "description": "English: Auto delete unused temporary scopes."
+    },
+    "settingsMatrixDeleteUnusedTemporaryScopesPrompt2" : {
+        "message": "",
+        "description": "English:"
+    },
     "settingsPrivacyHeader" : {
         "message": "Confidentialité",
         "description": "header of Privacy section"
@@ -324,9 +340,13 @@
         "message": "<p><i>HTTP Switchboard</i> n'empêche pas les cookies blacklistés 'd'entrer' dans votre navigateur, MAIS les empêche de 'sortir', et c'est ce qui importe. Laisser 'entrer' les cookies vous offre l'opportunité de vous tenir informé(e) du fait qu'un site essaye d'utiliser des cookies, voire d'en inspecter le contenu si vous le désirez.</p><p>Une fois que les cookies blacklistés ont été pris en compte par <i>HTTP Switchboard</i>, ils peuvent être supprimés de votre navigateur si vous le souhaitez.</p><p><b>Note importante :</b> Les extensions peuvent faire des requêtes Web au cours de leurs opérations ordinaires. Ces requêtes peuvent entraîner la création de cookies dans le navigateur. Si le nom d'hôte originaire du cookie n'est pas sur liste blanche, le cookie sera supprimé du navigateur par <i>HTTP Switchboard</i> si cette option est cochée, Alors assurez-vous que le(s) nom(s) d'hôte(s) avec le(s)quel(s) l'extension interagit est sur liste blanche.</p>",
         "description": "..."
     },
-    "settingsDeleteNonBlockedSessionCookiesPrompt" : {
-        "message": "TODO: variable layout of embedded input tags according to language",
-        "description": "..."
+    "settingsDeleteNonBlockedSessionCookiesPrompt1" : {
+        "message": "Effacer les cookies de session qui sont inutilisés pour plus de ",
+        "description": "English: Delete non-blocked session cookies"
+    },
+    "settingsDeleteNonBlockedSessionCookiesPrompt2" : {
+        "message": " minutes.",
+        "description": "English: minutes after the last time they have been used."
     },
     "settingsDeleteNonBlockedSessionCookiesHelp" : {
         "message": "<p><a href='http://www.w3.org/2001/tag/2010/09/ClientSideStorage.html'>Définition W3C</a> : Un cookie de session est effacé quand vous avez terminé la session du navigateur. Le cookie de session est stocké dans la mémoire temporaire et n'est pas conservé après la fermeture du navigateur;</p><p>Sauf que cela <a href='https://code.google.com/p/chromium/issues/detail?id=128513'>peut ne pas se produire</a> en utilisant un navigateur basé sur Chromium. En outre, pour certaines personnes, avoir à fermer le navigateur pour nettoyer les cookies de session peut ne pas se révéler suffisant.</p>",

@@ -32,14 +32,9 @@ ul > li {
 <ul>
     <li><span data-i18n="settingsMatrixDisplayTextSizePrompt"></span>
     <ul style="list-style:none">
-    <li><input type="radio" name="displayTextSize" value="13px"><span data-i18n="settingsMatrixDisplayTextSizeNormal"></span>
-    <li><input type="radio" name="displayTextSize" value="16px"><span data-i18n="settingsMatrixDisplayTextSizeLarge"></span>
+        <li><input type="radio" name="displayTextSize" value="13px"><span data-i18n="settingsMatrixDisplayTextSizeNormal"></span>
+        <li><input type="radio" name="displayTextSize" value="16px"><span data-i18n="settingsMatrixDisplayTextSizeLarge"></span>
     </ul>
-    <li>&nbsp;
-    <li>
-        <input id="smart-auto-reload" type="checkbox" value=""><span data-i18n="settingsMatrixAutoReloadPrompt"></span> <button class="whatisthis"></button>
-        <div class="whatisthis-expandable para" data-i18n="settingsMatrixAutoReloadInfo"></div>
-
     <li><h3 data-i18n="settingsMatrixMoreSecurityHeader"></h3>
     <ul>
         <li>
@@ -55,6 +50,16 @@ ul > li {
             <input id="auto-whitelist-page-domain" type="checkbox" value=""><span data-i18n="settingsAutoWhitelistPrompt"></span> <button class="whatisthis"></button>
             <div class="whatisthis-expandable para" data-i18n="settingsAutoWhitelistHelp"></div>
         </ul>
+    <li><h3 data-i18n="settingsMatrixConvenienceHeader"></h3>
+    <ul>
+        <li>
+            <input id="smart-auto-reload" type="checkbox" value=""><span data-i18n="settingsMatrixAutoReloadPrompt"></span> <button class="whatisthis"></button>
+            <div class="whatisthis-expandable para" data-i18n="settingsMatrixAutoReloadInfo"></div>
+        <li>
+            <input id="delete-unused-temporary-scopes" type="checkbox" value=""><span data-i18n="settingsMatrixDeleteUnusedTemporaryScopesPrompt1"></span>
+            <!-- <button class="whatisthis"></button>
+            <div class="whatisthis-expandable para" data-i18n="settingsAutoDeleteTemporaryScopesHelp"></div> -->
+        </ul>
 </ul>
 
 <h2 data-i18n="settingsPrivacyHeader"></h2>
@@ -64,9 +69,8 @@ ul > li {
         <button class="whatisthis"></button>
         <div class="whatisthis-expandable para" data-i18n="settingsDeleteBlockedCookiesHelp"></div>
     <li>
-        <input id="delete-unused-session-cookies" type="checkbox" value="">Delete non-blocked session cookies
-        <input id="delete-unused-session-cookies-after" type="text" value="60" size="3">minutes after
-        the last time they have been used.
+        <input id="delete-unused-session-cookies" type="checkbox" value=""><span data-i18n="settingsDeleteNonBlockedSessionCookiesPrompt1"></span>
+        <input id="delete-unused-session-cookies-after" type="text" value="60" size="3"><span data-i18n="settingsDeleteNonBlockedSessionCookiesPrompt2"></span>
         <button class="whatisthis"></button>
         <div class="whatisthis-expandable para" data-i18n="settingsDeleteNonBlockedSessionCookiesHelp"></div>
     <li>

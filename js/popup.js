@@ -1364,14 +1364,6 @@ function revertScope() {
     var httpsb = getHTTPSB();
     var ruleset = getTemporaryRuleset();
     httpsb.revertScopeRules(ruleset.tScopeKey);
-    if ( httpsb.isGlobalScopeKey(ruleset.pScopeKey) ) {
-        httpsb.createTemporaryGlobalScope(HTTPSBPopup.pageURL);
-    } else if ( httpsb.isDomainScopeKey(ruleset.pScopeKey) ) {
-        httpsb.createTemporaryDomainScope(HTTPSBPopup.pageURL);
-    } else if ( httpsb.isSiteScopeKey(ruleset.pScopeKey) ) {
-        httpsb.createTemporarySiteScope(HTTPSBPopup.pageURL);
-    }
-    httpsb.revertScopeRules(ruleset.pScopeKey);
     updateMatrixStats();
     updateMatrixColors();
     updateMatrixBehavior();

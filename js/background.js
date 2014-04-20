@@ -30,6 +30,8 @@ var HTTPSB = {
         clearBrowserCache: true,
         clearBrowserCacheAfter: 60,
         deleteCookies: false,
+        deleteUnusedTemporaryScopes: false,
+        deleteUnusedTemporaryScopesAfter: 20,
         deleteUnusedSessionCookies: false,
         deleteUnusedSessionCookiesAfter: 60,
         deleteLocalStorage: false,
