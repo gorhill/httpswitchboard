@@ -1,5 +1,5 @@
 [Adblock Plus 1.1]
-! Checksum: uQ2MShKehZkJwkveYu5UyQ
+! Checksum: OCx0wAlTlnHq7U3vePEthw
 ! This is bulgarian list hosted at http://stanev.org/abp
 ! Contact me at alex at stanev dot org
 !
@@ -69,6 +69,9 @@ adv.gepime.com
 ||afera.bg/wp-content/uploads/2012/05/yurt-banner.swf
 aha.aukro.bg/banners.php
 ||alabala.bg/media/banners/
+||alein.org/images/aimg_280x150.jpg
+||alein.org/images/bgtop4.gif
+||alein.org/images/doggydoggy2.jpg
 ||alfa.kachi-snimka.info/images/viu1326708098u.jpg
 ||amam.bg/a-d-s/
 ||amam.bg/bans/
@@ -228,6 +231,8 @@ data.msk.bg/delivery/afr.php
 ||economynews.bg/website_uploads/Image/theme/euro_atak/
 ||e-firmi.com/images/lasik.jpg
 ||e-firmi.com/images/smetkoplan.png
+||energy-torrent.com/img/filement.jpg
+||energy-torrent.com/img/obiavabg.jpg
 ||erotichno-belio.com/banner*
 ||eshop.bg/affiliate/advforumpuls_hor.php
 ||eshop.bg/affiliate/advforumpuls.php
@@ -235,11 +240,13 @@ data.msk.bg/delivery/afr.php
 ||etaj55.com/adv/banners
 ||eventim.bg/root/upload/banner/
 ||e-vestnik.bg/img/banners/
+||evowow.com/images/evowow_new_img.gif
 ||ex-traffic.com/show_ads.js
 ||fapturbo.com/banners/
 ||farmer.bg/*banners/
 ||fashion.bg/links/
 ||favorite-games.com/images/*/banners/
+files.alein.org/images/800%D0%9Aosebose.com.jpg
 ||fishing-mania.com/img/*.swf
 ||flash4e.com/images/ban_
 ||flash-igri.com/banners/
@@ -268,6 +275,7 @@ flvplayer.viastream.viasat.tv/Commercials/
 ||get.bg/catalog/affiliate_show_banner.php?ref=
 ||gis-sofia.bg/uploads/image/gis_banner*
 ||globul.bg/images/*_banner_*.jpg
+||gong.bg/inc/images/gilette*
 ||gorgonbg.org/images/banners/
 ||hala.bg/images_news/reklama*
 ||hardwarebg.com/ads/
@@ -305,6 +313,7 @@ image.arukereso.hu/partner/
 ||imagesfrombulgaria.com/baners/
 images.onbux.com/banner.gif
 images.pop.bg/content/banner/
+images.wambacdn.net/images/upload/adv/
 images.webcafe.bg/2011/04/18/29.swf
 ||imenata.com/flash/
 img26.imageshack.us/img26/6829/eurogas.gif
@@ -439,6 +448,7 @@ media.karamel4e.com/media/banners/
 ||mvmads.com/admin/affiliate-banners/
 ||mvmads.com/publisher-show-ads.php
 ||mvmads.com/show-ads.php
+my.affiliateforme.com/accounts/default1/banners/
 ||mymall.bg/products_action.php
 ||my-shop.biz/flash/
 ||nablyudatel.com/admin/banner/
@@ -480,6 +490,7 @@ media.karamel4e.com/media/banners/
 ||pcw.bg/main/images/banners/
 p.energy-torrent.com/themes/Silver/images/bg.jpg
 ||perp.itforcebg.com/images/banners/
+||petel.bg/js/jquery.colorbox-min.js
 ||petel.bg//media/banners/
 ||petel.bg/media/banners/
 ||photo-cult.com/pics/baneri/
@@ -498,6 +509,9 @@ p.energy-torrent.com/themes/Silver/images/bg.jpg
 ||pluton1.123bg.com/images/banners/
 ||pmelon.com/res/aff/banners/
 ||podlupa.bg/UserFiles/Flash/baner/
+||podtepeto.bg/uploaded/images/*240*
+||podtepeto.bg/uploaded/images/*300*
+||podtepeto.bg/uploaded/images/*728*
 ||podtepeto.com/reklama/
 ||pokerstars.com/*_bnrs/
 ||pokerstars.com/bnrs/
@@ -616,7 +630,11 @@ rem.rezonmedia.eu/images/
 ||sportal.bg/brand_images/
 ||sport-vt.com/static/vtu-horizontalen2.swf
 ||starfm.bg/banners/
+||stariyat-bryast.sliven.net/banners/
 ||startup-bg.com/images/baner
+static01.podtepeto.bg/uploaded/images/myk.gif
+static01.podtepeto.bg/uploaded/images/sinji.jpg
+static01.podtepeto.bg/uploaded/images/xraydiobanner.swf
 static.bgnes.com:8080/img/bann/
 static.cs-bg.net/csbgnet/images/adcsbg/banners/
 static.easytrader.bg/v2/banners/
@@ -734,6 +752,7 @@ abv.bg###aukcion
 abv.bg##iframe[src="/app/j/banner.jsp"]
 advokatibg.eu##.mod_bannerslider
 afera.bg##div[align="center"]
+aha.bg##.adv-slide-block-wrapper.clearfix
 alo.bg###adv_zone_top
 animes-bg.com##.banneritem_text
 antenneair.com###topbanner
@@ -868,6 +887,8 @@ photo-forum.net###header_img_right
 plaza-mp3.info###topbar
 plovdiv24.bg###flygrabo
 plovdiv24.bg###flyoffer_text
+podtepeto.com##.adv-728-90.adv-block
+podtepeto.com###advert_5
 praseta.com##.right_banner
 pressboard.info##.banner
 prikachi.com###banner
@@ -942,6 +963,9 @@ zovnews.com##.banner_top
 @@||ndt1.com/images/articles/*
 ~noshtuvki.burkan.info###adbody
 @@obiavi.data.bg/styles/ads.css
+@@||olx.bg/ajax/ad/offer/
+@@||olx.bg/ajax/ad/togglefollow/
+~olx.bg###newAd
 @@||prodavalnik.com/ajax/ad/offer/
 @@||prodavalnik.com/ajax/ad/togglefollow/
 ~prodavalnik.com###newAd

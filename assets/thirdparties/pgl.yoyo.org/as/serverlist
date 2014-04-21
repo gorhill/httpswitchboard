@@ -3,7 +3,7 @@
 # For more information about this list, see: http://pgl.yoyo.org/adservers/
 # ----
 # last updated:   Wed, 02 Apr 2014 09:18:15 GMT
-# entries:        2495
+# entries:        2496
 # format:         hosts (hosts -- in hosts file format)
 # credits:        Peter Lowe - pgl@yoyo.org - http://pgl.yoyo.org/
 # this URL:       http://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext
@@ -1272,7 +1272,6 @@
 127.0.0.1 clickdensity.com
 127.0.0.1 clickedyclick.com
 127.0.0.1 clickforwebmasters.com
-127.0.0.1 clickhereforcellphones.com
 127.0.0.1 clickhouse.com
 127.0.0.1 clickhype.com
 127.0.0.1 clicklink.jp
@@ -1612,7 +1611,6 @@
 127.0.0.1 icptrack.com
 127.0.0.1 idcounter.com
 127.0.0.1 identads.com
-127.0.0.1 idot.cz
 127.0.0.1 idregie.com
 127.0.0.1 ientrymail.com
 127.0.0.1 iesnare.com
@@ -1651,7 +1649,6 @@
 127.0.0.1 inringtone.com
 127.0.0.1 insightexpress.com
 127.0.0.1 insightexpressai.com
-127.0.0.1 inspectorclick.com
 127.0.0.1 instantmadness.com
 127.0.0.1 intelliads.com
 127.0.0.1 intellitxt.com
@@ -1767,6 +1764,7 @@
 127.0.0.1 media.funpic.de
 127.0.0.1 media6degrees.com
 127.0.0.1 mediaarea.eu
+127.0.0.1 mediacharger.com
 127.0.0.1 mediadvertising.ro
 127.0.0.1 mediageneral.com
 127.0.0.1 mediamayhemcorp.com
@@ -1833,6 +1831,7 @@
 127.0.0.1 nedstatbasic.net
 127.0.0.1 nedstatpro.net
 127.0.0.1 neocounter.neoworx-blog-tools.net
+127.0.0.1 neocounter.net
 127.0.0.1 neoffic.com
 127.0.0.1 net-filter.com
 127.0.0.1 netaffiliation.com
@@ -1886,6 +1885,7 @@
 127.0.0.1 oinadserver.com
 127.0.0.1 olivebrandresponse.com
 127.0.0.1 omniture.com
+127.0.0.1 onclickads.com
 127.0.0.1 onclickads.net
 127.0.0.1 oneandonlynetwork.com
 127.0.0.1 onenetworkdirect.com
@@ -2007,6 +2007,7 @@
 127.0.0.1 promos.fling.com
 127.0.0.1 promote.pair.com
 127.0.0.1 promotion-campaigns.com
+127.0.0.1 promozia.de
 127.0.0.1 pronetadvertising.com
 127.0.0.1 propellerads.com
 127.0.0.1 proton-tm.com

@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: oScwl+CtVoCkLQTIER1GHQ
-! Version: 201404172341
+! Checksum: YuVy0Y4psu6eoorIfqAPVA
+! Version: 201404211631
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 17 Apr 2014 23:41 UTC
+! Ultima modifica: 21 Apr 2014 16:31 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -1218,6 +1218,8 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||poker.commentierecensioni.com^*/titanpoker125x125.gif
 ||poliziamunicipale.it/script/getbnr.aspx?
 ||popcorntv.it/advloader.php?
+||pornovideoitaliano.com/bitter728.jpg
+||pornovideoitaliano.com^*/animazione
 ||positanonews.it/include_gen/banner_
 ||positanonews.it/publicnew/banners/
 ||primapaginamolise.it/banner/
@@ -1386,6 +1388,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||solopornoitaliano.com/30.gif
 ||solopornoitaliano.com/493836.gif
 ||solopornoitaliano.com/bitter728.jpg
+||solopornoitaliano.com^*/animazione
 ||sonorika.com^*/sonorika_home_mito.jpg
 ||spartoo.it/footer_tag_iframe.
 ||spaziofilm.it/includes2/1/google/
@@ -2428,7 +2431,8 @@ articolotre.com##div[style="width:320px;overflow:none;padding:0;margin:0;"]
 articolotre.com##div[style="width:320px;overflow:none;padding:0;margin:20px 0px 0px 0px;"]
 beppegrillo.it,corrieredellacalabria.it##div[style="width:336px; height:280px;"]
 pornoitalico.com##div[style="width:340px; height:307px; _height:435px; text-align:center; float:right; margin-bottom:96px; background-color:#FCFAFA; border: 1px solid #BCBCBC;; padding-left:10px; padding-right:10px; padding-top:30px; padding-bottom:30px; padding-top:80px; margin-right: 10px; border-radius: 0px;"]
-maxitubo.com##div[style="width:340px; height:307px; text-align:center; float:right; margin-bottom:96px; background-color:#FCFAFA; border: 1px solid #BCBCBC;; padding-left:10px; padding-right:10px; padding-top:30px; padding-bottom:30px; padding-top:80px; margin-right: 10px; border-radius: 5px;"]
+maxitubo.com,pornovideoitaliano.com##div[style="width:340px; height:307px; text-align:center; float:right; margin-bottom:96px; background-color:#FCFAFA; border: 1px solid #BCBCBC;; padding-left:10px; padding-right:10px; padding-top:30px; padding-bottom:30px; padding-top:80px; margin-right: 10px; border-radius: 5px;"]
+pornovideoitaliano.com##div[style="width:340px; height:480px; text-align:center; float:right; margin-top:51px;margin-bottom: 50px; margin-left: 5px; background-color:#FCFAFA; border: 1px solid #BCBCBC;; padding-left:10px; padding-right:10px; padding-top:30px; padding-bottom:100px; margin-right: 10px; border-radius: 5px;"]
 wmia.it##div[style="width:350px; height:300px; float:left"]
 radiotime.it##div[style="width:360px; margin-top:10px; margin-bottom:5px;"]
 pornoitalico.com##div[style="width:380px; height:480px; _position:absolute; _right: 0px; text-align:center; float:right; margin-top:51px;margin-bottom: 50px; margin-left: 5px; background-color:#FCFAFA; border: 1px solid #BCBCBC;; padding-left:10px; padding-right:10px; padding-top:30px; padding-bottom:100px; margin-right: 10px; border-radius: 0px;"]

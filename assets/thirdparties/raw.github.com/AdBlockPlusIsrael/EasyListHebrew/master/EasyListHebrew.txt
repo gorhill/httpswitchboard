@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: 4dtnKtlPZan8oiKlfklMFg
+! Checksum: 7h3M/DY2cGXnbHlCo866Ag
 ! Title: EasyList Hebrew
-! Last modified: 18/04/14  00:22 Jerusalem Daylight Time
+! Last modified: 20/04/14  14:48 Jerusalem Daylight Time
 ! Expires: 4 days (update frequency)
 ! Homepage: https://github.com/AdBlockPlusIsrael/EasyListHebrew/
 ! Forums: https://github.com/AdBlockPlusIsrael/EasyListHebrew/issues
@@ -29,6 +29,7 @@
 ||adland.co.il^$third-party
 ||amazing-offers.co.il^$popup
 ||asafnewcalc.mataniphone.tempurl.co.il/calculator3/$popup
+||best-offers.co.il^$popup
 ||clickcenter.net^$third-party
 ||clickon.co.il^$third-party
 ||ha-deal.co.il^$popup
@@ -51,6 +52,7 @@
 ||wesell.co.il^$third-party
 ||ws.walla.co.il^$third-party
 ||yeppyepp.co.il^$popup
+||zxxds.net^$popup
 !
 !-----------------------Site specific ad blocking rules-----------------------!
 !

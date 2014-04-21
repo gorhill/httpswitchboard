@@ -1,8 +1,8 @@
 [Adblock Plus 2.0]
-! Checksum: Kgyi1bhwMvSbWtEjR+ClLA
-! Version: 201404172340
+! Checksum: aJafPwOTsvs2UxgZxd+47Q
+! Version: 201404211630
 ! Title: EasyList without element hiding rules
-! Last modified: 17 Apr 2014 23:40 UTC
+! Last modified: 21 Apr 2014 16:30 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -366,6 +366,7 @@
 .cz/affil/
 .cz/bannery/
 .dartconfig.js
+.displayAds&
 .eg/ads/
 .eu/ads/
 .fm/ads/
@@ -488,6 +489,7 @@
 .zw/ads/
 /!advert_
 /0/ads/*
+/04/ads-
 /1/ads/*
 /120ad.
 /120ads/*
@@ -1087,6 +1089,7 @@
 /adblock?id=
 /adblockl.
 /adblockr.
+/adbn?
 /adboost.
 /adborder.
 /adbot160.
@@ -2780,6 +2783,7 @@
 /bgads/*
 /bi_affiliate.js
 /bigad.
+/bigad_
 /bigads/*
 /bigboxad.
 /bigtopl.swf
@@ -3098,6 +3102,7 @@
 /displayads3.
 /displayadsiframe.
 /div-ads.
+/divad/*
 /dlfeatads.
 /dmn-advert.
 /dne_ad.
@@ -6388,7 +6393,6 @@ _popunder+$popup
 ||adhostingsolutions.com^$third-party
 ||adhub.co.nz^$third-party
 ||adicate.com^$third-party
-||adicio.com^$third-party
 ||adigniter.org^$third-party
 ||adimise.com^$third-party
 ||adimpact.com^$third-party
@@ -7260,10 +7264,12 @@ _popunder+$popup
 ||doublerecall.com^$third-party
 ||doubleverify.com^$third-party
 ||downsonglyrics.com^$third-party
+||dp25.kr^$third-party
 ||dpbolvw.net^$third-party
 ||dpmsrv.com^$third-party
 ||dpstack.com^$third-party
 ||dreamaquarium.com^$third-party
+||dreamsearch.or.kr^$third-party
 ||drowle.com^$third-party
 ||dsero.net^$third-party
 ||dsnextgen.com^$third-party
@@ -7278,6 +7284,7 @@ _popunder+$popup
 ||durtz.com^$third-party
 ||dvaminusodin.net^$third-party
 ||dynamicoxygen.com^$third-party
+||dynamicyield.com^$third-party
 ||dynamitedata.com^$third-party
 ||e-generator.com^$third-party
 ||e-planning.net^$third-party
@@ -8357,6 +8364,7 @@ _popunder+$popup
 ||softpopads.com^$third-party
 ||sokitosa.com^$third-party
 ||solapoka.com^$third-party
+||solarmosa.com^$third-party
 ||solocpm.com^$third-party
 ||solutionzip.info^$third-party
 ||sonnerie.net^$third-party
@@ -8378,6 +8386,7 @@ _popunder+$popup
 ||sponsormob.com^$third-party
 ||sponsorpalace.com^$third-party
 ||sponsorpay.com^$third-party
+||sponsorselect.com^$third-party
 ||sportsyndicator.com^$third-party
 ||spotrails.com^$third-party
 ||spotscenered.info^$third-party
@@ -8704,6 +8713,7 @@ _popunder+$popup
 ||wurea.com^$third-party
 ||wwbn.com^$third-party
 ||wwwadcntr.com^$third-party
+||wwwpromoter.com^$third-party
 ||x.mochiads.com^$third-party
 ||x4300tiz.com^$third-party
 ||xad.com^$third-party
@@ -9978,7 +9988,6 @@ _popunder+$popup
 ||canonresourcecenter.com^$third-party
 ||carbiz.in/affiliates-and-partners/
 ||careerjunction.co.za/widgets/$third-party
-||careers.adicio.com^$third-party
 ||carefuldoctor.com/adv/search.php
 ||carfax.com/img_myap/$third-party
 ||cars.fyidriving.com^$subdocument,third-party
@@ -10963,6 +10972,7 @@ _popunder+$popup
 ||videozr.com^$third-party
 ||vidible.tv/placement/vast/
 ||vidyoda.com/fambaa/chnls/ADSgmts.ashx?
+||viroll.com/featured.json?
 ||virool.com/widgets/$third-party
 ||virtuagirl.com/ref.php?
 ||virtuaguyhd.com/ref.php?
@@ -12197,6 +12207,7 @@ _popunder+$popup
 ||cityam.com^*/pageskin/
 ||citybeat.co.uk^*/ads/
 ||citywire.co.uk/wealth-manager/marketingcampaign?
+||citywirecontent.co.uk^*/cw.oas.dx.js
 ||classic-tv.com/burst$subdocument
 ||classic-tv.com/pubaccess.html
 ||classic97.net^*/banner/
@@ -12520,11 +12531,13 @@ _popunder+$popup
 ||elivetv.in/pop/
 ||elocallink.tv^*/showgif.php?
 ||emergencymedicalparamedic.com/wp-content/uploads/2011/12/anatomy.gif
+||emsservice.de.s3.amazonaws.com/videos/$domain=zattoo.com
 ||emsservice.de/videos/$domain=zattoo.com
 ||emule-top50.com/extras/$subdocument
 ||emuleday.com/cpxt_$subdocument
 ||encyclopediadramatica.ch/adv/
 ||encyclopediadramatica.es/edf/
+||encyclopediadramatica.es/lanhell.js
 ||encyclopediadramatica.es/spon/
 ||energytribune.com/res/banner/
 ||england.fm/i/ducksunited120x60english.gif
@@ -13344,6 +13357,7 @@ _popunder+$popup
 ||linuxmint.com/pictures/sponsors/
 ||linuxtopia.org/includes/$subdocument
 ||liquidcompass.net/player/flash/inc/flash_sync_banners.js
+||littleindia.com/files/banners/
 ||live-proxy.com/hide-my-ass.gif
 ||live-proxy.com/vectrotunnel-logo.jpg
 ||livejasmin.com/freechat.php
@@ -13787,6 +13801,7 @@ _popunder+$popup
 ||nznewsuk.co.uk/banners/
 ||oas.autotrader.co.uk^
 ||oas.skyscanner.net^
+||oasc07.citywire.co.uk^
 ||oascentral.chron.com^
 ||oascentral.hosted.ap.org^
 ||oascentral.newsmax.com^
@@ -15070,6 +15085,7 @@ _popunder+$popup
 ||yimg.com^*/darla-secure-pre-min.js$domain=yahoo.com
 ||yimg.com^*/fairfax/$image
 ||yimg.com^*/flash/promotions/
+||yimg.com^*/yad*.js$domain=yahoo.com
 ||yimg.com^*/yfpadobject.js$domain=yahoo.com
 ||ynn.com/Content/ServeContent.aspx?
 ||yolasite.com/resources/$domain=coolsport.tv
@@ -15226,6 +15242,7 @@ _popunder+$popup
 ||109.201.146.142^$domain=xxxbunker.com
 ||213.174.140.38/bftv/js/msn-
 ||213.174.140.38^*/msn-*.js$domain=boyfriendtv.com|pornoxo.com
+||244pix.com/webop.jpg
 ||24porn7.com/24roll.html
 ||24porn7.com/300.php
 ||24porn7.com/banned/
@@ -16214,6 +16231,7 @@ _popunder+$popup
 @@||allmyvideos.net/cgi-bin/upload.cgi?upload_id=*&X-Progress-ID=*&js_on=*&utype=*&upload_type=$subdocument
 @@||allmyvideos.net/tmp/status.html?*upload=$subdocument
 @@||allot.com/Banners/*.swf$object
+@@||allulook4.com/min/?$stylesheet
 @@||alphabaseinc.com/images/display_adz/$~third-party
 @@||alusa.org/store/modules/blockadvertising/$~third-party
 @@||amazon-adsystem.com/widgets/q?$image,domain=choose-one.com
@@ -16304,6 +16322,8 @@ _popunder+$popup
 @@||barafranca.*/banner.php|
 @@||bau-portal.com^*/advert.$~third-party
 @@||bau-portal.com^*/advert/$~third-party
+@@||bbc.co.uk^*/advert.js$domain=bbc.com
+@@||bbc.co.uk^*/adverts.js$domain=bbc.com
 @@||bbci.co.uk^*/adsense_write.js$domain=bbc.com
 @@||bbci.co.uk^*/adverts.js$domain=bbc.co.uk|bbc.com
 @@||bbcimg.co.uk^*/advert.js$domain=bbc.co.uk|bbc.com
@@ -17090,6 +17110,7 @@ _popunder+$popup
 @@||promo2.tubemogul.com/lib/tubemoguldisplaylib.js$domain=comedy.com
 @@||promophot.com/photo/ad/$image
 @@||proxyserver.asia/themes/advertising-$image,stylesheet
+@@||ps3news.com/images.php?*-advertising-*&w=*&h=$image
 @@||ptgrey.com/_PGR_Content/Advertising/$image,~third-party
 @@||pubmatic.com/AdServer/js/universalpixel.js$domain=politico.com
 @@||pubmatic.com/AdServer/UPug?$script,domain=politico.com
@@ -17271,6 +17292,7 @@ _popunder+$popup
 @@||talkgold.com/bans/rss.png
 @@||talkrtv.com/ad/channel.php?$subdocument
 @@||tctechcrunch2011.files.wordpress.com^$image,domain=techcrunch.com
+@@||teamcococdn.com^*/AdManager_*.swf?$object-subrequest,domain=teamcoco.com
 @@||teknikor.com/content/wp-content/themes/*-adv.jpg
 @@||telegraphcouk.skimlinks.com/api/telegraph.skimlinks.js
 @@||temple.edu/advertising/$~third-party
@@ -17372,6 +17394,7 @@ _popunder+$popup
 @@||v.fwmrm.net/ad/p/1?$object-subrequest,domain=abc.go.com|abcfamily.go.com|abcnews.go.com|adultswim.com|cartoonnetwork.com|cc.com|cmt.com|colbertnation.com|comedycentral.com|espn.go.com|gametrailers.com|ign.com|logotv.com|mlb.mlb.com|mtv.com|mtvnservices.com|nascar.com|nbc.com|nbcnews.com|nbcsports.com|nick.com|player.theplatform.com|sky.com|southparkstudios.com|spike.com|teennick.com|thedailyshow.com|thingx.tv|tvland.com|uverseonline.att.net|vevo.com|vh1.com|video.cnbc.com|vod.fxnetworks.com
 @@||v.fwmrm.net/crossdomain.xml$object-subrequest
 @@||v.fwmrm.net/p/espn_live/$object-subrequest
+@@||vacationstarter.com/hive/images/adv_
 @@||vad.go.com/dynamicvideoad?$object-subrequest
 @@||valueram.com/banners/ads/
 @@||vancouversun.com/js/adsync/adsynclibrary.js
@@ -17889,6 +17912,7 @@ _popunder+$popup
 @@||ad.e-kolay.net/jquery-*-Medyanet.min.js
 @@||ad.e-kolay.net/Medyanet.js
 @@||ad.e-kolay.net/mnetorfad.js
+@@||ad.nl/ad/css/$~third-party
 @@||ad3.l3go.com.br^$~third-party
 @@||adman.gr/adman-video.js$domain=alphatv.gr
 @@||adman.gr/jwplayer.flash.swf$object,domain=alphatv.gr
@@ -18201,7 +18225,7 @@ accounts.google.com#@#.adwords
 @@||msecnd.net/socialfactoryimagesresized/mediaspotlight/2/300x250/$image
 @@||nationalgeographic.com/exposure/content/*300x250
 @@||onescreen.net/os/static/widgets/*300x250
-@@||opposingviews.com/sites/opposingviews.com/files/imagecache/300x250/
+@@||opposingviews.com^*/300x250/
 @@||player.grabnetworks.com^*/vox_300x250_inline.xml$domain=mavrixonline.com
 @@||quisqualis.com/QBanner_760x100.jpg
 @@||static-origin.openedition.org^*-120x240.jpg

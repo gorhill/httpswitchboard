@@ -5616,7 +5616,6 @@
 127.0.0.1	cdn1.flash.shareadult.com
 127.0.0.1	cdn1.inner-active.mobi
 127.0.0.1	cdn1.smartadserver.com
-127.0.0.1	cdn1.static.spankwire.phncdn.com
 127.0.0.1	cdn1.tribalfusion.com
 127.0.0.1	cdn10-ref.landing.comcontent.net
 127.0.0.1	cdn11-ref.landing.comcontent.net
@@ -13386,7 +13385,6 @@
 127.0.0.1	static.thumbr.com
 127.0.0.1	static.vpptechnologies.com
 127.0.0.1	static.weborama.fr
-127.0.0.1	static.xhamster.com
 127.0.0.1	static.zangocash.com
 127.0.0.1	static7.adrepublic.net
 127.0.0.1	staticads.btopenworld.com
@@ -17597,4 +17595,4 @@
 127.0.0.1	zxypenguin.people-group.su
 127.0.0.1	zz.cqcounter.com
 127.0.0.1	_thums.ero-advertising.com
-# Hosts: 17592
+# Hosts: 17590

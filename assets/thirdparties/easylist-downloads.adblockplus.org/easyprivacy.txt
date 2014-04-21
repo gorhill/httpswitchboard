@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: gXY9WDsrnNqLuSVaDVow/g
-! Version: 201404172341
+! Checksum: pFWqNT93SDuhHZlK4T+3pg
+! Version: 201404211631
 ! Title: EasyPrivacy
-! Last modified: 17 Apr 2014 23:41 UTC
+! Last modified: 21 Apr 2014 16:31 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -1093,6 +1093,7 @@
 /maxymiser.
 /Maxymiser/*
 /mbcom.tracking.
+/mcount.cgi?
 /md.js?country=
 /mdwtc/click_thru/*
 /media_viewed_tracking.
@@ -2107,6 +2108,7 @@ _i2a.js
 _imp?Log=
 _imp_logging?
 _impressions.gif?
+_landingLog/
 _logimpressions.
 _nedstat.js
 _nielsen.js
@@ -4839,6 +4841,7 @@ http://utm.
 ||heals.msgfocus.com^$third-party
 ||hearstmags.com^*/hdm-lib_hearstuser_proxy.html$third-party
 ||hellobar.com/ping?
+||heroku.com/?callback=getip$third-party
 ||hgcdn.net/?$third-party
 ||hi.hellobar.com^
 ||hits.dealer.com^
@@ -5070,6 +5073,7 @@ http://utm.
 ||partners.thefilter.com^
 ||partypoker.com^*/tracking-
 ||passport.pfn.bz^
+||paypal.com^*/pixel.gif$third-party
 ||pg.buzzfeed.com^
 ||phncdn.com/js/ssig_helper.js
 ||phoenix.untd.com^
@@ -5106,6 +5110,8 @@ http://utm.
 ||praekelt.com^*/webtracker.js
 ||print2webcorp.com/mkt3/_js/p2w_tracker.js
 ||privacytool.org/AnonymityChecker/js/fontdetect.js$third-party
+||production-eqbc.lvp.llnw.net^
+||production-mcs.lvp.llnw.net^
 ||production.mcs.delve.cust.lldns.net^
 ||projecthaile.com/js/trb-1.js
 ||projop.dnsalias.com^$third-party
@@ -5754,7 +5760,6 @@ http://utm.
 ||ifengimg.com/sta_collection.*.js
 ||js.letvcdn.com/js/*/stats/
 ||js.static.m1905.cn/pingd.js
-||lc.jiathis.com^
 ||log.hiiir.com^
 ||log.v.iask.com^
 ||look.urs.tw^$third-party
@@ -5882,6 +5887,7 @@ http://utm.
 ||yahoo.co.jp/js/s_retargeting.js
 ! Korean
 ||cafe24.com/weblog.js
+||naver.net/wcslog.js
 ! Latvian
 ||counter.hackers.lv^
 ||hits.sys.lv^
@@ -6501,6 +6507,7 @@ http://utm.
 ||dw.de^*/run.dw?
 ||dyo.gs/track/
 ||easy2.com^*/logging/
+||easygoodhealth.com/js/utracker.js
 ||ebay.com/op/t.do?event
 ||ebayobjects.com/*;dc_pixel_url=$image
 ||ec2-prod-tracker.babelgum.com^
@@ -8300,6 +8307,8 @@ http://utm.
 ||pingback.sogou.com^
 ||pingjs.qq.com^
 ||pv.sogou.com^
+||qq.com/p?
+||report.qq.com^
 ||rgd.com.cn/counter/
 ||s.pixfs.net/js/pixlogger.min.js
 ||s.pixfs.net/visitor.pixplug.in/
@@ -8752,7 +8761,7 @@ http://utm.
 @@||mail.yahoo.com/neo/ymstat$xmlhttprequest
 @@||maps.google.*/gen_204?$xmlhttprequest
 @@||marcokrenn.com/public/js/logger.js
-@@||maxmind.com/app/country.js$domain=lenovo.com|nationalgeographic.com
+@@||maxmind.com/app/country.js$domain=lenovo.com|nationalgeographic.com|paypal.fr
 @@||maxmind.com^*/geoip.js$domain=aljazeera.com|ballerstatus.com|bikemap.net|carltonjordan.com|coolsport.tv|dereon.com|dr.dk|everydaysource.com|girlgames4u.com|incgamers.com|ip-address.cc|justin.tv|maaduu.com|qatarairways.com|sat-direction.com|sotctours.com|stoli.com|vibe.com
 @@||mec.ca/media/javascript/resxclsx.js
 @@||media-imdb.com^*/clickstream.js
@@ -8914,6 +8923,7 @@ http://utm.
 @@||whirlpool.com/foresee/foresee-trigger.js
 @@||widgets.outbrain.com^*/comScore/comScore.htm
 @@||wikia.nocookie.net^*/AnalyticsEngine/js/analytics_prod.js
+@@||wired.com/wiredcms/chartbeat.json$xmlhttprequest
 @@||wordpress.org/extend/plugins/wp-slimstat/screenshot-$image,~third-party
 @@||wordpress.org/wp-slimstat/assets/banner-$image,~third-party
 @@||wp.com/_static/*/gaAddons.js
