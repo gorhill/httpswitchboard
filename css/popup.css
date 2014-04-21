@@ -61,11 +61,11 @@ body .toolbar button:hover {
     background-color: #eee;
     opacity: 1;
     }
-body .toolbar button[disabled] {
-    color: #ccc;
-    }
 body .toolbar button.disabled {
     color: #ccc;
+    }
+body .toolbar button.switch.disabled {
+    color: #a00;
     }
 body .toolbar button.fa {
     font: 1.75em 'FontAwesome';
@@ -184,7 +184,6 @@ button > span.badge {
     color: #000;
     background-color: rgba(240,240,240,0.75)
     }
-button[disabled] > span.badge,
 button.disabled > span.badge {
     display: none;
     }

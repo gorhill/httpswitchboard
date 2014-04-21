@@ -128,20 +128,30 @@ chrome.tabs.query({ url: '<all_urls>' }, function(tabs) {
 
 // Listeners to let popup let us know when pages must be reloaded.
 
-function onConnectHandler(port) {
-    HTTPSB.port = port;
-    port.onDisconnect.addListener(onDisconnectHandler);
-}
+(function() {
+    var onDisconnectHandler = function() {
+        var httpsb = HTTPSB;
+        var tabid;
+        if ( httpsb.port ) {
+            var matches = httpsb.port.name.match(/^httpsb-matrix-tabid-(\d+)$/);
+            if ( matches && matches.length > 1 ) {
+                tabid = parseInt(matches[1], 10);
+            }
+        }
+        httpsb.port = null;
+        // https://github.com/gorhill/httpswitchboard/issues/94
+        if ( httpsb.userSettings.smartAutoReload ) {
+            httpsb.smartReloadTabs(httpsb.userSettings.smartAutoReload, tabid);
+        }
+    };
 
-function onDisconnectHandler() {
-    HTTPSB.port = null;
-    // https://github.com/gorhill/httpswitchboard/issues/94
-    if ( HTTPSB.userSettings.smartAutoReload ) {
-        smartReloadTabs();
-    }
-}
+    var onConnectHandler = function(port) {
+        HTTPSB.port = port;
+        port.onDisconnect.addListener(onDisconnectHandler);
+    };
 
-chrome.extension.onConnect.addListener(onConnectHandler);
+    chrome.extension.onConnect.addListener(onConnectHandler);
+})();
 
 /******************************************************************************/
 

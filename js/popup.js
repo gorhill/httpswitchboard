@@ -27,12 +27,12 @@
 
 /******************************************************************************/
 
-// Don't hold permanently onto background page. I don't know if this help,
-// but I am trying to keep memory footprint as low as possible.
-// rhill 2014-01-31: memory has been under control since quite a while now,
-// so no longer need to be paranoiac about holding onto references.
-
 var backgroundPage = chrome.extension.getBackgroundPage();
+var bgPagePort;
+var targetTabId;
+var targetPageURL;
+var targetPageHostname;
+var targetPageDomain;
 
 function getBackgroundPage() {
     return backgroundPage;
@@ -43,7 +43,7 @@ function getHTTPSB() {
 }
 
 function getPageStats() {
-    return getHTTPSB().pageStatsFromTabId(HTTPSBPopup.tabId);
+    return getHTTPSB().pageStatsFromTabId(targetTabId);
 }
 
 /******************************************************************************/
@@ -203,10 +203,6 @@ MatrixStats.prototype.reset = function() {
 /******************************************************************************/
 
 var HTTPSBPopup = {
-    tabId: -1,
-    pageURL: '',
-    pageHostname: '',
-    pageDomain: '',
     scopeKey: '*',
     
     matrixDomains: {},
@@ -232,9 +228,6 @@ var HTTPSBPopup = {
         'other': ''
     },
 
-    // Just so the background page will be notified when popup menu is closed
-    port: chrome.runtime.connect(),
-
     dummy: 0
 };
 
@@ -253,7 +246,7 @@ function initMatrixStats() {
 
     // collect all hostnames and ancestors from net traffic
     var httpsburi = getHTTPSB().URI;
-    var pageUrl = pageStats.pageUrl;
+    var pageUrl = targetPageURL;
     var hostname, reqType, nodes, iNode, node, reqKey, types;
     var pageRequests = pageStats.requests;
     var reqKeys = pageRequests.getRequestKeys();
@@ -300,7 +293,7 @@ function initMatrixStats() {
 function updateMatrixStats() {
     // For each hostname/type occurrence, evaluate colors
     var httpsb = getHTTPSB();
-    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(targetPageURL);
     var matrixStats = HTTPSBPopup.matrixStats;
     for ( var hostname in matrixStats ) {
         if ( !matrixStats.hasOwnProperty(hostname) ) {
@@ -339,7 +332,7 @@ function getGroupStats() {
     // First, group according to whether at least one node in the domain
     // hierarchy is white or blacklisted
     var httpsburi = getHTTPSB().URI;
-    var pageDomain = HTTPSBPopup.pageDomain;
+    var pageDomain = targetPageDomain;
     var hostname, domain, nodes, node;
     var temporaryColor;
     var dark, group;
@@ -596,7 +589,7 @@ function updateMatrixBehavior() {
 
 function handleFilter(button, leaning) {
     var httpsb = getHTTPSB();
-    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(targetPageURL);
     // our parent cell knows who we are
     var cell = button.closest('div.matCell');
     var type = cell.prop('reqType');
@@ -627,8 +620,8 @@ function handleBlacklistFilter(button) {
 
 function getTemporaryRuleset() {
     var httpsb = getHTTPSB();
-    var tScopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
-    var pScopeKey = httpsb.permanentScopeKeyFromPageURL(HTTPSBPopup.pageURL);
+    var tScopeKey = httpsb.temporaryScopeKeyFromPageURL(targetPageURL);
+    var pScopeKey = httpsb.permanentScopeKeyFromPageURL(targetPageURL);
     var rules = {
         tScopeKey: tScopeKey,
         pScopeKey: pScopeKey,
@@ -1197,7 +1190,7 @@ function initMenuEnvironment() {
 
 function createGlobalScope() {
     var httpsb = getHTTPSB();
-    httpsb.createTemporaryGlobalScope(HTTPSBPopup.pageURL);
+    httpsb.createTemporaryGlobalScope(targetPageURL);
     updateMatrixStats();
     updateMatrixColors();
     updateMatrixBehavior();
@@ -1207,7 +1200,7 @@ function createGlobalScope() {
 
 function createDomainScope() {
     var httpsb = getHTTPSB();
-    httpsb.createTemporaryDomainScope(HTTPSBPopup.pageURL);
+    httpsb.createTemporaryDomainScope(targetPageURL);
     updateMatrixStats();
     updateMatrixColors();
     updateMatrixBehavior();
@@ -1217,7 +1210,7 @@ function createDomainScope() {
 
 function createSiteScope() {
     var httpsb = getHTTPSB();
-    httpsb.createTemporarySiteScope(HTTPSBPopup.pageURL);
+    httpsb.createTemporarySiteScope(targetPageURL);
     updateMatrixStats();
     updateMatrixColors();
     updateMatrixBehavior();
@@ -1246,20 +1239,20 @@ function getClassFromPermanentScopeKey(scopeKey) {
 function initScopeCell() {
     // It's possible there is no page URL at this point: some pages cannot
     // be filtered by HTTPSB.
-    if ( !HTTPSBPopup.pageURL ) {
+    if ( !targetPageURL ) {
         return;
     }
     // Fill in the scope menu entries
     var httpsb = getHTTPSB();
-    $('#scopeKeyDomain').text(httpsb.domainScopeKeyFromURL(HTTPSBPopup.pageURL).replace('*', '\u2217'));
-    $('#scopeKeySite').text(httpsb.siteScopeKeyFromURL(HTTPSBPopup.pageURL));
+    $('#scopeKeyDomain').text(httpsb.domainScopeKeyFromURL(targetPageURL).replace('*', '\u2217'));
+    $('#scopeKeySite').text(httpsb.siteScopeKeyFromURL(targetPageURL));
     updateScopeCell();
 }
 
 function updateScopeCell() {
     var httpsb = getHTTPSB();
-    var temporaryScopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
-    var permanentScopeKey = httpsb.permanentScopeKeyFromPageURL(HTTPSBPopup.pageURL);
+    var temporaryScopeKey = httpsb.temporaryScopeKeyFromPageURL(targetPageURL);
+    var permanentScopeKey = httpsb.permanentScopeKeyFromPageURL(targetPageURL);
     $('body')
         .removeClass('tScopeGlobal tScopeDomain tScopeSite pScopeGlobal pScopeDomain pScopeSite')
         .addClass(getClassFromTemporaryScopeKey(temporaryScopeKey))
@@ -1271,7 +1264,7 @@ function updateScopeCell() {
 
 function updateMtxbutton() {
     var httpsb = getHTTPSB();
-    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(targetPageURL);
     var masterSwitch = httpsb.getTemporaryMtxFiltering(scopeKey);
     var pageStats = getPageStats();
     var count = pageStats ? pageStats.requestStats.blocked.all : '';
@@ -1284,7 +1277,7 @@ function updateMtxbutton() {
 
 function toggleMtxFiltering() {
     var httpsb = getHTTPSB();
-    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(targetPageURL);
     httpsb.toggleTemporaryMtxFiltering(scopeKey);
     updateMatrixStats();
     updateMatrixColors();
@@ -1306,7 +1299,7 @@ function updateABPbutton() {
     }
     var pageStats = getPageStats();
     var count = pageStats ? pageStats.abpBlockCount : '';
-    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(targetPageURL);
     button.toggleClass('disabled', !httpsb.getTemporaryABPFiltering(scopeKey));
     button.children('span.badge').text(count);
     button.attr('data-tip', button.data('tip').replace('{{count}}', count));
@@ -1314,7 +1307,7 @@ function updateABPbutton() {
 
 function toggleABPFiltering() {
     var httpsb = getHTTPSB();
-    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL);
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(targetPageURL);
     httpsb.toggleTemporaryABPFiltering(scopeKey);
     updateMatrixButtons();
 }
@@ -1339,11 +1332,11 @@ function persistScope() {
     var ruleset = getTemporaryRuleset();
     var changed = false;
     if ( httpsb.isGlobalScopeKey(ruleset.tScopeKey) ) {
-        changed = httpsb.createPermanentGlobalScope(HTTPSBPopup.pageURL);
+        changed = httpsb.createPermanentGlobalScope(targetPageURL);
     } else if ( httpsb.isDomainScopeKey(ruleset.tScopeKey) ) {
-        changed = httpsb.createPermanentDomainScope(HTTPSBPopup.pageURL);
+        changed = httpsb.createPermanentDomainScope(targetPageURL);
     } else if ( httpsb.isSiteScopeKey(ruleset.tScopeKey) ) {
-        changed = httpsb.createPermanentSiteScope(HTTPSBPopup.pageURL);
+        changed = httpsb.createPermanentSiteScope(targetPageURL);
     }
     changed = httpsb.applyRulesetPermanently(ruleset.tScopeKey, ruleset) || changed;
     if ( changed ) {
@@ -1380,7 +1373,7 @@ function populatePresets() {
     var presetList = $('#buttonPresets + div > ul').detach();
     presetList.empty();
 
-    var presets = getHTTPSB().presetManager.findMatches(HTTPSBPopup.pageHostname, HTTPSBPopup.matrixStats);
+    var presets = getHTTPSB().presetManager.findMatches(targetPageHostname, HTTPSBPopup.matrixStats);
     var i = presets.length;
     var preset;
     var li, c;
@@ -1430,7 +1423,7 @@ function populatePresets() {
 function presetEntryHandler() {
     var httpsb = getHTTPSB();
     httpsb.presetManager.applyToScope(
-        httpsb.temporaryScopeKeyFromPageURL(HTTPSBPopup.pageURL),
+        httpsb.temporaryScopeKeyFromPageURL(targetPageURL),
         $(this).prop('presetId')
         );
     updateMatrixStats();
@@ -1465,7 +1458,7 @@ function revertAll() {
 function buttonReloadHandler() {
     chrome.runtime.sendMessage({
         what: 'forceReloadTab',
-        pageURL: HTTPSBPopup.pageURL
+        pageURL: targetPageURL
     });
 }
 
@@ -1477,63 +1470,6 @@ function mouseenterMatrixCellHandler() {
 
 function mouseleaveMatrixCellHandler() {
     HTTPSBPopup.matrixCellHotspots.detach();
-}
-
-/******************************************************************************/
-
-function onMessageHandler(request) {
-    if ( request.what === 'urlStatsChanged' ) {
-        if ( HTTPSBPopup.pageURL === request.pageURL ) {
-            makeMenu();
-        }
-    }
-}
-
-/******************************************************************************/
-
-// Because chrome.tabs.query() is async
-
-function bindToTabHandler(tabs) {
-    // TODO: can tabs be empty?
-    if ( !tabs.length ) {
-        return;
-    }
-
-    var httpsb = getHTTPSB();
-    var tab = tabs[0];
-
-    // Important! Before calling makeMenu()
-    // Allow to scope on behind-the-scene virtual tab
-    if ( tab.url.indexOf('chrome-extension://' + chrome.runtime.id + '/') === 0 ) {
-        HTTPSBPopup.pageURL = httpsb.behindTheSceneURL;
-        HTTPSBPopup.tabId = httpsb.behindTheSceneTabId;
-    } else {
-        HTTPSBPopup.tabId = tab.id;
-        HTTPSBPopup.pageURL = httpsb.pageUrlFromTabId(HTTPSBPopup.tabId);
-    }
-    HTTPSBPopup.pageHostname = httpsb.URI.hostnameFromURI(HTTPSBPopup.pageURL);
-    HTTPSBPopup.pageDomain = httpsb.URI.domainFromHostname(HTTPSBPopup.pageHostname);
-
-    // Now that tabId and pageURL are set, we can build our menu
-    initMenuEnvironment();
-    makeMenu();
-
-    // After popup menu is built, check whether there is a non-empty matrix
-    if ( !HTTPSBPopup.matrixHasRows ) {
-        $('#matHead').remove();
-        $('#toolbarLeft').remove();
-
-        // https://github.com/gorhill/httpswitchboard/issues/191
-        $('#noNetTrafficPrompt').text(chrome.i18n.getMessage('matrixNoNetTrafficPrompt'));
-        $('#noNetTrafficPrompt').css('display', '');
-    }
-
-    // To know when to rebuild the matrix
-    // TODO: What if this event is triggered before bindToTabHandler()
-    // is called?
-    if ( HTTPSBPopup.port ) {
-        HTTPSBPopup.port.onMessage.addListener(onMessageHandler);
-    }
 }
 
 /******************************************************************************/
@@ -1566,12 +1502,69 @@ function dropDownMenuHide() {
 
 /******************************************************************************/
 
+var onMessageHandler = function(request) {
+    if ( request.what === 'urlStatsChanged' ) {
+        if ( targetPageURL === request.pageURL ) {
+            makeMenu();
+        }
+    }
+};
+
+/******************************************************************************/
+
+// Because chrome.tabs.query() is async
+
+var bindToTab = function(tabs) {
+    // TODO: can tabs be empty?
+    if ( !tabs.length ) {
+        return;
+    }
+
+    var httpsb = getHTTPSB();
+    var tab = tabs[0];
+
+    // Important! Before calling makeMenu()
+    // Allow to scope on behind-the-scene virtual tab
+    if ( tab.url.indexOf('chrome-extension://' + chrome.runtime.id + '/') === 0 ) {
+        targetTabId = httpsb.behindTheSceneTabId;
+        targetPageURL = httpsb.behindTheSceneURL;
+    } else {
+        targetTabId = tab.id;
+        targetPageURL = httpsb.pageUrlFromTabId(targetTabId);
+    }
+    targetPageHostname = httpsb.URI.hostnameFromURI(targetPageURL);
+    targetPageDomain = httpsb.URI.domainFromHostname(targetPageHostname);
+
+    // Now that tabId and pageURL are set, we can build our menu
+    initMenuEnvironment();
+    makeMenu();
+
+    // After popup menu is built, check whether there is a non-empty matrix
+    if ( !HTTPSBPopup.matrixHasRows ) {
+        $('#matHead').remove();
+        $('#toolbarLeft').remove();
+
+        // https://github.com/gorhill/httpswitchboard/issues/191
+        $('#noNetTrafficPrompt').text(chrome.i18n.getMessage('matrixNoNetTrafficPrompt'));
+        $('#noNetTrafficPrompt').css('display', '');
+    }
+
+    // To know when to rebuild the matrix
+    if ( !bgPagePort ) {
+        bgPagePort = chrome.runtime.connect({ name: 'httpsb-matrix-tabid-' + targetTabId });
+        bgPagePort.onMessage.addListener(onMessageHandler);
+    }
+};
+
+/******************************************************************************/
+
 // Make menu only when popup html is fully loaded
 
 $(function() {
-    chrome.tabs.query({currentWindow: true, active: true}, bindToTabHandler);
 
-   // Below is UI stuff which is not key to make the menu, so this can
+    chrome.tabs.query({ currentWindow: true, active: true }, bindToTab);
+
+    // Below is UI stuff which is not key to make the menu, so this can
     // be done without having to wait for a tab to be bound to the menu.
 
     var popup = HTTPSBPopup;

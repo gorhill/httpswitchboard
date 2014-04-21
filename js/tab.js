@@ -336,26 +336,35 @@ HTTPSB.onPageLoadCompleted = function(pageURL) {
 /******************************************************************************/
 
 // Reload content of a tabs.
-// rhill 2013-10-23: revised to avoid closures.
 
-function smartReloadExistingTabsCallback(chromeTabs) {
-    var httpsb = HTTPSB;
-    var tabId;
-    var i = chromeTabs.length;
-    while ( i-- ) {
-        tabId = chromeTabs[i].id;
-        if ( httpsb.tabExists(tabId) ) {
-            httpsb.smartReloadTab(tabId);
-        }
+HTTPSB.smartReloadTabs = function(which, tabId) {
+    if ( which === 'none' ) {
+        return;
     }
-}
 
-function smartReloadTabsCallback() {
-    chrome.tabs.query({ status: 'complete' }, smartReloadExistingTabsCallback);
-}
+    if ( which === 'current' && typeof tabId === 'number' ) {
+        this.smartReloadTab(tabId);
+        return;
+    }
 
-function smartReloadTabs() {
-    HTTPSB.asyncJobs.add('smartReloadTabs', null, smartReloadTabsCallback, 500);
+    // which === 'all'
+    var reloadTabs = function(chromeTabs) {
+        var httpsb = HTTPSB;
+        var tabId;
+        var i = chromeTabs.length;
+        while ( i-- ) {
+            tabId = chromeTabs[i].id;
+            if ( httpsb.tabExists(tabId) ) {
+                httpsb.smartReloadTab(tabId);
+            }
+        }
+    };
+
+    var getTabs = function() {
+        chrome.tabs.query({ status: 'complete' }, reloadTabs);
+    };
+
+    this.asyncJobs.add('smartReloadTabs', null, getTabs, 500);
 }
 
 /******************************************************************************/

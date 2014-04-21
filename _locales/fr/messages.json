@@ -313,8 +313,20 @@
         "description": "English: Convenience"
     },
     "settingsMatrixAutoReloadPrompt" : {
-        "message": "Rechargement automatique des pages Web à la fermeture post-édition de la matrice",
+        "message": "À la fermeture post-édition de la matrice, recharger si nécessaire les pages suivantes:",
         "description": "..."
+    },
+    "settingsMatrixAutoReloadNone" : {
+        "message": "Aucune",
+        "description": ""
+    },
+    "settingsMatrixAutoReloadCurrent" : {
+        "message": "Courante",
+        "description": ""
+    },
+    "settingsMatrixAutoReloadAll" : {
+        "message": "Tous",
+        "description": ""
     },
     "settingsMatrixAutoReloadInfo" : {
         "message": "Lorsque vous avez modifié des permissions susceptibles d'affecter l'apparence et/ou le comportement d'une page Web, cette dernière sera automatiquement rechargée par l'extension en fermant la matrice. Si l'option ci-dessus n'est pas activée, vous devrez actualiser la page vous-même pour appliquer les modifications",
@@ -360,9 +372,13 @@
         "message": "TODO",
         "description": "..."
     },
-    "settingsClearCachePrompt" : {
-        "message": "TODO: variable layout of embedded input tags according to language",
-        "description": "..."
+    "settingsClearCachePrompt1" : {
+        "message": "Nettoyer le cache du navigateur à toutes les",
+        "description": "English: Clear browser cache every"
+    },
+    "settingsClearCachePrompt2" : {
+        "message": "minutes.",
+        "description": "English: minutes."
     },
     "settingsClearCacheHelp" : {
         "message": "<p>Certains sites Web sont déterminés à vous pister, à tel point qu'ils utiliseront des techniques bien peu élogieuses pour contourner toute mesure que vous prendriez afin d'éviter le pistage.</p><p>Certaines de ces techniques exploitent<sup style='font-size:smaller'>[1, 2]</sup> le <a href='https://fr.wikipedia.org/wiki/Cache_web'>cache du navigateur</a>, dont le contenu va perdurer un bon bout de temps puisque les utilisateurs prennent rarement le temps de fréquemment nettoyer le cache du navigateur.</p><p>Pour certains, nettoyer régulièrement le cache du navigateur est un dérangement, mais présente l'avantage d'empêcher ces envahissants pisteurs de s'immiscer dans votre vie privée.</p><p>Cochez cette option pour que <i>HTTP Switchboard</i> le fasse pour vous, à la fréquence de votre choix.</p><p style='font-size:smaller'>[1] <a href='https://grepular.com/Preventing_Web_Tracking_via_the_Browser_Cache'>&ldquo;Preventing Web Tracking via the Browser Cache&rdquo;</a><br>[2] <a href='http://lucb1e.com/rp/cookielesscookies/'>&ldquo;Cookieless cookies&rdquo;</a></p>",

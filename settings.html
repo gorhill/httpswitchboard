@@ -53,7 +53,11 @@ ul > li {
     <li><h3 data-i18n="settingsMatrixConvenienceHeader"></h3>
     <ul>
         <li>
-            <input id="smart-auto-reload" type="checkbox" value=""><span data-i18n="settingsMatrixAutoReloadPrompt"></span> <button class="whatisthis"></button>
+            <span data-i18n="settingsMatrixAutoReloadPrompt"></span> <select id="smart-auto-reload">
+                <option value="none" data-i18n="settingsMatrixAutoReloadNone">
+                <option value="current" data-i18n="settingsMatrixAutoReloadCurrent">
+                <option value="all" data-i18n="settingsMatrixAutoReloadAll">
+                </select> <button class="whatisthis"></button>
             <div class="whatisthis-expandable para" data-i18n="settingsMatrixAutoReloadInfo"></div>
         <li>
             <input id="delete-unused-temporary-scopes" type="checkbox" value=""><span data-i18n="settingsMatrixDeleteUnusedTemporaryScopesPrompt1"></span>
@@ -76,8 +80,8 @@ ul > li {
     <li>
         <input id="delete-blacklisted-localstorage" type="checkbox" value=""><span data-i18n="settingsDeleteBlockedLocalStoragePrompt"></span>
     <li>
-        <input id="clear-browser-cache" type="checkbox" value="">Clear browser cache every
-        <input id="clear-browser-cache-after" type="text" value="60" size="3">minutes.
+        <input id="clear-browser-cache" type="checkbox" value=""><span data-i18n="settingsClearCachePrompt1"></span> 
+        <input id="clear-browser-cache-after" type="text" value="60" size="3"> <span data-i18n="settingsClearCachePrompt2"></span>
         <button class="whatisthis"></button>
         <div class="whatisthis-expandable para" data-i18n="settingsClearCacheHelp"></div>
     <li>

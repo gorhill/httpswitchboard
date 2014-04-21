@@ -44,7 +44,7 @@ var HTTPSB = {
         processBehindTheSceneRequests: false,
         processReferer: false,
         subframeOpacity: 1,
-        smartAutoReload: true,
+        smartAutoReload: 'all',
         statsFilters: {},
         strictBlocking: true
     },

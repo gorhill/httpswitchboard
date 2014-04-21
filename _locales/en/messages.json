@@ -313,11 +313,23 @@
         "description": "English: Convenience"
     },
     "settingsMatrixAutoReloadPrompt" : {
-        "message": "Smart auto-reload of page(s) when matrix is closed.",
+        "message": "When the matrix is closed, smart reload these tabs:",
         "description": "..."
     },
+    "settingsMatrixAutoReloadNone" : {
+        "message": "None",
+        "description": ""
+    },
+    "settingsMatrixAutoReloadCurrent" : {
+        "message": "Current",
+        "description": ""
+    },
+    "settingsMatrixAutoReloadAll" : {
+        "message": "All",
+        "description": ""
+    },
     "settingsMatrixAutoReloadInfo" : {
-        "message": "Whenever you make changes in the matrix which can affect the display and/or behavior of one or more pages, <i>HTTP Switchboard</i> will reload all affected pages automatically when you close the matrix.",
+        "message": "Whenever you make changes in the matrix which can affect the display and/or behavior of one or more pages, <i>HTTP Switchboard</i> will reload affected pages automatically when you close the matrix.",
         "description": "..."
     },
     "settingsMatrixDeleteUnusedTemporaryScopesPrompt1" : {
@@ -360,9 +372,13 @@
         "message": "TODO",
         "description": "..."
     },
-    "settingsClearCachePrompt" : {
-        "message": "TODO: variable layout of embedded input tags according to language",
-        "description": "..."
+    "settingsClearCachePrompt1" : {
+        "message": "Clear browser cache every",
+        "description": "English: Clear browser cache every"
+    },
+    "settingsClearCachePrompt2" : {
+        "message": "minutes.",
+        "description": "English: minutes."
     },
     "settingsClearCacheHelp" : {
         "message": "<p>Some web sites are really bent on tracking you, so much that they will use not-so-nice tricks to work around whatever measures you take in order to not be tracked.</p><p>A few of these tricks rely<sup style='font-size:smaller'>[1, 2]</sup> on the <a href='https://en.wikipedia.org/wiki/Web_cache'>browser cache</a>, which content is often long lasting since rarely will users take the time to regularly clear their browser cache.</p><p>There is little inconvenience to clear the browser cache regularly (likelihood is that you won't notice when it happens), and the benefit is to prevent these obnoxious trackers from invading your privacy.</p><p>Check this option to have <i>HTTP Switchboard</i> do it for you, at the interval you wish.</p><p style='font-size:smaller'>[1] <a href='https://grepular.com/Preventing_Web_Tracking_via_the_Browser_Cache'>&ldquo;Preventing Web Tracking via the Browser Cache&rdquo;</a><br>[2] <a href='http://lucb1e.com/rp/cookielesscookies/'>&ldquo;Cookieless cookies&rdquo;</a></p>",
