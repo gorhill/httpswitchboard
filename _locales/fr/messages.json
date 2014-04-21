@@ -181,31 +181,31 @@
         "description": "..."
     },
     "matrixNoNetTrafficPrompt" : {
-        "message": "Aucune activité réseau observée pour cet onglet jusqu'à présent.",
+        "message": "Aucune activité réseau observée pour cet onglet jusqu'à présent !",
         "description": "..."
     },
     "matrixMtxButtonTip" : {
-        "message": "Cliquez pour activer/désactiver \u000a les filtres matriciels pour le contexte actuel. \u000aNombre de requêtes bloquées via \u000a les filtres matriciels: {{count}}.",
+        "message": "Cliquez pour activer/désactiver \u000a les filtres matriciels pour le contexte actuel. \u000aNombre de requêtes bloquées via \u000a les filtres matriciels : {{count}}",
         "description": "Tool tip for matrix button: {{}} is a placeholder for number of blocked requests."
     },
     "matrixABPButtonTip" : {
-        "message": "Cliquez pour activer/désactiver \u000a les filtres ABP pour le contexte actuel. \u000aNombre de requêtes bloquées via \u000a les filtres Adblock Plus: {{count}}.",
+        "message": "Cliquez pour activer/désactiver \u000a les filtres ABP pour le contexte actuel. \u000aNombre de requêtes bloquées via \u000a les filtres Adblock Plus : {{count}}",
         "description": "Tool tip for ABP button: {{}} is a placeholder for number of blocked requests."
     },
     "matrixPersistButtonTip" : {
-        "message": "Conserver définitivement les changements \u000a du contexte actuel.",
+        "message": "Conserver définitivement les changements \u000a du contexte actuel",
         "description": "Tool tip for the persist button"
     },
     "matrixRevertButtonTip" : {
-        "message": "Annuler les changements temporaires \u000a du contexte actuel.",
+        "message": "Annuler les changements temporaires \u000a du contexte actuel",
         "description": "Tool tip for the revert local permission button"
     },
     "matrixRevertButtonAllTip" : {
-        "message": "Annuler la totalité des changements \u000a temporaires de tous les contextes.",
+        "message": "Annuler la totalité des changements \u000a temporaires de tous les contextes",
         "description": "Tool tip for the revert all permissions button"
     },
     "matrixReloadButton" : {
-        "message": "Actualiser la page.",
+        "message": "Actualiser la page",
         "description": "Tool tip for the reload button"
     },
 
@@ -289,7 +289,7 @@
         "description": "To help user understand the purpose of strict blocking"
     },
     "settingsAutoCreateSiteScopePrompt": {
-        "message": "Créer automatiquement des règles à portée site temporaires.",
+        "message": "Créer automatiquement des règles à portée site temporaires",
         "description": ""
     },
     "settingsAutoCreateSiteScopeInfo": {
@@ -313,27 +313,27 @@
         "description": "English: Convenience"
     },
     "settingsMatrixAutoReloadPrompt" : {
-        "message": "À la fermeture post-édition de la matrice, recharger si nécessaire les pages suivantes:",
+        "message": "À la fermeture post-édition de la matrice, recharger si nécessaire :",
         "description": "..."
     },
     "settingsMatrixAutoReloadNone" : {
-        "message": "Aucune",
+        "message": "Aucune page",
         "description": ""
     },
     "settingsMatrixAutoReloadCurrent" : {
-        "message": "Courante",
+        "message": "La page courante",
         "description": ""
     },
     "settingsMatrixAutoReloadAll" : {
-        "message": "Toutes",
+        "message": "Toutes les pages",
         "description": ""
     },
     "settingsMatrixAutoReloadInfo" : {
-        "message": "Lorsque vous avez modifié des permissions susceptibles d'affecter l'apparence et/ou le comportement d'une page Web, cette dernière sera automatiquement rechargée par l'extension en fermant la matrice. Si l'option ci-dessus n'est pas activée, vous devrez actualiser la page vous-même pour appliquer les modifications",
+        "message": "Lorsque vous avez modifié des permissions susceptibles d'affecter l'apparence et/ou le comportement d'une page Web, cette dernière sera automatiquement rechargée par l'extension en fermant la matrice. Si l'option Aucune page est sélectionnée, vous devrez actualiser la page vous-même pour appliquer les modifications",
         "description": "..."
     },
     "settingsMatrixDeleteUnusedTemporaryScopesPrompt1" : {
-        "message": "Effacer automatiquement les règles à portée restreinte inutilisées.",
+        "message": "Effacer automatiquement les règles à portée restreinte inutilisées",
         "description": "English: Auto delete unused temporary scopes."
     },
     "settingsMatrixDeleteUnusedTemporaryScopesPrompt2" : {
@@ -353,11 +353,11 @@
         "description": "..."
     },
     "settingsDeleteNonBlockedSessionCookiesPrompt1" : {
-        "message": "Effacer les cookies de session qui sont inutilisés pour plus de ",
+        "message": "Effacer les cookies de session inutilisés depuis plus de ",
         "description": "English: Delete non-blocked session cookies"
     },
     "settingsDeleteNonBlockedSessionCookiesPrompt2" : {
-        "message": " minutes.",
+        "message": " minutes",
         "description": "English: minutes after the last time they have been used."
     },
     "settingsDeleteNonBlockedSessionCookiesHelp" : {
@@ -373,11 +373,11 @@
         "description": "..."
     },
     "settingsClearCachePrompt1" : {
-        "message": "Nettoyer le cache du navigateur à toutes les",
+        "message": "Nettoyer le cache du navigateur toutes les",
         "description": "English: Clear browser cache every"
     },
     "settingsClearCachePrompt2" : {
-        "message": "minutes.",
+        "message": "minutes",
         "description": "English: minutes."
     },
     "settingsClearCacheHelp" : {
@@ -397,11 +397,11 @@
         "description": "header of Chromium: behind-the-scene requests section"
     },
     "settingsProcessBehindTheScenePrompt" : {
-        "message": "La gestion des requêtes en coulisses est toujours présente, mais modifiée. Dorénavant, pour gérer le traitement de ces requêtes, il vous suffit d'accéder à la matrice spécifique disponible en cliquant sur l'icone de l'extension tout en étant dans la page des paramètres d'HTTP Switchboard. Veuillez prendre connaissance de cet article (en anglais) : <a href='https://github.com/gorhill/httpswitchboard/wiki/Behind-the-scene-requests'>Behind-the-scene requests</a>.",
+        "message": "À SUPPRIMER",
         "description": "..."
     },
     "settingsProcessBehindTheSceneHelp" : {
-        "message": "<p>D'après ce <a href='http://www.google.com/intl/en/chrome/browser/privacy/whitepaper.html'>document de la confidentialité de Google Chrome</a>, <i>Chromium</i> peut envoyer des requêtes HTTP à <i>Google</i> sans que vous n'ayez visité une page Web. Dénommons ces requêtes particulières les <strong>requêtes en coulisses</strong>. D'autres extensions de navigateur peuvent également envoyer des requêtes HTTP <strong>en coulisses</strong>.</p><p><i>HTTP Switchboard</i> vous permet d'intercepter et de traiter ces requêtes comme toutes les autres, et peuvent donc être allouées ou bloquées d'après vos listes blanche et noire.</p><div class='warn'><p><span style='color:red; font-weight:bold'>ATTENTION !</span> Bloquer certaines requêtes Web <strong>en coulisses</strong> entraîne <a href='https://github.com/gorhill/httpswitchboard/issues/27'>un problème</a> lorsque l'utilisateur souhaite ajouter une extensions depuis le Chrome Web Store (en plus de potentiellement les empêcher de se mettre à jour), vous avez donc la possibilité de désactiver cette option ici. Le blocage peut aussi occasionner des dysfonctionnements des autres extensions installées (celles requérant l'utilisation de données distantes).</p> <p>Utilisateurs d'Opera : si vous activez cette option, veuillez mettre en liste blanche globale les requêtes de type Autres afin de ne pas entraver la génération des miniatures d'Accès Rapide.</p><p>Même si cette fonctionnalité n'est pas activée, les requêtes <strong>en coulisses</strong> sont toujours journalisées par <i>HTTP Switchboard</i>, pour que vous puissez quand même les inspecter (depuis la page <a href='dashboard.html#statistics'>Statistiques</a>).</p>",
+        "message": "<p>D'après ce <a href='http://www.google.com/intl/en/chrome/browser/privacy/whitepaper.html'>document de la confidentialité de Google Chrome</a>, <i>Chromium</i> peut envoyer des requêtes HTTP à <i>Google</i> sans que vous n'ayez visité une page Web. Dénommons ces requêtes particulières les <strong>requêtes en coulisses</strong>. D'autres extensions de navigateur peuvent également envoyer des requêtes HTTP <strong>en coulisses</strong>.</p><p><i>HTTP Switchboard</i> vous permet d'intercepter et de traiter ces requêtes comme toutes les autres, et peuvent donc être allouées ou bloquées d'après vos listes blanche et noire. Rendez-vous dans la section Règles à portée restreinte pour pouvoir gérer ce type de requêtes.</p><div class='warn'><p><span style='color:red; font-weight:bold'>ATTENTION !</span> Bloquer certaines requêtes Web <strong>en coulisses</strong> entraîne <a href='https://github.com/gorhill/httpswitchboard/issues/27'>un problème</a> lorsque l'utilisateur souhaite ajouter une extensions depuis le Chrome Web Store (en plus de potentiellement les empêcher de se mettre à jour), vous avez donc la possibilité de désactiver cette option ici. Le blocage peut aussi occasionner des dysfonctionnements des autres extensions installées (celles requérant l'utilisation de données distantes).</p> <p>Utilisateurs d'Opera : si vous activez cette option, veuillez mettre en liste blanche les requêtes en coulisses de type Autres afin de ne pas entraver la génération des miniatures d'Accès Rapide.</p><p>Même si cette fonctionnalité n'est pas activée, les requêtes <strong>en coulisses</strong> sont toujours journalisées par <i>HTTP Switchboard</i>, pour que vous puissez quand même les inspecter (depuis la page <a href='dashboard.html#statistics'>Statistiques</a>).</p>",
         "description": "..."
     },
     "settingsLogHeader" : {
@@ -431,15 +431,15 @@
         "description": "English: All lists of blocked hosts are loaded as ubiquitous rules, hence these hosts are blacklisted in all scopes."
     },
     "ubiquitousListsOfBlockedHostsPrompt2" : {
-        "message": "{{ubiquitousBlacklistCount}} hôtes à bloquer:",
+        "message": "{{ubiquitousBlacklistCount}} hôtes actuellement bloqués :",
         "description": "English: {{ubiquitousBlacklistCount}} distinct blocked hostnames from:"
     },
     "ubiquitousParseAllABPFiltersPrompt1" : {
-        "message": "Utiliser en plus les règles ABP avancées (beta).",
+        "message": "Utiliser en plus les règles Adblock Plus avancées (beta).",
         "description": "English: Parse and enforce Adblock+ complex filters (beta)."
     },
     "ubiquitousParseAllABPFiltersPrompt2" : {
-        "message": "{{abpFilterCount}} règles ABP avancées utilisées.",
+        "message": "{{abpFilterCount}} règles Adblock Plus avancées utilisées.",
         "description": "English: Parse and enforce Adblock+ complex filters (beta)."
     },
     "ubiquitousParseAllABPFiltersInfo" : {
@@ -451,11 +451,11 @@
         "description": "English: Lists of blocked hosts"
     },
     "userUbiquitousBlacklistHeader" : {
-        "message": "Votre liste de règles pour bloquer",
+        "message": "Votre liste de règles à bloquer",
         "description": "English: Your block rules"
     },
     "userUbiquitousWhitelistHeader" : {
-        "message": "Votre liste de règles pour allouer",
+        "message": "Votre liste de règles à allouer",
         "description": "English: Your allow rules"
     },
     "ubiquitousApplyChanges" : {
