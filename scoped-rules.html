@@ -10,69 +10,61 @@
 
 <body>
 <div id="navi-bar">
-    <button id="commitAll"><span class="fa">&#xf023</span>Commit all</button>
-    <button id="revertAll"><span class="fa">&#xf12d</span>Revert all</button>
-    <button id="markAllForDeletion"><span class="fa">&#xf057</span>Mark all for deletion</button>
-    <button id="resetAll"><span class="fa">&#xf006</span>Reset to factory</button>
+    <button id="commitAll"><span class="fa">&#xf023</span><span data-i18n="scopedCommitAllButton"></span></button>
+    <button id="revertAll"><span class="fa">&#xf12d</span><span data-i18n="scopedRevertAllButton"></span></button>
+    <button id="markAllForDeletion"><span class="fa">&#xf057</span><span data-i18n="scopedMarkAllForDeletionButton"></span></button>
+    <button id="resetAll"><span class="fa">&#xf006</span><span data-i18n="scopedResetToFactoryButton"></span></button>
 </div>
 <div>
     <table>
     <tr>
-        <td colspan="2" style="width:49%;"><h2>Rules</h2>
+        <td colspan="2" style="width:49%;"><h2 data-i18n="scopedRulesHeader"></h2>
         <td>
-        <td colspan="2" style="width:49%;"><h2>Recipe</h2>
+        <td colspan="2" style="width:49%;"><h2 data-i18n="scopedRecipeHeader"></h2>
     <tr>
         <td colspan="2">
-            This is where you want to backup all of your scopes and rules: Click
-            "Export rules", optionally click "Encode recipe", save the result into
-            a file which content can be pasted here later.
-            <p>Syntax is very strict, only the most geeky users should risk editing here.
-            If you are importing a recipe from an untrusted source, be sure there is nothing
-            wrong with it (ex.: <b>&ldquo;whitelist * evil.com&rdquo;</b>)</p>
+            <p data-i18n="scopedRulesInfo"></p>
         <td>
         <td colspan="2">
-            A &ldquo;recipe&rdquo; is just a set of rules encoded in a way to make it easy to
-            backup or exchange set of rules between users. Hopefully geekier users will share
-            their carefully crafted recipes to help less geeky users.
+           <p data-i18n="scopedRecipesInfo"></p>
            <p style="text-align:center">
-               <button id="backup" disabled><span class="fa">&#xf093</span>Backup to file</button>
-               <button id="restore"><span class="fa">&#xf019</span>Restore from file</button>
+               <button id="backup" disabled><span class="fa">&#xf093</span><span data-i18n="scopedBackupRecipeButton"></span></button>
+               <button id="restore"><span class="fa">&#xf019</span><span data-i18n="scopedRestoreRecipeButton"></span></button>
     <tr>
         <td colspan="2">
             <textarea id="recipeBeautiful" class="recipe"></textarea>
         <td style="vertical-align:middle;">
-            <span id="recipeDecode" title="Decode recipe">Decode&nbsp;recipe</span>
-            <span id="recipeEncode" title="Encode recipe">Encode&nbsp;recipe</span>
+            <span id="recipeDecode" data-i18n="scopedDecodeRecipeButton"></span>
+            <span id="recipeEncode" data-i18n="scopedEncodeRecipeButton"></span>
 
         <td colspan="2">
             <textarea id="recipeUgly" class="recipe"></textarea>
     <tr>
         <td style="text-align:center;">
-            <span id="recipeImport" title="Import rules">Import rules</span>
+            <span id="recipeImport" title="Import rules" data-i18n="scopedImportRulesButton"></span>
         <td style="text-align:center;">
-            <span id="recipeExport" title="Export rules">Export rules</span>
+            <span id="recipeExport" title="Export rules" data-i18n="scopedExportRulesButton"></span>
         <td>
         <td>
         <td>
     </table>
 
-    <h2>Global scope</h2>
+    <h2 data-i18n="scopedGlobalScopeHeader"></h2>
     <div class="scopes" id="global"></div>
-    <h2>Behind-the-scene scope</h2>
+    <h2 data-i18n="scopedBtsScopeHeader"></h2>
     <div class="scopes" id="behind-the-scene"></div>
-    <h2>Domain-level scopes</h2>
+    <h2 data-i18n="scopedDomainScopeHeader"></h2>
     <div class="scopes" id="perdomain"></div>
-    <h2>Site-level scopes</h2>
+    <h2 data-i18n="scopedSiteScopeHeader"></h2>
     <div class="scopes" id="persite"></div>
 </div>
 
 <div id="messages" style="display:none">
-<p id="confirmRemoveAll">You are about to delete {{deleteCount}} rules.
-It is irreversible.
-Click OK to confirm.</p>
+<p id="confirmRemoveAll" data-i18n="scopedDeletionPrompt"></p>
 </div>
 
 <script src="lib/jquery-2.min.js"></script>
+<script src="js/i18n.js"></script>
 <script src="js/dashboard-common.js"></script>
 <script src="js/scoped-rules.js"></script>
 </body>

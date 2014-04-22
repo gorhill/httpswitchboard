@@ -99,18 +99,6 @@
     },
 
 
-    "matrixRemoveScope" : {
-        "message": "Entferne alle Regeln spezifisch für <b>$1</b>",
-        "description": "hovering over the button to remove page scope (identified by $1)"
-    },
-    "matrixCreateScope" : {
-        "message": "Erzeuge Regeln spezifisch für Webseiten, deren URL exakt mit <b>$1</b> beginnt",
-        "description": "hovering over the button to add page scope (identified by $1)"
-    },
-    "matrixRevert" : {
-        "message": "Lösche alle temporären Regeln &mdash; also solche, die nicht mit dem Schloss gesichert sind",
-        "description": "hovering over the button to clear temporary permissions"
-    },
     "matrixPresetAbsentPrompt" : {
         "message": "No preset recipe matches this page",
         "description": "..."
@@ -444,6 +432,84 @@
     "ubiquitousExport" : {
         "message": "Export",
         "description": "English: Export"
+    },
+
+
+    "scopedCommitAllButton": {
+        "message": "Commit all",
+        "description": "English: Commit all"
+    },
+    "scopedRevertAllButton": {
+        "message": "Revert all",
+        "description": "English: Revert all"
+    },
+    "scopedMarkAllForDeletionButton": {
+        "message": "Mark all for deletion",
+        "description": "English: Mark all for deletion"
+    },
+    "scopedResetToFactoryButton": {
+        "message": "Reset to factory",
+        "description": "English: Reset to factory"
+    },
+    "scopedRulesHeader": {
+        "message": "Rules",
+        "description": "English: Rules"
+    },
+    "scopedRulesInfo": {
+        "message": "This is where you want to backup all of your scopes and rules: Click &ldquo;Export rules&rdquo;, optionally click &ldquo;Encode recipe&rdquo;, save the result into a file which content can be pasted here later. <p>Syntax is very strict, only the most geeky users should risk editing here. If you are importing a recipe from an untrusted source, be sure there is nothing wrong with it (ex.: <b>&ldquo;whitelist * evil.com&rdquo;</b>)</p>",
+        "description": "English: [see english message.json]"
+    },
+    "scopedRecipeHeader": {
+        "message": "Recipes",
+        "description": "English: Recipes"
+    },
+    "scopedRecipesInfo": {
+        "message": "A &ldquo;recipe&rdquo; is just a set of rules encoded in a way to make it easy to backup or exchange set of rules between users. Hopefully geekier users will share their carefully crafted recipes to help less geeky users.",
+        "description": "English: [see english message.json]"
+    },
+    "scopedBackupRecipeButton": {
+        "message": "Backup to file",
+        "description": "English: Backup to file"
+    },
+    "scopedRestoreRecipeButton": {
+        "message": "Restore from file",
+        "description": "English: Restore from file"
+    },
+    "scopedDecodeRecipeButton": {
+        "message": "Decode recipe",
+        "description": "English: Decode recipe"
+    },
+    "scopedEncodeRecipeButton": {
+        "message": "Encode recipe",
+        "description": "English: Encode recipe"
+    },
+    "scopedImportRulesButton": {
+        "message": "Import rules",
+        "description": "English: Import rules"
+    },
+    "scopedExportRulesButton": {
+        "message": "Export rules",
+        "description": "English: Export rules"
+    },
+    "scopedGlobalScopeHeader": {
+        "message": "Global scope",
+        "description": "English: Global scope"
+    },
+    "scopedBtsScopeHeader": {
+        "message": "Behind-the-scene scope",
+        "description": "English: Behind-the-scene scope"
+    },
+    "scopedDomainScopeHeader": {
+        "message": "Domain-level scope",
+        "description": "English: Domain-level scope"
+    },
+    "scopedSiteScopeHeader": {
+        "message": "Site-level scope",
+        "description": "English: Site-level scope"
+    },
+    "scopedDeletionPrompt": {
+        "message": "You are about to delete {{deleteCount}} rules.\nIt is irreversible.\nClick OK to confirm.",
+        "description": "English: You are about to delete {{deleteCount}} rules.\nIt is irreversible.\nClick OK to confirm."
     },
 
 
