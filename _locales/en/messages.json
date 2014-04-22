@@ -456,7 +456,7 @@
         "description": "English: Rules"
     },
     "scopedRulesInfo": {
-        "message": "This is where you want to backup all of your scopes and rules: Click &ldquo;Export rules&rdquo;, optionally click &ldquo;Encode recipe&rdquo;, save the result into a file which content can be pasted here later. <p>Syntax is very strict, only the most geeky users should risk editing here. If you are importing a recipe from an untrusted source, be sure there is nothing wrong with it (ex.: <b>&ldquo;whitelist * evil.com&rdquo;</b>)</p>",
+        "message": "This is where you want to backup all of your scopes and rules: Click &ldquo;Export rules&rdquo;, optionally click &ldquo;Encode recipe&rdquo;, save the result into a file which content can be pasted here later. <p>Syntax is very strict, only advanced users should risk editing here. If you are importing a recipe from an untrusted source, be sure there is nothing wrong with it (ex.: <b>&ldquo;whitelist * evil.com&rdquo;</b>)</p>",
         "description": "English: [see english message.json]"
     },
     "scopedRecipeHeader": {
@@ -464,7 +464,7 @@
         "description": "English: Recipes"
     },
     "scopedRecipesInfo": {
-        "message": "A &ldquo;recipe&rdquo; is just a set of rules encoded in a way to make it easy to backup or exchange set of rules between users. Hopefully geekier users will share their carefully crafted recipes to help less geeky users.",
+        "message": "A &ldquo;recipe&rdquo; is just a set of rules encoded in a way to make it easy to backup or exchange set of rules between users. Hopefully advanced users will share their carefully crafted recipes to help novice users.",
         "description": "English: [see english message.json]"
     },
     "scopedBackupRecipeButton": {
