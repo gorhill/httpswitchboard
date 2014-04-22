@@ -153,17 +153,45 @@
         "message": "Statistiques HTTP Switchboard",
         "description": "header for the whole stats page"
     },
-    "statsPageWhitelistsBlacklists" : {
-        "message": "Liste blanche/liste noire",
-        "description": "header for 'whitelists/blacklists' section"
-    },
     "statsPageGenericStats" : {
         "message": "Statistiques générales",
         "description": "English: Generic statistics"
     },
+    "statsPageCookieHeadersFoiled" : {
+        "message": "<a href='https://fr.wikipedia.org/wiki/Cookie_(informatique)'>Cookies</a> bloqués: {{count}}",
+        "description": "English: HTTP cookie headers foiled: {{count}}"
+    },
+    "statsPageRefererHeadersFoiled" : {
+        "message": "<a href='https://fr.wikipedia.org/wiki/R%C3%A9f%C3%A9rant'>Référants</a> bloqués: {{count}}",
+        "description": "English: HTTP referer headers foiled: {{count}}"
+    },
+    "statsPageCookiesRemoved" : {
+        "message": "Cookies supprimés: {{count}}",
+        "description": "Local cookies removed: {{count}}"
+    },
+    "statsPageLocalStoragesCleared" : {
+        "message": "<a href='https://fr.wikipedia.org/wiki/Stockage_web_local'>Stockages web locaux</a> effacés: {{count}}",
+        "description": "Local storages emptied: {{count}}"
+    },
+    "statsPageBrowserCacheCleared" : {
+        "message": "Nombre de fois le cache du navigateur a été vidé: {{count}}",
+        "description": "Browser caches cleared: {{count}}"
+    },
+    "statsPageABPHits" : {
+        "message": "Requêtes bloquées via les filtres Adblock+: {{count}} ({{percent}}% des toutes les requêtes bloquées)",
+        "description": "Requests blocked by Adblock+ complex filters: {{count}} ({{percent}}% of all blocked requests)"
+    },
     "statsPageDetailedStats" : {
         "message": "Statistiques détaillées",
         "description": "English: Detailed statistics"
+    },
+    "statsPageDetailedAllPages" : {
+        "message": "Toutes les pages",
+        "description": "English: All"
+    },
+    "statsPageDetailedBehindTheScenePage" : {
+        "message": "Chromium: Requêtes en coulisse",
+        "description": "English: Chromium: Behind the scene"
     },
     "statsPageOverview" : {
         "message": "Aperçu",
@@ -182,8 +210,20 @@
         "description": "capitalized"
     },
     "statsPageDetailed" : {
-        "message": "Carnet des requêtes",
+        "message": "Journalisation",
         "description": "English: Request log"
+    },
+    "statsPageLogSizePrompt1" : {
+        "message": "Conserver les",
+        "description": "English: Remember the last"
+    },
+    "statsPageLogSizePrompt2" : {
+        "message": "requêtes les plus récentes pour <b>chaque page</b>.",
+        "description": "English: HTTP requests <b>per page</b>."
+    },
+    "statsPageLogSizeHelp" : {
+        "message": "<p>Vous pouvez inspecter les détails des requêtes HTTP effectuées par une page Web (ci-dessous).</p><p>C'est surtout utile pour les utilisateurs chevronnés qui veulent s'enquérir de ce que fait précisément une page Web. Mais journaliser ces requêtes HTTP nécessite de la mémoire vive, et si vous ne vous souciez guère de ces informations, la mémoire utilisée est gaspillée.</p><p>Cette option vous permet de saisir le nombre de requêtes HTTP les plus récentes à journaliser pour une inspection ultérieure.<p><p>Saisissez &ldquo;<code>0</code>&rdquo; pour désactiver la journalisation détaillée (et ainsi réduire l'empreinte mémoire de <i>HTTP Switchboard</i>).</p>",
+        "description": "To help user understand the purpose of the log size value"
     },
     "statsPageRefresh" : {
         "message": "Actualiser",
@@ -338,14 +378,6 @@
     "settingsProcessBehindTheSceneHelp" : {
         "message": "<p>D'après ce <a href='http://www.google.com/intl/en/chrome/browser/privacy/whitepaper.html'>document de la confidentialité de Google Chrome</a>, <i>Chromium</i> peut envoyer des requêtes HTTP à <i>Google</i> sans que vous n'ayez visité une page Web. Dénommons ces requêtes particulières les <strong>requêtes en coulisses</strong>. D'autres extensions de navigateur peuvent également envoyer des requêtes HTTP <strong>en coulisses</strong>.</p><p><i>HTTP Switchboard</i> vous permet d'intercepter et de traiter ces requêtes comme toutes les autres, et peuvent donc être allouées ou bloquées d'après vos listes blanche et noire.</p><p>Il vous suffit d'accéder à la matrice spécifique disponible en cliquant sur l'icone de l'extension tout en étant dans la page des paramètres d'HTTP Switchboard. Veuillez prendre connaissance de cet article (en anglais) : <a href='https://github.com/gorhill/httpswitchboard/wiki/Behind-the-scene-requests'>Behind-the-scene requests</a>.</p><div class='warn'><p><span style='color:red; font-weight:bold'>ATTENTION !</span> Bloquer certaines requêtes Web <strong>en coulisses</strong> entraîne <a href='https://github.com/gorhill/httpswitchboard/issues/27'>un problème</a> lorsque l'utilisateur souhaite ajouter une extensions depuis le Chrome Web Store (en plus de potentiellement les empêcher de se mettre à jour), vous avez donc la possibilité de désactiver cette option ici. Le blocage peut aussi occasionner des dysfonctionnements des autres extensions installées (celles requérant l'utilisation de données distantes).</p> <p>Utilisateurs d'Opera : si vous activez cette option, veuillez mettre en liste blanche les requêtes en coulisses de type Autres afin de ne pas entraver la génération des miniatures d'Accès Rapide.</p><p>Même si cette fonctionnalité n'est pas activée, les requêtes <strong>en coulisses</strong> sont toujours journalisées par <i>HTTP Switchboard</i>, pour que vous puissez quand même les inspecter (depuis la page <a href='dashboard.html#statistics'>Statistiques</a>).</p>",
         "description": "..."
-    },
-    "settingsLogHeader" : {
-        "message": "Journalisation",
-        "description": "header of Log section"
-    },
-    "settingsLogSizeHelp" : {
-        "message": "<p>Vous pouvez inspecter les détails des requêtes HTTP effectuées par une page Web dans la page des <a href='info.html#detailed-stats' style='font-style:italic'>Statistiques</a> (en bas).</p><p>C'est surtout utile pour les utilisateurs chevronnés qui veulent s'enquérir de ce que fait précisément une page Web. Mais journaliser ces requêtes HTTP nécessite de la mémoire vive, et si vous ne vous souciez guère de ces informations, la mémoire utilisée est gaspillée.</p><p>Cette option vous permet de saisir le nombre de requêtes HTTP les plus récentes à journaliser pour une inspection ultérieure.<p><p>Saisissez &ldquo;<code>0</code>&rdquo; pour désactiver la journalisation détaillée (et ainsi réduire l'empreinte mémoire de <i>HTTP Switchboard</i>).</p>",
-        "description": "To help user understand the purpose of the log size value"
     },
     "settingsDoneButton" : {
         "message": "Appliquer et fermer",

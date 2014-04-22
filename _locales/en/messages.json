@@ -153,21 +153,49 @@
         "message": "HTTP Switchboard &ndash; Statistics",
         "description": "header for the whole stats page"
     },
-    "statsPageWhitelistsBlacklists" : {
-        "message": "Whitelists/blacklists",
-        "description": "header for 'whitelists/blacklists' section"
-    },
     "statsPageGenericStats" : {
         "message": "Generic statistics",
         "description": "English: Generic statistics"
+    },
+    "statsPageCookieHeadersFoiled" : {
+        "message": "<a href='https://en.wikipedia.org/wiki/HTTP_cookie'>HTTP cookie</a> headers foiled: {{count}}",
+        "description": "English: HTTP cookie headers foiled: {{count}}"
+    },
+    "statsPageRefererHeadersFoiled" : {
+        "message": "<a href='https://en.wikipedia.org/wiki/HTTP_referer'>HTTP cookie</a> headers foiled: {{count}}",
+        "description": "English: HTTP referer headers foiled: {{count}}"
+    },
+    "statsPageCookiesRemoved" : {
+        "message": "Local cookies removed: {{count}}",
+        "description": "Local cookies removed: {{count}}"
+    },
+    "statsPageLocalStoragesCleared" : {
+        "message": "<a href='http://diveintohtml5.info/storage.html'>Local storages</a> emptied: {{count}}",
+        "description": "Local storages emptied: {{count}}"
+    },
+    "statsPageBrowserCacheCleared" : {
+        "message": "Browser caches cleared: {{count}}",
+        "description": "Browser caches cleared: {{count}}"
+    },
+    "statsPageABPHits" : {
+        "message": "Requests blocked by Adblock+ complex filters: {{count}} ({{percent}}% of all blocked requests)",
+        "description": "Requests blocked by Adblock+ complex filters: {{count}} ({{percent}}% of all blocked requests)"
     },
     "statsPageDetailedStats" : {
         "message": "Detailed statistics",
         "description": "English: Detailed statistics"
     },
+    "statsPageDetailedAllPages" : {
+        "message": "All",
+        "description": "English: All"
+    },
+    "statsPageDetailedBehindTheScenePage" : {
+        "message": "Chromium: Behind the scene",
+        "description": "English: Chromium: Behind the scene"
+    },
     "statsPageOverview" : {
         "message": "Overview",
-        "description": "header for 'overview' section"
+        "description": "English: Overview"
     },
     "statsPageRequests" : {
         "message": "Requests",
@@ -184,6 +212,18 @@
     "statsPageDetailed" : {
         "message": "Request log",
         "description": "English: Request log"
+    },
+    "statsPageLogSizePrompt1" : {
+        "message": "Remember the last",
+        "description": "English: Remember the last"
+    },
+    "statsPageLogSizePrompt2" : {
+        "message": "HTTP requests <b>per page</b>.",
+        "description": "English: HTTP requests <b>per page</b>."
+    },
+    "statsPageLogSizeHelp" : {
+        "message": "<p>You can inspect details of the most recent raw HTTP requests which have been made by a web page (see below).</p><p>This is mostly useful to advanced users who want to investigate exactly what a web page has been doing. But logging these HTTP requests requires memory, and if you don't care about this technical information, then memory is being wasted.</p><p>Hence this field which lets you adjust the maximum number of the most recent HTTP requests which are to be logged for further inspection.<p><p>Enter &ldquo;<code>0</code>&rdquo; to turn off detailed logging (and consequently reduce the memory footprint of <i>HTTP Switchboard</i>).</p>",
+        "description": "To help user understand the purpose of the log size value"
     },
     "statsPageRefresh" : {
         "message": "Refresh",
@@ -338,14 +378,6 @@
     "settingsProcessBehindTheSceneHelp" : {
         "message": "<p>According to <a href='http://www.google.com/intl/en/chrome/browser/privacy/whitepaper.html'>Google Chrome Privacy Whitepaper</a>, <i>Chromium</i> might send HTTP requests to <i>Google</i> without the user expressly visiting a web page. Let's call these special requests <strong>behind-the-scene</strong> requests. Also, other installed browser extensions can send <strong>behind-the-scene</strong> HTTP requests.</p><p><i>HTTP Switchboard</i> lets you intercept and treat these requests like any other request: they can be processed in order to allow/block them as per your whitelist/blacklist.</p><p>Click the extension icon while viewing this page to get started. Required reading: <a href='https://github.com/gorhill/httpswitchboard/wiki/Behind-the-scene-requests'>Behind-the-scene requests</a>.</p><div class='warn'><p><span style='color:red; font-weight:bold'>Beware!</span> Blocking <strong>behind-the-scene</strong> net requests is potentially causing <a href='https://github.com/gorhill/httpswitchboard/issues/27'>an issue</a> when the user wants to install an extension from the Chrome store (including maybe preventing extensions from being updated), hence the ability to disable the feature here. Blocking can also cause other installed extensions to not work properly (those querying for remote data).</p> <p>Even if this feature is not enabled, <strong>behind-the-scene</strong> requests are still logged by <i>HTTP Switchboard</i>. You can inspect these requests on the (from the <a href='dashboard.html#statistics'>Statistics</a> page).</p>",
         "description": "..."
-    },
-    "settingsLogHeader" : {
-        "message": "Log",
-        "description": "header of Log section"
-    },
-    "settingsLogSizeHelp" : {
-        "message": "<p>You can inspect details of the most recent raw HTTP requests which have been made by a web page in the <a href='info.html#detailed-stats' style='font-style:italic'>Statistics</a> page (at the bottom).</p><p>This is mostly useful to advanced users who want to investigate exactly what a web page has been doing. But logging these HTTP requests requires memory, and if you don't care about this technical information, then memory is being wasted.</p><p>Hence this field which lets you adjust the maximum number of the most recent HTTP requests which are to be logged for further inspection.<p><p>Enter &ldquo;<code>0</code>&rdquo; to turn off detailed logging (and consequently reduce the memory footprint of <i>HTTP Switchboard</i>).</p>",
-        "description": "To help user understand the purpose of the log size value"
     },
     "settingsDoneButton" : {
         "message": "Done",

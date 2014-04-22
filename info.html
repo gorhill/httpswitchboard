@@ -14,13 +14,10 @@ select {
     display: inline-block;
     text-align: right;
     }
-#requests {
+#requests-filters {
     font-size: 13px;
     }
-#requests * {
-    font-size: inherit;
-    }
-#requests > div {
+#requests-log {
     margin: 0;
     border: 1px inset #eee;
     padding: 0;
@@ -29,33 +26,33 @@ select {
     overflow: scroll;
     width: calc(100% - 1.5em);
     }
-#requests table {
+#requests-log table {
     border-collapse: collapse;
     }
-#requests tr {
+#requests-log tr {
     margin: 0;
     border: 0;
     padding: 0;
     color: #070;
     }
-#requests tr.ro {
+#requests-log tr.ro {
     color: gray;
     }
-#requests tr:hover {
+#requests-log tr:hover {
     background-color: #eee;
     }
-#requests tr.blocked-true {
+#requests-log tr.blocked-true {
     color: #c00;
     }
-#requests tr:first-child {
+#requests-log tr:first-child {
     font-weight: bold;
     background-color: #eee;
     }
-#requests tr > td {
+#requests-log tr > td {
     padding: 1px 0.75em 1px 0;
     white-space: nowrap;
     }
-#requests tr > td:nth-of-type(2) {
+#requests-log tr > td:nth-of-type(2) {
     text-align: right;
     }
 .type-main_frame {
@@ -72,20 +69,20 @@ tr.unused {
 <h2 data-i18n="statsPageGenericStats" id="generic-stats"></h2>
 <div>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/HTTP_cookie">HTTP cookie</a> headers foiled: <span id="cookieHeaderFoiledCounter"></span>
-<li><a href="https://en.wikipedia.org/wiki/HTTP_referer">HTTP referer</a> headers foiled: <span id="refererHeaderFoiledCounter"></span>
-<li>Local cookies removed: <span id="cookieRemovedCounter"></span>
-<li><a href="http://diveintohtml5.info/storage.html">Local storages</a> emptied: <span id="localStorageRemovedCounter"></span>
-<li>Browser caches cleared: <span id="browserCacheClearedCounter"></span>
-<li>Requests blocked by Adblock+ complex filters: <span id="abpBlockCount">?</span> (<span id="abpBlockRate">?</span>% of all blocked requests)
+<li id="statsPageCookieHeadersFoiled">
+<li id="statsPageRefererHeadersFoiled">
+<li id="statsPageCookiesRemoved">
+<li id="statsPageLocalStoragesCleared">
+<li id="statsPageBrowserCacheCleared">
+<li id="statsPageABPHits">
 </ul>
 </div>
 
 <h2 data-i18n="statsPageDetailedStats" id="detailed-stats"></h2>
-<div>For 
+<div> 
 <select id="selectPageUrls">
-<option value="All">All</option>
-<option id="selectPageUrlTemplate" value="http://chromium-behind-the-scene">Chromium: Behind the scene</option>
+<option value="all" data-i18n="statsPageDetailedAllPages"></option>
+<option id="selectPageUrlTemplate" value="http://chromium-behind-the-scene" data-i18n="statsPageDetailedBehindTheScenePage"></option>
 </select>
 
 <h3 data-i18n="statsPageOverview"></h3>
@@ -131,17 +128,19 @@ tr.unused {
     <span id="allowedSubFrameCount"></span><br>
     <span id="allowedOtherCount"></span><br>
     </div>
-
 </div>
 </div>
 
 
 <h3 data-i18n="statsPageDetailed"></h3>
 <div id="requests">
-    <p>Remember the last <input id="max-logged-requests" type="text" value="50" size="3"> HTTP requests <b>per page</b>.</p>
-    <p><button id="refresh-requests" data-i18n="statsPageRefresh"></button>&emsp;Show: <input id="show-main_frame" type="checkbox" checked value="1">Pages&emsp;<input id="show-blocked" type="checkbox" checked value="1"><span style="color:#c00" data-i18n="statsPageBlocked">Blocked</span>&emsp;<input id="show-allowed" type="checkbox" checked value="1"><span style="color:#070" data-i18n="statsPageAllowed">Allowed</span>&emsp;<input id="show-cookie" type="checkbox" checked value="1">Cookies&emsp;<input id="show-image" type="checkbox" checked value="1">Images&emsp;<input id="show-stylesheet" type="checkbox" checked value="1">CSS&emsp;<input id="show-object" type="checkbox" checked value="1">Objects&emsp;<input id="show-script" type="checkbox" checked value="1">Scripts&emsp;<input id="show-xmlhttprequest" type="checkbox" checked value="1">XHRs&emsp;<input id="show-sub_frame" type="checkbox" checked value="1">Frames&emsp;<input id="show-other" type="checkbox" checked value="1">Others
+    <div><span data-i18n="statsPageLogSizePrompt1"></span> <input id="max-logged-requests" type="text" value="50" size="3"> <span data-i18n="statsPageLogSizePrompt2"></span> 
+        <button class="whatisthis"></button>
+        <p class="whatisthis-expandable para" data-i18n="statsPageLogSizeHelp"></p>
+        </p>
+    <p id="requests-filters"><button id="refresh-requests" data-i18n="statsPageRefresh"></button>&emsp;Show: <input id="show-main_frame" type="checkbox" checked value="1">Pages&emsp;<input id="show-blocked" type="checkbox" checked value="1"><span style="color:#c00" data-i18n="statsPageBlocked">Blocked</span>&emsp;<input id="show-allowed" type="checkbox" checked value="1"><span style="color:#070" data-i18n="statsPageAllowed">Allowed</span>&emsp;<input id="show-cookie" type="checkbox" checked value="1">Cookies&emsp;<input id="show-image" type="checkbox" checked value="1">Images&emsp;<input id="show-stylesheet" type="checkbox" checked value="1">CSS&emsp;<input id="show-object" type="checkbox" checked value="1">Objects&emsp;<input id="show-script" type="checkbox" checked value="1">Scripts&emsp;<input id="show-xmlhttprequest" type="checkbox" checked value="1">XHRs&emsp;<input id="show-sub_frame" type="checkbox" checked value="1">Frames&emsp;<input id="show-other" type="checkbox" checked value="1">Others
     </p>
-    <div style="overflow-y:hidden">
+    <div id="requests-log" style="overflow-y:hidden">
     <table id="requestsTable">
     <tr class="ro"><td>when<td>what<td><td class="fa">&#xf0b0;<td>where</tr>
     <tr class="ro" id="requestRowTemplate"><td><td><td><a href="" style="display:none">&lt;a&gt;</a><td class="fa"><td></tr>

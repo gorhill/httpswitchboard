@@ -49,6 +49,13 @@ a {
     border: 1px dotted black;
     background-color: #F8F8F8;
     }
+.whatisthis-expandable > p {
+    margin-top: 1em;
+    margin-bottom: 0;
+    }
+.whatisthis-expandable > p:first-child {
+    margin-top: 0;
+    }
 .whatisthis-expandable.whatisthis-expanded {
     display: block;
     }

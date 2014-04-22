@@ -25,7 +25,7 @@
 
 /******************************************************************************/
 
-var targetUrl = 'All';
+var targetUrl = 'all';
 var maxRequests = 500;
 
 var tableFriendlyTypeNames = {
@@ -51,7 +51,7 @@ function pageStatsFromPageUrl(pageUrl) {
 
 function updateRequestData() {
     var requests = [];
-    var pageUrls = targetUrl === 'All' ?
+    var pageUrls = targetUrl === 'all' ?
           Object.keys(gethttpsb().pageStats) :
           [targetUrl];
     var pageUrl;
@@ -151,21 +151,22 @@ function renderStats() {
     var httpsb = gethttpsb();
 
     // Make sure targetUrl is valid
-    if ( targetUrl !== 'All' && !httpsb.pageStats[targetUrl] ) {
-        targetUrl = 'All';
+    if ( targetUrl !== 'all' && !httpsb.pageStats[targetUrl] ) {
+        targetUrl = 'all';
     }
 
-    var requestStats = targetUrl === 'All' ? httpsb.requestStats : httpsb.pageStats[targetUrl].requestStats;
+    var requestStats = targetUrl === 'all' ? httpsb.requestStats : httpsb.pageStats[targetUrl].requestStats;
     var blockedStats = requestStats.blocked;
     var allowedStats = requestStats.allowed;
+
+    $('#statsPageCookieHeadersFoiled').html(chrome.i18n.getMessage('statsPageCookieHeadersFoiled').replace('{{count}}', renderNumber(httpsb.cookieHeaderFoiledCounter)));
+    $('#statsPageRefererHeadersFoiled').html(chrome.i18n.getMessage('statsPageRefererHeadersFoiled').replace('{{count}}', renderNumber(httpsb.refererHeaderFoiledCounter)));
+    $('#statsPageCookiesRemoved').html(chrome.i18n.getMessage('statsPageCookiesRemoved').replace('{{count}}', renderNumber(httpsb.cookieRemovedCounter)));
+    $('#statsPageLocalStoragesCleared').html(chrome.i18n.getMessage('statsPageLocalStoragesCleared').replace('{{count}}', renderNumber(httpsb.localStorageRemovedCounter)));
+    $('#statsPageBrowserCacheCleared').html(chrome.i18n.getMessage('statsPageBrowserCacheCleared').replace('{{count}}', renderNumber(httpsb.browserCacheClearedCounter)));
+    $('#statsPageABPHits').html(chrome.i18n.getMessage('statsPageABPHits').replace('{{count}}', renderNumber(httpsb.abpBlockCount)).replace('{{percent}}', (httpsb.abpBlockCount * 100 / httpsb.requestStats.blocked.all).toFixed(1)));
+
     renderNumbers({
-        '#cookieRemovedCounter': httpsb.cookieRemovedCounter,
-        '#localStorageRemovedCounter': httpsb.localStorageRemovedCounter,
-        '#cookieHeaderFoiledCounter': httpsb.cookieHeaderFoiledCounter,
-        '#refererHeaderFoiledCounter': httpsb.refererHeaderFoiledCounter,
-        '#browserCacheClearedCounter': httpsb.browserCacheClearedCounter,
-        '#abpBlockCount': httpsb.abpBlockCount,
-        '#abpBlockRate': (httpsb.abpBlockCount * 100 / httpsb.requestStats.blocked.all).toFixed(1),
         '#blockedAllCount': requestStats.blocked.all,
         '#blockedMainFrameCount': blockedStats.main_frame,
         '#blockedCookieCount': blockedStats.cookie,
@@ -188,6 +189,9 @@ function renderStats() {
         '#allowedOtherCount': allowedStats.other,
         '#maxLoggedRequests': httpsb.userSettings.maxLoggedRequests
     });
+
+    // because some i18n messages may contain links
+    $('a').attr('target', '_blank');
 }
 
 /******************************************************************************/
