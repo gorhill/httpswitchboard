@@ -111,67 +111,6 @@
         "message": "Supprimer toutes les permissions temporaires &mdash; celles qui ne sont pas cadenassées",
         "description": "hovering over the button to clear temporary permissions"
     },
-
-    "matrixAllowAll" : {
-        "message": "Cliquez pour <span class=\"gdt\">allouer</span> tous les types et domaines neutres",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixBlockAll" : {
-        "message": "Cliquez pour <span class=\"rdt\">bloquer</span> tous les types et domaines neutres",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixAllowSomethingFromEverywhere" : {
-        "message": "Cliquez pour <span class=\"gdt\">allouer</span> <b>les requêtes de type {{what}}</b> en provenance de <b>partout</b>, excepté les domaines de la liste noire",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixAllowEverythingFromSomewhere" : {
-        "message": "Cliquez pour <span class=\"gdt\">allouer</span> <b>tout type de requête</b> en provenance de <b>{{where}}</b>",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixAllowSomethingFromSomewhere" : {
-        "message": "Cliquez pour <span class=\"gdt\">allouer</span> <b>les requêtes de type {{what}}</b> en provenance de <b>{{where}}</b>",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixBlockSomethingFromEverywhere" : {
-        "message": "Cliquez pour <span class=\"rdt\">bloquer</span> <b>les requêtes de type {{what}}</b> en provenance de <b>partout</b>,  excepté les domaines de la liste blanche",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixBlockEverythingFromSomewhere" : {
-        "message": "Cliquez pour <span class=\"rdt\">bloquer</span> <b>tout type de requête</b> en provenance de <b>{{where}}</b>",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixBlockSomethingFromSomewhere" : {
-        "message": "Cliquez pour <span class=\"rdt\">bloquez</span> <b>{{what}}</b> en provenance de <b>{{where}}</b>",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixGraylistSomethingFromEverywhere" : {
-        "message": "Cliquez pour mettre sur la liste grise <b>les requêtes de type {{what}}</b> en provenance de <b>partout</b>",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixGraylistEverythingFromSomewhere" : {
-        "message": "Cliquez pour mettre sur la liste grise <b>tout type de requête</b> en provenance de <b>{{where}}</b>",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixGraylistSomethingFromSomewhere" : {
-        "message": "Cliquez pour mettre sur la liste grise <b>les requêtes de type {{what}}</b> en provenance de <b>{{where}}</b>",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixPersistBlock" : {
-        "message": "Placer cette cellule sur la <span class=\"rdt\">liste noire</span> permanente",
-        "description": "when user hover over red unlocked padlock"
-    },
-    "matrixPersistAllow" : {
-        "message": "Placer cette cellule sur la <span class=\"gdt\">liste blanche</span> permanente",
-        "description": "when user hover over green unlocked padlock"
-    },
-    "matrixUnpersistBlock" : {
-        "message": "Retirer cette cellule de la <span class=\"rdt\">liste noire</span> permanente",
-        "description": "when user hover over red locked padlock"
-    },
-    "matrixUnpersistAllow" : {
-        "message": "Retirer cette cellule de la <span class=\"gdt\">liste blanche</span> permanente",
-        "description": "when user hover over green locked padlock"
-    },
     "matrixPresetAbsentPrompt" : {
         "message": "Aucune recette prédéfinie disponible pour cette page",
         "description": "..."

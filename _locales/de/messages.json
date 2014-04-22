@@ -111,67 +111,6 @@
         "message": "Lösche alle temporären Regeln &mdash; also solche, die nicht mit dem Schloss gesichert sind",
         "description": "hovering over the button to clear temporary permissions"
     },
-
-    "matrixAllowAll" : {
-        "message": "Click to <span class=\"gdt\">allow</span> all graylisted types and domains",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixBlockAll" : {
-        "message": "Click to <span class=\"rdt\">block</span> all graylisted types and domains",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixAllowSomethingFromEverywhere" : {
-        "message": "Click to <span class=\"gdt\">allow</span> <b>{{what}}</b> from <b>everywhere</b> except blacklisted hostnames",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixAllowEverythingFromSomewhere" : {
-        "message": "Click to <span class=\"gdt\">allow</span> <b>everything</b> from <b>{{where}}</b>",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixAllowSomethingFromSomewhere" : {
-        "message": "Click to <span class=\"gdt\">allow</span> <b>{{what}}</b> from <b>{{where}}</b>",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixBlockSomethingFromEverywhere" : {
-        "message": "Click to <span class=\"rdt\">block</span> <b>{{what}}</b> from <b>everywhere</b> except whitelisted hostnames",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixBlockEverythingFromSomewhere" : {
-        "message": "Click to <span class=\"rdt\">block</span> <b>everything</b> from <b>{{where}}</b>",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixBlockSomethingFromSomewhere" : {
-        "message": "Click to <span class=\"rdt\">block</span> <b>{{what}}</b> from <b>{{where}}</b>",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixGraylistSomethingFromEverywhere" : {
-        "message": "Click to graylist <b>{{what}}</b> from <b>everywhere</b>",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixGraylistEverythingFromSomewhere" : {
-        "message": "Click to graylist <b>everything</b> from <b>{{where}}</b>",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixGraylistSomethingFromSomewhere" : {
-        "message": "Click to graylist <b>{{what}}</b> from <b>{{where}}</b>",
-        "description": "used in matrix as user hover cells"
-    },
-    "matrixPersistBlock" : {
-        "message": "Diese Zelle permanent zur <span class=\"rdt\">Blacklist</span> hinzufügen",
-        "description": "when user hover over red unlocked padlock"
-    },
-    "matrixPersistAllow" : {
-        "message": "Diese Zelle permanent zur <span class=\"gdt\">Whitelist</span> hinzufügen",
-        "description": "when user hover over green unlocked padlock"
-    },
-    "matrixUnpersistBlock" : {
-        "message": "Diese Zelle permanent aus der <span class=\"rdt\">Blacklist</span> entfernen",
-        "description": "when user hover over red locked padlock"
-    },
-    "matrixUnpersistAllow" : {
-        "message": "Diese Zelle permanent aus der <span class=\"gdt\">Whitelist</span> entfernen",
-        "description": "when user hover over green locked padlock"
-    },
     "matrixPresetAbsentPrompt" : {
         "message": "No preset recipe matches this page",
         "description": "..."
