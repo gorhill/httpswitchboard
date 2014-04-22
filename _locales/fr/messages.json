@@ -401,6 +401,10 @@
         "message": "{{ubiquitousBlacklistCount}} hôtes actuellement bloqués :",
         "description": "English: {{ubiquitousBlacklistCount}} distinct blocked hostnames from:"
     },
+    "ubiquitousListsOfBlockedHostsPerListStats" : {
+        "message": "{{used}} utilisés sur un total de {{total}}",
+        "description": "English: {{used}} used out of {{total}}"
+    },
     "ubiquitousParseAllABPFiltersPrompt1" : {
         "message": "Utiliser en plus les règles Adblock Plus avancées (beta).",
         "description": "English: Parse and enforce Adblock+ complex filters (beta)."

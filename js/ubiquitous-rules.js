@@ -80,7 +80,7 @@ function renderBlacklists() {
     var i = keys.length;
     var blacklist, blacklistName;
     var liTemplate = $('#blacklistTemplate .blacklistDetails').first();
-    var li, child;
+    var li, child, text;
     while ( i-- ) {
         blacklistName = keys[i];
         blacklist = blacklists[blacklistName];
@@ -96,10 +96,12 @@ function renderBlacklists() {
             child.attr('href', encodeURI(blacklistName));
             child.text(blacklistName);
         }
-        child = $('span span:nth-of-type(1)', li);
-        child.text(!blacklist.off && !isNaN(+blacklist.entryUsedCount) ? renderNumber(blacklist.entryUsedCount) : '0');
-        child = $('span span:nth-of-type(2)', li);
-        child.text(!isNaN(+blacklist.entryCount) ? renderNumber(blacklist.entryCount) : '?');
+        child = $('span', li);
+        text = child.text()
+            .replace('{{used}}', !blacklist.off && !isNaN(+blacklist.entryUsedCount) ? renderNumber(blacklist.entryUsedCount) : '0')
+            .replace('{{total}}', !isNaN(+blacklist.entryCount) ? renderNumber(blacklist.entryCount) : '?')
+            ;
+        child.text(text);
         ul.prepend(li);
     }
     $('#parseAllABPFilters').attr('checked', httpsb.userSettings.parseAllABPFilters === true);
