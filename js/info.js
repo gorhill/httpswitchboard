@@ -103,6 +103,8 @@ function renderNumber(value) {
     return value;
 }
 
+/******************************************************************************/
+
 function renderNumbers(set) {
     var keys = Object.keys(set);
     var i = keys.length;
@@ -112,6 +114,20 @@ function renderNumbers(set) {
         $(key).text(renderNumber(set[key]));
     }
 }
+
+/******************************************************************************/
+
+var renderLocalized = function(id, map) {
+    var el = $('#' + id);
+    var msg = chrome.i18n.getMessage(id);
+    for ( var k in map ) {
+        if ( map.hasOwnProperty(k) === false ) {
+            continue;
+        }
+        msg = msg.replace('{{' + k + '}}', map[k]);
+    }
+    el.html(msg);
+};
 
 /******************************************************************************/
 
@@ -159,12 +175,12 @@ function renderStats() {
     var blockedStats = requestStats.blocked;
     var allowedStats = requestStats.allowed;
 
-    $('#statsPageCookieHeadersFoiled').html(chrome.i18n.getMessage('statsPageCookieHeadersFoiled').replace('{{count}}', renderNumber(httpsb.cookieHeaderFoiledCounter)));
-    $('#statsPageRefererHeadersFoiled').html(chrome.i18n.getMessage('statsPageRefererHeadersFoiled').replace('{{count}}', renderNumber(httpsb.refererHeaderFoiledCounter)));
-    $('#statsPageCookiesRemoved').html(chrome.i18n.getMessage('statsPageCookiesRemoved').replace('{{count}}', renderNumber(httpsb.cookieRemovedCounter)));
-    $('#statsPageLocalStoragesCleared').html(chrome.i18n.getMessage('statsPageLocalStoragesCleared').replace('{{count}}', renderNumber(httpsb.localStorageRemovedCounter)));
-    $('#statsPageBrowserCacheCleared').html(chrome.i18n.getMessage('statsPageBrowserCacheCleared').replace('{{count}}', renderNumber(httpsb.browserCacheClearedCounter)));
-    $('#statsPageABPHits').html(chrome.i18n.getMessage('statsPageABPHits').replace('{{count}}', renderNumber(httpsb.abpBlockCount)).replace('{{percent}}', (httpsb.abpBlockCount * 100 / httpsb.requestStats.blocked.all).toFixed(1)));
+    renderLocalized('statsPageCookieHeadersFoiled', { count: renderNumber(httpsb.cookieHeaderFoiledCounter) });
+    renderLocalized('statsPageRefererHeadersFoiled', { count: renderNumber(httpsb.refererHeaderFoiledCounter) });
+    renderLocalized('statsPageCookiesRemoved', { count: renderNumber(httpsb.cookieRemovedCounter) });
+    renderLocalized('statsPageLocalStoragesCleared', { count: renderNumber(httpsb.localStorageRemovedCounter) });
+    renderLocalized('statsPageBrowserCacheCleared', { count: renderNumber(httpsb.browserCacheClearedCounter) });
+    renderLocalized('statsPageABPHits', { count: renderNumber(httpsb.abpBlockCount), percent: (httpsb.abpBlockCount * 100 / httpsb.requestStats.blocked.all).toFixed(1) });
 
     renderNumbers({
         '#blockedAllCount': requestStats.blocked.all,
