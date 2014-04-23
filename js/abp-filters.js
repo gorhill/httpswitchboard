@@ -36,10 +36,10 @@ var reIgnoreElementHide = /##|@#/;
 var reIgnoreWhitelist = /^@@/;
 var reIgnoreFilter = /^\|http/;
 var reConditionalRule = /\$/;
-var reHostnameRule = /^\|\|[a-z0-9.-]+[a-z0-9]\^?$/;
+var reHostnameRule = /^\|\|[0-9a-z.-]+[0-9a-z]\^?$/;
 var reHostnameToken = /^[0-9a-z]+/g;
-var reGoodToken = /[%0-9A-Za-z]{2,}/g;
-var reAnyToken = /[%0-9A-Za-z]+/g;
+var reGoodToken = /[%0-9a-z]{2,}/g;
+var reAnyToken = /[%0-9a-z]+/g;
 var reThirdPartyCondition = /\$third-party$/;
 
 // My favorite regex tester: http://www.gethifi.com/tools/regex#
@@ -599,6 +599,12 @@ var matchStringToFilterCollection = function(filterCollection, url, tokenBeg, to
 var matchString = function(url, srcDomain, dstHostname) {
     //adbProfiler.countUrl();
     //adbProfiler.testCounter(true);
+
+    // https://github.com/gorhill/httpswitchboard/issues/239
+    // Convert url to lower case:
+    //     `match-case` option not supported, but then, I saw only one
+    //     occurrence of it in all the supported lists (bulgaria list).
+    url = url.toLowerCase();
 
     var matches, f;
     var tokenBeg, tokenEnd;
