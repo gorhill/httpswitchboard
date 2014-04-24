@@ -371,12 +371,7 @@ var onBeforeSendHeadersHandler = function(details) {
     // console.debug('onBeforeSendHeadersHandler()> "%s": %o', details.url, details);
 
     var httpsb = HTTPSB;
-
-    // Do not ignore traffic outside tabs
     var tabId = details.tabId;
-    if ( tabId < 0 ) {
-        tabId = httpsb.behindTheSceneTabId;
-    }
 
     // Re-classify orphan HTTP requests as behind-the-scene requests. There is
     // not much else which can be done, because there are URLs
@@ -391,58 +386,70 @@ var onBeforeSendHeadersHandler = function(details) {
         pageStats = httpsb.pageStatsFromTabId(tabId);
     }
 
-    // Any cookie in there?
-    var httpsburi = httpsb.URI;
-    var hostname = httpsburi.hostnameFromURI(details.url);
-    var pageURL = httpsb.pageUrlFromTabId(tabId);
-    var blacklistCookie = httpsb.blacklisted(pageURL, 'cookie', hostname);
-    var processReferer = httpsb.userSettings.processReferer;
-
-    if ( !blacklistCookie && !processReferer ) {
-        return;
-    }
-
-    var headerName, fromDomain, toDomain;
-    var headers = details.requestHeaders;
-    var i = headers.length;
+    var pageURL = httpsb.pageUrlFromPageStats(pageStats);
+    var reqHostname = httpsb.URI.hostnameFromURI(details.url);
     var changed = false;
 
-    // I am no fan of deeply indented code paths, but for performance reasons
-    // I will tolerate it here. Thing is, here it is best to reuse as much
-    // already computed data as possible. (also, not sure if 'switch' would be
-    // a gain here, so far there is only two cases to treat).
-    while ( i-- ) {
-        headerName = headers[i].name.toLowerCase();
-        if ( headerName === 'referer' ) {
-            if ( processReferer ) {
-                fromDomain = httpsburi.domainFromURI(headers[i].value);
-                toDomain = httpsburi.domainFromHostname(hostname);
-                if ( fromDomain !== toDomain ) {
-                    if ( httpsb.blacklisted(pageURL, '*', hostname) ) {
-                        // console.debug('onBeforeSendHeadersHandler()> nulling referer "%s" for "%s"', fromDomain, toDomain);
-                        headers[i].value = '';
-                        httpsb.refererHeaderFoiledCounter++;
-                        changed = true;
-                    }
-                }
-            }
-            continue;
-        }
-        if ( headerName === 'cookie' ) {
-            if ( blacklistCookie ) {
-                // console.debug('HTTP Switchboard > foiled browser attempt to send cookie(s) to %o', details);
-                headers.splice(i, 1);
-                httpsb.cookieHeaderFoiledCounter++;
-                changed = true;
-            }
-            continue;
-        }
+    if ( httpsb.blacklisted(pageURL, 'cookie', reqHostname) ) {
+        changed = foilCookieHeaders(httpsb, details) || changed;
+    }
+
+    if ( httpsb.userSettings.processReferer && httpsb.blacklisted(pageURL, '*', reqHostname) ) {
+        changed = foilRefererHeaders(httpsb, reqHostname, details) || changed;
     }
 
     if ( changed ) {
         // console.debug('onBeforeSendHeadersHandler()> CHANGED "%s": %o', details.url, details);
-        return { requestHeaders: headers };
+        return { requestHeaders: details.headers };
     }
+};
+
+/******************************************************************************/
+
+var foilCookieHeaders = function(httpsb, details) {
+    var changed = false;
+    var headers = details.requestHeaders;
+    var header;
+    var i = headers.length;
+    while ( i-- ) {
+        header = headers[i];
+        if ( header.name.toLowerCase() !== 'cookie' ) {
+            continue;
+        }
+        // console.debug('foilCookieHeaders()> foiled browser attempt to send cookie(s) to "%s"', details.url);
+        headers.splice(i, 1);
+        httpsb.cookieHeaderFoiledCounter++;
+        changed = true;
+    }
+    return changed;
+};
+
+/******************************************************************************/
+
+var foilRefererHeaders = function(httpsb, toHostname, details) {
+    var changed = false;
+    var headers = details.requestHeaders;
+    var header;
+    var fromDomain, toDomain;
+    var i = headers.length;
+    while ( i-- ) {
+        header = headers[i];
+        if ( header.name.toLowerCase() !== 'referer' ) {
+            continue;
+        }
+        fromDomain = httpsb.URI.domainFromURI(header.value);
+        if ( !toDomain ) {
+            toDomain = httpsb.URI.domainFromHostname(toHostname);
+        }
+        if ( toDomain === fromDomain ) {
+            continue;
+        }
+        // console.debug('foilRefererHeaders()> nulling referer "%s" for "%s"', fromDomain, toDomain);
+        headers[i].value = '';
+        httpsb.refererHeaderFoiledCounter++;
+        changed = true;
+    }
+    return changed;
 };
 
 /******************************************************************************/
