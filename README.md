@@ -43,29 +43,29 @@ I expect the extension to work on a stable of any Chromium-based browser.
 
 HTTP Switchboard (FOSS) put you in FULL control of where your browser is allowed to connect, what type of data it is allowed to download, and what it is allowed to execute. Nobody else decides for you: You choose. You are in full control of your privacy.
 
-* See ALL the remote connections, failed or attempted, depending on whether they were blocked or allowed (you decide).
+- See ALL the remote connections, failed or attempted, depending on whether they were blocked or allowed (you decide).
 
-* A single-click to whitelist/blacklist one or multiple classes of requests according to the destination and type of data (a blocked request will NEVER leave your browser).
+- A single-click to whitelist/blacklist one or multiple classes of requests according to the destination and type of data (a blocked request will NEVER leave your browser).
 
-* Efficient blacklisting: cookies won't leave your browser, javascript won't execute, plugins won't play, tracking pixels won't download, etc.
+- Efficient blacklisting: cookies won't leave your browser, javascript won't execute, plugins won't play, tracking pixels won't download, etc.
 
-* You do not have to solely rely on just one particular curated blacklist (arguably with many missing entries) outside which nothing else can be blocked.
+- You do not have to solely rely on just one particular curated blacklist (arguably with many missing entries) outside which nothing else can be blocked.
 
-* Ease of use: HTTP Switchboard lets you easily whitelist/blacklist net requests which originate from within a web page according to a point-and-click matrix:
+- Ease of use: HTTP Switchboard lets you easily whitelist/blacklist net requests which originate from within a web page according to a point-and-click matrix:
 
 - domain names (left column)
-  * from very specific
-  * to very generic
+    * from very specific
+    * to very generic
 
 - type of requests (top row)
-  * cookies
-  * css (stylesheets and web fonts)
-  * images
-  * objects
-  * scripts
-  * XHR (requests made by scripts)
-  * frames
-  * others
+    * cookies
+    * css (stylesheets and web fonts)
+    * images
+    * objects
+    * scripts
+    * XHR (requests made by scripts)
+    * frames
+    * others
 
 You can blacklist/whitelist a single cell, an entire row, a group of rows, an entire column, or the whole matrix with just one click.
 
