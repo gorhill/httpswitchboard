@@ -360,15 +360,15 @@
         "description": "..."
     },
     "settingsSpoofUserAgentPrompt1" : {
-        "message": "Modifier <a href='https://fr.wikipedia.org/wiki/User-Agent'>l'agent utilisateur</a> identifiant votre navigateur à chaque",
+        "message": "Modifier <a href='https://fr.wikipedia.org/wiki/User-Agent'>l'Identification du navigateur</a> toutes les ",
         "description": "Spoof <a href='https://en.wikipedia.org/wiki/User_agent'>User-Agent</a> string by picking one randomly below every"
     },
     "settingsSpoofUserAgentPrompt2" : {
-        "message": "minutes en choisissant au hasard une des chaînes de caractères ci-dessous.",
+        "message": "minutes en choisissant au hasard une des chaînes de caractères ci-dessous :",
         "description": "minutes."
     },
     "settingsSpoofUserAgentHelp" : {
-        "message": "<a href='https://www.eff.org/deeplinks/2010/01/tracking-by-user-agent'>Selon la <i>Electronic Frontier Foundation</i></a>: &ldquo;[...] your browser sends a &lsquo;User Agent&rsquo; header to the website saying precisely which operating system and web browser you are using. This information could help distinguish Internet users from one another because these versions differ, often considerably, from person to person. [...] <b>the User Agent string becomes a real privacy problem</b>.&rdquo;<p>Cette option vous permet d'améliorer la protection de votre vie privée.</p><p>Vous pouvez fournir votre propre liste d'agents utilisateurs. Un seul agent utilisateur par ligne. Les lignes vides et les lignes débutant par &lsquo;#&rsquo; seront ignorées.</p>",
+        "message": "<a href='https://www.eff.org/deeplinks/2010/01/tracking-by-user-agent'>D'après l'<i>Electronic Frontier Foundation</i></a>, &ldquo;votre navigateur envoit un entête d&lsquo;&rsquo; &lsquo;Identification du navigateur&rsquo; vers le site Web visité, indiquant à ce dernier le Système d'Exploitation et le Navigateur Web que vous utilisez. Cette information peut permettre la distinction entre deux Internautes puisque leurs versions employées diffèrent, parfois de manière considérable. [...] <b>la chaine de caractères d&lsquo;&rsquo;Identification du navigateur devient un réel problème de confidentialité</b>.&rdquo;<p>HTTP Switchboard vous offre ainsi la possibilité de falsifier votre Identification du navigateur pour améliorer votre vie privée.</p><p>Vous pouvez fournir votre propre liste d'Identifications du navigateur. N'en saisissez qu'une par ligne. Les lignes vides et les lignes commençant par &lsquo;#&rsquo; seront ignorées.</p>",
         "description": "..."
     },
     "settingsBehindTheSceneHeader" : {
