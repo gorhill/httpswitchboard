@@ -59,7 +59,7 @@ HTTP Switchboard (FOSS) put you in FULL control of where your browser is allowed
         - scripts
         - XHR (requests made by scripts)
         - frames
-        - others
+        - others (`<video>`, `<audio>`, etc.)
 
 You can blacklist/whitelist a single cell, an entire row, a group of rows, an entire column, or the whole matrix with just one click.
 
