@@ -4,7 +4,7 @@
         "description": "extension name."
     },
     "extShortDesc": {
-        "message": "Gérez facilement n'importe quel type de requête effectuée par votre navigateur. Allouez ou bloquez des scripts, pubs, cookies, etc.",
+        "message": "Avec HTTP Switchboard, votre navigateur VOUS appartient ! Bloquez les pubs intrusives, les pisteurs, et des adresses nocives !",
         "description": "this will in chrome web store: must be 132 characters or less"
     },
     "settingsPageName": {
@@ -16,7 +16,7 @@
         "description": "appears as tab name in dashboard"
     },
     "ubiquitousRulesPageName" : {
-        "message": "Règles universelles",
+        "message": "Règles à portée universelle",
         "description": "appears as tab name in dashboard"
     },
     "scopedRulesPageName": {
@@ -100,7 +100,7 @@
 
 
     "matrixPresetAbsentPrompt" : {
-        "message": "Aucune recette prédéfinie disponible pour cette page",
+        "message": "Aucune recette prédéfinie n'est disponible pour cette page :(",
         "description": "..."
     },
     "matrixPresetPresentPrompt" : {
@@ -108,7 +108,7 @@
         "description": "..."
     },
     "matrixNoNetTrafficPrompt" : {
-        "message": "Aucune activité réseau observée pour cet onglet jusqu'à présent !",
+        "message": "Aucune activité réseau n'est observée pour cet onglet jusqu'à présent :O",
         "description": "..."
     },
     "matrixMtxButtonTip" : {
@@ -116,7 +116,7 @@
         "description": "Tool tip for matrix button: {{}} is a placeholder for number of blocked requests."
     },
     "matrixABPButtonTip" : {
-        "message": "Cliquez pour activer/désactiver \u000a les filtres ABP pour le contexte actuel. \u000aNombre de requêtes bloquées via \u000a les filtres Adblock Plus : {{count}}",
+        "message": "Cliquez pour activer/désactiver \u000a les filtres Adblock Plus pour le contexte actuel. \u000aNombre de requêtes bloquées via \u000a les filtres Adblock Plus : {{count}}",
         "description": "Tool tip for ABP button: {{}} is a placeholder for number of blocked requests."
     },
     "matrixPersistButtonTip" : {
@@ -128,7 +128,7 @@
         "description": "Tool tip for the revert local permission button"
     },
     "matrixRevertButtonAllTip" : {
-        "message": "Annuler la totalité des changements \u000a temporaires de tous les contextes",
+        "message": "Annuler la totalité des changements \u000a temporaires concernant tous les contextes",
         "description": "Tool tip for the revert all permissions button"
     },
     "matrixReloadButton" : {
@@ -146,27 +146,27 @@
         "description": "English: Generic statistics"
     },
     "statsPageCookieHeadersFoiled" : {
-        "message": "<a href='https://fr.wikipedia.org/wiki/Cookie_(informatique)'>Cookies</a> bloqués: {{count}}",
+        "message": "Nombre de <a href='https://fr.wikipedia.org/wiki/Cookie_(informatique)'>Cookies</a> bloqués : {{count}}",
         "description": "English: HTTP cookie headers foiled: {{count}}"
     },
     "statsPageRefererHeadersFoiled" : {
-        "message": "<a href='https://fr.wikipedia.org/wiki/R%C3%A9f%C3%A9rant'>Référants</a> bloqués: {{count}}",
+        "message": "Nombre de <a href='https://fr.wikipedia.org/wiki/R%C3%A9f%C3%A9rant'>Référants HTTP</a> bloqués : {{count}}",
         "description": "English: HTTP referer headers foiled: {{count}}"
     },
     "statsPageCookiesRemoved" : {
-        "message": "Cookies supprimés: {{count}}",
+        "message": "Nombre de Cookies supprimés : {{count}}",
         "description": "Local cookies removed: {{count}}"
     },
     "statsPageLocalStoragesCleared" : {
-        "message": "<a href='https://fr.wikipedia.org/wiki/Stockage_web_local'>Stockages web locaux</a> effacés: {{count}}",
+        "message": "Nombre de <a href='https://fr.wikipedia.org/wiki/Stockage_web_local'>Stockages web locaux</a> effacés: {{count}}",
         "description": "Local storages emptied: {{count}}"
     },
     "statsPageBrowserCacheCleared" : {
-        "message": "Nombre de fois le cache du navigateur a été vidé: {{count}}",
+        "message": "Le cache du navigateur a été vidé : {{count}} fois",
         "description": "Browser caches cleared: {{count}}"
     },
     "statsPageABPHits" : {
-        "message": "Requêtes bloquées via les filtres Adblock+: {{count}} ({{percent}}% des toutes les requêtes bloquées)",
+        "message": "Requêtes bloquées grâce aux filtres complexes Adblock Plus : {{count}} ({{percent}}% de toutes les requêtes bloquées)",
         "description": "Requests blocked by Adblock+ complex filters: {{count}} ({{percent}}% of all blocked requests)"
     },
     "statsPageDetailedStats" : {
@@ -178,7 +178,7 @@
         "description": "English: All"
     },
     "statsPageDetailedBehindTheScenePage" : {
-        "message": "Chromium: Requêtes en coulisse",
+        "message": "Requêtes en coulisse du navigateur",
         "description": "English: Chromium: Behind the scene"
     },
     "statsPageOverview" : {
@@ -190,7 +190,7 @@
         "description": "in detailed stats section, header for the type of request"
     },
     "statsPageAllowed" : {
-        "message": "Allouées",
+        "message": "Autorisées",
         "description": "capitalized"
     },
     "statsPageBlocked" : {
@@ -198,7 +198,7 @@
         "description": "capitalized"
     },
     "statsPageDetailed" : {
-        "message": "Journalisation",
+        "message": "Journal des requêtes",
         "description": "English: Request log"
     },
     "statsPageLogSizePrompt1" : {
@@ -206,7 +206,7 @@
         "description": "English: Remember the last"
     },
     "statsPageLogSizePrompt2" : {
-        "message": "requêtes les plus récentes pour <b>chaque page</b>.",
+        "message": "requêtes les plus récentes pour <b>chaque page</b>",
         "description": "English: HTTP requests <b>per page</b>."
     },
     "statsPageLogSizeHelp" : {
@@ -378,11 +378,11 @@
         "description": "English: What is this?"
     },
     "ubiquitousWhatIsThisPrompt" : {
-        "message": "Les &ldquo;règles universelles&rdquo; sont des règles qui s'appliquent dans tous les contextes.",
+        "message": "Les &ldquo;règles à portée universelles&rdquo; sont des règles qui s'appliquent dans tous les contextes.",
         "description": "English: &ldquo;Ubiquitous rules&rdquo; are rules which applies everywhere, i.e. in all scopes."
     },
     "ubiquitousListsOfBlockedHostsPrompt1" : {
-        "message": "Tous les hôtes des listes prédéfinies sont traités comme étant des règles universelles.",
+        "message": "Tous les hôtes des listes prédéfinies sont traités comme étant des règles universelles. Elles sont intégrées au sein de l'extension et peuvent être mises à jour dans l'onglet À propos.",
         "description": "English: All lists of blocked hosts are loaded as ubiquitous rules, hence these hosts are blacklisted in all scopes."
     },
     "ubiquitousListsOfBlockedHostsPrompt2" : {
@@ -402,7 +402,7 @@
         "description": "English: Parse and enforce Adblock+ complex filters (beta)."
     },
     "ubiquitousParseAllABPFiltersInfo" : {
-        "message": "<p>En temps normal, <i>HTTP Switchboard</i> n'extrait depuis les listes compatibles <i>Adblock Plus</i> <b>que</b> les filtres utilisés pour bloquer un domaine entier spécifique (par exemple : &ldquo;<b>||a.ucoz.net^</b>&rdquo;).</p><p>Cette option permet d'également utiliser des filtres <i>Adblock Plus</i> plus élaborés (par exemple: &ldquo;<b>/adwords-conversion-tracking.</b>&rdquo;). Ces filtres complexes sont incompatibles avec la matrice; ainsi ils sont utilisés &ldquo;en interne&rdquo; pour vérifier si une requête réseau devrait être bloquée ou non, et l'interaction utilisateur est limitée.</p><p>Même si cette option est activée, les filtres <i>Adblock Plus</i> utilisés pour <a href=\"https://adblockplus.org/en/filters#elemhide\">cacher des éléments</a> demeureront ignorés.</p><p>L'utilisation en mémoire vive est plus importante lorsque vous utilisez cette fonctionnalité.</p>",
+        "message": "<p>En temps normal, <i>HTTP Switchboard</i> n'extrait depuis les listes compatibles <i>Adblock Plus</i> <b>que</b> les filtres utilisés pour bloquer un domaine entier spécifique (par exemple : &ldquo;<b>||a.ucoz.net^</b>&rdquo;).</p><p>Cette option permet d'également utiliser des filtres <i>Adblock Plus</i> plus élaborés (par exemple : &ldquo;<b>/adwords-conversion-tracking.</b>&rdquo;). Ces filtres complexes sont incompatibles avec la matrice; ainsi ils sont utilisés &ldquo;en interne&rdquo; pour vérifier si une requête réseau devrait être bloquée ou non, et l'interaction utilisateur est limitée.</p><p>Même si cette option est activée, les filtres <i>Adblock Plus</i> utilisés pour <a href=\"https://adblockplus.org/en/filters#elemhide\">cacher des éléments</a> demeureront ignorés.</p><p>L'utilisation en mémoire vive est plus importante lorsque vous utilisez cette fonctionnalité.</p>",
         "description": "English: ..."
     },
     "ubiquitousListsOfBlockedHostsHeader" : {
@@ -410,11 +410,11 @@
         "description": "English: Lists of blocked hosts"
     },
     "userUbiquitousBlacklistHeader" : {
-        "message": "Votre liste de règles à bloquer",
+        "message": "Votre liste personnelle de règles à bloquer",
         "description": "English: Your block rules"
     },
     "userUbiquitousWhitelistHeader" : {
-        "message": "Votre liste de règles à allouer",
+        "message": "Votre liste personnelle de règles à autoriser",
         "description": "English: Your allow rules"
     },
     "ubiquitousApplyChanges" : {
@@ -456,7 +456,7 @@
         "description": "English: Rules"
     },
     "scopedRulesInfo": {
-        "message": "Cette page vous permet de sauvegarder vos règles, en tout ou en partie: Cliquez &ldquo;Exporter&rdquo;, cliquez &ldquo;Encoder&rdquo;, puis exporter vers un fichier. <p>La syntaxe est très stricte, seuls les utilisateurs chevronnés devraient s'aventurer à expérimenter. Si vous importez une recette d'une source peu familière, assurez-vous que le contenu n'est pas compromis (ex.: <b>&ldquo;whitelist * evil.com&rdquo;</b>)</p>",
+        "message": "Cette page vous permet de sauvegarder vos règles. Pour cela, il vous suffit de cliquer sur &ldquo;Exporter&rdquo;, puis sur &ldquo;Encoder&rdquo;, puis sur &ldquo;Exporter vers un fichier&rdquo;. <p>La syntaxe est très stricte, seuls les utilisateurs chevronnés devraient s'aventurer à expérimenter. Si vous importez une recette d'une source peu familière, assurez-vous que le contenu n'est pas compromis (ex. : <b>&ldquo;whitelist * vilain.com&rdquo;</b>)</p>",
         "description": "English: [see english message.json]"
     },
     "scopedRecipeHeader": {
@@ -476,7 +476,7 @@
         "description": "English: Restore from file"
     },
     "scopedDecodeRecipeButton": {
-        "message": "Decoder",
+        "message": "Décoder",
         "description": "English: Decode recipe"
     },
     "scopedEncodeRecipeButton": {
@@ -492,29 +492,29 @@
         "description": "English: Export rules"
     },
     "scopedGlobalScopeHeader": {
-        "message": "Contexte universel",
+        "message": "Contexte global",
         "description": "English: Global scope"
     },
     "scopedBtsScopeHeader": {
-        "message": "Contexte pour les requêtes en coulisse",
+        "message": "Contexte des requêtes en coulisse",
         "description": "English: Behind-the-scene scope"
     },
     "scopedDomainScopeHeader": {
-        "message": "Contextes pour les règles à portée domaine",
+        "message": "Contextes des règles à portée domaine",
         "description": "English: Domain-level scope"
     },
     "scopedSiteScopeHeader": {
-        "message": "Contextes pour les règles à portée site",
+        "message": "Contextes des règles à portée site",
         "description": "English: Site-level scope"
     },
     "scopedDeletionPrompt": {
-        "message": "{{deleteCount}} règles seront\nirréversiblement supprimées.\nCliquez OK pour confirmer.",
+        "message": "{{deleteCount}} règles seront\nirrémédiablement supprimées.\nCliquez sur OK pour confirmer",
         "description": "English: You are about to delete {{deleteCount}} rules.\nIt is irreversible.\nClick OK to confirm."
     },
 
 
     "aboutUserDataHeader" : {
-        "message": "Vos données",
+        "message": "Vos réglages",
         "description": "English: Your data"
     },
     "aboutUserDataBackupButton" : {
@@ -526,7 +526,7 @@
         "description": "English: Restore from file..."
     },
     "aboutUserDataRestoreConfirm" : {
-        "message": "Tous vos paramètres et règles seront remplacés\npar les données sauvegardées le {{time}},\net HTTP Switchboard redémarrera.\n\nProcéder à la restauration ?",
+        "message": "Vos paramètres et vos règles seront remplacés\npar les données sauvegardées le {{time}},\net puis HTTP Switchboard redémarrera.\n\nProcéder à l'importation ?",
         "description": "Message asking user to confirm restore"
     },
     "aboutExtensionDataHeader" : {
