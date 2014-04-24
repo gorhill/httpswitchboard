@@ -15,6 +15,8 @@ Available from [Chrome web store](https://chrome.google.com/webstore/detail/http
 or you can [install manually](https://github.com/gorhill/httpswitchboard/tree/master/dist). 
 **I strongly advise against installing from any other sources.**
 
+[IMPORTANT: Compatibility with various Chromium based browsers and other extensions](/gorhill/httpswitchboard/wiki/Compatibility-with-various-Chromium-based-browsers-and-other-extensions)
+
 I expect the extension to work on any Chromium-based browser.
 
 ## The matrix: front end to the matrix filtering engine
