@@ -17,7 +17,7 @@ or you can [install manually](https://github.com/gorhill/httpswitchboard/tree/ma
 
 I expect the extension to work on any Chromium-based browser.
 
-[**IMPORTANT:** Compatibility with various Chromium based browsers and other extensions](/gorhill/httpswitchboard/wiki/Compatibility-with-various-Chromium-based-browsers-and-other-extensions)
+[**IMPORTANT:** Compatibility with various Chromium based browsers and other extensions](https://github.com/gorhill/httpswitchboard/wiki/Compatibility-with-various-Chromium-based-browsers-and-other-extensions)
 
 ## The matrix: front end to the matrix filtering engine
 
