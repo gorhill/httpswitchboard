@@ -359,6 +359,18 @@
         "message": "<p>From Wikipedia: &ldquo;HTTP referer is an HTTP header field that identifies the address of the webpage that linked to the resource being requested. ... <b>Because referer information can violate privacy, some web browsers allow the user to disable the sending of referer information.</b>&rdquo;</p><p>If this setting is checked, <i>HTTP Switchboard</i> will remove the HTTP referer information if <b>both</b> of the following conditions are true:<ul style='padding-left:1em;list-style-type:disc;'><li>The domain name of the HTTP referer does not match the domain name of the URL of the request (that is, the referer is third-party to the web page);<li>The hostname of the request is not whitelisted.</ul></p>",
         "description": "..."
     },
+    "settingsSpoofUserAgentPrompt1" : {
+        "message": "Spoof <a href='https://en.wikipedia.org/wiki/User_agent'>User-Agent</a> string by randomly picking a new one below every",
+        "description": "Spoof <a href='https://en.wikipedia.org/wiki/User_agent'>User-Agent</a> string by picking one randomly below every"
+    },
+    "settingsSpoofUserAgentPrompt2" : {
+        "message": "minutes.",
+        "description": "minutes."
+    },
+    "settingsSpoofUserAgentHelp" : {
+        "message": "<a href='https://www.eff.org/deeplinks/2010/01/tracking-by-user-agent'>According to the <i>Electronic Frontier Foundation</i></a>: &ldquo;[...] your browser sends a &lsquo;User Agent&rsquo; header to the website saying precisely which operating system and web browser you are using. This information could help distinguish Internet users from one another because these versions differ, often considerably, from person to person. [...] <b>the User Agent string becomes a real privacy problem</b>.&rdquo;<p>This option allows you to address the problem raised by the EFF.</p><p>You can supply your own list of user agent strings. One string per line. Blank lines and lines prefixed with &lsquo;#&rsquo; will be ignored.</p>",
+        "description": "..."
+    },
     "settingsBehindTheSceneHeader" : {
         "message": "Chromium: behind-the-scene requests",
         "description": "header of Chromium: behind-the-scene requests section"

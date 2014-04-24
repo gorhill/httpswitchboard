@@ -359,6 +359,18 @@
         "message": "<p>D'après Wikipedia : Un référant est une information transmise à un serveur HTTP lorsqu'un visiteur suit un lien pour accéder à l'une de ses ressources, lui indiquant l'URL de la page où se situe ce lien qu'il a suivi [...] <b>Les référants peuvent poser des problèmes d'atteinte à la vie privée, puisque le webmestre peut connaître les pages que ses visiteurs ont consulté avant d'accéder aux siennes.</b></p><p>Si ce paramètre est coché, <i>HTTP Switchboard</i> supprimera le référant HTTP si les <b>DEUX</b> conditions suivantes sont vérifiées :<ul style='padding-left:1em;list-style-type:disc;'><li>Le nom de domaine du référant HTTP ne correspond pas à l'URL de la requête (c'est-à-dire que le référant est un tiers par-rapport à la page);<li>Le nom d'hôte de la requête n'est pas sur liste blanche.</ul></p>",
         "description": "..."
     },
+    "settingsSpoofUserAgentPrompt1" : {
+        "message": "Modifier <a href='https://fr.wikipedia.org/wiki/User-Agent'>l'agent utilisateur</a> identifiant votre navigateur à chaque",
+        "description": "Spoof <a href='https://en.wikipedia.org/wiki/User_agent'>User-Agent</a> string by picking one randomly below every"
+    },
+    "settingsSpoofUserAgentPrompt2" : {
+        "message": "minutes en choisissant au hasard une des chaînes de caractères ci-dessous.",
+        "description": "minutes."
+    },
+    "settingsSpoofUserAgentHelp" : {
+        "message": "<a href='https://www.eff.org/deeplinks/2010/01/tracking-by-user-agent'>Selon la <i>Electronic Frontier Foundation</i></a>: &ldquo;[...] your browser sends a &lsquo;User Agent&rsquo; header to the website saying precisely which operating system and web browser you are using. This information could help distinguish Internet users from one another because these versions differ, often considerably, from person to person. [...] <b>the User Agent string becomes a real privacy problem</b>.&rdquo;<p>Cette option vous permet d'améliorer la protection de votre vie privée.</p><p>Vous pouvez fournir votre propre liste d'agents utilisateurs. Un seul agent utilisateur par ligne. Les lignes vides et les lignes débutant par &lsquo;#&rsquo; seront ignorées.</p>",
+        "description": "..."
+    },
     "settingsBehindTheSceneHeader" : {
         "message": "Requêtes en coulisses du navigateur",
         "description": "header of Chromium: behind-the-scene requests section"

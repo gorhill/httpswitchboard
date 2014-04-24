@@ -398,9 +398,13 @@ var onBeforeSendHeadersHandler = function(details) {
         changed = foilRefererHeaders(httpsb, reqHostname, details) || changed;
     }
 
+    if ( httpsb.userSettings.spoofUserAgent ) {
+        changed = foilUserAgent(httpsb, details) || changed;
+    }
+
     if ( changed ) {
         // console.debug('onBeforeSendHeadersHandler()> CHANGED "%s": %o', details.url, details);
-        return { requestHeaders: details.headers };
+        return { requestHeaders: details.requestHeaders };
     }
 };
 
@@ -450,6 +454,23 @@ var foilRefererHeaders = function(httpsb, toHostname, details) {
         changed = true;
     }
     return changed;
+};
+
+/******************************************************************************/
+
+var foilUserAgent = function(httpsb, details) {
+    var changed = false;
+    var headers = details.requestHeaders;
+    var header;
+    var i = 0;
+    while ( header = headers[i] ) {
+        if ( header.name.toLowerCase() === 'user-agent' ) {
+            header.value = httpsb.userAgentReplaceStr;
+            return true; // Assuming only one `user-agent` entry
+        }
+        i += 1;
+    }
+    return false;
 };
 
 /******************************************************************************/

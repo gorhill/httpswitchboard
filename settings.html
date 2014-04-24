@@ -23,6 +23,16 @@ ul > li {
     font-weight: 100;
     color: #888;
     }
+#spoof-user-agent-with {
+    margin-left: 1.25em;
+    display: block;
+    font-size: 11px;
+    width: 50em;
+    height: 8em;
+    white-space: pre;
+    word-wrap: normal;
+    overflow-x: scroll;
+    }
 </style>
 </head>
 
@@ -88,6 +98,12 @@ ul > li {
         <input id="process-referer" type="checkbox" value=""><span data-i18n="settingsProcessRefererPrompt"></span>
         <button class="whatisthis"></button>
         <div class="whatisthis-expandable para" data-i18n="settingsProcessRefererHelp"></div>
+    <li>&nbsp;
+    <li>
+        <input id="spoof-user-agent" type="checkbox" value=""><span data-i18n="settingsSpoofUserAgentPrompt1"></span> <input id="spoof-user-agent-every" type="text" value="5" size="3"> <span data-i18n="settingsSpoofUserAgentPrompt2"></span>
+        <button class="whatisthis"></button>
+        <div class="whatisthis-expandable para" data-i18n="settingsSpoofUserAgentHelp"></div>
+        <textarea id="spoof-user-agent-with"></textarea>
 </ul>
 
 <h2 data-i18n="settingsBehindTheSceneHeader"></h2>

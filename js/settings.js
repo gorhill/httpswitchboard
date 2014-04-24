@@ -73,6 +73,14 @@ function onChangeValueHandler(elem, setting, min, max) {
 
 /******************************************************************************/
 
+function prepareToDie() {
+    onChangeValueHandler($('#delete-unused-session-cookies-after'), 'deleteUnusedSessionCookiesAfter', 15, 1440);
+    onChangeValueHandler($('#clear-browser-cache-after'), 'clearBrowserCacheAfter', 15, 1440);
+    onChangeValueHandler($('#spoof-user-agent-every'), 'spoofUserAgentEvery', 2, 999);
+}
+
+/******************************************************************************/
+
 $(function() {
     var httpsb = gethttpsb();
     var userSettings = httpsb.userSettings;
@@ -92,6 +100,9 @@ $(function() {
     $('#clear-browser-cache').attr('checked', userSettings.clearBrowserCache === true);
     $('#clear-browser-cache-after').val(userSettings.clearBrowserCacheAfter);
     $('#process-referer').attr('checked', userSettings.processReferer);
+    $('#spoof-user-agent').attr('checked', userSettings.spoofUserAgent);
+    $('#spoof-user-agent-every').val(userSettings.spoofUserAgentEvery);
+    $('#spoof-user-agent-with').val(userSettings.spoofUserAgentWith);
 
     // Handle user interaction
     $('input[name="displayTextSize"]').on('change', function(){
@@ -133,12 +144,18 @@ $(function() {
     $('#process-referer').on('change', function(){
         changeUserSettings('processReferer', $(this).is(':checked'));
     });
-
-    $('#bye').on('click', function() {
-        onChangeValueHandler($('#delete-unused-session-cookies-after'), 'deleteUnusedSessionCookiesAfter', 15, 1440);
-        onChangeValueHandler($('#clear-browser-cache-after'), 'clearBrowserCacheAfter', 15, 1440);
-        window.open('','_self').close();
+    $('#spoof-user-agent').on('change', function(){
+        changeUserSettings('spoofUserAgent', $(this).is(':checked'));
     });
+    $('#spoof-user-agent-every').on('change', function(){
+        onChangeValueHandler($(this), 'spoofUserAgentEvery', 2, 999);
+    });
+    $('#spoof-user-agent-with').on('change', function(){
+        changeUserSettings('spoofUserAgentWith', $(this).val());
+    });
+
+    // https://github.com/gorhill/httpswitchboard/issues/197
+    $(window).one('beforeunload', prepareToDie);
 });
 
 /******************************************************************************/
