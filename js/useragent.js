@@ -49,9 +49,6 @@ var userAgentRandomPicker = function() {
 
 var userAgentSpoofer = function() {
     var httpsb = HTTPSB;
-    if ( httpsb.userSettings.spoofUserAgent !== true ) {
-        return;
-    }
     var uaStr = httpsb.userAgentReplaceStr;
     var now = Date.now() / 60000;
     if ( (now - httpsb.userAgentReplaceStrBirth) >= httpsb.userSettings.spoofUserAgentEvery ) {
