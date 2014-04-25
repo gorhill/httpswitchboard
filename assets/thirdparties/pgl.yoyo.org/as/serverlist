@@ -3,7 +3,7 @@
 # For more information about this list, see: http://pgl.yoyo.org/adservers/
 # ----
 # last updated:   Wed, 02 Apr 2014 09:18:15 GMT
-# entries:        2496
+# entries:        2498
 # format:         hosts (hosts -- in hosts file format)
 # credits:        Peter Lowe - pgl@yoyo.org - http://pgl.yoyo.org/
 # this URL:       http://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext
@@ -165,7 +165,6 @@
 127.0.0.1 ad.twitchguru.com
 127.0.0.1 ad.usatoday.com
 127.0.0.1 ad.virtual-nights.com
-127.0.0.1 ad.vu
 127.0.0.1 ad.watch.impress.co.jp
 127.0.0.1 ad.wavu.hu
 127.0.0.1 ad.way.cz
@@ -1272,6 +1271,7 @@
 127.0.0.1 clickdensity.com
 127.0.0.1 clickedyclick.com
 127.0.0.1 clickforwebmasters.com
+127.0.0.1 clickhereforcellphones.com
 127.0.0.1 clickhouse.com
 127.0.0.1 clickhype.com
 127.0.0.1 clicklink.jp
@@ -1536,6 +1536,7 @@
 127.0.0.1 geovisite.com
 127.0.0.1 german-linkindex.de
 127.0.0.1 getclicky.com
+127.0.0.1 getfreecounter.com
 127.0.0.1 globalismedia.com
 127.0.0.1 globaltakeoff.net
 127.0.0.1 globaltrack.com
@@ -1709,6 +1710,7 @@
 127.0.0.1 link-booster.de
 127.0.0.1 link4ads.com
 127.0.0.1 linkadd.de
+127.0.0.1 linkbucks.net
 127.0.0.1 linkbuddies.com
 127.0.0.1 linkexchange.com
 127.0.0.1 linkexchange.ru

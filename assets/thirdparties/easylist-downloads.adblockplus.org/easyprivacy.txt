@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: pFWqNT93SDuhHZlK4T+3pg
-! Version: 201404211631
+! Checksum: NnpXl1vr4iMceJ/2kp20EQ
+! Version: 201404251531
 ! Title: EasyPrivacy
-! Last modified: 21 Apr 2014 16:31 UTC
+! Last modified: 25 Apr 2014 15:31 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -34,7 +34,12 @@
 .asis?Log=
 .au/1x1.gif?
 .beacon.min.js
+.cn/1.gif?
+.cn/a.gif?
 .cn/b.gif?
+.cn/r.gif?
+.cn/s.gif?
+.cn/z.gif?
 .com.au/c.gif
 .com.au/HG?hc=
 .com.com/redir?timestamp
@@ -65,9 +70,11 @@
 .com/log/?
 .com/log?event
 .com/log?srvc
+.com/log?type
 .com/mm.gif?
 .com/p.gif?
 .com/pagelogger/
+.com/pvlog?
 .com/s.gif?
 .com/s/at?site
 .com/ss/*sessionId=
@@ -81,6 +88,7 @@
 .com/v.gif?
 .com/vanity/?
 .com/w.gif?
+.com/x.gif?
 .core.tracking-min-
 .do_tracking&
 .eloqua.js
@@ -169,6 +177,7 @@
 /addLinkerEvents-ga.
 /addLinkerEvents-std.
 /addLinkerEvents.js
+/addlog/?
 /addlogdetails.
 /addTrackingScripts.
 /adimppixel/*
@@ -489,6 +498,7 @@
 /cm?ci=*&tid=
 /cm?tid=
 /cmarketing.countus.js
+/cms.gif?
 /cms/stats/*
 /cmslog.dll?
 /cn-fe-stats/*
@@ -526,6 +536,7 @@
 /count.fcg?
 /count.fcgi?
 /count.fgi?
+/count/?ad=
 /count?pid=
 /count_DB/*
 /count_js.
@@ -649,6 +660,7 @@
 /emstrack.
 /envoy.sb?sbaid
 /epf_v1_95.js
+/estatistica.js
 /estatnativeflashtag.swf
 /etracker.
 /etracker/*
@@ -661,7 +673,6 @@
 /ewtrack.
 /EWTRACK_
 /exaonclick.js
-/exe/indexer.php?
 /exelate.htm?
 /exelate.html?
 /exelator.
@@ -1032,6 +1043,7 @@
 /log.cfm?
 /log.gif?
 /log.jphp?
+/log.js?
 /log.jsp?
 /log.php?*http
 /log.php?id
@@ -4482,6 +4494,7 @@ http://utm.
 ||bango.net/id/*.gif?
 ||barium.cheezdev.com^
 ||bazaarvoice.com/sid.gif
+||bazaarvoice.com^*/magpie.js
 ||bc.geocities.
 ||beacon.errorception.com^
 ||beacon.heliumnetwork.com^
@@ -4827,7 +4840,6 @@ http://utm.
 ||grabnetworks.com/beacons/
 ||grabnetworks.com/ping?
 ||gravity.com^*/beacons/
-||grvcdn.com/moth-min.js
 ||gscounters.eu1.gigya.com^
 ||gscounters.gigya.com^
 ||gscounters.us1.gigya.com^
@@ -5103,6 +5115,7 @@ http://utm.
 ||pornhost.com/count_hit_player.php
 ||postageapp.com/receipt/$third-party
 ||postpixel.vindicosuite.com^
+||potaroo.net/1x1.png?
 ||poweredbyeden.com/widget/tracker/
 ||powersearch.us.com^
 ||ppx.com/tracking/
@@ -5755,17 +5768,14 @@ http://utm.
 ||css.aliyun.com^$third-party
 ||dw.cbsi.com.cn^$third-party
 ||etwun.com:8080/counter.php?
-||ftimg.net/js/log.js?
-||g.cn.miaozhen.com^
 ||ifengimg.com/sta_collection.*.js
 ||js.letvcdn.com/js/*/stats/
 ||js.static.m1905.cn/pingd.js
 ||log.hiiir.com^
 ||log.v.iask.com^
 ||look.urs.tw^$third-party
-||sinajs.cn/z.gif?
 ||sitemaji.com/nownews.php?
-||tanx.com/cms.gif?
+||t.hypers.com.cn^
 ||tns.simba.taobao.com^
 ||toruk.tanx.com^
 ||track.ra.icast.cn^
@@ -6768,6 +6778,7 @@ http://utm.
 ||hulu.com/beacon/v3/error?
 ||hulu.com/beacon/v3/playback?
 ||hulu.com/beaconservice.swf
+||hulu.com/google_conversion_video_view_tracking.html
 ||hulu.com/guid.swf
 ||hulu.com/watch/*track.url-1.com
 ||hulu.com^*/external_beacon.swf
@@ -8296,7 +8307,6 @@ http://utm.
 ||logstat.caixin.com^
 ||luobo.tv/staticts.html
 ||narutom.com/stat.js
-||nextmedia.com/ajax/addlog/?
 ||nsclick.baidu.com^
 ||nstat.tudou.com^
 ||on.cc^*/checkrev.gif?
@@ -8308,14 +8318,17 @@ http://utm.
 ||pingjs.qq.com^
 ||pv.sogou.com^
 ||qq.com/p?
+||rcgi.video.qq.com^
 ||report.qq.com^
 ||rgd.com.cn/counter/
 ||s.pixfs.net/js/pixlogger.min.js
 ||s.pixfs.net/visitor.pixplug.in/
 ||s.renren.com^
 ||sclick.baidu.com^
-||sharpdaily.hk/ajax/addlog/?
 ||sinajs.cn/open/analytics/
+||sohu.com.cn/hdpb.gif?
+||sohu.com/ctr.gif?
+||sohu.com/pv?
 ||soufun.com/click/
 ||soufun.com/stats/
 ||sta.ifeng.com^
@@ -8348,10 +8361,8 @@ http://utm.
 ||v.blog.sohu.com/dostat.do?
 ||valf.atm.youku.com^
 ||vatrack.hinet.net^
-||weather.com.cn/a.gif?
 ||weather.com.cn/a1.js
 ||webclick.yeshj.com^
-||webd.home.news.cn/1.gif?
 ||webstat.kuwo.cn^
 ||wenku.baidu.com/tongji/
 ||wumii.com/images/pixel.png
@@ -8609,6 +8620,7 @@ http://utm.
 @@||beatthetraffic.com/traffic/?partner=$subdocument
 @@||behanceserved.com/stats/stats.js?
 @@||benswann.com/decor/javascript/magnify_stats.js?
+@@||beplb01.nexus.hewitt.com/analytics?$~third-party
 @@||bettycrocker.com/Shared/Javascript/ntpagetag.js
 @@||bettycrocker.com/Shared/Javascript/UnicaTag.js
 @@||bhg.com/web/js-min/common/js/dwr/RemoteTargetingService.js
@@ -8908,6 +8920,7 @@ http://utm.
 @@||vizio.com/resources/js/vizio-module-tracking-google-analytics.js
 @@||vod.olympics2010.msn.com/beacon?$object-subrequest
 @@||vod.universalsports.com/beacon?$object-subrequest
+@@||vodafone.com.au/analytics/js/$script
 @@||vulture.com/decor/javascript/magnify_stats.js
 @@||w3spy.org/etc/geo.php?
 @@||walmart.com^*/track?event=$xmlhttprequest
@@ -8924,6 +8937,7 @@ http://utm.
 @@||widgets.outbrain.com^*/comScore/comScore.htm
 @@||wikia.nocookie.net^*/AnalyticsEngine/js/analytics_prod.js
 @@||wired.com/wiredcms/chartbeat.json$xmlhttprequest
+@@||wired.com^*/cn-fe-stats/
 @@||wordpress.org/extend/plugins/wp-slimstat/screenshot-$image,~third-party
 @@||wordpress.org/wp-slimstat/assets/banner-$image,~third-party
 @@||wp.com/_static/*/gaAddons.js
@@ -9018,6 +9032,7 @@ http://utm.
 @@||sitestat.com/europcar/europcar-de/*&ns_url=http://microsite.europcar.com/deutschebahn/$subdocument,domain=bahn.de
 @@||sitestat.com^*/s?*&ns_type=clickin&ns_action=view&ns__t=$image,domain=sueddeutsche.de
 @@||spiegel.de/layout/js/http/netmind-$script
+@@||stats.g.doubleclick.net/dc.js$domain=diejugendherbergen.de
 @@||stylished.de/js/vendors/emos2.js$domain=stylished.de
 @@||swr3.de/static/swrplayer/web/plugins/ivw/ivw.js
 @@||t-online.de/js/xtcore_t_online.js?$xmlhttprequest
@@ -9078,9 +9093,9 @@ http://utm.
 ! Greek
 @@||stats.e-go.gr/rx.asp?$object-subrequest,domain=megatv.com
 ! Hebrew
-@@||haaretz.co.il/logger/p.gif?a=$image,xmlhttprequest
-@@||haaretz.com/logger/p.gif?a=$image,xmlhttprequest
-@@||themarker.com/logger/p.gif?a=$image,xmlhttprequest
+@@||haaretz.co.il/logger/p.gif?$image,xmlhttprequest
+@@||haaretz.com/logger/p.gif?$image,xmlhttprequest
+@@||themarker.com/logger/p.gif?$image,xmlhttprequest
 ! Italian
 @@||androidgalaxys.net/wp-content/plugins/*/google-analyticator/$script
 @@||beppegrillo.it/mt-static/js/ga_social_tracking.js

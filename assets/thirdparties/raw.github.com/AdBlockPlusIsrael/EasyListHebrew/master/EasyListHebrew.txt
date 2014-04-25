@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: 7h3M/DY2cGXnbHlCo866Ag
+! Checksum: /HIUSYgs8emZFSeQJAx3cg
 ! Title: EasyList Hebrew
-! Last modified: 20/04/14  14:48 Jerusalem Daylight Time
+! Last modified: 24/04/14  12:16 Jerusalem Daylight Time
 ! Expires: 4 days (update frequency)
 ! Homepage: https://github.com/AdBlockPlusIsrael/EasyListHebrew/
 ! Forums: https://github.com/AdBlockPlusIsrael/EasyListHebrew/issues
@@ -35,6 +35,7 @@
 ||ha-deal.co.il^$popup
 ||hiro.co.il^$third-party
 ||infomed.co.il^$third-party
+||internet-bee.com^$third-party
 ||jdate.co.il^$third-party
 ||mako.buy2.co.il^$third-party
 ||media.foxweb.co.il^$third-party
@@ -144,6 +145,7 @@
 ||bizportal.co.il/Scripts/maavaron.js?v=
 ||cdn.mdigital.co.il/video/*.flv$domain=globes.co.il
 ||chabad.info/images/pirsomot/
+||cinema-city.co.il/media/nlc2013/flash/*banner
 ||d.co.il/Hebrew/images/Premium/
 ||date.dacho.co.il^
 ||ddlil.com/banners/
@@ -167,6 +169,7 @@
 ||kikarhashabat.co.il/data/auto/images/landing_pages_
 ||kipa.co.il/banner/
 ||kipasruga.com/banner/
+||local.co.il/banners/
 ||moreshet.co.il/banners/
 ||my.yad2.co.il/Banner/
 ||nanafiles.co.il//Upload/92011/File/File_*swf
@@ -204,6 +207,7 @@
 @@||hiro.co.il/hiro/HiroServlet/HiroAdRequest?*http$domain=nrg.co.il
 @@||hiro.co.il^*/LayerWrapperReshet.swf
 @@||i.total-media.net/yc/dc.$script,domain=winwin.co.il
+@@||internet-bee.com/Feats/
 @@||net-games.co.il/flvPlayer/dist/flowplayer-$script
 @@||themarker.com/css/advertisement_article.css
 @@||themarker.com/dclk/dclk_ads.js
@@ -360,6 +364,9 @@ chabad.info###text_pirsomet
 chabad.info###top2_ad_container
 chabad.info##.bet_ads
 chabad.info##.left_pirsomot
+cinema-city.co.il##[style="position:absolute;width:258px;height:256px;left:33px;top:13px;"]
+cinema-city.co.il##[style="position:absolute;width:258px;height:256px;left:33px;top:852px;"]
+cinema-city.co.il##[style="position:absolute;width:275px;height:155px;left:24px;top:1140px;"]
 d.co.il##.header_banner
 d.co.il##.premium-d-strip-banner-container
 dacho.co.il##.fixed_position1
@@ -438,6 +445,7 @@ junkyard.co.il##.plasma_banner
 junkyard.co.il##DIV[id^="banner"]
 jobmaster.co.il##TABLE[width="100%"][style="border-top:1px solid #EEEEEE;"]
 kikarhashabat.co.il###exposeMask
+kikarhashabat.co.il###jumbo
 kikarhashabat.co.il###maavaron_overlay
 kikarhashabat.co.il###takeover_wrapper
 kikarhashabat.co.il##.ads_category_box
@@ -676,6 +684,7 @@ xnet.co.il###XnetAdSenceThinkAdAD-300
 xnet.co.il###ads\.top\.1
 yad2.co.il###left_banner
 yad2.co.il###left_sekindo
+yad2.co.il###td_banner
 yad2.co.il###td_banner2_info
 yad2.co.il###top_banners
 yad2.co.il##.banner_strip

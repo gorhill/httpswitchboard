@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: oD12oPH5kLvF3Ns6fiTdrw
-! Version: 201404161850
+! Checksum: sgnTyYAOtnoWsJQb6SQvOw
+! Version: 201404221800
 ! Title: Wiltteri
 ! Description: Finnish supplement list for EasyList
-! Last modified: 16 Apr 2014 18:50 UTC
+! Last modified: 22 Apr 2014 18:00 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: http://wiltteri.net/
 ! License: http://creativecommons.org/licenses/by-sa/3.0/
@@ -200,6 +200,7 @@ _mainosnappi.
 ||automaatioseura.com/images/banners/
 ||automaatiotekniikankilta.fi/gfx/wartsila.gif
 ||autot.oikotie.fi/commercial/iframe?
+||autot.oikotie.fi/nosto/$domain=hs.fi
 ||autotalli.com/autotalli_upotus/
 ||autotalli.com/bannerdata/
 ||avain.net/banner
@@ -327,6 +328,7 @@ _mainosnappi.
 ||espoonvapaaehtoisverkosto.fi/logot/
 ||et-opetus.fi/images/banners/
 ||etargetnet.com^$domain=~etargetnet.com
+||etn.fi^*/banners/
 ||etuovi.com/crometapp/product/realties/common/public/index_pikahaku.jsp?
 ||etuovi.com/vuokraovi/flash/750x300.swf
 ||eturivi.net/images/kuvitus_logot.gif
@@ -1531,6 +1533,7 @@ _mainosnappi.
 ||teatterikesa.fi/@Bin/*_nettiin.jpeg
 ||teatterikesa.fi^*/footerRoller.js
 ||teivonravit.fi/banner/
+||tekniikanmaailma.fi^*/bannerit/
 ||telkku.com^*/images/nostot/
 ||tennis.fi^*/img/sitebanner/
 ||tenojoki.fi/tenopaasivut/images/logot/

@@ -1,5 +1,5 @@
 [Adblock Plus 2.0]
-! Checksum: xzV3UIQ8RvnqNUGX2s9b6Q
+! Checksum: 9zMeskwsizZqMM+0meMvvQ
 ! القائمة العربية لمانع الشرائط الإعلانية آدبلوك بلس
 ! Liste AR ~ Filtres arabes complémentaires à EasyList et à la Liste FR
 ! Title: Liste AR
@@ -13,6 +13,8 @@
 ! ou par e-mail : liste.ar.adblock at gmail point com
 !
 !----------------------- Filtres génériques -----------------!
+##.ads-ul
+-ads.swf
 .ma/ads/
 /ar/ads/*
 !
@@ -30,6 +32,8 @@
 ##a[href^="http://booraq.org"]
 ##a[href^="http://deals.souq.com/"]
 ##a[href^="http://share.payoneer-affiliates.com/"]
+##a[href^="http://www.fusebux.com/index.php?r="] > img
+##a[href^="http://www.probux.com/?rh="] > img
 ##a[href^="http://www.sotmasr.com/announcements/"]
 ##a[href^="http://xat.com/"]
 !
@@ -193,6 +197,7 @@
 ||imageshack.us/img856/4224/64119518.jpg
 ||islamiy.com^$subdocument,domain=wadilarab.com
 ||jazora.com/banner/
+||jo-sharing.com/vb/images/bnnr.
 ||kalemaro.com/open*.js
 ||karizmo.net/vb/karix.gif
 ||ksa-ksa.com^$subdocument,domain=a7lahmsa.com
@@ -248,6 +253,7 @@
 ||rsbfoot.com/annonce/
 ||s-ajfan.com/vb/$subdocument,domain=a7lahmsa.com
 ||saliny.com/bnr/
+||satarabia.net/v2/images/big_ar_banner.jpg
 ||servimg.com/u/f65/11/55/73/09/downlo10.gif
 ||shbkat.com/adv/
 ||shnat.net/vb/images/14.jpg
@@ -322,6 +328,8 @@
 ||7obek-m.com^$popup,domain=700bk.com
 ||7ooobe.com/vb/images/a3lan
 ||7ozn.com/e3lanat/
+||7rcat.com/banar/
+||7rcat.com/games/banar/
 ||a7lacartoon.com/fetees.js
 ||a7lahmsa.com/vb/aerowindow/
 ||a7lahmsa.com/vb/open/
@@ -457,6 +465,7 @@
 ||bentvip.com/up/20120511032813.gif
 ||bit.ly^$popup,domain=arbcinema.com
 ||bit.ly^$popup,domain=ultshare.com
+||blogspot.ae^$popup,domain=cima4u.com
 ||blogspot.com/^$popup,domain=cima4u.com
 ||blogspot.com^$popup,domain=el7l.com
 ||blogspot.com^$popup,domain=mountada.net
@@ -599,6 +608,7 @@
 ||jarayid.com/pictures/sadaakkar-ad.jpg
 ||jawaley.com/advs.php
 ||jawaley.com/banar/
+||jawaley.net/banar/
 ||jeddahbikers.com/LB.php
 ||jeddahbikers.com/LB_DFP.php
 ||jeddahbikers.com/mobilead300.php
@@ -677,6 +687,7 @@
 ||mysite.ma/KHALID.js
 ||nadorcity.com/docs/imaipub.gif
 ||nadorcity.com/docs/kitra3.jpg
+||netdna-cdn.com/*/250-250.jpg$domain=ar-tr.com
 ||njomqtr.com/img/150.gif
 ||njomqtr.com/img/468.gif
 ||nogooom.com/open.php
@@ -812,6 +823,7 @@
 33sh8.com###adds
 3a2ilati.com##.eshop-list
 3rbb.net##.ad
+4algeria.com##img[width="75"][height="30"]
 5foq.com##div[style="width:680px;height:180px;float:left;margin-left:5px;margin-top:25px"]
 6ab5ty.com##.banar
 6ef.com###webColorsHeader2
@@ -872,6 +884,7 @@ alrealclub.com##a[title^="ينتهي في"]
 alwatannews.net###lnkMainAdver3
 alwatannews.net###pnlAdv12
 alwatannews.net##.Adv
+ar-tr.com###top-banner
 ar-wp.com##.box
 ar-wp.com##.nbanners
 ar-wp.com##.ten-banners
@@ -926,6 +939,7 @@ bokra.net##.towerBanner
 bokra.net##.twoBanners
 bramj.co##.headerbanner
 bramjnet.com##a[href^="http://www.ref4bux.com/?ref="]
+bramjnet.com##img[style="WIDTH: 468px; HEIGHT: 60px"][title*="الإعلان "]
 brooonzyah.net##.navbar_notice
 btalah.com###banner_dsnr
 calcio4arab.com##img[width="280"][height="80"]
@@ -1034,6 +1048,9 @@ iq-vb.net###topbar
 islamweb.net##.Advertising
 jeddahbikers.com###Main_MPU
 jeddahbikers.com##.ads
+jo-sharing.com##img[width="468"]
+jo-sharing.com##img[width="700"][height="120"]
+jo-sharing.com##img[width="940"][height="80"]
 jordanzad.com##a[href^="ad.php?"]
 jordanzad.com##div[style="width:306px;height:63px;"]
 jordanzad.com##div[style="width:600px;height:80px;"]
@@ -1155,6 +1172,7 @@ s-ajfan.com##.decoded
 s-oman.net###ad_global_below_navbar
 s-oman.net##a[href="http://www.rennamobile.com/promotions/"]
 saidaonline.com##a[href^="advertising.php?"]
+satarabia.net##img[width="728"][height="90"]
 se-te.com##table[width="70%"][style="border-collapse: collapse"]
 sedty.com##.Ads
 sedty.com##a[href^="http://www.drsrv.com/adv/"]

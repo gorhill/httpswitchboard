@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: YuVy0Y4psu6eoorIfqAPVA
-! Version: 201404211631
+! Checksum: ndDTuNi996EfPtoRHrG9TQ
+! Version: 201404251531
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 21 Apr 2014 16:31 UTC
+! Ultima modifica: 25 Apr 2014 15:31 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -303,7 +303,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||angelobonorino.com/neve/*268x90.gif
 ||artera.it/banners.php?
 ||autostima.net/partner/
-||babbano.com/adv/
 ||banner.crol.it^
 ||banzaimedia.it/hpsponsor/
 ||bazarcoupon.com/images/$third-party
@@ -326,7 +325,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||classificaporno.com/image/incontri*.gif
 ||clubshop.com/banners/
 ||cmstorage.it/public/skin/
-||concorsi-pubblici.org/adv/
 ||connect24.it/fot468.gif
 ||contactlab.it^*/Banner/
 ||d1n2y2eq1wbato.cloudfront.net^*/sponsor-$domain=atalanta.it
@@ -341,7 +339,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||dropbox.com^$image,domain=applemobile.it
 ||duke.it/images/banners/
 ||easyvols.org^*/300x150/$third-party
-||edidomus.it/asset/adv/
 ||edidomus.it^*-logo45x45.
 ||edidomus.it^*/45x45-
 ||edidomus.it^*/45x45_
@@ -422,7 +419,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||sanistatic.it/*/300x100_
 ||scambiobanner.aruba.it^$third-party
 ||scambiobanner.net-parade.it^$third-party
-||scimmiablu.altervista.org/adv/
 ||scimmiablu.altervista.org/cpm/
 ||secureholiday.net/moteur/v3/camperonline/min_form.aspx?$third-party
 ||sereni.net/images/banner/
@@ -442,7 +438,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||stbm.it/img/banner/300x100_
 ||stgy.it/images/banner-
 ||stgy.it/images/skin/
-||stgy.it/scripts/extern/tag-adv.js
 ||stgy.it^*/ova-jw.swf$object-subrequest
 ||streamcaster.net/lunaset/web/template_
 ||streamingtorrent.com/images/guarda.jpg
@@ -456,7 +451,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||tipster.it^$subdocument,third-party
 ||tomshw.corley.it^
 ||tophost.it/banners/
-||topsexitalia.com/adv.php
 ||trilud.com/highlight_300X280.php?
 ||tripadvisor.ru/WidgetEmbed-tcphoto?$domain=russiaoggi.it
 ||trivago.it/external_rpc.php?
@@ -536,7 +530,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||alfamitoclub.it/images/banner/
 ||alfamitoclub.it/images/sponsor/
 ||alfamitoclub.it^*_banner_180.swf
-||altervista.org/adv/
 ||altoadigetv.it/images/social/banner
 ||alverde.net/banner/
 ||amadeusonline.net/banner/
@@ -572,7 +565,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||autoinserzioni.it/css/images/banner_
 ||autoline-eu.it/atlads/
 ||automania.it^*-238x60-anim.gif
-||automoto.it/static/adv/
 ||autoseller.it/banner%5c
 ||autoseller.it/banner/
 ||autosottocosto.com/files/banner/
@@ -603,7 +595,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||blogosfere.it/js/mjx2.js
 ||bloopers.it/images/sponsor/
 ||blunote.it/images/banners/
-||blurum.it/resources/advertises/
 ||bmwpassion.com^*/banners/
 ||bolli.it/images/banner/
 ||bolognatoday.it/images/skin/
@@ -620,7 +611,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||calciomercato.napoli.it^*/comeessereprimo.png
 ||calcionapoli24.it/img/cammarota_336x60.gif
 ||calcionapoli24.it/img/segi.gif
-||calcioweb.eu/adv/
 ||campaniameteo.it/banner/
 ||campaniasuweb.it^*/sponsor.
 ||camperonline.it/b-top/
@@ -669,7 +659,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||climateobserver.it^*/banner_
 ||clubalfa.it/images/banner/
 ||clubalfa.it/ragazzon_banner_180.swf
-||comic-soon.com/*/adv/
+||comic-soon.com^*/adv/
 ||comicradio.it/swf/banner_rotator.swf
 ||comingsoon.it/fcred.asp?$object-subrequest
 ||comingsoon.it/imgdb/banner/
@@ -683,7 +673,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||coni.it/images/banners/sfondi/
 ||console-inf.com/banner/
 ||console-tribe.com^*/adv/
-||copertinedvd.org/adv.php?
 ||coplanet.it^*/bannerzon/
 ||coriglianocalabro.it/images/banners/
 ||coriglianocalabro.it^*/banner/
@@ -717,7 +706,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||deltadivenere.com/tgp/
 ||denaro.it^*/banner/
 ||di-roma.com/images/fabio/
-||digisesso.com/adv_player_
 ||digisesso.com/images/transparent.gif
 ||digital-forum.it/bannerdtt/
 ||digital-sat.it/ds_mpppv/
@@ -727,7 +715,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||dimmidipiu.com/images/banners/
 ||diretta.it/res/image/bookmaker-list.png
 ||direttagoal.it/writable/banners/
-||dizionariosinonimi.com/adv.php?
 ||donnamoderna.com^*/bg-immobiliare.png
 ||dragonballgt.it^*/skin_
 ||dueruote.it/asset/img/partner/
@@ -825,8 +812,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||gds.it^*-300x251-
 ||gdsannunci.it/images/bannerpub/
 ||geekissimo.com/images/5sms.gif
-||genova24.it^*/img/adv/
-||geoplan.it/advs/
 ||giallozafferano.it/images/banner/
 ||gianlucadimarzio.com^*_skin_
 ||giardinaggio.it/@/servizi/dueverticali.asp
@@ -847,7 +832,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||gratisfree.it/cgi-bin/bannergest$script
 ||greenews.info/wp-content/banners/
 ||greenme.it/images/banners/
-||gufoporno.com/media/banners/adv/
 ||gufoporno.com^*/popup.js
 ||guidasicilia.it/devlab/jsp/banner.jsp?
 ||guidaviaggi.it/banners/
@@ -878,7 +862,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||html5today.it/images/banners/
 ||hubcomunicazione.it/images/banners/
 ||hwmobile.it/images/banners/
-||hwupgrade.it/js/hwu_adv.js
 ||hwupgrade.it/speciali/*/300x100-
 ||hwupgrade.org/banner/
 ||hwupgrade.org/forum/lariffa.gif
@@ -922,7 +905,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||ilgiornale.it/sites/all/themes/ilgiornaledefault/img/conto_corrente_070513.jpg
 ||ilgiornale.it/static/file/non-giudicate.swf
 ||ilgiornale.it/static/widget_immobiliare/
-||ilgiornale.it^*/img/adv/
 ||ilgiornale.it^*/logo_lottomatica.jpg
 ||ilgiornale.it^*/ova-jw.swf$object-subrequest
 ||ilgiornale.it^*/paddy_power.gif
@@ -957,16 +939,22 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||ilpaesenuovo.it^*/italfiamma.jpg
 ||ilpaesenuovo.it^*/perhospital-01.jpg
 ||ilpaesenuovo.it^*/perhospital.jpg
-||ilpost.it^*/home_adv.css
 ||ilquotidiano.it/userdata/banner/
 ||ilquotidianodellazio.it/img/banners/
+||ilquotidianofvg.it/banner
+||ilquotidianofvg.it/bcc.jpg
+||ilquotidianofvg.it/cinema.jpg
+||ilquotidianofvg.it/concorde.jpg
+||ilquotidianofvg.it/nassfeld.jpg
+||ilquotidianofvg.it/provinciaud.jpg
+||ilquotidianofvg.it/radiospazio.jpg
+||ilquotidianofvg.it/thun.jpg
 ||ilroma.net^*/rotor/
 ||ilromanista.it/images/banners/
 ||ilsalvagente.it/imgmol/
 ||ilsalvagente.it/immagini/banner120x60-
 ||ilsannioquotidiano.it/images/banners/
 ||ilsecoloxix.it^*skin.jpg
-||ilsoftware.it/images/adv/
 ||ilsole24ore.com^*/spot_include.shtml
 ||ilsole24ore.com^*_pubb.jpg
 ||iltaccoditalia.info/banner/
@@ -1005,7 +993,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||italiafilm.tv/v2.gif
 ||italiagermania4-3.com/images/banners/
 ||italiagol.it//immagini/File_banner/
-||italianhack.org/adv/
+||ivg.it/slider-elezioni-2014-03.html
 ||ivg.it^*/takeover/
 ||iviaggidellagnocca.info/banner.jpg
 ||jugo.it^*/ads/
@@ -1062,7 +1050,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||leggilanotizia.it/userfiles/image/testata/
 ||leggilanotizia.it^*/banner-
 ||leggilanotizia.it^*/banner_
-||leggilo.net/adv/
 ||leggioggi.it^*/banner/
 ||leggo.it/300x200Banner.php
 ||leggo.it/box_tuttomercato032011/
@@ -1074,8 +1061,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||libero.it/_ad/
 ||libero.it/static/generated_external/shopping/
 ||libero.it/static/upll/234x/
-||libero.it/wind/linkadv.jsp
-||libero.it/wind/linkadv_bottom.jsp
 ||liberoinformato.it/banner-
 ||liberoreporter.it/public/upload/banner*.gif
 ||libertas.sm^*/banner/
@@ -1099,7 +1084,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||mammedomani.it/images/banners/
 ||manduriaoggi.it/layout_nuovo/banner.asp
 ||marigliano.net/_upload/banner/
-||mastertop100.org/advf1.php
 ||masterviaggi.it/banner/
 ||mattinonline.ch^*/banner_
 ||maxleggeri.it^*/uni2.png
@@ -1114,8 +1098,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||metalgermania.it/images/seatwave.jpg
 ||metallized.it/banner/
 ||meteo.it/images/banner/
-||meteoweb.eu/adv/
-||meteoweb.eu/immagini/advris/
 ||metronews.it^*/banner_
 ||metropolisweb.it/public/banner/
 ||milaninterradio.tv/images/180x150.gif
@@ -1153,11 +1135,9 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||motorionline.com^*/banner_motorionline.gif
 ||movieplayer.it/static/img/cinemapiu.jpg
 ||mrstiff.it/view/context/spot/
-||mrwebmaster.it/files/menu_adv.js
 ||musicclub.it/banner/
 ||musicoff.com^*/adshops_
 ||mymovies.it/v7/include/homedressing/
-||mymovies.it/v9/adv/
 ||netweek.it/banneranalyzer/
 ||network.alfemminile.com^
 ||newsic.it/assets/banner/
@@ -1217,7 +1197,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||piratestreaming.com/functions/pist_strp.js
 ||poker.commentierecensioni.com^*/titanpoker125x125.gif
 ||poliziamunicipale.it/script/getbnr.aspx?
-||popcorntv.it/advloader.php?
 ||pornovideoitaliano.com/bitter728.jpg
 ||pornovideoitaliano.com^*/animazione
 ||positanonews.it/include_gen/banner_
@@ -1236,7 +1215,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||pubblicitaitalia.it^*banner_
 ||puglialive.net/dfiles/banners/
 ||puntocellulare.it/banner/
-||quattroruote.it/common/adv_
 ||quattroruote.it^*/logo_*_menu.png
 ||quattroruote.it^*/sponsoredby.gif
 ||quattroruote.it^*_280x75.gif
@@ -1272,7 +1250,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||radioglobo.it/img/banner/
 ||radioglobo.it/img/bg/bg_
 ||radiogold.it^*/banner/
-||radioitaliacharleroi.com/adv/
 ||radiomanasport.it^*/EU.jpg
 ||radiomarte.it/site/images/sponsor/
 ||radiomondo.it/images/banners/
@@ -1357,8 +1334,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||sanremonews.it^*/banner/
 ||sanremonews.it^*/box/
 ||sardegnareporter.it/themes/img/banner/
-||sassarinotizie.com/public/adv/
-||sassarinotizie.com/ws/advlink300.aspx
 ||sassuolo2000.it/bnrs/
 ||sassuolocalcio.it/imgs/grafiche/sponsor/
 ||savonanews.it/fileadmin/archivio/savonanews/*/1000x40_
@@ -1423,7 +1398,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||streamingfilm.it/images/stories/downloaddvdhard.jpg
 ||streamingfilm.it/images/stories/streaming-film-hd.jpg
 ||streamingfilm.it/images/stories/streamingfilmporno.jpg
-||strettoweb.com/adv/
 ||strill.it/images/banners/
 ||studiocataldi.it/banner/
 ||suannunci.it/cgi-bin/home_pubblicita^
@@ -1477,7 +1451,6 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||tio.ch/img/2013/iframe/postfinance.jpg
 ||tio.ch^*/banner/
 ||tipresentoilcane.com/banner/
-||tiscali.it/media/adv/
 ||tmnews.it^*/banner_
 ||today.it/images/*_skin_
 ||today.it/images/lg.jpg
@@ -2003,7 +1976,7 @@ piacenzanight.com##.back_style
 avmagazine.it,ilcrotonese.it,tomshw.it##.background-link
 lavorincasa.it##.bak
 milanofinanza.it,oggitreviso.it##.ban
-advertiser.it,agi.it,agichina24.it,airdave.it,alessandrianews.it,casateonline.it,corrieremercantile.it,gazzettahockey.it,giochidicalcio.com,html.it,ilcambiamento.it,ilfriuli.it,ilgiornale.it,insegreto.it,lindro.it,lipari.biz,macitynet.it,merateonline.it,oggitreviso.it,orangedropdesign.com,orvietosi.it,pmi.it,programmitv.com,pubblicitaitalia.it,r101.it,rcdc.it,rockit.it,softonic.it,strettoweb.com,ticinolibero.ch,vocenuova.tv##.banner
+advertiser.it,agi.it,agichina24.it,airdave.it,alessandrianews.it,casateonline.it,corrieredelgiorno.com,corrieremercantile.it,gazzettahockey.it,giochidicalcio.com,html.it,ilcambiamento.it,ilfriuli.it,ilgiornale.it,insegreto.it,lindro.it,lipari.biz,macitynet.it,merateonline.it,oggitreviso.it,orangedropdesign.com,orvietosi.it,pmi.it,programmitv.com,pubblicitaitalia.it,r101.it,rcdc.it,rockit.it,softonic.it,strettoweb.com,ticinolibero.ch,vocenuova.tv##.banner
 rollingstonemagazine.it##.banner-abbonamenti
 telesud3.com##.banner-destra
 telesud3.com##.banner-destra-tyf
@@ -2074,6 +2047,7 @@ centrometeo.com##.banneritemcenterdx
 finanzaonline.com##.bannerlbforum
 messinaweb.tv##.bannerpostsingle
 nonsolocinema.com##.banners
+ilquotidianofvg.it##.banners-125
 cremonaoggi.it##.bannersx
 musictory.it##.bannertop
 ticinolive.ch##.bannerwrap
@@ -2210,6 +2184,7 @@ radiosei.it,retesport.it##.rect_banner
 ticinolibero.ch##.redbar
 ladyradio.it##.right-table5[width="162"]
 film.it##.rightBoxAmazon
+megasesso.com##.rightPubHome
 cinquegiorni.it##.rightbanner
 gazzettadasti.it##.rotate-banner
 nonsolocap.it##.ru
@@ -2477,6 +2452,7 @@ parmaquotidiano.info##img[width="290"][height="90"]
 radiolombardia.it##img[width="300"][height="250"]
 mmorpgitalia.it##img[width="500"][height="122"]
 tuttoshoppingmotori.com##img[width="610px;"]
+corrieredelgiorno.com##ins[style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent"]
 azpoint.net##table[cellspacing="2"][cellpadding="1"][border="0"][align="center"][width="90%"]
 cronacaqui.it##table[height="112"][width="998"]
 bikeracing.it##table[height="180"][width="100%"]

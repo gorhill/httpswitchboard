@@ -8,7 +8,7 @@
 # Please forward any additions, corrections or comments by email to
 # hosts@someonewhocares.org
 
-# Last updated: Apr 18th, 2014 at 17:40
+# Last updated: Apr 21st, 2014 at 19:12
 
 # Use this file to prevent your computer from connecting to selected
 # internet hosts. This is an easy and effective way to protect you from 
@@ -308,6 +308,7 @@ fe80::1%lo0	localhost
 #127.0.0.1 ebay.doubleclick.net		# may interfere with ebay
 #127.0.0.1 google-analytics.com			# breaks some sites
 #127.0.0.1 ssl.google-analytics.com
+#127.0.0.1 www.google-analytics.l.google.com
 #127.0.0.1 stat.livejournal.com		# There are reports that this may mess 
  					# up CSS on livejournal
 #127.0.0.1 stats.surfaid.ihost.com	# This has been known cause 
@@ -1671,6 +1672,7 @@ fe80::1%lo0	localhost
 127.0.0.1 jump.ewoss.net
 127.0.0.1 juste.ru	# Twitter trojan
 127.0.0.1 kczambians.com
+127.0.0.1 keybinary.com
 127.0.0.1 kirgo.at	# Facebook phishing attempt
 127.0.0.1 klowns4phun.com
 127.0.0.1 konflow.com				# Facebook trojan
@@ -1848,6 +1850,7 @@ fe80::1%lo0	localhost
 127.0.0.1 www.icecars.com
 127.0.0.1 www.indesignstudioinfo.com
 127.0.0.1 www.infopaypal.com
+127.0.0.1 www.keybinary.com
 127.0.0.1 www.kinomarathon.ru
 127.0.0.1 www.kpremium.com
 127.0.0.1 www.likeportal.com			# Facebook trojan
@@ -2953,6 +2956,7 @@ fe80::1%lo0	localhost
 #127.0.0.1 b.scorecardresearch.com	# interferes with Huffington Post slideshows
 #127.0.0.1 iadsdk.apple.com	#may interfere with iTunes radio
 127.0.0.1 0101011.com
+127.0.0.1 0427d7.se
 127.0.0.1 0d79ed.r.axf8.net
 127.0.0.1 0pn.ru
 127.0.0.1 1.adbrite.com
@@ -2970,6 +2974,7 @@ fe80::1%lo0	localhost
 127.0.0.1 247support.adtech.fr
 127.0.0.1 247support.adtech.us
 127.0.0.1 24ratownik.hit.gemius.pl
+127.0.0.1 24trk.com
 127.0.0.1 25184.hittail.com
 127.0.0.1 2754.btrll.com
 127.0.0.1 2912a.v.fwmrm.net
