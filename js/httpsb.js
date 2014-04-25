@@ -550,7 +550,7 @@ HTTPSB.applyRulesetPermanently = function(scopeKey, rules) {
 
 /******************************************************************************/
 
-// Matrix filtering"check whether something is blacklisted
+// Matrix filtering: check whether something is blacklisted
 
 HTTPSB.blacklisted = function(src, type, hostname) {
     return this.evaluate(src, type, hostname).charAt(0) === 'r';
