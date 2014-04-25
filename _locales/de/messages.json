@@ -150,7 +150,7 @@
         "description": "English: HTTP cookie headers foiled: {{count}}"
     },
     "statsPageRefererHeadersFoiled" : {
-        "message": "<a href='https://en.wikipedia.org/wiki/HTTP_referer'>HTTP cookie</a> headers foiled: {{count}}",
+        "message": "<a href='https://en.wikipedia.org/wiki/HTTP_referer'>HTTP referer</a> headers foiled: {{count}}",
         "description": "English: HTTP referer headers foiled: {{count}}"
     },
     "statsPageCookiesRemoved" : {
