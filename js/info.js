@@ -180,7 +180,12 @@ function renderStats() {
     renderLocalized('statsPageCookiesRemoved', { count: renderNumber(httpsb.cookieRemovedCounter) });
     renderLocalized('statsPageLocalStoragesCleared', { count: renderNumber(httpsb.localStorageRemovedCounter) });
     renderLocalized('statsPageBrowserCacheCleared', { count: renderNumber(httpsb.browserCacheClearedCounter) });
-    renderLocalized('statsPageABPHits', { count: renderNumber(httpsb.abpBlockCount), percent: (httpsb.abpBlockCount * 100 / httpsb.requestStats.blocked.all).toFixed(1) });
+
+    var blockedAllCount = httpsb.requestStats.blocked.all;
+    renderLocalized('statsPageABPHits', {
+        count: renderNumber(httpsb.abpBlockCount),
+        percent: blockedAllCount ? (httpsb.abpBlockCount * 100 / blockedAllCount).toFixed(1) : 0
+    });
 
     renderNumbers({
         '#blockedAllCount': requestStats.blocked.all,
