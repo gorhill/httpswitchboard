@@ -158,7 +158,7 @@
         "description": "Local cookies removed: {{count}}"
     },
     "statsPageLocalStoragesCleared" : {
-        "message": "Nombre de <a href='https://fr.wikipedia.org/wiki/Stockage_web_local'>Stockages web locaux</a> effacés: {{count}}",
+        "message": "Nombre de <a href='https://fr.wikipedia.org/wiki/Stockage_web_local'>Stockages web locaux</a> effacés : {{count}}",
         "description": "Local storages emptied: {{count}}"
     },
     "statsPageBrowserCacheCleared" : {
