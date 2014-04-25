@@ -390,7 +390,7 @@
         "description": "English: What is this?"
     },
     "ubiquitousWhatIsThisPrompt" : {
-        "message": "Les &ldquo;règles à portée universelles&rdquo; sont des règles qui s'appliquent dans tous les contextes.",
+        "message": "Les &ldquo;règles à portée universelle&rdquo; sont des règles qui s'appliquent dans tous les contextes.",
         "description": "English: &ldquo;Ubiquitous rules&rdquo; are rules which applies everywhere, i.e. in all scopes."
     },
     "ubiquitousListsOfBlockedHostsPrompt1" : {
