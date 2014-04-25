@@ -32,8 +32,7 @@ function contentScriptSummaryHandler(details, sender) {
     var pageURL = httpsb.pageUrlFromTabId(sender.tab.id);
     var httpsburi = httpsb.URI.set(details.locationURL);
     var frameURL = httpsburi.normalizedURI();
-    var pageHostname = httpsburi.hostname;
-    var urls, url, hostname, block;
+    var urls, url, r;
 
     // rhill 2014-01-17: I try not to use Object.keys() anymore when it can
     // be avoided, because extracting the keys this way results in a
@@ -47,18 +46,11 @@ function contentScriptSummaryHandler(details, sender) {
         if ( !urls.hasOwnProperty(url) ) {
             continue;
         }
-        hostname = false;
         if ( url === '{inline_script}' ) {
             url = frameURL + '{inline_script}';
-        } else {
-            url = httpsburi.set(url).normalizedURI();
-            hostname = httpsburi.hostname;
         }
-        if ( !hostname ) {
-            hostname = pageHostname;
-        }
-        block = httpsb.blacklisted(pageURL, 'script', hostname);
-        httpsb.recordFromPageUrl(pageURL, 'script', url, block);
+        r = httpsb.filterRequest(pageURL, 'script', url);
+        httpsb.recordFromPageUrl(pageURL, 'script', url, r !== false, r);
     }
 
     // plugins
@@ -68,13 +60,8 @@ function contentScriptSummaryHandler(details, sender) {
         if ( !urls.hasOwnProperty(url) ) {
             continue;
         }
-        url = httpsburi.set(url).normalizedURI();
-        hostname = httpsburi.hostname;
-        if ( !hostname ) {
-            hostname = pageHostname;
-        }
-        block = httpsb.blacklisted(pageURL, 'object', hostname);
-        httpsb.recordFromPageUrl(pageURL, 'object', url, block);
+        r = httpsb.filterRequest(pageURL, 'object', url);
+        httpsb.recordFromPageUrl(pageURL, 'object', url, r !== false, r);
     }
 
     // https://github.com/gorhill/httpswitchboard/issues/181

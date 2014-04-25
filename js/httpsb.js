@@ -550,7 +550,8 @@ HTTPSB.applyRulesetPermanently = function(scopeKey, rules) {
 
 /******************************************************************************/
 
-// check whether something is blacklisted
+// Matrix filtering"check whether something is blacklisted
+
 HTTPSB.blacklisted = function(src, type, hostname) {
     return this.evaluate(src, type, hostname).charAt(0) === 'r';
 };
@@ -559,13 +560,59 @@ HTTPSB.blacklistedFromScopeKey = function(scopeKey, type, hostname) {
     return this.evaluateFromScopeKey(scopeKey, type, hostname).charAt(0) === 'r';
 };
 
-// check whether something is whitelisted
+// Matrix filtering: check whether something is whitelisted
+
 HTTPSB.whitelisted = function(src, type, hostname) {
     return this.evaluate(src, type, hostname).charAt(0) === 'g';
 };
 
 HTTPSB.whitelistedFromScopeKey = function(scopeKey, type, hostname) {
     return this.evaluateFromScopeKey(scopeKey, type, hostname).charAt(0) === 'g';
+};
+
+/******************************************************************************/
+
+// Matrix and ABP filtering
+
+// TODO: Should type be transposed by the caller or in place here? Not an
+// issue at this point but to keep in mind as this function is called
+// more and more from different places.
+
+HTTPSB.filterRequest = function(fromURL, type, toURL) {
+    // Block request?
+    var scopeKey = this.temporaryScopeKeyFromPageURL(fromURL);
+    var scope = this.temporaryScopeFromScopeKey(scopeKey);
+    var toHostname = this.URI.hostnameFromURI(toURL);
+
+    // If no valid hostname, use the hostname of the source.
+    // For example, this case can happen with data URI.
+    if ( toHostname === '' ) {
+        toHostname = this.URI.hostnameFromURI(fromURL);
+    }
+
+    // Blocked by matrix filtering?
+    if ( scope.mtxFiltering !== false ) {
+        if ( scope.evaluate(type, toHostname).charAt(0) === 'r' ) {
+            return true;
+        }
+    }
+
+    // Cookies are not really requests, but are conveniently treated
+    // as such from matrix filtering point of view only.
+    if ( type === 'cookie' ) {
+        return false;
+    }
+
+    // Block by ABP filters?
+    if ( scope.abpFiltering !== false ) {
+        var fromDomain = this.URI.domainFromURI(fromURL);
+        var r = this.abpFilters.matchString(toURL, fromDomain, toHostname);
+        if ( r !== false ) {
+            return 'ABP filter: ' + r;
+        }
+    }
+
+    return false;
 };
 
 /******************************************************************************/

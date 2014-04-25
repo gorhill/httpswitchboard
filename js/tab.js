@@ -312,10 +312,10 @@ HTTPSB.recordFromTabId = function(tabId, type, url, blocked) {
     }
 };
 
-HTTPSB.recordFromPageUrl = function(pageUrl, type, url, blocked) {
+HTTPSB.recordFromPageUrl = function(pageUrl, type, url, blocked, reason) {
     var pageStats = this.pageStatsFromPageUrl(pageUrl);
     if ( pageStats ) {
-        pageStats.recordRequest(type, url, blocked);
+        pageStats.recordRequest(type, url, blocked, reason);
     }
 };
 
