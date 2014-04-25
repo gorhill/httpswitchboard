@@ -386,7 +386,7 @@
 
 
     "ubiquitousWhatIsThisHeader" : {
-        "message": "De quoi s'agit-il?",
+        "message": "De quoi s'agit-il ?",
         "description": "English: What is this?"
     },
     "ubiquitousWhatIsThisPrompt" : {
