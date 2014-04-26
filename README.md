@@ -77,7 +77,7 @@ You can also create scopes for your whitelist/blacklist rules. For example, this
 
 The goal of this extension is to make the allowing or blocking of web sites, wholly or partly, as straightforward as possible, so as to not discourage those users who give up easily on good security and privacy habits.
 
-As of April 2014, the extension comes with preset blacklists totaling over nearly 60,000 distinct hostnames (each list can be disabled/enabled according to your choice, and there are more preset blacklists which you can activate if you wish so).
+As of April 2014, the extension comes with preset blacklists totaling nearly 60,000 distinct hostnames (each list can be disabled/enabled according to your choice, and there are more preset blacklists which you can activate if you wish so).
 
 Ultimately, you can choose however you browse the net:
 
