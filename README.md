@@ -44,22 +44,30 @@ I expect the extension to work on a stable of any Chromium-based browser.
 HTTP Switchboard (FOSS) put you in FULL control of where your browser is allowed to connect, what type of data it is allowed to download, and what it is allowed to execute. Nobody else decides for you: You choose. You are in full control of your privacy.
 
 - See ALL the remote connections, failed or attempted, depending on whether they were blocked or allowed (you decide).
-- A single-click to whitelist/blacklist one or multiple classes of requests according to the destination and type of data (a blocked request will NEVER leave your browser).
-- Efficient blacklisting: cookies won't leave your browser, javascript won't execute, plugins won't play, tracking pixels won't download, etc.
+
+- A single-click to whitelist/blacklist one or multiple classes of requests according to the destination and type 
+of data (a blocked request will NEVER leave your browser).
+
+- Efficient blacklisting: cookies won't leave your browser, javascript won't execute, plugins won't play, 
+tracking pixels won't download, etc.
+
 - You do not have to solely rely on just one particular curated blacklist (arguably with many missing entries) outside which nothing else can be blocked.
+
 - Ease of use: HTTP Switchboard lets you easily whitelist/blacklist net requests which originate from within a web page according to a point-and-click matrix:
-    * domain names (left column)
-        - from very specific
-        - to very generic
-    * type of requests (top row)
-        - cookies
-        - css (stylesheets and web fonts)
-        - images
-        - objects
-        - scripts
-        - XHR (requests made by scripts)
-        - frames
-        - others (`<video>`, `<audio>`, etc.)
+
+* domain names (left column)
+    - from very specific
+    - to very generic
+
+* type of requests (top row)
+    - cookies
+    - css (stylesheets and web fonts)
+    - images
+    - objects
+    - scripts
+    - XHR (requests made by scripts)
+    - frames
+    - others (`<video>`, `<audio>`, etc.)
 
 You can blacklist/whitelist a single cell, an entire row, a group of rows, an entire column, or the whole matrix with just one click.
 
@@ -69,7 +77,7 @@ You can also create scopes for your whitelist/blacklist rules. For example, this
 
 The goal of this extension is to make the allowing or blocking of web sites, wholly or partly, as straightforward as possible, so as to not discourage those users who give up easily on good security and privacy habits.
 
-As of December 2013, the extension comes with preset blacklists totaling over 45,000 distinct hostnames (each list can be disabled/enabled according to your choice, and there are more preset blacklists which you can activate if you wish so.)
+As of April 2014, the extension comes with preset blacklists totaling over nearly 60,000 distinct hostnames (each list can be disabled/enabled according to your choice, and there are more preset blacklists which you can activate if you wish so).
 
 Ultimately, you can choose however you browse the net:
 
@@ -80,7 +88,7 @@ Either way, you still benefit from the preset blacklists so that at least you ge
 
 Your choice.
 
-HTTP Switchboard is the fruit of a personal project, there no company of any kind involved, therefore no agenda other than giving users the tools to be in complete control of their browser (I appreciate the thought, but I do not want donation, now or in the future.)
+HTTP Switchboard is the fruit of a personal project, there no company of any kind involved, therefore no agenda other than giving users the tools to be in complete control of their browser. I appreciate the thought, but I do not want donation, now or in the future. If you **really** want to give something in return, then my wish would be that you direct your donation to an organisation genuinely dedicated to defend basic principles of democracy. Examples: [Freedom of the Press Foundation](https://pressfreedomfoundation.org/), [EFF](https://www.eff.org/), or whatever fits the profile.
 
 This is pre-version 1.0, more work is intended.
 
