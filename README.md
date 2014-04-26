@@ -88,8 +88,6 @@ Either way, you still benefit from the preset blacklists so that at least you ge
 
 Your choice.
 
-HTTP Switchboard is the fruit of a personal project, there no company of any kind involved, therefore no agenda other than giving users the tools to be in complete control of their browser. I appreciate the thought, but I do not want donation, now or in the future. If you **really** want to give something in return, then my wish would be that you direct your donation to an organisation genuinely dedicated to defend basic principles of democracy. Examples: [Freedom of the Press Foundation](https://pressfreedomfoundation.org/), [EFF](https://www.eff.org/), or whatever fits the profile.
-
 This is pre-version 1.0, more work is intended.
 
 You are very welcomed to contribute your views on open issues and suggestions, various arguments for/against help me in deciding what is needed to improve the extension.
@@ -115,6 +113,8 @@ Green square = effectively whitelisted, i.e. requests are allowed to reach their
 The top-left cell in the matrix represents the default global setting, which allows you to choose whether allowing or blocking everything is the default behavior. Some prefer to allow everything while blocking exceptionally. My personal preference is of course the reverse, blocking everything and allowing exceptionally.
 
 This extension is also useful if you wish to speed up your browsing, by blocking all requests for images as an example.
+
+HTTP Switchboard is the fruit of a personal project, there no company of any kind involved, therefore no agenda other than giving users the tools to be in complete control of their browser. I appreciate the thought, but I do not want donation, now or in the future. If you **really** want to give something in return, then my wish would be that you direct your donation to an organisation genuinely dedicated to defend basic principles of democracy. Examples: [Freedom of the Press Foundation](https://pressfreedomfoundation.org/), [EFF](https://www.eff.org/), or whatever fits the profile.
 
 ## License
 
