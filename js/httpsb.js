@@ -405,18 +405,18 @@ HTTPSB.autoCreateTemporaryScope = function(pageURL) {
     if ( this.userSettings.autoCreateScope === '' ) {
         return;
     }
-    // Do not auto-create a site-level scope if a matrix filtering is off.
+    // Do not auto-create a scope if a matrix filtering is off in global scope.
     // https://github.com/gorhill/httpswitchboard/issues/237
     if ( this.getTemporaryMtxFiltering('*') !== true ) {
         return;
     }
-    // Do not auto-create a site-level scope if a scope already present.
+    // Do not auto-create a scope if one exists already.
     var scopeKey = this.temporaryScopeKeyFromPageURL(pageURL);
     if ( !this.isGlobalScopeKey(scopeKey) ) {
         return;
     }
-    // Do not auto-create a site-level scope if there is a whitelist rule
-    // for the domain or hostname of the pageURL
+    // Do not auto-create a scope if there is at least one existing
+    // whitelist rule for the domain or hostname of the pageURL
     var pageDomain = this.URI.domainFromURI(pageURL);
     var pageDomainLen = pageDomain.length;
     var scope = this.temporaryScopes.scopes['*'];
