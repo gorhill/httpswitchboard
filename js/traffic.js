@@ -483,27 +483,31 @@ var foilUserAgent = function(httpsb, details) {
 // This fixes:
 // https://github.com/gorhill/httpswitchboard/issues/35
 
-var onHeadersReceivedHandler = function(details) {
+var onHeadersReceived = function(details) {
 
-    // console.debug('onHeadersReceivedHandler()> "%s": %o', details.url, details);
-
-    var requestType = details.type;
-    var isSubFrame = requestType === 'sub_frame';
-    var isWebPage = requestType === 'main_frame' && details.parentFrameId < 0;
-
-    // Ignore anything which is not a top doc or an iframe
-    if ( !isWebPage && !isSubFrame ) {
-        return;
-    }
-
-    var httpsb = HTTPSB;
-    var httpsburi = httpsb.URI.set(details.url);
-    var requestScheme = httpsburi.scheme;
+    // console.debug('onHeadersReceived()> "%s": %o', details.url, details);
 
     // Ignore schemes other than 'http...'
-    if ( requestScheme.indexOf('http') !== 0 ) {
+    if ( details.url.indexOf('http') !== 0 ) {
         return;
     }
+
+    var requestType = details.type;
+    if ( requestType === 'sub_frame' ) {
+        return onSubDocHeadersReceived(details);
+    }
+    if ( requestType === 'main_frame' ) {
+        return onMainDocHeadersReceived(details);
+    }
+};
+
+/******************************************************************************/
+
+var onMainDocHeadersReceived = function(details) {
+
+    // console.debug('onMainDocHeadersReceived()> "%s": %o', details.url, details);
+
+    var httpsb = HTTPSB;
 
     // Do not ignore traffic outside tabs.
     // https://github.com/gorhill/httpswitchboard/issues/91#issuecomment-37180275
@@ -512,12 +516,10 @@ var onHeadersReceivedHandler = function(details) {
         tabId = httpsb.behindTheSceneTabId;
     }
 
+    var httpsburi = httpsb.URI.set(details.url);
     var requestURL = httpsburi.normalizedURI();
+    var requestScheme = httpsburi.scheme;
     var requestHostname = httpsburi.hostname;
-
-    // rhill 2013-12-08: ALWAYS evaluate for javascript, do not rely too much
-    // on the top page to be bound to a tab.
-    // https://github.com/gorhill/httpswitchboard/issues/75
 
     // rhill 2013-12-07:
     // Apparently in Opera, onBeforeRequest() is triggered while the
@@ -525,9 +527,7 @@ var onHeadersReceivedHandler = function(details) {
     // to not be able to lookup the pageStats. So let the code here bind
     // the page to a tab if not done yet.
     // https://github.com/gorhill/httpswitchboard/issues/75
-    if ( tabId >= 0 && isWebPage ) {
-        httpsb.bindTabToPageStats(tabId, requestURL);
-    }
+    httpsb.bindTabToPageStats(tabId, requestURL);
 
     // Re-classify orphan HTTP requests as behind-the-scene requests. There is
     // not much else which can be done, because there are URLs
@@ -546,89 +546,112 @@ var onHeadersReceivedHandler = function(details) {
 
     // Simplify code paths by splitting func in two different handlers, one
     // for main docs, one for sub docs.
-    if ( isWebPage ) {
-        // rhill 2014-01-15: Report redirects.
-        // https://github.com/gorhill/httpswitchboard/issues/112
-        // rhill 2014-02-10: Handle all redirects.
-        // https://github.com/gorhill/httpswitchboard/issues/188
-        if ( /\s+30[12378]\s+/.test(details.statusLine) ) {
-            var i = headerIndexFromName('location', headers);
-            if ( i >= 0 ) {
-                // rhill 2014-01-20: Be ready to handle relative URLs.
-                // https://github.com/gorhill/httpswitchboard/issues/162
-                var locationURL = httpsburi.set(headers[i].value.trim()).normalizedURI();
-                if ( httpsburi.authority === '' ) {
-                    locationURL = requestScheme + '://' + requestHostname + httpsburi.path;
-                }
-                httpsb.redirectRequests[locationURL] = requestURL;
+    // rhill 2014-01-15: Report redirects.
+    // https://github.com/gorhill/httpswitchboard/issues/112
+    // rhill 2014-02-10: Handle all redirects.
+    // https://github.com/gorhill/httpswitchboard/issues/188
+    if ( /\s+30[12378]\s+/.test(details.statusLine) ) {
+        var i = headerIndexFromName('location', headers);
+        if ( i >= 0 ) {
+            // rhill 2014-01-20: Be ready to handle relative URLs.
+            // https://github.com/gorhill/httpswitchboard/issues/162
+            var locationURL = httpsburi.set(headers[i].value.trim()).normalizedURI();
+            if ( httpsburi.authority === '' ) {
+                locationURL = requestScheme + '://' + requestHostname + httpsburi.path;
             }
-            // console.debug('onHeadersReceivedHandler()> redirect "%s" to "%s"', requestURL, headers[i].value);
+            httpsb.redirectRequests[locationURL] = requestURL;
+        }
+        // console.debug('onMainDocHeadersReceived()> redirect "%s" to "%s"', requestURL, headers[i].value);
+    }
+
+    // rhill 2014-01-11: Auto-scope and/or auto-whitelist only when the
+    // `main_frame` object is really received (status = 200 OK), i.e. avoid
+    // redirection, because the final URL might differ. This ensures proper
+    // scope is looked-up before auto-site-scoping and/or auto-whitelisting.
+    // https://github.com/gorhill/httpswitchboard/issues/119
+    if ( details.statusLine.indexOf(' 200') > 0 ) {
+        // rhill 2014-01-15: Report redirects if any.
+        // https://github.com/gorhill/httpswitchboard/issues/112
+        var mainFrameStack = [requestURL];
+        var destinationURL = requestURL;
+        var sourceURL;
+        while ( sourceURL = httpsb.redirectRequests[destinationURL] ) {
+            mainFrameStack.push(sourceURL);
+            delete httpsb.redirectRequests[destinationURL];
+            destinationURL = sourceURL;
         }
 
-        // rhill 2014-01-11: Auto-scope and/or auto-whitelist only when the
-        // `main_frame` object is really received (status = 200 OK), i.e. avoid
-        // redirection, because the final URL might differ. This ensures proper
-        // scope is looked-up before auto-site-scoping and/or auto-whitelisting.
-        // https://github.com/gorhill/httpswitchboard/issues/119
-        if ( details.statusLine.indexOf(' 200') > 0 ) {
-            // rhill 2014-01-15: Report redirects if any.
-            // https://github.com/gorhill/httpswitchboard/issues/112
-            var mainFrameStack = [requestURL];
-            var destinationURL = requestURL;
-            var sourceURL;
-            while ( sourceURL = httpsb.redirectRequests[destinationURL] ) {
-                mainFrameStack.push(sourceURL);
-                delete httpsb.redirectRequests[destinationURL];
-                destinationURL = sourceURL;
-            }
+        while ( destinationURL = mainFrameStack.pop() ) {
+            pageStats.recordRequest('main_frame', destinationURL, false);
+        }
 
-            if ( pageStats ) {
-                while ( destinationURL = mainFrameStack.pop() ) {
-                    pageStats.recordRequest('main_frame', destinationURL, false);
-                }
-            }
-
-            // rhill 2014-01-10: Auto-site scope?
-            if ( httpsb.userSettings.autoCreateSiteScope ) {
-                httpsb.autoCreateTemporarySiteScope(requestURL);
-            }
-            // rhill 2013-12-23: Auto-whitelist page domain?
-            if ( httpsb.userSettings.autoWhitelistPageDomain ) {
-                httpsb.autoWhitelistTemporarilyPageDomain(requestURL);
-            }
+        // rhill 2014-01-10: Auto-site scope?
+        if ( httpsb.userSettings.autoCreateScope !== '' ) {
+            httpsb.autoCreateTemporarySiteScope(requestURL);
+        }
+        // rhill 2013-12-23: Auto-whitelist page domain?
+        if ( httpsb.userSettings.autoWhitelistPageDomain ) {
+            httpsb.autoWhitelistTemporarilyPageDomain(requestURL);
         }
     }
 
-    // At this point we have a top web page or a embedded web page in a frame,
-    // so do not assume requestURL === pageURL.
-    // Evaluate according to scope.
-    // rhill 2013-12-07:
-    // Worst case scenario, if no pageURL can be found for this
-    // request, use global scope to evaluate whether it should be blocked
-    // or allowed.
-    // https://github.com/gorhill/httpswitchboard/issues/75
-    var pageURL = pageStats ? httpsb.pageUrlFromPageStats(pageStats) : '*';
-    if ( httpsb.whitelisted(pageURL, 'script', requestHostname) ) {
+    // Evaluate
+    if ( httpsb.whitelisted(httpsb.pageUrlFromPageStats(pageStats), 'script', requestHostname) ) {
         // https://github.com/gorhill/httpswitchboard/issues/181
-        if ( pageStats ) {
-            pageStats.pageScriptBlocked = false;
-        }
+        pageStats.pageScriptBlocked = false;
+        return;
+    }
+
+    // https://github.com/gorhill/httpswitchboard/issues/181
+    pageStats.pageScriptBlocked = true;
+
+    // If javascript not allowed, say so through a `Content-Security-Policy`
+    // directive.
+    // console.debug('onMainDocHeadersReceived()> PAGE CSP "%s": %o', details.url, details);
+    headers.push({
+        'name': 'Content-Security-Policy',
+        'value': "script-src 'none'"
+    });
+
+    return { responseHeaders: headers };
+};
+
+/******************************************************************************/
+
+var onSubDocHeadersReceived = function(details) {
+
+    // console.debug('onSubDocHeadersReceived()> "%s": %o', details.url, details);
+
+    var httpsb = HTTPSB;
+
+    // Do not ignore traffic outside tabs.
+    // https://github.com/gorhill/httpswitchboard/issues/91#issuecomment-37180275
+    var tabId = details.tabId;
+    if ( tabId < 0 ) {
+        tabId = httpsb.behindTheSceneTabId;
+    }
+
+    // Re-classify orphan HTTP requests as behind-the-scene requests. There is
+    // not much else which can be done, because there are URLs
+    // which cannot be handled by HTTP Switchboard, i.e. `opera://startpage`,
+    // as this would lead to complications with no obvious solution, like how
+    // to scope on unknown scheme? Etc.
+    // https://github.com/gorhill/httpswitchboard/issues/191
+    // https://github.com/gorhill/httpswitchboard/issues/91#issuecomment-37180275
+    var pageStats = httpsb.pageStatsFromTabId(tabId);
+    if ( !pageStats ) {
+        tabId = httpsb.behindTheSceneTabId;
+        pageStats = httpsb.pageStatsFromTabId(tabId);
+    }
+
+    // Evaluate
+    if ( httpsb.whitelisted(httpsb.pageUrlFromPageStats(pageStats), 'script', httpsb.URI.set(details.url).hostname) ) {
         return;
     }
 
     // If javascript not allowed, say so through a `Content-Security-Policy`
     // directive.
-    if ( isWebPage ) {
-        // console.debug('onHeadersReceivedHandler()> PAGE CSP "%s": %o', details.url, details);
-        headers.push({
-            'name': 'Content-Security-Policy',
-            'value': "script-src 'none'"
-        });
-        // https://github.com/gorhill/httpswitchboard/issues/181
-        if ( pageStats ) {
-            pageStats.pageScriptBlocked = true;
-        }
-    }
+
     // For inline javascript within iframes, we need to sandbox.
     // https://github.com/gorhill/httpswitchboard/issues/73
     // Now because sandbox cancels all permissions, this means
@@ -638,14 +661,13 @@ var onHeadersReceivedHandler = function(details) {
     // headers (strip out `allow-scripts` if present),
     // and find out if the `sandbox` in the header interfere with a
     // `sandbox` attribute which might be present on the iframe.
-    else {
-        // console.debug('onHeadersReceivedHandler()> FRAME CSP "%s": %o, scope="%s"', details.url, details, pageURL);
-        headers.push({
-            'name': 'Content-Security-Policy',
-            'value': 'sandbox allow-forms allow-same-origin'
-        });
-    }
-    return { responseHeaders: headers };
+    // console.debug('onSubDocHeadersReceived()> FRAME CSP "%s": %o, scope="%s"', details.url, details, pageURL);
+    details.responseHeaders.push({
+        'name': 'Content-Security-Policy',
+        'value': 'sandbox allow-forms allow-same-origin'
+    });
+
+    return { responseHeaders: details.responseHeaders };
 };
 
 /******************************************************************************/
@@ -762,7 +784,7 @@ var startWebRequestHandler = function(from) {
     );
 
     chrome.webRequest.onHeadersReceived.addListener(
-        onHeadersReceivedHandler,
+        onHeadersReceived,
         {
             'urls': [
                 "http://*/*",

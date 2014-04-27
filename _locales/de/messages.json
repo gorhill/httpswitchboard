@@ -255,13 +255,25 @@
         "message": "<p><strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Striktes\nBlockieren</a></strong>,\neingeführt in <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log-0.0-to-0.5#036\">version 0.3.6</a>,\nbedeutet: Selbst\nwenn du einen spezifischen Hostnamen auf die Whitelist setzt, bleiben die Arten von Anfragen, die standardmäßig blockiert sind (<i>Plugins</i>,\n<i>Frames</i>, etc.), weiterhin auf der Blacklist. Für einige Benutzer ist das möglicherweise\nzu lästig, daher dieser Schalter.</p>\n<p><strong>Striktes Blockieren an</strong>: blockierte Arten von Anfragen (falls vorhanden)\nfür einen Hostnamen auf der Whitelist bleiben weiterhin auf der Blacklist (sofern du diese Arten von Anfragen für diesen Hostnamen nicht ausdrücklich erlaubst.)</p>\n<p><strong>Striktes Blockieren aus</strong>: blockierte Arten von Anfragen (falls vorhanden)\nfür einen Hostnamen auf der Whitelist sind erlaubt (sofern du diese Arten von Anfragen für diesen Hostnamen nicht ausdrücklich verbietest.)</p>",
         "description": "To help user understand the purpose of strict blocking"
     },
-    "settingsAutoCreateSiteScopePrompt": {
-        "message": "Erzeugen temporärer Regeln mit automatischem Geltungsbereich nur auf Webseiten-Ebene.",
-        "description": ""
+    "settingsAutoCreateScopePrompt1": {
+        "message": "Auto create temporary",
+        "description": "English: Auto create temporary"
     },
-    "settingsAutoCreateSiteScopeInfo": {
-        "message": "<p>Diese Option ermöglicht das Erzeugen temporärer Regeln, die automatisch nur auf Webseiten-Ebene gültig sind, sofern für diese Webseite noch keine Regeln existieren. </p><p>Es gibt viele Vorteile bei der Verwendung solcher auf spezifische Webseiten beschränkten Regeln. Einer davon ist, dass die erzeugten Regeln nur in einer Art &ldquo;Sandbox&rdquo; (d.h. in einem abgeschlossenen Bereich) gültig sind -  eine gute Gepflogenheit im Interesse einer erhöhten Sicherheit. </p><p>Beispiel: Wenn du  &ldquo;alles&rdquo; für eine Webseite (www.example.com) auf die Whitelist setzen möchtest, wird der Geltungsbereich auf Webseiten-Ebene das Anwenden dieser extrem laxen Regeln ausschließlich auf diese spezifische Webseite (www.example.com) beschränken; hättest du diese Regeln dagegen im Rahmen eines Globalen Geltungsbereichs (&ldquo;&#x2217;&rdquo;) angelegt, würden diese extrem laxen Regeln für alle Webseiten gelten, d.h. du würdest das ganze Internet auf die Whitelist setzen.</p>",
-        "description": "..."
+    "settingsAutoCreateDomainScope": {
+        "message": "domain-level",
+        "description": "English: domain-level"
+    },
+    "settingsAutoCreateSiteScope": {
+        "message": "site-level",
+        "description": "English: site-level"
+    },
+    "settingsAutoCreateScopePrompt2": {
+        "message": "scope.",
+        "description": "English: scope"
+    },
+    "settingsAutoCreateScopeInfo": {
+        "message": "<p>This option enables the automatic creation of a temporary scope if no scope exists for a web site you visit.</p><p>There are many advantages to using domain- or site-scoped rules, one of them being the sandboxing of rules, a good habit for enhanced security.</p><p>For example, should you want to whitelist &ldquo;all&rdquo; for a web site (www.example.com), using a domain-level scope will limit this extremely permissive rule to only pages on that specific domain (example.com), while if used in the global scope (&ldquo;&#x2217;&rdquo;) the extremely permissive rule would apply to all pages on all web sites, i.e. the whitelisting of the whole internet.</p>",
+        "description": "English: see relevant messages.json file"
     },
     "settingsMatrixLessSecurityHeader" : {
         "message": "Weniger Sicherheit",

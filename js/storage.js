@@ -49,6 +49,12 @@ HTTPSB.loadUserSettings = function() {
         } else if ( store.smartAutoReload === false ) {
             store.smartAutoReload = 'none';
         }
+        // https://github.com/gorhill/httpswitchboard/issues/250
+        if ( typeof store.autoCreateSiteScope === 'boolean' ) {
+            store.autoCreateScope = store.autoCreateSiteScope ? 'site' : '';
+            delete store.autoCreateSiteScope;
+        }
+
         HTTPSB.userSettings = store;
     };
 

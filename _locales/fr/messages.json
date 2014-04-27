@@ -255,12 +255,24 @@
         "message": "Introduit dans la <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log-0.0-to-0.5#036\">version 0.3.6</a>, le <strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Blocage strict</a></strong> signifie que même si vous allouez un nom d'hôte spécifique, une requête restera bloquée si le type d'objet en question (plugins, iframes, etc) est lui-même bloqué; en d'autres termes, le blocage du type d'objet prime sur le domaine concerné. Le choix vous est proposé de l'activer ou non, car cela peut se montrer trop restrictif aux yeux de certains utilisateurs. Si l'option est activée, la requête est autorisée à condition que les nom d'hôte ET le type de requête soient autorisés. Si l'option n'est pas cochée, le nom d'hôte alloué suffit à autoriser la requête.",
         "description": "To help user understand the purpose of strict blocking"
     },
-    "settingsAutoCreateSiteScopePrompt": {
-        "message": "Créer automatiquement des règles à portée site temporaires",
-        "description": ""
+    "settingsAutoCreateScopePrompt1": {
+        "message": "Créer automatiquement des règles à portée",
+        "description": "English: Auto create temporary"
     },
-    "settingsAutoCreateSiteScopeInfo": {
-        "message": "<p>Cette option active la création automatique de règles à portée site si aucune règle n'existe pour le site web que vous visitez.</p><p>Les avantages à utiliser des règles à portée site sont multiples, notamment le sandboxing de règles, qui est une bonne habitude pour renforcer sa sécurité.</p><p>Par exemple, si vous désirez mettre en liste blanche TOUS les éléments d'un site web (www.exemple.com), employer une règle à portée site limiterait cette règle excessivement permissive uniquement à www.exemple.com, tandis que si c'était employé à portée globale, (&ldquo;&#x2217;&rdquo;) cette règle trop permissive s'appliquerait à tous les sites Web, ce qui reviendrait à mettre en liste blanche tout le Web.</p>",
+    "settingsAutoCreateDomainScope": {
+        "message": "domaine",
+        "description": "English: domain-level"
+    },
+    "settingsAutoCreateSiteScope": {
+        "message": "site",
+        "description": "English: site-level"
+    },
+    "settingsAutoCreateScopePrompt2": {
+        "message": "temporaires",
+        "description": "English: scope"
+    },
+    "settingsAutoCreateScopeInfo": {
+        "message": "<p>Cette option active la création automatique de règles à portée restreinte si aucune règle n'existe pour le site web que vous visitez.</p><p>Les avantages à utiliser des règles à portée restreinte sont multiples, notamment le sandboxing de règles, qui est une bonne habitude pour renforcer sa sécurité.</p><p>Par exemple, si vous désirez mettre en liste blanche TOUS les éléments d'un site web (www.exemple.com), employer une règle à portée domaine limiterait cette règle excessivement permissive uniquement aux pages web en provenance du domaine exemple.com, tandis que si c'était employé à portée globale, (&ldquo;&#x2217;&rdquo;) cette règle trop permissive s'appliquerait à toutes pages de tous les sites Web, ce qui reviendrait à mettre en liste blanche tout le Web.</p>",
         "description": "..."
     },
     "settingsMatrixLessSecurityHeader" : {

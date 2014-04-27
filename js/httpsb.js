@@ -402,14 +402,17 @@ HTTPSB.removeTemporaryRule = function(scopeKey, list, type, hostname) {
 /******************************************************************************/
 
 HTTPSB.autoCreateTemporarySiteScope = function(pageURL) {
-    // Do not auto-create a site-level scope if a scope already present.
-    var scopeKey = this.temporaryScopeKeyFromPageURL(pageURL);
-    if ( !this.isGlobalScopeKey(scopeKey) ) {
+    if ( this.userSettings.autoCreateScope === '' ) {
         return;
     }
     // Do not auto-create a site-level scope if a matrix filtering is off.
     // https://github.com/gorhill/httpswitchboard/issues/237
     if ( this.getTemporaryMtxFiltering('*') !== true ) {
+        return;
+    }
+    // Do not auto-create a site-level scope if a scope already present.
+    var scopeKey = this.temporaryScopeKeyFromPageURL(pageURL);
+    if ( !this.isGlobalScopeKey(scopeKey) ) {
         return;
     }
     // Do not auto-create a site-level scope if there is a whitelist rule
@@ -424,14 +427,18 @@ HTTPSB.autoCreateTemporarySiteScope = function(pageURL) {
             continue;
         }
         hostname = rule.slice(rule.indexOf('|') + 1);
-        pos = hostname.indexOf(pageDomain);
+        pos = hostname.lastIndexOf(pageDomain);
         if ( pos >= 0 && pos === (hostname.length - pageDomainLen) ) {
             return;
         }
     }
     // If we reach this point, it makes sense to auto-create a
-    // site-level scope.
-    this.createTemporarySiteScope(pageURL);
+    // site- or domain-level scope.
+    if ( this.userSettings.autoCreateScope === 'site' ) {
+        this.createTemporarySiteScope(pageURL);
+    } else if ( this.userSettings.autoCreateScope === 'domain' ) {
+        this.createTemporaryDomainScope(pageURL);
+    }
 };
 
 /******************************************************************************/

@@ -89,7 +89,8 @@ $(function() {
         return $(this).attr('value') === userSettings.displayTextSize;
         });
     $('#strict-blocking').attr('checked', userSettings.strictBlocking === true);
-    $('#auto-create-site-scope').attr('checked', userSettings.autoCreateSiteScope === true);
+    $('#auto-create-scope').attr('checked', userSettings.autoCreateScope !== '');
+    $('#auto-create-scope-level').val(userSettings.autoCreateScope !== '' ? userSettings.autoCreateScope : 'domain');
     $('#auto-whitelist-page-domain').attr('checked', userSettings.autoWhitelistPageDomain === true);
     $('#smart-auto-reload').val(userSettings.smartAutoReload);
     $('#delete-unused-temporary-scopes').attr('checked', userSettings.deleteUnusedTemporaryScopes === true);
@@ -111,8 +112,17 @@ $(function() {
     $('#strict-blocking').on('change', function(){
         changeUserSettings('strictBlocking', $(this).is(':checked'));
     });
-    $('#auto-create-site-scope').on('change', function(){
-        changeUserSettings('autoCreateSiteScope', $(this).is(':checked'));
+    $('#auto-create-scope').on('change', function(){
+        if ( $(this).is(':checked') === false ) {
+            changeUserSettings('autoCreateScope', '');
+            return;
+        }
+        changeUserSettings('autoCreateScope', $('#auto-create-scope-level').val());
+    });
+    $('#auto-create-scope-level').on('change', function(){
+       if ( $('#auto-create-scope').is(':checked') !== false ) {
+            changeUserSettings('autoCreateScope', this.value);
+        }
     });
     $('#auto-whitelist-page-domain').on('change', function(){
         changeUserSettings('autoWhitelistPageDomain', $(this).is(':checked'));
