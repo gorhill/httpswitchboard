@@ -587,7 +587,7 @@ var onMainDocHeadersReceived = function(details) {
 
         // rhill 2014-01-10: Auto-site scope?
         if ( httpsb.userSettings.autoCreateScope !== '' ) {
-            httpsb.autoCreateTemporarySiteScope(requestURL);
+            httpsb.autoCreateTemporaryScope(requestURL);
         }
         // rhill 2013-12-23: Auto-whitelist page domain?
         if ( httpsb.userSettings.autoWhitelistPageDomain ) {

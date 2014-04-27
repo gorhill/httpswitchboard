@@ -401,7 +401,7 @@ HTTPSB.removeTemporaryRule = function(scopeKey, list, type, hostname) {
 
 /******************************************************************************/
 
-HTTPSB.autoCreateTemporarySiteScope = function(pageURL) {
+HTTPSB.autoCreateTemporaryScope = function(pageURL) {
     if ( this.userSettings.autoCreateScope === '' ) {
         return;
     }
