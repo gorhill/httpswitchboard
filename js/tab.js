@@ -200,7 +200,7 @@ function garbageCollectStalePageStatsWithNoTabsCallback(tabs) {
         tabId = httpsb.tabIdFromPageUrl(pageUrl);
         pageStats = httpsb.pageStats[pageUrl];
         if ( !visibleTabs[tabId] && !pageStats.visible ) {
-            cookieHunter.removePageCookiesAsync(pageStats);
+            httpsb.cookieHunter.removePageCookies(pageStats);
             httpsb.pageStats[pageUrl].dispose();
             delete httpsb.pageStats[pageUrl];
             // console.debug('HTTP Switchboard > GC: disposed of "%s"', pageUrl);

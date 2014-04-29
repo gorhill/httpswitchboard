@@ -206,7 +206,7 @@ var onBeforeRootFrameRequestHandler = function(details) {
         // rhill 2013-11-07: Senseless to do this for behind-the-scene requests.
         // rhill 2013-12-03: Do this here only for root frames.
         if ( tabId !== httpsb.behindTheSceneTabId ) {
-            cookieHunter.recordPageCookiesAsync(pageStats);
+            httpsb.cookieHunter.recordPageCookies(pageStats);
         }
         return;
     }
