@@ -2,7 +2,7 @@
 
 See [Change log](https://github.com/gorhill/httpswitchboard/wiki/Change-log) for latest changes.
 
-A Chromium browser extension which let you white- or blacklist requests
+A Chromium browser extension which let you whitelist or blacklist requests
 originating from within a web page according to their type and/or destination
 as per domain name. As of April 2014, the extension comes with preset
 blacklists totaling over 56,000 distinct hostnames (these lists can be disabled,
@@ -115,6 +115,8 @@ The top-left cell in the matrix represents the default global setting, which all
 This extension is also useful if you wish to speed up your browsing, by blocking all requests for images as an example.
 
 HTTP Switchboard is the fruit of a personal project, there no company of any kind involved, therefore no agenda other than giving users the tools to be in complete control of their browser. I appreciate the thought, but I do not want donation, now or in the future. If you **REALLY** want to give something in return, then my wish would be that you direct your donation to an organisation genuinely dedicated to defend basic principles of democracy. Examples: [Freedom of the Press Foundation](https://pressfreedomfoundation.org/), [EFF](https://www.eff.org/), [Wikileaks](https://wikileaks.org/), or whatever non-for-profit organisation fits the _"genuinely dedicated to defend basic principles of democracy"_ profile in your home country.
+
+Can't deny it, encouraging comments from the stores or elsewhere do help.
 
 ## License
 
