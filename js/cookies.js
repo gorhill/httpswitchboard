@@ -45,6 +45,10 @@ var cookieEntryJunkyard = [];
 /******************************************************************************/
 
 var CookieEntry = function(cookie) {
+    this.set(cookie);
+};
+
+CookieEntry.prototype.set = function(cookie) {
     this.secure = cookie.secure;
     this.session = cookie.session;
     this.anySubdomain = cookie.domain.charAt(0) === '.';
@@ -53,6 +57,17 @@ var CookieEntry = function(cookie) {
     this.name = cookie.name;
     this.value = cookie.value;
     this.tstamp = Date.now();
+    return this;
+};
+
+// Release anything which may consume too much memory
+
+CookieEntry.prototype.unset = function() {
+    this.domain = '';
+    this.path = '';
+    this.name = '';
+    this.value = '';
+    return this;
 };
 
 /******************************************************************************/
@@ -60,7 +75,13 @@ var CookieEntry = function(cookie) {
 var addCookieToDict = function(cookie) {
     var cookieKey = cookieKeyFromCookie(cookie);
     if ( cookieDict.hasOwnProperty(cookieKey) === false ) {
-        cookieDict[cookieKey] = new CookieEntry(cookie);
+        var cookieEntry = cookieEntryJunkyard.pop();
+        if ( cookieEntry ) {
+            cookieEntry.set(cookie);
+        } else {
+            cookieEntry = new CookieEntry(cookie);
+        }
+        cookieDict[cookieKey] = cookieEntry;
     }
     return cookieDict[cookieKey];
 };
@@ -78,7 +99,11 @@ var addCookiesToDict = function(cookies) {
 
 var removeCookieFromDict = function(cookieKey) {
     if ( cookieDict.hasOwnProperty(cookieKey) ) {
+        var cookieEntry = cookieDict[cookieKey];
         delete cookieDict[cookieKey];
+        if ( cookieEntryJunkyard.length < 25 ) {
+            cookieEntryJunkyard.push(cookieEntry.unset());
+        }
         // console.log('cookies.js/removeCookieFromDict()> removed cookie key "%s"', cookieKey);
     }
 };
