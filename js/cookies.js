@@ -42,6 +42,14 @@ var cookieHunter = {
     queuePageRemove: {},
     queueRemove: {},
     cookieDict: {},
+    cookieURLBuilder: [
+        '',
+        '{',
+        '',
+        '_cookie:',
+        '',
+        '}'
+    ],
 
     CookieEntry: function(cookie) {
         this.secure = cookie.secure;
@@ -151,12 +159,16 @@ var cookieHunter = {
         var pageURL = pageStats.pageUrl;
         var block = httpsb.blacklisted(pageURL, 'cookie', cookieEntry.domain);
 
+        this.cookieURLBuilder[0] = this.cookieURLFromCookieEntry(cookieEntry);
+        this.cookieURLBuilder[2] = cookieEntry.session ? 'session' : 'persistent';
+        this.cookieURLBuilder[4] = encodeURIComponent(cookieEntry.name);
+
         // rhill 2013-11-20:
         // https://github.com/gorhill/httpswitchboard/issues/60
         // Need to URL-encode cookie name
         pageStats.recordRequest(
             'cookie',
-            this.cookieURLFromCookieEntry(cookieEntry) + '{cookie:' + encodeURIComponent(cookieEntry.name) + '}',
+            this.cookieURLBuilder.join(''),
             block
             );
         httpsb.requestStats.record('cookie', block);
