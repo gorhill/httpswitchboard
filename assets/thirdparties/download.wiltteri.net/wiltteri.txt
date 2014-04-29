@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: sgnTyYAOtnoWsJQb6SQvOw
-! Version: 201404221800
+! Checksum: YLY2jKeinYV4n3sk9XokOg
+! Version: 201404251620
 ! Title: Wiltteri
 ! Description: Finnish supplement list for EasyList
-! Last modified: 22 Apr 2014 18:00 UTC
+! Last modified: 25 Apr 2014 16:20 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: http://wiltteri.net/
 ! License: http://creativecommons.org/licenses/by-sa/3.0/
@@ -1028,6 +1028,7 @@ _mainosnappi.
 ||novajagazeta.fi/bannerit/
 ||novajagazeta.fi/kuvat/kansikuva
 ||novita.fi/public/Flash/banner
+||nrj.fi^*/body-bg-nrj.
 ||nummi-pusula.fi/Bannerit/
 ||nummirock.fi^*/bannerit/
 ||nuortenhyvaksi.fi/*/kumppanit.png
@@ -2618,7 +2619,7 @@ ammattilehti.fi,espoonoilers.fi,ruisrock.fi,tornio.fi##.bannerbox
 musikantit.fi##.bannerbox > div.content
 imatrangolf.fi,juhlaikkuna.fi,leijonat.fi,marineparts.fi,naisfutis.net,oikeuttaelaimille.net,painiliitto.net##.bannergroup
 kaukalopalloliiga.fi##.bannergroup_text
-evl.fi##.banneri
+evl.fi,viihde24.com##.banneri
 fcreipas.fi##.banneriboxi_980
 tennis.fi##.banneripaikka_top
 ilves.com,kyronniemi.fi,tune.fi##.bannerit
@@ -3117,6 +3118,7 @@ ylilauta.org##a[href^="https://ylilauta.org/"] > img[alt=""]
 winpros.fi##a[href^="moduls/banner/redir.asp?"]
 keltainenporssi.fi##a[onclick^="google_track(this.href, 'Text link', '"]
 jyvaskylankiri.fi##a[onclick^="javascript:_gaq.push(['_trackEvent','outbound-article'"]
+viihde24.com##a[rel="external"]
 liikuntakeskus.com,muskleforum.com##a[target="_blank"] > img
 sahkoala.fi##a[target="_blank"] > img[src^="/_shared/_files/"]
 suomimeloo.fi##a[target="_blank"] > img[width="115"]
@@ -3938,15 +3940,15 @@ seksitreffit.fi##table[width="1024"][bgcolor="#d31517"]
 @@||taskumuro.com^*/advertisement.js
 @@||tuuri.fi/mainokset/
 ! Sanoma
-@@||adtech.de/?adrawdata/3.0/*/noperf=1;cc=2;$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
-@@||adtech.de/?advideo/3.0/*//cc=2;*;alias=*_pauseover;$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
-@@||adtech.de/?advideo/3.0/*//cc=2;vidAS=channel_intro;$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
-@@||adtech.de/?advideo/3.0/*//cc=2;vidAS=mid_roll;$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
-@@||adtech.de/?advideo/3.0/*//cc=2;vidAS=overlay;$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
-@@||adtech.de/?advideo/3.0/*//cc=2;vidAS=post_roll;$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
-@@||adtech.de/?advideo/3.0/*//cc=2;vidAS=pre_roll;$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
-@@||aka-cdn-ns.adtech.de/apps/$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
-@@||gatling.nelonenmedia.fi^*/logo/$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
+@@||adtech.de/?adrawdata/3.0/*/noperf=1;cc=2;$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
+@@||adtech.de/?advideo/3.0/*//cc=2;*;alias=*_pauseover;$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
+@@||adtech.de/?advideo/3.0/*//cc=2;vidAS=channel_intro;$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
+@@||adtech.de/?advideo/3.0/*//cc=2;vidAS=mid_roll;$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
+@@||adtech.de/?advideo/3.0/*//cc=2;vidAS=overlay;$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
+@@||adtech.de/?advideo/3.0/*//cc=2;vidAS=post_roll;$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
+@@||adtech.de/?advideo/3.0/*//cc=2;vidAS=pre_roll;$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
+@@||aka-cdn-ns.adtech.de/apps/$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
+@@||gatling.nelonenmedia.fi^*/logo/$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
 ! -------------------- wiltteri-whitelist-hide.txt ------------------ !
 autot.oikotie.fi#@##ad-header
 download.fi,puhelinvertailu.com#@##ad-top-banner-placeholder

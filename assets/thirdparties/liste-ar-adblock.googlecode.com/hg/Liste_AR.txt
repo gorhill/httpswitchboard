@@ -1,5 +1,5 @@
 [Adblock Plus 2.0]
-! Checksum: 9zMeskwsizZqMM+0meMvvQ
+! Checksum: s/ANJSOEjAu9tz1pUr4mSA
 ! القائمة العربية لمانع الشرائط الإعلانية آدبلوك بلس
 ! Liste AR ~ Filtres arabes complémentaires à EasyList et à la Liste FR
 ! Title: Liste AR
@@ -13,7 +13,6 @@
 ! ou par e-mail : liste.ar.adblock at gmail point com
 !
 !----------------------- Filtres génériques -----------------!
-##.ads-ul
 -ads.swf
 .ma/ads/
 /ar/ads/*
@@ -21,9 +20,13 @@
 !----------------------- Éléments génériques -----------------!
 ###ad2
 ###adLeft
+###ad_global_below_navbar
 ###ads_r_c
 ##.adengageadzone
+##.ads-ul
 ##.adsarea
+##.googleAds336
+##.googleAds728
 ##a[href*="adintop.com/outgoing/click.php?"]
 ##a[href*="dubizzle.com/ar/?utm_source="]
 ##a[href^="ads.php?id="]
@@ -69,6 +72,7 @@
 ||imediastreams.com^$third-party
 ||jazayr.net^$third-party
 ||jor1.net^$third-party
+||menaon.com^$third-party
 ||mochiads.com^$third-party
 ||nile-ads.com^$third-party
 ||oneclickad.net^$third-party
@@ -260,6 +264,7 @@
 ||shnat.net/vb/images/bag.gif
 ||shofonline.org/open*.js
 ||short5.com/2d/popup.js
+||shorte.st/link-converter.
 ||shwqna.at.ua/pop*.js
 ||sinailiberties.com/1.gif$domain=kalemaro.com
 ||soft365.com^$popup,domain=arabsh.com
@@ -563,6 +568,7 @@
 ||fennec-dz.com/img/bann_sweet.jpg
 ||fennec-dz.com/img/efth.jpg
 ||fibladi.com/common/pub_
+||filmey.com/vb/xzx16.js
 ||fivesat.net/bnr2.gif
 ||fontypress.info/images/banners/
 ||foola.net/images/foola_22.png
@@ -620,6 +626,7 @@
 ||k1br.com/vb/$subdocument,domain=s7rny.com
 ||kalemaro.com/dezndev*.js
 ||kashta.net^$subdocument,domain=syrcafe.net
+||kazaroza.net^$popup,domain=arablionz.com
 ||khaleejcal.com^*/banners/
 ||kleeja.com/static/images/e3/
 ||ktaby.com/adv_ktaby/
@@ -1073,6 +1080,9 @@ l3bh.com##.ads
 lakii.com##a[href*="ads-redirect.php?i="]
 lakii.com##a[href^="http://www.deraah.com.sa/default.aspx?"]
 lakome.com###outside-left
+libyan-sat.com##img[width="150"][height="60"][style="margin: 0px 0px 0px 0px;"]
+libyan-sat.com##img[width="280"][height="60"][style="margin: 0px 0px 0px 0px;"]
+libyan-sat.com##img[width="400"][height="60"][style="margin: 0px 0px 0px 0px;"]
 liilas.com###tickermain
 linkat-online.com##.adss_left
 linkat-online.com##.left_side

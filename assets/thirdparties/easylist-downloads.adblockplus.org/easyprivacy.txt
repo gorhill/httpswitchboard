@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: NnpXl1vr4iMceJ/2kp20EQ
-! Version: 201404251531
+! Checksum: Q0S1ZRD+VKMt10WYNKPbUw
+! Version: 201404292251
 ! Title: EasyPrivacy
-! Last modified: 25 Apr 2014 15:31 UTC
+! Last modified: 29 Apr 2014 22:51 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -2217,7 +2217,6 @@ http://utm.
 ||activemeter.com^$third-party
 ||activeprospects.com^$third-party
 ||acxiom-online.com^$third-party
-||ad6.fr^$third-party
 ||adchemy-content.com^$third-party
 ||adchemy.com^$third-party
 ||adclickstats.net^$third-party
@@ -2235,6 +2234,7 @@ http://utm.
 ||adsensedetective.com^$third-party
 ||adultblogtoplist.com^$third-party
 ||advanced-web-analytics.com^$third-party
+||affilae.com^$third-party
 ||affiliateedge.eu^$third-party
 ||affiliates-pro.com^$third-party
 ||affiliatetrackingsetup.com^$third-party
@@ -2742,7 +2742,6 @@ http://utm.
 ||govmetric.com^$third-party
 ||grapheffect.com^$third-party
 ||grepdata.com^$third-party
-||groundspeak.com^$third-party
 ||gsimedia.net^$third-party
 ||gstats.cn^$third-party
 ||gtopstats.com^$third-party
@@ -5377,6 +5376,7 @@ http://utm.
 ||tracker.icerocket.com^
 ||tracker.iqnomy.com^
 ||tracker.issuu.com^
+||tracker.keywordintent.com^
 ||tracker.marinsoftware.com^
 ||tracker.mgnetwork.com^
 ||tracker.mtrax.net^
@@ -5768,6 +5768,7 @@ http://utm.
 ||css.aliyun.com^$third-party
 ||dw.cbsi.com.cn^$third-party
 ||etwun.com:8080/counter.php?
+||huaban.com/js/pinmarklet.js
 ||ifengimg.com/sta_collection.*.js
 ||js.letvcdn.com/js/*/stats/
 ||js.static.m1905.cn/pingd.js
@@ -7855,7 +7856,7 @@ http://utm.
 ||xnxx.com/in.php?referer
 ||yahoo.com/__perf_log_
 ||yahoo.com/_td_api/beacon/
-||yahoo.com/b?p=
+||yahoo.com/b?
 ||yahoo.com/neo/stat
 ||yahoo.com/neo/ygbeacon/
 ||yahoo.com/neo/ymstat
@@ -8786,6 +8787,7 @@ http://utm.
 @@||metrics.nissanusa.com/b/ss/nissanusacom/$image
 @@||metrics.torproject.org^
 @@||microsoft.com/click/services/RioTracking2.js
+@@||mightyspring.com/static/js/beacon.js?$~third-party
 @@||milb.com/shared/scripts/bam.tracking.js
 @@||mixpanel.com/site_media/js/api/mixpanel.js$domain=blog.cloudflare.com
 @@||mixpanel.com/track/?data=$xmlhttprequest,domain=change.org|kickstarter.com|thefrisky.com
@@ -9063,8 +9065,8 @@ http://utm.
 @@||media.sosh.fr/includes/wtbase.js
 @@||media.sosh.fr/includes/wtinit.js
 @@||mxpnl.com/libs/mixpanel-*.min.js$domain=deezer.com
-@@||orange.fr/medias/toolkit/js/Wtbase.js
-@@||orange.fr/medias/toolkit/js/Wtinit.js
+@@||orange.fr^*/wtbase.js
+@@||orange.fr^*/wtinit.js
 @@||stat.prsmedia.fr/tag/stat.js$domain=bienpublic.com
 @@||tv5.org/cms/javascript/*/sitestat.js
 ! Chinese

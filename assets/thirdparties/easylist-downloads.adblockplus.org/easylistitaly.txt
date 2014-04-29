@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: ndDTuNi996EfPtoRHrG9TQ
-! Version: 201404251531
+! Checksum: MGG32ez97Hf2+xX40r8qoQ
+! Version: 201404292251
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 25 Apr 2014 15:31 UTC
+! Ultima modifica: 29 Apr 2014 22:51 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -1448,6 +1448,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||tesionline.it/v2/img/skin/
 ||therockblog.net^*/banner-
 ||ticinofinanza.ch/banner/
+||ticinolive.ch/files/banners/
 ||tio.ch/img/2013/iframe/postfinance.jpg
 ||tio.ch^*/banner/
 ||tipresentoilcane.com/banner/
@@ -1575,6 +1576,7 @@ novara.com###BoxBlock_8
 tgcom24.mediaset.it###ContentSpecialBox
 comingsoon.it###ExpTop
 sardegna24.net###Hbanner300x250c20
+eunews.it###HeaderBanner
 rai.it###Leaderboard
 liberatv.ch###Minisky
 ininsubria.it###PopUp_Under
@@ -2101,6 +2103,7 @@ gazzettadasti.it##.footer-rotate-banner
 chievocalcio.tv##.footer-sponsor-container
 violachannel.tv##.footer_home
 liberatv.ch##.front_orrizzontale
+quattroruote.it##.fullBanner
 spaziogames.it##.g_adv
 gazzetta.it##.gazzasconti
 iammepress.it,italia-news.it##.gcon_banners

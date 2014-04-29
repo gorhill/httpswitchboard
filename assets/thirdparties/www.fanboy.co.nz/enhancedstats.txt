@@ -1,7 +1,7 @@
 [Adblock Plus 1.1]
-! Checksum: ig2GX/dvKmUcFPTil2JASQ
+! Checksum: eu02ZU8aEnfW987sEjix8g
 ! Title: Fanboy's Enhanced Tracking List
-! Updated: 24 Apr 2014
+! Updated: 27 Apr 2014
 ! This list expires after 2 days
 ! License: http://creativecommons.org/licenses/by/3.0/
 ! Email: fanboyadblock@googlegroups.com
@@ -573,6 +573,7 @@ drugs.com##div[style="left: 0px; position: fixed; top: auto; bottom: 48px;"]
 @@||amd.com/us/as/scode_$script
 @@||apple.com/pages/omniture/js/omniture_tracking.js
 @@||apple.com/pages/omniture/js/util.js?
+@@||foxtel.com.au/shop/packages-and-deals/static/js/os-omniture.js
 @@||player.qbrick.com^*/sitecatalyst.swf
 @@||arctichome.com/flex-mod/js/tracking/webtrends-*.js
 @@||simyo.de^*/simyo_s_code.js
