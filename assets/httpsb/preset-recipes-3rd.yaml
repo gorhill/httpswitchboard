@@ -103,6 +103,15 @@ Fox News comments (requires 3rd-party Janrain):
         script fyre.co
         xhr fyre.co
 
+Google Maps (as 3rd-party):
+    keys: maps.google.com
+    whitelist: |
+        script maps.google.com
+        script maps.gstatic.com
+        script maps.googleapis.com
+        script mt0.googleapis.com
+        script mt1.googleapis.com
+
 Instagram:
     facode: f16d
     keys: instagram.com
