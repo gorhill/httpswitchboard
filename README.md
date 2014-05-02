@@ -22,10 +22,10 @@ I expect the extension to work on a stable release of any Chromium-based browser
 ## The matrix: front end to the matrix filtering engine
 
 <p align="center">
- <a href="https://github.com/gorhill/httpswitchboard/wiki/Net-request-filtering:-overview#matrix-filtering">
+ <a href="https://github.com/gorhill/httpswitchboard/wiki/How-to-use-HTTP-Switchboard:-Two-opposing-views">
   <img src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/screenshot1.png" />
  </a><br>
- <a href="https://github.com/gorhill/httpswitchboard/wiki/Net-request-filtering:-overview#matrix-filtering">Click for more details</a>
+ <a href="https://github.com/gorhill/httpswitchboard/wiki/How-to-use-HTTP-Switchboard:-Two-opposing-views">Click for more details</a>
 </p>
 
 ## The filtering engine
