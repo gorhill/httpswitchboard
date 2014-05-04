@@ -72,6 +72,12 @@ var nodesAddedHandler = function(nodeList, summary) {
         switch ( node.tagName.toUpperCase() ) {
 
         case 'SCRIPT':
+            // https://github.com/gorhill/httpswitchboard/issues/252
+            // Do not count HTTPSB's own script tags, they are not required
+            // to "unbreak" a web page
+            if ( node.id && node.id.indexOf('httpsb-') === 0 ) {
+                break;
+            }
             text = node.textContent.trim();
             if ( text !== '' ) {
                 summary.scriptSources['{inline_script}'] = true;

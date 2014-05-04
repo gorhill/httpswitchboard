@@ -30,7 +30,7 @@
 var navigatorSpoofer = " \
 ;(function() { \
     try { \
-        var spoofedUserAgent = '{{ua}}'; \
+        var spoofedUserAgent = {{ua-json}}; \
         if ( spoofedUserAgent === navigator.userAgent ) { \
             return; \
         } \
@@ -76,7 +76,8 @@ var injectNavigatorSpoofer = function(spoofedUserAgent) {
     }
     var script = document.createElement('script');
     script.type = 'text/javascript';
-    var js = document.createTextNode(navigatorSpoofer.replace('{{ua}}', spoofedUserAgent.replace(/'/g, '')));
+    script.id = 'httpsb-ua-spoofer';
+    var js = document.createTextNode(navigatorSpoofer.replace('{{ua-json}}', JSON.stringify(spoofedUserAgent)));
     script.appendChild(js);
     document.documentElement.appendChild(script, document.documentElement.firstChild);
 };
