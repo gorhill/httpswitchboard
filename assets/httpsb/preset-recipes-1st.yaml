@@ -502,4 +502,6 @@ Yahoo News:
         whitelist: |
             * news.yahoo.com
             * yimg.com
+            # To override hosts-file.net/ad-servers
+            * l.yimg.com
 
