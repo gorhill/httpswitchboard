@@ -400,6 +400,13 @@ var onBeforeSendHeadersHandler = function(details) {
 
     if ( httpsb.userSettings.spoofUserAgent ) {
         changed = foilUserAgent(httpsb, details) || changed;
+        // https://github.com/gorhill/httpswitchboard/issues/252
+        // To avoid potential mismatch between the user agent from HTTP headers
+        // and the user agent from subrequests and the window.navigator object,
+        // I could always store here the effective user agent, but I am really
+        // not convinced it is worth the added overhead given the low
+        // probability and the benign consequence if it ever happen. Can always
+        // be revised if ever I become aware a mismatch is a terrible thing
     }
 
     if ( changed ) {

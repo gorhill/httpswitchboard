@@ -19,12 +19,20 @@
     "background": {
         "page": "background.html"
     },
-    "content_scripts": [{
+    "content_scripts": [
+    {
         "matches": ["http://*/*", "https://*/*"],
         "js": ["js/contentscript.js"],
         "run_at": "document_end",
         "all_frames": true
-    }],
+        },
+    {
+        "matches": ["http://*/*", "https://*/*"],
+        "js": ["js/contentscript-uaspoof.js"],
+        "run_at": "document_start",
+        "all_frames": true
+        }
+    ],
     "homepage_url": "https://github.com/gorhill/httpswitchboard/wiki",
     "minimum_chrome_version": "22.0",
     "default_locale": "en",

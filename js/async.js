@@ -197,26 +197,8 @@ function onMessageHandler(request, sender, callback) {
             HTTPSB.reloadAllLocalAssets();
             break;
 
-        case 'contentScriptHasLocalStorage':
-            response = contentScriptLocalStorageHandler(request.url);
-            break;
-
-        case 'contentScriptSummary':
-            contentScriptSummaryHandler(request, sender);
-            break;
-
         case 'forceReloadTab':
             HTTPSB.forceReload(request.pageURL);
-            break;
-
-        case 'checkScriptBlacklisted':
-            response = {
-                scriptBlacklisted: HTTPSB.blacklisted(
-                    request.url,
-                    'script',
-                    HTTPSB.URI.hostnameFromURI(request.url)
-                    )
-                };
             break;
 
         case 'gotoExtensionURL':

@@ -21,7 +21,11 @@
 
 /******************************************************************************/
 
-function contentScriptSummaryHandler(details, sender) {
+(function() {
+
+/******************************************************************************/
+
+var contentScriptSummaryHandler = function(details, sender) {
     // TODO: Investigate "Error in response to tabs.executeScript: TypeError:
     // Cannot read property 'locationURL' of null" (2013-11-12). When can this
     // happens? 
@@ -66,11 +70,11 @@ function contentScriptSummaryHandler(details, sender) {
 
     // https://github.com/gorhill/httpswitchboard/issues/181
     httpsb.onPageLoadCompleted(pageURL);
-}
+};
 
 /******************************************************************************/
 
-function contentScriptLocalStorageHandler(pageURL) {
+var contentScriptLocalStorageHandler = function(pageURL) {
     var httpsb = HTTPSB;
     var httpsburi = httpsb.URI.set(pageURL);
     var response = httpsb.blacklisted(pageURL, 'cookie', httpsburi.hostname);
@@ -85,5 +89,55 @@ function contentScriptLocalStorageHandler(pageURL) {
         httpsb.localStorageRemovedCounter++;
     }
     return response;
-}
+};
 
+/******************************************************************************/
+
+// Handling stuff asynchronously simplifies code
+
+var onMessageHandler = function(request, sender, callback) {
+    if ( !request || !request.what ) {
+        return;
+    }
+
+    var response;
+
+    switch ( request.what ) {
+
+    case 'contentScriptHasLocalStorage':
+        response = contentScriptLocalStorageHandler(request.url);
+        break;
+
+    case 'contentScriptSummary':
+        contentScriptSummaryHandler(request, sender);
+        break;
+
+    case 'checkScriptBlacklisted':
+        response = {
+            scriptBlacklisted: HTTPSB.blacklisted(
+                request.url,
+                'script',
+                HTTPSB.URI.hostnameFromURI(request.url)
+                )
+            };
+        break;
+
+    case 'getUserAgentReplaceStr':
+        response = HTTPSB.userSettings.spoofUserAgent ? HTTPSB.userAgentReplaceStr : undefined;
+        break;
+
+    default:
+         // console.error('HTTP Switchboard > onMessage > unknown request: %o', request);
+        break;
+    }
+
+    if ( response !== undefined && callback ) {
+        callback(response);
+    }
+};
+
+chrome.runtime.onMessage.addListener(onMessageHandler);
+
+/******************************************************************************/
+
+})();
