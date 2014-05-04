@@ -1,7 +1,7 @@
 /*******************************************************************************
 
     httpswitchboard - a Chromium browser extension to black/white list requests.
-    Copyright (C) 2013  Raymond Hill
+    Copyright (C) 2014  Raymond Hill
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -52,7 +52,6 @@ var navigatorSpoofer = ' \
     spoofedNavigator.appVersion = spoofedUserAgent; \
     spoofedNavigator.userAgent = spoofedUserAgent; \
     Object.freeze(spoofedNavigator); \
-    /*Object.setPrototypeOf(spoofedNavigator, Object.getPrototypeOf(realNavigator));*/ \
     navigator = window.navigator = spoofedNavigator; \
 })();\
 ';
