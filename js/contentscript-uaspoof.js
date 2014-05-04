@@ -61,7 +61,7 @@ var navigatorSpoofer = " \
 /******************************************************************************/
 
 // Because window.userAgent is read-only, we need to create a fake Navigator
-// object to contain out fake user-agent string.
+// object to contain our fake user-agent string.
 // Because objects created by a content script are local to the content script
 // and not visible to the web page itself (and vice versa), we need the context
 // of the web page to create the fake Navigator object directly, and the only
