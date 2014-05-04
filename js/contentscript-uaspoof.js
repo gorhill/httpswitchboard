@@ -27,34 +27,36 @@
 
 /******************************************************************************/
 
-var navigatorSpoofer = ' \
-(function() { \
-    var spoofedUserAgent = "{{ua}}"; \
-    if ( spoofedUserAgent === navigator.userAgent ) { \
-        return; \
-    } \
-    var realNavigator = navigator; \
-    var SpoofedNavigator = function(ua) { \
-        this.navigator = navigator; \
-    }; \
-    var spoofedNavigator = new SpoofedNavigator(spoofedUserAgent); \
-    var makeFunction = function(n, k) { \
-        n[k] = function() { \
-            return this.navigator[k].apply(this.navigator, arguments); }; \
-    }; \
-    for ( var k in realNavigator ) { \
-        if ( typeof realNavigator[k] === "function" ) { \
-            makeFunction(spoofedNavigator, k); \
-        } else { \
-            spoofedNavigator[k] = realNavigator[k]; \
+var navigatorSpoofer = " \
+;(function() { \
+    try { \
+        var spoofedUserAgent = '{{ua}}'; \
+        if ( spoofedUserAgent === navigator.userAgent ) { \
+            return; \
         } \
+        var realNavigator = navigator; \
+        var SpoofedNavigator = function(ua) { \
+            this.navigator = navigator; \
+        }; \
+        var spoofedNavigator = new SpoofedNavigator(spoofedUserAgent); \
+        var makeFunction = function(n, k) { \
+            n[k] = function() { \
+                return this.navigator[k].apply(this.navigator, arguments); }; \
+        }; \
+        for ( var k in realNavigator ) { \
+            if ( typeof realNavigator[k] === 'function' ) { \
+                makeFunction(spoofedNavigator, k); \
+            } else { \
+                spoofedNavigator[k] = realNavigator[k]; \
+            } \
+        } \
+        spoofedNavigator.appVersion = spoofedUserAgent; \
+        spoofedNavigator.userAgent = spoofedUserAgent; \
+        Object.freeze(spoofedNavigator); \
+        navigator = window.navigator = spoofedNavigator; \
+    } catch (e) { \
     } \
-    spoofedNavigator.appVersion = spoofedUserAgent; \
-    spoofedNavigator.userAgent = spoofedUserAgent; \
-    Object.freeze(spoofedNavigator); \
-    navigator = window.navigator = spoofedNavigator; \
-})();\
-';
+})();";
 
 /******************************************************************************/
 
@@ -74,7 +76,7 @@ var injectNavigatorSpoofer = function(spoofedUserAgent) {
     }
     var script = document.createElement('script');
     script.type = 'text/javascript';
-    var js = document.createTextNode(navigatorSpoofer.replace('{{ua}}', spoofedUserAgent));
+    var js = document.createTextNode(navigatorSpoofer.replace('{{ua}}', spoofedUserAgent.replace(/'/g, '')));
     script.appendChild(js);
     document.documentElement.appendChild(script, document.documentElement.firstChild);
 };
