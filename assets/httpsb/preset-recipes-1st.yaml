@@ -403,6 +403,15 @@ Superuser:
             * sstatic.net
             script ajax.googleapis.com
 
+Tom's Hardware:
+    keys: www.tomshardware.com
+    scope: www.tomshardware.com
+        whitelist: |
+            * tomshardware.com
+            * bestofmedia.com
+            * bestofmicro.com
+            script ajax.googleapis.com
+
 Tumblr:
     keys: '*.tumblr.com'
     scope: '*.tumblr.com'
