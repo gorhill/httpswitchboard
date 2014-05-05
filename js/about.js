@@ -108,11 +108,16 @@ var restoreUserDataFromFile = function() {
     var restoreBackup = function(data) {
         var httpsb = getHTTPSB();
         chrome.storage.local.set(data.userSettings);
-        chrome.storage.local.set({
+        var store = {
             'version': data.version,
-            'scopes': data.scopes,
-            'remoteBlacklists': data.remoteBlacklists
-        });
+            'scopes': data.scopes
+        };
+        // This case may happen if data was backed up without the user having
+        // changed default selection of lists.
+        if ( data.remoteBlacklists !== undefined ) {
+            store.remoteBlacklists = data.remoteBlacklists;
+        }
+        chrome.storage.local.set(store);
         httpsb.assets.put(httpsb.userBlacklistPath, data.ubiquitousBlacklist, 'restoreUserDataFromFileUserRestartCountdown');
         httpsb.assets.put(httpsb.userWhitelistPath, data.ubiquitousWhitelist, 'restoreUserDataFromFileUserRestartCountdown');
     };
@@ -130,7 +135,6 @@ var restoreUserDataFromFile = function() {
              typeof data.version !== 'string' ||
              typeof data.userSettings !== 'object' ||
              typeof data.scopes !== 'string' ||
-             typeof data.remoteBlacklists !== 'object' ||
              typeof data.ubiquitousBlacklist !== 'string' ||
              typeof data.ubiquitousWhitelist !== 'string' ) {
             alert('File content is not valid backed up data.');
