@@ -23,17 +23,22 @@
 
 (function(){
 
-var filterDict = {};
-var filterDenyCount = 0;
-var filterProcessedCount = 0;
+var allowFilterDict = {};
+var blockFilterDict = {};
+var allowFilterCount = 0;
+var blockFilterCount = 0;
+var processedFilterCount = 0;
+var supportedFilterCount = 0;
 
-var anyPartyFilters = {}; // any party, anywhere
-var thirdPartyFilters = {}; // 3rd party, anywhere
+var blockAnyPartyFilters = {}; // any party, anywhere
+var block3rdPartyFilters = {}; // 3rd party, anywhere
+var allowAnyPartyFilters = {}; // any party, anywhere
+var allow3rdPartyFilters = {}; // 3rd party, anywhere
 
 var reIgnoreEmpty = /^\s+$/;
 var reIgnoreComment = /^\[|^!/;
 var reIgnoreElementHide = /##|@#/;
-var reIgnoreWhitelist = /^@@/;
+var reWhitelist = /^@@/;
 var reIgnoreFilter = /^\|http/;
 var reConditionalRule = /\$/;
 var reHostnameRule = /^\|\|[0-9a-z.-]+[0-9a-z]\^?$/;
@@ -168,14 +173,19 @@ var FilterWildcardFactory = function(s, tokenBeg) {
 // Reset all, thus reducing to a minimum memory footprint of the context.
 
 var reset = function() {
-    filterDict = {};
-    filterDenyCount = 0;
-    filterProcessedCount = 0;
+    allowFilterDict = {};
+    blockFilterDict = {};
+    allowFilterCount = 0;
+    blockFilterCount = 0;
+    processedFilterCount = 0;
+    supportedFilterCount = 0;
 
     // Give chromium's GC a helpful hand
     var collections = [
-        thirdPartyFilters,
-        anyPartyFilters
+        allow3rdPartyFilters,
+        allowAnyPartyFilters,
+        block3rdPartyFilters,
+        blockAnyPartyFilters
     ];
     var filters;
     while ( filters = collections.pop() ) {
@@ -194,8 +204,10 @@ var reset = function() {
         }
     }
 
-    thirdPartyFilters = {};
-    anyPartyFilters = {};
+    allow3rdPartyFilters = {};
+    allowAnyPartyFilters = {};
+    block3rdPartyFilters = {};
+    blockAnyPartyFilters = {};
 };
 
 /******************************************************************************/
@@ -285,11 +297,12 @@ var add = function(s) {
         return false;
     }
 
-    filterProcessedCount += 1;
+    processedFilterCount += 1;
 
     // Ignore whitelist filters
-    if ( reIgnoreWhitelist.test(s) ) {
-        return false;
+    var whitelistFilter = reWhitelist.test(s);
+    if ( whitelistFilter ) {
+        s = s.replace('@@', '');
     }
 
     // Ignore unsupported filters
@@ -308,8 +321,10 @@ var add = function(s) {
         return false;
     }
 
+    supportedFilterCount += 1;
+
     // Ignore optionless hostname rules, these will be taken care of by HTTPSB.
-    if ( thirdParty === false && reHostnameRule.test(s) ) {
+    if ( thirdParty === false && whitelistFilter === false && reHostnameRule.test(s) ) {
         return false;
     }
 
@@ -323,26 +338,63 @@ var add = function(s) {
     // Remove trailing pipes
     s = s.replace(/\|+$/, '');
 
-    // Already in dictionary?
-    var filter = filterDict[s];
-    if ( filter !== undefined ) {
-        return false;
-    }
-
     // Leading pipe(s) means filter is anchored before the end of hostname
     var hostnameAnchored = s.indexOf('||') === 0;
     s = s.replace(/^\|+/, '');
 
+    if ( whitelistFilter ) {
+        if ( addAllowFilter(s, hostnameAnchored, thirdParty) === false ) {
+            // console.log('abp-filters.js> allow filter rejected: "%s"', s);
+            return false;
+        }
+        allowFilterDict[s] = true;
+        allowFilterCount += 1;
+        return true;
+    }
+    
+    if ( addBlockFilter(s, hostnameAnchored, thirdParty) === false ) {
+        // console.log('abp-filters.js> block filter rejected: "%s"', s);
+        return false;
+    }
+    blockFilterDict[s] = true;
+    blockFilterCount += 1;
+    return true;
+};
+
+/******************************************************************************/
+
+var addAllowFilter = function(s, hostnameAnchored, thirdParty) {
+    if ( allowFilterDict.hasOwnProperty(s) ) {
+        return false;
+    }
     if ( thirdParty ) {
         if ( hostnameAnchored ) {
-            return addHostnameAnchoredFilter(s, thirdPartyFilters);
+            return addHostnameAnchoredFilter(s, allow3rdPartyFilters);
         }
-        return addAnywhereAnchoredFilter(s, thirdPartyFilters);
+        return addAnywhereAnchoredFilter(s, allow3rdPartyFilters);
     }
     if ( hostnameAnchored ) {
-        return addHostnameAnchoredFilter(s, anyPartyFilters);
+        return addHostnameAnchoredFilter(s, allowAnyPartyFilters);
     }
-    return addAnywhereAnchoredFilter(s, anyPartyFilters);
+    return addAnywhereAnchoredFilter(s, allowAnyPartyFilters);
+};
+
+/******************************************************************************/
+
+var addBlockFilter = function(s, hostnameAnchored, thirdParty) {
+    if ( blockFilterDict.hasOwnProperty(s) ) {
+        return false;
+    }
+    if ( thirdParty ) {
+        if ( hostnameAnchored ) {
+            return addHostnameAnchoredFilter(s, block3rdPartyFilters);
+        }
+        return addAnywhereAnchoredFilter(s, block3rdPartyFilters);
+    }
+    if ( hostnameAnchored ) {
+        return addHostnameAnchoredFilter(s, blockAnyPartyFilters);
+    }
+    return addAnywhereAnchoredFilter(s, blockAnyPartyFilters);
 };
 
 /******************************************************************************/
@@ -374,7 +426,6 @@ var addFilterToCollection = function(s, tokenBeg, tokenEnd, filterCollection) {
     if ( !filter ) {
         return false;
     }
-    filterDict[s] = filter;
 
     var prefixKey = trimChar(s.substring(tokenBeg - 1, tokenBeg), '*');
     var suffixKey = trimChar(s.substring(tokenEnd, tokenEnd + 2), '*');
@@ -383,13 +434,10 @@ var addFilterToCollection = function(s, tokenBeg, tokenEnd, filterCollection) {
     filter.next = filterCollection[tokenKey];
     filterCollection[tokenKey] = filter;
 
-    filterDenyCount += 1;
-
     return true;
 };
 
 /******************************************************************************/
-
 /*
 var adbProfiler = {
     testSwitch: false,
@@ -411,7 +459,7 @@ var adbProfiler = {
         }
     },
     dump: function() {
-        console.log('ABP.adbProfiler> number or filters tested per URL: %d (sample: %d URLs)', this.testCount / this.urlCount, this.urlCount);
+        console.log('HTTPSB.adbProfiler> number or filters tested per URL: %d (sample: %d URLs)', this.testCount / this.urlCount, this.urlCount);
     },
     reset: function() {
         this.testCount = 0;
@@ -452,58 +500,63 @@ var histogram = function(label, collection) {
 /*
 2014-04-12
 Top 20 bucket size:
-Histogram anyPartyFilters
-	key=/ad_s  count=28
-	key=cloudfront.n  count=25
-	key=yahoo.c  count=25
-	key=/cgi-b  count=24
-	key=/wp-c  count=22
-	key=amazonaws.c  count=22
-	key=/ads/s  count=21
-	key=distrowatch.c  count=21
-	key=/ads/p  count=18
-	key=/ad_l  count=18
-	key=/ad_b  count=17
-	key=/ads/  count=17
-	key=/ads/b  count=17
-	key=.gif?  count=17
-	key=/ad_c  count=17
-	key=messianictimes.c  count=16
-	key=/ad_t  count=16
-	key=/ad_h  count=15
-	key=/ad_f  count=15
-	key=/ad_r  count=14
+Histogram blockAnyPartyFilters
+    key=/ad_s  count=28
+    key=cloudfront.n  count=25
+    key=yahoo.c  count=25
+    key=/cgi-b  count=24
+    key=/wp-c  count=22
+    key=amazonaws.c  count=22
+    key=/ads/s  count=21
+    key=distrowatch.c  count=21
+    key=/ads/p  count=18
+    key=/ad_l  count=18
+    key=/ad_b  count=17
+    key=/ads/  count=17
+    key=/ads/b  count=17
+    key=.gif?  count=17
+    key=/ad_c  count=17
+    key=messianictimes.c  count=16
+    key=/ad_t  count=16
+    key=/ad_h  count=15
+    key=/ad_f  count=15
+    key=/ad_r  count=14
     Total buckets count: 13312
 
-Histogram thirdPartyFilters
-	key=doubleclick.n  count=90
-	key=facebook.c  count=23
-	key=apis.g  count=7
-	key=assoc-a  count=7
-	key=platform.t  count=6
-	key=reddit.c  count=6
-	key=draugiem.l  count=6
-	key=free-c  count=4
-	key=vk.c  count=4
-	key=banners.p  count=4
-	key=hit-c  count=4
-	key=images-a  count=4
-	key=ad-s  count=4
-	key=a-c  count=4
-	key=777-p  count=4
-	key=pricegrabber.c  count=4
-	key=adultfriendfinder.c  count=4
-	key=e-p  count=3
-	key=widgets.t  count=3
-	key=api.t  count=3 
+Histogram block3rdPartyFilters
+    key=doubleclick.n  count=90
+    key=facebook.c  count=23
+    key=apis.g  count=7
+    key=assoc-a  count=7
+    key=platform.t  count=6
+    key=reddit.c  count=6
+    key=draugiem.l  count=6
+    key=free-c  count=4
+    key=vk.c  count=4
+    key=banners.p  count=4
+    key=hit-c  count=4
+    key=images-a  count=4
+    key=ad-s  count=4
+    key=a-c  count=4
+    key=777-p  count=4
+    key=pricegrabber.c  count=4
+    key=adultfriendfinder.c  count=4
+    key=e-p  count=3
+    key=widgets.t  count=3
+    key=api.t  count=3 
     Total buckets count: 6244
 
 TL;DR:
-    Worst case scenario for `anyPartyFilters` = 28 filters to test
-    Worst case scenario for `thirdPartyFilters` = 90 filters to test
+    Worst case scenario for `blockAnyPartyFilters` = 28 filters to test
+    Worst case scenario for `block3rdPartyFilters` = 90 filters to test
 
     In both collections, worst case scenarios are a very small minority of the
     whole set.
+    
+    Memory footprint could be further reduced by using a hashed token for all
+    those buckets which contain less than [?] filters (and splitting the maps
+    in two, one for token-as-hash and the other for good-hash-from-token).
+    Side effects: added overhead, improved memory footprint.
 
 2014-04-13:
     Did collect some objective measurements today, using "15 top
@@ -523,21 +576,45 @@ TL;DR:
     The low average number of filters to per URL to test is key to
     HTTPSB excellent performance over ABP. It's all in the much smaller bucket
     size...
+
+2014-05-05:
+    Now supporting whitelist filters, so I ran another benchmark but this time
+    taking into account hits to whitelist filters, and I completely disabled
+    matrix filtering, in order to ensure all request URLs reach HTTPSB's
+    ABP filtering engine, thus results are a worst case scenario for HTTPSB.
+    Here:
+    
+    Adblock Plus:
+        ABP.adbProfiler> number or URLs tested: 11000
+        ABP.adbProfiler> number or filters tested per URL: 119
+    
+    HTTPSB:
+        HTTPSB.adbProfiler> number or URLs tested: 12800
+        HTTPSB.adbProfiler> number or filters tested per URL: 8
+
+    ABP on average tests 119 filters per URL.
+    HTTPSB on average tests 8 filters per URL.
+    
+    Note: Overall, less URLs were tested by ABP because it uses an internal
+    cache mechanism to avoid testing URL, which is probably an attempt at
+    mitigating the cost of testing so many filters for each URL. ABP's cache
+    mechanism itself is another reason ABP is memory-hungry.
 */
 
 /******************************************************************************/
 
 var freeze = function() {
-    filterDict = {};
-    //histogram('anyPartyFilters', anyPartyFilters);
-    //histogram('thirdPartyFilters', thirdPartyFilters);
+    allowFilterDict = {};
+    blockFilterDict = {};
+    //histogram('blockAnyPartyFilters', blockAnyPartyFilters);
+    //histogram('block3rdPartyFilters', block3rdPartyFilters);
 };
 
 /******************************************************************************/
 
 var matchStringToFilterChain = function(f, url, tokenBeg) {
     while ( f !== undefined ) {
-        //adbProfiler.countTest();
+        // adbProfiler.countTest();
         if ( f.match(url, tokenBeg, tokenBeg) ) {
             // console.log('abp-filters.js> matchStringToFilterChain(): "%s" matches "%s"', f.s, s);
             return f.s;
@@ -597,8 +674,8 @@ var matchStringToFilterCollection = function(filterCollection, url, tokenBeg, to
 /******************************************************************************/
 
 var matchString = function(url, srcDomain, dstHostname) {
-    //adbProfiler.countUrl();
-    //adbProfiler.testCounter(true);
+    // adbProfiler.countUrl();
+    // adbProfiler.testCounter(true);
 
     // https://github.com/gorhill/httpswitchboard/issues/239
     // Convert url to lower case:
@@ -606,7 +683,13 @@ var matchString = function(url, srcDomain, dstHostname) {
     //     occurrence of it in all the supported lists (bulgaria list).
     url = url.toLowerCase();
 
-    var matches, f;
+    // The logic here is simple:
+    //
+    // block = !whitelisted &&  blacklisted
+    //   or equivalent
+    // allow =  whitelisted || !blacklisted
+
+    var matches, bf;
     var tokenBeg, tokenEnd;
     var thirdParty = dstHostname.lastIndexOf(srcDomain) !== (dstHostname.length - srcDomain.length);
 
@@ -614,29 +697,34 @@ var matchString = function(url, srcDomain, dstHostname) {
     while ( matches = reAnyToken.exec(url) ) {
         tokenBeg = matches.index;
         tokenEnd = reAnyToken.lastIndex;
-
         if ( thirdParty ) {
-            f = matchStringToFilterCollection(thirdPartyFilters, url, tokenBeg, tokenEnd);
-            if ( f !== false ) {
-                return f;
+            if ( matchStringToFilterCollection(allow3rdPartyFilters, url, tokenBeg, tokenEnd) !== false ) {
+                return false;
             }
         }
-
-        f = matchStringToFilterCollection(anyPartyFilters, url, tokenBeg, tokenEnd);
-        if ( f !== false ) {
-            return f;
+        if ( matchStringToFilterCollection(allowAnyPartyFilters, url, tokenBeg, tokenEnd) !== false ) {
+            return false;
+        }
+        // We can't leave until all tokens have been tested against whitelist
+        // filters
+        if ( bf === undefined && thirdParty ) {
+            bf = matchStringToFilterCollection(block3rdPartyFilters, url, tokenBeg, tokenEnd);
+        }
+        if ( bf === undefined ) {
+            bf = matchStringToFilterCollection(blockAnyPartyFilters, url, tokenBeg, tokenEnd);
         }
     }
+    // If we reach this point, there was no matching allow filter
 
-    //adbProfiler.testCounter(false);
+    // adbProfiler.testCounter(false);
 
-    return false;
+    return bf !== undefined ? bf : false;
 };
 
 /******************************************************************************/
 
 var getFilterCount = function() {
-    return filterDenyCount;
+    return blockFilterCount + allowFilterCount;
 };
 
 /******************************************************************************/
