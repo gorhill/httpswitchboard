@@ -26,11 +26,11 @@ var HTTPSB = {
 
     userSettings: {
         autoWhitelistPageDomain: false,
-        autoCreateScope: 'domain',
+        autoCreateScope: '',
         clearBrowserCache: true,
         clearBrowserCacheAfter: 60,
         deleteCookies: false,
-        deleteUnusedTemporaryScopes: true,
+        deleteUnusedTemporaryScopes: false,
         deleteUnusedTemporaryScopesAfter: 30,
         deleteUnusedSessionCookies: false,
         deleteUnusedSessionCookiesAfter: 60,
