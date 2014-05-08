@@ -159,7 +159,7 @@ HTTPSB.isValidScopeKey = function(scopeKey) {
 /******************************************************************************/
 
 HTTPSB.domainFromScopeKey = function(scopeKey) {
-    if ( this.isGlobalScopeKey(scopeKey) || this.isBehindTheSceneScopeKey(scopeKey) ) {
+    if ( this.isGlobalScopeKey(scopeKey) ) {
         return '';
     }
     if ( this.isDomainScopeKey(scopeKey) ) {
@@ -172,7 +172,7 @@ HTTPSB.domainFromScopeKey = function(scopeKey) {
 };
 
 HTTPSB.hostnameFromScopeKey = function(scopeKey) {
-    if ( this.isGlobalScopeKey(scopeKey) || this.isBehindTheSceneScopeKey(scopeKey) ) {
+    if ( this.isGlobalScopeKey(scopeKey) ) {
         return '';
     }
     if ( this.isDomainScopeKey(scopeKey) ) {
