@@ -30,4 +30,11 @@ $(function() {
     });
     // copy text of <h1> if any to document title
     document.title = $('h1').first().text();
+
+    // Tool tips
+    $('[data-i18n-tip]').each(function() {
+        var me = $(this);
+        var key = me.data('i18nTip');
+        me.attr('data-tip', chrome.i18n.getMessage(key));
+    });
 });

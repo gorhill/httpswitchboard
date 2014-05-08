@@ -27,29 +27,21 @@
 
 /******************************************************************************/
 
-var backgroundPage = chrome.extension.getBackgroundPage();
+var HTTPSB = chrome.extension.getBackgroundPage().HTTPSB;
 var bgPagePort;
 var targetTabId;
 var targetPageURL;
 var targetPageHostname;
 var targetPageDomain;
 
-function getBackgroundPage() {
-    return backgroundPage;
-}
-
-function getHTTPSB() {
-    return getBackgroundPage().HTTPSB;
-}
-
 function getPageStats() {
-    return getHTTPSB().pageStatsFromTabId(targetTabId);
+    return HTTPSB.pageStatsFromTabId(targetTabId);
 }
 
 /******************************************************************************/
 
 function getUserSetting(setting) {
-    return getHTTPSB().userSettings[setting];
+    return HTTPSB.userSettings[setting];
 }
 
 function setUserSetting(setting, value) {
@@ -81,7 +73,7 @@ EntryStats.prototype.reset = function(hostname, type) {
 };
 
 EntryStats.prototype.colourize = function(httpsb, scopeKey) {
-    httpsb = httpsb || getHTTPSB();
+    httpsb = httpsb || HTTPSB;
     if ( !this.hostname || !this.type ) {
         return;
     }
@@ -146,7 +138,7 @@ HostnameStats.prototype.dispose = function() {
 };
 
 HostnameStats.prototype.colourize = function(httpsb, scopeKey) {
-    httpsb = httpsb || getHTTPSB();
+    httpsb = httpsb || HTTPSB;
     this.types['*'].colourize(httpsb, scopeKey);
     this.types.main_frame.colourize(httpsb, scopeKey);
     this.types.cookie.colourize(httpsb, scopeKey);
@@ -245,8 +237,7 @@ function initMatrixStats() {
     matrixStats.reset();
 
     // collect all hostnames and ancestors from net traffic
-    var httpsburi = getHTTPSB().URI;
-    var pageUrl = targetPageURL;
+    var httpsburi = HTTPSB.URI;
     var hostname, reqType, nodes, iNode, node, reqKey, types;
     var pageRequests = pageStats.requests;
     var reqKeys = pageRequests.getRequestKeys();
@@ -261,7 +252,7 @@ function initMatrixStats() {
         // rhill 2013-10-23: hostname can be empty if the request is a data url
         // https://github.com/gorhill/httpswitchboard/issues/26
         if ( hostname === '' ) {
-            hostname = httpsburi.hostnameFromURI(pageUrl);
+            hostname = targetPageHostname;
         }
         reqType = pageRequests.typeFromRequestKey(reqKey);
 
@@ -292,7 +283,7 @@ function initMatrixStats() {
 
 function updateMatrixStats() {
     // For each hostname/type occurrence, evaluate colors
-    var httpsb = getHTTPSB();
+    var httpsb = HTTPSB;
     var scopeKey = httpsb.temporaryScopeKeyFromPageURL(targetPageURL);
     var matrixStats = HTTPSBPopup.matrixStats;
     for ( var hostname in matrixStats ) {
@@ -331,7 +322,7 @@ function getGroupStats() {
 
     // First, group according to whether at least one node in the domain
     // hierarchy is white or blacklisted
-    var httpsburi = getHTTPSB().URI;
+    var httpsburi = HTTPSB.URI;
     var pageDomain = targetPageDomain;
     var hostname, domain, nodes, node;
     var temporaryColor;
@@ -588,7 +579,7 @@ function updateMatrixBehavior() {
 // handle user interaction with filters
 
 function handleFilter(button, leaning) {
-    var httpsb = getHTTPSB();
+    var httpsb = HTTPSB;
     var scopeKey = httpsb.temporaryScopeKeyFromPageURL(targetPageURL);
     // our parent cell knows who we are
     var cell = button.closest('div.matCell');
@@ -619,7 +610,7 @@ function handleBlacklistFilter(button) {
 /******************************************************************************/
 
 function getTemporaryRuleset() {
-    var httpsb = getHTTPSB();
+    var httpsb = HTTPSB;
     var tScopeKey = httpsb.temporaryScopeKeyFromPageURL(targetPageURL);
     var pScopeKey = httpsb.permanentScopeKeyFromPageURL(targetPageURL);
     var rules = {
@@ -636,6 +627,7 @@ function getTemporaryRuleset() {
     var matrixStats = HTTPSBPopup.matrixStats;
     var rule, parts;
     var listKeys = [ 'white', 'black', 'gray' ];
+    var listKey;
     while ( listKey = listKeys.pop() ) {
         // This loop is to find rules in temporary scope which are not found
         // in permanent scope (if any).
@@ -1136,9 +1128,6 @@ function makeMatrixGroup3(group) {
 
 /******************************************************************************/
 
-// TODO: build incrementally, i.e. reuse any existing rows rather than
-// dispose then re-create all of them.
-
 function makeMenu() {
     initMatrixStats();
     var groupStats = getGroupStats();
@@ -1189,7 +1178,7 @@ function initMenuEnvironment() {
 // Create page scopes for the web page
 
 function createGlobalScope() {
-    var httpsb = getHTTPSB();
+    var httpsb = HTTPSB;
     httpsb.createTemporaryGlobalScope(targetPageURL);
     updateMatrixStats();
     updateMatrixColors();
@@ -1199,7 +1188,7 @@ function createGlobalScope() {
 }
 
 function createDomainScope() {
-    var httpsb = getHTTPSB();
+    var httpsb = HTTPSB;
     httpsb.createTemporaryDomainScope(targetPageURL);
     updateMatrixStats();
     updateMatrixColors();
@@ -1209,7 +1198,7 @@ function createDomainScope() {
 }
 
 function createSiteScope() {
-    var httpsb = getHTTPSB();
+    var httpsb = HTTPSB;
     httpsb.createTemporarySiteScope(targetPageURL);
     updateMatrixStats();
     updateMatrixColors();
@@ -1243,14 +1232,14 @@ function initScopeCell() {
         return;
     }
     // Fill in the scope menu entries
-    var httpsb = getHTTPSB();
+    var httpsb = HTTPSB;
     $('#scopeKeyDomain').text(httpsb.domainScopeKeyFromURL(targetPageURL).replace('*', '\u2217'));
     $('#scopeKeySite').text(httpsb.siteScopeKeyFromURL(targetPageURL));
     updateScopeCell();
 }
 
 function updateScopeCell() {
-    var httpsb = getHTTPSB();
+    var httpsb = HTTPSB;
     var temporaryScopeKey = httpsb.temporaryScopeKeyFromPageURL(targetPageURL);
     var permanentScopeKey = httpsb.permanentScopeKeyFromPageURL(targetPageURL);
     $('body')
@@ -1263,7 +1252,7 @@ function updateScopeCell() {
 /******************************************************************************/
 
 function updateMtxbutton() {
-    var httpsb = getHTTPSB();
+    var httpsb = HTTPSB;
     var scopeKey = httpsb.temporaryScopeKeyFromPageURL(targetPageURL);
     var masterSwitch = httpsb.getTemporaryMtxFiltering(scopeKey);
     var pageStats = getPageStats();
@@ -1276,7 +1265,7 @@ function updateMtxbutton() {
 }
 
 function toggleMtxFiltering() {
-    var httpsb = getHTTPSB();
+    var httpsb = HTTPSB;
     var scopeKey = httpsb.temporaryScopeKeyFromPageURL(targetPageURL);
     httpsb.toggleTemporaryMtxFiltering(scopeKey);
     updateMatrixStats();
@@ -1288,7 +1277,7 @@ function toggleMtxFiltering() {
 /******************************************************************************/
 
 function updateABPbutton() {
-    var httpsb = getHTTPSB();
+    var httpsb = HTTPSB;
     var button = $('#buttonABPFiltering');
     if ( button.length === 0 ) {
         return;
@@ -1306,7 +1295,7 @@ function updateABPbutton() {
 }
 
 function toggleABPFiltering() {
-    var httpsb = getHTTPSB();
+    var httpsb = HTTPSB;
     var scopeKey = httpsb.temporaryScopeKeyFromPageURL(targetPageURL);
     httpsb.toggleTemporaryABPFiltering(scopeKey);
     updateMatrixButtons();
@@ -1328,7 +1317,7 @@ function updatePersistButton() {
 }
 
 function persistScope() {
-    var httpsb = getHTTPSB();
+    var httpsb = HTTPSB;
     var ruleset = getTemporaryRuleset();
     var changed = false;
     if ( httpsb.isGlobalScopeKey(ruleset.tScopeKey) ) {
@@ -1354,7 +1343,7 @@ function persistScope() {
 // current page, including scopes.
 
 function revertScope() {
-    var httpsb = getHTTPSB();
+    var httpsb = HTTPSB;
     var ruleset = getTemporaryRuleset();
     httpsb.revertScopeRules(ruleset.tScopeKey);
     updateMatrixStats();
@@ -1367,13 +1356,13 @@ function revertScope() {
 
 // Offer a list of presets relevant to the current matrix
 
-function populatePresets() {
+var populatePresets = function() {
     // My understanding is that playing with a DOM object while not attached
     // to the page DOM is much more efficient (because no layout is recomputed).
     var presetList = $('#buttonPresets + div > ul').detach();
-    presetList.empty();
+    presetList.children('*:not(#presetMore)').remove();
 
-    var presets = getHTTPSB().presetManager.findMatches(targetPageHostname, HTTPSBPopup.matrixStats);
+    var presets = HTTPSB.presetManager.findMatches(targetPageHostname, HTTPSBPopup.matrixStats);
     var i = presets.length;
     var preset;
     var li, c;
@@ -1412,16 +1401,18 @@ function populatePresets() {
     // Re-attach
     $('#buttonPresets + div').append(presetList);
 
+    $('#presetMoreRecipe').attr('placeholder', chrome.i18n.getMessage('matrixPresetMoreRecipeTip'));
+
     // Button
     // https://github.com/gorhill/httpswitchboard/issues/174
-    $('#buttonPresets').toggleClass('disabled', !presets.length);
+    // $('#buttonPresets').toggleClass('disabled', !presets.length);
 
     // Button badge
     $('#buttonPresets > span.badge').text(presets.length);
-}
+};
 
-function presetEntryHandler() {
-    var httpsb = getHTTPSB();
+var presetEntryHandler = function() {
+    var httpsb = HTTPSB;
     httpsb.presetManager.applyToScope(
         httpsb.temporaryScopeKeyFromPageURL(targetPageURL),
         $(this).prop('presetId')
@@ -1430,7 +1421,41 @@ function presetEntryHandler() {
     updateMatrixColors();
     updateMatrixBehavior();
     updateMatrixButtons();
-}
+};
+
+var presetMoreToggle = function() {
+    $('#presetMore > *:first-child + div').toggleClass('show');
+};
+
+var presetMoreRecipeUpdate = function() {
+    var textarea = $('#presetMoreRecipe');
+    var recipe = textarea.val().trim();
+    var valid = HTTPSB.reciper.validate(recipe);
+    textarea.toggleClass('bad', valid === false);
+    $('#presetMoreWrite').toggleClass('bad', valid === false);
+};
+
+var presetMoreRead = function() {
+    var httpsb = HTTPSB;
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(targetPageURL);
+    $('#presetMoreRecipe').val(httpsb.reciper.extract(scopeKey));
+    presetMoreRecipeUpdate();
+};
+
+var presetMoreRecipe = function() {
+    $(this).select();
+};
+
+var presetMoreWrite = function() {
+    var httpsb = HTTPSB;
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(targetPageURL);
+    httpsb.reciper.apply($('#presetMoreRecipe').val(), scopeKey);
+    dropDownMenuHide();
+    updateMatrixStats();
+    updateMatrixColors();
+    updateMatrixBehavior();
+    updateMatrixButtons();
+};
 
 /******************************************************************************/
 
@@ -1446,7 +1471,7 @@ function updateMatrixButtons() {
 /******************************************************************************/
 
 function revertAll() {
-    getHTTPSB().revertAllRules();
+    HTTPSB.revertAllRules();
     updateMatrixStats();
     updateMatrixColors();
     updateMatrixBehavior();
@@ -1520,7 +1545,7 @@ var bindToTab = function(tabs) {
         return;
     }
 
-    var httpsb = getHTTPSB();
+    var httpsb = HTTPSB;
     var tab = tabs[0];
 
     // Important! Before calling makeMenu()
@@ -1543,6 +1568,7 @@ var bindToTab = function(tabs) {
     if ( !HTTPSBPopup.matrixHasRows ) {
         $('#matHead').remove();
         $('#toolbarLeft').remove();
+        $('#buttonPresets').remove();
 
         // https://github.com/gorhill/httpswitchboard/issues/191
         $('#noNetTrafficPrompt').text(chrome.i18n.getMessage('matrixNoNetTrafficPrompt'));
@@ -1601,6 +1627,11 @@ $(function() {
     $('#buttonRevertScope').on('click', revertScope);
 
     $('body').on('click', '.presetEntry', presetEntryHandler);
+    $('#presetMore > *:first-child').on('click', presetMoreToggle);
+    $('#presetMoreRead').on('click', presetMoreRead);
+    $('#presetMoreRecipe').on('click', presetMoreRecipe);
+    $('#presetMoreRecipe').on('input propertychange', presetMoreRecipeUpdate);
+    $('#presetMoreWrite').on('click', presetMoreWrite);
 
     $('#buttonRevertAll').on('click', revertAll);
     $('#buttonReload').on('click', buttonReloadHandler);
@@ -1618,13 +1649,6 @@ $(function() {
             name: 'popupHideBlacklisted',
             value: separator.hasClass('g3Collapsed')
         });
-    });
-
-    // Tool tips
-    $('[data-i18n-tip]').each(function() {
-        var me = $(this);
-        var key = me.data('i18nTip');
-        me.attr('data-tip', chrome.i18n.getMessage(key));
     });
 });
 

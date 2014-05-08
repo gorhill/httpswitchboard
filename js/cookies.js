@@ -31,7 +31,7 @@
 // Use cached-context approach rather than object-based approach, as details
 // of the implementation do not need to be visible
 
-(function() {
+HTTPSB.cookieHunter = (function() {
 
 /******************************************************************************/
 
@@ -39,7 +39,6 @@ var recordPageCookiesQueue = {};
 var removePageCookiesQueue = {};
 var removeCookieQueue = {};
 var cookieDict = {};
-var cookieLogEntryBuilder = ['', '{', '', '_cookie:', '', '}' ];
 var cookieEntryJunkyard = [];
 
 /******************************************************************************/
@@ -98,24 +97,51 @@ var addCookiesToDict = function(cookies) {
 /******************************************************************************/
 
 var removeCookieFromDict = function(cookieKey) {
-    if ( cookieDict.hasOwnProperty(cookieKey) ) {
-        var cookieEntry = cookieDict[cookieKey];
-        delete cookieDict[cookieKey];
-        if ( cookieEntryJunkyard.length < 25 ) {
-            cookieEntryJunkyard.push(cookieEntry.unset());
-        }
-        // console.log('cookies.js/removeCookieFromDict()> removed cookie key "%s"', cookieKey);
+    if ( cookieDict.hasOwnProperty(cookieKey) === false ) {
+        return false;
     }
+    var cookieEntry = cookieDict[cookieKey];
+    delete cookieDict[cookieKey];
+    if ( cookieEntryJunkyard.length < 25 ) {
+        cookieEntryJunkyard.push(cookieEntry.unset());
+    }
+    // console.log('cookies.js/removeCookieFromDict()> removed cookie key "%s"', cookieKey);
+    return true;
 };
 
 /******************************************************************************/
 
+var cookieKeyBuilder = [
+    '', // 0 = scheme
+    '://',
+    '', // 2 = domain
+    '', // 3 = path
+    '{',
+    '', // 5 = persistent or session
+    '-cookie:',
+    '', // 7 = name
+    '}'
+];
+
 var cookieKeyFromCookie = function(cookie) {
-    var cookieKey = cookie.secure ? 'https://' : 'http://';
-    cookieKey += cookie.domain.charAt(0) === '.' ? cookie.domain.slice(1) : cookie.domain;
-    cookieKey += cookie.path;
-    cookieKey += '{cookie:' + cookie.name + '}';
-    return cookieKey;
+    var cb = cookieKeyBuilder;
+    cb[0] = cookie.secure ? 'https' : 'http';
+    cb[2] = cookie.domain.charAt(0) === '.' ? cookie.domain.slice(1) : cookie.domain;
+    cb[3] = cookie.path;
+    cb[5] = cookie.session ? 'session' : 'persistent';
+    cb[7] = cookie.name;
+    return cb.join('');
+};
+
+var cookieKeyFromCookieURL = function(url, type, name) {
+    var httpsburi = HTTPSB.URI.set(url);
+    var cb = cookieKeyBuilder;
+    cb[0] = httpsburi.scheme;
+    cb[2] = httpsburi.hostname;
+    cb[3] = httpsburi.path;
+    cb[5] = type;
+    cb[7] = name;
+    return cb.join('');
 };
 
 /******************************************************************************/
@@ -131,16 +157,6 @@ var cookieURLFromCookieEntry = function(entry) {
         return '';
     }
     return (entry.secure ? 'https://' : 'http://') + entry.domain + entry.path;
-};
-
-/******************************************************************************/
-
-var cookieKeyFromCookieURL = function(url, name) {
-    var httpsburi = HTTPSB.URI.set(url);
-    return httpsburi.assemble(
-        httpsburi.schemeBit |
-        httpsburi.hostnameBit |
-        httpsburi.pathBit) + '{cookie:' + name + '}';
 };
 
 /******************************************************************************/
@@ -185,6 +201,15 @@ var recordPageCookiesAsync = function(pageStats) {
 };
 
 /******************************************************************************/
+
+var cookieLogEntryBuilder = [
+    '',
+    '{',
+    '',
+    '_cookie:',
+    '',
+    '}'
+];
 
 var recordPageCookie = function(pageStats, cookieKey) {
     var httpsb = HTTPSB;
@@ -247,6 +272,7 @@ var removePageCookiesAsync = function(pageStats) {
 // Candidate for removal
 
 var removeCookieAsync = function(cookieKey) {
+    // console.log('cookies.js/removeCookieAsync()> cookie key = "%s"', cookieKey);
     removeCookieQueue[cookieKey] = true;
 };
 
@@ -257,10 +283,15 @@ var chromeCookieRemove = function(url, name) {
         if ( !details ) {
             return;
         }
-        var cookieKey = cookieKeyFromCookieURL(details.url, details.name);
-        removeCookieFromDict(cookieKey);
-        HTTPSB.cookieRemovedCounter += 1;
-        // console.debug('HTTP Switchboard > removed cookie "%s"', cookieKey);
+        var cookieKey = cookieKeyFromCookieURL(details.url, 'session', details.name);
+        if ( removeCookieFromDict(cookieKey) ) {
+            HTTPSB.cookieRemovedCounter += 1;
+            return;
+        }
+        cookieKey = cookieKeyFromCookieURL(details.url, 'persistent', details.name);
+        if ( removeCookieFromDict(cookieKey) ) {
+            HTTPSB.cookieRemovedCounter += 1;
+        }
     };
 
     chrome.cookies.remove({ url: url, name: name }, callback);
@@ -295,38 +326,35 @@ var processPageRemoveQueue = function() {
 // Effectively remove cookies.
 
 var processRemoveQueue = function() {
-    var httpsb = HTTPSB;
+    var userSettings = HTTPSB.userSettings;
+    var deleteCookies = userSettings.deleteCookies;
+    var tstampObsolete = userSettings.deleteUnusedSessionCookies ?
+        Date.now() - userSettings.deleteUnusedSessionCookiesAfter * 60 * 1000 :
+        Date.now() + 60000;
 
-    // Remove only some of the cookies which are candidate for removal:
-    // who knows, maybe a user has 1000s of cookies sitting in his
-    // browser...
-    var cookieKeys = Object.keys(removeCookieQueue);
-    if ( cookieKeys.length > 50 ) {
-        cookieKeys = cookieKeys.sort(function(){return Math.random() < 0.5;}).splice(0, 50);
-    }
-
-    var cookieKey, cookieEntry;
-    while ( cookieKey = cookieKeys.pop() ) {
+    var cookieEntry;
+    for ( var cookieKey in removeCookieQueue ) {
+        if ( removeCookieQueue.hasOwnProperty(cookieKey) === false ) {
+            continue;
+        }
         delete removeCookieQueue[cookieKey];
 
         cookieEntry = cookieDict[cookieKey];
 
         // Just in case setting was changed after cookie was put in queue.
-        if ( !httpsb.userSettings.deleteCookies ) {
-            continue;
-        }
-
-        // Some cookies must be left alone:
-        // https://github.com/gorhill/httpswitchboard/issues/19
-        if ( cookieEntry.ignore ) {
+        if ( cookieEntry.session === false && deleteCookies === false ) {
             continue;
         }
 
         // Ensure cookie is not allowed on ALL current web pages: It can
         // happen that a cookie is blacklisted on one web page while
         // being whitelisted on another (because of per-page permissions).
-        if ( !canRemoveCookie(cookieKey) ) {
-            continue;
+        if ( canRemoveCookie(cookieKey) === false ) {
+            // Exception: session cookie may have to be removed even though
+            // they are seen as being in use.
+            if ( cookieEntry.session === false || cookieEntry.tstamp > tstampObsolete ) {
+                continue;
+            }
         }
 
         var url = cookieURLFromCookieEntry(cookieEntry);
@@ -345,52 +373,15 @@ var processRemoveQueue = function() {
 // left behind.
 
 var processClean = function() {
-    var httpsb = HTTPSB;
-    var userSettings = httpsb.userSettings;
-    var deleteCookies = userSettings.deleteCookies;
-    var deleteUnusedSessionCookies = userSettings.deleteUnusedSessionCookies;
-    var deleteUnusedSessionCookiesAfter = userSettings.deleteUnusedSessionCookiesAfter * 60 * 1000;
-    var now = Date.now();
-    var entry;
-    for ( var cookieKey in cookieDict ) {
-        if ( !cookieDict.hasOwnProperty(cookieKey) ) {
-            continue;
-        }
-        entry = cookieDict[cookieKey];
-        // Some cookies must be left alone:
-        // https://github.com/gorhill/httpswitchboard/issues/19
-        if ( entry.ignore ) {
-            continue;
-        }
-        // User might want session cookies to be deleted, even if they are
-        // whitelisted.
-        // rhill 2013-12-15: use global scope, or else if a cookie was
-        // created from a site-scoped hostname, the cookie will never be
-        // deleted when the site-scope no longer exists.
-        // Ultimately, canRemoveCookie() will prevent deletion if the
-        // site-scope still exists.
-        if ( httpsb.whitelisted('*' /* cookieURLFromCookieEntry(entry) */, 'cookie', entry.domain) ) {
-            if ( !entry.session ) {
-                continue;
-            }
-            if ( !deleteUnusedSessionCookies ) {
-                continue;
-            }
-            if ( (now - entry.session.tstamp) < deleteUnusedSessionCookiesAfter ) {
-                continue;
-            }
-        }
-        // User doesn't want HTTPSB to delete cookies.
-        else if ( !deleteCookies ) {
-            continue;
-        }
-        // This takes care of stale cookies which are left unattended for more
-        // than 2hr, so at least we give a chance to extensions which might
-        // rely on some cookies.
-        else if ( (now - entry.session.tstamp) < 7200000 /* 2hr */ ) {
-            continue;
-        }
-        removeCookieAsync(cookieKey);
+    // Remove only some of the cookies which are candidate for removal:
+    // who knows, maybe a user has 1000s of cookies sitting in his
+    // browser...
+    var cookieKeys = Object.keys(cookieDict);
+    if ( cookieKeys.length > 25 ) {
+        cookieKeys = cookieKeys.sort(function(){return Math.random() < 0.5;}).splice(0, 50);
+    }
+    while ( cookieKeys.length ) {
+        removeCookieAsync(cookieKeys.pop());
     }
 };
 
@@ -444,14 +435,9 @@ var canRemoveCookie = function(cookieKey) {
     if ( !entry ) {
         return false;
     }
-    // If a session cookie is in the remove queue, it is assumed it
-    // needs to be removed unconditonally.
-    if ( entry.session ) {
-        return true;
-    }
-    var cookieDomain = entry.domain;
-    var anySubdomain = entry.anySubdomain;
     var httpsb = HTTPSB;
+    var cookieHostname = entry.domain;
+    var cookieDomain = httpsb.URI.domainFromHostname(cookieHostname);
 
     // rhill 2014-01-11: Do not delete cookies which are whitelisted
     // in at least one scope. Limitation: this can be done only
@@ -462,21 +448,15 @@ var canRemoveCookie = function(cookieKey) {
     var scopes = httpsb.temporaryScopes.scopes;
     var scopeDomain;
     for ( var scopeKey in scopes ) {
-        if ( !scopes.hasOwnProperty(scopeKey) ) {
+        if ( scopes.hasOwnProperty(scopeKey) === false ) {
             continue;
         }
         // Cookie related to scope domain?
-        if ( !httpsb.isGlobalScopeKey(scopeKey) ) {
-            scopeDomain = scopeKey.replace(/^https?:\/\/(\*\.)?/, '');
-            if ( anySubdomain ) {
-                if ( scopeDomain.slice(0 - cookieDomain.length) !== cookieDomain ) {
-                    continue;
-                }
-            } else if ( scopeDomain !== cookieDomain ) {
-                continue;
-            }
+        scopeDomain = httpsb.domainFromScopeKey(scopeKey);
+        if ( scopeDomain && scopeDomain !== cookieDomain ) {
+            continue;
         }
-        if ( scopes[scopeKey].evaluate('cookie', cookieDomain).charAt(0) === 'g' ) {
+        if ( scopes[scopeKey].evaluate('cookie', cookieHostname).charAt(0) === 'g' ) {
             // console.log('cookies.js/canRemoveCookie()> can NOT remove "%s" because of scope "%s"', cookieKey, scopeKey);
             return false;
         }
@@ -488,20 +468,13 @@ var canRemoveCookie = function(cookieKey) {
     // for a currently opened web page.
     var pageStats = httpsb.pageStats;
     for ( var pageURL in pageStats ) {
-        if ( !pageStats.hasOwnProperty(pageURL) ) {
+        if ( pageStats.hasOwnProperty(pageURL) === false ) {
             continue;
         }
         if ( !cookieMatchDomains(cookieKey, ' ' + Object.keys(pageStats[pageURL].domains).join(' ') + ' ') ) {
             continue;
         }
-        // rhill 2013-12-16: it's an app, do not delete the cookie it
-        // might be using.
-        // https://github.com/gorhill/httpswitchboard/issues/91
-        if ( pageStats.ignore ) {
-            // console.log('cookies.js/canRemoveCookie()> can NOT remove "%s" because of ignore "%s"', cookieKey, pageURL);
-            return false;
-        }
-        if ( httpsb.whitelisted(pageURL, 'cookie', cookieDomain) ) {
+        if ( httpsb.whitelisted(pageURL, 'cookie', cookieHostname) ) {
             return false;
         }
     }
@@ -557,13 +530,13 @@ chrome.cookies.getAll({}, addCookiesToDict);
 chrome.cookies.onChanged.addListener(onChromeCookieChanged);
 
 HTTPSB.asyncJobs.add('cookieHunterRemove', null, processRemoveQueue, 2 * 60 * 1000, true);
-HTTPSB.asyncJobs.add('cookieHunterClean', null, processClean, 15 * 60 * 1000, true);
+HTTPSB.asyncJobs.add('cookieHunterClean', null, processClean, 10 * 60 * 1000, true);
 
 /******************************************************************************/
 
 // Expose only what is necessary
 
-HTTPSB.cookieHunter = {
+return {
     recordPageCookies: recordPageCookiesAsync,
     removePageCookies: removePageCookiesAsync
 };

@@ -59,7 +59,7 @@ var reAuthorityFromURI       = /^(?:[^:\/?#]+:)?(\/\/[^\/?#]+)/;
 var reHostPortFromAuthority  = /^(?:[^@]*@)?([0-9a-z._-]*)(:\d*)?$/i;
 var reIPv6PortFromAuthority  = /^(?:[^@]*@)?(\[[0-9a-f:]*\])(:\d*)?$/i;
 
-var reHostFromNakedAuthority = /^[0-9a-z._-]+$/i;
+var reHostFromNakedAuthority = /^[0-9a-z._-]+[0-9a-z]$/i;
 var reHostFromAuthority      = /^(?:[^@]*@)?([0-9a-z._-]+)(?::\d*)?$/i;
 var reIPv6FromAuthority      = /^(?:[^@]*@)?(\[[0-9a-f:]+\])(?::\d*)?$/i;
 
@@ -175,6 +175,10 @@ URI.set = function(uri) {
         }
     }
     this.hostname = matches[1] !== undefined ? matches[1] : '';
+    // http://en.wikipedia.org/wiki/FQDN
+    if ( this.hostname.slice(-1) === '.' ) {
+        this.hostname = this.hostname.slice(0, -1);
+    }
     this.port = matches[2] !== undefined ? matches[2].slice(1) : '';
     return this;
 };
@@ -258,7 +262,12 @@ URI.hostnameFromURI = function(uri) {
             return '';
         }
     }
-    return matches[1].toLowerCase();
+    // http://en.wikipedia.org/wiki/FQDN
+    var hostname = matches[1];
+    if ( hostname.slice(-1) === '.' ) {
+        hostname = hostname.slice(0, -1);
+    }
+    return hostname.toLowerCase();
 };
 
 /******************************************************************************/

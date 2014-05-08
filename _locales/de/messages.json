@@ -135,6 +135,18 @@
         "message": "Reload the page.",
         "description": "Tool tip for the reload button"
     },
+    "matrixPresetMoreReadTip" : {
+        "message": "Export a recipe: Temporary rules \u000a of current scope will be encoded \u000a as a recipe",
+        "description": "English: Export a recipe: Temporary rules \u000a of current scope will be encoded \u000a as a recipe"
+    },
+    "matrixPresetMoreWriteTip" : {
+        "message": "Import a recipe: Temporary rules \u000a will be created into current scope",
+        "description": "English: Import a recipe: Temporary rules \u000a will be created into current scope"
+    },
+    "matrixPresetMoreRecipeTip" : {
+        "message": "Users can exchange recipes here to help each other. Usual warnings about untrusted sources apply.",
+        "description": "English: Users can exchange recipes here to help each other. Usual warnings about untrusted sources apply."
+    },
 
 
     "statsPageTitle" : {

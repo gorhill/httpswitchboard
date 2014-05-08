@@ -137,6 +137,10 @@ HTTPSB.isGlobalScopeKey = function(scopeKey) {
     return scopeKey === '*';
 };
 
+HTTPSB.isBehindTheSceneScopeKey = function(scopeKey) {
+    return scopeKey === this.behindTheSceneScopeKey;
+};
+
 HTTPSB.isDomainScopeKey = function(scopeKey) {
     return scopeKey.indexOf('*.') === 0;
 };
@@ -147,8 +151,37 @@ HTTPSB.isSiteScopeKey = function(scopeKey) {
 
 HTTPSB.isValidScopeKey = function(scopeKey) {
     return this.isGlobalScopeKey(scopeKey) ||
+           this.isBehindTheSceneScopeKey(scopeKey) ||
            this.isDomainScopeKey(scopeKey) ||
            this.isSiteScopeKey(scopeKey);
+};
+
+/******************************************************************************/
+
+HTTPSB.domainFromScopeKey = function(scopeKey) {
+    if ( this.isGlobalScopeKey(scopeKey) || this.isBehindTheSceneScopeKey(scopeKey) ) {
+        return '';
+    }
+    if ( this.isDomainScopeKey(scopeKey) ) {
+        return scopeKey.slice(2);
+    }
+    if ( this.isSiteScopeKey(scopeKey) ) {
+        return this.URI.domainFromHostname(scopeKey);
+    }
+    return undefined;
+};
+
+HTTPSB.hostnameFromScopeKey = function(scopeKey) {
+    if ( this.isGlobalScopeKey(scopeKey) || this.isBehindTheSceneScopeKey(scopeKey) ) {
+        return '';
+    }
+    if ( this.isDomainScopeKey(scopeKey) ) {
+        return scopeKey.slice(2);
+    }
+    if ( this.isSiteScopeKey(scopeKey) ) {
+        return scopeKey;
+    }
+    return undefined;
 };
 
 /******************************************************************************/

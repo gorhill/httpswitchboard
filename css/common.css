@@ -64,10 +64,10 @@
     border-radius: 3px;
     box-shadow: 1px 1px 3px gray;
     }
-.alignLeft *[data-tip]:hover:after {
+.tip-anchor-left[data-tip]:hover:after {
     left: 0;
     }
-.alignRight *[data-tip]:hover:after {
+.tip-anchor-right[data-tip]:hover:after {
     right: 0;
     }
 

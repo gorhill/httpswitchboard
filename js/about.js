@@ -33,7 +33,7 @@ var commitHistoryURLPrefix = 'https://github.com/gorhill/httpswitchboard/commits
 
 var getHTTPSB = function() {
     return chrome.extension.getBackgroundPage().HTTPSB;
-}
+};
 
 /******************************************************************************/
 

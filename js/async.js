@@ -66,7 +66,7 @@
         var now = Date.now();
         var job;
         for ( var jobName in jobs ) {
-            if ( !jobs.hasOwnProperty(jobName) ) {
+            if ( jobs.hasOwnProperty(jobName) === false ) {
                 continue;
             }
             job = jobs[jobName];

@@ -271,8 +271,10 @@ var onBeforeRequestHandler = function(details) {
 
     // Do not block myself from updating assets
     // https://github.com/gorhill/httpswitchboard/issues/202
-    if ( requestURL.indexOf(httpsb.projectServerRoot) === 0 ) {
-        return;
+    if ( type === 'xmlhttprequest' ) {
+        if ( requestURL.slice(0, httpsb.projectServerRoot.length) === httpsb.projectServerRoot ) {
+            return;
+        }
     }
 
     // quickProfiler.start();

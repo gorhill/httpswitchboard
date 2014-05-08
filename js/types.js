@@ -72,7 +72,6 @@ function PageStatsEntry(pageUrl) {
     this.domains = {};
     this.state = {};
     this.visible = false;
-    this.ignore = false;
     this.requestStats = new WebRequestStats();
     this.distinctRequestCount = 0;
     this.perLoadAllowedRequestCount = 0;

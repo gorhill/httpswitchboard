@@ -46,7 +46,6 @@ PageStatsEntry.prototype.init = function(pageUrl) {
     this.distinctRequestCount = 0;
     this.perLoadAllowedRequestCount = 0;
     this.perLoadBlockedRequestCount = 0;
-    this.ignore = false;
     this.abpBlockCount = 0;
     return this;
 };
@@ -373,7 +372,7 @@ HTTPSB.smartReloadTabs = function(which, tabId) {
 
 HTTPSB.smartReloadTab = function(tabId) {
     var pageStats = this.pageStatsFromTabId(tabId);
-    if ( !pageStats || pageStats.ignore ) {
+    if ( !pageStats ) {
         //console.error('HTTP Switchboard> HTTPSB.smartReloadTab(): page stats for tab id %d not found', tabId);
         return;
     }

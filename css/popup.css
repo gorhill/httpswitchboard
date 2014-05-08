@@ -211,7 +211,44 @@ button.disabled > span.badge {
 .presetEntry:hover {
     background-color: #80e2ff;
     }
+#presetMore > *:first-child {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: #888;
+    cursor: pointer;
+    font-size: 13px;
+    }
+#presetMore > *:first-child + div {
+    margin: 0.25em 0 0 0;
+    padding: 0.25em 0 0 0;
+    display: none;
+    text-align: center;
+    }
+#presetMore > *:first-child + div.show {
+    display: block;
+    }
+#presetMore > *:first-child + div > * {
+    vertical-align: middle;
+    }
+#presetMoreRecipe {
+    border: 1px solid #aaa;
+    width: 75%;
+    height: 4em;
+    overflow: hidden;
+    resize: none;
+    font-size: 10px;
+    color: #888;
+    }
+#presetMoreRecipe.bad {
+    border: 1px solid #fcc;
+    color: #aaa;
+    }
+#presetMoreWrite.bad {
+    visibility: hidden;
+    }
 
+/* I think this is obsolete */
 .dropdown-menu > li > a > i {
     padding: 0 6px;
     font-size: 1.2em;
