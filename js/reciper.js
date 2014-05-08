@@ -215,6 +215,29 @@ var recipeFromScope = function(scopeKey) {
 
 /******************************************************************************/
 
+var applyRules = function(scopeKey, rules) {
+    var httpsb = HTTPSB;
+    var rule;
+    while ( rule = rules.pop() ) {
+        httpsb.addTemporaryRule(scopeKey, rule.list, rule.type, rule.host);
+    }
+};
+
+/******************************************************************************/
+
+var applyEverywhereRules = function(scopeKey, rules) {
+    var httpsb = HTTPSB;
+    var rule;
+    while ( rule = rules.pop() ) {
+        if ( rule.host !== '*' ) {
+            continue;
+        }
+        httpsb.addTemporaryRule(scopeKey, rule.list, rule.type, rule.host);
+    }
+};
+
+/******************************************************************************/
+
 // Logic to determine what rules get copied where, depending on source and
 // destination scopes.
 //
@@ -237,13 +260,6 @@ var recipeFromScope = function(scopeKey) {
 
 var applyJournalEntries = function(srcScopeKey, rules, dstScopeKey) {
     var httpsb = HTTPSB;
-
-    var applyRules = function(scopeKey, rules) {
-        var rule;
-        while ( rule = rules.pop() ) {
-            httpsb.addTemporaryRule(scopeKey, rule.list, rule.type, rule.host);
-        }
-    };
 
     // global to global:
     //      copy rules
@@ -285,6 +301,8 @@ var applyJournalEntries = function(srcScopeKey, rules, dstScopeKey) {
         if ( httpsb.isDomainScopeKey(dstScopeKey) ) {
             if ( sameDomain ) {
                 applyRules(dstScopeKey, rules);
+            } else {
+                applyEverywhereRules(dstScopeKey, rules);
             }
             return;
         }
@@ -294,14 +312,16 @@ var applyJournalEntries = function(srcScopeKey, rules, dstScopeKey) {
         //      copy site scope rule if same domain
         //      remove site scope if same domain
         if ( httpsb.isSiteScopeKey(dstScopeKey) ) {
-            srcScope = httpsb.createTemporaryScopeFromScopeKey(srcScopeKey);
-            applyRules(srcScopeKey, rules);
             if ( sameDomain ) {
+                srcScope = httpsb.createTemporaryScopeFromScopeKey(srcScopeKey);
+                applyRules(srcScopeKey, rules);
                 dstScope = httpsb.temporaryScopeFromScopeKey(dstScopeKey);
                 if ( dstScope ) {
                     srcScope.add(dstScope);
                     httpsb.removeTemporaryScopeFromScopeKey(dstScopeKey);
                 }
+            } else {
+                applyEverywhereRules(dstScopeKey, rules);
             }
             return;
         }
@@ -329,6 +349,8 @@ var applyJournalEntries = function(srcScopeKey, rules, dstScopeKey) {
         if ( httpsb.isDomainScopeKey(dstScopeKey) ) {
             if ( sameDomain ) {
                 applyRules(dstScopeKey, rules);
+            } else {
+                applyEverywhereRules(dstScopeKey, rules);
             }
             return;
         }
@@ -337,6 +359,8 @@ var applyJournalEntries = function(srcScopeKey, rules, dstScopeKey) {
         if ( httpsb.isSiteScopeKey(dstScopeKey) ) {
             if ( sameDomain ) {
                 applyRules(dstScopeKey, rules);
+            } else {
+                applyEverywhereRules(dstScopeKey, rules);
             }
             return;
         }
