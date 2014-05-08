@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: EAIqG34eX5C5KVX142xFSA
+! Checksum: 0PwsH9NY66QQEVeAKC/dVg
 ! Title: EasyList Hebrew
-! Last modified: 27/04/14  16:25 Jerusalem Daylight Time
+! Last modified: 08/05/14  16:30 Jerusalem Daylight Time
 ! Expires: 4 days (update frequency)
 ! Homepage: https://github.com/AdBlockPlusIsrael/EasyListHebrew/
 ! Forums: https://github.com/AdBlockPlusIsrael/EasyListHebrew/issues
@@ -32,6 +32,8 @@
 ||best-offers.co.il^$popup
 ||clickcenter.net^$third-party
 ||clickon.co.il^$third-party
+||descreti.co.il^$popup
+||greenlead.co.il^$popup
 ||ha-deal.co.il^$popup
 ||hiro.co.il^$third-party
 ||infomed.co.il^$third-party
@@ -44,6 +46,7 @@
 ||multidown.co.il/affiliates.php$third-party
 ||mvertex.co.il^$third-party
 ||oceanmedia.co.il/landingpages/$popup
+||onclickads.net^$popup
 ||osef.co.il^$third-party
 ||pera.co.il^$third-party
 ||s.tool-site.com^$third-party
@@ -60,6 +63,7 @@
 !-Walla!-!
 ||a.walla.co.il^
 ||fus.walla.co.il/vast/
+||live.sekindo.com/uploads/users/$domain=walla.co.il
 ||xwne.wcdn.co.il^$domain=walla.co.il
 !chrome
 ||fus.walla.co.il/script.js?
@@ -139,6 +143,7 @@
 ||banners*.bizportal.co.il^
 ||banners.bizportal.co.il^$popup
 ||banners.news1.co.il^
+||banners.news1.co.il^$popup
 ||beok.co.il/banners/
 ||besttv1.cdn.it.best-tv.com/reshet/components/BCPCLilyTrackBarCompanion/BCPCLilyTrackBarCompanion.swf
 ||bgu4u.co.il/download/banners/
@@ -150,7 +155,7 @@
 ||date.dacho.co.il^
 ||ddlil.com/banners/
 ||dimpact.co.il/Live/Banner/
-||fcdn.co.il/a/du/s.php
+||fcdn.co.il/a/$domain=fxp.co.il
 ||gear.co.il/Content/MediaItems/Campaigns/
 ||gozlan.co/st_j.js
 //gozlan.co/st_j.js|
@@ -572,6 +577,9 @@ onlife.co.il###block-freelancer-0
 onlife.co.il###block-freelancer-1
 onlife.co.il###top_article_ads_wrapper
 onlife.co.il##.commercial
+ori-diamonds.co.il###hoverConnect
+ori-diamonds.co.il##A[href^="http://www.view-movies.co.il/"]
+ori-diamonds.co.il##IMG[style="cursor: default; width: 100%;"]
 pitro.net###p_lt_WebPartZone3_zoneTopBanner_PitronetBannerRotator_nolinkPanel
 reshet.tv###DivContent[rel="5498"]
 reshet.tv###prArea
@@ -652,6 +660,8 @@ upf.co.il##.bgbanner
 view-movies.co.il###connect
 view-movies.co.il##A[href="http://www.view-movies.co.il/minisite.php"]
 view-movies.co.il##DIV[itemtype="http://data-vocabulary.org/Breadcrumb"]
+vodmovies.co.il###wrapper6
+vodmovies.co.il##A[href^="http://www.view-movies.co.il/"]
 walla.co.il###ARKIA_CONTAINER
 walla.co.il###navbar
 walla.co.il###sec_jobcity_906

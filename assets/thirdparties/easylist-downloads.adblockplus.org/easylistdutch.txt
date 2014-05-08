@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: 9YuYhatAd/S8nho9sFqRng
-! Version: 201404292251
+! Checksum: l4AfX7Jqvh12eY2JV4yecg
+! Version: 201405081741
 ! Title: EasyList Dutch
 ! Description: Dutch supplement for the Easylist filters
-! Last modified: 29 Apr 2014 22:51 UTC
+! Last modified: 08 May 2014 17:41 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -738,10 +738,12 @@
 @@||zomoto.nl/js/advertisement.js?
 @@||zuka.nl/images/ad_$image
 ! Anti-Adblock
+@@.png#$domain=gelrenieuws.nl
 @@||alfaforum.nl/forum/images/misc/vbulletin4_logo.png#$image
 @@||alfaforum.nl^$elemhide
 @@||autoblog.nl/javascript/advertisement2.js
 @@||dumpert.nl^*/admatcher.doubleclick.net
+@@||gelrenieuws.nl^$elemhide
 @@||motor-forum.nl/motorshopper/json/advertenties/$xmlhttprequest
 !--------Algemene verbergregels--------!
 ! *** easylistdutch/hide_general.txt ***

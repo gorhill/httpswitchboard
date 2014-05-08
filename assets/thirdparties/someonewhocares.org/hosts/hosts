@@ -8,7 +8,7 @@
 # Please forward any additions, corrections or comments by email to
 # hosts@someonewhocares.org
 
-# Last updated: Apr 29th, 2014 at 13:12
+# Last updated: May 3rd, 2014 at 14:12
 
 # Use this file to prevent your computer from connecting to selected
 # internet hosts. This is an easy and effective way to protect you from 
@@ -6436,6 +6436,7 @@ fe80::1%lo0	localhost
 127.0.0.1 no.adserver.yahoo.com
 127.0.0.1 nospartenaires.com
 127.0.0.1 nothing-but-value.com
+127.0.0.1 novafinanza.com
 127.0.0.1 novem.onet.pl
 127.0.0.1 nrads.1host.co.il
 127.0.0.1 nrkno.linkpulse.com

@@ -1,5 +1,5 @@
 [Adblock Plus 1.1]
-! Checksum: OCx0wAlTlnHq7U3vePEthw
+! Checksum: D52D8IRspTHiANHmKpc55w
 ! This is bulgarian list hosted at http://stanev.org/abp
 ! Contact me at alex at stanev dot org
 !
@@ -86,6 +86,7 @@ aha.aukro.bg/banners.php
 ||arena.filmi-wb.info/wp-content/uploads/2012/10/oferti_anigif.gif
 ||argumenti-bg.com/imgs/banners/
 ||aromatite.com/120x240.swf
+as.adwise.bg/j/context3rd.jsp
 ||astrohoroscope.info/reklama/
 ||auto-press.net/img/top_banner/
 ||autopress.tv/banners/
@@ -238,6 +239,10 @@ data.msk.bg/delivery/afr.php
 ||eshop.bg/affiliate/advforumpuls.php
 ||e-sim.home.pl/eworld/img/securaLogo.png
 ||etaj55.com/adv/banners
+||etapgroup.com/images/interface/*branding*
+||etapgroup.com/images/interface/dodo.png
+||etapgroup.com/images/interface/etap_voucher.png
+||etapgroup.com/images/interface/transparent_link_bg.png
 ||eventim.bg/root/upload/banner/
 ||e-vestnik.bg/img/banners/
 ||evowow.com/images/evowow_new_img.gif
@@ -612,6 +617,7 @@ rem.rezonmedia.eu/images/
 ||sliveninfo.com/images/snimki/new/banner*
 ||sliven.net/adv/
 ||sliven-news.com/images/stories/slujebni/
+||slivenpress.bg/images/banners/
 ||sliven.us/images/stories/baneri*
 ||snews.bg/img/banners/
 ||sofiadnes.com/banners/
@@ -753,6 +759,8 @@ abv.bg##iframe[src="/app/j/banner.jsp"]
 advokatibg.eu##.mod_bannerslider
 afera.bg##div[align="center"]
 aha.bg##.adv-slide-block-wrapper.clearfix
+alo.bg###adv_zone_24
+alo.bg###adv_zone_26
 alo.bg###adv_zone_top
 animes-bg.com##.banneritem_text
 antenneair.com###topbanner
@@ -776,6 +784,8 @@ avatar-bg.org##.aff_banner_728
 avtoalarmi.produkti.sofia.point.bg###popupEmail-panel
 balkanec.bg##.banner_new
 bg69.com###lenta
+bg-gledai.tv###kayan_reklam_sol
+bg-gledai.tv##.widebanner
 bg-mamma.com##.small-horoscopes2.clearfix
 bgonair.bg###banner_a0_1
 bgonair.bg###banner_a0_2
@@ -826,6 +836,9 @@ dnevnik.mk###kae_unique_id_0_parent_div
 dnevnik.mk###kae_unique_id_1_parent_div
 download.bg##.adv
 econ.bg##.adv
+etapgroup.com##.banner
+etapgroup.com##.banners
+etapgroup.com##DIV[style="margin: 0px auto; min-height: 450px; width: 100%; padding-top: 500px; background-image: url('images/interface/kom_branding.png'); background-repeat: no-repeat; background-position: top center;"]
 expert.bg##iframe[style="border: medium none ; margin: 0pt; padding: 0pt; overflow: hidden; width: 300px; height: 250px; border-collapse: collapse;"]
 film4eta.com###topbar
 filmi-bg.eu###broadcastbox
@@ -853,6 +866,8 @@ krisfansait.ovo.bg###banner
 krisfansait.ovo.bg###topbar
 ##.lapni-pop-over
 lesno-fakturirane.com##td[class="left_fon"]
+lex.bg##.banner468_60
+lex.bg##DIV[style="margin: auto; background-color: transparent; border-width: 0px; width: 300px; height: 250px;"]
 lifehacker.bg###header_banner
 lifestyle.ibox.bg###divbh1.lfs-top-banner-holder
 managerteams.com###footer_inner_wrapper
@@ -955,9 +970,12 @@ zovnews.com##.banner_col
 zovnews.com##.banner_top
 !
 !--- Whitelist rules ---!
+@@||adnxs.com^$domain=bg-gledai.tv
+@@://ads.$domain=bg-gledai.tv
 @@ads.ibox.bg/all_ins.php
 @@ads.ibox.bg/crossdomain.xml
 @@||conquiztador.bg/client_pre_frame.php
+@@||contextweb.com^$domain=bg-gledai.tv
 @@||emediate.se/crossdomain.xml
 @@||emediate.se/eas$match-case,domain=play.novatv.bg
 @@||ndt1.com/images/articles/*
@@ -966,6 +984,7 @@ zovnews.com##.banner_top
 @@||olx.bg/ajax/ad/offer/
 @@||olx.bg/ajax/ad/togglefollow/
 ~olx.bg###newAd
+@@||pozvanete.bg/images/ads/
 @@||prodavalnik.com/ajax/ad/offer/
 @@||prodavalnik.com/ajax/ad/togglefollow/
 ~prodavalnik.com###newAd

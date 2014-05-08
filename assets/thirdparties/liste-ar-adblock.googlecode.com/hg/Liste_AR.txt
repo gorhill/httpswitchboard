@@ -1,5 +1,5 @@
 [Adblock Plus 2.0]
-! Checksum: s/ANJSOEjAu9tz1pUr4mSA
+! Checksum: DiifFupp53wNEu35H4UbTw
 ! القائمة العربية لمانع الشرائط الإعلانية آدبلوك بلس
 ! Liste AR ~ Filtres arabes complémentaires à EasyList et à la Liste FR
 ! Title: Liste AR
@@ -14,6 +14,7 @@
 !
 !----------------------- Filtres génériques -----------------!
 -ads.swf
+.eg/ads/
 .ma/ads/
 /ar/ads/*
 !
@@ -22,9 +23,13 @@
 ###adLeft
 ###ad_global_below_navbar
 ###ads_r_c
+###divTopAds
 ##.adengageadzone
+##.ads-site
 ##.ads-ul
 ##.adsarea
+##.adv-top
+##.block_adv
 ##.googleAds336
 ##.googleAds728
 ##a[href*="adintop.com/outgoing/click.php?"]
@@ -63,6 +68,7 @@
 ||clickmena.com^$third-party
 ||clients-ads.panet.co.il^
 ||clkmon.com^$third-party
+||cpxmasters.com^$third-party
 ||emarketing.net.sa^$third-party
 ||gainmoneyfast.com^$third-party
 ||geniusinstaller.com^$third-party
@@ -73,6 +79,7 @@
 ||jazayr.net^$third-party
 ||jor1.net^$third-party
 ||menaon.com^$third-party
+||mobawaba.com^$third-party
 ||mochiads.com^$third-party
 ||nile-ads.com^$third-party
 ||oneclickad.net^$third-party
@@ -85,6 +92,7 @@
 ||seprovider.com^$third-party
 ||shabakti.com^$third-party
 ||trafficrevmaster.com^$third-party
+||vuiads.org^$third-party
 ||zenoviaexchange.com^$third-party
 ||zwaar.net^$third-party
 !
@@ -217,6 +225,7 @@
 ||m5zn.com/themes/dir/assets/images/120_banner_black.gif
 ||m5zn.com/uploads3/2012/4/9/photo/040912220452picoovy1i4g2q.jpg
 ||mark4you.com/mark.gif
+||masatv.com^$popup,domain=2flam.org
 ||mazikadrama.com/vidads2.php
 ||mirecal-d.com/300download.gif
 ||mirecal-d.com/d7001.gif
@@ -321,6 +330,7 @@
 ||3roos.com/files/ups/
 ||3roos.com/images/i3lan.gif
 ||4algeria.com/vb/images/al-e3lnat/
+||5jle.com^$subdocument,domain=liilas.com
 ||6ba5.com/Violet_hexll/images/hexll_19.png
 ||6ef.com/ee/*-160x300.
 ||750750.com/bnrs/
@@ -509,6 +519,7 @@
 ||dl3-r.com/dla3/images/large-area.gif
 ||dohaup.com/up/2010-01-29/dohaup_827224532.gif
 ||dohaup.com/up/2010-02-10/dohaup_1758332280.gif
+||dostor.org/images/stories/300x150.gif
 ||dramacafe.tv/*/adblockdetect.min.js
 ||dramacafe.tv/dramacafe.js
 ||dzecole.com/^$popup,domain=bacdz.org
@@ -593,6 +604,9 @@
 ||gulfup.com/BATot.gif
 ||gulfup.com/styles/gulfup2/np/$image
 ||gulfup.com/styles/gulfup2/p/$image
+||hakchouf.net/hakchouf%20affiche.swf
+||hakchouf.net/image%20site/aff.jpg
+||hakchouf.net/images/Banner3.png
 ||hawanaajd.com/img/b/$image
 ||hibapress.com/Hanya90.jpg
 ||hibasport.com/pubip/
@@ -638,12 +652,14 @@
 ||lahbabi.ma//home/code-widjet.html
 ||learn.wiki-net.net^$popup,domain=panorama-istanbul.org
 ||lhzro.com^$popup,domain=lhzro.com
+||liilas.com/*/am.js
 ||liilas.com/300.htm
 ||liilas.com/600.htm
 ||liilas.com/728.htm
 ||liilas.com/up/uploads/liilas_
 ||liilas.com/uploads/liilas_1373846713171.gif
 ||liilas.com/uploads/liilas_1378255269441.jpg
+||liilas.com/uploads/liilas_1398296505511.gif
 ||liilas.com/vb3/mobiquo/smartbanner/appbanner.js
 ||liilas.com/vb3/z.js
 ||llssll.com/uploads/viewimages/
@@ -658,6 +674,8 @@
 ||m7shsh.com^*/bn300.jpg
 ||ma3hd.net$subdocument,domain=ma3hd.net
 ||ma3hd.net/js.php
+||maas1.net^$subdocument,domain=liilas.com
+||manga-ar.com/upload/adv/
 ||marocannonces.com/images/tombola-
 ||marocannonces.com^*/images/bannier_
 ||masrawysat.com/vb/images/alsharingbanner.gif
@@ -677,6 +695,7 @@
 ||misryh.com/open.js
 ||misryh.com/open/
 ||mob4me.com/adv/
+||mobtada.com/files/banners_days/
 ||montadaphp.net/e3lan.png
 ||montadaphp.net/hamada_banner.png
 ||montadaphp.net/images/banner.gif
@@ -729,7 +748,10 @@
 ||qatarw.com/up/2013-01-13/file1088986471.png
 ||qatarw.com/up/qatarw_uhtpDMwxza.gif
 ||qrwsha.com^$popup,domain=2v22.net
+||r-khleeg.net/banner.png
 ||r-khleeg.net/islam/images/image005.jpg
+||r-khleeg.net/open*.js
+||r-khleeg.net/open/
 ||r-x0.com^$popup,domain=rb7ne.com
 ||rassoulallah.info/new/images/e3lan.png
 ||realmadridarabia.com^*/images/bnr_
@@ -769,6 +791,7 @@
 ||senksar.com/Untitled-2.jpg
 ||servimg.com/u/f10/16/22/48/64/f40-mo10.gif
 ||servimg.com/u/f42/16/22/48/64/34637510.gif
+||sfari-s.com^$subdocument,domain=r-khleeg.net
 ||shatelarab.com/images/banners/
 ||shofonline.org/megapop.js
 ||site.elkhabar.com^
@@ -824,6 +847,7 @@
 ##div[style^="z-index: 99999; position: fixed; width: 100%; background-color: rgb(251, 236, 173);"]
 2flam.net##A[href="http://shwqna.at.ua/ADs.htm"]
 2flam.net##a[href="http://shwqna.at.ua/Free.htm"]
+2flam.org##div[style="position: fixed; bottom: 1px; border: dashed 1px; right: 1px; background-color:#000000;padding:5px;"]
 2lboo.com##a[class^="banner"]
 2v22.net##a[href^="bnnr.php?do="]
 3-tp.com##.bannbox
@@ -968,6 +992,7 @@ darendeal.com##.takeover
 darseries.com##div[style="padding-top:5px; font-family:tahoma;float:right;width:100%;font-size:10pt;line-height:26px;height:31px;top: 12px;z-index:9999;text-align:right"]
 darseries.com##div[style^="width:325px;height:275px;"]
 deltaclic.com##.squarebanner
+dostor.org##img[style="width: 120px; height: 599px;"]
 dwayir.com###nav
 ech-chaab.net##.module.mod-line.color-black.deepest
 ech-chaab.net##img[width="820"][height="159"]

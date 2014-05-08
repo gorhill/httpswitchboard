@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: MGG32ez97Hf2+xX40r8qoQ
-! Version: 201404292251
+! Checksum: L2ADJTw6EG55qHLHcHF4fQ
+! Version: 201405081741
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 29 Apr 2014 22:51 UTC
+! Ultima modifica: 08 May 2014 17:41 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -117,6 +117,7 @@ _sito/adv/
 ###skin_adv
 ###skinadvdx
 ###skinadvsx
+###top3-pubbli
 ##.adagiowritebanner_dmtag
 ##.adv-articolo
 ##.adv-iframe-sx
@@ -143,6 +144,7 @@ _sito/adv/
 ##.post_pubblicita
 ##.promo_sp
 ##.pub_text
+##.pubblicit
 ##.pubblicita
 ##.pubblicitaGoogle
 ##.pubblicitaSlider
@@ -283,6 +285,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||4minuti.it/img/imgpartner/
 ||6sicuro.it/widgets/$third-party
 ||85.115.8.249^$image,domain=~chunnel.de.ip
+||92.240.245.41/upload/banners/$domain=~phica.net.ip
 ||ad.edision-nord.it^
 ||ad.jamba.it^
 ||ad.ricevitori-digitali.com^
@@ -854,6 +857,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||hdblog.it^*/coolerm.swf
 ||hdblog.it^*/skin/
 ||hdblog.it^*/skin_
+||healthdesk.it/userfiles/Banner
 ||hellasverona.it/img/banner/
 ||hellasverona.it/sponsor/
 ||hi-techitaly.com/images/banners/
@@ -991,6 +995,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||italia-news.it/media/banners/
 ||italiafilm.tv/italiafilm.png
 ||italiafilm.tv/v2.gif
+||italiafilm01.com^*_watchonline_
 ||italiagermania4-3.com/images/banners/
 ||italiagol.it//immagini/File_banner/
 ||ivg.it/slider-elezioni-2014-03.html
@@ -1124,6 +1129,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||mobi2b.it^*/downloadfilebanner.php?
 ||modena2000.it/bnrs/
 ||momentosera.it/bannerupload/
+||mondoclassica.it^*/banner/
 ||montecarlonews.it^*/banner/
 ||montecarlonews.it^*/box/
 ||motoclub-tingavert.it/modules/Dv_Banner/
@@ -1150,6 +1156,8 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||notebookitalia.it/images/stories/*_wallpaper_jpg.jpg
 ||notiziarioitaliano.it^*/banner/
 ||notizie-online.it/banner/
+||notiziediprato.it/caricaBannerIframe/
+||notiziediprato.it/uploads/banner/
 ||novara.com/images/Banners/
 ||novara.com/public/WAPPS/LinksBannerData/
 ||novara.com^*/MainBanner_
@@ -1215,6 +1223,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||pubblicitaitalia.it^*banner_
 ||puglialive.net/dfiles/banners/
 ||puntocellulare.it/banner/
+||pupia.tv/banner-
 ||quattroruote.it^*/logo_*_menu.png
 ||quattroruote.it^*/sponsoredby.gif
 ||quattroruote.it^*_280x75.gif
@@ -1661,6 +1670,7 @@ html.it###banner_piede_articolo
 paginegialle.it###banner_pushbar
 firenzespettacolo.it###banner_side
 livesicilia.it###banner_skin
+notiziediprato.it###banner_strip
 ilcorrieredabruzzo.it###banner_testata
 ilcorrieredabruzzo.it###banner_testata_1004x114
 lastampa.it,newsfood.com,primaonline.it,primissima.it,qds.it###banner_top
@@ -1785,6 +1795,7 @@ megalab.it###left_skyscraper
 telesud3.com###linkamici
 asroma.it###logos
 eurogamer.it###low-leaderboard
+catanzaroinforma.it###mainsponsor
 it.msn.com###markette
 max.rcs.it###max_ppn
 itespresso.it###megabanner
@@ -1811,6 +1822,7 @@ ilgiornale.it###primopiano
 ciao.it###productlevellink
 mtv.it###promoInfo
 loudvision.it###prop-leader
+catanzaroinforma.it###pubbliinmezzo
 nonsolocap.it###qk
 moto.it###rchm_overlay
 gazzetta.it###rectangle
@@ -1841,7 +1853,7 @@ iovivoaroma.it###skin_link_dx
 iovivoaroma.it###skin_link_sx
 cronachemaceratesi.it###skinabove
 rockit.it###skinbanner
-filmtv.it,ilcorrieredabruzzo.it,lazionews24.com###skinlink
+catanzaroinforma.it,filmtv.it,ilcorrieredabruzzo.it,lazionews24.com###skinlink
 ebay.it###skyscrape
 eurogamer.it###skyscraper
 casateonline.it,merateonline.it###sottotestata
@@ -2409,8 +2421,8 @@ articolotre.com##div[style="width:320px;overflow:none;padding:0;margin:0;"]
 articolotre.com##div[style="width:320px;overflow:none;padding:0;margin:20px 0px 0px 0px;"]
 beppegrillo.it,corrieredellacalabria.it##div[style="width:336px; height:280px;"]
 pornoitalico.com##div[style="width:340px; height:307px; _height:435px; text-align:center; float:right; margin-bottom:96px; background-color:#FCFAFA; border: 1px solid #BCBCBC;; padding-left:10px; padding-right:10px; padding-top:30px; padding-bottom:30px; padding-top:80px; margin-right: 10px; border-radius: 0px;"]
-maxitubo.com,pornovideoitaliano.com##div[style="width:340px; height:307px; text-align:center; float:right; margin-bottom:96px; background-color:#FCFAFA; border: 1px solid #BCBCBC;; padding-left:10px; padding-right:10px; padding-top:30px; padding-bottom:30px; padding-top:80px; margin-right: 10px; border-radius: 5px;"]
-pornovideoitaliano.com##div[style="width:340px; height:480px; text-align:center; float:right; margin-top:51px;margin-bottom: 50px; margin-left: 5px; background-color:#FCFAFA; border: 1px solid #BCBCBC;; padding-left:10px; padding-right:10px; padding-top:30px; padding-bottom:100px; margin-right: 10px; border-radius: 5px;"]
+maxitubo.com,pornovideoitaliano.com,solopornoitaliano.com##div[style="width:340px; height:307px; text-align:center; float:right; margin-bottom:96px; background-color:#FCFAFA; border: 1px solid #BCBCBC;; padding-left:10px; padding-right:10px; padding-top:30px; padding-bottom:30px; padding-top:80px; margin-right: 10px; border-radius: 5px;"]
+pornovideoitaliano.com,solopornoitaliano.com##div[style="width:340px; height:480px; text-align:center; float:right; margin-top:51px;margin-bottom: 50px; margin-left: 5px; background-color:#FCFAFA; border: 1px solid #BCBCBC;; padding-left:10px; padding-right:10px; padding-top:30px; padding-bottom:100px; margin-right: 10px; border-radius: 5px;"]
 wmia.it##div[style="width:350px; height:300px; float:left"]
 radiotime.it##div[style="width:360px; margin-top:10px; margin-bottom:5px;"]
 pornoitalico.com##div[style="width:380px; height:480px; _position:absolute; _right: 0px; text-align:center; float:right; margin-top:51px;margin-bottom: 50px; margin-left: 5px; background-color:#FCFAFA; border: 1px solid #BCBCBC;; padding-left:10px; padding-right:10px; padding-top:30px; padding-bottom:100px; margin-right: 10px; border-radius: 0px;"]
