@@ -21,38 +21,60 @@
 
 /******************************************************************************/
 
-function Profiler() {
-    this.time = 0;
-    this.count = -3;
-    this._start = 0;
-    this._lastlog = Date.now();
-}
+var quickProfiler = (function() {
 
-Profiler.prototype.reset = function() {
-    this.time = 0;
-    this.count = -3;
-    this._start = 0;
+/******************************************************************************/
+
+var timer = performance;
+var time = 0;
+var count = -3;
+var tstart = 0;
+var lastlog = timer.now();
+
+/******************************************************************************/
+
+var reset = function() {
+    time = 0;
+    count = -3;
+    tstart = 0;
 };
 
-Profiler.prototype.start = function() {
-    this._start = Date.now();
+/******************************************************************************/
+
+var avg = function() {
+    return count > 0 ? time / count : 0;
 };
 
-Profiler.prototype.stop = function(s) {
-    this.count += 1;
-    if ( this.count > 0 ) {
-        var now = Date.now();
-        this.time += (now - this._start);
-        if ( (now - this._lastlog) > 10000 ) {
-            console.log('HTTP Switchboard Profiler() > %s: %f ms per iteration', s, this.avg());
-            this._lastlog = now;
+/******************************************************************************/
+
+var start = function() {
+    tstart = timer.now();
+};
+
+/******************************************************************************/
+
+var stop = function(s) {
+    count += 1;
+    if ( count > 0 ) {
+        var now = timer.now();
+        time += (now - tstart);
+        if ( (now - lastlog) > 10000 ) {
+            console.log('HTTP Switchboard() > %s: %s ms', s, avg().toFixed(3));
+            lastlog = now;
         }
     }
 };
 
-Profiler.prototype.avg = function() {
-    return this.count > 0 ? this.time / this.count : 0;
+/******************************************************************************/
+
+return {
+    reset: reset,
+    start: start,
+    stop: stop
 };
 
-var quickProfiler = new Profiler();
+/******************************************************************************/
 
+})();
+
+/******************************************************************************/

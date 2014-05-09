@@ -208,6 +208,7 @@ var onBeforeRootFrameRequestHandler = function(details) {
         if ( tabId !== httpsb.behindTheSceneTabId ) {
             httpsb.cookieHunter.recordPageCookies(pageStats);
         }
+        // quickProfiler.stop('onBeforeRequest');
         return;
     }
 
@@ -230,8 +231,9 @@ var onBeforeRootFrameRequestHandler = function(details) {
     html = html.replace(/{{originalURL}}/g, encodeURIComponent(requestURL));
     html = html.replace(/{{now}}/g, String(Date.now()));
     var dataURI = 'data:text/html;base64,' + btoa(html);
-    // quickProfiler.stop('onBeforeRequestHandler');
 
+    // quickProfiler.stop('onBeforeRequest');
+    
     return { "redirectUrl": dataURI };
 };
 
@@ -261,6 +263,8 @@ var onBeforeRequestHandler = function(details) {
         return;
     }
 
+    // quickProfiler.start();
+
     var type = details.type;
 
     if ( type === 'main_frame' && details.parentFrameId < 0 ) {
@@ -273,11 +277,10 @@ var onBeforeRequestHandler = function(details) {
     // https://github.com/gorhill/httpswitchboard/issues/202
     if ( type === 'xmlhttprequest' ) {
         if ( requestURL.slice(0, httpsb.projectServerRoot.length) === httpsb.projectServerRoot ) {
+            // quickProfiler.stop('onBeforeRequest');
             return;
         }
     }
-
-    // quickProfiler.start();
 
     // Normalizing will get rid of the fragment part
     requestURL = httpsburi.set(requestURL).normalizedURI();
@@ -339,7 +342,7 @@ var onBeforeRequestHandler = function(details) {
     // whitelisted?
     if ( !block ) {
         // console.debug('onBeforeRequestHandler()> ALLOW "%s": %o', details.url, details);
-        // quickProfiler.stop('onBeforeRequestHandler');
+        // quickProfiler.stop('onBeforeRequest');
         return;
     }
 
@@ -355,11 +358,11 @@ var onBeforeRequestHandler = function(details) {
             .replace(/{{fontUrl}}/g, httpsb.fontCSSURL)
             .replace(/{{hostname}}/g, requestHostname)
             .replace(/{{opacity}}/g, httpsb.userSettings.subframeOpacity.toFixed(2));
-        // quickProfiler.stop('onBeforeRequestHandler');
+        // quickProfiler.stop('onBeforeRequest');
         return { 'redirectUrl': 'data:text/html,' + encodeURIComponent(html) };
     }
 
-    // quickProfiler.stop('onBeforeRequestHandler');
+    // quickProfiler.stop('onBeforeRequest');
 
     return { "cancel": true };
 };
