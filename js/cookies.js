@@ -328,9 +328,13 @@ var processPageRemoveQueue = function() {
 var processRemoveQueue = function() {
     var userSettings = HTTPSB.userSettings;
     var deleteCookies = userSettings.deleteCookies;
+
+    // Session cookies which timestamp is *after* tstampObsolete will
+    // be left untouched
+    // https://github.com/gorhill/httpswitchboard/issues/257
     var tstampObsolete = userSettings.deleteUnusedSessionCookies ?
         Date.now() - userSettings.deleteUnusedSessionCookiesAfter * 60 * 1000 :
-        Date.now() + 60000;
+        0;
 
     var cookieEntry;
     for ( var cookieKey in removeCookieQueue ) {
@@ -351,7 +355,7 @@ var processRemoveQueue = function() {
         // being whitelisted on another (because of per-page permissions).
         if ( canRemoveCookie(cookieKey) === false ) {
             // Exception: session cookie may have to be removed even though
-            // they are seen as being in use.
+            // they are seen as being whitelisted.
             if ( cookieEntry.session === false || cookieEntry.tstamp > tstampObsolete ) {
                 continue;
             }
@@ -362,7 +366,7 @@ var processRemoveQueue = function() {
             continue;
         }
 
-        // console.debug('HTTP Switchboard > cookies.js/processRemoveQueue(): removing %s{%s}', url, cookieEntry.name);
+        console.debug('HTTP Switchboard > cookies.js/processRemoveQueue(): removing %s{%s}', url, cookieEntry.name);
         chromeCookieRemove(url, cookieEntry.name);
     }
 };
@@ -475,6 +479,7 @@ var canRemoveCookie = function(cookieKey) {
             continue;
         }
         if ( httpsb.whitelisted(pageURL, 'cookie', cookieHostname) ) {
+            // console.log('cookies.js/canRemoveCookie()> can NOT remove "%s" because of scope "%s"', cookieKey, scopeKey);
             return false;
         }
     }
