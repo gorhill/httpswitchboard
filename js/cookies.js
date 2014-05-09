@@ -366,7 +366,7 @@ var processRemoveQueue = function() {
             continue;
         }
 
-        console.debug('HTTP Switchboard > cookies.js/processRemoveQueue(): removing %s{%s}', url, cookieEntry.name);
+        // console.debug('HTTP Switchboard > cookies.js/processRemoveQueue(): removing %s{%s}', url, cookieEntry.name);
         chromeCookieRemove(url, cookieEntry.name);
     }
 };
