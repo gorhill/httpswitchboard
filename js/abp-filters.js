@@ -690,9 +690,9 @@ var matchString = function(url, srcDomain, dstHostname) {
     // allow =  whitelisted || !blacklisted
 
     var matches;
-    var bf = false;
     var tokenBeg, tokenEnd;
     var thirdParty = dstHostname.lastIndexOf(srcDomain) !== (dstHostname.length - srcDomain.length);
+    var bf = false;
 
     reAnyToken.lastIndex = 0;
     while ( matches = reAnyToken.exec(url) ) {
@@ -700,10 +700,12 @@ var matchString = function(url, srcDomain, dstHostname) {
         tokenEnd = reAnyToken.lastIndex;
         if ( thirdParty ) {
             if ( matchStringToFilterCollection(allow3rdPartyFilters, url, tokenBeg, tokenEnd) !== false ) {
+                // adbProfiler.testCounter(false);
                 return false;
             }
         }
         if ( matchStringToFilterCollection(allowAnyPartyFilters, url, tokenBeg, tokenEnd) !== false ) {
+            // adbProfiler.testCounter(false);
             return false;
         }
         // We can't leave until all tokens have been tested against whitelist
@@ -719,7 +721,7 @@ var matchString = function(url, srcDomain, dstHostname) {
 
     // adbProfiler.testCounter(false);
 
-    return bf !== undefined ? bf : false;
+    return bf;
 };
 
 /******************************************************************************/
