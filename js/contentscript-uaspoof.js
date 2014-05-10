@@ -52,7 +52,6 @@ var navigatorSpoofer = " \
         } \
         spoofedNavigator.appVersion = spoofedUserAgent; \
         spoofedNavigator.userAgent = spoofedUserAgent; \
-        Object.freeze(spoofedNavigator); \
         navigator = window.navigator = spoofedNavigator; \
     } catch (e) { \
     } \
