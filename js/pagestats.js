@@ -34,8 +34,6 @@ var httpsburi = null;
 
 // Hidden vars
 
-var charCodes = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
-
 var typeToCode = {
     'main_frame'    : 'a',
     'sub_frame'     : 'b',
@@ -69,7 +67,6 @@ var stringPacker = {
     codeJunkyard: [],
     mapStringToEntry: {},
     mapCodeToString: {},
-    base64Chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_',
 
     Entry: function(code) {
         this.count = 0;
@@ -116,14 +113,11 @@ var stringPacker = {
         return this.mapCodeToString[packed] || '';
     },
 
-    base64: function(code) {
-        var s = '';
-        var base64Chars = this.base64Chars;
-        while ( code ) {
-            s += String.fromCharCode(base64Chars.charCodeAt(code & 63));
-            code >>>= 6;
+    stringify: function(code) {
+        if ( code <= 0xFFFF ) {
+            return String.fromCharCode(code);
         }
-        return s;
+        return String.fromCharCode(code >>> 16) + String.fromCharCode(code & 0xFFFF);
     },
 
     entryFromString: function(s) {
@@ -134,7 +128,7 @@ var stringPacker = {
         if ( !entry ) {
             entry = this.codeJunkyard.pop();
             if ( !entry ) {
-                entry = new this.Entry(this.base64(this.codeGenerator++));
+                entry = new this.Entry(this.stringify(this.codeGenerator++));
             } else {
                 // console.debug('stringPacker > recycling code "%s" (aka "%s")', entry.code, s);
                 entry.count = 0;
@@ -199,16 +193,16 @@ var PageRequestStats = function() {
 /******************************************************************************/
 
 // Request key:
-// index: 01234567...
-//        HHHHHHTN...
-//        ^     ^^
-//        |     ||
-//        |     |+--- short string code for hostname (dict-based)
-//        |     +--- single char code for type of request
-//        +--- FNV32a hash of whole URI (irreversible)
+// index: 0123
+//        THHN
+//        ^^ ^
+//        || |
+//        || +--- short string code for hostname (dict-based)
+//        |+--- FNV32a hash of whole URI (irreversible)
+//        +--- single char code for type of request
 
 var makeRequestKey = function(uri, reqType) {
-    // Ref: Given a URL, returns a unique 7-character long hash string
+    // Ref: Given a URL, returns a unique 4-character long hash string
     // Based on: FNV32a
     // http://www.isthe.com/chongo/tech/comp/fnv/index.html#FNV-reference-source
     // The rest is custom, suited for HTTPSB.
@@ -220,31 +214,20 @@ var makeRequestKey = function(uri, reqType) {
     }
     hint = hint >>> 0;
 
-    // convert 32-bit hash to str
-    var hstr = '';
-    i = 6;
-    while ( i-- ) {
-        hstr += charCodes.charAt(hint & 0x3F);
-        hint >>= 6;
-    }
-
-    // append code for type
-    hstr += typeToCode[reqType] || 'z';
-
-    // append code for hostname
-    hstr += stringPacker.pack(httpsburi.hostnameFromURI(uri));
-
-    return hstr;
+    key  = typeToCode[reqType] || 'z';
+    key += String.fromCharCode(hint >>> 16) + String.fromCharCode(hint & 0xFFFF);
+    key += stringPacker.pack(httpsburi.hostnameFromURI(uri));
+    return key;
 };
 
 /******************************************************************************/
 
 var rememberRequestKey = function(reqKey) {
-    stringPacker.remember(reqKey.slice(7));
+    stringPacker.remember(reqKey.slice(3));
 };
 
 var forgetRequestKey = function(reqKey) {
-    stringPacker.forget(reqKey.slice(7));
+    stringPacker.forget(reqKey.slice(3));
 };
 
 /******************************************************************************/
@@ -252,14 +235,14 @@ var forgetRequestKey = function(reqKey) {
 // Exported
 
 var hostnameFromRequestKey = function(reqKey) {
-    return stringPacker.unpack(reqKey.slice(7));
+    return stringPacker.unpack(reqKey.slice(3));
 };
 
 pageRequestStats.hostnameFromRequestKey = hostnameFromRequestKey;
 PageRequestStats.prototype.hostnameFromRequestKey = hostnameFromRequestKey;
 
 var typeFromRequestKey = function(reqKey) {
-    return codeToType[reqKey.charAt(6)];
+    return codeToType[reqKey.charAt(0)];
 };
 
 pageRequestStats.typeFromRequestKey = typeFromRequestKey;
@@ -381,7 +364,7 @@ PageRequestStats.prototype.dispose = function() {
     var requests = this.requests;
     for ( var reqKey in requests ) {
         if ( requests.hasOwnProperty(reqKey) ) {
-            stringPacker.forget(reqKey.slice(7));
+            stringPacker.forget(reqKey.slice(3));
             delete requests[reqKey];
         }
     }
