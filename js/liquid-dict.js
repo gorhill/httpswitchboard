@@ -38,27 +38,6 @@ var LiquidDict = function() {
 
 /******************************************************************************/
 
-// How the key is derived dictates the number and size of buckets.
-
-// Currently, key = 'k' + [2 lsb of 4 chars] + [len]
-// [len] at the end is convenient because we can look it up easily using
-// String.slice() since the first part of the key is fixed width.
-
-// http://jsperf.com/makekey-concat-vs-join
-
-var makeKey = function(word) {
-    var len = word.length;
-    var i = len >> 2;
-    return 'k' +
-        (word.charCodeAt(    0) & 0x03) +
-        (word.charCodeAt(    i) & 0x03) +
-        (word.charCodeAt(  i+i) & 0x03) +
-        (word.charCodeAt(i+i+i) & 0x03) +
-        len;
-};
-
-/******************************************************************************/
-
 var meltBucket = function(ldict, len, bucket) {
     ldict.frozenBucketCount -= 1;
     var map = {};
@@ -84,7 +63,7 @@ var melt = function(ldict) {
     for ( var key in buckets ) {
         bucket = buckets[key];
         if ( typeof bucket === 'string' ) {
-            buckets[key] = meltBucket(ldict, parseInt(key.slice(5), 10), bucket);
+            buckets[key] = meltBucket(ldict, key.charCodeAt(0) & 0xFF, bucket);
         }
     }
 };
@@ -103,8 +82,33 @@ var freezeBucket = function(ldict, bucket) {
 
 /******************************************************************************/
 
+// How the key is derived dictates the number and size of buckets.
+//
+// http://jsperf.com/makekey-concat-vs-join/3
+//
+// Question: Why is using a prototyped function better than a standalone
+// helper function?
+
+LiquidDict.prototype.makeKey = function(word) {
+    var len = word.length;
+    if ( len > 255 ) {
+        // console.error('HTTP Switchboard> liquid-dict.js/makeKey(): len > 255');
+        return undefined;
+    }
+    var i = len >> 2;
+    return String.fromCharCode(
+        (word.charCodeAt(    0) & 0x03) << 14 |
+        (word.charCodeAt(    i) & 0x03) << 12 |
+        (word.charCodeAt(  i+i) & 0x03) << 10 |
+        (word.charCodeAt(i+i+i) & 0x03) <<  8 |
+        len
+    );
+};
+
+/******************************************************************************/
+
 LiquidDict.prototype.test = function(word) {
-    var key = makeKey(word);
+    var key = this.makeKey(word);
     var bucket = this.dict[key];
     if ( bucket === undefined ) {
         return false;
@@ -138,7 +142,10 @@ LiquidDict.prototype.test = function(word) {
 /******************************************************************************/
 
 LiquidDict.prototype.add = function(word) {
-    var key = makeKey(word);
+    var key = this.makeKey(word);
+    if ( key === undefined ) {
+        return false;
+    }
     var bucket = this.dict[key];
     if ( bucket === undefined ) {
         this.dict[key] = bucket = {};
