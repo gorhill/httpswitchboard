@@ -616,7 +616,7 @@ var matchStringToFilterChain = function(f, url, tokenBeg) {
     while ( f !== undefined ) {
         // adbProfiler.countTest();
         if ( f.match(url, tokenBeg, tokenBeg) ) {
-            // console.log('abp-filters.js> matchStringToFilterChain(): "%s" matches "%s"', f.s, s);
+            // console.log('abp-filters.js> matchStringToFilterChain(): "%s" matches "%s"', f.s, url);
             return f.s;
         }
         f = f.next;
@@ -689,7 +689,8 @@ var matchString = function(url, srcDomain, dstHostname) {
     //   or equivalent
     // allow =  whitelisted || !blacklisted
 
-    var matches, bf;
+    var matches;
+    var bf = false;
     var tokenBeg, tokenEnd;
     var thirdParty = dstHostname.lastIndexOf(srcDomain) !== (dstHostname.length - srcDomain.length);
 
@@ -707,10 +708,10 @@ var matchString = function(url, srcDomain, dstHostname) {
         }
         // We can't leave until all tokens have been tested against whitelist
         // filters
-        if ( bf === undefined && thirdParty ) {
+        if ( bf === false && thirdParty ) {
             bf = matchStringToFilterCollection(block3rdPartyFilters, url, tokenBeg, tokenEnd);
         }
-        if ( bf === undefined ) {
+        if ( bf === false ) {
             bf = matchStringToFilterCollection(blockAnyPartyFilters, url, tokenBeg, tokenEnd);
         }
     }
