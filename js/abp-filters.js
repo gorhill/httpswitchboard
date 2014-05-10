@@ -585,15 +585,15 @@ TL;DR:
     Here:
     
     Adblock Plus:
-        ABP.adbProfiler> number or URLs tested: 11000
-        ABP.adbProfiler> number or filters tested per URL: 119
+        ABP.adbProfiler> number or URLs tested: 10600
+        ABP.adbProfiler> number or filters tested per URL: 121
     
     HTTPSB:
-        HTTPSB.adbProfiler> number or URLs tested: 12800
-        HTTPSB.adbProfiler> number or filters tested per URL: 8
+        HTTPSB.adbProfiler> number or URLs tested: 12600
+        HTTPSB.adbProfiler> number or filters tested per URL: 5
 
-    ABP on average tests 119 filters per URL.
-    HTTPSB on average tests 8 filters per URL.
+    ABP on average tests 121 filters per URL.
+    HTTPSB on average tests 5 filters per URL.
     
     Note: Overall, less URLs were tested by ABP because it uses an internal
     cache mechanism to avoid testing URL, which is probably an attempt at
@@ -689,37 +689,53 @@ var matchString = function(url, srcDomain, dstHostname) {
     //   or equivalent
     // allow =  whitelisted || !blacklisted
 
+    // Since statistically a hit on a block filter is more likely than a hit
+    // on an allow filter, we test block filters first, and then if and only
+    // if there is a hit on a block filter do we test against allow filters.
+    // This helps performance compared to testing against both classes of
+    // filters in the same loop.
+
     var matches;
     var tokenBeg, tokenEnd;
     var thirdParty = dstHostname.lastIndexOf(srcDomain) !== (dstHostname.length - srcDomain.length);
     var bf = false;
+    
+    // Test against block filters
+    reAnyToken.lastIndex = 0;
+    while ( matches = reAnyToken.exec(url) ) {
+        tokenBeg = matches.index;
+        tokenEnd = reAnyToken.lastIndex;
+        if ( thirdParty ) {
+            bf = matchStringToFilterCollection(block3rdPartyFilters, url, tokenBeg, tokenEnd);
+            if ( bf !== false ) {
+                break;
+            }
+        }
+        bf = matchStringToFilterCollection(blockAnyPartyFilters, url, tokenBeg, tokenEnd);
+        if ( bf !== false ) {
+            break;
+        }
+    }
 
+    // If there was no block filter, no need to test against allow filters
+    if ( bf === false ) {
+        return false;
+    }
+
+    // Blocked, so we need to test against allow filters 
     reAnyToken.lastIndex = 0;
     while ( matches = reAnyToken.exec(url) ) {
         tokenBeg = matches.index;
         tokenEnd = reAnyToken.lastIndex;
         if ( thirdParty ) {
             if ( matchStringToFilterCollection(allow3rdPartyFilters, url, tokenBeg, tokenEnd) !== false ) {
-                // adbProfiler.testCounter(false);
                 return false;
             }
         }
         if ( matchStringToFilterCollection(allowAnyPartyFilters, url, tokenBeg, tokenEnd) !== false ) {
-            // adbProfiler.testCounter(false);
             return false;
         }
-        // We can't leave until all tokens have been tested against whitelist
-        // filters
-        if ( bf === false && thirdParty ) {
-            bf = matchStringToFilterCollection(block3rdPartyFilters, url, tokenBeg, tokenEnd);
-        }
-        if ( bf === false ) {
-            bf = matchStringToFilterCollection(blockAnyPartyFilters, url, tokenBeg, tokenEnd);
-        }
     }
-    // If we reach this point, there was no matching allow filter
-
-    // adbProfiler.testCounter(false);
 
     return bf;
 };
