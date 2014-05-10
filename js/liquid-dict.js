@@ -21,7 +21,11 @@
 
 /******************************************************************************/
 
-HTTPSB.LiquidDict = function() {
+HTTPSB.LiquidDict = (function() {
+
+/******************************************************************************/
+
+var LiquidDict = function() {
     this.dict = {};
     this.count = 0;
     this.bucketCount = 0;
@@ -40,7 +44,9 @@ HTTPSB.LiquidDict = function() {
 // [len] at the end is convenient because we can look it up easily using
 // String.slice() since the first part of the key is fixed width.
 
-HTTPSB.LiquidDict.prototype.makeKey = function(word) {
+// http://jsperf.com/makekey-concat-vs-join
+
+var makeKey = function(word) {
     var len = word.length;
     var i = len >> 2;
     return 'k' +
@@ -53,8 +59,52 @@ HTTPSB.LiquidDict.prototype.makeKey = function(word) {
 
 /******************************************************************************/
 
-HTTPSB.LiquidDict.prototype.test = function(word) {
-    var key = this.makeKey(word);
+var meltBucket = function(ldict, len, bucket) {
+    ldict.frozenBucketCount -= 1;
+    var map = {};
+    if ( bucket.charAt(0) === ' ' ) {
+        bucket.trim().split(' ').map(function(k) {
+            map[k] = true;
+        });
+    } else {
+        var offset = 0;
+        while ( offset < bucket.length ) {
+            map[bucket.substring(offset, len)] = true;
+            offset += len;
+        }
+    }
+    return map;
+};
+
+/******************************************************************************/
+
+var melt = function(ldict) {
+    var buckets = ldict.dict;
+    var bucket;
+    for ( var key in buckets ) {
+        bucket = buckets[key];
+        if ( typeof bucket === 'string' ) {
+            buckets[key] = meltBucket(ldict, parseInt(key.slice(5), 10), bucket);
+        }
+    }
+};
+
+/******************************************************************************/
+
+var freezeBucket = function(ldict, bucket) {
+    ldict.frozenBucketCount += 1;
+    var words = Object.keys(bucket);
+    var wordLen = words[0].length;
+    if ( wordLen * words.length < ldict.cutoff ) {
+        return ' ' + words.join(' ') + ' ';
+    }
+    return words.sort().join('');
+};
+
+/******************************************************************************/
+
+LiquidDict.prototype.test = function(word) {
+    var key = makeKey(word);
     var bucket = this.dict[key];
     if ( bucket === undefined ) {
         return false;
@@ -87,8 +137,8 @@ HTTPSB.LiquidDict.prototype.test = function(word) {
 
 /******************************************************************************/
 
-HTTPSB.LiquidDict.prototype.add = function(word) {
-    var key = this.makeKey(word);
+LiquidDict.prototype.add = function(word) {
+    var key = makeKey(word);
     var bucket = this.dict[key];
     if ( bucket === undefined ) {
         this.dict[key] = bucket = {};
@@ -97,7 +147,7 @@ HTTPSB.LiquidDict.prototype.add = function(word) {
         this.count += 1;
         return true;
     } else if ( typeof bucket === 'string' ) {
-        this.dict[key] = bucket = this.meltBucket(word.len, bucket);
+        this.dict[key] = bucket = meltBucket(this, word.len, bucket);
     }
     if ( bucket[word] === undefined ) {
         bucket[word] = true;
@@ -109,60 +159,20 @@ HTTPSB.LiquidDict.prototype.add = function(word) {
 
 /******************************************************************************/
 
-HTTPSB.LiquidDict.prototype.freezeBucket = function(bucket) {
-    this.frozenBucketCount += 1;
-    var words = Object.keys(bucket);
-    var wordLen = words[0].length;
-    if ( wordLen * words.length < this.cutoff ) {
-        return ' ' + words.join(' ') + ' ';
-    }
-    return words.sort().join('');
-};
-
-HTTPSB.LiquidDict.prototype.freeze = function() {
+LiquidDict.prototype.freeze = function() {
     var buckets = this.dict;
     var bucket;
     for ( var key in buckets ) {
         bucket = buckets[key];
         if ( typeof bucket === 'object' ) {
-            buckets[key] = this.freezeBucket(bucket);
+            buckets[key] = freezeBucket(this, bucket);
         }
     }
 };
 
 /******************************************************************************/
 
-HTTPSB.LiquidDict.prototype.meltBucket = function(len, bucket) {
-    this.frozenBucketCount -= 1;
-    var map = {};
-    if ( bucket.charAt(0) === ' ' ) {
-        bucket.trim().split(' ').map(function(k) {
-            map[k] = true;
-        });
-    } else {
-        var offset = 0;
-        while ( offset < bucket.length ) {
-            map[bucket.substring(offset, len)] = true;
-            offset += len;
-        }
-    }
-    return map;
-};
-
-HTTPSB.LiquidDict.prototype.melt = function() {
-    var buckets = this.dict;
-    var bucket;
-    for ( var key in buckets ) {
-        bucket = buckets[key];
-        if ( typeof bucket === 'string' ) {
-            buckets[key] = this.meltBucket(parseInt(key.slice(5), 10), bucket);
-        }
-    }
-};
-
-/******************************************************************************/
-
-HTTPSB.LiquidDict.prototype.reset = function() {
+LiquidDict.prototype.reset = function() {
     this.dict = {};
     this.count = 0;
     this.bucketCount = 0;
@@ -171,6 +181,13 @@ HTTPSB.LiquidDict.prototype.reset = function() {
 
 /******************************************************************************/
 
+return LiquidDict;
+
+/******************************************************************************/
+
+})();
+
+/******************************************************************************/
+
 HTTPSB.ubiquitousBlacklist = new HTTPSB.LiquidDict();
 HTTPSB.ubiquitousWhitelist = new HTTPSB.LiquidDict();
-
