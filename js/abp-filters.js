@@ -23,6 +23,8 @@
 
 (function(){
 
+/******************************************************************************/
+
 var allowFilterDict = {};
 var blockFilterDict = {};
 var allowFilterCount = 0;
@@ -299,7 +301,7 @@ var add = function(s) {
 
     processedFilterCount += 1;
 
-    // Ignore whitelist filters
+    // Whitelist filters
     var whitelistFilter = reWhitelist.test(s);
     if ( whitelistFilter ) {
         s = s.replace('@@', '');
@@ -307,6 +309,7 @@ var add = function(s) {
 
     // Ignore unsupported filters
     if ( reIgnoreFilter.test(s) ) {
+        // console.log('HTTP Switchboard> abp-filter.js/add(): ignoring "%s"', s);
         return false;
     }
 
@@ -318,6 +321,7 @@ var add = function(s) {
 
     // Ignore rules with other conditions for now
     if ( reConditionalRule.test(s) ) {
+        // console.log('HTTP Switchboard> abp-filter.js/add(): ignoring "%s"', s);
         return false;
     }
 

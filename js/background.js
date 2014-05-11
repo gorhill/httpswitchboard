@@ -37,7 +37,7 @@ var HTTPSB = {
         deleteLocalStorage: false,
         displayTextSize: '13px',
         maxLoggedRequests: 50,
-        parseAllABPFilters: false,
+        parseAllABPFilters: true,
         popupHideBlacklisted: false,
         popupCollapseDomains: false,
         popupCollapseSpecificDomains: {},
