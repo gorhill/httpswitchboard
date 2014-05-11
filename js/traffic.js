@@ -45,26 +45,41 @@ body { \
 margin: 0; \
 border: 0; \
 padding: 0; \
-font: 13px httpsb,sans-serif; \
+font: 15px httpsb,sans-serif; \
 width: 100%; \
 height: 100%; \
 background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QkOFgcvc4DETwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAACGSURBVFjD7ZZBCsAgEAMT6f+/nJ5arYcqiKtIPAaFYR2DFCAAgEQ8iwzLCLxZWglSZgKUdgHJk2kdLEY5C4QAUxeIFOINfwUOBGkLPBnkAIEDQPoEDiw+uoGHBQ4ovv4GnvTMS4EvC+wvhBvYAltgC2yBLbAFPlTgvKG6vxXZB6QOl2S7gNw6ktgOp+IH7wAAAABJRU5ErkJggg==') repeat; \
 text-align: center; \
 } \
-div { \
+#p { \
+margin: 8px; \
+padding: 4px; \
+display: inline-block; \
+background-color: white; \
+} \
+#t { \
 margin: 2px; \
 border: 0; \
 padding: 0 2px; \
 display: inline-block; \
-color: white; \
-background: #c00; \
+} \
+#t b { \
+padding: 0 4px; \
+background-color: #eee; \
+font-weight: normal; \
 } \
 </style> \
 <link href='{{cssURL}}?url={{originalURL}}&hostname={{hostname}}&t={{now}}' rel='stylesheet' type='text/css'> \
 <title>Blocked by HTTPSB</title> \
 </head> \
-<body title='&ldquo;{{hostname}}&rdquo; blocked by HTTP Switchboard'> \
-<div>{{hostname}}</div> \
+<body> \
+<div id='p'> \
+<div id='t'><b>{{hostname}}</b> blocked by HTTP Switchboard</div> \
+<div> \
+hpHosts: <a href='http://hosts-file.net/?s={{hostname}}' target='_blank'>{{hostname}}</a><br> \
+WOT: <a href='https://www.mywot.com/en/scorecard/{{hostname}}' target='_blank'>{{hostname}}</a> \
+</div> \
+</div> \
 </body> \
 </html>";
 
