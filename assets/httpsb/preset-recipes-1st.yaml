@@ -223,6 +223,15 @@ HSBC Brasil:
             * hsbc.com.br
             * member-hsbc-group.com
 
+Gigaom:
+    keys: gigaom.com
+    scope: '*.gigaom.com'
+        whitelist: |
+            * gigaom.com
+            * wordpress.com
+            * wp.com
+            script gravatar.com
+
 Huffington Post:
     keys: www.huffingtonpost.com
     scope: www.huffingtonpost.com
