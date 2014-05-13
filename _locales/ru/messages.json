@@ -578,7 +578,7 @@
         "description": "Path column header"
     },
     "aboutAssetsUpdateColStatus" : {
-        "message": "Статистика",
+        "message": "Статус",
         "description": "Status column header"
     },
     "aboutAssetsUpdateGetListError" : {
