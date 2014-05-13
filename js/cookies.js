@@ -345,6 +345,14 @@ var processRemoveQueue = function() {
 
         cookieEntry = cookieDict[cookieKey];
 
+        // rhill 2014-05-12: Apparently this can happen. I have to
+        // investigate how (A session cookie has same name as a
+        // persistent cookie?)
+        if ( !cookieEntry ) {
+            console.error('HTTP Switchboard> cookies.js/processRemoveQueue(): no cookieEntry for "%s"', cookieKey);
+            continue;
+        }
+        
         // Just in case setting was changed after cookie was put in queue.
         if ( cookieEntry.session === false && deleteCookies === false ) {
             continue;
