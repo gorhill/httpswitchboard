@@ -4,7 +4,7 @@
         "description": "имя расширения"
     },
     "extShortDesc": {
-        "message": "Расширение позволяющее, запретить или разрешить разные классы запросов браузера. Используется, чтобы запретить: скрипты, баннеры, рекламу, соцсети, и т.д.",
+        "message": "Расширение позволяющее, запретить или разрешить разные классы запросов браузера, такие как: скрипты, баннеры, рекламу, соцсети, и т.д.",
         "description": "this will in chrome web store: must be 132 characters or less"
     },
     "settingsPageName": {
@@ -190,7 +190,7 @@
         "description": "English: All"
     },
     "statsPageDetailedBehindTheScenePage" : {
-        "message": "Chromium: На заднем плане",
+        "message": "Chromium: Сбор личной информации",
         "description": "English: Chromium: Behind the scene"
     },
     "statsPageOverview" : {
@@ -280,7 +280,7 @@
         "description": "English: site-level"
     },
     "settingsAutoCreateScopePrompt2": {
-        "message": "область.",
+        "message": "области.",
         "description": "English: scope"
     },
     "settingsAutoCreateScopeInfo": {
@@ -324,7 +324,7 @@
         "description": "..."
     },
     "settingsMatrixDeleteUnusedTemporaryScopesPrompt1" : {
-        "message": "Автоматически удалять всеменные зоны.",
+        "message": "Автоматически удалять временные области.",
         "description": "English: Auto delete unused temporary scopes."
     },
     "settingsMatrixDeleteUnusedTemporaryScopesPrompt2" : {
@@ -418,11 +418,11 @@
         "description": "English: &ldquo;Ubiquitous rules&rdquo; are rules which applies everywhere, i.e. in all scopes."
     },
     "ubiquitousListsOfBlockedHostsPrompt1" : {
-        "message": "Все списки заблокированных хостов загружаются, как глобальные правила, в связи с чем их владельцы находятся в черном списке во всех областях.",
+        "message": "Все списки заблокированных хостов загружаются, как глобальные правила, в связи с чем их владельцы находятся в черном списке для всех областей.",
         "description": "English: All lists of blocked hosts are loaded as ubiquitous rules, hence these hosts are blacklisted in all scopes."
     },
     "ubiquitousListsOfBlockedHostsPrompt2" : {
-        "message": "{{ubiquitousBlacklistCount}} отличие заблокированных хостов от:",
+        "message": "{{ubiquitousBlacklistCount}} блокируется хостов, помимо:",
         "description": "English: {{ubiquitousBlacklistCount}} distinct blocked hostnames from:"
     },
     "ubiquitousListsOfBlockedHostsPerListStats" : {
@@ -438,11 +438,11 @@
         "description": "English: Parse and enforce Adblock+ complex filters (beta)."
     },
     "ubiquitousParseAllABPFiltersInfo" : {
-        "message": "<p>Обычно, <i>HTTP Switchboard</i> будет извлекать из <i>Adblock Plus</i>-совместимых фильтр листов <b>only</b> те фильтры, которые используются для блокировки всего домена (пример: &ldquo;<b>||a.ucoz.net^</b>&rdquo;).</p><p>Эта опция разрешает разбор и соблюдение of finer-grained <i>Adblock Plus</i> фильтров(пример: &ldquo;<b>/adwords-conversion-tracking.</b>&rdquo;). These complex filters are incompatible with the matrix, and thus are only used internally to evaluate whether a net request should be blocked: they have no user interface counterpart.</p><p>Even if this option is enabled, <i>Adblock Plus</i> filters used for <a href=\"https://adblockplus.org/en/filters#elemhide\">element hiding</a> are completely ignored.</p><p>Увеличивается использование памяти при включении этой опции.</p>",
+        "message": "<p>Обычно, <i>HTTP Switchboard</i> будет извлекать из <i>Adblock Plus</i>-совместимых фильтр листов <b>только</b> те фильтры, которые используются для блокировки всего домена (пример: &ldquo;<b>||a.ucoz.net^</b>&rdquo;).</p><p>Эта опция разрешает разбор и соблюдение <i>Adblock Plus</i> фильтров(пример: &ldquo;<b>/adwords-conversion-tracking.</b>&rdquo;). Эти фильтры не совместимы с матрицей, поэтому запросы блокированные этим фильтром нельзя увидеть и настроить.</p><p>Даже если эта опция включена, <i>Adblock Plus</i> фильтры используемые для <a href=\"https://adblockplus.org/en/filters#elemhide\">скрытия элементов</a> полностью игнорируется.</p><p>Включение этой опции увеличивает использование памяти.</p>",
         "description": "English: ..."
     },
     "ubiquitousListsOfBlockedHostsHeader" : {
-        "message": "Список блокируесых хостов",
+        "message": "Список блокируемых хостов",
         "description": "English: Lists of blocked hosts"
     },
     "userUbiquitousBlacklistHeader" : {
@@ -578,7 +578,7 @@
         "description": "Path column header"
     },
     "aboutAssetsUpdateColStatus" : {
-        "message": "Статус",
+        "message": "Состояние",
         "description": "Status column header"
     },
     "aboutAssetsUpdateGetListError" : {
@@ -590,7 +590,7 @@
         "description": "Displayed in the status column for each entry"
     },
     "aboutAssetsUpdateStatusChanged" : {
-        "message": "Доступна новая версия",
+        "message": "Доступно обновление",
         "description": "Displayed in the status column for each entry"
     },
     "aboutAssetsUpdateStatusUnchanged" : {
