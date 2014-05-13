@@ -403,13 +403,18 @@ HTTPSB.smartReloadTab = function(tabId) {
     // https://github.com/gorhill/httpswitchboard/issues/94
     // https://github.com/gorhill/httpswitchboard/issues/141
     if ( !mustReload ) {
+        var reloadNewlyBlockedTypes = {
+            'main_frame': true,
+            'script' : true,
+            'sub_frame': true
+        };
         var blockRuleType;
         for ( blockRule in newState ) {
             if ( !newState.hasOwnProperty(blockRule) ) {
                 continue;
             }
             blockRuleType = blockRule.slice(0, blockRule.indexOf('|'));
-            if ( blockRuleType !== 'script' && blockRuleType !== 'sub_frame' ) {
+            if ( !reloadNewlyBlockedTypes[blockRuleType] ) {
                 continue;
             }
             if ( !oldState[blockRule] ) {
@@ -420,6 +425,8 @@ HTTPSB.smartReloadTab = function(tabId) {
         }
     }
 
+    // console.log('old state: %o\nnew state: %o', oldState, newState);
+    
     if ( mustReload ) {
         chrome.tabs.reload(tabId);
     }
