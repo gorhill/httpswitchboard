@@ -897,11 +897,23 @@ var histogram = function(label, categories) {
             });
         }
     }
-    var total = h.length;
-    h.sort(function(a, b) { return b.n - a.n; });
-    h = h.slice(0, 50);
 
     console.log('Histogram %s', label);
+
+    var total = h.length;
+    h.sort(function(a, b) { return b.n - a.n; });
+
+    // Find indices of entries of interest
+    var target = 2;
+    for ( var i = 0; i < total; i++ ) {
+        if ( h[i].n === target ) {
+            console.log('\tEntries with only %d filter(s) start at index %s (key = "%s")', target, i, h[i].k);
+            target -= 1;
+        }
+    }
+
+    h = h.slice(0, 50);
+
     h.forEach(function(v) {
         console.log('\tkey=%s  count=%d', v.k, v.n);
     });
@@ -1008,7 +1020,9 @@ Top 50 (key prefix removed because it displayed as garbage):
 	key= facebook.c  count=12
 	key= 2mdn.n  count=12
 	key= js.r  count=12
-	Total buckets count: 22149
+	Entries with only 2 filter(s) start at index 952 (key = " united-d")
+	Entries with only 1 filter(s) start at index 2435 (key = " /analyticstracking_") 
+    Total buckets count: 22149
 
 TL;DR:
     Worst case scenario = 91 filters to test
