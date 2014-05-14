@@ -1,10 +1,10 @@
 {
     "extName": {
         "message": "HTTP Switchboard",
-        "description": "имя расширения"
+        "description": "название расширения"
     },
     "extShortDesc": {
-        "message": "Расширение позволяющее, запретить или разрешить разные классы запросов браузера, такие как: скрипты, баннеры, рекламу, соцсети, и т.д.",
+        "message": "Расширение позволяющее запретить или разрешить разные классы запросов браузера, такие как: скрипты, баннеры, реклама, соцсети, и т.д.",
         "description": "this will in chrome web store: must be 132 characters or less"
     },
     "settingsPageName": {
@@ -158,7 +158,7 @@
         "description": "English: Generic statistics"
     },
     "statsPageCookieHeadersFoiled" : {
-        "message": "<a href='https://en.wikipedia.org/wiki/HTTP_cookie'>HTTP кукисов</a> блокировано: {{count}}",
+        "message": "<a href='https://en.wikipedia.org/wiki/HTTP_cookie'>HTTP куки</a> блокировано: {{count}}",
         "description": "English: HTTP cookie headers foiled: {{count}}"
     },
     "statsPageRefererHeadersFoiled" : {
@@ -166,7 +166,7 @@
         "description": "English: HTTP referer headers foiled: {{count}}"
     },
     "statsPageCookiesRemoved" : {
-        "message": "Удалено печенек с пк: {{count}}",
+        "message": "Удалено локальных куки: {{count}}",
         "description": "Local cookies removed: {{count}}"
     },
     "statsPageLocalStoragesCleared" : {
@@ -296,7 +296,7 @@
         "description": ""
     },
     "settingsAutoWhitelistHelp": {
-        "message": "<p>Некоторые пользователи не любят whitelist the domain of the page by default. Эта функция позволяет автоматически создавать временные белые списки из всей области страницы, когда она впервые загружается в браузере. The temporary auto-whitelisting will occur <b>only</b> если страница домена в серых списках.</p><p>Although it is not a recommended feature from a security perspective, it has been included due to popular demand -- I would rather give users this feature than see them give up completely on a blocker.</p><p>If you use this feature, I advise that you at least blacklist <b>frame</b> requests and turn on <b>strict blocking</b>.</p>",
+        "message": "<p>Некоторые пользователи не любят добавлять домен текущей страницы в белый список по-умолчанию. Эта функция позволяет автоматически создавать временные белые списки из всей области страницы, когда она впервые загружается в браузере. The temporary auto-whitelisting will occur <b>only</b> если страница домена в серых списках.</p><p>Although it is not a recommended feature from a security perspective, it has been included due to popular demand -- I would rather give users this feature than see them give up completely on a blocker.</p><p>If you use this feature, I advise that you at least blacklist <b>frame</b> requests and turn on <b>strict blocking</b>.</p>",
         "description": "To help user understand the purpose of auto-whitelist"
     },
     "settingsMatrixConvenienceHeader" : {
@@ -372,7 +372,7 @@
         "description": "English: minutes."
     },
     "settingsClearCacheHelp" : {
-        "message": "<p>Некоторые веб-сайты могут предпринимать разные методы, что отследить личную информацию</p><p>Некоторые из приемов опираются <sup style='font-size:smaller'>[1, 2]</sup>на<a href='https://en.wikipedia.org/wiki/Web_cache'> использование кеша браузера</a>, который зачастую долго хранится, поэтому рекомендуется его переодически очищать.</p><p>Вручную очищать его не удобно.</p><p>Выбирете эту опцию и  <i>HTTP Switchboard</i> все сделает за вас.</p><p style='font-size:smaller'>[1] <a href='https://grepular.com/Preventing_Web_Tracking_via_the_Browser_Cache'>&ldquo;Предотвращение отслеживание с помощью кэша  веб-браузера&rdquo;</a><br>[2] <a href='http://lucb1e.com/rp/cookielesscookies/'>&ldquo;Без  куков&rdquo;</a></p>",
+        "message": "<p>Некоторые веб-сайты могут предпринимать разные методы, что отследить личную информацию</p><p>Некоторые из приемов опираются <sup style='font-size:smaller'>[1, 2]</sup>на<a href='https://en.wikipedia.org/wiki/Web_cache'> использование кеша браузера</a>, который зачастую долго хранится, поэтому рекомендуется его переодически очищать.</p><p>Вручную очищать его не удобно.</p><p>Выбирете эту опцию и  <i>HTTP Switchboard</i> все сделает за вас.</p><p style='font-size:smaller'>[1] <a href='https://grepular.com/Preventing_Web_Tracking_via_the_Browser_Cache'>&ldquo;Предотвращение отслеживание с помощью кэша веб-браузера&rdquo;</a><br>[2] <a href='http://lucb1e.com/rp/cookielesscookies/'>&ldquo;Без куки&rdquo;</a></p>",
         "description": "..."
     },
     "settingsProcessRefererPrompt" : {
@@ -392,7 +392,7 @@
         "description": "minutes."
     },
     "settingsSpoofUserAgentHelp" : {
-        "message": "<a href='https://www.eff.org/deeplinks/2010/01/tracking-by-user-agent'>В соответствии с <i>Electronic Frontier Foundation</i></a>: &ldquo;[...] Ваш браузер отправляет &lsquo;User Agent&rsquo; заголовок сайту, сообщая каким браузером и ОС вы пользуетесь. Эта мнформация помогает различать пользователей в сети, often considerably, from person to person. [...] <b>Данные User Agent становятся конфиденциальной информацией</b>.&rdquo;<p>эта опция позволяет Вам решить проблемы конфиденциальности, поднятые EFF.</p><p>Вы можете указать свой собственный список User Agent  пользователя. Одно слово на строку.. Пустые строки и линии с префиксом &lsquo;#&rsquo; будут пропущены.</p>",
+        "message": "<a href='https://www.eff.org/deeplinks/2010/01/tracking-by-user-agent'>В соответствии с <i>Electronic Frontier Foundation</i></a>: &ldquo;[...] Ваш браузер отправляет &lsquo;User Agent&rsquo; заголовок сайту, сообщая каким браузером и ОС вы пользуетесь. Эта мнформация помогает различать пользователей в сети, often considerably, from person to person. [...] <b>Данные User Agent становятся конфиденциальной информацией</b>.&rdquo;<p>эта опция позволяет Вам решить проблемы конфиденциальности, поднятые EFF.</p><p>Вы можете указать свой собственный список User Agent пользователя. Одно слово на строку. Пустые строки и линии с префиксом &lsquo;#&rsquo; будут пропущены.</p>",
         "description": "..."
     },
     "settingsBehindTheSceneHeader" : {
@@ -430,11 +430,11 @@
         "description": "English: {{used}} used out of {{total}}"
     },
     "ubiquitousParseAllABPFiltersPrompt1" : {
-        "message": "Разбор и применение Adblock+ complex фильтров.",
+        "message": "Разбор и применение сложных AdBlock+ фильтров.",
         "description": "English: Parse and enforce Adblock+ complex filters."
     },
     "ubiquitousParseAllABPFiltersPrompt2" : {
-        "message": "{{abpFilterCount}} complex фильтров использовано.",
+        "message": "сложных {{abpFilterCount}} фильтров использовано.",
         "description": "English:  {{abpFilterCount}} complex filters used."
     },
     "ubiquitousParseAllABPFiltersInfo" : {
@@ -594,7 +594,7 @@
         "description": "Displayed in the status column for each entry"
     },
     "aboutAssetsUpdateStatusUnchanged" : {
-        "message": "Up to date",
+        "message": "Обновлений не найдено",
         "description": "Displayed in the status column for each entry"
     },
     "aboutAssetsUpdateStatusRemoved" : {
