@@ -55,5 +55,31 @@
     "web_accessible_resources": [
         "css/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf",
         "css/noop.css"
-    ]
+    ],
+    "commands": {
+       "open-statistics": {
+         "suggested_key": {
+           "default": "Alt+S"
+         },
+         "description": "Open Statistics"
+       },
+       "open-scoped-rules": {
+         "suggested_key": {
+           "default": "Alt+F"
+         },
+         "description": "Open Rule Manager"
+       },
+       "open-settings": {
+         "suggested_key": {
+           "default": "Alt+A"
+         },
+         "description": "Open Settings"
+       },
+       "open-ubiquitous-rules": {
+         "suggested_key": {
+           "default": "Ctrl+D"
+         },
+         "description": "Open Ubiquitous Rules"
+       }
+    }
 }
