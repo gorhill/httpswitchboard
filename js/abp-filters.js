@@ -19,43 +19,71 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
+/* jshint esnext: true, bitwise: false */
+/* global HTTPSB */
+
 /******************************************************************************/
 
 (function(){
 
 /******************************************************************************/
 
-var allowFilterDict = {};
-var blockFilterDict = {};
-var allowFilterCount = 0;
-var blockFilterCount = 0;
-var processedFilterCount = 0;
-var supportedFilterCount = 0;
+const BlockAction = 0 << 15;
+const AllowAction = 1 << 15;
 
-var blockAnyPartyFilters = {}; // any party, anywhere
-var block3rdPartyFilters = {}; // 3rd party, anywhere
-var allowAnyPartyFilters = {}; // any party, anywhere
-var allow3rdPartyFilters = {}; // 3rd party, anywhere
+const AnyType = 1 << 11;
+
+const AnyParty = 0 << 8;
+const FirstParty = 1 << 8;
+const ThirdParty = 2 << 8;
+const SpecificParty = 3 << 8;
+const SpecificNotParty = 4 << 8;
+
+const BlockAnyTypeAnyParty = BlockAction | AnyType | AnyParty;
+const BlockAnyType1stParty = BlockAction | AnyType | FirstParty;
+const BlockAnyType3rdParty = BlockAction | AnyType | ThirdParty;
+const BlockAnyTypeOneParty = BlockAction | AnyType | SpecificParty;
+const BlockAnyTypeOtherParties = BlockAction | AnyType | SpecificNotParty;
+const BlockAnyType = BlockAction | AnyType;
+const BlockAnyParty = BlockAction | AnyParty;
+const BlockOneParty = BlockAction | SpecificParty;
+const BlockOtherParties = BlockAction | SpecificNotParty;
+
+const AllowAnyTypeAnyParty = AllowAction | AnyType | AnyParty;
+const AllowAnyType1stParty = AllowAction | AnyType | FirstParty;
+const AllowAnyType3rdParty = AllowAction | AnyType | ThirdParty;
+const AllowAnyTypeOneParty = AllowAction | AnyType | SpecificParty;
+const AllowAnyTypeOtherParties = AllowAction | AnyType | SpecificNotParty;
+const AllowAnyType = AllowAction | AnyType;
+const AllowAnyParty = AllowAction | AnyParty;
+const AllowOneParty = AllowAction | SpecificParty;
+const AllowOtherParties = AllowAction | SpecificNotParty;
+
+var pageHostname = '';
 
 var reIgnoreEmpty = /^\s+$/;
 var reIgnoreComment = /^\[|^!/;
-var reIgnoreElementHide = /##|@#/;
-var reWhitelist = /^@@/;
-var reIgnoreFilter = /^\|http/;
-var reConditionalRule = /\$/;
-var reHostnameRule = /^\|\|[0-9a-z.-]+[0-9a-z]\^?$/;
+var reHostnameRule = /^[0-9a-z.-]+[0-9a-z]$/;
 var reHostnameToken = /^[0-9a-z]+/g;
 var reGoodToken = /[%0-9a-z]{2,}/g;
 var reAnyToken = /[%0-9a-z]+/g;
-var reThirdPartyCondition = /\$third-party$/;
 
-// My favorite regex tester: http://www.gethifi.com/tools/regex#
+var typeNameToTypeValue = {
+        'stylesheet': 2 << 11,
+             'image': 3 << 11,
+            'object': 4 << 11,
+            'script': 5 << 11,
+    'xmlhttprequest': 6 << 11,
+         'sub_frame': 7 << 11,
+             'other': 8 << 11
+};
+
+// regex tester: http://www.gethifi.com/tools/regex#
 
 /******************************************************************************/
 
 var FilterPlain = function(s, tokenBeg) {
     this.s = s;
-    this.next = undefined;
     this.tokenBeg = tokenBeg;
 };
 
@@ -65,9 +93,34 @@ FilterPlain.prototype.match = function(url, tokenBeg) {
 
 /******************************************************************************/
 
+var FilterPlainHostname = function(s, tokenBeg, hostname) {
+    this.s = s;
+    this.tokenBeg = tokenBeg;
+    this.hostname = hostname;
+};
+
+FilterPlainHostname.prototype.match = function(url, tokenBeg) {
+    return pageHostname.slice(-this.hostname.length) === this.hostname &&
+           url.substr(tokenBeg - this.tokenBeg, this.s.length) === this.s;
+};
+
+/******************************************************************************/
+
+var FilterPlainNotHostname = function(s, tokenBeg, hostname) {
+    this.s = s;
+    this.tokenBeg = tokenBeg;
+    this.hostname = hostname;
+};
+
+FilterPlainNotHostname.prototype.match = function(url, tokenBeg) {
+    return pageHostname.slice(-this.hostname.length) !== this.hostname &&
+           url.substr(tokenBeg - this.tokenBeg, this.s.length) === this.s;
+};
+
+/******************************************************************************/
+
 var FilterPlainPrefix0 = function(s) {
     this.s = s;
-    this.next = undefined;
 };
 
 FilterPlainPrefix0.prototype.match = function(url, tokenBeg) {
@@ -76,13 +129,60 @@ FilterPlainPrefix0.prototype.match = function(url, tokenBeg) {
 
 /******************************************************************************/
 
+var FilterPlainPrefix0Hostname = function(s, hostname) {
+    this.s = s;
+    this.hostname = hostname;
+};
+
+FilterPlainPrefix0Hostname.prototype.match = function(url, tokenBeg) {
+    return pageHostname.slice(-this.hostname.length) === this.hostname &&
+           url.substr(tokenBeg, this.s.length) === this.s;
+};
+
+/******************************************************************************/
+
+var FilterPlainPrefix0NotHostname = function(s, hostname) {
+    this.s = s;
+    this.hostname = hostname;
+};
+
+FilterPlainPrefix0NotHostname.prototype.match = function(url, tokenBeg) {
+    return pageHostname.slice(-this.hostname.length) !== this.hostname &&
+           url.substr(tokenBeg, this.s.length) === this.s;
+};
+
+/******************************************************************************/
+
 var FilterPlainPrefix1 = function(s) {
     this.s = s;
-    this.next = undefined;
 };
 
 FilterPlainPrefix1.prototype.match = function(url, tokenBeg) {
     return url.substr(tokenBeg - 1, this.s.length) === this.s;
+};
+
+/******************************************************************************/
+
+var FilterPlainPrefix1Hostname = function(s, hostname) {
+    this.s = s;
+    this.hostname = hostname;
+};
+
+FilterPlainPrefix1Hostname.prototype.match = function(url, tokenBeg) {
+    return pageHostname.slice(-this.hostname.length) === this.hostname &&
+           url.substr(tokenBeg - 1, this.s.length) === this.s;
+};
+
+/******************************************************************************/
+
+var FilterPlainPrefix1NotHostname = function(s, hostname) {
+    this.s = s;
+    this.hostname = hostname;
+};
+
+FilterPlainPrefix1NotHostname.prototype.match = function(url, tokenBeg) {
+    return pageHostname.slice(-this.hostname.length) !== this.hostname &&
+           url.substr(tokenBeg - 1, this.s.length) === this.s;
 };
 
 /******************************************************************************/
@@ -94,7 +194,6 @@ FilterPlainPrefix1.prototype.match = function(url, tokenBeg) {
 
 var FilterSingleWildcard = function(s, tokenBeg) {
     this.s = s;
-    this.next = undefined;
     this.tokenBeg = tokenBeg;
     var wcOffset = s.indexOf('*');
     this.lSegment = s.slice(0, wcOffset);
@@ -109,9 +208,44 @@ FilterSingleWildcard.prototype.match = function(url, tokenBeg) {
 
 /******************************************************************************/
 
+var FilterSingleWildcardHostname = function(s, tokenBeg, hostname) {
+    this.s = s;
+    this.tokenBeg = tokenBeg;
+    var wcOffset = s.indexOf('*');
+    this.lSegment = s.slice(0, wcOffset);
+    this.rSegment = s.slice(wcOffset + 1);
+    this.hostname = hostname;
+};
+
+FilterSingleWildcardHostname.prototype.match = function(url, tokenBeg) {
+    tokenBeg -= this.tokenBeg;
+    return pageHostname.slice(-this.hostname.length) === this.hostname &&
+           url.substr(tokenBeg, this.lSegment.length) === this.lSegment &&
+           url.indexOf(this.rSegment, tokenBeg + this.lSegment.length) > 0;
+};
+
+/******************************************************************************/
+
+var FilterSingleWildcardNotHostname = function(s, tokenBeg, hostname) {
+    this.s = s;
+    this.tokenBeg = tokenBeg;
+    var wcOffset = s.indexOf('*');
+    this.lSegment = s.slice(0, wcOffset);
+    this.rSegment = s.slice(wcOffset + 1);
+    this.hostname = hostname;
+};
+
+FilterSingleWildcardNotHostname.prototype.match = function(url, tokenBeg) {
+    tokenBeg -= this.tokenBeg;
+    return pageHostname.slice(-this.hostname.length) !== this.hostname &&
+           url.substr(tokenBeg, this.lSegment.length) === this.lSegment &&
+           url.indexOf(this.rSegment, tokenBeg + this.lSegment.length) > 0;
+};
+
+/******************************************************************************/
+
 var FilterSingleWildcardPrefix0 = function(s) {
     this.s = s;
-    this.next = undefined;
     var wcOffset = s.indexOf('*');
     this.lSegment = s.slice(0, wcOffset);
     this.rSegment = s.slice(wcOffset + 1);
@@ -124,15 +258,47 @@ FilterSingleWildcardPrefix0.prototype.match = function(url, tokenBeg) {
 
 /******************************************************************************/
 
+var FilterSingleWildcardPrefix0Hostname = function(s, hostname) {
+    this.s = s;
+    var wcOffset = s.indexOf('*');
+    this.lSegment = s.slice(0, wcOffset);
+    this.rSegment = s.slice(wcOffset + 1);
+    this.hostname = hostname;
+};
+
+FilterSingleWildcardPrefix0Hostname.prototype.match = function(url, tokenBeg) {
+    return pageHostname.slice(-this.hostname.length) === this.hostname &&
+           url.substr(tokenBeg, this.lSegment.length) === this.lSegment &&
+           url.indexOf(this.rSegment, tokenBeg + this.lSegment.length) > 0;
+};
+
+/******************************************************************************/
+
+var FilterSingleWildcardPrefix0NotHostname = function(s, hostname) {
+    this.s = s;
+    var wcOffset = s.indexOf('*');
+    this.lSegment = s.slice(0, wcOffset);
+    this.rSegment = s.slice(wcOffset + 1);
+    this.hostname = hostname;
+};
+
+FilterSingleWildcardPrefix0NotHostname.prototype.match = function(url, tokenBeg) {
+    return pageHostname.slice(-this.hostname.length) !== this.hostname &&
+           url.substr(tokenBeg, this.lSegment.length) === this.lSegment &&
+           url.indexOf(this.rSegment, tokenBeg + this.lSegment.length) > 0;
+};
+
+/******************************************************************************/
+
 // With many wildcards, a regex is best.
+
+// Ref: regex escaper taken from:
+// https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
+// modified for the purpose here.
 
 var FilterManyWildcards = function(s, tokenBeg) {
     this.s = s;
-    this.next = undefined;
     this.tokenBeg = tokenBeg;
-    // Ref: escaper taken from:
-    // https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
-    // Except modified for the purpose here.
     this.re = new RegExp('^' + s.replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1').replace(/\*/g, '.*'));
 };
 
@@ -142,15 +308,45 @@ FilterManyWildcards.prototype.match = function(url, tokenBeg) {
 
 /******************************************************************************/
 
-var FilterFactory = function(s, tokenBeg, tokenLen) {
-    var wcOffset = s.indexOf('*');
-    if ( wcOffset > 0 ) {
-        return FilterWildcardFactory(s, tokenBeg);
-    }
-    return FilterPlainFactory(s, tokenBeg);
+var FilterManyWildcardsHostname = function(s, tokenBeg, hostname) {
+    this.s = s;
+    this.tokenBeg = tokenBeg;
+    this.re = new RegExp('^' + s.replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1').replace(/\*/g, '.*'));
+    this.hostname = hostname;
 };
 
-var FilterPlainFactory = function(s, tokenBeg) {
+FilterManyWildcardsHostname.prototype.match = function(url, tokenBeg) {
+    return pageHostname.slice(-this.hostname.length) === this.hostname &&
+           this.re.test(url.slice(tokenBeg - this.tokenBeg));
+};
+
+/******************************************************************************/
+
+var FilterManyWildcardsNotHostname = function(s, tokenBeg, hostname) {
+    this.s = s;
+    this.tokenBeg = tokenBeg;
+    this.re = new RegExp('^' + s.replace(/([.+?^=!:${}()|\[\]\/\\])/g, '\\$1').replace(/\*/g, '.*'));
+    this.hostname = hostname;
+};
+
+FilterManyWildcardsNotHostname.prototype.match = function(url, tokenBeg) {
+    return pageHostname.slice(-this.hostname.length) !== this.hostname &&
+           this.re.test(url.slice(tokenBeg - this.tokenBeg));
+};
+
+/******************************************************************************/
+
+var makeFilter = function(s, tokenBeg) {
+    var wcOffset = s.indexOf('*');
+    if ( wcOffset > 0 ) {
+        if ( (/\*[^*]\*/).test(s) ) {
+            return new FilterManyWildcards(s, tokenBeg);
+        }
+        if ( tokenBeg === 0 ) {
+            return new FilterSingleWildcardPrefix0(s);
+        }
+        return new FilterSingleWildcard(s, tokenBeg);
+    }
     if ( tokenBeg === false ) {
         return new FilterPlainPrefix0(s);
     }
@@ -160,56 +356,48 @@ var FilterPlainFactory = function(s, tokenBeg) {
     return new FilterPlain(s, tokenBeg);
 };
 
-var FilterWildcardFactory = function(s, tokenBeg) {
-    if ( (/\*[^*]\*/).test(s) ) {
-        return new FilterManyWildcards(s, tokenBeg);
+/******************************************************************************/
+
+var makeHostnameFilter = function(s, tokenBeg, hostname) {
+    var wcOffset = s.indexOf('*');
+    if ( wcOffset > 0 ) {
+        if ( (/\*[^*]\*/).test(s) ) {
+            return new FilterManyWildcardsHostname(s, tokenBeg, hostname);
+        }
+        if ( tokenBeg === 0 ) {
+            return new FilterSingleWildcardPrefix0Hostname(s, hostname);
+        }
+        return new FilterSingleWildcardHostname(s, tokenBeg, hostname);
     }
-    if ( tokenBeg === 0 ) {
-        return new FilterSingleWildcardPrefix0(s);
+    if ( tokenBeg === false ) {
+        return new FilterPlainPrefix0Hostname(s, hostname);
     }
-    return new FilterSingleWildcard(s, tokenBeg);
+    if ( tokenBeg === 1 ) {
+        return new FilterPlainPrefix1Hostname(s, hostname);
+    }
+    return new FilterPlainHostname(s, tokenBeg, hostname);
 };
 
 /******************************************************************************/
 
-// Reset all, thus reducing to a minimum memory footprint of the context.
-
-var reset = function() {
-    allowFilterDict = {};
-    blockFilterDict = {};
-    allowFilterCount = 0;
-    blockFilterCount = 0;
-    processedFilterCount = 0;
-    supportedFilterCount = 0;
-
-    // Give chromium's GC a helpful hand
-    var collections = [
-        allow3rdPartyFilters,
-        allowAnyPartyFilters,
-        block3rdPartyFilters,
-        blockAnyPartyFilters
-    ];
-    var filters;
-    while ( filters = collections.pop() ) {
-        var f, fn;
-        for ( var k in filters ) {
-            if ( !filters.hasOwnProperty(k) ) {
-                continue;
-            }
-            f = filters[k];
-            while ( f ) {
-                fn = f.next;
-                f.next = null;
-                f = fn;
-            }
-            filters[k] = null;
+var makeNotHostnameFilter = function(s, tokenBeg, hostname) {
+    var wcOffset = s.indexOf('*');
+    if ( wcOffset > 0 ) {
+        if ( (/\*[^*]\*/).test(s) ) {
+            return new FilterManyWildcardsNotHostname(s, tokenBeg, hostname);
         }
+        if ( tokenBeg === 0 ) {
+            return new FilterSingleWildcardPrefix0NotHostname(s, hostname);
+        }
+        return new FilterSingleWildcardNotHostname(s, tokenBeg, hostname);
     }
-
-    allow3rdPartyFilters = {};
-    allowAnyPartyFilters = {};
-    block3rdPartyFilters = {};
-    blockAnyPartyFilters = {};
+    if ( tokenBeg === false ) {
+        return new FilterPlainPrefix0NotHostname(s, hostname);
+    }
+    if ( tokenBeg === 1 ) {
+        return new FilterPlainPrefix1NotHostname(s, hostname);
+    }
+    return new FilterPlainNotHostname(s, tokenBeg, hostname);
 };
 
 /******************************************************************************/
@@ -273,15 +461,248 @@ var trimChar = function(s, c) {
 
 /******************************************************************************/
 
-// How the key is derived dictates the number and size of buckets.
-
-var makeKey = function(s) {
-    return s;
+var FilterParser = function() {
+    this.f = '';
+    this.fopts = '';
+    this.action = BlockAction;
+    this.hostname = false;
+    this.types = [];
+    this.firstParty = false;
+    this.thirdParty = false;
+    this.hostnames = [];
+    this.notHostnames = [];
+    this.domains = [];
+    this.notDomains = [];
+    this.elemHiding = false;
+    this.unsupported = false;
 };
 
 /******************************************************************************/
 
-var add = function(s) {
+FilterParser.prototype.toNormalizedType = {
+        'stylesheet': 'stylesheet',
+             'image': 'image',
+            'object': 'object',
+ 'object-subrequest': 'object',
+            'script': 'script',
+    'xmlhttprequest': 'xmlhttprequest',
+       'subdocument': 'sub_frame',
+             'other': 'other'
+};
+
+/******************************************************************************/
+
+FilterParser.prototype.reset = function() {
+    this.f = '';
+    this.fopts = '';
+    this.action = BlockAction;
+    this.hostname = false;
+    this.types.length = 0;
+    this.firstParty = false;
+    this.thirdParty = false;
+    this.hostnames.length = 0;
+    this.notHostnames.length = 0;
+    this.domains.length = 0;
+    this.notDomains.length = 0;
+    this.elemHiding = false;
+    this.unsupported = false;
+    return this;
+};
+
+/******************************************************************************/
+
+FilterParser.prototype.parseOptType = function(raw, not) {
+    var type = this.toNormalizedType[raw];
+    if ( not ) {
+        for ( var k in typeNameToTypeValue ) {
+            if ( k === type ) {
+                continue;
+            }
+            this.types.push(typeNameToTypeValue[k]);
+        }
+    } else {
+        this.types.push(typeNameToTypeValue[type]);
+    }
+};
+
+/******************************************************************************/
+
+FilterParser.prototype.parseOptParty = function(not) {
+    if ( not ) {
+        this.firstParty = true;
+    } else {
+        this.thirdParty = true;
+    }
+};
+
+/******************************************************************************/
+
+FilterParser.prototype.parseOptHostnames = function(raw) {
+    var httpsburi = HTTPSB.URI;
+    var hostnames = raw.split('|');
+    var hostname, not, domain;
+    for ( var i = 0; i < hostnames.length; i++ ) {
+        hostname = hostnames[i];
+        not = hostname.charAt(0) === '~';
+        if ( not ) {
+            hostname = hostname.slice(1);
+        }
+        domain = httpsburi.domainFromHostname(hostname);
+        if ( not ) {
+            this.hostnames.push(hostname);
+            this.domains.push(domain);
+        } else {
+            this.notHostnames.push(hostname);
+            this.notDomains.push(domain);
+        }
+    }
+};
+
+/******************************************************************************/
+
+FilterParser.prototype.parse = function(s) {
+    // important!
+    this.reset();
+
+    // element hiding filter?
+    if ( s.indexOf('##') >= 0 || s.indexOf('#@') >= 0 ) {
+        this.elemHiding = true;
+        return this;
+    }
+
+    // block or allow filter?
+    if ( s.slice(0, 2) === '@@' ) {
+        this.action = AllowAction;
+        s = s.slice(2);
+    }
+
+    // hostname anchoring
+    if ( s.slice(0, 2) === '||' ) {
+        this.hostname = true;
+        s = s.slice(2);
+    }
+
+    // unsupported
+    if ( s.charAt(0) === '|' ) {
+        this.unsupported = true;
+        s = s.slice(1);
+    }
+
+    // options
+    var pos = s.indexOf('$');
+    if ( pos > 0 ) {
+        this.fopts = s.slice(pos + 1);
+        s = s.slice(0, pos);
+    }
+
+    // normalize placeholders
+    s = s.replace(/\^/g, '*');
+    s = s.replace(/\*\*+/g, '*');
+    // remove leading and trailing wildcards
+    s = trimChar(s, '*');
+    // remove leading and trailing pipes
+    this.f = trimChar(s, '|');
+
+    if ( !this.fopts ) {
+        return this;
+    }
+
+    // parse options
+    var opts = this.fopts.split(',');
+    var opt, not;
+    for ( var i = 0; i < opts.length; i++ ) {
+        opt = opts[i];
+        not = opt.charAt(0) === '~';
+        if ( not ) {
+            opt = opt.slice(1);
+        }
+        if ( opt === 'third-party' ) {
+            this.parseOptParty(not);
+            continue;
+        }
+        if ( this.toNormalizedType.hasOwnProperty(opt) ) {
+            this.parseOptType(opt, not);
+            continue;
+        }
+        if ( opt.slice(0,7) === 'domain=' ) {
+            this.parseOptHostnames(opt.slice(7));
+            continue;
+        }
+        if ( opt === 'popup' ) {
+            this.elemHiding = true;
+            break;
+        }
+        this.unsupported = true;
+        // console.log('HTTP Switchboard> abp-filter.js/parseOptions(): unsupported option "%s" in filter "%s"', opts[i], s);
+    }
+    return this;
+};
+
+/******************************************************************************/
+/******************************************************************************/
+
+var FilterBucket = function(a, b) {
+    this.filters = [a, b];
+    this.s = '';
+};
+
+/******************************************************************************/
+
+FilterBucket.prototype.add = function(a) {
+    this.filters.push(a);
+};
+
+/******************************************************************************/
+
+FilterBucket.prototype.match = function(url, tokenBeg) {
+    var filters = this.filters;
+    var i = filters.length;
+    while ( i-- ) {
+        if ( filters[i].match(url, tokenBeg) !== false ) {
+            this.s = filters[i].s;
+            return true;
+        }
+    }
+    return false;
+};
+
+/******************************************************************************/
+/******************************************************************************/
+
+var FilterContainer = function() {
+    this.categories = {};
+    this.url = '';
+    this.tokenBeg = 0;
+    this.tokenEnd = 0;
+    this.filterParser = new FilterParser();
+    this.processedFilterCount = 0;
+    this.supportedFilterCount = 0;
+    this.allowFilterCount = 0;
+    this.blockFilterCount = 0;
+};
+
+/******************************************************************************/
+
+FilterContainer.prototype.toDomainBits = function(domain) {
+    if ( domain === undefined ) {
+        return 0;
+    }
+    var i = domain.length >> 2;
+    return (domain.charCodeAt(    0) & 0x01) << 3 |
+           (domain.charCodeAt(    i) & 0x01) << 2 |
+           (domain.charCodeAt(  i+i) & 0x01) << 1 |
+           (domain.charCodeAt(i+i+i) & 0x01) << 0;
+};
+
+/******************************************************************************/
+
+FilterContainer.prototype.makeCategoryKey = function(category) {
+    return String.fromCharCode(category);
+};
+
+/******************************************************************************/
+
+FilterContainer.prototype.add = function(s) {
     // ORDER OF TESTS IS IMPORTANT!
 
     // Ignore empty lines
@@ -294,151 +715,135 @@ var add = function(s) {
         return false;
     }
 
+    var parsed = this.filterParser.parse(s);
+
     // Ignore element-hiding filters
-    if ( reIgnoreElementHide.test(s) ) {
+    if ( parsed.elemHiding ) {
         return false;
     }
 
-    processedFilterCount += 1;
-
-    // Whitelist filters
-    var whitelistFilter = reWhitelist.test(s);
-    if ( whitelistFilter ) {
-        s = s.replace('@@', '');
-    }
-
-    // Ignore unsupported filters
-    if ( reIgnoreFilter.test(s) ) {
-        // console.log('HTTP Switchboard> abp-filter.js/add(): ignoring "%s"', s);
-        return false;
-    }
-
-    // Accept `third-party` condition if it is the only condition
-    var thirdParty = reThirdPartyCondition.test(s);
-    if ( thirdParty ) {
-        s = s.replace('$third-party', '');
-    }
+    this.processedFilterCount += 1;
 
     // Ignore rules with other conditions for now
-    if ( reConditionalRule.test(s) ) {
-        // console.log('HTTP Switchboard> abp-filter.js/add(): ignoring "%s"', s);
+    if ( parsed.unsupported ) {
         return false;
     }
 
-    supportedFilterCount += 1;
+    this.supportedFilterCount += 1;
 
     // Ignore optionless hostname rules, these will be taken care of by HTTPSB.
-    if ( thirdParty === false && whitelistFilter === false && reHostnameRule.test(s) ) {
+    if ( parsed.hostname && !parsed.fopts && parsed.action === BlockAction && reHostnameRule.test(parsed.f) ) {
         return false;
     }
 
-    // Ignore some directives for now
-    s = s.replace(/\^/g, '*');
-    s = s.replace(/\*\*+/g, '*');
-
-    // Remove leading and trailing wildcards
-    s = trimChar(s, '*');
-
-    // Remove trailing pipes
-    s = s.replace(/\|+$/, '');
-
-    // Leading pipe(s) means filter is anchored before the end of hostname
-    var hostnameAnchored = s.indexOf('||') === 0;
-    s = s.replace(/^\|+/, '');
-
-    if ( whitelistFilter ) {
-        if ( addAllowFilter(s, hostnameAnchored, thirdParty) === false ) {
-            // console.log('abp-filters.js> allow filter rejected: "%s"', s);
-            return false;
-        }
-        allowFilterDict[s] = true;
-        allowFilterCount += 1;
-        return true;
-    }
-    
-    if ( addBlockFilter(s, hostnameAnchored, thirdParty) === false ) {
-        // console.log('abp-filters.js> block filter rejected: "%s"', s);
+    if ( this.addFilter(parsed) === false ) {
         return false;
     }
-    blockFilterDict[s] = true;
-    blockFilterCount += 1;
+
+    if ( parsed.action ) {
+        this.allowFilterCount += 1;
+    } else {
+        this.blockFilterCount += 1;
+    }
     return true;
 };
 
 /******************************************************************************/
 
-var addAllowFilter = function(s, hostnameAnchored, thirdParty) {
-    if ( allowFilterDict.hasOwnProperty(s) ) {
-        return false;
-    }
-    if ( thirdParty ) {
-        if ( hostnameAnchored ) {
-            return addHostnameAnchoredFilter(s, allow3rdPartyFilters);
-        }
-        return addAnywhereAnchoredFilter(s, allow3rdPartyFilters);
-    }
-    if ( hostnameAnchored ) {
-        return addHostnameAnchoredFilter(s, allowAnyPartyFilters);
-    }
-    return addAnywhereAnchoredFilter(s, allowAnyPartyFilters);
-};
+FilterContainer.prototype.addFilter = function(parsed) {
+    // TODO: avoid duplicates
 
-/******************************************************************************/
-
-var addBlockFilter = function(s, hostnameAnchored, thirdParty) {
-    if ( blockFilterDict.hasOwnProperty(s) ) {
-        return false;
-    }
-    if ( thirdParty ) {
-        if ( hostnameAnchored ) {
-            return addHostnameAnchoredFilter(s, block3rdPartyFilters);
-        }
-        return addAnywhereAnchoredFilter(s, block3rdPartyFilters);
-    }
-    if ( hostnameAnchored ) {
-        return addHostnameAnchoredFilter(s, blockAnyPartyFilters);
-    }
-    return addAnywhereAnchoredFilter(s, blockAnyPartyFilters);
-};
-
-/******************************************************************************/
-
-var addHostnameAnchoredFilter = function(s, filterCollection) {
-    var matches = findHostnameToken(s);
+    var matches = parsed.hostname ? findHostnameToken(parsed.f) : findFirstGoodToken(parsed.f);
     if ( !matches || !matches[0].length ) {
         return false;
     }
-    return addFilterToCollection(s, matches.index, reHostnameToken.lastIndex, filterCollection);
+    var tokenBeg = matches.index;
+    var tokenEnd = parsed.hostname ? reHostnameToken.lastIndex : reGoodToken.lastIndex;
+    var i, n, filter;
+
+    if ( parsed.hostnames.length || parsed.notHostnames.length ) {
+        n = parsed.hostnames.length;
+        for ( i = 0; i < n; i++ ) {
+            filter = makeHostnameFilter(parsed.f, tokenBeg, parsed.hostnames[i]);
+            this.addFilterEntry(
+                filter,
+                parsed,
+                SpecificParty | this.toDomainBits(parsed.domains[i]),
+                tokenBeg,
+                tokenEnd
+            );
+        }
+        n = parsed.notHostnames.length;
+        for ( i = 0; i < n; i++ ) {
+            filter = makeNotHostnameFilter(parsed.f, tokenBeg, parsed.notHostnames[i]);
+            this.addFilterEntry(
+                filter,
+                parsed,
+                SpecificNotParty | this.toDomainBits(parsed.notDomains[i]),
+                tokenBeg,
+                tokenEnd
+            );
+        }
+    } else {
+        filter = makeFilter(parsed.f, tokenBeg);
+        if ( parsed.firstParty ) {
+            this.addFilterEntry(filter, parsed, FirstParty, tokenBeg, tokenEnd);
+        } else if ( parsed.thirdParty ) {
+            this.addFilterEntry(filter, parsed, ThirdParty, tokenBeg, tokenEnd);
+        } else {
+            this.addFilterEntry(filter, parsed, AnyParty, tokenBeg, tokenEnd);
+        }
+    }
+    return true;
 };
 
 /******************************************************************************/
 
-var addAnywhereAnchoredFilter = function(s, filterCollection) {
-    var matches = findFirstGoodToken(s);
-    if ( !matches || !matches[0].length ) {
-        return false;
-    }
-    return addFilterToCollection(s, matches.index, reGoodToken.lastIndex, filterCollection);
-};
-
-/******************************************************************************/
-
-var addFilterToCollection = function(s, tokenBeg, tokenEnd, filterCollection) {
-    var token = s.slice(tokenBeg, tokenEnd);
-
-    var filter = FilterFactory(s, tokenBeg, token.length);
-    if ( !filter ) {
-        return false;
-    }
-
+FilterContainer.prototype.addFilterEntry = function(filter, parsed, party, tokenBeg, tokenEnd) {
+    var s = parsed.f;
     var prefixKey = trimChar(s.substring(tokenBeg - 1, tokenBeg), '*');
     var suffixKey = trimChar(s.substring(tokenEnd, tokenEnd + 2), '*');
-    var tokenKey = makeKey(prefixKey + token + suffixKey);
+    var tokenKey = prefixKey + s.slice(tokenBeg, tokenEnd) + suffixKey;
+    if ( parsed.types.length === 0 ) {
+        this.addToCategory(parsed.action | AnyType | party, tokenKey, filter);
+        return;
+    }
+    var n = parsed.types.length;
+    for ( var i = 0; i < n; i++ ) {
+        this.addToCategory(parsed.action | parsed.types[i] | party, tokenKey, filter);
+    }
+};
 
-    filter.next = filterCollection[tokenKey];
-    filterCollection[tokenKey] = filter;
+/******************************************************************************/
 
-    return true;
+FilterContainer.prototype.addToCategory = function(category, tokenKey, filter) {
+    var categoryKey = this.makeCategoryKey(category);
+    var categoryBucket = this.categories[categoryKey];
+    if ( !categoryBucket ) {
+        categoryBucket = this.categories[categoryKey] = {};
+    }
+    var filterEntry = categoryBucket[tokenKey];
+    if ( filterEntry === undefined ) {
+        categoryBucket[tokenKey] = filter;
+        return;
+    }
+    if ( filterEntry instanceof FilterBucket ) {
+        filterEntry.add(filter);
+        return;
+    }
+    categoryBucket[tokenKey] = new FilterBucket(filterEntry, filter);
+};
+
+/******************************************************************************/
+
+// Reset all, thus reducing to a minimum memory footprint of the context.
+
+FilterContainer.prototype.reset = function() {
+    this.processedFilterCount = 0;
+    this.supportedFilterCount = 0;
+    this.allowFilterCount = 0;
+    this.blockFilterCount = 0;
+    this.categories = {};
 };
 
 /******************************************************************************/
@@ -472,26 +877,29 @@ var adbProfiler = {
     dummy: 0
 };
 */
-
 /*
-var histogram = function(label, collection) {
-    var h = [];
-    var n, f;
-    for ( var k in collection ) {
-        if ( !collection.hasOwnProperty(k) ) {
+var histogram = function(label, categories) {
+    var h = [],
+        categoryBucket;
+    for ( var k in categories ) {
+        if ( categories.hasOwnProperty(k) === false ) {
             continue;
         }
-        n = 1;
-        f = collection[k];
-        while ( f.next ) {
-            f = f.next;
-            n += 1;
+        categoryBucket = categories[k];
+        for ( var kk in categoryBucket ) {
+            if ( categoryBucket.hasOwnProperty(kk) === false ) {
+                continue;
+            }
+            filterBucket = categoryBucket[kk];
+            h.push({
+                k: k + ' ' + kk,
+                n: filterBucket instanceof FilterBucket ? filterBucket.filters.length : 1
+            });
         }
-        h.push({ k: k, n: n });
     }
     var total = h.length;
     h.sort(function(a, b) { return b.n - a.n; });
-    h = h.slice(0, 20);
+    h = h.slice(0, 50);
 
     console.log('Histogram %s', label);
     h.forEach(function(v) {
@@ -502,66 +910,6 @@ var histogram = function(label, collection) {
 */
 
 /*
-2014-04-12
-Top 20 bucket size:
-Histogram blockAnyPartyFilters
-    key=/ad_s  count=28
-    key=cloudfront.n  count=25
-    key=yahoo.c  count=25
-    key=/cgi-b  count=24
-    key=/wp-c  count=22
-    key=amazonaws.c  count=22
-    key=/ads/s  count=21
-    key=distrowatch.c  count=21
-    key=/ads/p  count=18
-    key=/ad_l  count=18
-    key=/ad_b  count=17
-    key=/ads/  count=17
-    key=/ads/b  count=17
-    key=.gif?  count=17
-    key=/ad_c  count=17
-    key=messianictimes.c  count=16
-    key=/ad_t  count=16
-    key=/ad_h  count=15
-    key=/ad_f  count=15
-    key=/ad_r  count=14
-    Total buckets count: 13312
-
-Histogram block3rdPartyFilters
-    key=doubleclick.n  count=90
-    key=facebook.c  count=23
-    key=apis.g  count=7
-    key=assoc-a  count=7
-    key=platform.t  count=6
-    key=reddit.c  count=6
-    key=draugiem.l  count=6
-    key=free-c  count=4
-    key=vk.c  count=4
-    key=banners.p  count=4
-    key=hit-c  count=4
-    key=images-a  count=4
-    key=ad-s  count=4
-    key=a-c  count=4
-    key=777-p  count=4
-    key=pricegrabber.c  count=4
-    key=adultfriendfinder.c  count=4
-    key=e-p  count=3
-    key=widgets.t  count=3
-    key=api.t  count=3 
-    Total buckets count: 6244
-
-TL;DR:
-    Worst case scenario for `blockAnyPartyFilters` = 28 filters to test
-    Worst case scenario for `block3rdPartyFilters` = 90 filters to test
-
-    In both collections, worst case scenarios are a very small minority of the
-    whole set.
-    
-    Memory footprint could be further reduced by using a hashed token for all
-    those buckets which contain less than [?] filters (and splitting the maps
-    in two, one for token-as-hash and the other for good-hash-from-token).
-    Side effects: added overhead, improved memory footprint.
-
 2014-04-13:
     Did collect some objective measurements today, using "15 top
     news web sites" benchmark. Here:
@@ -603,81 +951,140 @@ TL;DR:
     cache mechanism to avoid testing URL, which is probably an attempt at
     mitigating the cost of testing so many filters for each URL. ABP's cache
     mechanism itself is another reason ABP is memory-hungry.
+    
+2014-05-13:
+
+New histogram (see history on github for older histograms). All filters sit
+in virtually one collection. 
+
+Top 50 (key prefix removed because it displayed as garbage):
+	key= doubleclick.n  count=91
+	key= 2mdn.n  count=31
+	key= google-a  count=28
+	key= /ad_s  count=28
+	key= 2mdn.n  count=26
+	key= yahoo.c  count=25
+	key= /cgi-b  count=24
+	key= cloudfront.n  count=22
+	key= pagead2.g  count=22
+	key= /ads/s  count=21
+	key= distrowatch.c  count=21
+	key= amazonaws.c  count=20
+	key= 2mdn.n  count=20
+	key= google-a  count=20
+	key= 2mdn.n  count=19
+	key= doubleclick.n  count=19
+	key= doubleclick.n  count=19
+	key= 2mdn.n  count=19
+	key= 2mdn.n  count=18
+	key= .gif?  count=18
+	key= /ad_l  count=18
+	key= /ads/p  count=18
+	key= 2mdn.n  count=17
+	key= /ads/b  count=17
+	key= /ads/  count=17
+	key= /ad_c  count=17
+	key= /ad_b  count=17
+	key= pagead2.g  count=16
+	key= messianictimes.c  count=16
+	key= /ad_t  count=16
+	key= /ad_f  count=15
+	key= /ad_h  count=15
+	key= /wp-c  count=15
+	key= hulu.c  count=15
+	key= 2mdn.n  count=14
+	key= /google_a  count=14
+	key= /ad/s  count=14
+	key= /ad_r  count=14
+	key= 2mdn.n  count=14
+	key= /ad_p  count=13
+	key= /ad-i  count=13
+	key= /google-a  count=13
+	key= /ss/  count=13
+	key= /ads/a  count=13
+	key= /ad-l  count=13
+	key= g.d  count=13
+	key= .net/a  count=12
+	key= facebook.c  count=12
+	key= 2mdn.n  count=12
+	key= js.r  count=12
+	Total buckets count: 22149
+
+TL;DR:
+    Worst case scenario = 91 filters to test
+
+    In both collections, worst case scenarios are a very small minority of the
+    whole set.
+    
+    Memory footprint could be further reduced by using a hashed token for all
+    those buckets which contain less than [?] filters (and splitting the maps
+    in two, one for token-as-hash and the other for good-hash-from-token).
+    Side effects: added overhead, improved memory footprint.
+
+Need to measure average test count/URL, roughly under 10 last time I checked
+with the new code.
+
 */
 
 /******************************************************************************/
 
-var freeze = function() {
-    allowFilterDict = {};
-    blockFilterDict = {};
-    //histogram('blockAnyPartyFilters', blockAnyPartyFilters);
-    //histogram('block3rdPartyFilters', block3rdPartyFilters);
+FilterContainer.prototype.freeze = function() {
+    // histogram('allFilters', this.categories);
 };
 
 /******************************************************************************/
 
-var matchStringToFilterChain = function(f, url, tokenBeg) {
-    while ( f !== undefined ) {
-        // adbProfiler.countTest();
-        if ( f.match(url, tokenBeg, tokenBeg) ) {
-            // console.log('abp-filters.js> matchStringToFilterChain(): "%s" matches "%s"', f.s, url);
+FilterContainer.prototype.matchToken = function(category) {
+    var categoryBucket = this.categories[this.makeCategoryKey(category)];
+    if ( categoryBucket === undefined ) {
+        return false;
+    }
+    var url = this.url;
+    var beg = this.tokenBeg;
+    var end = this.tokenEnd;
+    var right = url.length - end;
+    var f;
+    
+    if ( right > 1 ) {
+        if ( beg !== 0 ) {
+            f = categoryBucket[url.slice(beg-1, end+2)];
+            if ( f !== undefined && f.match(url, beg) !== false ) {
+                return f.s;
+            }
+        }
+        f = categoryBucket[url.slice(beg, end+2)];
+        if ( f !== undefined && f.match(url, beg) !== false ) {
             return f.s;
         }
-        f = f.next;
+    }
+    if ( right > 0 ) {
+        if ( beg !== 0 ) {
+            f = categoryBucket[url.slice(beg-1, end+1)];
+            if ( f !== undefined && f.match(url, beg) !== false ) {
+                return f.s;
+            }
+        }
+        f = categoryBucket[url.slice(beg, end+1)];
+        if ( f !== undefined && f.match(url, beg) !== false ) {
+            return f.s;
+        }
+    }
+    if ( beg !== 0 ) {
+        f = categoryBucket[url.slice(beg-1, end)];
+        if ( f !== undefined && f.match(url, beg) !== false ) {
+            return f.s;
+        }
+    }
+    f = categoryBucket[url.slice(beg, end)];
+    if ( f !== undefined && f.match(url, beg) !== false ) {
+        return f.s;
     }
     return false;
 };
 
 /******************************************************************************/
 
-var matchStringToFilterCollection = function(filterCollection, url, tokenBeg, tokenEnd) {
-    var f;
-    var token = url.slice(tokenBeg, tokenEnd);
-    var prefixKey = url.substring(tokenBeg - 1, tokenBeg);
-    var suffixKey = url.substring(tokenEnd, tokenEnd + 2);
-    var matchFn = matchStringToFilterChain;
-
-    if ( suffixKey.length > 1 ) {
-        if ( prefixKey !== '' ) {
-            f = matchFn(filterCollection[makeKey(prefixKey + token + suffixKey)], url, tokenBeg);
-            if ( f !== false ) {
-                return f;
-            }
-        }
-        f = matchFn(filterCollection[makeKey(token + suffixKey)], url, tokenBeg);
-        if ( f !== false ) {
-            return f;
-        }
-    }
-    if ( suffixKey !== '' ) {
-        if ( prefixKey !== '' ) {
-            f = matchFn(filterCollection[makeKey(prefixKey + token + suffixKey.charAt(0))], url, tokenBeg);
-            if ( f !== false ) {
-                return f;
-            }
-        }
-        f = matchFn(filterCollection[makeKey(token + suffixKey.charAt(0))], url, tokenBeg);
-        if ( f !== false ) {
-            return f;
-        }
-    }
-    if ( prefixKey !== '' ) {
-        f = matchFn(filterCollection[makeKey(prefixKey + token)], url, tokenBeg);
-        if ( f !== false ) {
-            return f;
-        }
-    }
-    f = matchFn(filterCollection[makeKey(token)], url, tokenBeg);
-    if ( f !== false ) {
-        return f;
-    }
-
-    return false;
-};
-
-/******************************************************************************/
-
-var matchString = function(url, srcDomain, dstHostname) {
+FilterContainer.prototype.matchString = function(pageStats, url, requestType, requestHostname) {
     // adbProfiler.countUrl();
     // adbProfiler.testCounter(true);
 
@@ -685,7 +1092,7 @@ var matchString = function(url, srcDomain, dstHostname) {
     // Convert url to lower case:
     //     `match-case` option not supported, but then, I saw only one
     //     occurrence of it in all the supported lists (bulgaria list).
-    url = url.toLowerCase();
+    this.url = url.toLowerCase();
 
     // The logic here is simple:
     //
@@ -700,25 +1107,38 @@ var matchString = function(url, srcDomain, dstHostname) {
     // filters in the same loop.
 
     var matches;
-    var tokenBeg, tokenEnd;
-    var thirdParty = dstHostname.lastIndexOf(srcDomain) !== (dstHostname.length - srcDomain.length);
+    var pageDomain = pageStats.pageDomain;
+    var party = requestHostname.slice(-pageDomain.length) === pageDomain ?
+        FirstParty :
+        ThirdParty;
+    var domainParty = this.toDomainBits(pageDomain);
+    var type = typeNameToTypeValue[requestType];
     var bf = false;
-    
+
+    // This will be used by hostname-based filter
+    pageHostname = pageStats.pageHostname;
+
     // Test against block filters
     reAnyToken.lastIndex = 0;
     while ( matches = reAnyToken.exec(url) ) {
-        tokenBeg = matches.index;
-        tokenEnd = reAnyToken.lastIndex;
-        if ( thirdParty ) {
-            bf = matchStringToFilterCollection(block3rdPartyFilters, url, tokenBeg, tokenEnd);
-            if ( bf !== false ) {
-                break;
-            }
-        }
-        bf = matchStringToFilterCollection(blockAnyPartyFilters, url, tokenBeg, tokenEnd);
-        if ( bf !== false ) {
-            break;
-        }
+        this.tokenBeg = matches.index;
+        this.tokenEnd = reAnyToken.lastIndex;
+        bf = this.matchToken(BlockAnyTypeAnyParty);
+        if ( bf !== false ) { break; }
+        bf = this.matchToken(BlockAnyType | party);
+        if ( bf !== false ) { break; }
+        bf = this.matchToken(BlockAnyTypeOneParty | domainParty);
+        if ( bf !== false ) { break; }
+        bf = this.matchToken(BlockAnyTypeOtherParties | domainParty);
+        if ( bf !== false ) { break; }
+        bf = this.matchToken(BlockAnyParty | type);
+        if ( bf !== false ) { break; }
+        bf = this.matchToken(BlockAction | type | party);
+        if ( bf !== false ) { break; }
+        bf = this.matchToken(BlockOneParty | type | domainParty);
+        if ( bf !== false ) { break; }
+        bf = this.matchToken(BlockOtherParties | type | domainParty);
+        if ( bf !== false ) { break; }
     }
 
     // If there was no block filter, no need to test against allow filters
@@ -726,19 +1146,27 @@ var matchString = function(url, srcDomain, dstHostname) {
         return false;
     }
 
-    // Blocked, so we need to test against allow filters 
+    // Test against allow filters
     reAnyToken.lastIndex = 0;
     while ( matches = reAnyToken.exec(url) ) {
-        tokenBeg = matches.index;
-        tokenEnd = reAnyToken.lastIndex;
-        if ( thirdParty ) {
-            if ( matchStringToFilterCollection(allow3rdPartyFilters, url, tokenBeg, tokenEnd) !== false ) {
-                return false;
-            }
-        }
-        if ( matchStringToFilterCollection(allowAnyPartyFilters, url, tokenBeg, tokenEnd) !== false ) {
-            return false;
-        }
+        this.tokenBeg = matches.index;
+        this.tokenEnd = reAnyToken.lastIndex;
+        if ( this.matchToken(AllowAnyTypeAnyParty) !== false )
+            { return false; }
+        if ( this.matchToken(AllowAnyType | party) !== false )
+            { return false; }
+        if ( this.matchToken(AllowAnyTypeOneParty | domainParty) !== false )
+            { return false; }
+        if ( this.matchToken(AllowAnyTypeOtherParties | domainParty) !== false )
+            { return false; }
+        if ( this.matchToken(AllowAnyParty | type) !== false )
+            { return false; }
+        if ( this.matchToken(AllowAction | type | party) !== false )
+            { return false; }
+        if ( this.matchToken(AllowOneParty | type | domainParty) !== false )
+            { return false; }
+        if ( this.matchToken(AllowOtherParties | type | domainParty) !== false )
+            { return false; }
     }
 
     return bf;
@@ -746,19 +1174,13 @@ var matchString = function(url, srcDomain, dstHostname) {
 
 /******************************************************************************/
 
-var getFilterCount = function() {
-    return blockFilterCount + allowFilterCount;
+FilterContainer.prototype.getFilterCount = function() {
+    return this.blockFilterCount + this.allowFilterCount;
 };
 
 /******************************************************************************/
 
-HTTPSB.abpFilters = {
-    add: add,
-    freeze: freeze,
-    reset: reset,
-    matchString: matchString,
-    getFilterCount: getFilterCount
-};
+HTTPSB.abpFilters = new FilterContainer();
 
 /******************************************************************************/
 

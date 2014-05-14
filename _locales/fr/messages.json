@@ -430,12 +430,12 @@
         "description": "English: {{used}} used out of {{total}}"
     },
     "ubiquitousParseAllABPFiltersPrompt1" : {
-        "message": "Utiliser en plus les règles Adblock Plus avancées (beta).",
-        "description": "English: Parse and enforce Adblock+ complex filters (beta)."
+        "message": "Utiliser en plus les règles Adblock Plus avancées.",
+        "description": "English: Parse and enforce Adblock+ complex filters."
     },
     "ubiquitousParseAllABPFiltersPrompt2" : {
         "message": "{{abpFilterCount}} règles Adblock Plus avancées utilisées.",
-        "description": "English: Parse and enforce Adblock+ complex filters (beta)."
+        "description": "English: {{abpFilterCount}} complex filters used."
     },
     "ubiquitousParseAllABPFiltersInfo" : {
         "message": "<p>En temps normal, <i>HTTP Switchboard</i> n'extrait depuis les listes compatibles <i>Adblock Plus</i> <b>que</b> les filtres utilisés pour bloquer un domaine entier spécifique (par exemple : &ldquo;<b>||a.ucoz.net^</b>&rdquo;).</p><p>Cette option permet d'également utiliser des filtres <i>Adblock Plus</i> plus élaborés (par exemple : &ldquo;<b>/adwords-conversion-tracking.</b>&rdquo;). Ces filtres complexes sont incompatibles avec la matrice; ainsi ils sont utilisés &ldquo;en interne&rdquo; pour vérifier si une requête réseau devrait être bloquée ou non, et l'interaction utilisateur est limitée.</p><p>Même si cette option est activée, les filtres <i>Adblock Plus</i> utilisés pour <a href=\"https://adblockplus.org/en/filters#elemhide\">cacher des éléments</a> demeureront ignorés.</p><p>L'utilisation en mémoire vive est plus importante lorsque vous utilisez cette fonctionnalité.</p>",

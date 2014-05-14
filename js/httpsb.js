@@ -645,10 +645,14 @@ HTTPSB.filterRequest = function(fromURL, type, toURL) {
 
     // Block by ABP filters?
     if ( scope.abpFiltering !== false ) {
-        var fromDomain = this.URI.domainFromURI(fromURL);
-        var r = this.abpFilters.matchString(toURL, fromDomain, toHostname);
-        if ( r !== false ) {
-            return 'ABP filter: ' + r;
+        // It really doesn't have to be `pageStats`, ABP filtering engine just
+        // requires an object with `pageDomain` and `pageHostname` properties.
+        var pageStats = this.pageStatsFromPageUrl(fromURL);
+        if ( pageStats ) {
+            var r = this.abpFilters.matchString(pageStats, toURL, type, toHostname);
+            if ( r !== false ) {
+                return 'ABP filter: ' + r;
+            }
         }
     }
 

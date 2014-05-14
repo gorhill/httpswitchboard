@@ -280,9 +280,9 @@ var onBeforeRequestHandler = function(details) {
 
     // quickProfiler.start();
 
-    var type = details.type;
+    var requestType = details.type;
 
-    if ( type === 'main_frame' && details.parentFrameId < 0 ) {
+    if ( requestType === 'main_frame' && details.parentFrameId < 0 ) {
         return onBeforeRootFrameRequestHandler(details);
     }
 
@@ -290,7 +290,7 @@ var onBeforeRequestHandler = function(details) {
 
     // Do not block myself from updating assets
     // https://github.com/gorhill/httpswitchboard/issues/202
-    if ( type === 'xmlhttprequest' ) {
+    if ( requestType === 'xmlhttprequest' ) {
         if ( requestURL.slice(0, httpsb.projectServerRoot.length) === httpsb.projectServerRoot ) {
             // quickProfiler.stop('onBeforeRequest');
             return;
@@ -326,20 +326,20 @@ var onBeforeRequestHandler = function(details) {
     // rhill 2013-12-15:
     // Try to transpose generic `other` category into something more
     // meaningful.
-    if ( type === 'other' ) {
-        type = httpsb.transposeType(type, requestPath);
+    if ( requestType === 'other' ) {
+        requestType = httpsb.transposeType(requestType, requestPath);
     }
 
     // Block request?
     var scopeKey = httpsb.temporaryScopeKeyFromPageURL(pageURL);
-    var block = httpsb.evaluateFromScopeKey(scopeKey, type, requestHostname).charAt(0) === 'r';
+    var block = httpsb.evaluateFromScopeKey(scopeKey, requestType, requestHostname).charAt(0) === 'r';
     var reason;
 
     // Block using ABP filters?
     if ( block === false ) {
         var scope = httpsb.temporaryScopeFromScopeKey(scopeKey);
         if ( scope.abpFiltering === true ) {
-            block = httpsb.abpFilters.matchString(requestURL, pageStats.pageDomain, requestHostname);
+            block = httpsb.abpFilters.matchString(pageStats, requestURL, requestType, requestHostname);
             if ( block !== false ) {
                 pageStats.abpBlockCount += 1;
                 httpsb.abpBlockCount += 1;
@@ -349,10 +349,10 @@ var onBeforeRequestHandler = function(details) {
     }
 
     // Page stats
-    pageStats.recordRequest(type, requestURL, block, reason);
+    pageStats.recordRequest(requestType, requestURL, block, reason);
 
     // Global stats
-    httpsb.requestStats.record(type, block);
+    httpsb.requestStats.record(requestType, block);
 
     // whitelisted?
     if ( !block ) {
@@ -368,7 +368,7 @@ var onBeforeRequestHandler = function(details) {
     // rhill 2013-11-05: The root frame contains a link to noop.css, this
     // allows to later check whether the root frame has been unblocked by the
     // user, in which case we are able to force a reload using a redirect.
-    if ( type === 'sub_frame' ) {
+    if ( requestType === 'sub_frame' ) {
         var html = subFrameReplacement
             .replace(/{{fontUrl}}/g, httpsb.fontCSSURL)
             .replace(/{{hostname}}/g, requestHostname)
