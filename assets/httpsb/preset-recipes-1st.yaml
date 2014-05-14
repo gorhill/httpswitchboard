@@ -248,6 +248,15 @@ JSFIDDLE:
             frame jshell.net    
             * togetherjs.com    
 
+Lifehacker:
+    keys: '*.lifehacker.com'
+    scope: '*.lifehacker.com'
+        whitelist: |
+            * lifehacker.com
+            * kinja.com
+            * kinja-img.com
+            * kinja-static.com
+
 Los Angeles Times:
     keys: '*.latimes.com'
     scope: '*.latimes.com'
