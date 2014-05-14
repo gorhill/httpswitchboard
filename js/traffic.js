@@ -223,7 +223,7 @@ var onBeforeRootFrameRequestHandler = function(details) {
         if ( tabId !== httpsb.behindTheSceneTabId ) {
             httpsb.cookieHunter.recordPageCookies(pageStats);
         }
-        // quickProfiler.stop('onBeforeRequest');
+        // quickProfiler.stop();
         return;
     }
 
@@ -247,7 +247,7 @@ var onBeforeRootFrameRequestHandler = function(details) {
     html = html.replace(/{{now}}/g, String(Date.now()));
     var dataURI = 'data:text/html;base64,' + btoa(html);
 
-    // quickProfiler.stop('onBeforeRequest');
+    // quickProfiler.stop();
     
     return { "redirectUrl": dataURI };
 };
@@ -278,7 +278,7 @@ var onBeforeRequestHandler = function(details) {
         return;
     }
 
-    // quickProfiler.start();
+    // quickProfiler.start('onBeforeRequest');
 
     var requestType = details.type;
 
@@ -292,7 +292,7 @@ var onBeforeRequestHandler = function(details) {
     // https://github.com/gorhill/httpswitchboard/issues/202
     if ( requestType === 'xmlhttprequest' ) {
         if ( requestURL.slice(0, httpsb.projectServerRoot.length) === httpsb.projectServerRoot ) {
-            // quickProfiler.stop('onBeforeRequest');
+            // quickProfiler.stop();
             return;
         }
     }
@@ -357,7 +357,7 @@ var onBeforeRequestHandler = function(details) {
     // whitelisted?
     if ( !block ) {
         // console.debug('onBeforeRequestHandler()> ALLOW "%s": %o', details.url, details);
-        // quickProfiler.stop('onBeforeRequest');
+        // quickProfiler.stop();
         return;
     }
 
@@ -373,11 +373,11 @@ var onBeforeRequestHandler = function(details) {
             .replace(/{{fontUrl}}/g, httpsb.fontCSSURL)
             .replace(/{{hostname}}/g, requestHostname)
             .replace(/{{opacity}}/g, httpsb.userSettings.subframeOpacity.toFixed(2));
-        // quickProfiler.stop('onBeforeRequest');
+        // quickProfiler.stop();
         return { 'redirectUrl': 'data:text/html,' + encodeURIComponent(html) };
     }
 
-    // quickProfiler.stop('onBeforeRequest');
+    // quickProfiler.stop();
 
     return { "cancel": true };
 };

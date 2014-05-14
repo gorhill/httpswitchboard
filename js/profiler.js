@@ -30,6 +30,7 @@ var time = 0;
 var count = -3;
 var tstart = 0;
 var lastlog = timer.now();
+var prompt = '';
 
 /******************************************************************************/
 
@@ -47,19 +48,20 @@ var avg = function() {
 
 /******************************************************************************/
 
-var start = function() {
+var start = function(s) {
+    prompt = s || '';
     tstart = timer.now();
 };
 
 /******************************************************************************/
 
-var stop = function(s) {
+var stop = function() {
     count += 1;
     if ( count > 0 ) {
         var now = timer.now();
         time += (now - tstart);
         if ( (now - lastlog) > 10000 ) {
-            console.log('HTTP Switchboard() > %s: %s ms', s, avg().toFixed(3));
+            console.log('HTTP Switchboard() > %s: %s ms', prompt, avg().toFixed(3));
             lastlog = now;
         }
     }
