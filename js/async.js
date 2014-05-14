@@ -146,18 +146,19 @@ function gotoExtensionURL(url) {
     //   to the right of the active tab
     chrome.tabs.query({ active: true }, function(tabs) {
         var index = tabs.length ? tabs[0].index : 9999;
-        chrome.tabs.query({ url: url }, function(tabs) {
-            // Activate found matching tab
-            if ( tabs.length ) {
-                // Commented out as per:
-                // https://github.com/gorhill/httpswitchboard/issues/150#issuecomment-32683726
-                // chrome.tabs.move(tabs[0].id, { index: index + 1 });
-                chrome.tabs.update(tabs[0].id, { active: true });
+        chrome.tabs.query({ currentWindow: true }, function(tabs) {
+            var i = tabs.length;
+            while ( i-- ) {
+                if ( tabs[i].url === url ) {
+                    // Activate found matching tab
+                    // Commented out as per:
+                    // https://github.com/gorhill/httpswitchboard/issues/150#issuecomment-32683726
+                    // chrome.tabs.move(tabs[0].id, { index: index + 1 });
+                    chrome.tabs.update(tabs[i].id, { active: true });
+                    return;
+                }
             }
-            // If it doesn't exist, create new tab
-            else {
-                chrome.tabs.create({ 'url': url, index: index + 1 });
-            }
+            chrome.tabs.create({ 'url': url, index: index + 1 });
         });
     });
 }
