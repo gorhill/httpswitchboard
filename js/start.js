@@ -173,17 +173,3 @@ function clearBrowserCacheCallback() {
 HTTPSB.asyncJobs.add('clearBrowserCache', null, clearBrowserCacheCallback, 15 * 60 * 1000, true);
 
 /******************************************************************************/
-
-chrome.commands.onCommand.addListener( function( command ) {
-   var extensionURL;
-   switch ( command ) {
-   case 'open-statistics': extensionURL = 'dashboard.html#statistics'; break;
-   case 'open-ubiquitous-rules': extensionURL = 'dashboard.html#ubiquitous-rules'; break;
-   case 'open-scoped-rules': extensionURL = 'dashboard.html#scoped-rules'; break;
-   case 'open-settings': extensionURL = 'dashboard.html#settings'; break;
-   }
-   if ( extensionURL ) {
-      chrome.runtime.sendMessage( { what: 'gotoExtensionURL',
-                                     url: extensionURL } );
-   }
-});
