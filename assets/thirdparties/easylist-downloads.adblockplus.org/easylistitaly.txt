@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: L2ADJTw6EG55qHLHcHF4fQ
-! Version: 201405081741
+! Checksum: qtjfNWfou1dOCMoWEOKbKw
+! Version: 201405141921
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 08 May 2014 17:41 UTC
+! Ultima modifica: 14 May 2014 19:21 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -463,6 +463,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||upcom.it^*/banner/
 ||uplink.aruba.it^$third-party
 ||vantaggiando.it/banners/
+||vhf.tbiz.it^
 ||viagogo.it/feeds/widget.ashx?*&affiliateid=$subdocument
 ||virginpoker.it/pub/
 ||webalice.it/blackberry_09/trovadeal/
@@ -470,6 +471,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||widget.promoqui.it^
 ||ws.shoppydoo.com^$third-party
 ||wtpn.twenga.de^
+||wtpn.twenga.it^
 ||yoox.it/view.aspx?$subdocument,third-party
 ||yoppinho.com/public/scambio_banner/
 ||youbuy.it/banner/
@@ -575,7 +577,12 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||avmagazine.it/css/2010/skin/
 ||avmagazine.it/immagini/2013_05_02_educal_2013_500.jpg
 ||avvenire.it/Lists/Banners/
+||avvenire.it/PublishingImages/Piccoli%20Annuci/
+||avvenire.it^*/300x250trecani.swf
+||avvenire.it^*/OSF_banner300x250marzo.gif
+||avvenire.it^*/piccoliannunci.aspx
 ||avvenire.it^*/skin_
+||avvenire.it^*/skincei1.jpg
 ||aziendeonline.biz/db/banner_
 ||babboleo.it/images/banners/
 ||badtaste.it/file/amazon/
@@ -962,6 +969,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||ilsole24ore.com^*/spot_include.shtml
 ||ilsole24ore.com^*_pubb.jpg
 ||iltaccoditalia.info/banner/
+||iltempo.it^*/unicusano.jpg
 ||ilvelino.it^*/banner/
 ||ilwebmaster21.it/script1.js
 ||indie-roccia.it/itunesbox.php?
@@ -1005,6 +1013,9 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||julienews.it/upload/banner/
 ||juventus.com^*/bannerscene?
 ||juventus.com^*/sponsor_
+||kveeniland.com/dwnd.png
+||kveeniland.com/guarda.png
+||kveeniland.com/scarica.png
 ||labisalta.it/pubb/
 ||ladige.it/internal/immobiliare/
 ||ladigetto.it/files/banners/
@@ -1166,6 +1177,8 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||oas.repubblica.it^
 ||occhiodisalerno.com/images/banners/
 ||oggitreviso.it/files/fascevittoriofilm.jpg
+||oilproject.org/static/images/logotimhome.png
+||oilproject.org/static/images/studiacontim.png
 ||oipamagazine.eu/banner_
 ||oipamagazine.eu^*/banner-
 ||oipamagazine.eu^*/banner/
@@ -1207,6 +1220,9 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||poliziamunicipale.it/script/getbnr.aspx?
 ||pornovideoitaliano.com/bitter728.jpg
 ||pornovideoitaliano.com^*/animazione
+||poseidonbistro.com/dwnd.png
+||poseidonbistro.com/guarda.png
+||poseidonbistro.com/scarica.png
 ||positanonews.it/include_gen/banner_
 ||positanonews.it/publicnew/banners/
 ||primapaginamolise.it/banner/
@@ -1259,6 +1275,9 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||radioglobo.it/img/banner/
 ||radioglobo.it/img/bg/bg_
 ||radiogold.it^*/banner/
+||radiomanamana.it/stylerays.png
+||radiomanamana.it/universita_on_line.jpg
+||radiomanamana.it^*/skin-radiomana.png
 ||radiomanasport.it^*/EU.jpg
 ||radiomarte.it/site/images/sponsor/
 ||radiomondo.it/images/banners/
@@ -1442,6 +1461,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||telefonino.net/offerte_kelkoo/
 ||telefonino.net/shopping/
 ||telenord.it^*/Banner-
+||telenuovo.it^*/banner/
 ||telestense.it/wp-content/banners/
 ||telesud3.com/banner/
 ||telesud3.com/images/banner/
@@ -1455,6 +1475,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||terninrete.it/skins/terninrete2/images/headings/head_ha_suggerimenti_da_google.gif
 ||terranauta.it/banner/
 ||tesionline.it/v2/img/skin/
+||tggialloblu.it/images/banner-
 ||therockblog.net^*/banner-
 ||ticinofinanza.ch/banner/
 ||ticinolive.ch/files/banners/
@@ -1535,6 +1556,9 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||videofamosi.com^$subdocument
 ||videogame.it/arturo/vast/eas?
 ||videogame.it^*/adv/
+||videohifi.com^*/AcusticaApplicata690x90.jpg
+||videohifi.com^*/MONITORAUDIO.JPG
+||videohifi.com^*/SICK4MILK.png
 ||videopornoitaliani.com/banner/random/
 ||videopornoitaliani.com/banner/top/
 ||videopornoitaliani.com/images/banner_
@@ -1806,6 +1830,7 @@ ciao.it###mod_ph_merchoffer
 red-live.it###mpu
 ebay.it###mpu-container
 vivicool.it###navpages
+kveeniland.com,poseidonbistro.com###nebanner
 telefonino.net###news336x280GoogleBox
 agimondo.it###overhp
 studiocataldi.it###overlayer
@@ -1846,6 +1871,8 @@ metalitalia.com###sidebar-top
 mister-x.it###siti_amici
 clandestinoweb.com,tesionline.it###skin
 serviziopubblico.it###skin-leaderboard
+radiomanamana.it###skin-left
+radiomanamana.it###skin-right
 cellulare-magazine.it,cellularemagazine.it###skin-top-container
 dragonballgt.it###skinClick
 omnifurgone.it,omnimoto.it###skin_link
@@ -1938,6 +1965,7 @@ metropolisweb.it##.BannerMezzoNotizia
 primopianomolise.it##.Banner_Modulabile
 nqnews.it##.Banner_box
 ciao.it##.CWContainerComparePrice
+iltempo.it##.DCLS4
 meteo.it##.ImmobiliareIt
 foxcrime.it,foxlife.it,foxretro.it,foxtv.it##.MPU336
 novara.com##.MainBanner
@@ -1990,7 +2018,7 @@ piacenzanight.com##.back_style
 avmagazine.it,ilcrotonese.it,tomshw.it##.background-link
 lavorincasa.it##.bak
 milanofinanza.it,oggitreviso.it##.ban
-advertiser.it,agi.it,agichina24.it,airdave.it,alessandrianews.it,casateonline.it,corrieredelgiorno.com,corrieremercantile.it,gazzettahockey.it,giochidicalcio.com,html.it,ilcambiamento.it,ilfriuli.it,ilgiornale.it,insegreto.it,lindro.it,lipari.biz,macitynet.it,merateonline.it,oggitreviso.it,orangedropdesign.com,orvietosi.it,pmi.it,programmitv.com,pubblicitaitalia.it,r101.it,rcdc.it,rockit.it,softonic.it,strettoweb.com,ticinolibero.ch,vocenuova.tv##.banner
+advertiser.it,agi.it,agichina24.it,airdave.it,alessandrianews.it,america24.com,casateonline.it,corrieredelgiorno.com,corrieremercantile.it,gazzettahockey.it,giochidicalcio.com,html.it,ilcambiamento.it,ilfriuli.it,ilgiornale.it,insegreto.it,lindro.it,lipari.biz,macitynet.it,merateonline.it,oggitreviso.it,orangedropdesign.com,orvietosi.it,pmi.it,programmitv.com,pubblicitaitalia.it,r101.it,rcdc.it,rockit.it,softonic.it,strettoweb.com,ticinolibero.ch,vocenuova.tv##.banner
 rollingstonemagazine.it##.banner-abbonamenti
 telesud3.com##.banner-destra
 telesud3.com##.banner-destra-tyf
@@ -2177,6 +2205,7 @@ lastampa.it##.pane-views-partner-block-1
 asca.it##.personalized_background
 rai.tv##.placeholder300x250
 gazzetta.it##.poker
+videohifi.com##.portlet-static-sponsor
 film.it##.ppn_h
 html.it##.premium-links-container-home-ms
 ciao.it##.priceComp2
@@ -2375,7 +2404,9 @@ articolotre.com##div[style="width: 500px; min-height: 50px; border-bottom: 1px d
 ilfattoquotidiano.it##div[style="width: 600px; min-height: 42px; border: 0px none; margin: 0px 10px 10px; padding: 0px; background-color: rgb(239, 239, 239);"]
 regginacalcio.com##div[style="width: 702px; height:300px; border: 4px solid #fff; margin-bottom: 0px;"]
 foxlife.it##div[style="width: 728px; height: 90px; margin: 0px auto 10px auto; background:none;"]
+videohifi.com##div[style="width: 740px;height: 110px;"]
 raffaeleauriemma.com##div[style="width: 822px; height: 70px; visibility: visible;"]
+videohifi.com##div[style="width: 830px;height: 110px;"]
 teamspeakitalia.it##div[style="width: 950px; height:140px; margin: 0px 25px 20px 25px; text-align: center;"]
 teamspeakitalia.it##div[style="width: 950px; height:90px; margin: 0px 25px 20px 25px; text-align: center;"]
 rollingstonemagazine.it##div[style="width: 953px; height: 80px; position: relative; float:left;background:url(http://www.rollingstonemagazine.it/wp-content/themes/rs2013/images/banner/banner-RS10.gif) no-repeat top left; border:1px solid #ccc; margin:5px 0 15px 12px;"]

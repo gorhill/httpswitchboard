@@ -8,7 +8,7 @@
 # Please forward any additions, corrections or comments by email to
 # hosts@someonewhocares.org
 
-# Last updated: May 3rd, 2014 at 14:12
+# Last updated: May 12th, 2014 at 10:56
 
 # Use this file to prevent your computer from connecting to selected
 # internet hosts. This is an easy and effective way to protect you from 
@@ -1266,6 +1266,7 @@ fe80::1%lo0	localhost
 127.0.0.1 straighttangerine.cz.cc
 127.0.0.1 sugoicounter.com
 127.0.0.1 superstats.com
+127.0.0.1 t.senaluno.com
 127.0.0.1 tagging.outrider.com
 127.0.0.1 talkcity.realtracker.com
 127.0.0.1 targetnet.com

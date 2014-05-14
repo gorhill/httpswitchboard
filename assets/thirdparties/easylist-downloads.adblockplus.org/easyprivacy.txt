@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: b6dBTnUFlBZ8Loa6zIFc/g
-! Version: 201405081741
+! Checksum: q8JVh0+d3YS7MR+ofjyh6A
+! Version: 201405141921
 ! Title: EasyPrivacy
-! Last modified: 08 May 2014 17:41 UTC
+! Last modified: 14 May 2014 19:21 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -2711,6 +2711,7 @@ http://utm.
 ||getbackstory.com^$third-party
 ||getclicky.com^$third-party
 ||getfreebacklinks.com^$third-party
+||getfreebl.com^$third-party
 ||getsidecar.com^$third-party
 ||getsmartcontent.com^$third-party
 ||getstatistics.se^$third-party
@@ -2844,7 +2845,6 @@ http://utm.
 ||intelligencefocus.com^$third-party
 ||intentmedia.net^$third-party
 ||interceptum.com^$third-party
-||interestably.com^$third-party
 ||intermundomedia.com^$third-party
 ||intervigil.com^$third-party
 ||invitemedia.com^$third-party
@@ -2998,6 +2998,7 @@ http://utm.
 ||mongoosemetrics.com^$third-party
 ||monitus.net^$third-party
 ||moreusers.info^$third-party
+||morevisits.info^$third-party
 ||motrixi.com^$third-party
 ||mouseflow.com^$third-party
 ||mousestats.com^$third-party
@@ -3136,6 +3137,7 @@ http://utm.
 ||piano-media.com^$third-party
 ||pickzor.com^$third-party
 ||pikzor.com^$third-party
+||ping-fast.com^$third-party
 ||pingagenow.com^$third-party
 ||pingdom.net^$third-party
 ||pingomatic.com^$third-party
@@ -3205,6 +3207,7 @@ http://utm.
 ||radarstats.com^$third-party
 ||radarurl.com^$third-party
 ||rank-hits.com^$third-party
+||rankingpartner.com^$third-party
 ||rankinteractive.com^$third-party
 ||rapidcounter.com^$third-party
 ||rapidstats.net^$third-party
@@ -3282,6 +3285,8 @@ http://utm.
 ||scorecardresearch.com^$third-party
 ||scoutanalytics.net^$third-party
 ||scrippscontroller.com^$third-party
+||scripts21.com^$third-party
+||scriptshead.com^$third-party
 ||searchfeed.com^$third-party
 ||searchignite.com^$third-party
 ||searchplow.com^$third-party
@@ -3368,6 +3373,7 @@ http://utm.
 ||stat24.com^$third-party
 ||statcount.com^$third-party
 ||statcounter.com^$third-party
+||statcounterfree.com^$third-party
 ||statcounters.info^$third-party
 ||stathat.com^$third-party
 ||stathound.com^$third-party
@@ -3398,6 +3404,7 @@ http://utm.
 ||stcllctrs.com^$third-party
 ||stcounter.com^$third-party
 ||stippleit.com^$third-party
+||stormcontainertag.com^$third-party
 ||stormiq.com^$third-party
 ||strs.jp^$third-party
 ||sub2tech.com^$third-party
@@ -3493,7 +3500,6 @@ http://utm.
 ||treehousei.com^$third-party
 ||trekmedia.net^$third-party
 ||trendcounter.com^$third-party
-||tribdss.com^$third-party
 ||triggeredmessaging.com^$third-party
 ||triggertag.gorillanation.com^$third-party
 ||triggit.com^$third-party
@@ -3909,6 +3915,7 @@ http://utm.
 ||sunios.de^$third-party
 ||t4ft.de^$third-party
 ||tamedia.ch^$third-party
+||tausch-link.de^$third-party
 ||teriotracker.de^$third-party
 ||tophits4u.de^$third-party
 ||topstat.com^$third-party
@@ -4699,6 +4706,7 @@ http://utm.
 ||data.imakenews.com^$third-party
 ||data.marketgid.com^$third-party
 ||daylogs.com/counter/
+||dc4d4996bc86498d8959-7dc0216bc6cc2f4ed239035dfc17235b.r83.cf3.rackcdn.com^
 ||dc8na2hxrj29i.cloudfront.net^
 ||dcdd29eaa743c493e732-7dc0216bc6cc2f4ed239035dfc17235b.ssl.cf3.rackcdn.com^
 ||delivra.com/tracking/$third-party
@@ -5093,6 +5101,7 @@ http://utm.
 ||partypoker.com^*/tracking-
 ||passport.pfn.bz^
 ||paypal.com^*/pixel.gif$third-party
+||pf.aclst.com^$third-party
 ||pg.buzzfeed.com^
 ||phncdn.com/js/ssig_helper.js
 ||phoenix.untd.com^
@@ -5740,6 +5749,7 @@ http://utm.
 ||stat.prsmedia.fr^
 ||stats.buzzea.com^
 ||t.planvip.fr^$third-party
+||tr.cloud-media.fr^
 ||track.byzon.swelen.net^$third-party
 ||tracking.ecookie.fr^
 ||tracking.veille-referencement.com^
@@ -6336,6 +6346,7 @@ http://utm.
 ||buzzfeed.com^*/tracker.js
 ||buzzurl.jp/api/counter/
 ||c.microsoft.com^
+||c.newsinc.com^$~script
 ||c.ypcdn.com^*/webyp?rid=
 ||caixin.com/webjs/common/caixinlog.js
 ||caller.com/metrics/
@@ -7481,6 +7492,7 @@ http://utm.
 ||stats.paypal.com^
 ||stats.piaggio.com^
 ||stats.propublica.org^
+||stats.radiostreamlive.com^
 ||stats.searchsight.com^
 ||stats.sharenet.co.za^
 ||stats.shoppydoo.com^
@@ -7645,7 +7657,7 @@ http://utm.
 ||tracking.chacha.com^
 ||tracking.conduit.com^
 ||tracking.eurosport.com^
-||tracking.gfycat.com^
+||tracking.gfycat.com/viewCount/
 ||tracking.goodgamestudios.com^
 ||tracking.hsn.com^
 ||tracking.koego.com^
@@ -7927,6 +7939,7 @@ http://utm.
 ||zdnet.com/wi?
 ||zmags.com/CommunityAnalyticsTracking
 ||zoomin.tv/impressions/
+||zoomin.tv/impressionsplayers/
 ||zulily.com/action/track?
 ||zvents.com/partner_json/
 ||zvents.com/za?
@@ -8251,6 +8264,7 @@ http://utm.
 ||s-sfr.fr/stats/
 ||sfr.fr/js/pent-stats.jsp
 ||stats1x1.kapaza.be^
+||surace-jujitsu.fr/outils/compteur_php/
 ||tracker.cds-tracking.com^
 ||tracking.cdiscount.com^
 ||tracking.ha.rueducommerce.fr^
@@ -8949,6 +8963,7 @@ http://utm.
 @@||whirlpool.com/foresee/foresee-trigger.js
 @@||widgets.outbrain.com^*/comScore/comScore.htm
 @@||wikia.nocookie.net^*/AnalyticsEngine/js/analytics_prod.js
+@@||wikimedia.org^*/trackClick.js
 @@||wired.com/wiredcms/chartbeat.json$xmlhttprequest
 @@||wired.com^*/cn-fe-stats/
 @@||wordpress.org/extend/plugins/wp-slimstat/screenshot-$image,~third-party
@@ -9001,6 +9016,7 @@ http://utm.
 @@||classistatic.de^*/hitcounter.js$domain=mobile.de
 @@||code.etracker.com/t.js?et=$script,domain=apotheken-umschau.de|compo-hobby.de|diabetes-ratgeber.net|kaguma.com|krombacher.de
 @@||count.rtl.de/crossdomain.xml$object-subrequest,domain=n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
+@@||cxense.com/cx.js$domain=tagesanzeiger.ch
 @@||eatsmarter.de^*/webtrekk.js
 @@||edgesuite.net^*/frontend_webtrekk.js$domain=goertz.de
 @@||eltern.de/min.php?*/clickTracking.js
@@ -9033,6 +9049,7 @@ http://utm.
 @@||renault.de/js/sitestat.js
 @@||rollingstone.de/resources/js/webtrekk.js
 @@||rover.ebay.com/ar/1/75997/4?mpt=*&size=300x250&adid=$image,domain=millionenklick.web.de
+@@||s.gstat.orange.fr/lib/gs.js?
 @@||scorecardresearch.com/beacon.js$domain=spielen.com
 @@||scorecardresearch.com/crossdomain.xml$object-subrequest,domain=web.de
 @@||scorecardresearch.com/p?$object-subrequest,domain=web.de
@@ -9062,11 +9079,11 @@ http://utm.
 @@||cache2.delvenetworks.com/crossdomain.xml$domain=lapresse.ca
 @@||cache2.delvenetworks.com/ps/c/v1/$object-subrequest,domain=lapresse.ca
 @@||easypari.fr^*/sitestat.js
-@@||media.sosh.fr/includes/wtbase.js
-@@||media.sosh.fr/includes/wtinit.js
 @@||mxpnl.com/libs/mixpanel-*.min.js$domain=deezer.com
 @@||orange.fr^*/wtbase.js
 @@||orange.fr^*/wtinit.js
+@@||sosh.fr^*/wtbase.js
+@@||sosh.fr^*/wtinit.js
 @@||stat.prsmedia.fr/tag/stat.js$domain=bienpublic.com
 @@||tv5.org/cms/javascript/*/sitestat.js
 ! Chinese

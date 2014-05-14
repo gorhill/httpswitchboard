@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: fEOi3MCKoJJZ8+ZQ3wbe4g
-! Version: 201405081740
+! Checksum: Giy+lpagqtBcAjJ8u9WsTg
+! Version: 201405141920
 ! Title: EasyList Germany
 ! EasyList Germany - Deutsche Ergänzung zu EasyList
-! Last modified: 08 May 2014 17:40 UTC
+! Last modified: 14 May 2014 19:20 UTC
 ! Expires: 1 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -996,6 +996,7 @@ netzkino.de#@#.contentAdBox
 ||bergfreunde-partner.de/banner/
 ||bergzeit.de/out/pictures/partner/image/
 ||beyond-media.at/bm_banner_oa.gif$third-party
+||blog-linktausch.de^*/iframe.php?layout=$subdocument,third-party
 ||bluepoint-radio.de/banner/$third-party
 ||blumi.to^$image,script,subdocument
 ||bm.hbtronix.de^$third-party
@@ -1265,6 +1266,7 @@ netzkino.de#@#.contentAdBox
 ||partner.cuxxu.net^$third-party
 ||partner.dasoertliche-marketing.de^
 ||partner.dhl.de^$third-party
+||partner.gewinnspiele.de^$third-party
 ||partner.gorillagaming.de^$third-party
 ||partner.leguide.com^$third-party
 ||partner.maxxim.de^
@@ -2201,6 +2203,7 @@ netzkino.de#@#.contentAdBox
 ||fcz.ch/_img/banner/
 ||fcz.ch/_img/banner_
 ||feierabend.de/gta/
+||fernsehen.to/js/notificationbar.js
 ||fernsehserien.de/gfx/anzeige.gif
 ||fettspielen.de/de/banner/
 ||ffn.de^*/banner/banner_
@@ -2972,6 +2975,7 @@ netzkino.de#@#.contentAdBox
 ||pornkino.to^$popup,domain=xxx-blog.to
 ||pornkino.to^*.php|$script
 ||pornkino.to^*/rotator.php
+||porno-pornos.org/slimtrade2.js
 ||porno-streams.com/porno1.js
 ||porno-streams.com/porno3.js
 ||pornos-kostenlos.tv/js/pornme.js
@@ -6720,6 +6724,7 @@ callofdutyplayers.de,dashitradio.de,der-postillon.com,gamefront.de,myfunlink.to,
 gamefront.de##img[width="180"][height="350"]
 t-online.de##img[width="209"][usemap^="#immap"]
 hitradio.com.na##img[width="220"][height="48"]
+t-online.de##img[width="297"][height="465"][usemap^="#immap"]
 kraftfuttermischwerk.de##img[width="300"][height="200"]
 02elf.net,dashitradio.de,der-postillon.com,fitforfun.de,iphoneblog.de,teltarif.de,wetter.net##img[width="300"][height="250"]
 t-online.de##img[width="300"][height="450"]
@@ -6965,8 +6970,6 @@ radforum.de##ul[class^="ebayitems"]
 androidnext.de##ul[style="list-style-image: url(http://dl.androidnext.de/flame.png);"]
 r-b-a.de##ul[style="padding: 0px; margin: 0px; border: 0px none;"]
 ! Anti-Adblock
-mobilfunk-geschichte.de##body > :nth-child(n) + style + div[id]:last-child
-mobilfunk-geschichte.de##body > noscript > style + div[id]:last-child
 pcwelt.de##div[id^="google_ads_"]
 !------------------Ausnahmeregeln zum Beheben von Problemen-------------------!
 ! *** easylistgermany:easylistgermany/easylistgermany_whitelist.txt ***
@@ -6993,7 +6996,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||ad.adworx.at/crossdomain.xml$object-subrequest
 @@||ad.amgdgt.com/ads/?$subdocument,domain=payback.de
 @@||ad.netzquadrat.de/viewbanner.php3?bannerid=$image,domain=sms.de
-@@||ad.zanox.com/ppc/?$subdocument,domain=eule.de|grossklein.de|gutscheindoktor.de|literatur-fast-pur.de|preismafia.com
+@@||ad.zanox.com/ppc/?$subdocument,domain=eule.de|grossklein.de|gutscheindoktor.de|literatur-fast-pur.de|preismafia.com|preisvergleich.de
 @@||ad4.liverail.com/interstitial/?lr_publisher_id=$script,domain=jam.fm|paradiso.de
 @@||adap.tv/redir/client/swfloader.swf?id=swfloader$object,domain=lycos.de
 @@||adcell.de/click.php?bid=$subdocument,domain=gutscheindoktor.de|mein-rabatt.com
@@ -7369,6 +7372,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@.net^*.js$script,domain=ul-load.com|uploaded-premium.ru
 @@.org^$script,domain=ul-load.com|uploaded-premium.ru
 @@.png#$domain=aktuelles-handelsrecht.info|aussenwirtschaftslupe.de|energielupe.de|europalupe.eu|finanzmarkttransaktionssteuer.de|gerichtsboulevard.de|grundrechteschutz.de|hartzbote.de|jagdlupe.de|kirchensteuerinfo.de|mediationslupe.de|medienrechtsnews.de|mutterschutz-rechner.de|rappers.in|rechtslupe.de|rechtslupe.net|rechtsschutzversicherunginfo.de|rentenbote.de|schuetzenrecht.de|sozialrechtsnews.de|steuerschmiede-aktuell.de|teamspeak-ts.com|tobinsteuer.de|twixzo.de|ul-load.com|uploaded-premium.ru|vereinslupe.de|vorsorgebote.de|wintotal-forum.de|wirtschaft-recht-aktuell.de
+@@.png?$domain=mobilfunk-geschichte.de
 @@|http://*.de^$image,third-party,domain=gamona.de
 @@|http://*.de^*.js|$third-party,domain=gamona.de
 @@|http://*uk.to^$script,domain=ul-load.com|uploaded-premium.ru
@@ -7454,6 +7458,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||exoclick.com/ads-iframe-display.php?*&type=300x250&$subdocument,domain=board.world-of-hentai.to
 @@||fastshare.org/advertisement.js
 @@||feed-reader.net^$elemhide,image,script
+@@||fernsehen.to^$elemhide
 @@||files.adform.net/Banners/Stream/*.flv$object-subrequest,domain=clipfish.de|n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
 @@||finanzmarkttransaktionssteuer.de^$elemhide
 @@||flashtalking.com/imp/*;BMWTVTeaser220x180/?click=$script,domain=teleboerse.de
@@ -7493,6 +7498,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||mediationslupe.de^$elemhide
 @@||medienrechtsnews.de^$elemhide
 @@||mirror-archiv.com/banner/ads/adserver/click/ad.js
+@@||mobilfunk-geschichte.de^$elemhide
 @@||mufa.de/js/advertisement.js
 @@||mutterschutz-rechner.de^$elemhide
 @@||mypolonia.de^*/adframe.js

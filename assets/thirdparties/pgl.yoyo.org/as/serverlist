@@ -3,7 +3,7 @@
 # For more information about this list, see: http://pgl.yoyo.org/adservers/
 # ----
 # last updated:   Mon, 05 May 2014 18:21:25 GMT
-# entries:        2495
+# entries:        2492
 # format:         hosts (hosts -- in hosts file format)
 # credits:        Peter Lowe - pgl@yoyo.org - http://pgl.yoyo.org/
 # this URL:       http://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext
@@ -41,7 +41,6 @@
 127.0.0.1 a-ads.com
 127.0.0.1 a-counter.kiev.ua
 127.0.0.1 a.0day.kiev.ua
-127.0.0.1 a.collective-media.net
 127.0.0.1 a.consumer.net
 127.0.0.1 a.mktw.net
 127.0.0.1 a.sakh.com
@@ -50,7 +49,6 @@
 127.0.0.1 a.ucoz.ru
 127.0.0.1 a.wowinterface.com
 127.0.0.1 a.xanga.com
-127.0.0.1 a1.dealfindcdn.com
 127.0.0.1 a32.g.a.yimg.com
 127.0.0.1 aaddzz.com
 127.0.0.1 abacho.net
@@ -899,7 +897,6 @@
 127.0.0.1 adv.freeonline.it
 127.0.0.1 adv.hwupgrade.it
 127.0.0.1 adv.livedoor.com
-127.0.0.1 adv.surinter.net
 127.0.0.1 adv.webmd.com
 127.0.0.1 adv.wp.pl
 127.0.0.1 adv.yo.cz
@@ -1312,7 +1309,6 @@
 127.0.0.1 connextra.com
 127.0.0.1 contaxe.de
 127.0.0.1 content.ad
-127.0.0.1 contextweb.com
 127.0.0.1 conversionruler.com
 127.0.0.1 cookies.cmpnet.com
 127.0.0.1 coremetrics.com
@@ -1740,6 +1736,7 @@
 127.0.0.1 mads.cnet.com
 127.0.0.1 mads.gamespot.com
 127.0.0.1 madvertise.de
+127.0.0.1 mailusnow123.com
 127.0.0.1 malware-scan.com
 127.0.0.1 marchex.com
 127.0.0.1 marketing.888.com
@@ -1841,6 +1838,7 @@
 127.0.0.1 neteu.eu
 127.0.0.1 netflame.cc
 127.0.0.1 netincap.com
+127.0.0.1 netpool.netbookia.net
 127.0.0.1 netshelter.net
 127.0.0.1 network.business.com
 127.0.0.1 network.realmedia.com
@@ -1966,7 +1964,6 @@
 127.0.0.1 pokerstrategy.com
 127.0.0.1 pop-under.ru
 127.0.0.1 pops.freeze.com
-127.0.0.1 poptraf.ru
 127.0.0.1 popub.com
 127.0.0.1 popunder.ru
 127.0.0.1 popup.msn.com

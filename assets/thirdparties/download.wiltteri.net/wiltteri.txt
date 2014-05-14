@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: TrwaEJp0SHExZYaoLvALlA
-! Version: 201405071620
+! Checksum: P/og13s/guNZ8qDsWx2veg
+! Version: 201405131610
 ! Title: Wiltteri
 ! Description: Finnish supplement list for EasyList
-! Last modified: 07 May 2014 16:20 UTC
+! Last modified: 13 May 2014 16:10 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: http://wiltteri.net/
 ! License: http://creativecommons.org/licenses/by-sa/3.0/
@@ -1273,7 +1273,9 @@ _mainosnappi.
 ||reverbnation.com^$domain=verkkomedia.org
 ||rgline.com/medialibrary/data/*banner
 ||riemurasia.net/images/banner_
-||riemurasia.net/m/maxi/
+||riemurasia.net/m/$image,subdocument
+||riemurasia.net/m?$popup
+||riemurasia.net/show.php?$subdocument
 ||riheda.net/banner/
 ||riihimaki.fi/Tiedostot/RIIHIM%C3%A4KI_Kuvat/Rmk_Bannerit/
 ||riista.fi/pix/*banner
@@ -3032,6 +3034,7 @@ kihvelisoikoon.com##.sidebar-inner
 runoviikko.fi##.sidebar-text + * + * + * + * + * + div.sidebar-text
 anttila.fi##.sidebar.rightbar > div.banner
 rockfutis.fi##.sidebar2
+pesis.net##.sidebar2 img[width="175"]
 maabrandi.fi##.sidebar_2.sbar3
 studio55.fi##.sidebar_block
 terveyshymy.fi##.sidebar_mainos

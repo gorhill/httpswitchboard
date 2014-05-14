@@ -1,5 +1,5 @@
 [Adblock Plus 2.0]
-! Checksum: DiifFupp53wNEu35H4UbTw
+! Checksum: 5XWTXl7RUxBHJtju+ODJ3w
 ! القائمة العربية لمانع الشرائط الإعلانية آدبلوك بلس
 ! Liste AR ~ Filtres arabes complémentaires à EasyList et à la Liste FR
 ! Title: Liste AR
@@ -24,6 +24,7 @@
 ###ad_global_below_navbar
 ###ads_r_c
 ###divTopAds
+###pub-730x90
 ##.adengageadzone
 ##.ads-site
 ##.ads-ul
@@ -32,6 +33,7 @@
 ##.block_adv
 ##.googleAds336
 ##.googleAds728
+##.pub-730x90
 ##a[href*="adintop.com/outgoing/click.php?"]
 ##a[href*="dubizzle.com/ar/?utm_source="]
 ##a[href^="ads.php?id="]
@@ -58,6 +60,8 @@
 ||adtracking.asia^$third-party
 ||adzzone.com^$third-party
 ||aknod.com^$third-party
+||ar-ads.com^$third-party
+||ar-ads.net^$third-party
 ||awsclic.com^$third-party
 ||booraq.org^$third-party
 ||bursttraffic.net^$third-party
@@ -309,6 +313,7 @@
 !
 !----------------------- Sites spécifiques -----------------------!
 !
+|http://j.gs^$popup,domain=showsat.org
 ||0sat.net/index/
 ||0zz0.com/e/$image
 ||0zz0.com/e/luna20120131_2.swf
@@ -527,6 +532,7 @@
 ||e3lanat.rofof.com^
 ||eaglepro.net^$popup,domain=bramjnet.com
 ||echoroukonline.com/img/aswak2.swf
+||echoroukonline.com/sponsors/
 ||educ40.net/hotcourses.swf
 ||educ40.net/images/hotcourses.gif
 ||educ40.net/images/kotobdz.gif
@@ -597,6 +603,7 @@
 ||goo.gl/fYnDL^$subdocument,domain=lmseh.com
 ||goo.gl/meRtR^$popup,domain=abotlal.com
 ||goo.gl^$popup,domain=arabseed.com
+||goo.gl^$popup,domain=mazika2day.com
 ||googlna.com/flash/bnar.swf
 ||gornalak.com/alexa.gif
 ||gornalak.com/pop.js
@@ -892,8 +899,8 @@ alarab.net##.mbAdImg
 alayam.com##.banner
 alayam.com##.slides1
 alayam.com##.slides76
-albaladeyes.com###ads1
 albaladeyes.com###advs
+albaladeyes.com,ninjaup.com###ads1
 algareda.com##a[href^="http://goo.gl/"]
 algeriamax.com##img[alt="مساحة إعلانية"]
 algremh.com##.floatingWindowContent
@@ -1019,6 +1026,7 @@ elmihwar.com##.banneritem
 elraaed.com##.ads_1
 enjaztech.com##img[width="728"][height="90"]
 ennaharonline.com###flash
+ennaharonline.com,yakamar.com###ads
 eqla3.com##iframe
 europages.ma###article-apbox
 europages.ma###sponsor
@@ -1154,7 +1162,6 @@ mwordpress.net##a[href^="http://mwordpress.net/visit/"]
 n4hr.com##.advactar
 n4hr.com##.ladv
 nadorcity.com##a[href^="/ads/"]
-ninjaup.com###ads1
 ninjaup.com###ads2
 ninjaup.com###ads3
 ninjaup.com###spons
@@ -1247,7 +1254,6 @@ videobam.com###this-pays-for-bandwidth-container
 wmuae.net##.binsaad
 y4yy.com##.adv
 y4yy.com##img[width="300"][height="250"]
-yakamar.com###ads
 yakamar.com##img[width="494"][height="60"]
 yakamar.com##img[width="728px"][height="90px"]
 yallabina.com##.adv
