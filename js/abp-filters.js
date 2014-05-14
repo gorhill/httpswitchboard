@@ -347,7 +347,7 @@ var makeFilter = function(s, tokenBeg) {
         }
         return new FilterSingleWildcard(s, tokenBeg);
     }
-    if ( tokenBeg === false ) {
+    if ( tokenBeg === 0 ) {
         return new FilterPlainPrefix0(s);
     }
     if ( tokenBeg === 1 ) {
@@ -369,7 +369,7 @@ var makeHostnameFilter = function(s, tokenBeg, hostname) {
         }
         return new FilterSingleWildcardHostname(s, tokenBeg, hostname);
     }
-    if ( tokenBeg === false ) {
+    if ( tokenBeg === 0 ) {
         return new FilterPlainPrefix0Hostname(s, hostname);
     }
     if ( tokenBeg === 1 ) {
@@ -391,7 +391,7 @@ var makeNotHostnameFilter = function(s, tokenBeg, hostname) {
         }
         return new FilterSingleWildcardNotHostname(s, tokenBeg, hostname);
     }
-    if ( tokenBeg === false ) {
+    if ( tokenBeg === 0 ) {
         return new FilterPlainPrefix0NotHostname(s, hostname);
     }
     if ( tokenBeg === 1 ) {
@@ -549,11 +549,11 @@ FilterParser.prototype.parseOptHostnames = function(raw) {
         }
         domain = httpsburi.domainFromHostname(hostname);
         if ( not ) {
-            this.hostnames.push(hostname);
-            this.domains.push(domain);
-        } else {
             this.notHostnames.push(hostname);
             this.notDomains.push(domain);
+        } else {
+            this.hostnames.push(hostname);
+            this.domains.push(domain);
         }
     }
 };
