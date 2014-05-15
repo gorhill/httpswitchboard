@@ -679,6 +679,9 @@ var FilterContainer = function() {
     this.supportedFilterCount = 0;
     this.allowFilterCount = 0;
     this.blockFilterCount = 0;
+
+    // Used during URL matching
+    this.categoryBuckets = new Array(8);
 };
 
 /******************************************************************************/
@@ -1048,11 +1051,7 @@ FilterContainer.prototype.freeze = function() {
 
 /******************************************************************************/
 
-FilterContainer.prototype.matchToken = function(category) {
-    var categoryBucket = this.categories[this.makeCategoryKey(category)];
-    if ( categoryBucket === undefined ) {
-        return false;
-    }
+FilterContainer.prototype.matchToken = function(categoryBucket) {
     var url = this.url;
     var beg = this.tokenBeg;
     var end = this.tokenEnd;
@@ -1127,32 +1126,44 @@ FilterContainer.prototype.matchString = function(pageStats, url, requestType, re
         ThirdParty;
     var domainParty = this.toDomainBits(pageDomain);
     var type = typeNameToTypeValue[requestType];
-    var bf = false;
 
     // This will be used by hostname-based filter
     pageHostname = pageStats.pageHostname;
 
+    var categories = this.categories;
+    var categoryBuckets = this.categoryBuckets;
+    var i, categoryBucket;
+
     // Test against block filters
+    categoryBuckets[7] = categories[this.makeCategoryKey(BlockAnyTypeAnyParty)];
+    categoryBuckets[6] = categories[this.makeCategoryKey(BlockAnyType | party)];
+    categoryBuckets[5] = categories[this.makeCategoryKey(BlockAnyTypeOneParty | domainParty)];
+    categoryBuckets[4] = categories[this.makeCategoryKey(BlockAnyTypeOtherParties | domainParty)];
+    categoryBuckets[3] = categories[this.makeCategoryKey(BlockAnyParty | type)];
+    categoryBuckets[2] = categories[this.makeCategoryKey(BlockAction | type | party)];
+    categoryBuckets[1] = categories[this.makeCategoryKey(BlockOneParty | type | domainParty)];
+    categoryBuckets[0] = categories[this.makeCategoryKey(BlockOtherParties | type | domainParty)];
+
+    var bf = false;
+
     reAnyToken.lastIndex = 0;
     while ( matches = reAnyToken.exec(url) ) {
         this.tokenBeg = matches.index;
         this.tokenEnd = reAnyToken.lastIndex;
-        bf = this.matchToken(BlockAnyTypeAnyParty);
-        if ( bf !== false ) { break; }
-        bf = this.matchToken(BlockAnyType | party);
-        if ( bf !== false ) { break; }
-        bf = this.matchToken(BlockAnyTypeOneParty | domainParty);
-        if ( bf !== false ) { break; }
-        bf = this.matchToken(BlockAnyTypeOtherParties | domainParty);
-        if ( bf !== false ) { break; }
-        bf = this.matchToken(BlockAnyParty | type);
-        if ( bf !== false ) { break; }
-        bf = this.matchToken(BlockAction | type | party);
-        if ( bf !== false ) { break; }
-        bf = this.matchToken(BlockOneParty | type | domainParty);
-        if ( bf !== false ) { break; }
-        bf = this.matchToken(BlockOtherParties | type | domainParty);
-        if ( bf !== false ) { break; }
+        i = 8;
+        while ( i-- ) {
+            categoryBucket = categoryBuckets[i];
+            if ( categoryBucket === undefined ) {
+                continue;
+            }
+            bf = this.matchToken(categoryBucket);
+            if ( bf !== false ) {
+                break;
+            }
+        }
+		if ( bf !== false ) {
+			break;
+		}
     }
 
     // If there was no block filter, no need to test against allow filters
@@ -1161,26 +1172,29 @@ FilterContainer.prototype.matchString = function(pageStats, url, requestType, re
     }
 
     // Test against allow filters
+    categoryBuckets[7] = categories[this.makeCategoryKey(AllowAnyTypeAnyParty)];
+    categoryBuckets[6] = categories[this.makeCategoryKey(AllowAnyType | party)];
+    categoryBuckets[5] = categories[this.makeCategoryKey(AllowAnyTypeOneParty | domainParty)];
+    categoryBuckets[4] = categories[this.makeCategoryKey(AllowAnyTypeOtherParties | domainParty)];
+    categoryBuckets[3] = categories[this.makeCategoryKey(AllowAnyParty | type)];
+    categoryBuckets[2] = categories[this.makeCategoryKey(AllowAction | type | party)];
+    categoryBuckets[1] = categories[this.makeCategoryKey(AllowOneParty | type | domainParty)];
+    categoryBuckets[0] = categories[this.makeCategoryKey(AllowOtherParties | type | domainParty)];
+
     reAnyToken.lastIndex = 0;
     while ( matches = reAnyToken.exec(url) ) {
         this.tokenBeg = matches.index;
         this.tokenEnd = reAnyToken.lastIndex;
-        if ( this.matchToken(AllowAnyTypeAnyParty) !== false )
-            { return false; }
-        if ( this.matchToken(AllowAnyType | party) !== false )
-            { return false; }
-        if ( this.matchToken(AllowAnyTypeOneParty | domainParty) !== false )
-            { return false; }
-        if ( this.matchToken(AllowAnyTypeOtherParties | domainParty) !== false )
-            { return false; }
-        if ( this.matchToken(AllowAnyParty | type) !== false )
-            { return false; }
-        if ( this.matchToken(AllowAction | type | party) !== false )
-            { return false; }
-        if ( this.matchToken(AllowOneParty | type | domainParty) !== false )
-            { return false; }
-        if ( this.matchToken(AllowOtherParties | type | domainParty) !== false )
-            { return false; }
+        i = 8;
+        while ( i-- ) {
+            categoryBucket = categoryBuckets[i];
+            if ( categoryBucket === undefined ) {
+                continue;
+            }
+            if ( this.matchToken(categoryBucket) !== false ) {
+                return false;
+            }
+        }
     }
 
     return bf;
