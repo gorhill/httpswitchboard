@@ -192,6 +192,8 @@ Youtube:
             frame youtube.com
             * youtube-nocookie.com
             * ytimg.com
+            # 2014-05-15: Apparently something changed on YT, this is now required
+            * s.ytimg.com
             * googlevideo.com
             * google.com
             * ggpht.com
