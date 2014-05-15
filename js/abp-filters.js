@@ -24,7 +24,7 @@
 
 /******************************************************************************/
 
-(function(){
+HTTPSB.abpFilters = (function(){
 
 /******************************************************************************/
 
@@ -63,7 +63,7 @@ var pageHostname = '';
 
 var reIgnoreEmpty = /^\s+$/;
 var reIgnoreComment = /^\[|^!/;
-var reHostnameRule = /^[0-9a-z.-]+[0-9a-z]$/;
+var reHostnameRule = /^[0-9a-z][0-9a-z.-]+[0-9a-z]$/;
 var reHostnameToken = /^[0-9a-z]+/g;
 var reGoodToken = /[%0-9a-z]{2,}/g;
 
@@ -679,6 +679,9 @@ var FilterContainer = function() {
     this.allowFilterCount = 0;
     this.blockFilterCount = 0;
 
+    // This is for filters which are strictly a 3rd-party hostname
+    this.blocked3rdPartyHostnames = new HTTPSB.LiquidDict();
+
     // Used during URL matching
     this.categoryBuckets = new Array(8);
     this.reAnyToken = /[%0-9a-z]+/g;
@@ -736,11 +739,18 @@ FilterContainer.prototype.add = function(s) {
     this.supportedFilterCount += 1;
 
     // Ignore optionless hostname rules, these will be taken care of by HTTPSB.
-    if ( parsed.hostname && !parsed.fopts && parsed.action === BlockAction && reHostnameRule.test(parsed.f) ) {
+    if ( parsed.hostname && parsed.fopts === '' && parsed.action === BlockAction && reHostnameRule.test(parsed.f) ) {
         return false;
     }
 
-    if ( this.addFilter(parsed) === false ) {
+    // Pure third-party hostnames, use more efficient liquid dict
+    var r;
+    if ( parsed.hostname && parsed.fopts === 'third-party' && parsed.action === BlockAction && reHostnameRule.test(parsed.f) ) {
+        r = this.blocked3rdPartyHostnames.add(parsed.f);
+    } else {
+        r = this.addFilter(parsed);
+    }
+    if ( r === false ) {
         return false;
     }
 
@@ -848,6 +858,7 @@ FilterContainer.prototype.reset = function() {
     this.allowFilterCount = 0;
     this.blockFilterCount = 0;
     this.categories = {};
+    this.blocked3rdPartyHostnames.reset();
 };
 
 /******************************************************************************/
@@ -1048,6 +1059,7 @@ with the new code.
 
 FilterContainer.prototype.freeze = function() {
     // histogram('allFilters', this.categories);
+    this.blocked3rdPartyHostnames.freeze();
 };
 
 /******************************************************************************/
@@ -1151,26 +1163,32 @@ FilterContainer.prototype.matchString = function(pageStats, url, requestType, re
         ThirdParty;
     var domainParty = this.toDomainBits(pageDomain);
     var type = typeNameToTypeValue[requestType];
+    var categories = this.categories;
+    var categoryBuckets = this.categoryBuckets;
 
     // This will be used by hostname-based filter
     pageHostname = pageStats.pageHostname;
 
-    var categories = this.categories;
-    var categoryBuckets = this.categoryBuckets;
+    var bf = false;
+    if ( party === ThirdParty && this.blocked3rdPartyHostnames.test(requestHostname) ) {
+        bf = '||' + requestHostname + '^$third-party';
+    }
 
     // Test against block filters
-    categoryBuckets[7] = categories[this.makeCategoryKey(BlockAnyTypeAnyParty)];
-    categoryBuckets[6] = categories[this.makeCategoryKey(BlockAnyType | party)];
-    categoryBuckets[5] = categories[this.makeCategoryKey(BlockAnyTypeOneParty | domainParty)];
-    categoryBuckets[4] = categories[this.makeCategoryKey(BlockAnyTypeOtherParties | domainParty)];
-    categoryBuckets[3] = categories[this.makeCategoryKey(BlockAnyParty | type)];
-    categoryBuckets[2] = categories[this.makeCategoryKey(BlockAction | type | party)];
-    categoryBuckets[1] = categories[this.makeCategoryKey(BlockOneParty | type | domainParty)];
-    categoryBuckets[0] = categories[this.makeCategoryKey(BlockOtherParties | type | domainParty)];
+    if ( bf === false ) {
+        categoryBuckets[7] = categories[this.makeCategoryKey(BlockAnyTypeAnyParty)];
+        categoryBuckets[6] = categories[this.makeCategoryKey(BlockAnyType | party)];
+        categoryBuckets[5] = categories[this.makeCategoryKey(BlockAnyTypeOneParty | domainParty)];
+        categoryBuckets[4] = categories[this.makeCategoryKey(BlockAnyTypeOtherParties | domainParty)];
+        categoryBuckets[3] = categories[this.makeCategoryKey(BlockAnyParty | type)];
+        categoryBuckets[2] = categories[this.makeCategoryKey(BlockAction | type | party)];
+        categoryBuckets[1] = categories[this.makeCategoryKey(BlockOneParty | type | domainParty)];
+        categoryBuckets[0] = categories[this.makeCategoryKey(BlockOtherParties | type | domainParty)];
 
-    var bf = this.matchTokens();
+        // If there is no block filter, no need to test against allow filters
+        bf = this.matchTokens();
+    }
 
-    // If there was no block filter, no need to test against allow filters
     if ( bf === false ) {
         return false;
     }
@@ -1200,7 +1218,7 @@ FilterContainer.prototype.getFilterCount = function() {
 
 /******************************************************************************/
 
-HTTPSB.abpFilters = new FilterContainer();
+return new FilterContainer();
 
 /******************************************************************************/
 
