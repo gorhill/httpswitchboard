@@ -237,6 +237,10 @@ Youtube:
         image ytimg.com
         plugin ytimg.com
         script ytimg.com
+        # 2014-05-15: Apparently something changed on YT, this is now required
+        css s.ytimg.com
+        img s.ytimg.com
+        script s.ytimg.com
         # As per issue #169
         plugin youtube.googleapis.com
         plugin googlevideo.com
