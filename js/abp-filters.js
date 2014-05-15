@@ -66,7 +66,6 @@ var reIgnoreComment = /^\[|^!/;
 var reHostnameRule = /^[0-9a-z.-]+[0-9a-z]$/;
 var reHostnameToken = /^[0-9a-z]+/g;
 var reGoodToken = /[%0-9a-z]{2,}/g;
-var reAnyToken = /[%0-9a-z]+/g;
 
 var typeNameToTypeValue = {
         'stylesheet': 2 << 11,
@@ -682,6 +681,8 @@ var FilterContainer = function() {
 
     // Used during URL matching
     this.categoryBuckets = new Array(8);
+    this.reAnyToken = /[%0-9a-z]+/g;
+    this.reMatches;
 };
 
 /******************************************************************************/
@@ -1053,8 +1054,8 @@ FilterContainer.prototype.freeze = function() {
 
 FilterContainer.prototype.matchToken = function(categoryBucket) {
     var url = this.url;
-    var beg = this.tokenBeg;
-    var end = this.tokenEnd;
+    var beg = this.reMatches.index;
+    var end = this.reAnyToken.lastIndex;
     var right = url.length - end;
     var f;
     
@@ -1097,6 +1098,31 @@ FilterContainer.prototype.matchToken = function(categoryBucket) {
 
 /******************************************************************************/
 
+FilterContainer.prototype.matchTokens = function() {
+    var buckets = this.categoryBuckets;
+    var url = this.url;
+    var re = this.reAnyToken;
+    var i, bucket, f;
+
+    re.lastIndex = 0;
+    while ( this.reMatches = re.exec(url) ) {
+        i = 8;
+        while ( i-- ) {
+            bucket = buckets[i];
+            if ( bucket === undefined ) {
+                continue;
+            }
+            f = this.matchToken(bucket);
+            if ( f !== false ) {
+                return f;
+            }
+        }
+    }
+    return false;
+};
+
+/******************************************************************************/
+
 FilterContainer.prototype.matchString = function(pageStats, url, requestType, requestHostname) {
     // adbProfiler.countUrl();
     // adbProfiler.testCounter(true);
@@ -1119,7 +1145,6 @@ FilterContainer.prototype.matchString = function(pageStats, url, requestType, re
     // This helps performance compared to testing against both classes of
     // filters in the same loop.
 
-    var matches;
     var pageDomain = pageStats.pageDomain;
     var party = requestHostname.slice(-pageDomain.length) === pageDomain ?
         FirstParty :
@@ -1132,7 +1157,6 @@ FilterContainer.prototype.matchString = function(pageStats, url, requestType, re
 
     var categories = this.categories;
     var categoryBuckets = this.categoryBuckets;
-    var i, categoryBucket;
 
     // Test against block filters
     categoryBuckets[7] = categories[this.makeCategoryKey(BlockAnyTypeAnyParty)];
@@ -1144,27 +1168,7 @@ FilterContainer.prototype.matchString = function(pageStats, url, requestType, re
     categoryBuckets[1] = categories[this.makeCategoryKey(BlockOneParty | type | domainParty)];
     categoryBuckets[0] = categories[this.makeCategoryKey(BlockOtherParties | type | domainParty)];
 
-    var bf = false;
-
-    reAnyToken.lastIndex = 0;
-    while ( matches = reAnyToken.exec(url) ) {
-        this.tokenBeg = matches.index;
-        this.tokenEnd = reAnyToken.lastIndex;
-        i = 8;
-        while ( i-- ) {
-            categoryBucket = categoryBuckets[i];
-            if ( categoryBucket === undefined ) {
-                continue;
-            }
-            bf = this.matchToken(categoryBucket);
-            if ( bf !== false ) {
-                break;
-            }
-        }
-		if ( bf !== false ) {
-			break;
-		}
-    }
+    var bf = this.matchTokens();
 
     // If there was no block filter, no need to test against allow filters
     if ( bf === false ) {
@@ -1181,20 +1185,8 @@ FilterContainer.prototype.matchString = function(pageStats, url, requestType, re
     categoryBuckets[1] = categories[this.makeCategoryKey(AllowOneParty | type | domainParty)];
     categoryBuckets[0] = categories[this.makeCategoryKey(AllowOtherParties | type | domainParty)];
 
-    reAnyToken.lastIndex = 0;
-    while ( matches = reAnyToken.exec(url) ) {
-        this.tokenBeg = matches.index;
-        this.tokenEnd = reAnyToken.lastIndex;
-        i = 8;
-        while ( i-- ) {
-            categoryBucket = categoryBuckets[i];
-            if ( categoryBucket === undefined ) {
-                continue;
-            }
-            if ( this.matchToken(categoryBucket) !== false ) {
-                return false;
-            }
-        }
+    if ( this.matchTokens() !== false ) {
+        return false;
     }
 
     return bf;
