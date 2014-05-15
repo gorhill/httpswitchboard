@@ -682,7 +682,7 @@ var FilterContainer = function() {
     // Used during URL matching
     this.categoryBuckets = new Array(8);
     this.reAnyToken = /[%0-9a-z]+/g;
-    this.reMatches;
+    this.reMatches = null;
 };
 
 /******************************************************************************/
