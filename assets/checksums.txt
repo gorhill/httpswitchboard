@@ -1,7 +1,7 @@
-71baf15f24edf8437a8dbfcff78c7bdc assets/httpsb/preset-recipes-1st.yaml
+c1d80130d81f61a9605deb662422bd01 assets/httpsb/preset-recipes-1st.yaml
 9b5be995ae6d869a3345ca34ed68f2a4 assets/httpsb/blacklist.txt
 847b801091b64d0bfb1dcd2f7c6fe204 assets/httpsb/block-facebook.txt
-77d9abffa9b42f9cf81ba9ef9a4ab98a assets/httpsb/preset-recipes-3rd.yaml
+933a2fa3515c1b5bbdf58e2b3792acd4 assets/httpsb/preset-recipes-3rd.yaml
 125747d503bca5ad93debe1716d02894 assets/thirdparties/download.wiltteri.net/wiltteri.txt
 fc7a3a04b37ed9dada75434402ba7c2a assets/thirdparties/easylist-downloads.adblockplus.org/fanboy-annoyance.txt
 8272cf099c5a055fc552be810dec9061 assets/thirdparties/easylist-downloads.adblockplus.org/easylistdutch.txt
