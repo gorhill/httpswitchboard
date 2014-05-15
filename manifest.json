@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "__MSG_extName__",
     "short_name": "HTTPSB",
-    "version": "0.9.1.2",
+    "version": "0.9.2.0",
     "description": "__MSG_extShortDesc__",
     "icons": {
         "16": "icon_16.png",
@@ -19,43 +19,6 @@
     "background": {
         "page": "background.html"
     },
-    "content_scripts": [
-    {
-        "matches": ["http://*/*", "https://*/*"],
-        "js": ["js/contentscript.js"],
-        "run_at": "document_end",
-        "all_frames": true
-        },
-    {
-        "matches": ["http://*/*", "https://*/*"],
-        "js": ["js/contentscript-uaspoof.js"],
-        "run_at": "document_start",
-        "all_frames": true
-        }
-    ],
-    "homepage_url": "https://github.com/gorhill/httpswitchboard/wiki",
-    "minimum_chrome_version": "22.0",
-    "default_locale": "en",
-    "options_page": "dashboard.html",
-    "permissions": [
-        "browsingData",
-        "contentSettings",
-        "contextMenus",
-        "cookies",
-        "downloads",
-        "storage",
-        "tabs",
-        "unlimitedStorage",
-        "webNavigation",
-        "webRequest",
-        "webRequestBlocking",
-        "http://*/*",
-        "https://*/*"
-    ],
-    "web_accessible_resources": [
-        "css/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf",
-        "css/noop.css"
-    ],
     "commands": {
         "open-statistics": {
             "suggested_key": {
@@ -81,5 +44,42 @@
             },
             "description": "Open Ubiquitous rules"
         }
-    }
+    },
+    "content_scripts": [
+    {
+        "matches": ["http://*/*", "https://*/*"],
+        "js": ["js/contentscript.js"],
+        "run_at": "document_end",
+        "all_frames": true
+        },
+    {
+        "matches": ["http://*/*", "https://*/*"],
+        "js": ["js/contentscript-uaspoof.js"],
+        "run_at": "document_start",
+        "all_frames": true
+        }
+    ],
+    "default_locale": "en",
+    "homepage_url": "https://github.com/gorhill/httpswitchboard/wiki",
+    "minimum_chrome_version": "22.0",
+    "options_page": "dashboard.html",
+    "permissions": [
+        "browsingData",
+        "contentSettings",
+        "contextMenus",
+        "cookies",
+        "downloads",
+        "storage",
+        "tabs",
+        "unlimitedStorage",
+        "webNavigation",
+        "webRequest",
+        "webRequestBlocking",
+        "http://*/*",
+        "https://*/*"
+    ],
+    "web_accessible_resources": [
+        "css/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf",
+        "css/noop.css"
+    ]
 }
