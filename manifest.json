@@ -21,27 +21,15 @@
     },
     "commands": {
         "open-statistics": {
-            "suggested_key": {
-                "default": "Alt+S"
-            },
             "description": "Open Statistics"
         },
        "open-scoped-rules": {
-            "suggested_key": {
-                "default": "Alt+F"
-            },
             "description": "Open Rule manager"
         },
        "open-settings": {
-            "suggested_key": {
-                "default": "Alt+A"
-            },
             "description": "Open Settings"
         },
        "open-ubiquitous-rules": {
-            "suggested_key": {
-                "default": "Ctrl+D"
-            },
             "description": "Open Ubiquitous rules"
         }
     },
