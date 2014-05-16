@@ -234,11 +234,11 @@ function gotoExtensionURL(url) {
 // rebuild their matrix).
 
 HTTPSB.urlStatsChanged = function(pageUrl) {
-    var httpsb = this;
     var urlStatsChangedCallback = function(pageUrl) {
         // rhill 2013-11-17: No point in sending this message if the popup menu
         // does not exist. I suspect this could be related to
         // https://github.com/gorhill/httpswitchboard/issues/58
+        var httpsb = HTTPSB;
         if ( httpsb.port ) {
             httpsb.port.postMessage({
                 what: 'urlStatsChanged',
