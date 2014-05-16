@@ -22,25 +22,25 @@
     "commands": {
        "open-settings": {
             "description": "Open Settings",
-            "suggested_keys": {
+            "suggested_key": {
                 "default": "Ctrl+Shift+1"
             }
         },
         "open-statistics": {
             "description": "Open Statistics",
-            "suggested_keys": {
+            "suggested_key": {
                 "default": "Ctrl+Shift+2"
             }
         },
        "open-scoped-rules": {
             "description": "Open Scoped rules",
-            "suggested_keys": {
+            "suggested_key": {
                 "default": "Ctrl+Shift+3"
             }
         },
        "open-ubiquitous-rules": {
             "description": "Open Ubiquitous rules",
-            "suggested_keys": {
+            "suggested_key": {
                 "default": "Ctrl+Shift+4"
             }
         }
