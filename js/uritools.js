@@ -363,21 +363,23 @@ URI.parentHostnamesFromHostname = function(hostname) {
     // the list of hostnames by making it reusable (junkyard etc.) and which
     // has its own element counter property in order to avoid memory
     // alloc/dealloc.
-    var nodes = [];
+    var pos = hostname.indexOf('.');
+    if ( pos < 0 ) {
+        return [];
+    }
+    hostname = hostname.slice(pos + 1);
     var domain = this.domainFromHostname(hostname);
-    if ( domain && domain !== hostname ) {
-        var pos;
-        while ( true ) {
-            pos = hostname.indexOf('.');
-            if ( pos < 0 ) {
-                break;
-            }
-            hostname = hostname.slice(pos + 1);
-            nodes.push(hostname);
-            if ( hostname === domain ) {
-                break;
-            }
+    if ( domain === '' ) {
+        return [];
+    }
+    var nodes = [hostname];
+    while ( hostname !== domain ) {
+        pos = hostname.indexOf('.');
+        if ( pos < 0 ) {
+            break;
         }
+        hostname = hostname.slice(pos + 1);
+        nodes.push(hostname);
     }
     return nodes;
 };
