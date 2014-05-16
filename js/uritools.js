@@ -65,7 +65,7 @@ var reIPv6FromAuthority      = /^(?:[^@]*@)?(\[[0-9a-f:]+\])(?::\d*)?$/i;
 
 // Coarse (but fast) tests
 var reValidHostname          = /^([a-z\d]+(-*[a-z\d]+)*)(\.[a-z\d]+(-*[a-z\d])*)*$/;
-var reNotAnIPAddress         = /[^\dA-Fa-f.:]/;
+var reIPAddressNaive         = /^\d+\.\d+\.\d+\.\d+$|^\[[\da-zA-Z:]+\]$/;
 
 // Accurate tests
 // Source.: http://stackoverflow.com/questions/5284147/validating-ipv4-addresses-with-regexp/5284410#5284410
@@ -277,7 +277,7 @@ URI.hostnameFromURI = function(uri) {
 var psl = publicSuffixList;
 
 URI.domainFromHostname = function(hostname) {
-    if ( reNotAnIPAddress.test(hostname) ) {
+    if ( !reIPAddressNaive.test(hostname) ) {
         return psl.getDomain(hostname);
     }
     return hostname;
