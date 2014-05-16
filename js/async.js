@@ -27,12 +27,9 @@
 
 HTTPSB.asyncJobs = (function() {
 
-var timeResolution = 200;
-var jobs = {};
-var jobCount = 0;
-var jobJunkyard = [];
-var timerId = null;
-var timerWhen = Number.MAX_VALUE;
+var processJobs = function() {
+    asyncJobManager.process();
+};
 
 var AsyncJobEntry = function(name) {
     this.name = name;
@@ -48,57 +45,66 @@ AsyncJobEntry.prototype.destroy = function() {
     this.callback = null;
 };
 
-var restartTimer = function() {
+var AsyncJobManager = function() {
+    this.timeResolution = 200;
+    this.jobs = {};
+    this.jobCount = 0;
+    this.jobJunkyard = [];
+    this.timerId = null;
+    this.timerWhen = Number.MAX_VALUE;
+};
+
+AsyncJobManager.prototype.restartTimer = function() {
     var when = Number.MAX_VALUE;
     var job;
-    for ( var jobName in jobs ) {
-        if ( jobs.hasOwnProperty(jobName) === false ) {
+    for ( var jobName in this.jobs ) {
+        if ( this.jobs.hasOwnProperty(jobName) === false ) {
             continue;
         }
-        job = jobs[jobName];
+        job = this.jobs[jobName];
         if ( job.when < when ) {
             when = job.when;
         }
     }
     // Quantize time value
-    when = Math.floor((when + timeResolution - 1) / timeResolution) * timeResolution;
+    when = Math.floor((when + this.timeResolution - 1) / this.timeResolution) * this.timeResolution;
 
-    if ( when < timerWhen ) {
-        clearTimeout(timerId);
-        timerWhen = when;
-        timerId = setTimeout(processJobs, Math.max(when - Date.now(), 10));
+    if ( when < this.timerWhen ) {
+        clearTimeout(this.timerId);
+        this.timerWhen = when;
+        this.timerId = setTimeout(processJobs, Math.max(when - Date.now(), 10));
     }
 };
 
-var addJob = function(name, data, callback, delay, recurrent) {
-    var job = jobs[name];
+AsyncJobManager.prototype.add = function(name, data, callback, delay, recurrent) {
+    var job = this.jobs[name];
     if ( !job ) {
-        job = jobJunkyard.pop();
+        job = this.jobJunkyard.pop();
         if ( !job ) {
             job = new AsyncJobEntry(name);
         } else {
             job.name = name;
         }
-        jobs[name] = job;
-        jobCount++;
+        this.jobs[name] = job;
+        this.jobCount++;
     }
     job.data = data;
     job.callback = callback;
     job.when = Date.now() + delay;
     job.period = recurrent ? delay : 0;
-    restartTimer();
+    this.restartTimer();
 };
 
-var processJobs = function() {
-    timerId = null;
-    timerWhen = Number.MAX_VALUE;
+AsyncJobManager.prototype.process = function() {
+    this.timerId = null;
+    this.timerWhen = Number.MAX_VALUE;
     var now = Date.now();
     var job;
-    for ( var jobName in jobs ) {
-        if ( jobs.hasOwnProperty(jobName) === false ) {
+    for ( var jobName in this.jobs ) {
+        if ( this.jobs.hasOwnProperty(jobName) === false ) {
             continue;
         }
-        job = jobs[jobName];
+        job = this.jobs[jobName];
         if ( job.when > now ) {
             continue;
         }
@@ -106,63 +112,62 @@ var processJobs = function() {
         if ( job.period ) {
             job.when = now + job.period;
         } else {
-            delete jobs[jobName];
+            delete this.jobs[jobName];
             job.destroy();
-            jobCount--;
-            jobJunkyard.push(job);
+            this.jobCount--;
+            this.jobJunkyard.push(job);
         }
     }
-    restartTimer();
+    this.restartTimer();
 };
 
-// Publish async jobs module
-return {
-    add: addJob
-};
+// Only one instance
+var asyncJobManager = new AsyncJobManager();
+
+// Publish
+return asyncJobManager;
 
 })();
 
 /******************************************************************************/
 
 // Update visual of extension icon.
-// A time out is used to coalesce adjacents requests to update badge.
+// A time out is used to coalesce adjacent requests to update badge.
 
-function updateBadgeCallback(pageUrl) {
-    var httpsb = HTTPSB;
-    if ( pageUrl === httpsb.behindTheSceneURL ) {
-        return;
-    }
-    var tabId = httpsb.tabIdFromPageUrl(pageUrl);
-    if ( !tabId ) {
-        return;
-    }
-    var pageStats = httpsb.pageStatsFromTabId(tabId);
-    if ( pageStats ) {
-        pageStats.updateBadge(tabId);
-    } else {
-        chrome.browserAction.setIcon({ tabId: tabId, path: 'img/browsericons/icon19.png' });
-        chrome.browserAction.setBadgeText({ tabId: tabId, text: '?' });
-    }
-}
+HTTPSB.updateBadge = function(pageUrl) {
+    var updateBadgeCallback = function(pageUrl) {
+        var httpsb = HTTPSB;
+        if ( pageUrl === httpsb.behindTheSceneURL ) {
+            return;
+        }
+        var tabId = httpsb.tabIdFromPageUrl(pageUrl);
+        if ( !tabId ) {
+            return;
+        }
+        var pageStats = httpsb.pageStatsFromTabId(tabId);
+        if ( pageStats ) {
+            pageStats.updateBadge(tabId);
+        } else {
+            chrome.browserAction.setIcon({ tabId: tabId, path: 'img/browsericons/icon19.png' });
+            chrome.browserAction.setBadgeText({ tabId: tabId, text: '?' });
+        }
+    };
 
-function updateBadge(pageUrl) {
-    HTTPSB.asyncJobs.add('updateBadge ' + pageUrl, pageUrl, updateBadgeCallback, 250);
-}
+    this.asyncJobs.add('updateBadge ' + pageUrl, pageUrl, updateBadgeCallback, 250);
+};
 
 /******************************************************************************/
 
 // Notify whoever care that whitelist/blacklist have changed (they need to
 // refresh their matrix).
 
-function permissionChangedCallback() {
-    chrome.runtime.sendMessage({
-        'what': 'permissionsChanged'
-    });
-}
+HTTPSB.permissionsChanged = function() {
+    var permissionChangedCallback = function() {
+        chrome.runtime.sendMessage({ 'what': 'permissionsChanged' });
+    };
 
-function permissionsChanged() {
-    HTTPSB.asyncJobs.add('permissionsChanged', null, permissionChangedCallback, 250);
-}
+    this.asyncJobs.add('permissionsChanged', null, permissionChangedCallback, 250);
+};
 
 /******************************************************************************/
 
@@ -228,21 +233,22 @@ function gotoExtensionURL(url) {
 // Notify whoever care that url stats have changed (they need to
 // rebuild their matrix).
 
-function urlStatsChangedCallback(pageUrl) {
-    // rhill 2013-11-17: No point in sending this message if the popup menu
-    // does not exist. I suspect this could be related to
-    // https://github.com/gorhill/httpswitchboard/issues/58
-    if ( HTTPSB.port ) {
-        HTTPSB.port.postMessage({
-            what: 'urlStatsChanged',
-            pageURL: pageUrl
-        });
-    }
-}
+HTTPSB.urlStatsChanged = function(pageUrl) {
+    var httpsb = this;
+    var urlStatsChangedCallback = function(pageUrl) {
+        // rhill 2013-11-17: No point in sending this message if the popup menu
+        // does not exist. I suspect this could be related to
+        // https://github.com/gorhill/httpswitchboard/issues/58
+        if ( httpsb.port ) {
+            httpsb.port.postMessage({
+                what: 'urlStatsChanged',
+                pageURL: pageUrl
+            });
+        }
+    };
 
-function urlStatsChanged(pageUrl) {
-    HTTPSB.asyncJobs.add('urlStatsChanged ' + pageUrl, pageUrl, urlStatsChangedCallback, 1000);
-}
+    this.asyncJobs.add('urlStatsChanged ' + pageUrl, pageUrl, urlStatsChangedCallback, 1000);
+};
 
 /******************************************************************************/
 

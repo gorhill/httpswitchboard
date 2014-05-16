@@ -19,6 +19,8 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
+/* global chrome, HTTPSB */
+
 /******************************************************************************/
 
 PageStatsEntry.junkyard = [];
@@ -83,7 +85,8 @@ PageStatsEntry.prototype.recordRequest = function(type, url, block, reason) {
     // rhill 2013-10-26: This needs to be called even if the request is
     // already logged, since the request stats are cached for a while after
     // the page is no longer visible in a browser tab.
-    updateBadge(this.pageUrl);
+    var httpsb = HTTPSB;
+    httpsb.updateBadge(this.pageUrl);
 
     // Count blocked/allowed requests
     this.requestStats.record(type, block);
@@ -100,7 +103,7 @@ PageStatsEntry.prototype.recordRequest = function(type, url, block, reason) {
         return;
     }
 
-    var hostname = HTTPSB.URI.hostnameFromURI(url);
+    var hostname = httpsb.URI.hostnameFromURI(url);
 
     // https://github.com/gorhill/httpswitchboard/issues/181
     if ( type === 'script' && hostname !== this.pageHostname ) {
@@ -122,7 +125,7 @@ PageStatsEntry.prototype.recordRequest = function(type, url, block, reason) {
     this.distinctRequestCount++;
     this.domains[hostname] = true;
 
-    urlStatsChanged(this.pageUrl);
+    httpsb.urlStatsChanged(this.pageUrl);
     // console.debug("HTTP Switchboard > PageStatsEntry.recordRequest() > %o: %s @ %s", this, type, url);
 };
 
@@ -364,7 +367,7 @@ HTTPSB.smartReloadTabs = function(which, tabId) {
     };
 
     this.asyncJobs.add('smartReloadTabs', null, getTabs, 500);
-}
+};
 
 /******************************************************************************/
 
