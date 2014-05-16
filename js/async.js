@@ -19,78 +19,107 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
+/* global chrome, HTTPSB */
+
 /******************************************************************************/
 
 // Async job queue module
 
-(function() {
+HTTPSB.asyncJobs = (function() {
 
-    var timeResolution = 200;
-    var jobs = {};
-    var jobCount = 0;
-    var jobJunkyard = [];
+var timeResolution = 200;
+var jobs = {};
+var jobCount = 0;
+var jobJunkyard = [];
+var timerId = null;
+var timerWhen = Number.MAX_VALUE;
 
-    var asyncJobEntry = function(name) {
-        this.name = name;
-        this.data = null;
-        this.callback = null;
-        this.when = 0;
-        this.period = 0;
-    };
+var AsyncJobEntry = function(name) {
+    this.name = name;
+    this.data = null;
+    this.callback = null;
+    this.when = 0;
+    this.period = 0;
+};
 
-    asyncJobEntry.prototype.destroy = function() {
-        this.name = '';
-        this.data = null;
-        this.callback = null;
-    };
+AsyncJobEntry.prototype.destroy = function() {
+    this.name = '';
+    this.data = null;
+    this.callback = null;
+};
 
-    var addJob = function(name, data, callback, delay, recurrent) {
-        var job = jobs[name];
+var restartTimer = function() {
+    var when = Number.MAX_VALUE;
+    var job;
+    for ( var jobName in jobs ) {
+        if ( jobs.hasOwnProperty(jobName) === false ) {
+            continue;
+        }
+        job = jobs[jobName];
+        if ( job.when < when ) {
+            when = job.when;
+        }
+    }
+    // Quantize time value
+    when = Math.floor((when + timeResolution - 1) / timeResolution) * timeResolution;
+
+    if ( when < timerWhen ) {
+        clearTimeout(timerId);
+        timerWhen = when;
+        timerId = setTimeout(processJobs, Math.max(when - Date.now(), 10));
+    }
+};
+
+var addJob = function(name, data, callback, delay, recurrent) {
+    var job = jobs[name];
+    if ( !job ) {
+        job = jobJunkyard.pop();
         if ( !job ) {
-            job = jobJunkyard.pop();
-            if ( !job ) {
-                job = new asyncJobEntry(name);
-            } else {
-                job.name = name;
-            }
-            jobs[name] = job;
-            jobCount++;
+            job = new AsyncJobEntry(name);
+        } else {
+            job.name = name;
         }
-        job.data = data;
-        job.callback = callback;
-        job.when = Date.now() + delay;
-        job.period = recurrent ? delay : 0;
-    };
+        jobs[name] = job;
+        jobCount++;
+    }
+    job.data = data;
+    job.callback = callback;
+    job.when = Date.now() + delay;
+    job.period = recurrent ? delay : 0;
+    restartTimer();
+};
 
-    var processJobs = function() {
-        var now = Date.now();
-        var job;
-        for ( var jobName in jobs ) {
-            if ( jobs.hasOwnProperty(jobName) === false ) {
-                continue;
-            }
-            job = jobs[jobName];
-            if ( job.when > now ) {
-                continue;
-            }
-            job.callback(job.data);
-            if ( job.period ) {
-                job.when = now + job.period;
-            } else {
-                delete jobs[jobName];
-                job.destroy();
-                jobCount--;
-                jobJunkyard.push(job);
-            }
+var processJobs = function() {
+    timerId = null;
+    timerWhen = Number.MAX_VALUE;
+    var now = Date.now();
+    var job;
+    for ( var jobName in jobs ) {
+        if ( jobs.hasOwnProperty(jobName) === false ) {
+            continue;
         }
-    };
+        job = jobs[jobName];
+        if ( job.when > now ) {
+            continue;
+        }
+        job.callback(job.data);
+        if ( job.period ) {
+            job.when = now + job.period;
+        } else {
+            delete jobs[jobName];
+            job.destroy();
+            jobCount--;
+            jobJunkyard.push(job);
+        }
+    }
+    restartTimer();
+};
 
-    setInterval(processJobs, timeResolution);
+// Publish async jobs module
+return {
+    add: addJob
+};
 
-    // Publish async jobs module
-    HTTPSB.asyncJobs = {
-        add: addJob
-    };
 })();
 
 /******************************************************************************/
