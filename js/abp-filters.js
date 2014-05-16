@@ -650,7 +650,6 @@ FilterParser.prototype.parse = function(s) {
             break;
         }
         this.unsupported = true;
-        // console.log('HTTP Switchboard> abp-filter.js/parseOptions(): unsupported option "%s" in filter "%s"', opts[i], s);
     }
     return this;
 };
@@ -751,6 +750,7 @@ FilterContainer.prototype.add = function(s) {
 
     // Ignore rules with other conditions for now
     if ( parsed.unsupported ) {
+        // console.log('HTTP Switchboard> abp-filter.js/FilterContainer.add(): unsupported filter "%s"', s);
         return false;
     }
 
@@ -878,194 +878,6 @@ FilterContainer.prototype.reset = function() {
     this.categories = {};
     this.blocked3rdPartyHostnames.reset();
 };
-
-/******************************************************************************/
-/*
-var adbProfiler = {
-    testCount: 0,
-    urlCount: 0,
-    dumpEach: 200,
-    countUrl: function() {
-        this.urlCount += 1;
-        if ( (this.urlCount % this.dumpEach) === 0 ) {
-            this.dump();
-        }
-    },
-    countTest: function() {
-        this.testCount += 1;
-    },
-    dump: function() {
-        console.log('HTTPSB.adbProfiler> number or filters tested per URL: %d (sample: %d URLs)', this.testCount / this.urlCount, this.urlCount);
-    },
-    reset: function() {
-        this.testCount = 0;
-        this.urlCount = 0;
-    },
-    dummy: 0
-};
-*/
-/*
-var histogram = function(label, categories) {
-    var h = [],
-        categoryBucket;
-    for ( var k in categories ) {
-        if ( categories.hasOwnProperty(k) === false ) {
-            continue;
-        }
-        categoryBucket = categories[k];
-        for ( var kk in categoryBucket ) {
-            if ( categoryBucket.hasOwnProperty(kk) === false ) {
-                continue;
-            }
-            filterBucket = categoryBucket[kk];
-            h.push({
-                k: k + ' ' + kk,
-                n: filterBucket instanceof FilterBucket ? filterBucket.filters.length : 1
-            });
-        }
-    }
-
-    console.log('Histogram %s', label);
-
-    var total = h.length;
-    h.sort(function(a, b) { return b.n - a.n; });
-
-    // Find indices of entries of interest
-    var target = 2;
-    for ( var i = 0; i < total; i++ ) {
-        if ( h[i].n === target ) {
-            console.log('\tEntries with only %d filter(s) start at index %s (key = "%s")', target, i, h[i].k);
-            target -= 1;
-        }
-    }
-
-    h = h.slice(0, 50);
-
-    h.forEach(function(v) {
-        console.log('\tkey=%s  count=%d', v.k, v.n);
-    });
-    console.log('\tTotal buckets count: %d', total);
-};
-*/
-
-/*
-2014-04-13:
-    Did collect some objective measurements today, using "15 top
-    news web sites" benchmark. Here:
-
-    Adblock Plus:
-        ABP.adbProfiler> number or URLs tested: 8364
-        ABP.adbProfiler> number or filters tested per URL: 114
-
-    HTTPSB:
-        HTTPSB.adbProfiler> number or URLs tested: 8307
-        HTTPSB.adbProfiler> number or filters tested per URL: 4
-
-    ABP on average tests 114 filters per URL.
-    HTTPSB on average tests 4 filters per URL.
-
-    The low average number of filters to per URL to test is key to
-    HTTPSB excellent performance over ABP. It's all in the much smaller bucket
-    size...
-
-2014-05-05:
-    Now supporting whitelist filters, so I ran another benchmark but this time
-    taking into account hits to whitelist filters, and I completely disabled
-    matrix filtering, in order to ensure all request URLs reach HTTPSB's
-    ABP filtering engine, thus results are a worst case scenario for HTTPSB.
-    Here:
-    
-    Adblock Plus:
-        ABP.adbProfiler> number or URLs tested: 10600
-        ABP.adbProfiler> number or filters tested per URL: 121
-    
-    HTTPSB:
-        HTTPSB.adbProfiler> number or URLs tested: 12600
-        HTTPSB.adbProfiler> number or filters tested per URL: 5
-
-    ABP on average tests 121 filters per URL.
-    HTTPSB on average tests 5 filters per URL.
-    
-    Note: Overall, less URLs were tested by ABP because it uses an internal
-    cache mechanism to avoid testing URL, which is probably an attempt at
-    mitigating the cost of testing so many filters for each URL. ABP's cache
-    mechanism itself is another reason ABP is memory-hungry.
-    
-2014-05-13:
-
-New histogram (see history on github for older histograms). All filters sit
-in virtually one collection. 
-
-Top 50 (key prefix removed because it displayed as garbage):
-	key= doubleclick.n  count=91
-	key= 2mdn.n  count=31
-	key= google-a  count=28
-	key= /ad_s  count=28
-	key= 2mdn.n  count=26
-	key= yahoo.c  count=25
-	key= /cgi-b  count=24
-	key= cloudfront.n  count=22
-	key= pagead2.g  count=22
-	key= /ads/s  count=21
-	key= distrowatch.c  count=21
-	key= amazonaws.c  count=20
-	key= 2mdn.n  count=20
-	key= google-a  count=20
-	key= 2mdn.n  count=19
-	key= doubleclick.n  count=19
-	key= doubleclick.n  count=19
-	key= 2mdn.n  count=19
-	key= 2mdn.n  count=18
-	key= .gif?  count=18
-	key= /ad_l  count=18
-	key= /ads/p  count=18
-	key= 2mdn.n  count=17
-	key= /ads/b  count=17
-	key= /ads/  count=17
-	key= /ad_c  count=17
-	key= /ad_b  count=17
-	key= pagead2.g  count=16
-	key= messianictimes.c  count=16
-	key= /ad_t  count=16
-	key= /ad_f  count=15
-	key= /ad_h  count=15
-	key= /wp-c  count=15
-	key= hulu.c  count=15
-	key= 2mdn.n  count=14
-	key= /google_a  count=14
-	key= /ad/s  count=14
-	key= /ad_r  count=14
-	key= 2mdn.n  count=14
-	key= /ad_p  count=13
-	key= /ad-i  count=13
-	key= /google-a  count=13
-	key= /ss/  count=13
-	key= /ads/a  count=13
-	key= /ad-l  count=13
-	key= g.d  count=13
-	key= .net/a  count=12
-	key= facebook.c  count=12
-	key= 2mdn.n  count=12
-	key= js.r  count=12
-	Entries with only 2 filter(s) start at index 952 (key = " united-d")
-	Entries with only 1 filter(s) start at index 2435 (key = " /analyticstracking_") 
-    Total buckets count: 22149
-
-TL;DR:
-    Worst case scenario = 91 filters to test
-
-    In both collections, worst case scenarios are a very small minority of the
-    whole set.
-    
-    Memory footprint could be further reduced by using a hashed token for all
-    those buckets which contain less than [?] filters (and splitting the maps
-    in two, one for token-as-hash and the other for good-hash-from-token).
-    Side effects: added overhead, improved memory footprint.
-
-Need to measure average test count/URL, roughly under 10 last time I checked
-with the new code.
-
-*/
 
 /******************************************************************************/
 
@@ -1202,9 +1014,10 @@ FilterContainer.prototype.matchString = function(pageStats, url, requestType, re
     var categories = this.categories;
     var categoryBuckets = this.categoryBuckets;
 
-    // This will be used by hostname-based filter
+    // This will be used by hostname-based filters
     pageHostname = pageStats.pageHostname;
 
+    // Test hostname-based block filters with only 3rd-party option
     var bf = false;
     if ( party === ThirdParty ) {
         bf = this.match3rdPartyHostname(requestHostname);
@@ -1221,10 +1034,10 @@ FilterContainer.prototype.matchString = function(pageStats, url, requestType, re
         categoryBuckets[1] = categories[this.makeCategoryKey(BlockOneParty | type | domainParty)];
         categoryBuckets[0] = categories[this.makeCategoryKey(BlockOtherParties | type | domainParty)];
 
-        // If there is no block filter, no need to test against allow filters
         bf = this.matchTokens();
     }
 
+    // If there is no block filter, no need to test against allow filters
     if ( bf === false ) {
         return false;
     }
@@ -1261,3 +1074,191 @@ return new FilterContainer();
 })();
 
 /******************************************************************************/
+
+/*
+var adbProfiler = {
+    testCount: 0,
+    urlCount: 0,
+    dumpEach: 200,
+    countUrl: function() {
+        this.urlCount += 1;
+        if ( (this.urlCount % this.dumpEach) === 0 ) {
+            this.dump();
+        }
+    },
+    countTest: function() {
+        this.testCount += 1;
+    },
+    dump: function() {
+        console.log('HTTPSB.adbProfiler> number or filters tested per URL: %d (sample: %d URLs)', this.testCount / this.urlCount, this.urlCount);
+    },
+    reset: function() {
+        this.testCount = 0;
+        this.urlCount = 0;
+    },
+    dummy: 0
+};
+*/
+/*
+var histogram = function(label, categories) {
+    var h = [],
+        categoryBucket;
+    for ( var k in categories ) {
+        if ( categories.hasOwnProperty(k) === false ) {
+            continue;
+        }
+        categoryBucket = categories[k];
+        for ( var kk in categoryBucket ) {
+            if ( categoryBucket.hasOwnProperty(kk) === false ) {
+                continue;
+            }
+            filterBucket = categoryBucket[kk];
+            h.push({
+                k: k + ' ' + kk,
+                n: filterBucket instanceof FilterBucket ? filterBucket.filters.length : 1
+            });
+        }
+    }
+
+    console.log('Histogram %s', label);
+
+    var total = h.length;
+    h.sort(function(a, b) { return b.n - a.n; });
+
+    // Find indices of entries of interest
+    var target = 2;
+    for ( var i = 0; i < total; i++ ) {
+        if ( h[i].n === target ) {
+            console.log('\tEntries with only %d filter(s) start at index %s (key = "%s")', target, i, h[i].k);
+            target -= 1;
+        }
+    }
+
+    h = h.slice(0, 50);
+
+    h.forEach(function(v) {
+        console.log('\tkey=%s  count=%d', v.k, v.n);
+    });
+    console.log('\tTotal buckets count: %d', total);
+};
+*/
+
+/*******************************************************************************
+
+2014-04-13:
+    Did collect some objective measurements today, using "15 top
+    news web sites" benchmark. Here:
+
+    Adblock Plus:
+        ABP.adbProfiler> number or URLs tested: 8364
+        ABP.adbProfiler> number or filters tested per URL: 114
+
+    HTTPSB:
+        HTTPSB.adbProfiler> number or URLs tested: 8307
+        HTTPSB.adbProfiler> number or filters tested per URL: 4
+
+    ABP on average tests 114 filters per URL.
+    HTTPSB on average tests 4 filters per URL.
+
+    The low average number of filters to per URL to test is key to
+    HTTPSB excellent performance over ABP. It's all in the much smaller bucket
+    size...
+
+2014-05-05:
+    Now supporting whitelist filters, so I ran another benchmark but this time
+    taking into account hits to whitelist filters, and I completely disabled
+    matrix filtering, in order to ensure all request URLs reach HTTPSB's
+    ABP filtering engine, thus results are a worst case scenario for HTTPSB.
+    Here:
+    
+    Adblock Plus:
+        ABP.adbProfiler> number or URLs tested: 10600
+        ABP.adbProfiler> number or filters tested per URL: 121
+    
+    HTTPSB:
+        HTTPSB.adbProfiler> number or URLs tested: 12600
+        HTTPSB.adbProfiler> number or filters tested per URL: 5
+
+    ABP on average tests 121 filters per URL.
+    HTTPSB on average tests 5 filters per URL.
+    
+    Note: Overall, less URLs were tested by ABP because it uses an internal
+    cache mechanism to avoid testing URL, which is probably an attempt at
+    mitigating the cost of testing so many filters for each URL. ABP's cache
+    mechanism itself is another reason ABP is memory-hungry.
+
+2014-05-15:
+    Given all recent changes, new measurement for HTTPSB: 7 filters tested/URL
+
+2014-05-13:
+
+New histogram (see history on github for older histograms). All filters sit
+in virtually one collection. 
+
+Top 50 (key prefix removed because it displayed as garbage):
+	key= doubleclick.n  count=91
+	key= 2mdn.n  count=31
+	key= google-a  count=28
+	key= /ad_s  count=28
+	key= 2mdn.n  count=26
+	key= yahoo.c  count=25
+	key= /cgi-b  count=24
+	key= cloudfront.n  count=22
+	key= pagead2.g  count=22
+	key= /ads/s  count=21
+	key= distrowatch.c  count=21
+	key= amazonaws.c  count=20
+	key= 2mdn.n  count=20
+	key= google-a  count=20
+	key= 2mdn.n  count=19
+	key= doubleclick.n  count=19
+	key= doubleclick.n  count=19
+	key= 2mdn.n  count=19
+	key= 2mdn.n  count=18
+	key= .gif?  count=18
+	key= /ad_l  count=18
+	key= /ads/p  count=18
+	key= 2mdn.n  count=17
+	key= /ads/b  count=17
+	key= /ads/  count=17
+	key= /ad_c  count=17
+	key= /ad_b  count=17
+	key= pagead2.g  count=16
+	key= messianictimes.c  count=16
+	key= /ad_t  count=16
+	key= /ad_f  count=15
+	key= /ad_h  count=15
+	key= /wp-c  count=15
+	key= hulu.c  count=15
+	key= 2mdn.n  count=14
+	key= /google_a  count=14
+	key= /ad/s  count=14
+	key= /ad_r  count=14
+	key= 2mdn.n  count=14
+	key= /ad_p  count=13
+	key= /ad-i  count=13
+	key= /google-a  count=13
+	key= /ss/  count=13
+	key= /ads/a  count=13
+	key= /ad-l  count=13
+	key= g.d  count=13
+	key= .net/a  count=12
+	key= facebook.c  count=12
+	key= 2mdn.n  count=12
+	key= js.r  count=12
+	Entries with only 2 filter(s) start at index 952 (key = " united-d")
+	Entries with only 1 filter(s) start at index 2435 (key = " /analyticstracking_") 
+    Total buckets count: 22149
+
+TL;DR:
+    Worst case scenario = 91 filters to test
+
+    In both collections, worst case scenarios are a very small minority of the
+    whole set.
+    
+    Memory footprint could be further reduced by using a hashed token for all
+    those buckets which contain less than [?] filters (and splitting the maps
+    in two, one for token-as-hash and the other for good-hash-from-token).
+    Side effects: added overhead, improved memory footprint.
+
+*******************************************************************************/
