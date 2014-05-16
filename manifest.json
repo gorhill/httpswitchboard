@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "__MSG_extName__",
     "short_name": "HTTPSB",
-    "version": "0.9.2.0",
+    "version": "0.9.2.1",
     "description": "__MSG_extShortDesc__",
     "icons": {
         "16": "icon_16.png",
@@ -20,17 +20,29 @@
         "page": "background.html"
     },
     "commands": {
+       "open-settings": {
+            "description": "Open Settings",
+            "suggested_keys": {
+                "default": "Ctrl+Shift+1"
+            }
+        },
         "open-statistics": {
-            "description": "Open Statistics"
+            "description": "Open Statistics",
+            "suggested_keys": {
+                "default": "Ctrl+Shift+2"
+            }
         },
        "open-scoped-rules": {
-            "description": "Open Rule manager"
-        },
-       "open-settings": {
-            "description": "Open Settings"
+            "description": "Open Scoped rules",
+            "suggested_keys": {
+                "default": "Ctrl+Shift+3"
+            }
         },
        "open-ubiquitous-rules": {
-            "description": "Open Ubiquitous rules"
+            "description": "Open Ubiquitous rules",
+            "suggested_keys": {
+                "default": "Ctrl+Shift+4"
+            }
         }
     },
     "content_scripts": [
