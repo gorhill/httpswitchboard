@@ -702,7 +702,6 @@ var FilterContainer = function() {
     // Used during URL matching
     this.categoryBuckets = new Array(8);
     this.reAnyToken = /[%0-9a-z]+/g;
-    this.reMatches = null;
 };
 
 /******************************************************************************/
@@ -834,7 +833,7 @@ FilterContainer.prototype.addFilter = function(parsed) {
 FilterContainer.prototype.addFilterEntry = function(filter, parsed, party, tokenBeg, tokenEnd) {
     var s = parsed.f;
     var prefixKey = trimChar(s.substring(tokenBeg - 1, tokenBeg), '*');
-    var suffixKey = trimChar(s.substring(tokenEnd, tokenEnd + 2), '*');
+    var suffixKey = trimChar(s.substring(tokenEnd, tokenEnd + 1), '*');
     var tokenKey = prefixKey + s.slice(tokenBeg, tokenEnd) + suffixKey;
     if ( parsed.types.length === 0 ) {
         this.addToCategory(parsed.action | AnyType | party, tokenKey, filter);
@@ -888,69 +887,45 @@ FilterContainer.prototype.freeze = function() {
 
 /******************************************************************************/
 
-FilterContainer.prototype.matchToken = function(categoryBucket) {
-    var url = this.url;
-    var beg = this.reMatches.index;
-    var end = this.reAnyToken.lastIndex;
-    var right = url.length - end;
-    var f;
-    
-    if ( right > 1 ) {
-        if ( beg !== 0 ) {
-            f = categoryBucket[url.slice(beg-1, end+2)];
-            if ( f !== undefined && f.match(url, beg) !== false ) {
-                return f.s;
-            }
-        }
-        f = categoryBucket[url.slice(beg, end+2)];
-        if ( f !== undefined && f.match(url, beg) !== false ) {
-            return f.s;
-        }
-    }
-    if ( right > 0 ) {
-        if ( beg !== 0 ) {
-            f = categoryBucket[url.slice(beg-1, end+1)];
-            if ( f !== undefined && f.match(url, beg) !== false ) {
-                return f.s;
-            }
-        }
-        f = categoryBucket[url.slice(beg, end+1)];
-        if ( f !== undefined && f.match(url, beg) !== false ) {
-            return f.s;
-        }
-    }
-    if ( beg !== 0 ) {
-        f = categoryBucket[url.slice(beg-1, end)];
-        if ( f !== undefined && f.match(url, beg) !== false ) {
-            return f.s;
-        }
-    }
-    f = categoryBucket[url.slice(beg, end)];
-    if ( f !== undefined && f.match(url, beg) !== false ) {
-        return f.s;
-    }
-    return false;
-};
-
-/******************************************************************************/
-
 FilterContainer.prototype.matchTokens = function() {
     var buckets = this.categoryBuckets;
     var url = this.url;
+    var urlLen = url.length;
     var re = this.reAnyToken;
-    var i, bucket, f;
+    var beg, end, i, bucket, f;
+    var matches;
 
     re.lastIndex = 0;
-    while ( this.reMatches = re.exec(url) ) {
+    while ( matches = re.exec(url) ) {
+        beg = matches.index;
+        end = re.lastIndex;
         i = 8;
         while ( i-- ) {
             bucket = buckets[i];
             if ( bucket === undefined ) {
                 continue;
             }
-            f = this.matchToken(bucket);
-            if ( f !== false ) {
-                return f;
+            if ( end !== urlLen ) {
+                if ( beg !== 0 ) {
+                    f = bucket[url.slice(beg-1, end+1)];
+                    if ( f !== undefined && f.match(url, beg) !== false ) {
+                        return f.s;
+                    }
+                }
+                f = bucket[url.slice(beg, end+1)];
+                if ( f !== undefined && f.match(url, beg) !== false ) {
+                    return f.s;
+                }
+            }
+            if ( beg !== 0 ) {
+                f = bucket[url.slice(beg-1, end)];
+                if ( f !== undefined && f.match(url, beg) !== false ) {
+                    return f.s;
+                }
+            }
+            f = bucket[url.slice(beg, end)];
+            if ( f !== undefined && f.match(url, beg) !== false ) {
+                return f.s;
             }
         }
     }
