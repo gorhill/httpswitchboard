@@ -87,6 +87,7 @@ var FilterPlain = function(s, tokenBeg) {
 };
 
 FilterPlain.prototype.match = function(url, tokenBeg) {
+    // adbProfiler.countTest();
     return url.substr(tokenBeg - this.tokenBeg, this.s.length) === this.s;
 };
 
@@ -99,6 +100,7 @@ var FilterPlainHostname = function(s, tokenBeg, hostname) {
 };
 
 FilterPlainHostname.prototype.match = function(url, tokenBeg) {
+    // adbProfiler.countTest();
     return pageHostname.slice(-this.hostname.length) === this.hostname &&
            url.substr(tokenBeg - this.tokenBeg, this.s.length) === this.s;
 };
@@ -112,6 +114,7 @@ var FilterPlainNotHostname = function(s, tokenBeg, hostname) {
 };
 
 FilterPlainNotHostname.prototype.match = function(url, tokenBeg) {
+    // adbProfiler.countTest();
     return pageHostname.slice(-this.hostname.length) !== this.hostname &&
            url.substr(tokenBeg - this.tokenBeg, this.s.length) === this.s;
 };
@@ -123,6 +126,7 @@ var FilterPlainPrefix0 = function(s) {
 };
 
 FilterPlainPrefix0.prototype.match = function(url, tokenBeg) {
+    // adbProfiler.countTest();
     return url.substr(tokenBeg, this.s.length) === this.s;
 };
 
@@ -134,6 +138,7 @@ var FilterPlainPrefix0Hostname = function(s, hostname) {
 };
 
 FilterPlainPrefix0Hostname.prototype.match = function(url, tokenBeg) {
+    // adbProfiler.countTest();
     return pageHostname.slice(-this.hostname.length) === this.hostname &&
            url.substr(tokenBeg, this.s.length) === this.s;
 };
@@ -146,6 +151,7 @@ var FilterPlainPrefix0NotHostname = function(s, hostname) {
 };
 
 FilterPlainPrefix0NotHostname.prototype.match = function(url, tokenBeg) {
+    // adbProfiler.countTest();
     return pageHostname.slice(-this.hostname.length) !== this.hostname &&
            url.substr(tokenBeg, this.s.length) === this.s;
 };
@@ -157,6 +163,7 @@ var FilterPlainPrefix1 = function(s) {
 };
 
 FilterPlainPrefix1.prototype.match = function(url, tokenBeg) {
+    // adbProfiler.countTest();
     return url.substr(tokenBeg - 1, this.s.length) === this.s;
 };
 
@@ -168,6 +175,7 @@ var FilterPlainPrefix1Hostname = function(s, hostname) {
 };
 
 FilterPlainPrefix1Hostname.prototype.match = function(url, tokenBeg) {
+    // adbProfiler.countTest();
     return pageHostname.slice(-this.hostname.length) === this.hostname &&
            url.substr(tokenBeg - 1, this.s.length) === this.s;
 };
@@ -180,6 +188,7 @@ var FilterPlainPrefix1NotHostname = function(s, hostname) {
 };
 
 FilterPlainPrefix1NotHostname.prototype.match = function(url, tokenBeg) {
+    // adbProfiler.countTest();
     return pageHostname.slice(-this.hostname.length) !== this.hostname &&
            url.substr(tokenBeg - 1, this.s.length) === this.s;
 };
@@ -200,6 +209,7 @@ var FilterSingleWildcard = function(s, tokenBeg) {
 };
 
 FilterSingleWildcard.prototype.match = function(url, tokenBeg) {
+    // adbProfiler.countTest();
     tokenBeg -= this.tokenBeg;
     return url.substr(tokenBeg, this.lSegment.length) === this.lSegment &&
            url.indexOf(this.rSegment, tokenBeg + this.lSegment.length) > 0;
@@ -217,6 +227,7 @@ var FilterSingleWildcardHostname = function(s, tokenBeg, hostname) {
 };
 
 FilterSingleWildcardHostname.prototype.match = function(url, tokenBeg) {
+    // adbProfiler.countTest();
     tokenBeg -= this.tokenBeg;
     return pageHostname.slice(-this.hostname.length) === this.hostname &&
            url.substr(tokenBeg, this.lSegment.length) === this.lSegment &&
@@ -235,6 +246,7 @@ var FilterSingleWildcardNotHostname = function(s, tokenBeg, hostname) {
 };
 
 FilterSingleWildcardNotHostname.prototype.match = function(url, tokenBeg) {
+    // adbProfiler.countTest();
     tokenBeg -= this.tokenBeg;
     return pageHostname.slice(-this.hostname.length) !== this.hostname &&
            url.substr(tokenBeg, this.lSegment.length) === this.lSegment &&
@@ -251,6 +263,7 @@ var FilterSingleWildcardPrefix0 = function(s) {
 };
 
 FilterSingleWildcardPrefix0.prototype.match = function(url, tokenBeg) {
+    // adbProfiler.countTest();
     return url.substr(tokenBeg, this.lSegment.length) === this.lSegment &&
            url.indexOf(this.rSegment, tokenBeg + this.lSegment.length) > 0;
 };
@@ -266,6 +279,7 @@ var FilterSingleWildcardPrefix0Hostname = function(s, hostname) {
 };
 
 FilterSingleWildcardPrefix0Hostname.prototype.match = function(url, tokenBeg) {
+    // adbProfiler.countTest();
     return pageHostname.slice(-this.hostname.length) === this.hostname &&
            url.substr(tokenBeg, this.lSegment.length) === this.lSegment &&
            url.indexOf(this.rSegment, tokenBeg + this.lSegment.length) > 0;
@@ -282,6 +296,7 @@ var FilterSingleWildcardPrefix0NotHostname = function(s, hostname) {
 };
 
 FilterSingleWildcardPrefix0NotHostname.prototype.match = function(url, tokenBeg) {
+    // adbProfiler.countTest();
     return pageHostname.slice(-this.hostname.length) !== this.hostname &&
            url.substr(tokenBeg, this.lSegment.length) === this.lSegment &&
            url.indexOf(this.rSegment, tokenBeg + this.lSegment.length) > 0;
@@ -302,6 +317,7 @@ var FilterManyWildcards = function(s, tokenBeg) {
 };
 
 FilterManyWildcards.prototype.match = function(url, tokenBeg) {
+    // adbProfiler.countTest();
     return this.re.test(url.slice(tokenBeg - this.tokenBeg));
 };
 
@@ -315,6 +331,7 @@ var FilterManyWildcardsHostname = function(s, tokenBeg, hostname) {
 };
 
 FilterManyWildcardsHostname.prototype.match = function(url, tokenBeg) {
+    // adbProfiler.countTest();
     return pageHostname.slice(-this.hostname.length) === this.hostname &&
            this.re.test(url.slice(tokenBeg - this.tokenBeg));
 };
@@ -329,6 +346,7 @@ var FilterManyWildcardsNotHostname = function(s, tokenBeg, hostname) {
 };
 
 FilterManyWildcardsNotHostname.prototype.match = function(url, tokenBeg) {
+    // adbProfiler.countTest();
     return pageHostname.slice(-this.hostname.length) !== this.hostname &&
            this.re.test(url.slice(tokenBeg - this.tokenBeg));
 };
@@ -864,7 +882,6 @@ FilterContainer.prototype.reset = function() {
 /******************************************************************************/
 /*
 var adbProfiler = {
-    testSwitch: false,
     testCount: 0,
     urlCount: 0,
     dumpEach: 200,
@@ -874,13 +891,8 @@ var adbProfiler = {
             this.dump();
         }
     },
-    testCounter: function(on) {
-        this.testSwitch = on;
-    },
     countTest: function() {
-        if ( this.testSwitch ) {
-            this.testCount += 1;
-        }
+        this.testCount += 1;
     },
     dump: function() {
         console.log('HTTPSB.adbProfiler> number or filters tested per URL: %d (sample: %d URLs)', this.testCount / this.urlCount, this.urlCount);
@@ -1135,9 +1147,33 @@ FilterContainer.prototype.matchTokens = function() {
 
 /******************************************************************************/
 
+// This is where we test filters which have the form:
+//
+//   `||www.example.com^$third-party`
+//
+// Because LiquidDict is well optimized to deal with plain hostname, we gain
+// reusing it here for these sort of filters rather than using filters
+// specialized to deal with other complex filters.
+
+FilterContainer.prototype.match3rdPartyHostname = function(requestHostname) {
+    // Quick test first
+    if ( this.blocked3rdPartyHostnames.test(requestHostname) ) {
+        return '||' + requestHostname + '^$third-party';
+    }
+    // Check parent hostnames if quick test failed
+    var hostnames = HTTPSB.URI.parentHostnamesFromHostname(requestHostname);
+    for ( var i = 0, n = hostnames.length; i < n; i++ ) {
+        if ( this.blocked3rdPartyHostnames.test(hostnames[i]) ) {
+            return '||' + hostnames[i] + '^$third-party';
+        }
+    }
+    return false;
+};
+
+/******************************************************************************/
+
 FilterContainer.prototype.matchString = function(pageStats, url, requestType, requestHostname) {
     // adbProfiler.countUrl();
-    // adbProfiler.testCounter(true);
 
     // https://github.com/gorhill/httpswitchboard/issues/239
     // Convert url to lower case:
@@ -1170,8 +1206,8 @@ FilterContainer.prototype.matchString = function(pageStats, url, requestType, re
     pageHostname = pageStats.pageHostname;
 
     var bf = false;
-    if ( party === ThirdParty && this.blocked3rdPartyHostnames.test(requestHostname) ) {
-        bf = '||' + requestHostname + '^$third-party';
+    if ( party === ThirdParty ) {
+        bf = this.match3rdPartyHostname(requestHostname);
     }
 
     // Test against block filters
