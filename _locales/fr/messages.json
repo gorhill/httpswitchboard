@@ -331,6 +331,10 @@
         "message": "",
         "description": "English:"
     },
+    "settingsSubframeFgColor" : {
+        "message": "Couleur pour les &lt;iframe&gt; bloqués (syntaxe CSS):",
+        "description": "English: Blocked frames color (any valid CSS color):"
+    },
     "settingsPrivacyHeader" : {
         "message": "Confidentialité",
         "description": "header of Privacy section"

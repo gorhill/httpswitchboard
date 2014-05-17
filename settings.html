@@ -33,6 +33,16 @@ ul > li {
     word-wrap: normal;
     overflow-x: scroll;
     }
+#subframe-fgcolor-demo {
+    border:1px dotted transparent;
+    display: inline-block;
+    width: 2em;
+    height: 1.25em;
+    position: relative;
+    top: 5px;
+    background-color:transparent;
+    background-size:10px 10px;
+    }
 </style>
 </head>
 
@@ -81,6 +91,7 @@ ul > li {
             <input id="delete-unused-temporary-scopes" type="checkbox"><span data-i18n="settingsMatrixDeleteUnusedTemporaryScopesPrompt1"></span>
             <!-- <button class="whatisthis"></button>
             <div class="whatisthis-expandable para" data-i18n="settingsAutoDeleteTemporaryScopesHelp"></div> -->
+        <li><span data-i18n="settingsSubframeFgColor"></span> <input id="subframe-fgcolor" type="text" value="" size="16"><span id="subframe-fgcolor-demo"></span>
         </ul>
 </ul>
 

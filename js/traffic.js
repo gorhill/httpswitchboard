@@ -48,7 +48,16 @@ padding: 0; \
 font: 15px httpsb,sans-serif; \
 width: 100%; \
 height: 100%; \
-background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QkOFgcvc4DETwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAACGSURBVFjD7ZZBCsAgEAMT6f+/nJ5arYcqiKtIPAaFYR2DFCAAgEQ8iwzLCLxZWglSZgKUdgHJk2kdLEY5C4QAUxeIFOINfwUOBGkLPBnkAIEDQPoEDiw+uoGHBQ4ovv4GnvTMS4EvC+wvhBvYAltgC2yBLbAFPlTgvKG6vxXZB6QOl2S7gNw6ktgOp+IH7wAAAABJRU5ErkJggg==') repeat; \
+background-color:transparent;\
+background-size:10px 10px;\
+background-image:\
+repeating-linear-gradient(\
+-45deg,\
+rgba(204,0,0,0.5),rgba(204,0,0,0.5) 25%,\
+transparent 25%,transparent 50%,\
+rgba(204,0,0,0.5) 50%,rgba(204,0,0,0.5) 75%,\
+transparent 75%,transparent\
+);\
 text-align: center; \
 } \
 #p { \
@@ -98,42 +107,41 @@ margin:0;\
 border:0;\
 padding:0;\
 font:13px httpsb,sans-serif;\
-text-align:center;\
 }\
 #bg{\
+border:1px dotted {{fgColor}};\
 position:absolute;\
 top:0;\
 right:0;\
 bottom:0;\
 left:0;\
-background:transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QkOFgcvc4DETwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAACGSURBVFjD7ZZBCsAgEAMT6f+/nJ5arYcqiKtIPAaFYR2DFCAAgEQ8iwzLCLxZWglSZgKUdgHJk2kdLEY5C4QAUxeIFOINfwUOBGkLPBnkAIEDQPoEDiw+uoGHBQ4ovv4GnvTMS4EvC+wvhBvYAltgC2yBLbAFPlTgvKG6vxXZB6QOl2S7gNw6ktgOp+IH7wAAAABJRU5ErkJggg==') repeat;\
-opacity:{{opacity}};\
+background-color:transparent;\
+background-size:10px 10px;\
+background-image:\
+repeating-linear-gradient(\
+-45deg,\
+{{fgColor}},{{fgColor}} 25%,\
+transparent 25%,transparent 50%,\
+{{fgColor}} 50%,{{fgColor}} 75%,\
+transparent 75%,transparent\
+);\
+text-align:center;\
 }\
-#bgov{\
-border:1px dotted #c00;\
-position:absolute;\
-top:0;\
-right:0;\
-bottom:0;\
-left:0;\
-z-index:1;\
-opacity:{{opacity}};\
+#bg > div{\
+display:inline-block;\
+background-color:rgba(255,255,255,1);\
 }\
-#fg{\
+#bg > div > div {\
 padding:0 2px;\
 display:inline-block;\
-position:relative;\
-z-index:9;\
 color:white;\
-background:#c00;\
+background-color:{{fgColor}};\
 }\
 </style>\
 <title>Blocked by HTTPSB</title>\
 </head>\
 <body title='&ldquo;{{hostname}}&rdquo; frame\nblocked by HTTP Switchboard'>\
-<div id='bg'></div>\
-<div id='bgov'></div>\
-<span id='fg'>{{hostname}}</span>\
+<div id='bg'><div><div>{{hostname}}</div></div></div>\
 </body>\
 </html>";
 
@@ -372,7 +380,7 @@ var onBeforeRequestHandler = function(details) {
         var html = subFrameReplacement
             .replace(/{{fontUrl}}/g, httpsb.fontCSSURL)
             .replace(/{{hostname}}/g, requestHostname)
-            .replace(/{{opacity}}/g, httpsb.userSettings.subframeOpacity.toFixed(2));
+            .replace(/{{fgColor}}/g, httpsb.userSettings.subframeFgColor);
         // quickProfiler.stop();
         return { 'redirectUrl': 'data:text/html,' + encodeURIComponent(html) };
     }

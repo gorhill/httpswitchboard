@@ -31,6 +31,31 @@ function gethttpsb() {
 
 /******************************************************************************/
 
+var subframeDemoBackgroundImage = 'repeating-linear-gradient(\
+-45deg,\
+{{color}},{{color}} 25%,\
+transparent 25%,transparent 50%,\
+{{color}} 50%,{{color}} 75%,\
+transparent 75%,transparent\
+)';
+
+var updateSubframeDemoPattern = function() {
+    var demo = $('#subframe-fgcolor-demo');
+    var color = $('#subframe-fgcolor').val();
+    demo.css('border-color', color);
+    var re = new RegExp('\{\{color\}\}', 'g');
+    demo.css('background-image', subframeDemoBackgroundImage.replace(re, color));
+};
+
+var validateColor = function(color) {
+    if ( color === '' ) {
+        return 'rgba(204,0,0,1)';
+    }
+    return color;
+};
+
+/******************************************************************************/
+
 function renderNumber(value) {
     // TODO: localization
     if ( +value > 1000 ) {
@@ -74,6 +99,7 @@ function onChangeValueHandler(elem, setting, min, max) {
 /******************************************************************************/
 
 function prepareToDie() {
+    changeUserSettings('subframeFgColor', validateColor($('#subframe-fgcolor').val()));
     onChangeValueHandler($('#delete-unused-session-cookies-after'), 'deleteUnusedSessionCookiesAfter', 15, 1440);
     onChangeValueHandler($('#clear-browser-cache-after'), 'clearBrowserCacheAfter', 15, 1440);
     onChangeValueHandler($('#spoof-user-agent-every'), 'spoofUserAgentEvery', 2, 999);
@@ -94,6 +120,8 @@ $(function() {
     $('#auto-whitelist-page-domain').attr('checked', userSettings.autoWhitelistPageDomain === true);
     $('#smart-auto-reload').val(userSettings.smartAutoReload);
     $('#delete-unused-temporary-scopes').attr('checked', userSettings.deleteUnusedTemporaryScopes === true);
+    $('#subframe-fgcolor').val(userSettings.subframeFgColor);
+    updateSubframeDemoPattern();
     $('#delete-unused-session-cookies').attr('checked', userSettings.deleteUnusedSessionCookies === true);
     $('#delete-unused-session-cookies-after').val(userSettings.deleteUnusedSessionCookiesAfter);
     $('#delete-blacklisted-cookies').attr('checked', userSettings.deleteCookies === true);
@@ -132,6 +160,12 @@ $(function() {
     });
     $('#delete-unused-temporary-scopes').on('change', function(){
         changeUserSettings('deleteUnusedTemporaryScopes', $(this).is(':checked'));
+    });
+    $('#subframe-fgcolor').on('change', function(){
+        var color = validateColor($(this).val());
+        $(this).val(color);
+        changeUserSettings('subframeFgColor', color);
+        updateSubframeDemoPattern();
     });
     $('#delete-unused-session-cookies').on('change', function(){
         changeUserSettings('deleteUnusedSessionCookies', $(this).is(':checked'));

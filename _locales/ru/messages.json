@@ -331,6 +331,10 @@
         "message": "",
         "description": "English:"
     },
+    "settingsSubframeFgColor" : {
+        "message": "Blocked frames color (any valid CSS color):",
+        "description": "English: Blocked frames color (any valid CSS color):"
+    },
     "settingsPrivacyHeader" : {
         "message": "Конфиденциальность",
         "description": "header of Privacy section"
