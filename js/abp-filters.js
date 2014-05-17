@@ -80,6 +80,74 @@ var typeNameToTypeValue = {
 // regex tester: http://www.gethifi.com/tools/regex#
 
 /******************************************************************************/
+/*
+var histogram = function(label, categories) {
+    var h = [],
+        categoryBucket;
+    for ( var k in categories ) {
+        if ( categories.hasOwnProperty(k) === false ) {
+            continue;
+        }
+        categoryBucket = categories[k];
+        for ( var kk in categoryBucket ) {
+            if ( categoryBucket.hasOwnProperty(kk) === false ) {
+                continue;
+            }
+            filterBucket = categoryBucket[kk];
+            h.push({
+                k: k + ' ' + kk,
+                n: filterBucket instanceof FilterBucket ? filterBucket.filters.length : 1
+            });
+        }
+    }
+
+    console.log('Histogram %s', label);
+
+    var total = h.length;
+    h.sort(function(a, b) { return b.n - a.n; });
+
+    // Find indices of entries of interest
+    var target = 2;
+    for ( var i = 0; i < total; i++ ) {
+        if ( h[i].n === target ) {
+            console.log('\tEntries with only %d filter(s) start at index %s (key = "%s")', target, i, h[i].k);
+            target -= 1;
+        }
+    }
+
+    h = h.slice(0, 50);
+
+    h.forEach(function(v) {
+        console.log('\tkey=%s  count=%d', v.k, v.n);
+    });
+    console.log('\tTotal buckets count: %d', total);
+};
+*/
+/*
+var adbProfiler = {
+    testCount: 0,
+    urlCount: 0,
+    dumpEach: 200,
+    countUrl: function() {
+        this.urlCount += 1;
+        if ( (this.urlCount % this.dumpEach) === 0 ) {
+            this.dump();
+        }
+    },
+    countTest: function() {
+        this.testCount += 1;
+    },
+    dump: function() {
+        console.log('HTTPSB.adbProfiler> number or filters tested per URL: %d (sample: %d URLs)', this.testCount / this.urlCount, this.urlCount);
+    },
+    reset: function() {
+        this.testCount = 0;
+        this.urlCount = 0;
+    },
+    dummy: 0
+};
+*/
+/******************************************************************************/
 
 var FilterPlain = function(s, tokenBeg) {
     this.s = s;
@@ -700,8 +768,16 @@ var FilterContainer = function() {
     this.blocked3rdPartyHostnames = new HTTPSB.LiquidDict();
 
     // Used during URL matching
-    this.categoryBuckets = new Array(8);
     this.reAnyToken = /[%0-9a-z]+/g;
+    this.matches = null;
+    this.bucket0 = undefined;
+    this.bucket1 = undefined;
+    this.bucket2 = undefined;
+    this.bucket3 = undefined;
+    this.bucket4 = undefined;
+    this.bucket5 = undefined;
+    this.bucket6 = undefined;
+    this.bucket7 = undefined;
 };
 
 /******************************************************************************/
@@ -887,46 +963,76 @@ FilterContainer.prototype.freeze = function() {
 
 /******************************************************************************/
 
-FilterContainer.prototype.matchTokens = function() {
-    var buckets = this.categoryBuckets;
+FilterContainer.prototype.matchToken = function(bucket) {
     var url = this.url;
-    var urlLen = url.length;
-    var re = this.reAnyToken;
-    var beg, end, i, bucket, f;
-    var matches;
-
-    re.lastIndex = 0;
-    while ( matches = re.exec(url) ) {
-        beg = matches.index;
-        end = re.lastIndex;
-        i = 8;
-        while ( i-- ) {
-            bucket = buckets[i];
-            if ( bucket === undefined ) {
-                continue;
-            }
-            if ( end !== urlLen ) {
-                if ( beg !== 0 ) {
-                    f = bucket[url.slice(beg-1, end+1)];
-                    if ( f !== undefined && f.match(url, beg) !== false ) {
-                        return f.s;
-                    }
-                }
-                f = bucket[url.slice(beg, end+1)];
-                if ( f !== undefined && f.match(url, beg) !== false ) {
-                    return f.s;
-                }
-            }
-            if ( beg !== 0 ) {
-                f = bucket[url.slice(beg-1, end)];
-                if ( f !== undefined && f.match(url, beg) !== false ) {
-                    return f.s;
-                }
-            }
-            f = bucket[url.slice(beg, end)];
+    var beg = this.matches.index;
+    var end = this.reAnyToken.lastIndex;
+    var f;
+    if ( end !== url.length ) {
+        if ( beg !== 0 ) {
+            f = bucket[url.slice(beg-1, end+1)];
             if ( f !== undefined && f.match(url, beg) !== false ) {
                 return f.s;
             }
+        }
+        f = bucket[url.slice(beg, end+1)];
+        if ( f !== undefined && f.match(url, beg) !== false ) {
+            return f.s;
+        }
+    }
+    if ( beg !== 0 ) {
+        f = bucket[url.slice(beg-1, end)];
+        if ( f !== undefined && f.match(url, beg) !== false ) {
+            return f.s;
+        }
+    }
+    f = bucket[url.slice(beg, end)];
+    if ( f !== undefined && f.match(url, beg) !== false ) {
+        return f.s;
+    }
+    return false;
+};
+
+/******************************************************************************/
+
+FilterContainer.prototype.matchTokens = function() {
+    var url = this.url;
+    var re = this.reAnyToken;
+    var r;
+
+    re.lastIndex = 0;
+    while ( this.matches = re.exec(url) ) {
+        if ( this.bucket0 ) {
+            r = this.matchToken(this.bucket0);
+            if ( r !== false ) { return r; }
+        }
+        if ( this.bucket1 ) {
+            r = this.matchToken(this.bucket1);
+            if ( r !== false ) { return r; }
+        }
+        if ( this.bucket2 ) {
+            r = this.matchToken(this.bucket2);
+            if ( r !== false ) { return r; }
+        }
+        if ( this.bucket3 ) {
+            r = this.matchToken(this.bucket3);
+            if ( r !== false ) { return r; }
+        }
+        if ( this.bucket4 ) {
+            r = this.matchToken(this.bucket4);
+            if ( r !== false ) { return r; }
+        }
+        if ( this.bucket5 ) {
+            r = this.matchToken(this.bucket5);
+            if ( r !== false ) { return r; }
+        }
+        if ( this.bucket6 ) {
+            r = this.matchToken(this.bucket6);
+            if ( r !== false ) { return r; }
+        }
+        if ( this.bucket7 ) {
+            r = this.matchToken(this.bucket7);
+            if ( r !== false ) { return r; }
         }
     }
     return false;
@@ -987,7 +1093,6 @@ FilterContainer.prototype.matchString = function(pageStats, url, requestType, re
     var domainParty = this.toDomainBits(pageDomain);
     var type = typeNameToTypeValue[requestType];
     var categories = this.categories;
-    var categoryBuckets = this.categoryBuckets;
 
     // This will be used by hostname-based filters
     pageHostname = pageStats.pageHostname;
@@ -1000,14 +1105,14 @@ FilterContainer.prototype.matchString = function(pageStats, url, requestType, re
 
     // Test against block filters
     if ( bf === false ) {
-        categoryBuckets[7] = categories[this.makeCategoryKey(BlockAnyTypeAnyParty)];
-        categoryBuckets[6] = categories[this.makeCategoryKey(BlockAnyType | party)];
-        categoryBuckets[5] = categories[this.makeCategoryKey(BlockAnyTypeOneParty | domainParty)];
-        categoryBuckets[4] = categories[this.makeCategoryKey(BlockAnyTypeOtherParties | domainParty)];
-        categoryBuckets[3] = categories[this.makeCategoryKey(BlockAnyParty | type)];
-        categoryBuckets[2] = categories[this.makeCategoryKey(BlockAction | type | party)];
-        categoryBuckets[1] = categories[this.makeCategoryKey(BlockOneParty | type | domainParty)];
-        categoryBuckets[0] = categories[this.makeCategoryKey(BlockOtherParties | type | domainParty)];
+        this.bucket0 = categories[this.makeCategoryKey(BlockAnyTypeAnyParty)];
+        this.bucket1 = categories[this.makeCategoryKey(BlockAnyType | party)];
+        this.bucket2 = categories[this.makeCategoryKey(BlockAnyTypeOneParty | domainParty)];
+        this.bucket3 = categories[this.makeCategoryKey(BlockAnyTypeOtherParties | domainParty)];
+        this.bucket4 = categories[this.makeCategoryKey(BlockAnyParty | type)];
+        this.bucket5 = categories[this.makeCategoryKey(BlockAction | type | party)];
+        this.bucket6 = categories[this.makeCategoryKey(BlockOneParty | type | domainParty)];
+        this.bucket7 = categories[this.makeCategoryKey(BlockOtherParties | type | domainParty)];
 
         bf = this.matchTokens();
     }
@@ -1018,14 +1123,14 @@ FilterContainer.prototype.matchString = function(pageStats, url, requestType, re
     }
 
     // Test against allow filters
-    categoryBuckets[7] = categories[this.makeCategoryKey(AllowAnyTypeAnyParty)];
-    categoryBuckets[6] = categories[this.makeCategoryKey(AllowAnyType | party)];
-    categoryBuckets[5] = categories[this.makeCategoryKey(AllowAnyTypeOneParty | domainParty)];
-    categoryBuckets[4] = categories[this.makeCategoryKey(AllowAnyTypeOtherParties | domainParty)];
-    categoryBuckets[3] = categories[this.makeCategoryKey(AllowAnyParty | type)];
-    categoryBuckets[2] = categories[this.makeCategoryKey(AllowAction | type | party)];
-    categoryBuckets[1] = categories[this.makeCategoryKey(AllowOneParty | type | domainParty)];
-    categoryBuckets[0] = categories[this.makeCategoryKey(AllowOtherParties | type | domainParty)];
+    this.bucket0 = categories[this.makeCategoryKey(AllowAnyTypeAnyParty)];
+    this.bucket1 = categories[this.makeCategoryKey(AllowAnyType | party)];
+    this.bucket2 = categories[this.makeCategoryKey(AllowAnyTypeOneParty | domainParty)];
+    this.bucket3 = categories[this.makeCategoryKey(AllowAnyTypeOtherParties | domainParty)];
+    this.bucket4 = categories[this.makeCategoryKey(AllowAnyParty | type)];
+    this.bucket5 = categories[this.makeCategoryKey(AllowAction | type | party)];
+    this.bucket6 = categories[this.makeCategoryKey(AllowOneParty | type | domainParty)];
+    this.bucket7 = categories[this.makeCategoryKey(AllowOtherParties | type | domainParty)];
 
     if ( this.matchTokens() !== false ) {
         return false;
@@ -1050,190 +1155,100 @@ return new FilterContainer();
 
 /******************************************************************************/
 
-/*
-var adbProfiler = {
-    testCount: 0,
-    urlCount: 0,
-    dumpEach: 200,
-    countUrl: function() {
-        this.urlCount += 1;
-        if ( (this.urlCount % this.dumpEach) === 0 ) {
-            this.dump();
-        }
-    },
-    countTest: function() {
-        this.testCount += 1;
-    },
-    dump: function() {
-        console.log('HTTPSB.adbProfiler> number or filters tested per URL: %d (sample: %d URLs)', this.testCount / this.urlCount, this.urlCount);
-    },
-    reset: function() {
-        this.testCount = 0;
-        this.urlCount = 0;
-    },
-    dummy: 0
-};
-*/
-/*
-var histogram = function(label, categories) {
-    var h = [],
-        categoryBucket;
-    for ( var k in categories ) {
-        if ( categories.hasOwnProperty(k) === false ) {
-            continue;
-        }
-        categoryBucket = categories[k];
-        for ( var kk in categoryBucket ) {
-            if ( categoryBucket.hasOwnProperty(kk) === false ) {
-                continue;
-            }
-            filterBucket = categoryBucket[kk];
-            h.push({
-                k: k + ' ' + kk,
-                n: filterBucket instanceof FilterBucket ? filterBucket.filters.length : 1
-            });
-        }
-    }
-
-    console.log('Histogram %s', label);
-
-    var total = h.length;
-    h.sort(function(a, b) { return b.n - a.n; });
-
-    // Find indices of entries of interest
-    var target = 2;
-    for ( var i = 0; i < total; i++ ) {
-        if ( h[i].n === target ) {
-            console.log('\tEntries with only %d filter(s) start at index %s (key = "%s")', target, i, h[i].k);
-            target -= 1;
-        }
-    }
-
-    h = h.slice(0, 50);
-
-    h.forEach(function(v) {
-        console.log('\tkey=%s  count=%d', v.k, v.n);
-    });
-    console.log('\tTotal buckets count: %d', total);
-};
-*/
-
 /*******************************************************************************
 
-2014-04-13:
-    Did collect some objective measurements today, using "15 top
-    news web sites" benchmark. Here:
+2014-05-16:
 
-    Adblock Plus:
-        ABP.adbProfiler> number or URLs tested: 8364
-        ABP.adbProfiler> number or filters tested per URL: 114
+Benchmarking, looking at chromium profiler's warnings, etc.
 
-    HTTPSB:
-        HTTPSB.adbProfiler> number or URLs tested: 8307
-        HTTPSB.adbProfiler> number or filters tested per URL: 4
+Reduced suffix to one char at most, and this helps quite a lot. It's always
+a balance of overhead and narrowing. Anyways, after changes, the average
+number of filter tests per URL is 17 (up from 7 before suffix reduction).
+Somewhat higher than previously, but this is offset by a reduction in overhead
+because two less combinations of hash keys have to be tested. In insight, I
+suppose it's just a matter of probability: in most case, there is little
+probability that a URL will cause a hit on ABP filters, and even less
+likely for the specific filters which sit in the very few large buckets.
 
-    ABP on average tests 114 filters per URL.
-    HTTPSB on average tests 4 filters per URL.
+https://github.com/gorhill/httpswitchboard/commit/b6c8877245125da3c895ca39ab17e1de0858d322
 
-    The low average number of filters to per URL to test is key to
-    HTTPSB excellent performance over ABP. It's all in the much smaller bucket
-    size...
+Adblock Plus:
+    ABP.adbProfiler> number or URLs tested: over 10,000
+    ABP.adbProfiler> number or filters tested per URL: 121
 
-2014-05-05:
-    Now supporting whitelist filters, so I ran another benchmark but this time
-    taking into account hits to whitelist filters, and I completely disabled
-    matrix filtering, in order to ensure all request URLs reach HTTPSB's
-    ABP filtering engine, thus results are a worst case scenario for HTTPSB.
-    Here:
-    
-    Adblock Plus:
-        ABP.adbProfiler> number or URLs tested: 10600
-        ABP.adbProfiler> number or filters tested per URL: 121
-    
-    HTTPSB:
-        HTTPSB.adbProfiler> number or URLs tested: 12600
-        HTTPSB.adbProfiler> number or filters tested per URL: 5
+HTTPSB:
+    HTTPSB.adbProfiler> number or URLs tested: over 10,000
+    HTTPSB.adbProfiler> number or filters tested per URL: 17
 
-    ABP on average tests 121 filters per URL.
-    HTTPSB on average tests 5 filters per URL.
-    
-    Note: Overall, less URLs were tested by ABP because it uses an internal
-    cache mechanism to avoid testing URL, which is probably an attempt at
-    mitigating the cost of testing so many filters for each URL. ABP's cache
-    mechanism itself is another reason ABP is memory-hungry.
+New histogram as a result of hash suffix reduction is:
 
-2014-05-15:
-    Given all recent changes, new measurement for HTTPSB: 7 filters tested/URL
-
-2014-05-13:
-
-New histogram (see history on github for older histograms). All filters sit
-in virtually one collection. 
-
-Top 50 (key prefix removed because it displayed as garbage):
-	key= doubleclick.n  count=91
-	key= 2mdn.n  count=31
-	key= google-a  count=28
-	key= /ad_s  count=28
-	key= 2mdn.n  count=26
-	key= yahoo.c  count=25
-	key= /cgi-b  count=24
-	key= cloudfront.n  count=22
-	key= pagead2.g  count=22
-	key= /ads/s  count=21
-	key= distrowatch.c  count=21
-	key= amazonaws.c  count=20
-	key= 2mdn.n  count=20
-	key= google-a  count=20
-	key= 2mdn.n  count=19
-	key= doubleclick.n  count=19
-	key= doubleclick.n  count=19
-	key= 2mdn.n  count=19
-	key= 2mdn.n  count=18
-	key= .gif?  count=18
-	key= /ad_l  count=18
-	key= /ads/p  count=18
-	key= 2mdn.n  count=17
-	key= /ads/b  count=17
-	key= /ads/  count=17
-	key= /ad_c  count=17
-	key= /ad_b  count=17
-	key= pagead2.g  count=16
-	key= messianictimes.c  count=16
-	key= /ad_t  count=16
-	key= /ad_f  count=15
-	key= /ad_h  count=15
-	key= /wp-c  count=15
-	key= hulu.c  count=15
-	key= 2mdn.n  count=14
-	key= /google_a  count=14
-	key= /ad/s  count=14
-	key= /ad_r  count=14
-	key= 2mdn.n  count=14
-	key= /ad_p  count=13
-	key= /ad-i  count=13
-	key= /google-a  count=13
-	key= /ss/  count=13
-	key= /ads/a  count=13
-	key= /ad-l  count=13
-	key= g.d  count=13
-	key= .net/a  count=12
-	key= facebook.c  count=12
-	key= 2mdn.n  count=12
-	key= js.r  count=12
-	Entries with only 2 filter(s) start at index 952 (key = " united-d")
-	Entries with only 1 filter(s) start at index 2435 (key = " /analyticstracking_") 
-    Total buckets count: 22149
+Histogram allFilters
+	Entries with only 2 filter(s) start at index 996 (key = "ࠀ /wlexpert_")
+	Entries with only 1 filter(s) start at index 2423 (key = "ࠀ /banners-")
+	key=ࠀ /ad_  count=229
+	key=ࠀ /ads/  count=219
+	key=ࠀ /ad-  count=98
+	key=ࠀ /ad/  count=95
+	key=਀ doubleclick.  count=91
+	key=ࠀ _ad_  count=81
+	key=ࠀ /ads_  count=59
+	key=ࠀ -ad-  count=36
+	key=⌍ 2mdn.  count=31
+	key=ࠀ /ads-  count=30
+	key=謉 google-  count=28
+	key=ࠀ yahoo.  count=28
+	key=ࠀ /adv/  count=27
+	key=ࠀ /ad.  count=27
+	key=ࠀ /cgi-  count=26
+	key=⌇ 2mdn.  count=26
+	key=ࠀ /ads.  count=24
+	key=謇 pagead2.  count=24
+	key=ࠀ .net/  count=24
+	key=ࠀ cloudfront.  count=22
+	key=ࠀ .gif?  count=22
+	key=ࠀ /wp-  count=21
+	key=ࠀ /ga_  count=21
+	key=ࠀ distrowatch.  count=21
+	key=ࠀ /google_  count=20
+	key=謌 google-  count=20
+	key=ࠀ amazonaws.  count=20
+	key=ࠀ /adv_  count=20
+	key=⌏ 2mdn.  count=20
+	key=ࠀ /banners/  count=19
+	key=ࠀ /banner_  count=19
+	key=଍ doubleclick.  count=19
+	key=ଉ doubleclick.  count=19
+	key=⌉ 2mdn.  count=19
+	key=⌌ 2mdn.  count=19
+	key=⌋ 2mdn.  count=18
+	key=⌁ 2mdn.  count=17
+	key=蠀 ads.  count=16
+	key=ࠀ /ss/  count=16
+	key=謎 pagead2.  count=16
+	key=ࠀ messianictimes.  count=16
+	key=ࠀ hulu.  count=15
+	key=ꀀ ads.  count=15
+	key=⌆ 2mdn.  count=14
+	key=ࠀ yellowpages.  count=14
+	key=ࠀ /ga-  count=14
+	key=ࠀ /tracking/  count=14
+	key=⌂ 2mdn.  count=14
+	key=ࠀ .org/  count=14
+	key=ࠀ _ads_  count=13
+	Total buckets count: 15470 
 
 TL;DR:
-    Worst case scenario = 91 filters to test
+    Worst case scenario = 229 filters to test for a given URL token (up from 91
+    before suffix reduction).
 
     In both collections, worst case scenarios are a very small minority of the
     whole set.
     
-    Memory footprint could be further reduced by using a hashed token for all
-    those buckets which contain less than [?] filters (and splitting the maps
-    in two, one for token-as-hash and the other for good-hash-from-token).
-    Side effects: added overhead, improved memory footprint.
+    Memory footprint could be further reduced by further hashing the token-hash
+    into 4- or 5-bit (something like that) for all those buckets which contain
+    less than [?] filters (and splitting the maps in two, one for token-as-hash
+    and the other for good-hash-from-token).
+    Side effects: added overhead, improved memory footprint. Need to find a
+    sweet spot.
 
 *******************************************************************************/

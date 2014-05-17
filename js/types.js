@@ -55,6 +55,7 @@ function PermissionScope() {
     this.mtxFiltering = true;
     this.abpFiltering = true;
     this.lastUsedTime = Date.now();
+    this.httpsb = HTTPSB;
 }
 
 function PermissionScopes() {

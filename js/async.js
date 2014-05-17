@@ -56,14 +56,13 @@ var AsyncJobManager = function() {
 
 AsyncJobManager.prototype.restartTimer = function() {
     var when = Number.MAX_VALUE;
-    var job;
-    for ( var jobName in this.jobs ) {
-        if ( this.jobs.hasOwnProperty(jobName) === false ) {
-            continue;
-        }
-        job = this.jobs[jobName];
-        if ( job.when < when ) {
-            when = job.when;
+    var jobs = this.jobs, job;
+    for ( var jobName in jobs ) {
+        job = jobs[jobName];
+        if ( job instanceof AsyncJobEntry ) {
+            if ( job.when < when ) {
+                when = job.when;
+            }
         }
     }
     // Quantize time value
