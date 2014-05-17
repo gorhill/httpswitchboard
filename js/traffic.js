@@ -53,9 +53,9 @@ background-size:10px 10px;\
 background-image:\
 repeating-linear-gradient(\
 -45deg,\
-rgba(204,0,0,0.5),rgba(204,0,0,0.5) 25%,\
-transparent 25%,transparent 50%,\
-rgba(204,0,0,0.5) 50%,rgba(204,0,0,0.5) 75%,\
+rgba(204,0,0,0.5),rgba(204,0,0,0.5) 24%,\
+transparent 25%,transparent 49%,\
+rgba(204,0,0,0.5) 50%,rgba(204,0,0,0.5) 74%,\
 transparent 75%,transparent\
 );\
 text-align: center; \
@@ -120,9 +120,9 @@ background-size:10px 10px;\
 background-image:\
 repeating-linear-gradient(\
 -45deg,\
-{{fgColor}},{{fgColor}} 25%,\
-transparent 25%,transparent 50%,\
-{{fgColor}} 50%,{{fgColor}} 75%,\
+{{fgColor}},{{fgColor}} 24%,\
+transparent 25%,transparent 49%,\
+{{fgColor}} 50%,{{fgColor}} 74%,\
 transparent 75%,transparent\
 );\
 text-align:center;\

@@ -33,13 +33,13 @@ function gethttpsb() {
 
 var subframeDemoBackgroundImage = 'repeating-linear-gradient(\
 -45deg,\
-{{color}},{{color}} 25%,\
-transparent 25%,transparent 50%,\
-{{color}} 50%,{{color}} 75%,\
+{{color}},{{color}} 24%,\
+transparent 25%,transparent 49%,\
+{{color}} 50%,{{color}} 74%,\
 transparent 75%,transparent\
 )';
 
-var updateSubframeDemoPattern = function() {
+var updateSubframeDemo = function() {
     var demo = $('#subframe-fgcolor-demo');
     var color = $('#subframe-fgcolor').val();
     demo.css('border-color', color);
@@ -121,7 +121,7 @@ $(function() {
     $('#smart-auto-reload').val(userSettings.smartAutoReload);
     $('#delete-unused-temporary-scopes').attr('checked', userSettings.deleteUnusedTemporaryScopes === true);
     $('#subframe-fgcolor').val(userSettings.subframeFgColor);
-    updateSubframeDemoPattern();
+    updateSubframeDemo();
     $('#delete-unused-session-cookies').attr('checked', userSettings.deleteUnusedSessionCookies === true);
     $('#delete-unused-session-cookies-after').val(userSettings.deleteUnusedSessionCookiesAfter);
     $('#delete-blacklisted-cookies').attr('checked', userSettings.deleteCookies === true);
@@ -165,7 +165,7 @@ $(function() {
         var color = validateColor($(this).val());
         $(this).val(color);
         changeUserSettings('subframeFgColor', color);
-        updateSubframeDemoPattern();
+        updateSubframeDemo();
     });
     $('#delete-unused-session-cookies').on('change', function(){
         changeUserSettings('deleteUnusedSessionCookies', $(this).is(':checked'));
