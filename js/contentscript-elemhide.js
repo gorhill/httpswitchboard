@@ -27,12 +27,16 @@ var retrieveHandler = function(selectors) {
     }
     var styleText = [];
     if ( selectors.hide.length > 0 ) {
-        var hideStyleText = '{{hideSelectors}} {visibility:hidden;display:none;}';
-        styleText.push(hideStyleText.replace('{{hideSelectors}}', selectors.hide.join(',')));
+        var hideStyleText = '{{hideSelectors}} {display:none;}'
+            .replace('{{hideSelectors}}', selectors.hide.join(','));
+        styleText.push(hideStyleText);
+        console.log('ABP cosmetic filters: injecting CSS rule:', hideStyleText);
     }
     if ( selectors.donthide.length > 0 ) {
-        var dontHideStyleText = '{{donthideSelectors}} {visibility:inherit;display:inherit;}';
-        styleText.push(donthideStyleText.replace('{{donthideSelectors}}', selectors.donthide.join(',')));
+        var dontHideStyleText = '{{donthideSelectors}} {display:initial;}'
+            .replace('{{donthideSelectors}}', selectors.donthide.join(','));
+        styleText.push(donthideStyleText);
+        console.log('ABP cosmetic filters: injecting CSS rule:', donthideStyleText);
     }
     if ( styleText.length > 0 ) {
         var style = document.createElement('style');

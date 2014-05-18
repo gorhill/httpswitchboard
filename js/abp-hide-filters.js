@@ -79,9 +79,12 @@ var FilterPlain = function(s) {
 };
 
 FilterPlain.prototype.retrieve = function(s, out) {
-    if ( s === this.s.slice(0, s.length) ) {
+    if ( s === this.s ) {
         out.push(this.s);
     }
+//    if ( s === this.s.slice(0, s.length) ) {
+//        out.push(this.s);
+//    }
 };
 
 /******************************************************************************/
@@ -92,7 +95,7 @@ var FilterPlainHostname = function(s, hostname) {
 };
 
 FilterPlainHostname.prototype.retrieve = function(s, out) {
-    if ( s === this.s.slice(0, s.length) && pageHostname === this.hostname ) {
+    if ( s === this.s && pageHostname === this.hostname ) {
         out.push(this.s);
     }
 };
@@ -147,7 +150,7 @@ FilterParser.prototype.parse = function(s) {
 
     this.anchor = s.indexOf('##');
     if ( this.anchor < 0 ) {
-        this.anchor = s.indexOf('#@');
+        this.anchor = s.indexOf('#@#');
         if ( this.anchor < 0 ) {
             this.invalid = true;
             return this;
@@ -157,7 +160,11 @@ FilterParser.prototype.parse = function(s) {
     if ( this.anchor > 0 ) {
         this.hostnames = s.slice(0, this.anchor).split(/\s*,\s*/);
     }
-    this.f = s.slice(this.anchor + 2);
+    if ( this.filterType === '@' ) {
+        this.f = s.slice(this.anchor + 3);
+    } else {
+        this.f = s.slice(this.anchor + 2);
+    }
 
     // selector
     var selectorType = this.f.charAt(0);
