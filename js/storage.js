@@ -19,6 +19,8 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
+/* global chrome, HTTPSB, punycode, publicSuffixList */
+
 /******************************************************************************/
 
 HTTPSB.getBytesInUse = function() {
@@ -245,6 +247,7 @@ HTTPSB.loadUbiquitousBlacklists = function() {
     var loadBlacklistsEnd = function() {
         HTTPSB.ubiquitousBlacklist.freeze();
         HTTPSB.abpFilters.freeze();
+        HTTPSB.abpHideFilters.freeze();
         removeObsoleteBlacklists();
         chrome.runtime.onMessage.removeListener(onMessageHandler);
         chrome.runtime.sendMessage({ what: 'loadUbiquitousBlacklistCompleted' });
@@ -255,7 +258,7 @@ HTTPSB.loadUbiquitousBlacklists = function() {
         // rhill 2013-12-10: set all existing entries to `false`.
         httpsb.ubiquitousBlacklist.reset();
         httpsb.abpFilters.reset();
-
+        httpsb.abpHideFilters.reset();
         blacklists = store.remoteBlacklists;
         var blacklistLocations = Object.keys(store.remoteBlacklists);
 
@@ -311,8 +314,9 @@ HTTPSB.loadUbiquitousBlacklists = function() {
 HTTPSB.mergeUbiquitousBlacklist = function(details) {
     // console.log('HTTP Switchboard > mergeUbiquitousBlacklist from "%s": "%s..."', details.path, details.content.slice(0, 40));
 
-    var raw = details.content.toLowerCase();
-    var rawEnd = raw.length;
+    var rawOriginal = details.content;
+    var rawLowercase = rawOriginal.toLowerCase();
+    var rawEnd = rawLowercase.length;
 
     // rhill 2013-10-21: No need to prefix with '* ', the hostname is just what
     // we need for preset blacklists. The prefix '* ' is ONLY needed when
@@ -324,21 +328,22 @@ HTTPSB.mergeUbiquitousBlacklist = function(details) {
     //    https://adblockplus.org/en/filter-cheatsheet
     //    https://adblockplus.org/en/filters
     var abpFilters = this.userSettings.parseAllABPFilters ? this.abpFilters : null;
+    var abpHideFilters = this.userSettings.parseAllABPHideFilters ? this.abpHideFilters : null;
     var ubiquitousBlacklist = this.ubiquitousBlacklist;
     var thisListCount = 0;
     var thisListUsedCount = 0;
     var reLocalhost = /(^|\s)(localhost\.localdomain|localhost|local|broadcasthost|0\.0\.0\.0|127\.0\.0\.1|::1|fe80::1%lo0)(?=\s|$)/g;
     var reAdblockFilter = /^[^a-z0-9:]|[^a-z0-9]$|[^a-z0-9_:.-]/;
     var reAdblockHostFilter = /^\|\|([a-z0-9.-]+[a-z0-9])\^?$/;
-    var reAsciiSegment = /[\x21-\x7e]+/;
+    var reAsciiSegment = /^[\x21-\x7e]+$/;
     var matches;
-    var lineBeg = 0, lineEnd;
+    var lineBeg = 0, lineEnd, currentLineBeg;
     var line, c;
 
     while ( lineBeg < rawEnd ) {
-        lineEnd = raw.indexOf('\n', lineBeg);
+        lineEnd = rawLowercase.indexOf('\n', lineBeg);
         if ( lineEnd < 0 ) {
-            lineEnd = raw.indexOf('\r', lineBeg);
+            lineEnd = rawLowercase.indexOf('\r', lineBeg);
             if ( lineEnd < 0 ) {
                 lineEnd = rawEnd;
             }
@@ -347,12 +352,25 @@ HTTPSB.mergeUbiquitousBlacklist = function(details) {
         // rhill 2014-04-18: The trim is important here, as without it there
         // could be a lingering `\r` which would cause problems in the
         // following parsing code.
-        line = raw.slice(lineBeg, lineEnd).trim();
+        line = rawLowercase.slice(lineBeg, lineEnd).trim();
+        currentLineBeg = lineBeg;
         lineBeg = lineEnd + 1;
 
         // Strip comments
         c = line.charAt(0);
-        if ( c === '#' || c === '!' || c === '[' ) {
+        if ( c === '!' || c === '[' ) {
+            continue;
+        }
+
+        // 2014-05-18: ABP element hide filters are allowed to contain space
+        // characters
+        if ( abpHideFilters !== null ) {
+            if ( abpHideFilters.add(rawOriginal.slice(currentLineBeg, lineEnd).trim()) ) {
+                continue;
+            }
+        }
+
+        if ( c === '#' ) {
             continue;
         }
         line = line.replace(/\s+#.*$/, '');
@@ -360,7 +378,6 @@ HTTPSB.mergeUbiquitousBlacklist = function(details) {
         // https://github.com/gorhill/httpswitchboard/issues/15
         // Ensure localhost et al. don't end up in the ubiquitous blacklist.
         line = line.replace(reLocalhost, '');
-
         line = line.trim();
 
         // The filter is whatever sequence of printable ascii character without
@@ -380,7 +397,7 @@ HTTPSB.mergeUbiquitousBlacklist = function(details) {
 
         line = matches[0];
 
-        // Likely an ABP filter?
+        // Likely an ABP net filter?
         if ( reAdblockFilter.test(line) ) {
             if ( abpFilters !== null ) {
                 if ( abpFilters.add(line) ) {

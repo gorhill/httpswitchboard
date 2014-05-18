@@ -126,6 +126,11 @@ var onMessageHandler = function(request, sender, callback) {
         response = HTTPSB.userSettings.spoofUserAgent ? HTTPSB.userAgentReplaceStr : undefined;
         break;
 
+
+    case 'retrieveABPHideSelectors':
+        response = HTTPSB.abpHideFilters.retrieve(request.locationURL, request.selectors);
+        break;
+
     default:
          // console.error('HTTP Switchboard > onMessage > unknown request: %o', request);
         break;

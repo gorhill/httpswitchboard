@@ -109,6 +109,11 @@ function renderBlacklists() {
         chrome.i18n.getMessage("ubiquitousParseAllABPFiltersPrompt2")
             .replace('{{abpFilterCount}}', renderNumber(httpsb.abpFilters.getFilterCount()))
     );
+    $('#parseAllABPHideFilters').attr('checked', httpsb.userSettings.parseAllABPHideFilters === true);
+    $('#ubiquitousParseAllABPHideFiltersPrompt2').text(
+        chrome.i18n.getMessage("ubiquitousParseAllABPHideFiltersPrompt2")
+            .replace('{{abpHideFilterCount}}', renderNumber(httpsb.abpHideFilters.getFilterCount()))
+    );
 
     selectedBlacklistsHash = getSelectedBlacklistsHash();
 }
@@ -134,7 +139,8 @@ function getSelectedBlacklistsHash() {
     }
     // Factor in whether ABP filters are to be processed
     hash += $('#parseAllABPFilters').prop('checked').toString();
-    
+    hash += $('#parseAllABPHideFilters').prop('checked').toString();
+
     return hash;
 }
 
@@ -247,6 +253,11 @@ function blacklistsApplyHandler() {
 
 function abpFiltersCheckboxChanged() {
     changeUserSettings('parseAllABPFilters', $(this).is(':checked'));
+    selectedBlacklistsChanged();
+}
+
+function abpHideFiltersCheckboxChanged() {
+    changeUserSettings('parseAllABPHideFilters', $(this).is(':checked'));
     selectedBlacklistsChanged();
 }
 
@@ -394,6 +405,7 @@ $(function() {
     $('#blacklists').on('change', '.blacklistDetails', selectedBlacklistsChanged);
     $('#blacklistsApply').on('click', blacklistsApplyHandler);
     $('#parseAllABPFilters').on('change', abpFiltersCheckboxChanged);
+    $('#parseAllABPHideFilters').on('change', abpHideFiltersCheckboxChanged);
 
     $('#importUserBlacklistFromFile').on('click', appendToUserBlacklistFromFile);
     $('#exportUserBlacklistToFile').on('click', exportUserBlacklistToFile);

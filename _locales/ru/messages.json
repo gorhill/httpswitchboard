@@ -445,6 +445,18 @@
         "message": "<p>Обычно, <i>HTTP Switchboard</i> будет извлекать из <i>Adblock Plus</i>-совместимых фильтр листов <b>только</b> те фильтры, которые используются для блокировки всего домена (пример: &ldquo;<b>||a.ucoz.net^</b>&rdquo;).</p><p>Эта опция разрешает разбор и соблюдение <i>Adblock Plus</i> фильтров(пример: &ldquo;<b>/adwords-conversion-tracking.</b>&rdquo;). Эти фильтры не совместимы с матрицей, поэтому запросы блокированные этим фильтром нельзя увидеть и настроить.</p><p>Даже если эта опция включена, <i>Adblock Plus</i> фильтры используемые для <a href=\"https://adblockplus.org/en/filters#elemhide\">скрытия элементов</a> полностью игнорируется.</p><p>Включение этой опции увеличивает использование памяти.</p>",
         "description": "English: ..."
     },
+    "ubiquitousParseAllABPHideFiltersPrompt1" : {
+        "message": "Parse and enforce Adblock+ element hiding filters. (beta)",
+        "description": "English: Parse and enforce Adblock+ element hiding filters."
+    },
+    "ubiquitousParseAllABPHideFiltersPrompt2" : {
+        "message": "{{abpHideFilterCount}} element hiding filters used.",
+        "description": "English: {{abpHideFilterCount}} element hiding filters used."
+    },
+    "ubiquitousParseAllABPHideFiltersInfo" : {
+        "message": "<p>[TO DO]</p>",
+        "description": "English: ..."
+    },
     "ubiquitousListsOfBlockedHostsHeader" : {
         "message": "Список блокируемых хостов",
         "description": "English: Lists of blocked hosts"

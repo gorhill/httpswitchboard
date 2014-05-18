@@ -38,6 +38,7 @@ var HTTPSB = {
         displayTextSize: '13px',
         maxLoggedRequests: 50,
         parseAllABPFilters: true,
+        parseAllABPHideFilters: false,
         popupHideBlacklisted: false,
         popupCollapseDomains: false,
         popupCollapseSpecificDomains: {},

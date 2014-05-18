@@ -719,6 +719,11 @@ HTTPSB.toggleTemporaryABPFiltering = function(scopeKey, state) {
     return this.temporaryScopes.toggleABPFiltering(scopeKey, state);
 };
 
+HTTPSB.getTemporaryABPFilteringFromPageURL = function(url) {
+    var scopeKey = this.temporaryScopeKeyFromPageURL(url);
+    return this.temporaryScopes.getABPFiltering(scopeKey);
+};
+
 /******************************************************************************/
 
 // Commit temporary permissions.

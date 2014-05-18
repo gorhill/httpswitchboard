@@ -215,11 +215,10 @@ var makeRequestKey = function(uri, reqType) {
         hint += hint<<1 + hint<<4 + hint<<7 + hint<<8 + hint<<24;
     }
     hint = hint >>> 0;
-
     var key  = typeToCode[reqType] || 'z';
-    key += String.fromCharCode(hint >>> 16) + String.fromCharCode(hint & 0xFFFF);
-    key += stringPacker.pack(httpsburi.hostnameFromURI(uri));
-    return key;
+    return key +
+           String.fromCharCode(hint >>> 16, hint & 0xFFFF) +
+           stringPacker.pack(httpsburi.hostnameFromURI(uri));
 };
 
 /******************************************************************************/

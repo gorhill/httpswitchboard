@@ -445,6 +445,18 @@
         "message": "<p>Normally, <i>HTTP Switchboard</i> will extract from <i>Adblock Plus</i>-compatible filter lists <b>only</b> those filters which are used to block an entire domain (example: &ldquo;<b>||a.ucoz.net^</b>&rdquo;).</p><p>This option enables the parsing and enforcing of finer-grained <i>Adblock Plus</i> filters (example: &ldquo;<b>/adwords-conversion-tracking.</b>&rdquo;). These complex filters are incompatible with the matrix, and thus are only used internally to evaluate whether a net request should be blocked: they have no user interface counterpart.</p><p>Even if this option is enabled, <i>Adblock Plus</i> filters used for <a href=\"https://adblockplus.org/en/filters#elemhide\">element hiding</a> are completely ignored.</p><p>Memory usage requirement is higher when this option is enabled.</p>",
         "description": "English: ..."
     },
+    "ubiquitousParseAllABPHideFiltersPrompt1" : {
+        "message": "Parse and enforce Adblock+ element hiding filters. (beta)",
+        "description": "English: Parse and enforce Adblock+ element hiding filters."
+    },
+    "ubiquitousParseAllABPHideFiltersPrompt2" : {
+        "message": "{{abpHideFilterCount}} element hiding filters used.",
+        "description": "English: {{abpHideFilterCount}} element hiding filters used."
+    },
+    "ubiquitousParseAllABPHideFiltersInfo" : {
+        "message": "<p>[TO DO]</p>",
+        "description": "English: ..."
+    },
     "ubiquitousListsOfBlockedHostsHeader" : {
         "message": "Lists of blocked hosts",
         "description": "English: Lists of blocked hosts"

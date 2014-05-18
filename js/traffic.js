@@ -54,9 +54,9 @@ background-image:\
 repeating-linear-gradient(\
 -45deg,\
 rgba(204,0,0,0.5),rgba(204,0,0,0.5) 24%,\
-transparent 25%,transparent 49%,\
-rgba(204,0,0,0.5) 50%,rgba(204,0,0,0.5) 74%,\
-transparent 75%,transparent\
+transparent 26%,transparent 49%,\
+rgba(204,0,0,0.5) 51%,rgba(204,0,0,0.5) 74%,\
+transparent 76%,transparent\
 );\
 text-align: center; \
 } \

@@ -445,6 +445,18 @@
         "message": "<p>En temps normal, <i>HTTP Switchboard</i> n'extrait depuis les listes compatibles <i>Adblock Plus</i> <b>que</b> les filtres utilisés pour bloquer un domaine entier spécifique (par exemple : &ldquo;<b>||a.ucoz.net^</b>&rdquo;).</p><p>Cette option permet d'également utiliser des filtres <i>Adblock Plus</i> plus élaborés (par exemple : &ldquo;<b>/adwords-conversion-tracking.</b>&rdquo;). Ces filtres complexes sont incompatibles avec la matrice; ainsi ils sont utilisés &ldquo;en interne&rdquo; pour vérifier si une requête réseau devrait être bloquée ou non, et l'interaction utilisateur est limitée.</p><p>Même si cette option est activée, les filtres <i>Adblock Plus</i> utilisés pour <a href=\"https://adblockplus.org/en/filters#elemhide\">cacher des éléments</a> demeureront ignorés.</p><p>L'utilisation en mémoire vive est plus importante lorsque vous utilisez cette fonctionnalité.</p>",
         "description": "English: ..."
     },
+    "ubiquitousParseAllABPHideFiltersPrompt1" : {
+        "message": "Utiliser en plus les règles Adblock Plus cosmétiques. (beta)",
+        "description": "English: Parse and enforce Adblock+ element hiding filters."
+    },
+    "ubiquitousParseAllABPHideFiltersPrompt2" : {
+        "message": "{{abpHideFilterCount}} règles Adblock Plus cosmétiques utilisées.",
+        "description": "English: {{abpHideFilterCount}} element hiding filters used."
+    },
+    "ubiquitousParseAllABPHideFiltersInfo" : {
+        "message": "<p>[TO DO]</p>",
+        "description": "English: ..."
+    },
     "ubiquitousListsOfBlockedHostsHeader" : {
         "message": "Listes d'hôtes à bloquer",
         "description": "English: Lists of blocked hosts"

@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "__MSG_extName__",
     "short_name": "HTTPSB",
-    "version": "0.9.3.0",
+    "version": "0.9.4.0",
     "description": "__MSG_extShortDesc__",
     "icons": {
         "16": "icon_16.png",
@@ -56,6 +56,12 @@
         "matches": ["http://*/*", "https://*/*"],
         "js": ["js/contentscript-uaspoof.js"],
         "run_at": "document_start",
+        "all_frames": true
+        },
+    {
+        "matches": ["http://*/*", "https://*/*"],
+        "js": ["js/contentscript-elemhide.js"],
+        "run_at": "document_end",
         "all_frames": true
         }
     ],
