@@ -19,6 +19,8 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
+/* global HTTPSB */
+
 /******************************************************************************/
 
 (function() {
@@ -214,7 +216,7 @@ var makeRequestKey = function(uri, reqType) {
     }
     hint = hint >>> 0;
 
-    key  = typeToCode[reqType] || 'z';
+    var key  = typeToCode[reqType] || 'z';
     key += String.fromCharCode(hint >>> 16) + String.fromCharCode(hint & 0xFFFF);
     key += stringPacker.pack(httpsburi.hostnameFromURI(uri));
     return key;
