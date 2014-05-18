@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: 0PwsH9NY66QQEVeAKC/dVg
+! Checksum: d2fAvzth+AHazN6qHl9aLw
 ! Title: EasyList Hebrew
-! Last modified: 08/05/14  16:30 Jerusalem Daylight Time
+! Last modified: 18/05/14  19:30 Jerusalem Daylight Time
 ! Expires: 4 days (update frequency)
 ! Homepage: https://github.com/AdBlockPlusIsrael/EasyListHebrew/
 ! Forums: https://github.com/AdBlockPlusIsrael/EasyListHebrew/issues
@@ -33,9 +33,10 @@
 ||clickcenter.net^$third-party
 ||clickon.co.il^$third-party
 ||descreti.co.il^$popup
+||expert-offers.com^$popup
+||great-offers.co.il^$popup
 ||greenlead.co.il^$popup
 ||ha-deal.co.il^$popup
-||hiro.co.il^$third-party
 ||infomed.co.il^$third-party
 ||internet-bee.com^$third-party
 ||jdate.co.il^$third-party
@@ -53,6 +54,8 @@
 ||sekindo.com^$popup
 ||talkahead.com^$third-party
 ||tbuy.co.il^$popup
+||unbouncepages.com^$popup
+||wesell.co.il^$popup
 ||wesell.co.il^$third-party
 ||ws.walla.co.il^$third-party
 ||yeppyepp.co.il^$popup
@@ -110,7 +113,6 @@
 ||download.cast-tv.com/*_flv/prerole$object-subrequest
 ||globes.co.il/data/js/gtv_ads.js
 ||globes.co.il/news/frames/topbannerflash$subdocument
-||wink.globes.co.il^
 !-zvz-!
 ||bannerwebservice.zvz.co.il^
 ||zvz.co.il/BannerCommunication.
@@ -118,6 +120,7 @@
 ||ban.d-group.co.il/banners/$third-party
 ||madas-ads.securest.org^$third-party
 !-mako-!
+||1host.co.il/$object-subrequest,domain=mako.co.il
 ||adserv.mako.co.il^
 ||api.conduit.com^$domain=mako.co.il
 ||apps.mako.co.il/minicampaigns/
@@ -144,6 +147,7 @@
 ||banners.bizportal.co.il^$popup
 ||banners.news1.co.il^
 ||banners.news1.co.il^$popup
+||beaverscripts.com/openwindow.js
 ||beok.co.il/banners/
 ||besttv1.cdn.it.best-tv.com/reshet/components/BCPCLilyTrackBarCompanion/BCPCLilyTrackBarCompanion.swf
 ||bgu4u.co.il/download/banners/
@@ -188,7 +192,7 @@
 ||scity.co.il/scity_728_sdarot.swf
 ||sdarot.*/banner
 ||seret.co.il/images/banners/pagehasut/PageHasut
-||seretil.me/cdn-cgi/nexp/dok9v=02fcfa4f56/cloudflare/rocket.js
+||seretil.me/cdn-cgi/nexp/dok9
 ||sport5.co.il/banners2/
 ||static.vgames.co.il/cdn/css/global.bg_comm.css?v=
 ||tgspot.co.il/wp-content/cache/minify/000000/yygpKbDS18_JzMtMzs_VS87Xy8wB8bKL9ZPz88pSi0riTS31sooB.js
@@ -206,11 +210,6 @@
 @@||dclk.themarker.com/js.ng/$script
 @@||forbes.co.il/download/banners/
 @@||go.ynet.co.il/short/commerce/2012/weathernew/
-@@||hiro.co.il/clientaccesspolicy.xml
-@@||hiro.co.il/crossdomain.xml
-@@||hiro.co.il/hiro/HiroServlet/ClientSynchronizationServlet?$domain=y.net-games.co.il
-@@||hiro.co.il/hiro/HiroServlet/HiroAdRequest?*http$domain=nrg.co.il
-@@||hiro.co.il^*/LayerWrapperReshet.swf
 @@||i.total-media.net/yc/dc.$script,domain=winwin.co.il
 @@||internet-bee.com/Feats/
 @@||net-games.co.il/flvPlayer/dist/flowplayer-$script
@@ -219,7 +218,6 @@
 @@||themarker.com/dclk/dclk_ads_init_tm_pol.js
 @@||themarker.com/dclk/dfp/dfp_init_base.js
 @@||themarker.com/dclk/dfp/dfp_init_tm.js$script
-@@||videos.hiro.co.il/Ynet/Player/$object-subrequest
 @@||y.net-games.co.il/adimages/
 !
 !--------------Whitelists Rules (caused by EasyList / EasyPrivacy )-----------!
@@ -237,6 +235,7 @@
 @@||bs.serving-sys.com/BurstingPipe/adServer.bs$object-subrequest
 @@||bs.serving-sys.com/crossdomain.xml$object-subrequest
 @@||c04dl.vds-is.castup.net/crossdomain.net
+@@||cbci16.b1.cdn.co.il^
 @@||ds.serving-sys.com/BurstingRes/$object-subrequest,domain=one.co.il
 @@||gplanet.co.il/js/adx.js
 @@||ifat.com/VideoControl/makoinformation$object-subrequest,domain=mako.co.il,media
@@ -252,11 +251,11 @@
 @@||mako.checkm8.com/adam/inline?cat=mako.*=SAGIR_$object-subrequest
 @@||mako.checkm8.com/adam/inline?cat=mako.*=VIDEOSPOT_$object-subrequest
 @@||mako.checkm8.com/crossdomain.xml$object-subrequest
-@@||mccann.hiro.co.il/hiro/HiroServlet/HiroAdRequest*mako$object-subrequest,media
 @@||mouse.co.il/images/ad_mouse_cafe.jpg
 @@||nrg.co.il/online/*_468.htm$~third-party,xmlhttprequest
 @@||one.co.il/ads/*.mp4$object-subrequest
 @@||players.edgesuite.net/flash/analytics/qos$domain=mako.co.il
+@@||pubads.g.doubleclick.net/gampad/ads?sz=$object-subrequest,domain=globes.co.il
 @@||se.c04dl.vds-is.castup.net/server12/468/208/20816834-115.mp4$domain=mako.co.il
 @@||sexadir.co.il/ads/$image,~third-party
 @@||sexadir.co.il/banners/$image,~third-party
@@ -327,6 +326,8 @@ auto.co.il###ctl00_MainContent_divBannerHasut
 auto.co.il##.content.awLng[style="text-align: center;"]
 auto.co.il##div[style="width:300px;height:250px;margin-left:auto;margin-right:auto;"]
 bari-p2.co.il##TD[style="padding-left:3px; padding-right:3px; padding-top:3px; padding-bottom:4px"]
+bbls.co.il###phonepopup
+bbls.co.il###opacity_curtain
 beok.co.il##.BannerMid
 bhol.co.il###divPlazma
 bhol.co.il###test.f-right
@@ -352,6 +353,7 @@ bizportal.co.il##.baner1
 bizportal.co.il##.baner2
 bizportal.co.il##.kubia_banner
 bizportal.co.il##.single_section_world_short
+bul.co.il##BODY
 cafe.themarker.com##.banner-wrapper
 cafe.themarker.com##.hp_left_ad
 calcalist.co.il###ArticleBanner
@@ -364,6 +366,7 @@ carsforum.co.il###bannerwrap
 carsforum.co.il##.box2
 carsforum.co.il##DIV[style="float:left;padding-left:3px;"]
 carsforum.co.il##table.tborder[style="margin-top:6px;"]
+cellebrate.mobi###flow
 chabad.info###rodefet_left
 chabad.info###rodefet_right
 chabad.info###text_pirsomet
@@ -386,6 +389,7 @@ forbes.co.il##EMBED[src^="/download/banners/"]
 forbes.co.il##TABLE[style="background-color:#e8e8e8"]
 frogi.co.il##.adbox
 fxp.co.il###adfxp
+fxp.co.il###vc_widget
 fxp.co.il###web_3_tool
 games.nana10.co.il###tmp1632_46
 games.nana10.co.il##.BannerMiddle
@@ -699,11 +703,13 @@ yad2.co.il###td_banner
 yad2.co.il###td_banner2_info
 yad2.co.il###top_banners
 yad2.co.il##.banner_strip
+yad2.co.il##.plasma_banner.pie
 yad2.co.il##.search_banners
 yad2.co.il##.yad1_mergetitle
 yad2.co.il##TH[style="background: #505D6A; font-size: 13px; font-family: arial; text-align: left; color: white; font-weight: bold; padding: 0px; margin: 0px; padding-right: 0px; padding-left: 10px; height: 31px; border-bottom: 1px solid white;"][colspan="9"]
 yad2.co.il##div[style=" height: 90px; background-color: #DDDDDD; border-radius:6px; width:978px; padding-top:8px; padding-bottom:8px; margin-left: auto; margin-right: auto; margin-bottom: 8px; position: relative;"]
 yeshanews.com###sideban
+yesno.co.il###wrapper
 ynet.co.il###ads\.300x600\.1
 ynet.co.il###art_bottom_adsense-1
 ynet.co.il###art_right_sponsored_links-1

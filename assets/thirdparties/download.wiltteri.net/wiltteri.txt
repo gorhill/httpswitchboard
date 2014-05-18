@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: P/og13s/guNZ8qDsWx2veg
-! Version: 201405131610
+! Checksum: e/Wubr/zyBTD+AClnDQGIA
+! Version: 201405171020
 ! Title: Wiltteri
 ! Description: Finnish supplement list for EasyList
-! Last modified: 13 May 2014 16:10 UTC
+! Last modified: 17 May 2014 10:20 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: http://wiltteri.net/
 ! License: http://creativecommons.org/licenses/by-sa/3.0/
@@ -367,6 +367,7 @@ _mainosnappi.
 ||fi-reggae.com/kamppikset/
 ||fiercermedia.fi/wp-content/uploads/2011/08/fiercer-media-referenssit.png^
 ||fightclubfinland.fi/tiedostot/elmo_sports_grill_logo.jpg
+||fiima.net/data/banners/
 ||files.snstatic.fi^*/KCM/$domain=iltasanomat.fi
 ||fillari-lehti.fi/obannerit.asp
 ||fillari-lehti.fi/ybannerit.asp
@@ -405,6 +406,8 @@ _mainosnappi.
 ||foreca.fi/img/*rainy
 ||foreca.fi/img/*sunny
 ||foreca.fi/img/*takeover
+||foreca.fi/img/ForecaLeft_
+||foreca.fi/img/ForecaRight_
 ||foreca.fi/img/wallpaper/
 ||foreca.fi^*/foreca_haltuunotto_kehys.
 ||formamessut.fi/*banner
@@ -841,6 +844,7 @@ _mainosnappi.
 ||lomaradio.fi/bannerit/
 ||lomaseutu.fi/images/*/banner
 ||lomaseutu.fi/images/*/mainos
+||loop.fi/content-ad/
 ||lops.fi/Bannerit/
 ||lounaat.com/images/bannerit/
 ||lounastauko.fi^*/banners/
@@ -1224,6 +1228,7 @@ _mainosnappi.
 ||radalle.com/materiaalit/
 ||radio957.fi/files/*sponsor/
 ||radiodei.fi/images/banners/
+||radiofinlandia.net/images/autonvaraosat24_250x250.gif
 ||radiofinlandia.net/images/banners/*_banner
 ||radiomega.fi/files/banners/
 ||radiopooki.fi/kuvat/bannerit/
@@ -1478,7 +1483,7 @@ _mainosnappi.
 ||suomenlomapalvelu.fi/kuvat/logo.gif
 ||suomenpelikauppa.com/*mainos$third-party
 ||suomenyritykset.fi/images/banners/
-||suomi-seura.fi/site_v3/images/banners/
+||suomi-seura.fi^*/banners/
 ||suomi24-static.fi/aller_store/terveys/widget.html
 ||suomi24-static.fi/campaigns/
 ||suomi24-static.fi/promotions/
@@ -1496,7 +1501,7 @@ _mainosnappi.
 ||suorahuuto.fi/banners/
 ||suosikki.fi/*/img/bannerit/
 ||suositut.net/images/metalli_musiikki.jpg
-||superjymy.fi/*files/yhteistyokumppanit
+||superjymy.fi^*/kumppanilogot/
 ||superliitto.fi/datafiles/banners/
 ||supssalibandy.com^*/thumbs_kumppanit/
 ||surfcamp.fi/images/banners/
@@ -2579,7 +2584,7 @@ operafestival.fi##.SponsorsContainer
 flightforum.fi,fsnordic.net##.SubMenuBanner
 suomenkuvalehti.fi,tekniikanmaailma.fi##.YK_feedbox
 shootout.fi##._menu + * + * + * div.module.png > div
-ellit.fi,ess.fi,groovefm.fi,kokkens.fi,kopteri.net,kotiliesi.fi,leffatykki.com,metrohelsinki.fi,mtv.fi,radiosuomipop.fi,suomela.fi,taloussanomat.fi,topkani.fi,venenetti.fi##.ad
+ellit.fi,ess.fi,groovefm.fi,kokkens.fi,kopteri.net,kotiliesi.fi,leffatykki.com,loop.fi,metrohelsinki.fi,mtv.fi,radiosuomipop.fi,suomela.fi,taloussanomat.fi,topkani.fi,venenetti.fi##.ad
 jatkoaika.com##.ad-468-400
 hs.fi,iltasanomat.fi,nyt.fi##.ad-container
 hs.fi##.ad-container-nobg
@@ -2856,6 +2861,7 @@ avoimet.com##.kapeat_kirjaimet.f10px.teksti_oikealle.oikea_marginaali
 ihanalehti.fi##.kehys_0 a[target="_blank"]
 ihanalehti.fi##.kehys_v a[target="_blank"]
 uinti.com##.klikki
+superjymy.fi##.kumppanit
 sininauhaliitto.fi##.kuvadiv
 avoimet.com##.kuvateksti
 loistovinkki.fi##.laatikko:first-child
@@ -2994,6 +3000,7 @@ iab.fi,jsdn.fi,polarpharma.fi,yritysopas.com##.right
 geologia.fi##.right > .moduletable_sivusto:last-child
 fysioline.fi##.right > p > a > img
 villala.net##.right-column > .moduletable:last-child
+sotkamonjymypesis.fi##.right-sidebar-wrapper a[target="_blank"] > img
 polttoaine.net##.rightCol
 helsinkicup.fi##.right_banner_box_edit
 ifbb.fi##.right_column
@@ -3260,8 +3267,10 @@ suntuubi.com##div[onclick="location.href='http://sa.suntuubi.com/sa/w/d/ck.php?o
 tahko.com##div[style$="border-color: #efefef; border-style: solid; border-width: 1px;"]
 radiocity.fi##div[style$="height: 43px; background: url('/includes/topbar/bg.png') top repeat-x; z-index: 111;"]
 urheiluviikko.net##div[style$="width:300px;height:250px;"]
+foreca.fi##div[style*="float: left; width: 175px;"]
 tiede.fi##div[style*="iltasanomat.fi/boksit/smf/"]
 naamapalmu.com,ylilauta.org##div[style*="text-align"] > a
+foreca.fi##div[style*="width: 100%; height: 400px;"]
 metro.fi##div[style*="width:375px; height:250px;"]
 iltasanomat.fi##div[style*="width:658px;height:250px;"]
 jamsanseutu.fi,janakkalansanomat.fi,kainuunsanomat.fi,kankaanpaanseutu.fi,kmvlehti.fi,kuhmolainen.fi,lapinkansa.fi,lounaislappi.fi,luoteisvayla.fi,merikarvialehti.fi,nokianuutiset.fi,pohjolansanomat.fi,pyhajokiseutu.fi,raahenseutu.fi,rannikkoseutu.fi,satakunnankansa.fi,sotkamolehti.fi,suurkeuruu.fi,sydansatakunta.fi,tyrvaansanomat.fi,uusirovaniemi.fi,valkeakoskensanomat.fi,ylakainuu.fi##div[style*="width:956px; height:190px;"]
@@ -3335,7 +3344,6 @@ foreca.fi##div[style="width: 1450px; height: 400px;"]
 runtoshop.fi##div[style="width: 238px; border: 1px solid rgb(150, 163, 193); text-align: center; padding: 5px;"]
 ampparit.com##div[style="width: 300px; height: 250px; overflow: hidden;"]
 bjjliitto.fi##div[style="width:500px;float:left;font-size:12px;height:100px;border-right:1px solid #ddd;text-align:right;"]
-superjymy.fi##div[style="z-index: 5; position: relative; top: 35px;"]
 mypa.fi##div[style^="float:left; height: 180px; width: 140px;"]
 mypa.fi##div[style^="float:left; height: 300px; width: 962px;"]
 karppakannattajat.com##div[width="325"]
@@ -3991,15 +3999,8 @@ seksitreffit.fi##table[width="1024"][bgcolor="#d31517"]
 @@||taskumuro.com^*/advertisement.js
 @@||tuuri.fi/mainokset/
 ! Sanoma
-@@||adtech.de/?adrawdata/3.0/*/noperf=1;cc=2;$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
-@@||adtech.de/?advideo/3.0/*//cc=2;*;alias=*_pauseover;$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
-@@||adtech.de/?advideo/3.0/*//cc=2;vidAS=channel_intro;$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
-@@||adtech.de/?advideo/3.0/*//cc=2;vidAS=mid_roll;$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
-@@||adtech.de/?advideo/3.0/*//cc=2;vidAS=overlay;$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
-@@||adtech.de/?advideo/3.0/*//cc=2;vidAS=post_roll;$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
-@@||adtech.de/?advideo/3.0/*//cc=2;vidAS=pre_roll;$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
-@@||aka-cdn-ns.adtech.de/apps/$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
-@@||gatling.nelonenmedia.fi^*/logo/$object-subrequest,domain=hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
+@@||adtech.de/?adrawdata/$object-subrequest,domain=groovefm.fi|hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|loop.fi|metrohelsinki.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
+@@||gatling.nelonenmedia.fi^*/logo/$object-subrequest,domain=groovefm.fi|hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|loop.fi|metrohelsinki.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
 ! -------------------- wiltteri-whitelist-hide.txt ------------------ !
 autot.oikotie.fi#@##ad-header
 download.fi,puhelinvertailu.com#@##ad-top-banner-placeholder

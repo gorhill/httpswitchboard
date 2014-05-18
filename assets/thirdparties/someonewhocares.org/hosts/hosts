@@ -8,7 +8,7 @@
 # Please forward any additions, corrections or comments by email to
 # hosts@someonewhocares.org
 
-# Last updated: May 12th, 2014 at 10:56
+# Last updated: May 17th, 2014 at 12:30
 
 # Use this file to prevent your computer from connecting to selected
 # internet hosts. This is an easy and effective way to protect you from 
@@ -377,6 +377,7 @@ fe80::1%lo0	localhost
 127.0.0.1 arbo.hit.gemius.pl
 127.0.0.1 au.track.decideinteractive.com
 127.0.0.1 au052.insightexpress.com
+127.0.0.1 auspice.augur.io
 127.0.0.1 b.stats.paypal.com
 127.0.0.1 banner.0catch.com
 127.0.0.1 banners.webcounter.com
@@ -2988,6 +2989,7 @@ fe80::1%lo0	localhost
 127.0.0.1 3.cennter.com
 127.0.0.1 312.1d27c9b8fb.com
 127.0.0.1 321cba.com
+127.0.0.1 32red.it
 127.0.0.1 360ads.com
 127.0.0.1 3fns.com
 127.0.0.1 4.adbrite.com
@@ -6099,6 +6101,7 @@ fe80::1%lo0	localhost
 127.0.0.1 iwantmygiftcard.com
 127.0.0.1 j.clickdensity.com
 127.0.0.1 jambocast.com
+127.0.0.1 jb9clfifs6.s.ad6media.fr
 127.0.0.1 jcarter.spinbox.net
 127.0.0.1 jcrew.tt.omtrdc.net
 127.0.0.1 jersey-offer.com

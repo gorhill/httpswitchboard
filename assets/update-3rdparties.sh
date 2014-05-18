@@ -15,7 +15,7 @@ THIRDPARTY_REMOTEURLS=(
     'http://someonewhocares.org/hosts/hosts'
     'http://winhelp2002.mvps.org/hosts.txt'
     'http://publicsuffix.org/list/effective_tld_names.dat'
-    'https://easylist-downloads.adblockplus.org/easylist_noelemhide.txt'
+    'https://easylist-downloads.adblockplus.org/easylist.txt'
     'https://easylist-downloads.adblockplus.org/easyprivacy.txt'
     'https://easylist-downloads.adblockplus.org/fanboy-annoyance.txt'
     'http://www.fanboy.co.nz/enhancedstats.txt'
