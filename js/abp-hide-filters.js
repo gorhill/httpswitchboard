@@ -107,6 +107,24 @@ FilterPlainMore.prototype.retrieve = function(s, out) {
 
 /******************************************************************************/
 
+// HTML tag specific to a hostname
+// Examples:
+//   lindaikeji.blogspot.com##a > img[height="600"]
+//   japantimes.co.jp##table[align="right"][width="250"]
+
+var FilterElementHostname = function(s, hostname) {
+    this.s = s;
+    this.hostname = hostname;
+};
+
+FilterElementHostname.prototype.retrieve = function(s, out) {
+    if ( pageHostname.slice(-this.hostname.length) === this.hostname ) {
+        out.push(this.s);
+    }
+};
+
+/******************************************************************************/
+
 // Pure id- and class-based filters specific to a hostname
 // Examples:
 //   search.snapdo.com###ABottomD
@@ -164,25 +182,30 @@ FilterBucket.prototype.retrieve = function(s, out) {
 /******************************************************************************/
 
 var FilterParser = function() {
-    this.f = '';
+    this.s = '';
+    this.prefix = '';
+    this.suffix = '';
     this.anchor = 0;
     this.filterType = '#';
     this.hostnames = [];
     this.invalid = false;
     this.unsupported = false;
+    this.reParser = /^\s*([^#]*)(#[#@])(.+)\s*$/;
     this.rePlain = /^([#.][\w-]+)/;
     this.rePlainMore = /^[#.][\w-]+[^\w-]/;
+    this.reElement = /^[a-z]/i;
 };
 
 /******************************************************************************/
 
 FilterParser.prototype.reset = function() {
-    this.f = '';
-    this.anchor = 0;
+    this.s = '';
+    this.prefix = '';
+    this.suffix = '';
+    this.anchor = '';
     this.filterType = '#';
     this.hostnames = [];
     this.invalid = false;
-    this.unsupported = false;
     return this;
 };
 
@@ -192,45 +215,41 @@ FilterParser.prototype.parse = function(s) {
     // important!
     this.reset();
 
-    this.anchor = s.indexOf('##');
-    if ( this.anchor < 0 ) {
-        this.anchor = s.indexOf('#@#');
-        if ( this.anchor < 0 ) {
-            this.invalid = true;
-            return this;
-        }
-    }
-    this.filterType = s.charAt(this.anchor + 1);
-    if ( this.anchor > 0 ) {
-        this.hostnames = s.slice(0, this.anchor).split(/\s*,\s*/);
-    }
-    if ( this.filterType === '@' ) {
-        this.f = s.slice(this.anchor + 3);
-    } else {
-        this.f = s.slice(this.anchor + 2);
-    }
-
-    // selector
-    var selectorType = this.f.charAt(0);
-    if ( selectorType === '#' || selectorType === '.' ) {
+    var matches = this.reParser.exec(s);
+    if ( matches === null || matches.length !== 4 ) {
+        this.invalid = true;
         return this;
     }
 
-    this.unspported = true;
+    // Remember original string
+    this.s = s;
+    this.prefix = matches[1];
+    this.anchor = matches[2];
+    this.suffix = matches[3];
 
+    this.filterType = this.anchor.charAt(1);
+    if ( this.prefix !== '' ) {
+        this.hostnames = this.prefix.split(/\s*,\s*/);
+    }
     return this;
 };
 
 /******************************************************************************/
 
 FilterParser.prototype.isPlainMore = function() {
-    return this.rePlainMore.test(this.f);
+    return this.rePlainMore.test(this.suffix);
+};
+
+/******************************************************************************/
+
+FilterParser.prototype.isElement = function() {
+    return this.reElement.test(this.suffix);
 };
 
 /******************************************************************************/
 
 FilterParser.prototype.extractPlain = function() {
-    var matches = this.rePlain.exec(this.f);
+    var matches = this.rePlain.exec(this.suffix);
     if ( matches && matches.length === 2 ) {
         return matches[1];
     }
@@ -242,7 +261,7 @@ FilterParser.prototype.extractPlain = function() {
 var FilterContainer = function() {
     this.filterParser = new FilterParser();
     this.acceptedCount = 0;
-    this.rejectedCount = 0;
+    this.processedCount = 0;
     this.filters = {};
 };
 
@@ -252,7 +271,7 @@ var FilterContainer = function() {
 
 FilterContainer.prototype.reset = function() {
     this.acceptedCount = 0;
-    this.rejectedCount = 0;
+    this.processedCount = 0;
     this.filters = {};
 };
 
@@ -260,22 +279,25 @@ FilterContainer.prototype.reset = function() {
 
 FilterContainer.prototype.add = function(s) {
     var parsed = this.filterParser.parse(s);
+    if ( parsed.invalid ) {
+        return false;
+    }
+
+    this.processedCount += 1;
 
     //if ( s === 'mail.google.com##.nH.adC > .nH > .nH > .u5 > .azN' ) {
     //    debugger;
     //}
 
-    if ( parsed.invalid ) {
-        return false;
-    }
-
-    var selectorType = parsed.f.charAt(0);
+    var selectorType = parsed.suffix.charAt(0);
     if ( selectorType === '#' || selectorType === '.' ) {
-        this.acceptedCount += 1;
         return this.addPlainFilter(parsed);
     }
 
-    this.rejectedCount += 1;
+    if ( parsed.isElement() ) {
+        return this.addElementFilter(parsed);
+    }
+
     return false;
 };
 
@@ -283,24 +305,37 @@ FilterContainer.prototype.add = function(s) {
 
 FilterContainer.prototype.freeze = function() {
     console.log('HTTPSB> adp-hide-filters.js: %d filters accepted', this.acceptedCount);
-    console.log('HTTPSB> adp-hide-filters.js: %d filters rejected', this.rejectedCount);
-    console.log('HTTPSB> adp-hide-filters.js: coverage is %s%', (this.acceptedCount * 100 / (this.acceptedCount+this.rejectedCount)).toFixed(1));
+    console.log('HTTPSB> adp-hide-filters.js: %d filters processed', this.processedCount);
+    console.log('HTTPSB> adp-hide-filters.js: coverage is %s%', (this.acceptedCount * 100 / this.processedCount).toFixed(1));
 
     // histogram('allFilters', this.filters);
 };
 
 /******************************************************************************/
 
+// TSSSDD
+// |  | |
+// |  | |
+// |  | +---- domain (can be nil)
+// |  +---- suffix (can be bil)
+// +---- type (# or @)
+
 FilterContainer.prototype.makeHash = function(filterType, selector, domain) {
-    var i = (selector.length - 1) >> 2;
-    var hash = String.fromCharCode(
-        filterType.charCodeAt(0) << 8 |
-        selector.charCodeAt(0),
-        (selector.charCodeAt(1) & 0xF) << 12 |
-        (selector.charCodeAt(1+i) & 0xF) << 8 |
-        (selector.charCodeAt(1+i+i) & 0xF) << 4 |
-        (selector.charCodeAt(1+i+i+i) & 0xF)
-    );
+    var i;
+    var hash;
+
+    if ( selector === '') {
+        hash = String.fromCharCode(filterType.charCodeAt(0) << 8);
+    } else {
+        i = (selector.length - 1) >> 2;
+        hash = String.fromCharCode(
+            filterType.charCodeAt(0) << 8 | selector.charCodeAt(0),
+            (selector.charCodeAt(1) & 0xF) << 12 |
+            (selector.charCodeAt(1+i) & 0xF) << 8 |
+            (selector.charCodeAt(1+i+i) & 0xF) << 4 |
+            (selector.charCodeAt(1+i+i+i) & 0xF)
+        );
+    }
     if ( !domain ) {
         return hash;
     }
@@ -323,9 +358,10 @@ FilterContainer.prototype.addPlainFilter = function(parsed) {
     if ( parsed.hostnames.length ) {
         return this.addPlainHostnameFilter(parsed);
     }
-    var f = new FilterPlain(parsed.f);
-    var hash = this.makeHash(parsed.filterType, parsed.f);
+    var f = new FilterPlain(parsed.suffix);
+    var hash = this.makeHash(parsed.filterType, parsed.suffix);
     this.addFilterEntry(hash, f);
+    this.acceptedCount += 1;
 };
 
 /******************************************************************************/
@@ -334,17 +370,17 @@ FilterContainer.prototype.addPlainHostnameFilter = function(parsed) {
     var httpsburi = HTTPSB.URI;
     var f, hash;
     var hostnames = parsed.hostnames;
-    var i = hostnames.length;
-    var hostname;
+    var i = hostnames.length, hostname;
     while ( i-- ) {
         hostname = hostnames[i];
         if ( !hostname ) {
             continue;
         }
-        f = new FilterPlainHostname(parsed.f, hostname);
-        hash = this.makeHash(parsed.filterType, parsed.f, httpsburi.domainFromHostname(hostname));
+        f = new FilterPlainHostname(parsed.suffix, hostname);
+        hash = this.makeHash(parsed.filterType, parsed.suffix, httpsburi.domainFromHostname(hostname));
         this.addFilterEntry(hash, f);
     }
+    this.acceptedCount += 1;
 };
 
 /******************************************************************************/
@@ -357,9 +393,10 @@ FilterContainer.prototype.addPlainMoreFilter = function(parsed) {
     if ( plainSelector === '' ) {
         return;
     }
-    var f = new FilterPlainMore(parsed.f);
+    var f = new FilterPlainMore(parsed.suffix);
     var hash = this.makeHash(parsed.filterType, plainSelector);
     this.addFilterEntry(hash, f);
+    this.acceptedCount += 1;
 };
 
 /******************************************************************************/
@@ -372,17 +409,44 @@ FilterContainer.prototype.addPlainMoreHostnameFilter = function(parsed) {
     var httpsburi = HTTPSB.URI;
     var f, hash;
     var hostnames = parsed.hostnames;
-    var i = hostnames.length;
-    var hostname;
+    var i = hostnames.length, hostname;
     while ( i-- ) {
         hostname = hostnames[i];
         if ( !hostname ) {
             continue;
         }
-        f = new FilterPlainMoreHostname(parsed.f, hostname);
+        f = new FilterPlainMoreHostname(parsed.suffix, hostname);
         hash = this.makeHash(parsed.filterType, plainSelector, httpsburi.domainFromHostname(hostname));
         this.addFilterEntry(hash, f);
     }
+    this.acceptedCount += 1;
+};
+
+/******************************************************************************/
+
+FilterContainer.prototype.addElementFilter = function(parsed) {
+    if ( parsed.hostnames.length ) {
+        return this.addElementHostnameFilter(parsed);
+    }
+};
+
+/******************************************************************************/
+
+FilterContainer.prototype.addElementHostnameFilter = function(parsed) {
+    var httpsburi = HTTPSB.URI;
+    var f, hash;
+    var hostnames = parsed.hostnames;
+    var i = hostnames.length, hostname;
+    while ( i-- ) {
+        hostname = hostnames[i];
+        if ( !hostname ) {
+            continue;
+        }
+        f = new FilterElementHostname(parsed.suffix, hostname);
+        hash = this.makeHash(parsed.filterType, '', httpsburi.domainFromHostname(hostname));
+        this.addFilterEntry(hash, f);
+    }
+    this.acceptedCount += 1;
 };
 
 /******************************************************************************/
@@ -427,6 +491,15 @@ FilterContainer.prototype.retrieve = function(url, inSelectors) {
         if ( bucket = this.filters[hash] ) {
             bucket.retrieve(selector, donthideSelectors);
         }
+    }
+    // Generic elements for a specific domain
+    hash = this.makeHash('#', '', domain);
+    if ( bucket = this.filters[hash] ) {
+        bucket.retrieve(selector, hideSelectors);
+    }
+    hash = this.makeHash('@', '', domain);
+    if ( bucket = this.filters[hash] ) {
+        bucket.retrieve(selector, donthideSelectors);
     }
     return {
         hide: hideSelectors.join(','),
