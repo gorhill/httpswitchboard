@@ -170,7 +170,7 @@ var FilterParser = function() {
     this.hostnames = [];
     this.invalid = false;
     this.unsupported = false;
-    this.rePlain = /([#.][\w-]+)$/;
+    this.rePlain = /^([#.][\w-]+)/;
     this.rePlainMore = /^[#.][\w-]+[^\w-]/;
 };
 
@@ -380,8 +380,8 @@ FilterContainer.prototype.addPlainMoreHostnameFilter = function(parsed) {
             continue;
         }
         f = new FilterPlainMoreHostname(parsed.f, hostname);
-        hash = this.makeHash(parsed.filterType, parsed.f, httpsburi.domainFromHostname(hostname));
-        this.addFilterEntry(hash, plainSelector);
+        hash = this.makeHash(parsed.filterType, plainSelector, httpsburi.domainFromHostname(hostname));
+        this.addFilterEntry(hash, f);
     }
 };
 
@@ -416,18 +416,15 @@ FilterContainer.prototype.retrieve = function(url, inSelectors) {
             continue;
         }
         hash = this.makeHash('#', selector);
-        bucket = this.filters[hash];
-        if ( bucket ) {
+        if ( bucket = this.filters[hash] ) {
             bucket.retrieve(selector, hideSelectors);
         }
         hash = this.makeHash('#', selector, domain);
-        bucket = this.filters[hash];
-        if ( bucket ) {
+        if ( bucket = this.filters[hash] ) {
             bucket.retrieve(selector, hideSelectors);
         }
         hash = this.makeHash('@', selector, domain);
-        bucket = this.filters[hash];
-        if ( bucket ) {
+        if ( bucket = this.filters[hash] ) {
             bucket.retrieve(selector, donthideSelectors);
         }
     }
