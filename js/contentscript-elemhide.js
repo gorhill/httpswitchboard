@@ -28,15 +28,15 @@ var retrieveHandler = function(selectors) {
     var styleText = [];
     if ( selectors.hide.length > 0 ) {
         var hideStyleText = '{{hideSelectors}} {display:none;}'
-            .replace('{{hideSelectors}}', selectors.hide.join(','));
+            .replace('{{hideSelectors}}', selectors.hide);
         styleText.push(hideStyleText);
-        console.log('ABP cosmetic filters: injecting CSS rule:', hideStyleText);
+        console.log('HTTPSB> ABP cosmetic filters: injecting CSS rule:', hideStyleText);
     }
     if ( selectors.donthide.length > 0 ) {
         var dontHideStyleText = '{{donthideSelectors}} {display:initial;}'
-            .replace('{{donthideSelectors}}', selectors.donthide.join(','));
+            .replace('{{donthideSelectors}}', selectors.donthide);
         styleText.push(donthideStyleText);
-        console.log('ABP cosmetic filters: injecting CSS rule:', donthideStyleText);
+        console.log('HTTPSB> ABP cosmetic filters: injecting CSS rule:', donthideStyleText);
     }
     if ( styleText.length > 0 ) {
         var style = document.createElement('style');

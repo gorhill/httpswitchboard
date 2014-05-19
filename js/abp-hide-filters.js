@@ -72,7 +72,10 @@ var histogram = function(label, buckets) {
 */
 /******************************************************************************/
 
-// Good for id- and class-based filters
+// Pure id- and class-based filters
+// Examples:
+//   #A9AdsMiddleBoxTop
+//   .AD-POST
 
 var FilterPlain = function(s) {
     this.s = s;
@@ -86,6 +89,29 @@ FilterPlain.prototype.retrieve = function(s, out) {
 
 /******************************************************************************/
 
+// Id- and class-based filters with extra selector stuff following.
+// Examples:
+//   #center_col > div[style="font-size:14px;margin-right:0;min-height:5px"] ...
+//   #adframe:not(frameset)
+//   .l-container > #fishtank
+
+var FilterPlainMore = function(s) {
+    this.s = s;
+};
+
+FilterPlainMore.prototype.retrieve = function(s, out) {
+    if ( s === this.s.slice(0, s.length) ) {
+        out.push(this.s);
+    }
+};
+
+/******************************************************************************/
+
+// Pure id- and class-based filters sepcific to a hostname
+// Examples:
+//   search.snapdo.com###ABottomD
+//   facebook.com##.-cx-PRIVATE-fbAdUnit__root
+
 var FilterPlainHostname = function(s, hostname) {
     this.s = s;
     this.hostname = hostname;
@@ -93,6 +119,24 @@ var FilterPlainHostname = function(s, hostname) {
 
 FilterPlainHostname.prototype.retrieve = function(s, out) {
     if ( s === this.s && pageHostname.slice(-this.hostname.length) === this.hostname ) {
+        out.push(this.s);
+    }
+};
+
+/******************************************************************************/
+
+// Pure id- and class-based filters sepcific to a hostname
+// Examples:
+//   sltrib.com###BLContainer + div[style="height:90px;"]
+//   myps3.com.au##.Boxer[style="height: 250px;"]
+
+var FilterPlainMoreHostname = function(s, hostname) {
+    this.s = s;
+    this.hostname = hostname;
+};
+
+FilterPlainMoreHostname.prototype.retrieve = function(s, out) {
+    if ( s === this.s.slice(0, s.length) && pageHostname.slice(-this.hostname.length) === this.hostname ) {
         out.push(this.s);
     }
 };
@@ -125,6 +169,7 @@ var FilterParser = function() {
     this.hostnames = [];
     this.invalid = false;
     this.unsupported = false;
+    this.rePlain = /#[#@]([#.][\w-]+)$/;
 };
 
 /******************************************************************************/
@@ -176,11 +221,23 @@ FilterParser.prototype.parse = function(s) {
 
 /******************************************************************************/
 
+FilterParser.prototype.extractPlain = function() {
+    var matches = this.rePlain.exec(this.f);
+    if ( matches && matches.length === 2 ) {
+        return matches[1];
+    }
+    return '';
+};
+
+/******************************************************************************/
+
 var FilterContainer = function() {
     this.filterParser = new FilterParser();
     this.acceptedCount = 0;
     this.rejectedCount = 0;
     this.filters = {};
+    this.rePlain = /^##[#.][\w-]+$/;
+    this.rePlainMore = /^##[#.][\w-]+[^\w-]/;
 };
 
 /******************************************************************************/
@@ -215,6 +272,10 @@ FilterContainer.prototype.add = function(s) {
 /******************************************************************************/
 
 FilterContainer.prototype.freeze = function() {
+    console.log('HTTPSB> adp-hide-filters.js: %d filters accepted', this.acceptedCount);
+    console.log('HTTPSB> adp-hide-filters.js: %d filters rejected', this.rejectedCount);
+    console.log('HTTPSB> adp-hide-filters.js: coverage is %s%', (this.acceptedCount * 100 / (this.acceptedCount+this.rejectedCount)).toFixed(1));
+
     // histogram('allFilters', this.filters);
 };
 
@@ -224,8 +285,7 @@ FilterContainer.prototype.makeHash = function(filterType, selector, domain) {
     var i = (selector.length - 1) >> 2;
     var hash = String.fromCharCode(
         filterType.charCodeAt(0) << 8 |
-        selector.charCodeAt(0)
-        ,
+        selector.charCodeAt(0),
         (selector.charCodeAt(1) & 0xF) << 12 |
         (selector.charCodeAt(1+i) & 0xF) << 8 |
         (selector.charCodeAt(1+i+i) & 0xF) << 4 |
@@ -246,18 +306,21 @@ FilterContainer.prototype.makeHash = function(filterType, selector, domain) {
 /******************************************************************************/
 
 FilterContainer.prototype.addPlainFilter = function(parsed) {
+    // Verify whether the plain selector is followed by extra selector stuff
+    if ( this.rePlainMore.test(parsed.f) ) {
+        return this.addPlainMoreFilter(parsed);
+    }
     if ( parsed.hostnames.length ) {
-        return this.addPlainFilterHostname(parsed);
+        return this.addPlainHostnameFilter(parsed);
     }
     var f = new FilterPlain(parsed.f);
     var hash = this.makeHash(parsed.filterType, parsed.f);
     this.addFilterEntry(hash, f);
-    return true;
 };
 
 /******************************************************************************/
 
-FilterContainer.prototype.addPlainFilterHostname = function(parsed) {
+FilterContainer.prototype.addPlainHostnameFilter = function(parsed) {
     var httpsburi = HTTPSB.URI;
     var f, hash;
     var hostnames = parsed.hostnames;
@@ -271,6 +334,44 @@ FilterContainer.prototype.addPlainFilterHostname = function(parsed) {
         f = new FilterPlainHostname(parsed.f, hostname);
         hash = this.makeHash(parsed.filterType, parsed.f, httpsburi.domainFromHostname(hostname));
         this.addFilterEntry(hash, f);
+    }
+};
+
+/******************************************************************************/
+
+FilterContainer.prototype.addPlainMoreFilter = function(parsed) {
+    if ( parsed.hostnames.length ) {
+        return this.addPlainMoreHostnameFilter(parsed);
+    }
+    var plainSelector = parsed.extractPlain();
+    if ( plainSelector === '' ) {
+        return;
+    }
+    var f = new FilterPlainMore(parsed.f);
+    var hash = this.makeHash(parsed.filterType, plainSelector);
+    this.addFilterEntry(hash, f);
+};
+
+/******************************************************************************/
+
+FilterContainer.prototype.addPlainMoreHostnameFilter = function(parsed) {
+    var plainSelector = parsed.extractPlain();
+    if ( plainSelector === '' ) {
+        return;
+    }
+    var httpsburi = HTTPSB.URI;
+    var f, hash;
+    var hostnames = parsed.hostnames;
+    var i = hostnames.length;
+    var hostname;
+    while ( i-- ) {
+        hostname = hostnames[i];
+        if ( !hostname ) {
+            continue;
+        }
+        f = new FilterPlainMoreHostname(parsed.f, hostname);
+        hash = this.makeHash(parsed.filterType, parsed.f, httpsburi.domainFromHostname(hostname));
+        this.addFilterEntry(hash, plainSelector);
     }
 };
 
@@ -320,7 +421,10 @@ FilterContainer.prototype.retrieve = function(url, inSelectors) {
             bucket.retrieve(selector, donthideSelectors);
         }
     }
-    return { hide: hideSelectors, donthide: donthideSelectors };
+    return {
+        hide: hideSelectors.join(','),
+        donthide: donthideSelectors.join(',')
+    };
 };
 
 /******************************************************************************/
