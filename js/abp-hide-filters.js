@@ -107,7 +107,7 @@ FilterPlainMore.prototype.retrieve = function(s, out) {
 
 /******************************************************************************/
 
-// Pure id- and class-based filters sepcific to a hostname
+// Pure id- and class-based filters specific to a hostname
 // Examples:
 //   search.snapdo.com###ABottomD
 //   facebook.com##.-cx-PRIVATE-fbAdUnit__root
@@ -125,7 +125,8 @@ FilterPlainHostname.prototype.retrieve = function(s, out) {
 
 /******************************************************************************/
 
-// Pure id- and class-based filters sepcific to a hostname
+// Pure id- and class-based filters with extra selector stuff following and
+// specific to a hostname
 // Examples:
 //   sltrib.com###BLContainer + div[style="height:90px;"]
 //   myps3.com.au##.Boxer[style="height: 250px;"]
