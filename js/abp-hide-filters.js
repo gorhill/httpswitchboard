@@ -82,9 +82,6 @@ FilterPlain.prototype.retrieve = function(s, out) {
     if ( s === this.s ) {
         out.push(this.s);
     }
-//    if ( s === this.s.slice(0, s.length) ) {
-//        out.push(this.s);
-//    }
 };
 
 /******************************************************************************/
@@ -95,7 +92,7 @@ var FilterPlainHostname = function(s, hostname) {
 };
 
 FilterPlainHostname.prototype.retrieve = function(s, out) {
-    if ( s === this.s && pageHostname === this.hostname ) {
+    if ( s === this.s && pageHostname.slice(-this.hostname.length) === this.hostname ) {
         out.push(this.s);
     }
 };
