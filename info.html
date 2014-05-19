@@ -17,6 +17,9 @@ select {
 #requests-filters {
     font-size: 13px;
     }
+#requests-filters label {
+    padding-right: 1em
+    }
 #requests-log {
     margin: 0;
     border: 1px inset #eee;
@@ -137,9 +140,20 @@ tr.unused {
     <div><span data-i18n="statsPageLogSizePrompt1"></span> <input id="max-logged-requests" type="text" value="50" size="3"> <span data-i18n="statsPageLogSizePrompt2"></span> 
         <button class="whatisthis"></button>
         <p class="whatisthis-expandable para" data-i18n="statsPageLogSizeHelp"></p>
+        <p id="requests-filters"><button id="refresh-requests" data-i18n="statsPageRefresh"></button>&emsp;Show:
+            <input id="show-main_frame" type="checkbox" checked value="1"><label for="show-main_frame">Pages</label>
+            <input id="show-blocked" type="checkbox" checked value="1"><label for="show-blocked"><span style="color:#c00" data-i18n="statsPageBlocked">Blocked</span></label>
+            <input id="show-allowed" type="checkbox" checked value="1"><label for="show-allowed"><span style="color:#070" data-i18n="statsPageAllowed">Allowed</span></label>
+            <input id="show-cookie" type="checkbox" checked value="1"><label for="show-cookie">Cookies</label>
+            <input id="show-image" type="checkbox" checked value="1"><label for="show-image">Images</label>
+            <input id="show-stylesheet" type="checkbox" checked value="1"><label for="show-stylesheet">CSS</label>
+            <input id="show-object" type="checkbox" checked value="1"><label for="show-object">Objects</label>
+            <input id="show-script" type="checkbox" checked value="1"><label for="show-script">Scripts</label>
+            <input id="show-xmlhttprequest" type="checkbox" checked value="1"><label for="show-xmlhttprequest">XHRs</label>
+            <input id="show-sub_frame" type="checkbox" checked value="1"><label for="show-sub_frame">Frames</label>
+            <input id="show-other" type="checkbox" checked value="1"><label for="show-other">Others</label>
         </p>
-    <p id="requests-filters"><button id="refresh-requests" data-i18n="statsPageRefresh"></button>&emsp;Show: <input id="show-main_frame" type="checkbox" checked value="1">Pages&emsp;<input id="show-blocked" type="checkbox" checked value="1"><span style="color:#c00" data-i18n="statsPageBlocked">Blocked</span>&emsp;<input id="show-allowed" type="checkbox" checked value="1"><span style="color:#070" data-i18n="statsPageAllowed">Allowed</span>&emsp;<input id="show-cookie" type="checkbox" checked value="1">Cookies&emsp;<input id="show-image" type="checkbox" checked value="1">Images&emsp;<input id="show-stylesheet" type="checkbox" checked value="1">CSS&emsp;<input id="show-object" type="checkbox" checked value="1">Objects&emsp;<input id="show-script" type="checkbox" checked value="1">Scripts&emsp;<input id="show-xmlhttprequest" type="checkbox" checked value="1">XHRs&emsp;<input id="show-sub_frame" type="checkbox" checked value="1">Frames&emsp;<input id="show-other" type="checkbox" checked value="1">Others
-    </p>
+    </div>
     <div id="requests-log" style="overflow-y:hidden">
     <table id="requestsTable">
     <tr class="ro"><td>when<td>what<td><td class="fa">&#xf0b0;<td>where</tr>
