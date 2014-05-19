@@ -418,7 +418,7 @@
         "description": "English: What is this?"
     },
     "ubiquitousWhatIsThisPrompt" : {
-        "message": "&ldquo;Ubiquitous rules&rdquo; are rules which applies everywhere, i.e. in all scopes.",
+        "message": "&ldquo;Ubiquitous rules&rdquo; are rules which apply everywhere, i.e. in all scopes. A ubiquitous rule can be overridden by any scoped rule for the same element.",
         "description": "English: &ldquo;Ubiquitous rules&rdquo; are rules which applies everywhere, i.e. in all scopes."
     },
     "ubiquitousListsOfBlockedHostsPrompt1" : {
