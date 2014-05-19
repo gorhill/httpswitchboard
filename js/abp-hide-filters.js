@@ -170,7 +170,8 @@ var FilterParser = function() {
     this.hostnames = [];
     this.invalid = false;
     this.unsupported = false;
-    this.rePlain = /#[#@]([#.][\w-]+)$/;
+    this.rePlain = /([#.][\w-]+)$/;
+    this.rePlainMore = /^[#.][\w-]+[^\w-]/;
 };
 
 /******************************************************************************/
@@ -222,6 +223,12 @@ FilterParser.prototype.parse = function(s) {
 
 /******************************************************************************/
 
+FilterParser.prototype.isPlainMore = function() {
+    return this.rePlainMore.test(this.f);
+};
+
+/******************************************************************************/
+
 FilterParser.prototype.extractPlain = function() {
     var matches = this.rePlain.exec(this.f);
     if ( matches && matches.length === 2 ) {
@@ -237,8 +244,6 @@ var FilterContainer = function() {
     this.acceptedCount = 0;
     this.rejectedCount = 0;
     this.filters = {};
-    this.rePlain = /^##[#.][\w-]+$/;
-    this.rePlainMore = /^##[#.][\w-]+[^\w-]/;
 };
 
 /******************************************************************************/
@@ -255,6 +260,10 @@ FilterContainer.prototype.reset = function() {
 
 FilterContainer.prototype.add = function(s) {
     var parsed = this.filterParser.parse(s);
+
+    //if ( s === 'mail.google.com##.nH.adC > .nH > .nH > .u5 > .azN' ) {
+    //    debugger;
+    //}
 
     if ( parsed.invalid ) {
         return false;
@@ -308,7 +317,7 @@ FilterContainer.prototype.makeHash = function(filterType, selector, domain) {
 
 FilterContainer.prototype.addPlainFilter = function(parsed) {
     // Verify whether the plain selector is followed by extra selector stuff
-    if ( this.rePlainMore.test(parsed.f) ) {
+    if ( parsed.isPlainMore() ) {
         return this.addPlainMoreFilter(parsed);
     }
     if ( parsed.hostnames.length ) {

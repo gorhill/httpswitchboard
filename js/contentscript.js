@@ -22,6 +22,120 @@
 // Injected into content pages
 
 /******************************************************************************/
+
+// ABP cosmetic filters
+
+var CosmeticFiltering = function() {
+    this.classSelectors = null;
+    this.idSelectors = null;
+    this.classesFromNodeList(document.querySelectorAll('*[class]'));
+    this.idsFromNodeList(document.querySelectorAll('*[id]'));
+    this.retrieve();
+};
+
+CosmeticFiltering.prototype.retrieve = function() {
+    var a1 = this.classSelectors !== null ? Object.keys(this.classSelectors) : [];
+    var a2 = this.idSelectors !== null ? this.idSelectors : [];
+    var selectors = a1.concat(a2);
+    if ( selectors.length > 0 ) {
+        chrome.runtime.sendMessage({
+            what: 'retrieveABPHideSelectors',
+            selectors: selectors,
+            locationURL: window.location.href
+        }, this.retrieveHandler);
+    }
+    this.idSelectors = null;
+    this.classSelectors = null;
+};
+
+CosmeticFiltering.prototype.retrieveHandler = function(selectors) {
+    if ( !selectors ) {
+        return;
+    }
+    var styleText = [];
+    if ( selectors.hide.length > 0 ) {
+        var hideStyleText = '{{hideSelectors}} {display:none;}'
+            .replace('{{hideSelectors}}', selectors.hide);
+        styleText.push(hideStyleText);
+        console.log('HTTPSB> ABP cosmetic filters: injecting CSS rules:', hideStyleText);
+    }
+    if ( selectors.donthide.length > 0 ) {
+        var dontHideStyleText = '{{donthideSelectors}} {display:initial;}'
+            .replace('{{donthideSelectors}}', selectors.donthide);
+        styleText.push(donthideStyleText);
+        console.log('HTTPSB> ABP cosmetic filters: injecting CSS rules:', donthideStyleText);
+    }
+    if ( styleText.length > 0 ) {
+        var style = document.createElement('style');
+        style.appendChild(document.createTextNode(styleText.join('')));
+        document.documentElement.appendChild(style);
+    }
+};
+
+CosmeticFiltering.prototype.classesFromNodeList = function(nodes) {
+    if ( !nodes ) {
+        return;
+    }
+    if ( this.classSelectors === null ) {
+        this.classSelectors = {};
+    }
+    var classNames, className, j;
+    var i = nodes.length;
+    while ( i-- ) {
+        className = nodes[i].className;
+        if ( typeof className !== 'string' ) {
+            continue;
+        }
+        className = className.trim();
+        if ( className === '' ) {
+            continue;
+        }
+        if ( className.indexOf(' ') < 0 ) {
+            this.classSelectors['.' + className] = true;
+            continue;
+        }
+        classNames = className.trim().split(/\s+/);
+        j = classNames.length;
+        while ( j-- ) {
+            className = classNames[j];
+            if ( className !== '' ) {
+                this.classSelectors['.' + className] = true;
+            }
+        }
+    }
+};
+
+CosmeticFiltering.prototype.idsFromNodeList = function(nodes) {
+    if ( !nodes ) {
+        return;
+    }
+    if ( this.idSelectors === null ) {
+        this.idSelectors = [];
+    }
+    var i = nodes.length;
+    while ( i-- ) {
+        id = nodes[i].id;
+        if ( typeof id !== 'string' ) {
+            continue;
+        }
+        id = id.trim();
+        if ( id === '' ) {
+            continue;
+        }
+        this.idSelectors[i] = '#' + id;
+    }
+};
+
+CosmeticFiltering.prototype.allFromNodeList = function(nodes) {
+    this.classesFromNodeList(nodes);
+    this.idsFromNodeList(nodes);
+};
+
+
+var adbCosmeticFiltering = new CosmeticFiltering();
+
+/******************************************************************************/
+/******************************************************************************/
 /*------------[ Unrendered Noscript (because CSP) Workaround ]----------------*/
 
 var fixNoscriptTags = function() {
@@ -51,6 +165,7 @@ var checkScriptBlacklisted = function() {
 };
 
 /******************************************************************************/
+/******************************************************************************/
 
 var localStorageHandler = function(mustRemove) {
     if ( mustRemove ) {
@@ -59,6 +174,7 @@ var localStorageHandler = function(mustRemove) {
     }
 };
 
+/******************************************************************************/
 /******************************************************************************/
 
 var nodesAddedHandler = function(nodeList, summary) {
@@ -114,6 +230,9 @@ var nodesAddedHandler = function(nodeList, summary) {
             break;
         }
     }
+
+    // ABP cosmetic filters:
+    adbCosmeticFiltering.allFromNodeList(nodeList);
 };
 
 /******************************************************************************/
@@ -141,6 +260,8 @@ var mutationObservedHandler = function(mutations) {
     if ( summary.mustReport ) {
         chrome.runtime.sendMessage(summary);
     }
+
+    adbCosmeticFiltering.retrieve();
 };
 
 /******************************************************************************/
@@ -197,6 +318,7 @@ var firstObservationHandler = function() {
 };
 
 /******************************************************************************/
+/******************************************************************************/
 
 var loadHandler = function() {
     // Checking to see if script is blacklisted
@@ -239,3 +361,4 @@ if ( /^https?:\/\/./.test(window.location.href) ) {
     }
 }
 
+/******************************************************************************/
