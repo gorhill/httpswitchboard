@@ -27,6 +27,10 @@
 
 /******************************************************************************/
 
+// If you play with this code, mind:
+//   https://github.com/gorhill/httpswitchboard/issues/261
+//   https://github.com/gorhill/httpswitchboard/issues/252
+
 var navigatorSpoofer = " \
 ;(function() { \
     try { \
@@ -50,8 +54,10 @@ var navigatorSpoofer = " \
                 spoofedNavigator[k] = realNavigator[k]; \
             } \
         } \
-        spoofedNavigator.appVersion = spoofedUserAgent; \
         spoofedNavigator.userAgent = spoofedUserAgent; \
+        var pos = spoofedUserAgent.indexOf('/'); \
+        spoofedNavigator.appName = pos < 0 ? '' : spoofedUserAgent.slice(0, pos); \
+        spoofedNavigator.appVersion = pos < 0 ? spoofedUserAgent : spoofedUserAgent.slice(pos + 1); \
         navigator = window.navigator = spoofedNavigator; \
     } catch (e) { \
     } \
