@@ -5,7 +5,7 @@
     },
     "extShortDesc": {
         "message": "Point & click to forbid/allow any class of requests made by your browser. Use it to block scripts, iframes, ads, facebook, etc.",
-        "description": "this will in chrome web store: must be 132 characters or less"
+        "description": "this will be in the chrome web store: must be 132 characters or less"
     },
     "settingsPageName": {
         "message": "Settings",
@@ -17,7 +17,7 @@
     },
     "ubiquitousRulesPageName" : {
         "message": "Ubiquitous rules",
-        "description": "appears as tab name in dashboard"
+        "description": "appears as tab name in dashboard."
     },
     "scopedRulesPageName": {
         "message": "Scoped rules",
@@ -222,7 +222,7 @@
         "description": "English: HTTP requests <b>per page</b>."
     },
     "statsPageLogSizeHelp" : {
-        "message": "<p>You can inspect details of the most recent raw HTTP requests which have been made by a web page (see below).</p><p>This is mostly useful to advanced users who want to investigate exactly what a web page has been doing. But logging these HTTP requests requires memory, and if you don't care about this technical information, then memory is being wasted.</p><p>Hence this field which lets you adjust the maximum number of the most recent HTTP requests which are to be logged for further inspection.<p><p>Enter &ldquo;<code>0</code>&rdquo; to turn off detailed logging (and consequently reduce the memory footprint of <i>HTTP Switchboard</i>).</p>",
+        "message": "<p>You can inspect details of the most recent raw HTTP requests which have been made by a web page (see below).</p><p>This is mostly useful to advanced users who want to investigate exactly what a web page has been doing. But logging these HTTP requests requires memory, and if you don't care about this technical information, then memory is being wasted.</p><p>Hence this field which lets you adjust the maximum number of the most recent HTTP requests which are to be logged for further inspection.</p><p>Enter &ldquo;<code>0</code>&rdquo; to turn off detailed logging (and consequently reduce the memory footprint of <i>HTTP Switchboard</i>).</p>",
         "description": "To help user understand the purpose of the log size value"
     },
     "statsPageRefresh" : {
@@ -265,7 +265,7 @@
     },
     "settingsStrictBlockingInfo": {
         "message": "<p><strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Strict\nblocking</a></strong>,\nintroduced in <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log-0.0-to-0.5#036\">version 0.3.6</a>,\nmeans that even\nif you whitelist a specific hostname, blacklisted type of requests (<i>plugins</i>,\n<i>frames</i>, etc.) will remain blacklisted. For some users this maybe\ntoo bothersome, hence this switch.</p>\n<p><strong>Strict blocking on</strong>: blacklisted types of request (if any)\nfor a whitelisted hostname are blocked (unless you explicitly whitelist\nspecifically these types of request for the whitelisted hostname.)</p>\n<p><strong>Strict blocking off</strong>: blacklisted types of request (if any)\nfor a whitelisted hostname are allowed (unless you explicitly blacklist\nspecifically these types of request for the whitelisted hostname.)</p>",
-        "description": "To help user understand the purpose of strict blocking"
+        "description": "To help the user understand the purpose of strict blocking"
     },
     "settingsAutoCreateScopePrompt1": {
         "message": "Auto create temporary",
@@ -360,7 +360,7 @@
         "description": "..."
     },
     "settingsDeleteBlockedLocalStoragePrompt" : {
-        "message": "Delete <a href='http://en.wikipedia.org/wiki/Web_storage'>local storage</a> content set by blocked hostnames",
+        "message": "Delete <a href='https://en.wikipedia.org/wiki/Web_storage'>local storage</a> content set by blocked hostnames",
         "description": "..."
     },
     "settingsDeleteBlockedLocalStorageHelp" : {
@@ -389,7 +389,7 @@
     },
     "settingsSpoofUserAgentPrompt1" : {
         "message": "Spoof <a href='https://en.wikipedia.org/wiki/User_agent'>User-Agent</a> string by randomly picking a new one below every",
-        "description": "Spoof <a href='https://en.wikipedia.org/wiki/User_agent'>User-Agent</a> string by picking one randomly below every"
+        "description": "Spoof <a href='https://en.wikipedia.org/wiki/User_agent'>User-Agent</a> string by randomly picking a new one below every"
     },
     "settingsSpoofUserAgentPrompt2" : {
         "message": "minutes.",
@@ -404,7 +404,7 @@
         "description": "header of Chromium: behind-the-scene requests section"
     },
     "settingsProcessBehindTheSceneHelp" : {
-        "message": "<p>According to <a href='http://www.google.com/intl/en/chrome/browser/privacy/whitepaper.html'>Google Chrome Privacy Whitepaper</a>, <i>Chromium</i> might send HTTP requests to <i>Google</i> without the user expressly visiting a web page. Let's call these special requests <strong>behind-the-scene</strong> requests. Also, other installed browser extensions can send <strong>behind-the-scene</strong> HTTP requests.</p><p><i>HTTP Switchboard</i> lets you intercept and treat these requests like any other request: they can be processed in order to allow/block them as per your whitelist/blacklist.</p><p>Click the extension icon while viewing this page to get started. Required reading: <a href='https://github.com/gorhill/httpswitchboard/wiki/Behind-the-scene-requests'>Behind-the-scene requests</a>.</p><div class='warn'><p><span style='color:red; font-weight:bold'>Beware!</span> Blocking <strong>behind-the-scene</strong> net requests is potentially causing <a href='https://github.com/gorhill/httpswitchboard/issues/27'>an issue</a> when the user wants to install an extension from the Chrome store (including maybe preventing extensions from being updated), hence the ability to disable the feature here. Blocking can also cause other installed extensions to not work properly (those querying for remote data).</p> <p>Even if this feature is not enabled, <strong>behind-the-scene</strong> requests are still logged by <i>HTTP Switchboard</i>. You can inspect these requests on the (from the <a href='dashboard.html#statistics'>Statistics</a> page).</p>",
+        "message": "<p>According to <a href='https://www.google.com/intl/en/chrome/browser/privacy/whitepaper.html'>Google Chrome Privacy Whitepaper</a>, <i>Chromium</i> might send HTTP requests to <i>Google</i> without the user expressly visiting a web page. Let's call these special requests <strong>behind-the-scene</strong> requests. Also, other installed browser extensions can send <strong>behind-the-scene</strong> HTTP requests.</p><p><i>HTTP Switchboard</i> lets you intercept and treat these requests like any other request: they can be processed in order to allow/block them as per your whitelist/blacklist.</p><p>Click the extension icon while viewing this page to get started. Required reading: <a href='https://github.com/gorhill/httpswitchboard/wiki/Behind-the-scene-requests'>Behind-the-scene requests</a>.</p><div class='warn'><p><span style='color:red; font-weight:bold'>Beware!</span> Blocking <strong>behind-the-scene</strong> net requests is potentially causing <a href='https://github.com/gorhill/httpswitchboard/issues/27'>an issue</a> when the user wants to install an extension from the Chrome store (including maybe preventing extensions from being updated), hence the ability to disable the feature here. Blocking can also cause other installed extensions to not work properly (those querying for remote data).</p><p>Even if this feature is not enabled, <strong>behind-the-scene</strong> requests are still logged by <i>HTTP Switchboard</i>. You can inspect these requests on the <a href='dashboard.html#statistics'>Statistics</a> page.</p>",
         "description": "..."
     },
     "settingsDoneButton" : {
@@ -419,7 +419,7 @@
     },
     "ubiquitousWhatIsThisPrompt" : {
         "message": "&ldquo;Ubiquitous rules&rdquo; are rules which apply everywhere, i.e. in all scopes. A ubiquitous rule can be overridden by any scoped rule for the same element.",
-        "description": "English: &ldquo;Ubiquitous rules&rdquo; are rules which applies everywhere, i.e. in all scopes."
+        "description": "English: &ldquo;Ubiquitous rules&rdquo; are rules which apply everywhere, i.e. in all scopes. A ubiquitous rule can be overridden by any scoped rule for the same element."
     },
     "ubiquitousListsOfBlockedHostsPrompt1" : {
         "message": "All lists of blocked hosts are loaded as ubiquitous rules, hence these hosts are blacklisted in all scopes.",
@@ -447,7 +447,7 @@
     },
     "ubiquitousParseAllABPHideFiltersPrompt1" : {
         "message": "Parse and enforce Adblock+ element hiding filters. (beta)",
-        "description": "English: Parse and enforce Adblock+ element hiding filters."
+        "description": "English: Parse and enforce Adblock+ element hiding filters. (beta)"
     },
     "ubiquitousParseAllABPHideFiltersPrompt2" : {
         "message": "{{abpHideFilterCount}} element hiding filters used.",
@@ -560,8 +560,8 @@
         "description": "English: Site-level scope"
     },
     "scopedDeletionPrompt": {
-        "message": "You are about to delete {{deleteCount}} rules.\nIt is irreversible.\nClick OK to confirm.",
-        "description": "English: You are about to delete {{deleteCount}} rules.\nIt is irreversible.\nClick OK to confirm."
+        "message": "You are about to delete {{deleteCount}} rules.\nThis is irreversible.\nClick OK to confirm.",
+        "description": "English: You are about to delete {{deleteCount}} rules.\nThis is irreversible.\nClick OK to confirm."
     },
 
 
