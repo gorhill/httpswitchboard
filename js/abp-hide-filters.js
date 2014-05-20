@@ -31,7 +31,8 @@ HTTPSB.abpHideFilters = (function(){
 
 var httpsb = HTTPSB;
 var pageHostname = '';
-//var testCount = 0;
+//var filterTestCount = 0;
+//var bucketTestCount = 0;
 
 /******************************************************************************/
 /*
@@ -137,7 +138,7 @@ var FilterPlainHostname = function(s, hostname) {
 };
 
 FilterPlainHostname.prototype.retrieve = function(s, out) {
-    if ( s === this.s && pageHostname.slice(-this.hostname.length) === this.hostname ) {
+    if ( pageHostname.slice(-this.hostname.length) === this.hostname ) {
         out.push(this.s);
     }
 };
@@ -156,7 +157,7 @@ var FilterPlainMoreHostname = function(s, hostname) {
 };
 
 FilterPlainMoreHostname.prototype.retrieve = function(s, out) {
-    if ( s === this.s.slice(0, s.length) && pageHostname.slice(-this.hostname.length) === this.hostname ) {
+    if ( pageHostname.slice(-this.hostname.length) === this.hostname ) {
         out.push(this.s);
     }
 };
@@ -174,7 +175,7 @@ FilterBucket.prototype.add = function(a) {
 
 FilterBucket.prototype.retrieve = function(s, out) {
     var i = this.filters.length;
-    //testCount += i - 1;
+    //filterTestCount += i - 1;
     while ( i-- ) {
         this.filters[i].retrieve(s, out);
     }
@@ -315,40 +316,95 @@ FilterContainer.prototype.freeze = function() {
 
 /******************************************************************************/
 
-// TSSSDD
-// |  | |
-// |  | |
-// |  | +---- domain (can be nil)
-// |  +---- suffix (can be bil)
-// +---- type (# or @)
+// Is
+// 3 unicode chars
+// |                 |                       |                       |
+// 
+//  00000000 TTTTTTTT PP PP PP PP PP PP PP PP SS SS SS SS SS SS SS SS
+//                  |                       |                       |
+//                  |                       |                       |
+//                  |                       |                       |
+//                  |                       |         ls 2-bit of 8 suffix chars
+//                  |                       |                       
+//                  |                       +-- ls 2-bit of 8 prefix chars
+//                  |
+//                  |
+//                  +-- filter type ('#'=hide '@'=unhide)
+//
+// TODO: Keep trying to find a better hash (FNV32a?). Ideally, all buckets have
+// the same (low) number of filters.
 
-FilterContainer.prototype.makeHash = function(filterType, selector, domain) {
-    var i;
-    var hash;
-
-    if ( selector === '') {
-        hash = String.fromCharCode(filterType.charCodeAt(0) << 8);
-    } else {
-        i = (selector.length - 1) >> 2;
-        hash = String.fromCharCode(
-            filterType.charCodeAt(0) << 8 | selector.charCodeAt(0),
-            (selector.charCodeAt(1) & 0xF) << 12 |
-            (selector.charCodeAt(1+i) & 0xF) << 8 |
-            (selector.charCodeAt(1+i+i) & 0xF) << 4 |
-            (selector.charCodeAt(1+i+i+i) & 0xF)
-        );
+FilterContainer.prototype.makeHash = function(type, prefix, suffix) {
+    var len, i2, i4, i8;
+    var pCode = 0;
+    if ( len = prefix.length ) {
+        i2 = len >> 1;
+        i4 = len >> 2;
+        i8 = len >> 3;
+        pCode = (prefix.charCodeAt(0)        & 3) << 14 | // 0/8
+                (prefix.charCodeAt(i8)       & 3) << 12 | // 1/8
+                (prefix.charCodeAt(i4)       & 3) << 10 | // 2/8
+                (prefix.charCodeAt(i4+i8)    & 3) <<  8 | // 3/8
+                (prefix.charCodeAt(i2)       & 3) <<  6 | // 4/8
+                (prefix.charCodeAt(i2+i8)    & 3) <<  4 | // 5/8
+                (prefix.charCodeAt(i2+i4)    & 3) <<  2 | // 6/8
+                (prefix.charCodeAt(len-1)    & 3);        // 8/8
     }
-    if ( !domain ) {
-        return hash;
+    var sCode = 0;
+    if ( len = suffix.length ) {
+        i2 = len >> 1;
+        i4 = len >> 2;
+        i8 = len >> 3;
+        sCode = (suffix.charCodeAt(0)        & 3) << 14 | // 0/8
+                (suffix.charCodeAt(i8)       & 3) << 12 | // 1/8
+                (suffix.charCodeAt(i4)       & 3) << 10 | // 2/8
+                (suffix.charCodeAt(i4+i8)    & 3) <<  8 | // 3/8
+                (suffix.charCodeAt(i2)       & 3) <<  6 | // 4/8
+                (suffix.charCodeAt(i2+i8)    & 3) <<  4 | // 5/8
+                (suffix.charCodeAt(i2+i4)    & 3) <<  2 | // 6/8
+                (suffix.charCodeAt(len-1)    & 3);        // 8/8
     }
-    i = domain.length >> 2;
-    return hash + String.fromCharCode(
-        domain.charCodeAt(0) << 8 |
-        domain.charCodeAt(i),
-        domain.charCodeAt(i+i) << 8 |
-        domain.charCodeAt(i+i+i)
-    );
+    return String.fromCharCode(type.charCodeAt(0), pCode, sCode);
 };
+
+/**
+Histogram for above hash generator:
+
+Histogram allFilters
+	Entries with only 2 filter(s) start at index 3107 (key = "@៩")
+	Entries with only 1 filter(s) start at index 5887 (key = "#ꎜ")
+	key=#叭  count=141
+	key=#徭  count=101
+	key=#雽  count=57
+	key=#֭  count=47
+	key=#節  count=42
+	key=#ｭ  count=39
+	key=#㼉  count=36
+	key=#  count=35
+	key=#傭  count=34
+	key=#ﾭ  count=32
+	key=#教  count=31
+	key=#홹  count=29
+	key=#ꗴ  count=29
+	key=#媭  count=27
+	key=#敨  count=27
+	key=#䓕  count=27
+	key=#㪉  count=26
+	key=#ꪭ  count=25
+	key=#釭  count=24
+	key=#嵩  count=24
+	key=#ꕔ  count=24
+	key=#�  count=24
+	key=#錀  count=23
+	key=#ꗰ  count=22
+	key=#ꖭ  count=22
+	key=#酹  count=22
+	key=#৙  count=22
+	key=#ㅩ  count=21
+	key=#꿴  count=21
+	key=#龭  count=21
+	key=#施  count=21
+*/
 
 /******************************************************************************/
 
@@ -361,7 +417,7 @@ FilterContainer.prototype.addPlainFilter = function(parsed) {
         return this.addPlainHostnameFilter(parsed);
     }
     var f = new FilterPlain(parsed.suffix);
-    var hash = this.makeHash(parsed.filterType, parsed.suffix);
+    var hash = this.makeHash(parsed.filterType, '', parsed.suffix);
     this.addFilterEntry(hash, f);
     this.acceptedCount += 1;
 };
@@ -381,7 +437,7 @@ FilterContainer.prototype.addPlainHostnameFilter = function(parsed) {
             continue;
         }
         f = new FilterPlainHostname(parsed.suffix, hostname);
-        hash = this.makeHash(parsed.filterType, '', httpsburi.domainFromHostname(hostname));
+        hash = this.makeHash(parsed.filterType, httpsburi.domainFromHostname(hostname), '');
         this.addFilterEntry(hash, f);
     }
     this.acceptedCount += 1;
@@ -398,7 +454,7 @@ FilterContainer.prototype.addPlainMoreFilter = function(parsed) {
         return;
     }
     var f = new FilterPlainMore(parsed.suffix);
-    var hash = this.makeHash(parsed.filterType, plainSelector);
+    var hash = this.makeHash(parsed.filterType, '', plainSelector);
     this.addFilterEntry(hash, f);
     this.acceptedCount += 1;
 };
@@ -422,7 +478,7 @@ FilterContainer.prototype.addPlainMoreHostnameFilter = function(parsed) {
             continue;
         }
         f = new FilterPlainMoreHostname(parsed.suffix, hostname);
-        hash = this.makeHash(parsed.filterType, '', httpsburi.domainFromHostname(hostname));
+        hash = this.makeHash(parsed.filterType, httpsburi.domainFromHostname(hostname), '');
         this.addFilterEntry(hash, f);
     }
     this.acceptedCount += 1;
@@ -449,7 +505,7 @@ FilterContainer.prototype.addElementHostnameFilter = function(parsed) {
             continue;
         }
         f = new FilterElementHostname(parsed.suffix, hostname);
-        hash = this.makeHash(parsed.filterType, '', httpsburi.domainFromHostname(hostname));
+        hash = this.makeHash(parsed.filterType, httpsburi.domainFromHostname(hostname), '');
         this.addFilterEntry(hash, f);
     }
     this.acceptedCount += 1;
@@ -475,7 +531,8 @@ FilterContainer.prototype.retrieve = function(url, inSelectors) {
          httpsb.getTemporaryABPFilteringFromPageURL(url) !== true ) {
         return;
     }
-    //testCount = 0;
+    //filterTestCount = 0;
+    //bucketTestCount = 0;
     var hostname = pageHostname = httpsb.URI.hostnameFromURI(url);
     var domain = httpsb.URI.domainFromHostname(hostname);
     var hideSelectors = [];
@@ -487,9 +544,10 @@ FilterContainer.prototype.retrieve = function(url, inSelectors) {
         if ( !selector ) {
             continue;
         }
-        hash = this.makeHash('#', selector);
+        hash = this.makeHash('#', '', selector);
         if ( bucket = this.filters[hash] ) {
-            //testCount += 1;
+            //bucketTestCount += 1;
+            //filterTestCount += 1;
             bucket.retrieve(selector, hideSelectors);
         }
     }
@@ -498,24 +556,29 @@ FilterContainer.prototype.retrieve = function(url, inSelectors) {
     // already quite narrowed down, so no need to actually narrow further
     // based on selector type -- this probably save a good chunk of overhead
     // in the above loop.
-    hash = this.makeHash('#', '', domain);
+    hash = this.makeHash('#', domain, '');
     if ( bucket = this.filters[hash] ) {
-        //testCount += 1;
+        //bucketTestCount += 1;
+        //filterTestCount += 1;
         bucket.retrieve(selector, hideSelectors);
     }
-    hash = this.makeHash('@', '', domain);
+    hash = this.makeHash('@', domain, '');
     if ( bucket = this.filters[hash] ) {
-        //testCount += 1;
+        //bucketTestCount += 1;
+        //filterTestCount += 1;
         bucket.retrieve(selector, donthideSelectors);
     }
 
-    // console.log(
-    //    'HTTPSB> abp-hide-filters.js: %d selectors in => %d filters tested => %d selectors out\n\tfor "%s"',
-    //    testCount,
-    //    inSelectors.length,
-    //    hideSelectors.length + donthideSelectors.length,
-    //    url
-    //);
+/*
+     console.log(
+        'HTTPSB> abp-hide-filters.js: "%s"\n\t%d selectors in => %d/%d filters/buckets tested => %d selectors out',
+        url,
+        inSelectors.length,
+        //filterTestCount,
+        //bucketTestCount,
+        hideSelectors.length + donthideSelectors.length
+    );
+*/
 
     return {
         hide: hideSelectors,
