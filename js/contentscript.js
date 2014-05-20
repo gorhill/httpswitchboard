@@ -39,7 +39,9 @@ var CosmeticFiltering = function() {
 
 CosmeticFiltering.prototype.retrieve = function() {
     var selectors = this.classSelectors !== null ? Object.keys(this.classSelectors) : [];
-    selectors = this.idSelectors !== null ? selectors.concat(this.idSelectors) : selectors;
+    if ( this.idSelectors !== null ) {
+        selectors = selectors.concat(this.idSelectors);
+    }
     if ( selectors.length > 0 ) {
         // console.log('HTTPSB> ABP cosmetic filters: retrieving CSS rules using %d selectors (%o)', selectors.length, selectors);
         chrome.runtime.sendMessage({

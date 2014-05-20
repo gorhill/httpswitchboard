@@ -31,6 +31,7 @@ HTTPSB.abpHideFilters = (function(){
 
 var httpsb = HTTPSB;
 var pageHostname = '';
+//var testCount = 0;
 
 /******************************************************************************/
 /*
@@ -173,6 +174,7 @@ FilterBucket.prototype.add = function(a) {
 
 FilterBucket.prototype.retrieve = function(s, out) {
     var i = this.filters.length;
+    //testCount += i - 1;
     while ( i-- ) {
         this.filters[i].retrieve(s, out);
     }
@@ -366,6 +368,8 @@ FilterContainer.prototype.addPlainFilter = function(parsed) {
 
 /******************************************************************************/
 
+// rhill 2014-05-20: When a domain exists, just specify a generic selector.
+
 FilterContainer.prototype.addPlainHostnameFilter = function(parsed) {
     var httpsburi = HTTPSB.URI;
     var f, hash;
@@ -377,7 +381,7 @@ FilterContainer.prototype.addPlainHostnameFilter = function(parsed) {
             continue;
         }
         f = new FilterPlainHostname(parsed.suffix, hostname);
-        hash = this.makeHash(parsed.filterType, parsed.suffix, httpsburi.domainFromHostname(hostname));
+        hash = this.makeHash(parsed.filterType, '', httpsburi.domainFromHostname(hostname));
         this.addFilterEntry(hash, f);
     }
     this.acceptedCount += 1;
@@ -401,6 +405,8 @@ FilterContainer.prototype.addPlainMoreFilter = function(parsed) {
 
 /******************************************************************************/
 
+// rhill 2014-05-20: When a domain exists, just specify a generic selector.
+
 FilterContainer.prototype.addPlainMoreHostnameFilter = function(parsed) {
     var plainSelector = parsed.extractPlain();
     if ( plainSelector === '' ) {
@@ -416,7 +422,7 @@ FilterContainer.prototype.addPlainMoreHostnameFilter = function(parsed) {
             continue;
         }
         f = new FilterPlainMoreHostname(parsed.suffix, hostname);
-        hash = this.makeHash(parsed.filterType, plainSelector, httpsburi.domainFromHostname(hostname));
+        hash = this.makeHash(parsed.filterType, '', httpsburi.domainFromHostname(hostname));
         this.addFilterEntry(hash, f);
     }
     this.acceptedCount += 1;
@@ -469,6 +475,7 @@ FilterContainer.prototype.retrieve = function(url, inSelectors) {
          httpsb.getTemporaryABPFilteringFromPageURL(url) !== true ) {
         return;
     }
+    //testCount = 0;
     var hostname = pageHostname = httpsb.URI.hostnameFromURI(url);
     var domain = httpsb.URI.domainFromHostname(hostname);
     var hideSelectors = [];
@@ -482,26 +489,34 @@ FilterContainer.prototype.retrieve = function(url, inSelectors) {
         }
         hash = this.makeHash('#', selector);
         if ( bucket = this.filters[hash] ) {
+            //testCount += 1;
             bucket.retrieve(selector, hideSelectors);
-        }
-        hash = this.makeHash('#', selector, domain);
-        if ( bucket = this.filters[hash] ) {
-            bucket.retrieve(selector, hideSelectors);
-        }
-        hash = this.makeHash('@', selector, domain);
-        if ( bucket = this.filters[hash] ) {
-            bucket.retrieve(selector, donthideSelectors);
         }
     }
-    // Generic elements for a specific domain
+    // Any selectors for a specific domain
+    // rhill 2014-05-20: When a domain exists, the set of selectors is
+    // already quite narrowed down, so no need to actually narrow further
+    // based on selector type -- this probably save a good chunk of overhead
+    // in the above loop.
     hash = this.makeHash('#', '', domain);
     if ( bucket = this.filters[hash] ) {
+        //testCount += 1;
         bucket.retrieve(selector, hideSelectors);
     }
     hash = this.makeHash('@', '', domain);
     if ( bucket = this.filters[hash] ) {
+        //testCount += 1;
         bucket.retrieve(selector, donthideSelectors);
     }
+
+    // console.log(
+    //    'HTTPSB> abp-hide-filters.js: %d selectors in => %d filters tested => %d selectors out\n\tfor "%s"',
+    //    testCount,
+    //    inSelectors.length,
+    //    hideSelectors.length + donthideSelectors.length,
+    //    url
+    //);
+
     return {
         hide: hideSelectors,
         donthide: donthideSelectors
