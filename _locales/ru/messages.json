@@ -4,7 +4,7 @@
         "description": "название расширения"
     },
     "extShortDesc": {
-        "message": "Расширение позволяющее запретить или разрешить разные классы запросов браузера, такие как: скрипты, баннеры, реклама, соцсети, и т.д",
+        "message": "Расширение, позволяющее запретить или разрешить разные классы запросов браузера: скрипты, баннеры, реклама, соцсети, и т.д.",
         "description": "this will in chrome web store: must be 132 characters or less"
     },
     "settingsPageName": {
@@ -166,7 +166,7 @@
         "description": "English: HTTP referer headers foiled: {{count}}"
     },
     "statsPageCookiesRemoved" : {
-        "message": "Удалено локальных куки: {{count}}",
+        "message": "Удалено локальных кукисов: {{count}}",
         "description": "Local cookies removed: {{count}}"
     },
     "statsPageLocalStoragesCleared" : {
@@ -332,7 +332,7 @@
         "description": "English:"
     },
     "settingsSubframeFgColor" : {
-        "message": "Blocked frames color (any valid CSS color):",
+        "message": "Цвет заблокированного фрейма (любой CSS цвет):",
         "description": "English: Blocked frames color (any valid CSS color):"
     },
     "settingsPrivacyHeader" : {
@@ -446,7 +446,7 @@
         "description": "English: ..."
     },
     "ubiquitousParseAllABPHideFiltersPrompt1" : {
-        "message": "Parse and enforce Adblock+ element hiding filters. (beta)",
+        "message": "Разбор и применение Adblock+ фильтров скрытия элементов. (beta)",
         "description": "English: Parse and enforce Adblock+ element hiding filters."
     },
     "ubiquitousParseAllABPHideFiltersPrompt2" : {
