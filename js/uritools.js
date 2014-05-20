@@ -31,7 +31,7 @@ Naming convention from https://en.wikipedia.org/wiki/URI_scheme#Examples
 
 // This will inserted as a module in the HTTPSB object.
 
-(function() {
+HTTPSB.URI = (function() {
 
 /******************************************************************************/
 
@@ -405,7 +405,7 @@ URI.toString = function() {
 
 // Export
 
-HTTPSB.URI = URI;
+return URI;
 
 /******************************************************************************/
 

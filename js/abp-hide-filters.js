@@ -465,7 +465,8 @@ FilterContainer.prototype.addFilterEntry = function(hash, f) {
 /******************************************************************************/
 
 FilterContainer.prototype.retrieve = function(url, inSelectors) {
-    if ( !httpsb.getTemporaryABPFilteringFromPageURL(url) ) {
+    if ( httpsb.userSettings.parseAllABPHideFilters !== true ||
+         httpsb.getTemporaryABPFilteringFromPageURL(url) !== true ) {
         return;
     }
     var hostname = pageHostname = httpsb.URI.hostnameFromURI(url);
