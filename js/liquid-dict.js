@@ -92,8 +92,7 @@ var freezeBucket = function(ldict, bucket) {
 LiquidDict.prototype.makeKey = function(word) {
     var len = word.length;
     if ( len > 255 ) {
-        // console.error('HTTP Switchboard> liquid-dict.js/makeKey(): len > 255');
-        return undefined;
+        len = 255;
     }
     var i = len >> 2;
     return String.fromCharCode(
