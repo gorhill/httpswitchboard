@@ -45,6 +45,7 @@ outbrain.com        # https://www.eff.org/deeplinks/2013/06/third-party-resource
 panoramtech.net     # As seen in a screenshot at http://arstechnica.com/security/2014/01/malware-vendors-buy-chrome-extensions-to-send-adware-filled-updates/
 parsely.com         # http://en.wikipedia.org/wiki/Parse.ly
 peer39.net          # https://www.eff.org/deeplinks/2013/06/third-party-resources-nsa-leaks
+pub2srv.com         # "This url is used by ad network Propeller Ads Media for ad serving"
 servebom.com        # no home page, seen as 'tracking.servebom.com': good enough for this list
 
 # These have "tracking" in domain name...
