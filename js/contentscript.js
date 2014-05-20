@@ -38,6 +38,7 @@ CosmeticFiltering.prototype.retrieve = function() {
     var a2 = this.idSelectors !== null ? this.idSelectors : [];
     var selectors = a1.concat(a2);
     if ( selectors.length > 0 ) {
+        // console.log('HTTPSB> ABP cosmetic filters: retrieving CSS rules using %d selectors (%o)', selectors.length, selectors);
         chrome.runtime.sendMessage({
             what: 'retrieveABPHideSelectors',
             selectors: selectors,
@@ -131,8 +132,7 @@ CosmeticFiltering.prototype.allFromNodeList = function(nodes) {
     this.idsFromNodeList(nodes);
 };
 
-
-var adbCosmeticFiltering = new CosmeticFiltering();
+var cosmeticFiltering = new CosmeticFiltering();
 
 /******************************************************************************/
 /******************************************************************************/
@@ -230,9 +230,6 @@ var nodesAddedHandler = function(nodeList, summary) {
             break;
         }
     }
-
-    // ABP cosmetic filters:
-    adbCosmeticFiltering.allFromNodeList(nodeList);
 };
 
 /******************************************************************************/
@@ -255,13 +252,14 @@ var mutationObservedHandler = function(mutations) {
             continue;
         }
         nodesAddedHandler(mutation.addedNodes, summary);
+        cosmeticFiltering.allFromNodeList(mutation.addedNodes);
     }
+
+    cosmeticFiltering.retrieve();
 
     if ( summary.mustReport ) {
         chrome.runtime.sendMessage(summary);
     }
-
-    adbCosmeticFiltering.retrieve();
 };
 
 /******************************************************************************/
