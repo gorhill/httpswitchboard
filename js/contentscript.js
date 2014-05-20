@@ -19,6 +19,8 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
+/* global chrome */
+
 // Injected into content pages
 
 /******************************************************************************/
@@ -66,7 +68,7 @@ CosmeticFiltering.prototype.retrieveHandler = function(selectors) {
     if ( selectors.donthide.length ) {
         var dontHideStyleText = '{{donthideSelectors}} {display:initial;}'
             .replace('{{donthideSelectors}}', selectors.donthide.join(','));
-        styleText.push(donthideStyleText);
+        styleText.push(dontHideStyleText);
         // console.log('HTTPSB> ABP cosmetic filters: injecting CSS rules:', donthideStyleText);
     }
     if ( styleText.length > 0 ) {
@@ -141,6 +143,7 @@ CosmeticFiltering.prototype.idsFromNodeList = function(nodes) {
     if ( this.idSelectors === null ) {
         this.idSelectors = [];
     }
+    var id;
     var i = nodes.length;
     while ( i-- ) {
         id = nodes[i].id;
@@ -188,7 +191,7 @@ var checkScriptBlacklistedHandler = function(response) {
     if ( response.scriptBlacklisted ) {
         fixNoscriptTags();
     }
-}
+};
 
 var checkScriptBlacklisted = function() {
     chrome.runtime.sendMessage({
