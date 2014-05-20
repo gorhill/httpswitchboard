@@ -26,6 +26,8 @@
 // ABP cosmetic filters
 
 var CosmeticFiltering = function() {
+    this.queriedSelectors = {};
+    this.injectedSelectors = {};
     this.classSelectors = null;
     this.idSelectors = null;
     this.classesFromNodeList(document.querySelectorAll('*[class]'));
@@ -34,9 +36,8 @@ var CosmeticFiltering = function() {
 };
 
 CosmeticFiltering.prototype.retrieve = function() {
-    var a1 = this.classSelectors !== null ? Object.keys(this.classSelectors) : [];
-    var a2 = this.idSelectors !== null ? this.idSelectors : [];
-    var selectors = a1.concat(a2);
+    var selectors = this.classSelectors !== null ? Object.keys(this.classSelectors) : [];
+    selectors = this.idSelectors !== null ? selectors.concat(this.idSelectors) : selectors;
     if ( selectors.length > 0 ) {
         // console.log('HTTPSB> ABP cosmetic filters: retrieving CSS rules using %d selectors (%o)', selectors.length, selectors);
         chrome.runtime.sendMessage({
@@ -54,23 +55,39 @@ CosmeticFiltering.prototype.retrieveHandler = function(selectors) {
         return;
     }
     var styleText = [];
-    if ( selectors.hide.length > 0 ) {
+    cosmeticFiltering.reduce(selectors.hide, cosmeticFiltering.injectedSelectors);
+    if ( selectors.hide.length ) {
         var hideStyleText = '{{hideSelectors}} {display:none;}'
-            .replace('{{hideSelectors}}', selectors.hide);
+            .replace('{{hideSelectors}}', selectors.hide.join(','));
         styleText.push(hideStyleText);
-        console.log('HTTPSB> ABP cosmetic filters: injecting CSS rules:', hideStyleText);
+        // console.log('HTTPSB> ABP cosmetic filters: injecting CSS rules:', hideStyleText);
     }
-    if ( selectors.donthide.length > 0 ) {
+    cosmeticFiltering.reduce(selectors.donthide, cosmeticFiltering.injectedSelectors);
+    if ( selectors.donthide.length ) {
         var dontHideStyleText = '{{donthideSelectors}} {display:initial;}'
-            .replace('{{donthideSelectors}}', selectors.donthide);
+            .replace('{{donthideSelectors}}', selectors.donthide.join(','));
         styleText.push(donthideStyleText);
-        console.log('HTTPSB> ABP cosmetic filters: injecting CSS rules:', donthideStyleText);
+        // console.log('HTTPSB> ABP cosmetic filters: injecting CSS rules:', donthideStyleText);
     }
     if ( styleText.length > 0 ) {
         var style = document.createElement('style');
         style.appendChild(document.createTextNode(styleText.join('')));
         document.documentElement.appendChild(style);
     }
+};
+
+CosmeticFiltering.prototype.reduce = function(selectors, dict) {
+    var first = dict.httpsb === undefined;
+    var i = selectors.length, selector;
+    while ( i-- ) {
+        selector = selectors[i];
+        if ( first || !dict[selector] ) {
+            dict[selector] = true;
+        } else {
+            selectors.splice(i, 1); // need to figure a noop rule instead if any
+        }
+    }
+    dict.httpsb = true;
 };
 
 CosmeticFiltering.prototype.classesFromNodeList = function(nodes) {
@@ -92,16 +109,27 @@ CosmeticFiltering.prototype.classesFromNodeList = function(nodes) {
             continue;
         }
         if ( className.indexOf(' ') < 0 ) {
-            this.classSelectors['.' + className] = true;
+            className = '.' + className;
+            if ( this.queriedSelectors[className] ) {
+                continue;
+            }
+            this.classSelectors[className] = true;
+            this.queriedSelectors[className] = true;
             continue;
         }
         classNames = className.trim().split(/\s+/);
         j = classNames.length;
         while ( j-- ) {
             className = classNames[j];
-            if ( className !== '' ) {
-                this.classSelectors['.' + className] = true;
+            if ( className === '' ) {
+                continue;
             }
+            className = '.' + className;
+            if ( this.queriedSelectors[className] ) {
+                continue;
+            }
+            this.classSelectors[className] = true;
+            this.queriedSelectors[className] = true;
         }
     }
 };
@@ -123,7 +151,12 @@ CosmeticFiltering.prototype.idsFromNodeList = function(nodes) {
         if ( id === '' ) {
             continue;
         }
-        this.idSelectors[i] = '#' + id;
+        id = '#' + id;
+        if ( this.queriedSelectors[id] ) {
+            continue;
+        }
+        this.idSelectors.push(id);
+        this.queriedSelectors[id] = true;
     }
 };
 

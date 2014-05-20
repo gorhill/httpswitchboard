@@ -503,8 +503,8 @@ FilterContainer.prototype.retrieve = function(url, inSelectors) {
         bucket.retrieve(selector, donthideSelectors);
     }
     return {
-        hide: hideSelectors.join(','),
-        donthide: donthideSelectors.join(',')
+        hide: hideSelectors,
+        donthide: donthideSelectors
     };
 };
 
