@@ -416,7 +416,7 @@ FilterContainer.prototype.addPlainFilter = function(parsed) {
         return this.addPlainHostnameFilter(parsed);
     }
     var f = new FilterPlain(parsed.suffix);
-    var hash = makeSuffixHash(parsed.filterType, '', parsed.suffix);
+    var hash = makeSuffixHash(parsed.filterType, parsed.suffix);
     this.addFilterEntry(hash, f);
     this.acceptedCount += 1;
 };
@@ -436,7 +436,7 @@ FilterContainer.prototype.addPlainHostnameFilter = function(parsed) {
             continue;
         }
         f = new FilterPlainHostname(parsed.suffix, hostname);
-        hash = makePrefixHash(parsed.filterType, httpsburi.domainFromHostname(hostname), '');
+        hash = makePrefixHash(parsed.filterType, httpsburi.domainFromHostname(hostname));
         this.addFilterEntry(hash, f);
     }
     this.acceptedCount += 1;
@@ -453,7 +453,7 @@ FilterContainer.prototype.addPlainMoreFilter = function(parsed) {
         return;
     }
     var f = new FilterPlainMore(parsed.suffix);
-    var hash = makeSuffixHash(parsed.filterType, '', plainSelector);
+    var hash = makeSuffixHash(parsed.filterType, plainSelector);
     this.addFilterEntry(hash, f);
     this.acceptedCount += 1;
 };
@@ -477,7 +477,7 @@ FilterContainer.prototype.addPlainMoreHostnameFilter = function(parsed) {
             continue;
         }
         f = new FilterPlainMoreHostname(parsed.suffix, hostname);
-        hash = makePrefixHash(parsed.filterType, httpsburi.domainFromHostname(hostname), '');
+        hash = makePrefixHash(parsed.filterType, httpsburi.domainFromHostname(hostname));
         this.addFilterEntry(hash, f);
     }
     this.acceptedCount += 1;
@@ -504,7 +504,7 @@ FilterContainer.prototype.addElementHostnameFilter = function(parsed) {
             continue;
         }
         f = new FilterElementHostname(parsed.suffix, hostname);
-        hash = makePrefixHash(parsed.filterType, httpsburi.domainFromHostname(hostname), '');
+        hash = makePrefixHash(parsed.filterType, httpsburi.domainFromHostname(hostname));
         this.addFilterEntry(hash, f);
     }
     this.acceptedCount += 1;
@@ -543,7 +543,7 @@ FilterContainer.prototype.retrieve = function(url, inSelectors) {
         if ( !selector ) {
             continue;
         }
-        hash = makeSuffixHash('#', '', selector);
+        hash = makeSuffixHash('#', selector);
         if ( bucket = this.filters[hash] ) {
             //bucketTestCount += 1;
             //filterTestCount += 1;
@@ -555,13 +555,13 @@ FilterContainer.prototype.retrieve = function(url, inSelectors) {
     // already quite narrowed down, so no need to actually narrow further
     // based on selector type -- this probably save a good chunk of overhead
     // in the above loop.
-    hash = makePrefixHash('#', domain, '');
+    hash = makePrefixHash('#', domain);
     if ( bucket = this.filters[hash] ) {
         //bucketTestCount += 1;
         //filterTestCount += 1;
         bucket.retrieve(selector, hideSelectors);
     }
-    hash = makePrefixHash('@', domain, '');
+    hash = makePrefixHash('@', domain);
     if ( bucket = this.filters[hash] ) {
         //bucketTestCount += 1;
         //filterTestCount += 1;
