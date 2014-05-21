@@ -56,7 +56,7 @@ var histogram = function(label, buckets) {
     h.sort(function(a, b) { return b.n - a.n; });
 
     // Find indices of entries of interest
-    var target = 2;
+    var target = 3;
     for ( var i = 0; i < total; i++ ) {
         if ( h[i].n === target ) {
             console.log('\tEntries with only %d filter(s) start at index %s (key = "%s")', target, i, h[i].k);
@@ -111,52 +111,20 @@ FilterPlainMore.prototype.retrieve = function(s, out) {
 
 // HTML tag specific to a hostname
 // Examples:
-//   lindaikeji.blogspot.com##a > img[height="600"]
-//   japantimes.co.jp##table[align="right"][width="250"]
-
-var FilterElementHostname = function(s, hostname) {
-    this.s = s;
-    this.hostname = hostname;
-};
-
-FilterElementHostname.prototype.retrieve = function(s, out) {
-    if ( pageHostname.slice(-this.hostname.length) === this.hostname ) {
-        out.push(this.s);
-    }
-};
-
-/******************************************************************************/
-
-// Pure id- and class-based filters specific to a hostname
-// Examples:
 //   search.snapdo.com###ABottomD
 //   facebook.com##.-cx-PRIVATE-fbAdUnit__root
-
-var FilterPlainHostname = function(s, hostname) {
-    this.s = s;
-    this.hostname = hostname;
-};
-
-FilterPlainHostname.prototype.retrieve = function(s, out) {
-    if ( pageHostname.slice(-this.hostname.length) === this.hostname ) {
-        out.push(this.s);
-    }
-};
-
-/******************************************************************************/
-
-// Pure id- and class-based filters with extra selector stuff following and
-// specific to a hostname
-// Examples:
 //   sltrib.com###BLContainer + div[style="height:90px;"]
 //   myps3.com.au##.Boxer[style="height: 250px;"]
+//   lindaikeji.blogspot.com##a > img[height="600"]
+//   japantimes.co.jp##table[align="right"][width="250"]
+//   mobilephonetalk.com##[align="center"] > b > a[href^="http://tinyurl.com/"]
 
-var FilterPlainMoreHostname = function(s, hostname) {
+var FilterHostname = function(s, hostname) {
     this.s = s;
     this.hostname = hostname;
 };
 
-FilterPlainMoreHostname.prototype.retrieve = function(s, out) {
+FilterHostname.prototype.retrieve = function(s, out) {
     if ( pageHostname.slice(-this.hostname.length) === this.hostname ) {
         out.push(this.s);
     }
@@ -164,6 +132,12 @@ FilterPlainMoreHostname.prototype.retrieve = function(s, out) {
 
 /******************************************************************************/
 /******************************************************************************/
+
+// TODO: evaluate the gain (if any) from avoiding the use of an array for when
+// there are only two filters (or three, etc.). I suppose there is a specific
+// number of filters below which using an array is more of an overhead than
+// using a couple of property members.
+// i.e. FilterBucket2, FilterBucket3, FilterBucketN.
 
 var FilterBucket = function(a, b) {
     this.filters = [a, b];
@@ -260,6 +234,7 @@ FilterParser.prototype.extractPlain = function() {
 };
 
 /******************************************************************************/
+/******************************************************************************/
 
 var FilterContainer = function() {
     this.filterParser = new FilterParser();
@@ -273,6 +248,7 @@ var FilterContainer = function() {
 // Reset all, thus reducing to a minimum memory footprint of the context.
 
 FilterContainer.prototype.reset = function() {
+    this.filterParser.reset();
     this.acceptedCount = 0;
     this.processedCount = 0;
     this.filters = {};
@@ -292,11 +268,27 @@ FilterContainer.prototype.add = function(s) {
     //    debugger;
     //}
 
+    // hostname-based filters: with a hostname, narrowing is good enough, no
+    // need to further narrow.
+    if ( parsed.hostnames.length ) {
+        return this.addHostnameFilter(parsed);
+    }
+
+    // no specific hostname, narrow using class or id.
     var selectorType = parsed.suffix.charAt(0);
     if ( selectorType === '#' || selectorType === '.' ) {
         return this.addPlainFilter(parsed);
     }
 
+    // no specific hostname, no class, no id.
+    // TO IMPLEMENT
+    // My idea of implementation so far is to return a pre-built container
+    // of these very generic filter, and let the content script sort out
+    // what it needs from it. Filters in that category are mostly
+    // `a[href^="..."]` kind of filters.
+    // Content script side, the unsorted container of selectors could be used
+    // in a querySelectorAll() to figure which rules apply (if any), or they
+    // could just all be injected undiscriminately (not good).
     if ( parsed.isElement() ) {
         return this.addElementFilter(parsed);
     }
@@ -307,11 +299,13 @@ FilterContainer.prototype.add = function(s) {
 /******************************************************************************/
 
 FilterContainer.prototype.freeze = function() {
+    this.filterParser.reset();
+
     console.log('HTTPSB> adp-hide-filters.js: %d filters accepted', this.acceptedCount);
     console.log('HTTPSB> adp-hide-filters.js: %d filters processed', this.processedCount);
     console.log('HTTPSB> adp-hide-filters.js: coverage is %s%', (this.acceptedCount * 100 / this.processedCount).toFixed(1));
 
-    // histogram('allFilters', this.filters);
+    //histogram('allFilters', this.filters);
 };
 
 /******************************************************************************/
@@ -331,8 +325,8 @@ FilterContainer.prototype.freeze = function() {
 //                  |
 //                  +-- filter type ('#'=hide '@'=unhide)
 //
-// TODO: Keep trying to find a better hash (FNV32a?). Ideally, all buckets have
-// the same (low) number of filters.
+// TODO: Keep trying to find a better hash (ls 12 bits of FNV32a?).
+// Ideally, all buckets have the same (low) number of filters.
 
 var makePrefixHash = function(type, prefix) {
     var len = prefix.length;
@@ -370,39 +364,60 @@ var makeSuffixHash = function(type, suffix) {
 Histogram for above hash generator:
 
 Histogram allFilters
-	Entries with only 2 filter(s) start at index 3107 (key = "@៩")
-	Entries with only 1 filter(s) start at index 5887 (key = "#ꎜ")
+	Entries with only 3 filter(s) start at index 1869 (key = "#镉")
+	Entries with only 2 filter(s) start at index 3117 (key = "@ᶹ")
+	Entries with only 1 filter(s) start at index 5902 (key = "#蹐")
 	key=#叭  count=141
 	key=#徭  count=101
-	key=#雽  count=57
+	key=#雽  count=59
+	key=#ｭ  count=49
 	key=#֭  count=47
 	key=#節  count=42
-	key=#ｭ  count=39
 	key=#㼉  count=36
+	key=#傭  count=36
 	key=#  count=35
-	key=#傭  count=34
 	key=#ﾭ  count=32
-	key=#教  count=31
-	key=#홹  count=29
+	key=#教  count=32
 	key=#ꗴ  count=29
-	key=#媭  count=27
+	key=#홹  count=29
 	key=#敨  count=27
 	key=#䓕  count=27
+	key=#媭  count=27
 	key=#㪉  count=26
 	key=#ꪭ  count=25
 	key=#釭  count=24
-	key=#嵩  count=24
-	key=#ꕔ  count=24
 	key=#�  count=24
+	key=#ꕔ  count=24
+	key=#嵩  count=24
 	key=#錀  count=23
 	key=#ꗰ  count=22
-	key=#ꖭ  count=22
 	key=#酹  count=22
+	key=#ꖭ  count=22
 	key=#৙  count=22
-	key=#ㅩ  count=21
 	key=#꿴  count=21
+	key=#ㅩ  count=21
 	key=#龭  count=21
 	key=#施  count=21
+	key=#ꂭ  count=20
+	key=#ꔄ  count=20
+	key=#�  count=19
+	key=#ય  count=19
+	key=#꽔  count=19
+	key=#ꗼ  count=19
+	key=#鎀  count=19
+	key=#ꕘ  count=19
+	key=#隹  count=19
+	key=#  count=19
+	key=#璙  count=18
+	key=#᤭  count=18
+	key=#֯  count=18
+	key=#  count=18
+	key=#䉏  count=17
+	key=#ꔌ  count=17
+	key=#  count=17
+	key=#嫜  count=17
+	key=#ᱭ  count=17
+	Total buckets count: 14348 
 */
 
 /******************************************************************************/
@@ -412,9 +427,6 @@ FilterContainer.prototype.addPlainFilter = function(parsed) {
     if ( parsed.isPlainMore() ) {
         return this.addPlainMoreFilter(parsed);
     }
-    if ( parsed.hostnames.length ) {
-        return this.addPlainHostnameFilter(parsed);
-    }
     var f = new FilterPlain(parsed.suffix);
     var hash = makeSuffixHash(parsed.filterType, parsed.suffix);
     this.addFilterEntry(hash, f);
@@ -423,31 +435,7 @@ FilterContainer.prototype.addPlainFilter = function(parsed) {
 
 /******************************************************************************/
 
-// rhill 2014-05-20: When a domain exists, just specify a generic selector.
-
-FilterContainer.prototype.addPlainHostnameFilter = function(parsed) {
-    var httpsburi = HTTPSB.URI;
-    var f, hash;
-    var hostnames = parsed.hostnames;
-    var i = hostnames.length, hostname;
-    while ( i-- ) {
-        hostname = hostnames[i];
-        if ( !hostname ) {
-            continue;
-        }
-        f = new FilterPlainHostname(parsed.suffix, hostname);
-        hash = makePrefixHash(parsed.filterType, httpsburi.domainFromHostname(hostname));
-        this.addFilterEntry(hash, f);
-    }
-    this.acceptedCount += 1;
-};
-
-/******************************************************************************/
-
 FilterContainer.prototype.addPlainMoreFilter = function(parsed) {
-    if ( parsed.hostnames.length ) {
-        return this.addPlainMoreHostnameFilter(parsed);
-    }
     var plainSelector = parsed.extractPlain();
     if ( plainSelector === '' ) {
         return;
@@ -462,11 +450,7 @@ FilterContainer.prototype.addPlainMoreFilter = function(parsed) {
 
 // rhill 2014-05-20: When a domain exists, just specify a generic selector.
 
-FilterContainer.prototype.addPlainMoreHostnameFilter = function(parsed) {
-    var plainSelector = parsed.extractPlain();
-    if ( plainSelector === '' ) {
-        return;
-    }
+FilterContainer.prototype.addHostnameFilter = function(parsed) {
     var httpsburi = HTTPSB.URI;
     var f, hash;
     var hostnames = parsed.hostnames;
@@ -476,7 +460,7 @@ FilterContainer.prototype.addPlainMoreHostnameFilter = function(parsed) {
         if ( !hostname ) {
             continue;
         }
-        f = new FilterPlainMoreHostname(parsed.suffix, hostname);
+        f = new FilterHostname(parsed.suffix, hostname);
         hash = makePrefixHash(parsed.filterType, httpsburi.domainFromHostname(hostname));
         this.addFilterEntry(hash, f);
     }
@@ -486,28 +470,6 @@ FilterContainer.prototype.addPlainMoreHostnameFilter = function(parsed) {
 /******************************************************************************/
 
 FilterContainer.prototype.addElementFilter = function(parsed) {
-    if ( parsed.hostnames.length ) {
-        return this.addElementHostnameFilter(parsed);
-    }
-};
-
-/******************************************************************************/
-
-FilterContainer.prototype.addElementHostnameFilter = function(parsed) {
-    var httpsburi = HTTPSB.URI;
-    var f, hash;
-    var hostnames = parsed.hostnames;
-    var i = hostnames.length, hostname;
-    while ( i-- ) {
-        hostname = hostnames[i];
-        if ( !hostname ) {
-            continue;
-        }
-        f = new FilterElementHostname(parsed.suffix, hostname);
-        hash = makePrefixHash(parsed.filterType, httpsburi.domainFromHostname(hostname));
-        this.addFilterEntry(hash, f);
-    }
-    this.acceptedCount += 1;
 };
 
 /******************************************************************************/
