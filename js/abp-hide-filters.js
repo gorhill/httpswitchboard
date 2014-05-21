@@ -109,7 +109,7 @@ FilterPlainMore.prototype.retrieve = function(s, out) {
 
 /******************************************************************************/
 
-// HTML tag specific to a hostname
+// Any selector specific to a hostname
 // Examples:
 //   search.snapdo.com###ABottomD
 //   facebook.com##.-cx-PRIVATE-fbAdUnit__root
