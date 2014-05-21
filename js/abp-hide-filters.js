@@ -241,6 +241,8 @@ var FilterContainer = function() {
     this.acceptedCount = 0;
     this.processedCount = 0;
     this.filters = {};
+    this.hideUnfiltered = [];
+    this.donthideUnfiltered = [];
     this.rejected = [];
 };
 
