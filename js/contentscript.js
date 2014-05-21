@@ -25,6 +25,15 @@
 
 /******************************************************************************/
 
+// OK, I keep changing my mind whether a closure should be used or not. This
+// will be the rule: if there are any variables directly accessed on a regular
+// basis, use a closure so that they are cached. Otherwise I don't think the
+// overhead of a closure is worth it. That's my understanding.
+
+(function() {
+
+/******************************************************************************/
+
 // ABP cosmetic filters
 
 var CosmeticFiltering = function() {
@@ -48,7 +57,7 @@ CosmeticFiltering.prototype.retrieve = function() {
             what: 'retrieveABPHideSelectors',
             selectors: selectors,
             locationURL: window.location.href
-        }, this.retrieveHandler);
+        }, this.retrieveHandler.bind(this));
     }
     this.idSelectors = null;
     this.classSelectors = null;
@@ -59,19 +68,19 @@ CosmeticFiltering.prototype.retrieveHandler = function(selectors) {
         return;
     }
     var styleText = [];
-    cosmeticFiltering.reduce(selectors.hide, cosmeticFiltering.injectedSelectors);
+    this.reduce(selectors.hide, this.injectedSelectors);
     if ( selectors.hide.length ) {
         var hideStyleText = '{{hideSelectors}} {display:none;}'
             .replace('{{hideSelectors}}', selectors.hide.join(','));
         styleText.push(hideStyleText);
-        // console.log('HTTPSB> ABP cosmetic filters: injecting CSS rules:', hideStyleText);
+        //console.log('HTTPSB> ABP cosmetic filters: injecting CSS rules:', hideStyleText);
     }
-    cosmeticFiltering.reduce(selectors.donthide, cosmeticFiltering.injectedSelectors);
+    this.reduce(selectors.donthide, this.injectedSelectors);
     if ( selectors.donthide.length ) {
         var dontHideStyleText = '{{donthideSelectors}} {display:initial;}'
             .replace('{{donthideSelectors}}', selectors.donthide.join(','));
         styleText.push(dontHideStyleText);
-        // console.log('HTTPSB> ABP cosmetic filters: injecting CSS rules:', donthideStyleText);
+        //console.log('HTTPSB> ABP cosmetic filters: injecting CSS rules:', dontHideStyleText);
     }
     if ( styleText.length > 0 ) {
         var style = document.createElement('style');
@@ -82,14 +91,21 @@ CosmeticFiltering.prototype.retrieveHandler = function(selectors) {
 
 CosmeticFiltering.prototype.reduce = function(selectors, dict) {
     var first = dict.httpsb === undefined;
-    var i = selectors.length, selector;
+    var i = selectors.length, selector, end;
     while ( i-- ) {
         selector = selectors[i];
         if ( first || !dict[selector] ) {
+            if ( end !== undefined ) {
+                selectors.splice(i+1, end-i);
+                end = undefined;
+            }
             dict[selector] = true;
-        } else {
-            selectors.splice(i, 1); // need to figure a noop rule instead if any
+        } else if ( end === undefined ) {
+            end = i;
         }
+    }
+    if ( end !== undefined ) {
+        selectors.splice(0, end+1);
     }
     dict.httpsb = true;
 };
@@ -396,5 +412,9 @@ if ( /^https?:\/\/./.test(window.location.href) ) {
         window.addEventListener('load', loadHandler);
     }
 }
+
+/******************************************************************************/
+
+})();
 
 /******************************************************************************/
