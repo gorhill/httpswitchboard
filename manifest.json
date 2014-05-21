@@ -23,25 +23,29 @@
        "open-settings": {
             "description": "Open Settings",
             "suggested_key": {
-                "default": "Ctrl+Shift+1"
+                "default": "Ctrl+Shift+1",
+                "mac": "Command+Shift+S"
             }
         },
         "open-statistics": {
             "description": "Open Statistics",
             "suggested_key": {
-                "default": "Ctrl+Shift+2"
+                "default": "Ctrl+Shift+2",
+                "mac": "Command+Shift+A"
             }
         },
        "open-scoped-rules": {
             "description": "Open Scoped rules",
             "suggested_key": {
-                "default": "Ctrl+Shift+3"
+                "default": "Ctrl+Shift+3",
+                "mac": "Command+Shift+R"
             }
         },
        "open-ubiquitous-rules": {
             "description": "Open Ubiquitous rules",
             "suggested_key": {
-                "default": "Ctrl+Shift+4"
+                "default": "Ctrl+Shift+4",
+                "mac": "Command+Shift+U"
             }
         }
     },
