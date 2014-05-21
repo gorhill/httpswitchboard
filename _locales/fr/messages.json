@@ -454,7 +454,7 @@
         "description": "English: {{abpHideFilterCount}} element hiding filters used."
     },
     "ubiquitousParseAllABPHideFiltersInfo" : {
-        "message": "<p>Cette option permet de prendre en charge les filtres AdblockPlus de type <a href=\"https://adblockplus.org/en/faq_internal#elemhide\">&ldquo;element hiding&rdquo;</a>. Ces filtres ont principalement un impact visuel, servant à dissimuler des éléments nuisibles d'une page Web et qui ne sont blocables ni par la matrice, ni par le filtrage type Adblock Plus.</p><p>l'activation de cette fonctionnalité augmente l'empreinte mémoire de <i>HTTP Switchboard</i></p>",
+        "message": "<p>Cette option permet de prendre en charge les filtres AdblockPlus de type <a href=\"https://adblockplus.org/en/faq_internal#elemhide\">&ldquo;element hiding&rdquo;</a>. Ces filtres ont principalement un impact visuel, servant à dissimuler des éléments nuisibles d'une page Web et qui ne sont blocables ni par la matrice, ni par le filtrage type Adblock Plus.</p><p>L'activation de cette fonctionnalité augmente l'empreinte mémoire de <i>HTTP Switchboard</i></p>",
         "description": "English: see English messages.json"
     },
     "ubiquitousListsOfBlockedHostsHeader" : {
