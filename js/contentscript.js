@@ -52,7 +52,7 @@ CosmeticFiltering.prototype.retrieve = function() {
         selectors = selectors.concat(this.idSelectors);
     }
     if ( selectors.length > 0 ) {
-        // console.log('HTTPSB> ABP cosmetic filters: retrieving CSS rules using %d selectors (%o)', selectors.length, selectors);
+        //console.log('HTTPSB> ABP cosmetic filters: retrieving CSS rules using %d selectors', selectors.length);
         chrome.runtime.sendMessage({
             what: 'retrieveABPHideSelectors',
             selectors: selectors,
@@ -68,16 +68,18 @@ CosmeticFiltering.prototype.retrieveHandler = function(selectors) {
         return;
     }
     var styleText = [];
+    this.filterUnfiltered(selectors.hideUnfiltered, selectors.hide);
     this.reduce(selectors.hide, this.injectedSelectors);
     if ( selectors.hide.length ) {
-        var hideStyleText = '{{hideSelectors}} {display:none;}'
+        var hideStyleText = '{{hideSelectors}} {display:none; !important}'
             .replace('{{hideSelectors}}', selectors.hide.join(','));
         styleText.push(hideStyleText);
         //console.log('HTTPSB> ABP cosmetic filters: injecting %d CSS rules:', selectors.hide.length, hideStyleText);
     }
+    this.filterUnfiltered(selectors.donthideUnfiltered, selectors.donthide);
     this.reduce(selectors.donthide, this.injectedSelectors);
     if ( selectors.donthide.length ) {
-        var dontHideStyleText = '{{donthideSelectors}} {display:initial;}'
+        var dontHideStyleText = '{{donthideSelectors}} {display:initial;  !important}'
             .replace('{{donthideSelectors}}', selectors.donthide.join(','));
         styleText.push(dontHideStyleText);
         //console.log('HTTPSB> ABP cosmetic filters: injecting %d CSS rules:', selectors.donthide.length, dontHideStyleText);
@@ -86,6 +88,20 @@ CosmeticFiltering.prototype.retrieveHandler = function(selectors) {
         var style = document.createElement('style');
         style.appendChild(document.createTextNode(styleText.join('')));
         document.documentElement.appendChild(style);
+    }
+};
+
+CosmeticFiltering.prototype.filterUnfiltered = function(inSelectors, outSelectors) {
+    var i = inSelectors.length;
+    var selector;
+    while ( i-- ) {
+        selector = inSelectors[i];
+        if ( this.injectedSelectors[selector] ) {
+            continue;
+        }
+        if ( document.querySelector(selector) !== null ) {
+            outSelectors.push(selector);
+        }
     }
 };
 

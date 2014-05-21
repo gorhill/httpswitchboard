@@ -241,6 +241,7 @@ var FilterContainer = function() {
     this.acceptedCount = 0;
     this.processedCount = 0;
     this.filters = {};
+    this.rejected = [];
 };
 
 /******************************************************************************/
@@ -252,6 +253,9 @@ FilterContainer.prototype.reset = function() {
     this.acceptedCount = 0;
     this.processedCount = 0;
     this.filters = {};
+    this.hideUnfiltered = [];
+    this.donthideUnfiltered = [];
+    this.rejected = [];
 };
 
 /******************************************************************************/
@@ -289,21 +293,44 @@ FilterContainer.prototype.add = function(s) {
     // Content script side, the unsorted container of selectors could be used
     // in a querySelectorAll() to figure which rules apply (if any), or they
     // could just all be injected undiscriminately (not good).
-    if ( parsed.isElement() ) {
-        return this.addElementFilter(parsed);
+    if ( parsed.filterType === '#' ) {
+        this.hideUnfiltered.push(parsed.suffix);
+    } else {
+        this.donthideUnfiltered.push(parsed.suffix);
     }
+    this.acceptedCount += 1;
 
-    return false;
+    return true;
+};
+
+/******************************************************************************/
+
+FilterContainer.prototype.chunkify = function(selectors) {
+    var chunkified = [], chunk;
+    for (;;) {
+        chunk = selectors.splice(0, 10);
+        if ( chunk.length === 0 ) {
+            break;
+        }
+        chunkified.push(chunk.join(','));
+    }
+    return chunkified;
 };
 
 /******************************************************************************/
 
 FilterContainer.prototype.freeze = function() {
+    this.hideUnfiltered = this.chunkify(this.hideUnfiltered);
+    this.donthideUnfiltered = this.chunkify(this.donthideUnfiltered);
+
     this.filterParser.reset();
 
     console.log('HTTPSB> adp-hide-filters.js: %d filters accepted', this.acceptedCount);
     console.log('HTTPSB> adp-hide-filters.js: %d filters processed', this.processedCount);
     console.log('HTTPSB> adp-hide-filters.js: coverage is %s%', (this.acceptedCount * 100 / this.processedCount).toFixed(1));
+    console.log('HTTPSB> adp-hide-filters.js: unfiltered hide selectors:', this.hideUnfiltered);
+    console.log('HTTPSB> adp-hide-filters.js: unfiltered dont hide selectors:', this.donthideUnfiltered);
+    console.log('HTTPSB> adp-hide-filters.js: rejected selectors:', this.rejected);
 
     //histogram('allFilters', this.filters);
 };
@@ -436,12 +463,12 @@ FilterContainer.prototype.addPlainFilter = function(parsed) {
 /******************************************************************************/
 
 FilterContainer.prototype.addPlainMoreFilter = function(parsed) {
-    var plainSelector = parsed.extractPlain();
-    if ( plainSelector === '' ) {
+    var selectorSuffix = parsed.extractPlain();
+    if ( selectorSuffix === '' ) {
         return;
     }
     var f = new FilterPlainMore(parsed.suffix);
-    var hash = makeSuffixHash(parsed.filterType, plainSelector);
+    var hash = makeSuffixHash(parsed.filterType, selectorSuffix);
     this.addFilterEntry(hash, f);
     this.acceptedCount += 1;
 };
@@ -465,11 +492,6 @@ FilterContainer.prototype.addHostnameFilter = function(parsed) {
         this.addFilterEntry(hash, f);
     }
     this.acceptedCount += 1;
-};
-
-/******************************************************************************/
-
-FilterContainer.prototype.addElementFilter = function(parsed) {
 };
 
 /******************************************************************************/
@@ -543,7 +565,9 @@ FilterContainer.prototype.retrieve = function(url, inSelectors) {
 
     return {
         hide: hideSelectors,
-        donthide: donthideSelectors
+        donthide: donthideSelectors,
+        hideUnfiltered: this.hideUnfiltered,
+        donthideUnfiltered: this.donthideUnfiltered
     };
 };
 
