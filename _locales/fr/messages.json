@@ -434,11 +434,11 @@
         "description": "English: {{used}} used out of {{total}}"
     },
     "ubiquitousParseAllABPFiltersPrompt1" : {
-        "message": "Utiliser en plus les règles Adblock Plus avancées.",
+        "message": "Utiliser en plus les règles Adblock Plus avancées",
         "description": "English: Parse and enforce Adblock+ complex filters."
     },
     "ubiquitousParseAllABPFiltersPrompt2" : {
-        "message": "{{abpFilterCount}} règles Adblock Plus avancées utilisées.",
+        "message": "{{abpFilterCount}} règles Adblock Plus avancées utilisées",
         "description": "English: {{abpFilterCount}} complex filters used."
     },
     "ubiquitousParseAllABPFiltersInfo" : {
@@ -446,15 +446,15 @@
         "description": "English: ..."
     },
     "ubiquitousParseAllABPHideFiltersPrompt1" : {
-        "message": "Utiliser en plus les règles Adblock Plus cosmétiques. (beta)",
+        "message": "Utiliser en plus les règles Adblock Plus esthétiques (Beta)",
         "description": "English: Parse and enforce Adblock+ element hiding filters."
     },
     "ubiquitousParseAllABPHideFiltersPrompt2" : {
-        "message": "{{abpHideFilterCount}} règles Adblock Plus cosmétiques utilisées.",
+        "message": "{{abpHideFilterCount}} règles Adblock Plus esthétiques utilisées",
         "description": "English: {{abpHideFilterCount}} element hiding filters used."
     },
     "ubiquitousParseAllABPHideFiltersInfo" : {
-        "message": "<p>This option enables the parsing and enforcing of <a href=\"https://adblockplus.org/en/faq_internal#elemhide\">Adblock Plus-compatible &ldquo;element hiding&rdquo; filters</a>. These filters are essentially cosmetic, they serve to hide elements in a web page which are deemed to be a visual nuisance, and which can't be blocked by the matrix- or ABP-filtering engines.</p><p>Enabling this feature increases <i>HTTP Switchboard</i>'s memory footprint.</p>",
+        "message": "<p>Cette option permet de prendre en charge les filtres AdblockPlus de type <a href=\"https://adblockplus.org/en/faq_internal#elemhide\">&ldquo;element hiding&rdquo;</a>. Ces filtres ont principalement un impact visuel, servant à dissimuler des éléments nuisibles d'une page Web et qui ne sont blocables ni par la matrice, ni par le filtrage type Adblock Plus.</p><p>l'activation de cette fonctionnalité augmente l'empreinte mémoire de <i>HTTP Switchboard</i></p>",
         "description": "English: see English messages.json"
     },
     "ubiquitousListsOfBlockedHostsHeader" : {
