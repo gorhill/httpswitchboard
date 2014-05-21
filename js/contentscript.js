@@ -73,14 +73,14 @@ CosmeticFiltering.prototype.retrieveHandler = function(selectors) {
         var hideStyleText = '{{hideSelectors}} {display:none;}'
             .replace('{{hideSelectors}}', selectors.hide.join(','));
         styleText.push(hideStyleText);
-        //console.log('HTTPSB> ABP cosmetic filters: injecting CSS rules:', hideStyleText);
+        //console.log('HTTPSB> ABP cosmetic filters: injecting %d CSS rules:', selectors.hide.length, hideStyleText);
     }
     this.reduce(selectors.donthide, this.injectedSelectors);
     if ( selectors.donthide.length ) {
         var dontHideStyleText = '{{donthideSelectors}} {display:initial;}'
             .replace('{{donthideSelectors}}', selectors.donthide.join(','));
         styleText.push(dontHideStyleText);
-        //console.log('HTTPSB> ABP cosmetic filters: injecting CSS rules:', dontHideStyleText);
+        //console.log('HTTPSB> ABP cosmetic filters: injecting %d CSS rules:', selectors.donthide.length, dontHideStyleText);
     }
     if ( styleText.length > 0 ) {
         var style = document.createElement('style');
