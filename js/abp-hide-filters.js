@@ -334,37 +334,36 @@ FilterContainer.prototype.freeze = function() {
 // TODO: Keep trying to find a better hash (FNV32a?). Ideally, all buckets have
 // the same (low) number of filters.
 
-FilterContainer.prototype.makeHash = function(type, prefix, suffix) {
-    var len, i2, i4, i8;
-    var pCode = 0;
-    if ( len = prefix.length ) {
-        i2 = len >> 1;
-        i4 = len >> 2;
-        i8 = len >> 3;
-        pCode = (prefix.charCodeAt(0)        & 3) << 14 | // 0/8
-                (prefix.charCodeAt(i8)       & 3) << 12 | // 1/8
-                (prefix.charCodeAt(i4)       & 3) << 10 | // 2/8
-                (prefix.charCodeAt(i4+i8)    & 3) <<  8 | // 3/8
-                (prefix.charCodeAt(i2)       & 3) <<  6 | // 4/8
-                (prefix.charCodeAt(i2+i8)    & 3) <<  4 | // 5/8
-                (prefix.charCodeAt(i2+i4)    & 3) <<  2 | // 6/8
-                (prefix.charCodeAt(len-1)    & 3);        // 8/8
-    }
-    var sCode = 0;
-    if ( len = suffix.length ) {
-        i2 = len >> 1;
-        i4 = len >> 2;
-        i8 = len >> 3;
-        sCode = (suffix.charCodeAt(0)        & 3) << 14 | // 0/8
-                (suffix.charCodeAt(i8)       & 3) << 12 | // 1/8
-                (suffix.charCodeAt(i4)       & 3) << 10 | // 2/8
-                (suffix.charCodeAt(i4+i8)    & 3) <<  8 | // 3/8
-                (suffix.charCodeAt(i2)       & 3) <<  6 | // 4/8
-                (suffix.charCodeAt(i2+i8)    & 3) <<  4 | // 5/8
-                (suffix.charCodeAt(i2+i4)    & 3) <<  2 | // 6/8
-                (suffix.charCodeAt(len-1)    & 3);        // 8/8
-    }
-    return String.fromCharCode(type.charCodeAt(0), pCode, sCode);
+var makePrefixHash = function(type, prefix) {
+    var len = prefix.length;
+    var i2 = len >> 1;
+    var i4 = len >> 2;
+    var i8 = len >> 3;
+    var pCode = (prefix.charCodeAt(0)     & 3) << 14 | // 0/8
+                (prefix.charCodeAt(i8)    & 3) << 12 | // 1/8
+                (prefix.charCodeAt(i4)    & 3) << 10 | // 2/8
+                (prefix.charCodeAt(i4+i8) & 3) <<  8 | // 3/8
+                (prefix.charCodeAt(i2)    & 3) <<  6 | // 4/8
+                (prefix.charCodeAt(i2+i8) & 3) <<  4 | // 5/8
+                (prefix.charCodeAt(i2+i4) & 3) <<  2 | // 6/8
+                (prefix.charCodeAt(len-1) & 3);        // 8/8
+    return String.fromCharCode(type.charCodeAt(0), pCode, 0);
+};
+
+var makeSuffixHash = function(type, suffix) {
+    var len = suffix.length;
+    var i2 = len >> 1;
+    var i4 = len >> 2;
+    var i8 = len >> 3;
+    var sCode = (suffix.charCodeAt(0)     & 3) << 14 | // 0/8
+                (suffix.charCodeAt(i8)    & 3) << 12 | // 1/8
+                (suffix.charCodeAt(i4)    & 3) << 10 | // 2/8
+                (suffix.charCodeAt(i4+i8) & 3) <<  8 | // 3/8
+                (suffix.charCodeAt(i2)    & 3) <<  6 | // 4/8
+                (suffix.charCodeAt(i2+i8) & 3) <<  4 | // 5/8
+                (suffix.charCodeAt(i2+i4) & 3) <<  2 | // 6/8
+                (suffix.charCodeAt(len-1) & 3);        // 8/8
+    return String.fromCharCode(type.charCodeAt(0), 0, sCode);
 };
 
 /**
@@ -417,7 +416,7 @@ FilterContainer.prototype.addPlainFilter = function(parsed) {
         return this.addPlainHostnameFilter(parsed);
     }
     var f = new FilterPlain(parsed.suffix);
-    var hash = this.makeHash(parsed.filterType, '', parsed.suffix);
+    var hash = makeSuffixHash(parsed.filterType, '', parsed.suffix);
     this.addFilterEntry(hash, f);
     this.acceptedCount += 1;
 };
@@ -437,7 +436,7 @@ FilterContainer.prototype.addPlainHostnameFilter = function(parsed) {
             continue;
         }
         f = new FilterPlainHostname(parsed.suffix, hostname);
-        hash = this.makeHash(parsed.filterType, httpsburi.domainFromHostname(hostname), '');
+        hash = makePrefixHash(parsed.filterType, httpsburi.domainFromHostname(hostname), '');
         this.addFilterEntry(hash, f);
     }
     this.acceptedCount += 1;
@@ -454,7 +453,7 @@ FilterContainer.prototype.addPlainMoreFilter = function(parsed) {
         return;
     }
     var f = new FilterPlainMore(parsed.suffix);
-    var hash = this.makeHash(parsed.filterType, '', plainSelector);
+    var hash = makeSuffixHash(parsed.filterType, '', plainSelector);
     this.addFilterEntry(hash, f);
     this.acceptedCount += 1;
 };
@@ -478,7 +477,7 @@ FilterContainer.prototype.addPlainMoreHostnameFilter = function(parsed) {
             continue;
         }
         f = new FilterPlainMoreHostname(parsed.suffix, hostname);
-        hash = this.makeHash(parsed.filterType, httpsburi.domainFromHostname(hostname), '');
+        hash = makePrefixHash(parsed.filterType, httpsburi.domainFromHostname(hostname), '');
         this.addFilterEntry(hash, f);
     }
     this.acceptedCount += 1;
@@ -505,7 +504,7 @@ FilterContainer.prototype.addElementHostnameFilter = function(parsed) {
             continue;
         }
         f = new FilterElementHostname(parsed.suffix, hostname);
-        hash = this.makeHash(parsed.filterType, httpsburi.domainFromHostname(hostname), '');
+        hash = makePrefixHash(parsed.filterType, httpsburi.domainFromHostname(hostname), '');
         this.addFilterEntry(hash, f);
     }
     this.acceptedCount += 1;
@@ -544,7 +543,7 @@ FilterContainer.prototype.retrieve = function(url, inSelectors) {
         if ( !selector ) {
             continue;
         }
-        hash = this.makeHash('#', '', selector);
+        hash = makeSuffixHash('#', '', selector);
         if ( bucket = this.filters[hash] ) {
             //bucketTestCount += 1;
             //filterTestCount += 1;
@@ -556,13 +555,13 @@ FilterContainer.prototype.retrieve = function(url, inSelectors) {
     // already quite narrowed down, so no need to actually narrow further
     // based on selector type -- this probably save a good chunk of overhead
     // in the above loop.
-    hash = this.makeHash('#', domain, '');
+    hash = makePrefixHash('#', domain, '');
     if ( bucket = this.filters[hash] ) {
         //bucketTestCount += 1;
         //filterTestCount += 1;
         bucket.retrieve(selector, hideSelectors);
     }
-    hash = this.makeHash('@', domain, '');
+    hash = makePrefixHash('@', domain, '');
     if ( bucket = this.filters[hash] ) {
         //bucketTestCount += 1;
         //filterTestCount += 1;
