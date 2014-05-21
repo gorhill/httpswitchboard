@@ -325,12 +325,12 @@ FilterContainer.prototype.freeze = function() {
 
     this.filterParser.reset();
 
-    console.log('HTTPSB> adp-hide-filters.js: %d filters accepted', this.acceptedCount);
-    console.log('HTTPSB> adp-hide-filters.js: %d filters processed', this.processedCount);
-    console.log('HTTPSB> adp-hide-filters.js: coverage is %s%', (this.acceptedCount * 100 / this.processedCount).toFixed(1));
-    console.log('HTTPSB> adp-hide-filters.js: unfiltered hide selectors:', this.hideUnfiltered);
-    console.log('HTTPSB> adp-hide-filters.js: unfiltered dont hide selectors:', this.donthideUnfiltered);
-    console.log('HTTPSB> adp-hide-filters.js: rejected selectors:', this.rejected);
+    //console.log('HTTPSB> adp-hide-filters.js: %d filters accepted', this.acceptedCount);
+    //console.log('HTTPSB> adp-hide-filters.js: %d filters processed', this.processedCount);
+    //console.log('HTTPSB> adp-hide-filters.js: coverage is %s%', (this.acceptedCount * 100 / this.processedCount).toFixed(1));
+    //console.log('HTTPSB> adp-hide-filters.js: unfiltered hide selectors:', this.hideUnfiltered);
+    //console.log('HTTPSB> adp-hide-filters.js: unfiltered dont hide selectors:', this.donthideUnfiltered);
+    //console.log('HTTPSB> adp-hide-filters.js: rejected selectors:', this.rejected);
 
     //histogram('allFilters', this.filters);
 };
