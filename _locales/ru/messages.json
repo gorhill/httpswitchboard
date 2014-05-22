@@ -454,7 +454,7 @@
         "description": "English: {{abpHideFilterCount}} element hiding filters used."
     },
     "ubiquitousParseAllABPHideFiltersInfo" : {
-        "message": "<p>This option enables the parsing and enforcing of <a href=\"https://adblockplus.org/en/faq_internal#elemhide\">Adblock Plus-compatible &ldquo;element hiding&rdquo; filters</a>. These filters are essentially cosmetic, they serve to hide elements in a web page which are deemed to be a visual nuisance, and which can't be blocked by the matrix- or ABP-filtering engines.</p><p>Enabling this feature increases <i>HTTP Switchboard</i>'s memory footprint.</p>",
+        "message": "<p>Эта опция включает разбор и применение <a href=\"https://adblockplus.org/en/faq_internal#elemhide\">Adblock Plus-совместимых &ldquo;element hiding&rdquo; фильтров</a>. Эти фильтры по сути только визуальные, они позволяют скрыть элементы страницы, которые не могут быть заблокированы матрицей фильтров или ABP-фильтрами.</p><p>Включение этой опции увеличивает использование памяти для <i>HTTP Switchboard</i>.</p>",
         "description": "English: see English messages.json"
     },
     "ubiquitousListsOfBlockedHostsHeader" : {
@@ -578,7 +578,7 @@
         "description": "English: Restore all..."
     },
     "aboutUserDataRestoreConfirm" : {
-        "message": "Все ваши настройки и правила будет перезаписаны\nusing data backed up on {{time}},\nand HTTP Switchboard перезапустится.\n\nПерезаписать все существующие data using backed up data?",
+        "message": "Все ваши настройки и правила будет перезаписаны\nданными от {{time}},\nи HTTP Switchboard перезапустится.\n\nПерезаписать все существующие данные резервной копией?",
         "description": "Message asking user to confirm restore"
     },
     "aboutExtensionDataHeader" : {
@@ -598,7 +598,7 @@
         "description": "Status column header"
     },
     "aboutAssetsUpdateGetListError" : {
-        "message": "Произошла ошибка. Is <b>XHR</b> blocked for <b>raw2.github.com</b>?",
+        "message": "Произошла ошибка. <b>XHR</b> заблокирован для <b>raw2.github.com</b>?",
         "description": "Successful outcome of clicking 'update' button"
     },
     "aboutAssetsUpdateStatusAdded" : {
