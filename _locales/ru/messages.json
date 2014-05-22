@@ -446,7 +446,7 @@
         "description": "English: ..."
     },
     "ubiquitousParseAllABPHideFiltersPrompt1" : {
-        "message": "Разбор и применение Adblock+ фильтров скрытия элементов. (beta)",
+        "message": "Разбор и применение Adblock+ фильтров скрытия элементов.",
         "description": "English: Parse and enforce Adblock+ element hiding filters."
     },
     "ubiquitousParseAllABPHideFiltersPrompt2" : {

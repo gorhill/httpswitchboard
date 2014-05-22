@@ -446,7 +446,7 @@
         "description": "English: ..."
     },
     "ubiquitousParseAllABPHideFiltersPrompt1" : {
-        "message": "Utiliser en plus les règles Adblock Plus esthétiques (Beta)",
+        "message": "Utiliser en plus les règles Adblock Plus esthétiques",
         "description": "English: Parse and enforce Adblock+ element hiding filters."
     },
     "ubiquitousParseAllABPHideFiltersPrompt2" : {

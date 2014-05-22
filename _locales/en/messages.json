@@ -446,8 +446,8 @@
         "description": "English: ..."
     },
     "ubiquitousParseAllABPHideFiltersPrompt1" : {
-        "message": "Parse and enforce Adblock+ element hiding filters. (beta)",
-        "description": "English: Parse and enforce Adblock+ element hiding filters. (beta)"
+        "message": "Parse and enforce Adblock+ element hiding filters.",
+        "description": "English: Parse and enforce Adblock+ element hiding filters."
     },
     "ubiquitousParseAllABPHideFiltersPrompt2" : {
         "message": "{{abpHideFilterCount}} element hiding filters used.",
