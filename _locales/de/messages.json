@@ -659,33 +659,45 @@
         "message": "Block nothing / report everything",
         "description": "English: Block nothing / report everything"
     },
-    "setupVeryHighSecurity" : {
-        "message": "Security: very high",
-        "description": "English: Security: very high"
+    "setupSecurity" : {
+        "message": "Security:",
+        "description": "English: Security:"
     },
-    "setupHighSecurity" : {
-        "message": "Security: high",
-        "description": "Security: high"
+    "setupBreakage" : {
+        "message": "Breakage:",
+        "description": "English: Breakage:"
     },
-    "setupMediumHighSecurity" : {
-        "message": "Security: medium high",
-        "description": "English: Security: medium high"
+    "setupVeryHigh" : {
+        "message": "very high",
+        "description": "English: very high"
     },
-    "setupMediumSecurity" : {
-        "message": "Security: medium",
-        "description": "English: Security: medium"
+    "setupHigh" : {
+        "message": "high",
+        "description": "English: high"
     },
-    "setupMediumLowSecurity" : {
-        "message": "Security: medium low",
-        "description": "English: Security: medium low"
+    "setupMediumHigh" : {
+        "message": "medium high",
+        "description": "English: medium high"
     },
-    "setupLowSecurity" : {
-        "message": "Security: low",
-        "description": "English: Security: low"
+    "setupMedium" : {
+        "message": "medium",
+        "description": "English: medium"
     },
-    "setupNoSecurity" : {
-        "message": "Security: none",
-        "description": "English: Security: none"
+    "setupMediumLow" : {
+        "message": "medium low",
+        "description": "English: medium low"
+    },
+    "setupLow" : {
+        "message": "low",
+        "description": "English: low"
+    },
+    "setupVeryLow" : {
+        "message": "very low",
+        "description": "English: very low"
+    },
+    "setupNone" : {
+        "message": "none",
+        "description": "English: none"
     },
     "setupRestoreConfirm" : {
         "message": "All your settings and rules will be overwritten\nand HTTP Switchboard will restart.\n\nOverwrite all existing data?",
