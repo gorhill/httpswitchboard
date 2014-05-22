@@ -50,7 +50,7 @@ function PermissionList(filters) {
 function PermissionScope() {
     this.off = false;
     this.white = new PermissionList();
-    this.black = new PermissionList(['*|*']);
+    this.black = new PermissionList();
     this.gray = new PermissionList();
     this.mtxFiltering = true;
     this.abpFiltering = true;
