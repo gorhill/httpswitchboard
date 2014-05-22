@@ -192,6 +192,15 @@ var restoreUserDataFromFile = function() {
 
 /******************************************************************************/
 
+var resetUserData = function() {
+    chrome.runtime.sendMessage({
+        what: 'gotoExtensionURL',
+        url: 'setup.html'
+    });
+};
+
+/******************************************************************************/
+
 var setAssetListClassBit = function(bit, state) {
     assetListSwitches[assetListSwitches.length-1-bit] = !state ? 'o' : 'x';
     $('#assetList')
@@ -280,6 +289,7 @@ var onMessageHandler = function(request) {
 $('#aboutAssetsUpdateButton').on('click', updateAssets);
 $('#backupUserDataButton').on('click', backupUserDataToFile);
 $('#restoreUserDataButton').on('click', restoreUserDataFromFile);
+$('#resetUserDataButton').on('click', resetUserData);
 
 /******************************************************************************/
 

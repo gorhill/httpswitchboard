@@ -577,6 +577,10 @@
         "message": "Importer depuis un fichier...",
         "description": "English: Restore from file..."
     },
+    "aboutUserDataResetButton" : {
+        "message": "Repartir à zéro...",
+        "description": "English: Start from scratch..."
+    },
     "aboutUserDataRestoreConfirm" : {
         "message": "Vos paramètres et vos règles seront remplacés\npar les données sauvegardées le {{time}},\net puis HTTP Switchboard redémarrera.\n\nProcéder à l'importation ?",
         "description": "Message asking user to confirm restore"
@@ -624,6 +628,68 @@
     "aboutAssetsUpdatingButton" : {
         "message": "Mise à jour en cours...",
         "description": "Updating..."
+    },
+
+
+    "setupPagePrompt" : {
+        "message": "<p><b>HTTP Switchboard</b> is highly configurable: it can be set anywhere between &ldquo;blocking everything&rdquo; and &ldquo;block nothing&rdquo;. <p>The higher the security, the more likely web pages will be &ldquo;broken&rdquo;, i.e. will not render and/or behave as intended. Thus, higher security also means more intervention required from the user in order to &ldquo;unbreak&rdquo; those web pages which a user trust. <p>Here you can pick a profile which best matches how you plan to use <b>HTTP Switchboard</b>",
+        "description": "Appears at the top of the setup page"
+    },
+    "setupBlockAllAllowExceptionally" : {
+        "message": "Block all / allow exceptionally",
+        "description": "English: Block all / allow exceptionally"
+    },
+    "setupAllowAllBlockExceptionally" : {
+        "message": "Allow all / block exceptionally",
+        "description": "English: Allow all / block exceptionally"
+    },
+    "setupAdBlocker" : {
+        "message": "Ad blocker-like",
+        "description": "English: Ad blocker-like"
+    },
+    "setupNoScript" : {
+        "message": "NoScript-like",
+        "description": "English: NoScript-like"
+    },
+    "setupRequestPolicy" : {
+        "message": "RequestPolicy-like",
+        "description": "English: RequestPolicy-like"
+    },
+    "setupBlockNothingReportAll" : {
+        "message": "Block nothing / report everything",
+        "description": "English: Block nothing / report everything"
+    },
+    "setupVeryHighSecurity" : {
+        "message": "Security: very high",
+        "description": "English: Security: very high"
+    },
+    "setupHighSecurity" : {
+        "message": "Security: high",
+        "description": "Security: high"
+    },
+    "setupMediumHighSecurity" : {
+        "message": "Security: medium high",
+        "description": "English: Security: medium high"
+    },
+    "setupMediumSecurity" : {
+        "message": "Security: medium",
+        "description": "English: Security: medium"
+    },
+    "setupMediumLowSecurity" : {
+        "message": "Security: medium low",
+        "description": "English: Security: medium low"
+    },
+    "setupLowSecurity" : {
+        "message": "Security: low",
+        "description": "English: Security: low"
+    },
+    "setupNoSecurity" : {
+        "message": "Security: none",
+        "description": "English: Security: none"
+    },
+    "setupRestoreConfirm" : {
+        "message": "All your settings and rules will be overwritten\nand HTTP Switchboard will restart.\n\nOverwrite all existing data?",
+        "description": "English: All your settings and rules will be overwritten\nand HTTP Switchboard will restart.\n\nOverwrite all existing data?"
     },
 
 

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>HTTP Switchboard — Wizard</title>
+<link rel="stylesheet" type="text/css" href="css/common.css">
+<style>
+.setup {
+    margin: 1em;
+    border: 1px solid transparent;
+    padding: 0 2em 1em 2em;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    opacity: 0.7;
+    }
+.setup:hover {
+    border: 1px solid #aaa;
+    opacity: 1;
+    }
+.setup img {
+    width: 250px;
+    cursor: pointer;
+    }
+</style>
+</head>
+
+<body>
+
+<div data-i18n="setupPagePrompt"></div>
+
+<div class="setup">
+<h4 data-i18n="setupBlockAllAllowExceptionally"></h4>
+<p data-i18n="setupVeryHighSecurity"></p>
+<img src="doc/img/httpsb-block-all-allow-exceptionally.png" />
+<input type="hidden" value="/assets/httpsb/setup/httpsb-factory-setup.txt" />
+</div>
+
+<div class="setup">
+<h4 data-i18n="setupAllowAllBlockExceptionally"></h4>
+<p data-i18n="setupMediumSecurity"></p>
+<img src="doc/img/httpsb-allow-all-block-exceptionally.png" />
+<input type="hidden" value="/assets/httpsb/setup/httpsb-allow-all-block-exceptionally-setup.txt" />
+</div>
+
+<div class="setup">
+<h4 data-i18n="setupAdBlocker"></h4>
+<p data-i18n="setupLowSecurity"></p>
+<img src="doc/img/httpsb-as-abp.png" />
+<input type="hidden" value="/assets/httpsb/setup/httpsb-just-block-ads-setup.txt" />
+</div>
+
+<div class="setup">
+<h4 data-i18n="setupNoScript">NoScript-like</h4>
+<p data-i18n="setupHighSecurity"></p>
+<img src="doc/img/httpsb-as-noscript.png" />
+<input type="hidden" value="/assets/httpsb/setup/httpsb-noscript-like-setup.txt" />
+</div>
+
+<div class="setup">
+<h4 data-i18n="setupRequestPolicy"></h4>
+<p data-i18n="setupMediumHighSecurity"></p>
+<img src="doc/img/httpsb-as-requestpolicy.png" />
+<input type="hidden" value="/assets/httpsb/setup/httpsb-requestpolicy-like-setup.txt" />
+</div>
+
+<div class="setup">
+<h4 data-i18n="setupBlockNothingReportAll"></h4>
+<p data-i18n="setupNoSecurity"></p>
+<img src="doc/img/httpsb-allow-all-disclose-all.png" />
+<input type="hidden" value="/assets/httpsb/setup/httpsb-block-nothing-report-everything-setup.txt" />
+</div>
+
+<script src="lib/jquery-2.min.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/setup.js"></script>
+
+</body>
+</html>

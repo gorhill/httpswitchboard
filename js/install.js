@@ -27,51 +27,17 @@
 
 /******************************************************************************/
 
-var firstInstall = false;
-var presetsLoaded = false;
-
-/******************************************************************************/
-
 var onInstalledHandler = function(details) {
     if ( details.reason !== 'install' ) {
         return;
     }
-    firstInstall = true;
-    operaFirstInstall();
+    chrome.runtime.sendMessage({
+        what: 'gotoExtensionURL',
+        url: 'setup.html'
+    });
 };
 
 chrome.runtime.onInstalled.addListener(onInstalledHandler);
-
-/******************************************************************************/
-
-var onMessageHandler = function(request) {
-    if ( !request || !request.what || request.what !== '1stPartyPresetRecipesLoaded' ) {
-        return;
-    }
-    presetsLoaded = true;
-    operaFirstInstall();
-};
-
-chrome.runtime.onMessage.addListener(onMessageHandler);
-
-/******************************************************************************/
-
-var operaFirstInstall = function() {
-    if ( !firstInstall || !presetsLoaded ) {
-        return;
-    }
-
-    chrome.runtime.onMessage.removeListener(onMessageHandler);
-    chrome.runtime.onInstalled.removeListener(onInstalledHandler);
-
-    // rhill 2014-01-29: Opera requires that Youtube works out-of-the-box.
-    // Actually, why not do that for everybody, not just Opera.
-    var httpsb = HTTPSB;
-    if ( httpsb.isOpera() ) {
-        httpsb.presetManager.applyFromPresetName('Youtube');
-        httpsb.commitPermissions(true);
-    }
-};
 
 /******************************************************************************/
 
