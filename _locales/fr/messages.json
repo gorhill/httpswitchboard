@@ -586,7 +586,7 @@
         "description": "English: Start from scratch..."
     },
     "aboutUserDataRestoreConfirm" : {
-        "message": "Vos paramètres et vos règles seront remplacés\npar les données sauvegardées le {{time}},\net puis HTTP Switchboard redémarrera.\n\nProcéder à l'importation ?",
+        "message": "Vos paramètres et vos règles seront remplacés\npar les données sauvegardées le {{time}},\n puis HTTP Switchboard redémarrera.\n\nProcéder à l'importation ?",
         "description": "Message asking user to confirm restore"
     },
     "aboutExtensionDataHeader" : {
@@ -636,75 +636,75 @@
 
 
     "setupPagePrompt" : {
-        "message": "<p><b>HTTP Switchboard</b> is highly configurable: it can be set anywhere between &ldquo;blocking everything&rdquo; and &ldquo;block nothing&rdquo;. <p>The higher the security, the more likely web pages will be &ldquo;broken&rdquo;, i.e. will not render and/or behave as intended. Thus, higher security also means more intervention required from the user in order to &ldquo;unbreak&rdquo; those web pages which a user trust. <p>Here you can pick a profile which best matches how you plan to use <b>HTTP Switchboard</b>. Consider these a starting point, as you can customize at will afterward.",
+        "message": "<p><b>HTTP Switchboard</b> est hautement personnalisable : il peut être paramétré pour faire du &ldquo;Blocage total&rdquo; comme du &ldquo;Blocage inactif&rdquo;. <p>Plus les pages Web sont sécurisées, plus elles risquent d'être &ldquo;compromises&rdquo;, c'est-à-dire qu'elles n'auront pas un rendu/comportement attendu. Ainsi, une sécurité forte implique plus d'interventions de la part de l'utilisateur pour &ldquo;faire remarcher&rdquo; les pages Web jugées fiables par l'utilisateur. <p>Ici, vous pouvez choisir un profil correspondant le mieux à votre intention d'utiliser <b>HTTP Switchboard</b>. Pensez cela comme un point de départ, paramétrable à volonté par la suite !",
         "description": "Appears at the top of the setup page"
     },
     "setupBlockAllAllowExceptionally" : {
-        "message": "Block all / allow exceptionally",
+        "message": "Blocage total / Permissions exceptionnelles",
         "description": "English: Block all / allow exceptionally"
     },
     "setupAllowAllBlockExceptionally" : {
-        "message": "Allow all / block exceptionally",
+        "message": "Permission totale / Blocage exceptionnelle",
         "description": "English: Allow all / block exceptionally"
     },
     "setupAdBlocker" : {
-        "message": "Ad blocker-like",
+        "message": "Blocage publicitaire",
         "description": "English: Ad blocker-like"
     },
     "setupNoScript" : {
-        "message": "NoScript-like",
+        "message": "Façon NoScript",
         "description": "English: NoScript-like"
     },
     "setupRequestPolicy" : {
-        "message": "RequestPolicy-like",
+        "message": "Façon RequestPolicy",
         "description": "English: RequestPolicy-like"
     },
     "setupBlockNothingReportAll" : {
-        "message": "Block nothing / report everything",
+        "message": "Blocage inactif / Tout rapporter",
         "description": "English: Block nothing / report everything"
     },
     "setupSecurity" : {
-        "message": "Security:",
+        "message": "Sécurité :",
         "description": "English: Security:"
     },
     "setupBreakage" : {
-        "message": "Breakage:",
+        "message": "Compromission :",
         "description": "English: Breakage:"
     },
     "setupVeryHigh" : {
-        "message": "very high",
+        "message": "Très élevée",
         "description": "English: very high"
     },
     "setupHigh" : {
-        "message": "high",
+        "message": "Élevée",
         "description": "English: high"
     },
     "setupMediumHigh" : {
-        "message": "medium high",
+        "message": "Assez élevée",
         "description": "English: medium high"
     },
     "setupMedium" : {
-        "message": "medium",
+        "message": "Moyenne",
         "description": "English: medium"
     },
     "setupMediumLow" : {
-        "message": "medium low",
+        "message": "Assez faible",
         "description": "English: medium low"
     },
     "setupLow" : {
-        "message": "low",
+        "message": "Faible",
         "description": "English: low"
     },
     "setupVeryLow" : {
-        "message": "very low",
+        "message": "Très faible",
         "description": "English: very low"
     },
     "setupNone" : {
-        "message": "none",
+        "message": "Inexistante",
         "description": "English: none"
     },
     "setupRestoreConfirm" : {
-        "message": "All your settings and rules will be overwritten\nand HTTP Switchboard will restart.\n\nOverwrite all existing data?",
+        "message": "Tous vos paramètres et toutes vos règles seront remplacés\net HTTP Switchboard va redémarrer.\n\nRemplacer les données existantes ?",
         "description": "English: All your settings and rules will be overwritten\nand HTTP Switchboard will restart.\n\nOverwrite all existing data?"
     },
 
