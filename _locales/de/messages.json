@@ -632,7 +632,7 @@
 
 
     "setupPagePrompt" : {
-        "message": "<p><b>HTTP Switchboard</b> is highly configurable: it can be set anywhere between &ldquo;blocking everything&rdquo; and &ldquo;block nothing&rdquo;. <p>The higher the security, the more likely web pages will be &ldquo;broken&rdquo;, i.e. will not render and/or behave as intended. Thus, higher security also means more intervention required from the user in order to &ldquo;unbreak&rdquo; those web pages which a user trust. <p>Here you can pick a profile which best matches how you plan to use <b>HTTP Switchboard</b>",
+        "message": "<p><b>HTTP Switchboard</b> is highly configurable: it can be set anywhere between &ldquo;blocking everything&rdquo; and &ldquo;block nothing&rdquo;. <p>The higher the security, the more likely web pages will be &ldquo;broken&rdquo;, i.e. will not render and/or behave as intended. Thus, higher security also means more intervention required from the user in order to &ldquo;unbreak&rdquo; those web pages which a user trust. <p>Here you can pick a profile which best matches how you plan to use <b>HTTP Switchboard</b>. Consider these a starting point, as you can customize at will afterward.",
         "description": "Appears at the top of the setup page"
     },
     "setupBlockAllAllowExceptionally" : {
