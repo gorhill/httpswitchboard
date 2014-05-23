@@ -644,11 +644,11 @@
         "description": "English: Block all / allow exceptionally"
     },
     "setupAllowAllBlockExceptionally" : {
-        "message": "Permission totale / Blocage exceptionnelle",
+        "message": "Permission totale / Blocage exceptionnel",
         "description": "English: Allow all / block exceptionally"
     },
     "setupAdBlocker" : {
-        "message": "Blocage publicitaire",
+        "message": "Façon Adblock",
         "description": "English: Ad blocker-like"
     },
     "setupNoScript" : {
