@@ -577,6 +577,10 @@
         "message": "Importer depuis un fichier...",
         "description": "English: Restore from file..."
     },
+    "aboutUserDataOr" : {
+        "message": "... ou ...",
+        "description": "English: ... or ..."
+    },
     "aboutUserDataResetButton" : {
         "message": "Repartir à zéro...",
         "description": "English: Start from scratch..."

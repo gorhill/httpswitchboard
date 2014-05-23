@@ -577,6 +577,10 @@
         "message": "Восстановить из файла...",
         "description": "English: Restore all..."
     },
+    "aboutUserDataOr" : {
+        "message": "... or ...",
+        "description": "English: ... or ..."
+    },
     "aboutUserDataResetButton" : {
         "message": "Start from scratch...",
         "description": "English: Start from scratch..."
