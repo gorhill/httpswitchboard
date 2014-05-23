@@ -522,10 +522,10 @@ body.powerOff #whitelist, body.powerOff #blacklist {
     opacity: 0.25;
     }
 .matCell.rdt #whitelist:hover {
-    background-color: inherited;
+    background-color: transparent;
     }
 .matCell.gdt #whitelist:hover {
-    background-color: inherited;
+    background-color: transparent;
     }
 .rw .matCell.rpt #blacklist:hover {
     background-color: #c00;
@@ -536,10 +536,10 @@ body.powerOff #whitelist, body.powerOff #blacklist {
     opacity: 0.25;
     }
 .matCell.rdt #blacklist:hover {
-    background-color: inherited;
+    background-color: transparent;
     }
 .matCell.gdt #blacklist:hover {
-    background-color: inherited;
+    background-color: transparent;
     }
 #domainOnly {
     margin: 0;
@@ -578,4 +578,3 @@ body.powerOff #whitelist, body.powerOff #blacklist {
 #domainOnly:hover {
     opacity: 1;
     }
-

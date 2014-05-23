@@ -34,6 +34,10 @@ var targetPageURL;
 var targetPageHostname;
 var targetPageDomain;
 
+var matrixCellHotspots = null;
+
+/******************************************************************************/
+
 function getPageStats() {
     return HTTPSB.pageStatsFromTabId(targetTabId);
 }
@@ -201,7 +205,6 @@ var HTTPSBPopup = {
 
     matrixStats: MatrixStats.prototype.createMatrixStats(),
     matrixHeaderTypes: ['*'],
-    matrixCellHotspots: null,
     matrixHasRows: false,
     matrixGroup3Collapsed: false,
 
@@ -1137,8 +1140,8 @@ function makeMenu() {
     }
 
     // https://github.com/gorhill/httpswitchboard/issues/31
-    if ( HTTPSBPopup.matrixCellHotspots ) {
-        HTTPSBPopup.matrixCellHotspots.detach();
+    if ( matrixCellHotspots ) {
+        matrixCellHotspots.detach();
     }
 
     renderMatrixHeaderRow();
@@ -1490,11 +1493,11 @@ function buttonReloadHandler() {
 /******************************************************************************/
 
 function mouseenterMatrixCellHandler() {
-    HTTPSBPopup.matrixCellHotspots.appendTo(this);
+    matrixCellHotspots.appendTo(this);
 }
 
 function mouseleaveMatrixCellHandler() {
-    HTTPSBPopup.matrixCellHotspots.detach();
+    matrixCellHotspots.detach();
 }
 
 /******************************************************************************/
@@ -1599,18 +1602,18 @@ $(function() {
     $('body').css('font-size', getUserSetting('displayTextSize'));
 
     // We reuse for all cells the one and only cell hotspots.
-    popup.matrixCellHotspots = $('#cellHotspots').detach();
-    $('#whitelist', popup.matrixCellHotspots)
+    matrixCellHotspots = $('#cellHotspots').detach();
+    $('#whitelist', matrixCellHotspots)
         .on('click', function() {
             handleWhitelistFilter($(this));
             return false;
         });
-    $('#blacklist', popup.matrixCellHotspots)
+    $('#blacklist', matrixCellHotspots)
         .on('click', function() {
             handleBlacklistFilter($(this));
             return false;
         });
-    $('#domainOnly', popup.matrixCellHotspots)
+    $('#domainOnly', matrixCellHotspots)
         .on('click', function() {
             toggleCollapseState(this);
             return false;
