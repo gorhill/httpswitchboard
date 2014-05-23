@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: n/5TKJf4B2YJ6LYdFXzdjQ
-! Version: 201405182131
+! Checksum: i68Ne+VAaUTpLA3ZlaMWFA
+! Version: 201405231451
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 18 May 2014 21:31 UTC
+! Ultima modifica: 23 May 2014 14:51 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -170,6 +170,7 @@ bancavalle.it,bancodibrescia.it,bpa.it,bpb.it,bpci.it,brebanca.it,carime.it,quiu
 techinfos.it#@##adblock
 giornaledisiracusa.it#@##adsense_testa
 subito.it#@##body_ad
+cardiochirurgia.com#@#.ad-head
 bakeca-incontri.net#@#.ad_bottom
 bakeca-incontri.net#@#.ad_center
 subito.it#@#.ad_links
@@ -179,7 +180,9 @@ subito.it#@#.adcont
 bakeca-incontri.net#@#.adtitle
 altervista.org,pianetadonna.it,studenti.it#@#.adv_esterno
 deejay.it#@#.advertorial
+cardiochirurgia.com#@#.box-ad
 italiasw.com#@#.header-google-ads
+cardiochirurgia.com#@#.list-ads
 corrierecomo.it,corrieredicomo.it#@#.module-ad
 latinomagazine.it#@#.moduletable-advert
 camperonline.it,italiasw.com#@#.pubblicita
@@ -583,6 +586,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||avvenire.it^*/300x250trecani.swf
 ||avvenire.it^*/OSF_banner300x250marzo.gif
 ||avvenire.it^*/piccoliannunci.aspx
+||avvenire.it^*/sinOnlineBannerV2.gif
 ||avvenire.it^*/skin_
 ||avvenire.it^*/skincei1.jpg
 ||aziendeonline.biz/db/banner_
@@ -828,6 +832,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||gianlucadimarzio.com^*_skin_
 ||giardinaggio.it/@/servizi/dueverticali.asp
 ||giorgiotave.it/media/images/sharingimages/2013.gif
+||giornaledelticino.ch/banner/
 ||giornaledimerate.it/banneranalyzer/
 ||giornaledisiracusa.it/images/banners/
 ||giornalettismo.com^*/skin/
@@ -1384,6 +1389,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||sfilate.it/wp-content/themes/sfilate/images/cb-logo.jpg
 ||sfilate.it/wp-content/themes/sfilate/images/hotel728x90.jpg
 ||si24.it/images/banners/
+||sibarinet.it/images/banners/
 ||siciliaway.it^*/immagini_promozionali/
 ||sipario.it/images/banners/
 ||sky.it/static/images/sito/skin_
@@ -2041,7 +2047,9 @@ outcast.it##.banner250250
 ilcapoluogo.com##.banner3
 firstonline.info,mediapason.it##.banner300
 outcast.it##.banner300250
+ildesk.it##.banner385x198
 ilcapoluogo.com##.banner4
+ildesk.it##.banner468x60
 fantagazzetta.com##.banner5
 ilsecoloxix.it##.banner650x60
 ilcalciocatania.it##.bannerArea
@@ -2133,6 +2141,7 @@ ebay.it,kijiji.it##.dart-banner-slot
 giornaledibrescia.it##.dealboxTop
 immobiliare.it##.det_pub_box_content
 nokioteca.net##.dex_box
+supermoney.eu##.dfp-leaderbord
 ansa.it##.diretta-sponsor
 lavoratorio.it##.divBoxbanner300x250
 gossipetv.com##.ebuzzing_box
@@ -2163,6 +2172,7 @@ bow.it,cronacamilano.it##.header_banner
 bora.la##.headerbtm
 gazzettadasti.it##.homepage-central-ban
 radioitalia.it##.iTunes
+ildesk.it##.img_banner385x50
 autoline-eu.it##.index-center-banners-1
 autoline-eu.it##.index-main-banners
 gazzetta.it##.info-quote
@@ -2349,6 +2359,10 @@ unita.it##div[style="border:1px solid #D1D1D1;padding:1px; position:absolute;rig
 androidiani.com##div[style="border:4px dashed orange;height:90px;width:728px;margin:0 auto"]
 radioromacapitale.it,retesport.it##div[style="border:solid 1px #000000; width: 298px; height: 78px;"]
 sanihelp.it##div[style="clear: both; width: 670px; padding:4px; height: 88px; margin-bottom: 15px; margin-top: 10px; line-height: 14px; border: 1px solid #DDEBF4;"]
+ildesk.it##div[style="display:block; float:left; margin-left:80px; margin-top:10px; width:120px; height:600px;"]
+ildesk.it##div[style="display:block; float:left; margin-top:13px; width:376px; height:95px;"]
+ildesk.it##div[style="display:block; float:left; width:300px; height:250px; margin-left:44px; margin-top:10px;"]
+ildesk.it##div[style="display:block; float:left; width:468px; height:60px; position:relative; margin-top:20px; left:30px;"]
 lastampa.it##div[style="float: left; width: 990px; text-align: center; margin-top: 10px; height: 110px;"]
 rietilife.it##div[style="float: right; height: 80px; width: 350px;"]
 f1passion.it##div[style="float:left; width:300px; height:250px; background:#f80; margin-bottom:24px;"]
@@ -2380,6 +2394,7 @@ liguriawebcam.com##div[style="overflow:hidden;height:90px;margin:4px 0;"]
 puntosicuro.it##div[style="padding: 5px; font-family: Verdana, Arial; font-size: 10px;"]
 giornaledicomo.it,tempi.it##div[style="position: relative; height: 250px; width: 300px;"]
 telefonino.net##div[style="position: relative;width: 310px;height: 110px;margin: 0px -5px 5px -5px;"]
+ildesk.it##div[style="position:absolute; background-color:#ffffff; width:300px; height:250px; left: 526px; top: -14px;"]
 corriereirpinia.it##div[style="position:absolute;top:0px;left:50%;margin-left:-1116px;width:600px;height:1400px;"]
 corriereirpinia.it##div[style="position:absolute;top:0px;left:50%;margin-left:-520px;width:1040px;height:84px;"]
 corriereirpinia.it##div[style="position:absolute;top:0px;left:50%;margin-left:516px;width:600px;height:1400px;"]

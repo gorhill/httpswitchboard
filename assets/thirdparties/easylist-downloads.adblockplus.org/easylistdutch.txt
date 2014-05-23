@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: TB+XBrE/DAIcYLSpJV3CzQ
-! Version: 201405182131
+! Checksum: IzMQ9fU5WEYVPf28TI7k3A
+! Version: 201405231451
 ! Title: EasyList Dutch
 ! Description: Dutch supplement for the Easylist filters
-! Last modified: 18 May 2014 21:31 UTC
+! Last modified: 23 May 2014 14:51 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -29,6 +29,7 @@
 /advertenties/*
 /bannerlookup.
 /big_reclames/*
+/bolcom-partnerprogramma-wordpress-plugin/*
 /img/recl/*
 /nmc/adv/*
 /reclame-extra.
@@ -674,6 +675,7 @@
 @@||pagead2.googlesyndication.com/pagead/show_ads.js$domain=spel.nl|spelletjes.nl
 @@||partner.googleadservices.com/gampad/$domain=jaggle.nl
 @@||partner.googleadservices.com/gpt/pubads_impl_36.js$domain=marktplaats.nl
+@@||partner.googleadservices.com/gpt/pubads_impl_39.js$domain=marktplaats.nl
 @@||smartinit.webads.nl/bin/smartinit.dll?$script,domain=vi.nl
 @@||spilcdn.com^*/js/advertisement/css/sgadgirls.css$domain=girlsgogames.nl
 @@||spilcdn.com^*/js/advertisement/flowplayer/flowplayer-3.2.6.min.js$domain=girlsgogames.nl|spel.nl|spelletjes.nl
@@ -816,6 +818,8 @@ seks-verhalen.nl###banner-blok-vier
 marktplaats.nl###banner-marketing
 marktplaats.nl###banner-mr
 wiebetaaltwat.nl###banner-panel-right
+marktplaats.nl###banner-rubrieks
+marktplaats.nl###banner-top
 dwtonline.com###banner1
 gay.eu,gay.nl###bannerLeft1
 flabber.nl###bannerMIDDLE-teaser
@@ -886,6 +890,7 @@ zdnet.be###rightwallpaper
 hetkanwel.net###secondary > aside[id^="text-"]:nth-child(2) > .ssc > .textwidget
 hetkanwel.net###secondary > aside[id^="text-"]:nth-child(3) > .ssc > .textwidget
 hetkanwel.net###secondary > aside[id^="text-"]:nth-child(5) > .ssc > .textwidget
+stoerejongenzzz.nl###sidebar .jetpack-image-container > a
 beautylab.nl###sidebar .textwidget > a[target="_blank"]
 dejaap.nl###sidebarRight > .blockHeading + article
 computertotaal.nl###sidebar_mediamarkt
@@ -919,6 +924,7 @@ nederland.fm###xbtm
 nederland.fm###xttm
 vinden.nl###zoektip
 blog.nl##.ADV
+stoerejongenzzz.nl##.BolPartner_Bestsellers_PlaceHolder
 bokt.be##.PopupDiv
 bokt.be##.PopupScreen
 marktnet.nl##.ThumbGoogle
@@ -932,7 +938,7 @@ ncrv.nl##.add-disclaimer
 telegraaf.nl##.addiv > a[target="_new"]
 vt4.be##.adl_medium_rectangle
 nu.nl##.adorange
-porntubexl.nl,tube.nl##.ads
+porntubexl.nl,studio040.nl,tube.nl##.ads
 nu.nl##.adsilver
 allradio.nl##.adv
 9292.nl,classicfm.nl,fcupdate.nl,onemorething.nl##.advert
@@ -941,7 +947,7 @@ apparata.nl,autoblog.nl##.advertisement
 biertijd.com##.advertorialtitle ~ *
 synoniemen.net##.annblokslot
 welingelichtekringen.nl##.artblok:nth-child(-2n+6)
-2xklikken.nl,at5.nl,belgie.fm,camping-frankrijk.nl,ed.nl,elkspel.nl,express.be,fd.nl,hardwarewoensdag.tv,hetkrantje-online.nl,koopplein.nl,mensenlinq.nl,nederland.fm,nederlandmobiel.nl,nieuws.nl,privesexopname.nl,startbewijs.nl,studenten.nl,toeto.com,westlanders.nu,zappsite.nl##.banner
+2xklikken.nl,at5.nl,belgie.fm,camping-frankrijk.nl,ed.nl,elkspel.nl,express.be,fd.nl,hardwarewoensdag.tv,hetkrantje-online.nl,koopplein.nl,mensenlinq.nl,nederland.fm,nederlandmobiel.nl,nieuws.nl,privesexopname.nl,startbewijs.nl,studenten.nl,telegraaf.nl,toeto.com,westlanders.nu,zappsite.nl##.banner
 weeronline.nl##.banner + .specialBlockDiv
 at5.nl##.banner-300-100
 tvgids.nl##.banner-custom
@@ -965,6 +971,7 @@ viva.nl##.banner_sidebar
 limburger.nl##.banner_skyscraper
 limburger.nl##.banner_skyscraper + div[style]
 ziekenhuis.nl##.bannerborder
+telegraaf.nl##.bannercenter
 automatiseringgids.nl##.bannercontainer
 wetenschapsforum.nl##.bannercontainer-carrousel
 bbb-carrierebeurs.nl,wassenaarders.nl##.bannergroup

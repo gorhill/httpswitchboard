@@ -64,7 +64,7 @@ ENTRY_INDEX=0
 for THIRDPARTY_REMOTEURL in ${THIRDPARTY_REMOTEURLS[@]}; do
     THIRDPARTY_LOCALURL=${THIRDPARTY_LOCALURLS[ENTRY_INDEX]}
     echo "*** Downloading" $THIRDPARTY_REMOTEURL
-    if wget -q -O $TEMPFILE -- $THIRDPARTY_REMOTEURL; then
+    if wget -q -T 30 -O $TEMPFILE -- $THIRDPARTY_REMOTEURL; then
         if [ -s $TEMPFILE ]; then
             if ! cmp -s $TEMPFILE $THIRDPARTY_LOCALURL; then
                 echo "    New version found, copying to $THIRDPARTY_LOCALURL"

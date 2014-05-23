@@ -14,6 +14,7 @@
 !----------------------- Filtres génériques -----------------!
 .eg/ads/
 .ma/ads/
+/ads468x60.
 /ar/ads/*
 !
 !----------------------- Éléments génériques -----------------!
@@ -266,6 +267,7 @@
 ||shorte.st/link-converter.
 ||shwqna.at.ua/pop*.js
 ||sinailiberties.com/1.gif$domain=kalemaro.com
+||skauu.com/add/
 ||soft365.com^$popup,domain=arabsh.com
 ||startdedicated.com/newbrz.gif
 ||support-ar.com/vb/index.php$popup,domain=friasat.com
@@ -317,6 +319,7 @@
 ||3ayezakol.com/mcturkey.jpg
 ||3ayezakol.com^$popup,domain=egyup.com
 ||3ikarat.com/App_Images/BannerImages/
+||3mri-qtr.com/vb/aerowindow/
 ||3rabgames.com/signup/?utm_source=$popup,domain=arabseed.com
 ||3roos.com/files/ups/
 ||3roos.com/images/i3lan.gif
@@ -493,12 +496,21 @@
 ||clasicooo.com/pic/bd1.gif
 ||clasicooo.com/pic/bd2.gif
 ||coolkora.com/p/cool-kora-f.html
+||cools4u.com/abcd/
+||cools4u.com/chatfiles/
+||cools4u.com/hemlat/
+||cools4u.com/listenb.php
+||cools4u.com/open.php
+||cools4u.com/songsfrm.php
+||cools4u.com/vbhead.php
+||cools4u.com/vbopen2.php
 ||d2ja.com/Ads/
 ||dafatir.ma/do.php?img=441
 ||dafatiri.com/vb/open.js
 ||daralkotob.com/images/banners/
 ||daralkotob.com/images/photos/niledesign.jpg
 ||dawshagya.org/vb/open.js
+||djelfa.info/ar/files/banners/
 ||djelfa.info/logo/
 ||dl3-r.com/dla3/images/area-in--header.png
 ||dl3-r.com/dla3/images/large-area.gif
@@ -544,6 +556,7 @@
 ||elhiwarnet.com/images/banners/
 ||elmaouid.com/images/stories/23-02-2012/300_a.gif
 ||elmaouid.com/images/stories/pub-twins-1.gif
+||elmassar-ar.com/*/img/pub.jpg
 ||elmihwar.com/images/banners/
 ||elmokhalestv.com/banner_images/
 ||elraaed.com/ara/files/banners/
@@ -582,6 +595,7 @@
 ||glwan.com/adv/
 ||goo.gl^$popup,domain=abotlal.com|arabseed.com|mazika2day.com
 ||goo.gl^$subdocument,domain=lmseh.com
+||googleusercontent.com^*/mastercard.gif$domain=myalge.net
 ||googlna.com/flash/bnar.swf
 ||gornalak.com/alexa.gif
 ||gornalak.com/pop.js
@@ -775,12 +789,14 @@
 ||sedty.com/imagehosting/1_1346843455.gif
 ||sedty.com/imagehosting/2_1337379699.gif
 ||senksar.com/Untitled-2.jpg
+||serveregypt.com^$subdocument,domain=3mri-qtr.com
 ||servimg.com/u/f10/16/22/48/64/f40-mo10.gif
 ||servimg.com/u/f42/16/22/48/64/34637510.gif
 ||sfari-s.com^$subdocument,domain=r-khleeg.net
 ||shatelarab.com/images/banners/
 ||shofonline.org/megapop.js
 ||site.elkhabar.com^
+||skauu.com^$subdocument,domain=3mri-qtr.com
 ||souss24.com^$popup,domain=ilmaroc.org
 ||soussinfo.com/pub/
 ||sponsor.arrahmah.net/
@@ -1073,6 +1089,7 @@ arabycommunity.com##a[href^="http://www.babylon.com/redirects/download.cgi?"]
 arbcinema.com##a[href^="http://www.babylon.com/welcome/index?affID="]
 almosafr.com##a[href^="http://www.booking.com/index.html?aid="]
 lakii.com##a[href^="http://www.deraah.com.sa/default.aspx?"]
+djelfa.info##a[href^="http://www.djelfa.info/ar/click/"]
 sedty.com##a[href^="http://www.drsrv.com/adv/"]
 almosafr.com##a[href^="http://www.hotelscombined.com/?a_aid="]
 abotlal.com##a[href^="http://www.izhra.com/?utm_source="]
@@ -1120,36 +1137,37 @@ egynt.net,herosh.com,up-00.com##img[width="100"][height="35"]
 herosh.com##img[width="100"][height="40"]
 arab-x.com##img[width="110"][height="35"]
 up-aa.com##img[width="115"][src^="templates/siti/img/"]
+3mri-qtr.com##img[width="120"][height="60"]
 egynt.net##img[width="140"][height="50"]
 mobdi3ine.net,t8t3.com##img[width="140"][height="60"]
 arabs-up.com##img[width="144"][height="60"]
 qassimy.com##img[width="145"][height="45"]
 gamesgb.com##img[width="150"][height="50"]
-700bk.com,fraise-d.com,hwaml.com,k1g3.com,mdredclub.com,qassimy.com,roooo3.com,t8t3.com##img[width="150"][height="60"]
+700bk.com,anfasdes.com,ckfu.org,fraise-d.com,g-3e6r.com,hwaml.com,k1g3.com,mdredclub.com,qassimy.com,roooo3.com,t8t3.com##img[width="150"][height="60"]
 libyan-sat.com##img[width="150"][height="60"][style="margin: 0px 0px 0px 0px;"]
 arabs-up.com##img[width="155"][height="60"]
 egyup.tv##img[width="197"][height="98"]
-bahranicool.com,shbab1.com##img[width="200"][height="60"]
+am-ngd.com,bahranicool.com,shbab1.com##img[width="200"][height="60"]
 chtoukapress.com##img[width="200"][height="90"]
 chtoukapress.com##img[width="228"][height="100"]
 hwaml.com##img[width="240"][height="60"]
 libyan-sat.com##img[width="280"][height="60"][style="margin: 0px 0px 0px 0px;"]
 calcio4arab.com##img[width="280"][height="80"]
 y4yy.com##img[width="300"][height="250"]
-bahranicool.com,qassimy.com,shbab1.com##img[width="300"][height="60"]
+am-ngd.com,bahranicool.com,qassimy.com,shbab1.com##img[width="300"][height="60"]
 herosh.com##img[width="345"][height="40"]
 fonction-publique-dz.mountada.net##img[width="364"][height="60"]
 libyan-sat.com##img[width="400"][height="60"][style="margin: 0px 0px 0px 0px;"]
 mdredclub.com##img[width="460"][height="60"]
 jo-sharing.com##img[width="468"]
-fraise-d.com,hwaml.com##img[width="468"][height="60"]
+3mri-qtr.com,fraise-d.com,g-3e6r.com,hwaml.com##img[width="468"][height="60"]
 k1g3.com##img[width="486"][height="60"]
 yakamar.com##img[width="494"][height="60"]
 rmadarab.com##img[width="500"][height="60"]
 rmadarab.com##img[width="600"][height="90"]
 arabsgate.com##img[width="645"][height="79"]
 jo-sharing.com##img[width="700"][height="120"]
-enjaztech.com,hwaml.com,m5zn.com,qatarw.com,satarabia.net##img[width="728"][height="90"]
+ckfu.org,enjaztech.com,hwaml.com,m5zn.com,qatarw.com,satarabia.net##img[width="728"][height="90"]
 chtoukapress.com##img[width="728px"][height="100px"]
 yakamar.com##img[width="728px"][height="90px"]
 4algeria.com##img[width="75"][height="30"]

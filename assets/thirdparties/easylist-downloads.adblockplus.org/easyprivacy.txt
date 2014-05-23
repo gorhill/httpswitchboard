@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: gmU4n6AQNJLRJpJ3QSLmuQ
-! Version: 201405182131
+! Checksum: ihbwbJlqcqTrktPpF8KL1Q
+! Version: 201405231451
 ! Title: EasyPrivacy
-! Last modified: 18 May 2014 21:31 UTC
+! Last modified: 23 May 2014 14:51 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -2097,6 +2097,7 @@ _Analytics.js?
 _analytics.php?
 _astatspro/
 _baynote.
+_browsermetrix.
 _cedexis.
 _chartbeat.js
 _check.php?referer
@@ -2833,7 +2834,6 @@ http://utm.
 ||insightgrit.com^$third-party
 ||insitemetrics.com^$third-party
 ||inspectlet.com^$third-party
-||inspsearchapi.com^$third-party
 ||instadia.net^$third-party
 ||instore.biz^$third-party
 ||intelevance.com^$third-party
@@ -3013,6 +3013,7 @@ http://utm.
 ||mxpnl.com^$third-party
 ||mxptint.net^$third-party
 ||myaffiliateprogram.com^$third-party
+||myaudience.de^$third-party
 ||mybloglog.com^$third-party
 ||myfastcounter.com^$third-party
 ||mynewcounter.com^$third-party
@@ -3830,7 +3831,6 @@ http://utm.
 ||mr-rank.de^$third-party
 ||my-ranking.de^$third-party
 ||my-stats.info^$third-party
-||myaudience.de^$third-party
 ||mysumo.de^$third-party
 ||netcounter.de^$third-party
 ||netdebit-counter.de^$third-party
@@ -3997,6 +3997,7 @@ http://utm.
 ||51yes.com^$third-party
 ||99click.com^$third-party
 ||acs86.com^$third-party
+||admaster.com.cn^$third-party
 ||blog104.com^$third-party
 ||blogtw.net^$third-party
 ||clicki.cn^$third-party
@@ -4774,6 +4775,7 @@ http://utm.
 ||eulerian.sarenza.com/collector/
 ||event.previewnetworks.com^
 ||event.trove.com^
+||eventlog.inspsearchapi.com^
 ||events.eyeviewdigital.com^*.gif?r=
 ||events.realgravity.com^
 ||eventtracker.videostrip.com^$third-party
@@ -8670,7 +8672,7 @@ http://utm.
 @@||cdn-redfin.com^*/clicktracker.js$domain=redfin.com
 @@||cdn-redfin.com^*/page_analytics.js$domain=redfin.com
 @@||cdn-redfin.com^*/page_analytics.xd.js
-@@||cdn.optimizely.com/js/*.js$domain=heroku.com|hotukdeals.com|imageshack.com|policymic.com
+@@||cdn.optimizely.com/js/*.js$domain=heroku.com|hotukdeals.com|imageshack.com|policymic.com|ricardo.ch
 @@||chanel.com/js/chanel-tracking.js$script
 @@||chartbeat.com/*/chartbeat/$~third-party
 @@||chartbeat.com/js/chartbeat.js$domain=salon.com
@@ -9143,4 +9145,5 @@ http://utm.
 ! Swedish
 @@||reseguiden.se^*.siteCatalyst.js
 ! Turkey
+@@||google-analytics.com/analytics.js$domain=ligtv.com.tr
 @@||tvyo.com/player/plugins/comscorePlugin.swf?$object-subrequest

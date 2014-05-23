@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: d2fAvzth+AHazN6qHl9aLw
+! Checksum: yhsc2YiZIIFKnEjgraZesw
 ! Title: EasyList Hebrew
-! Last modified: 18/05/14  19:30 Jerusalem Daylight Time
+! Last modified: 23/05/14  16:21 Jerusalem Daylight Time
 ! Expires: 4 days (update frequency)
 ! Homepage: https://github.com/AdBlockPlusIsrael/EasyListHebrew/
 ! Forums: https://github.com/AdBlockPlusIsrael/EasyListHebrew/issues
@@ -159,7 +159,7 @@
 ||date.dacho.co.il^
 ||ddlil.com/banners/
 ||dimpact.co.il/Live/Banner/
-||fcdn.co.il/a/$domain=fxp.co.il
+||fcdn.co.il/*/*/*.php$domain=fxp.co.il
 ||gear.co.il/Content/MediaItems/Campaigns/
 ||gozlan.co/st_j.js
 //gozlan.co/st_j.js|
@@ -168,8 +168,7 @@
 ||hometheater.co.il/opx/
 ||hometheater.co.il/pir/
 ||hwzone.co.il/jobs/
-||images.fxp.co.il/a/*/*.php
-||images.fxp.co.il/a/*/*.php$popup
+||images.fxp.co.il/*/*/*.php
 ||images.fxp.co.il/skinfxp
 ||images.fxp.co.il/skins/
 ||israelpost.co.il/content.nsf/0/D4413A7599E19E34C2257B2300467D0D/$FILE/*.swf
@@ -178,6 +177,8 @@
 ||kikarhashabat.co.il/data/auto/images/landing_pages_
 ||kipa.co.il/banner/
 ||kipasruga.com/banner/
+||lametayel.co.il/landing/market.html$popup
+||lev.co.il/download/HomeBackground/$image
 ||local.co.il/banners/
 ||moreshet.co.il/banners/
 ||my.yad2.co.il/Banner/
@@ -388,9 +389,11 @@ flix.tapuz.co.il##DIV[style="background-color: #FFFFFF; margin-left: auto; margi
 forbes.co.il##EMBED[src^="/download/banners/"]
 forbes.co.il##TABLE[style="background-color:#e8e8e8"]
 frogi.co.il##.adbox
-fxp.co.il###adfxp
 fxp.co.il###vc_widget
+fxp.co.il###adfxp
 fxp.co.il###web_3_tool
+fxp.co.il##A[href^="http://fcdn.co.il"]
+fxp.co.il##[style="width: 160px; height: 600px; top: 50px; position: fixed; right: 9.5px;"]
 games.nana10.co.il###tmp1632_46
 games.nana10.co.il##.BannerMiddle
 gamex.co.il###skyscraper
@@ -413,6 +416,7 @@ globes.co.il##.banners
 globes.co.il##div[style="border:0px solid #cacaca; padding:0px 25px; direction:rtl;"]
 google.co.il###mbEnd
 google.co.il###tads
+haaretz.co.il###comments_banner_wrapper
 haaretz.co.il##DIV[style="font-size:19px; font-weight:bold;margin-bottom:10px;"]
 haaretz.co.il##div[id^="dclk_objects_"]
 haaretz.co.il##div[style="background: url(/htz/images/bg/Ad_bg.gif) repeat; padding:10px 0; text-align:center;"]

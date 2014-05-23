@@ -1,8 +1,8 @@
 [Adblock Plus 2.0]
-! Checksum: /8PkkiAc9tKQJqn11Znkng
-! Version: 201405182131
+! Checksum: rGU1UeootqHYB5DC1a2L3w
+! Version: 201405231451
 ! Title: Fanboy's Annoyance List
-! Last modified: 18 May 2014 21:31 UTC
+! Last modified: 23 May 2014 14:51 UTC
 ! Expires: 4 days (update frequency)
 ! License: http://creativecommons.org/licenses/by/3.0/
 ! Please report any unblocked content or problems by email or in our forums
@@ -72,6 +72,7 @@
 /cookiepolicy/*
 /cookiepolicy_
 /cookiepolicybanner.
+/cookiepopup?
 /cookies-info.
 /cookies-notification.
 /cookies-policy/*
@@ -2016,6 +2017,7 @@ _youtube_small.
 ###cookiePolicy
 ###cookiePolicy-layer
 ###cookiePolicyBar
+###cookiePopupContainer
 ###cookieTime
 ###cookieView
 ###cookieWarningBox
@@ -2533,6 +2535,7 @@ _youtube_small.
 ##.subscribeBox
 ##.subscribe_rss
 ##.sys_cc-cookies
+##.taboola
 ##.taboola-sidebar-container
 ##.taboola-wrapper
 ##.targetAd
@@ -3562,6 +3565,8 @@ _youtube_small.
 ###social-toolbar
 ###social-toolbox
 ###social-tools-bottom-container
+###social-tools-panel
+###social-tools-panel_gig_containerParent
 ###social-tools-top-container
 ###social-tools-vertical
 ###social-tools-wrapper
@@ -4123,6 +4128,7 @@ _youtube_small.
 ##.bot_aa_share
 ##.bottom-share
 ##.bottom-share-buttons
+##.bottom-share-module
 ##.bottom-share-wrapper
 ##.bottom-sharethis
 ##.bottom-social
@@ -5754,6 +5760,7 @@ _youtube_small.
 ##.socialSharing
 ##.socialSharingFtr
 ##.socialStickyBanner
+##.socialStrip
 ##.socialSub
 ##.socialToolBar
 ##.socialToolbar
@@ -6026,6 +6033,8 @@ _youtube_small.
 ##.track-action-LinkedIn
 ##.track-action-Twitter
 ##.tracking_article_social
+##.trb_sharelines
+##.trb_socialize
 ##.tru_facebook
 ##.tru_pinterest
 ##.tru_twitter
@@ -7503,7 +7512,7 @@ marketingland.com,venturebeat.com###flwprev
 deliberatism.com###flyOut
 governing.com,govtech.com###flyin
 people.com###flyingrecirc
-glennbeck.com###flyout
+glennbeck.com,nationaljournal.com###flyout
 seriouslyforreal.com###fnp-nav
 nationofchange.org###focusSign
 9news.com,aolhealth.com,beyondlimitsmagazine.com,cnet.co.uk,coolsmartphone.com,counselheal.com,eric-richardson.com,espnhd.net,findchaos.com,flavorwire.com,gravity.com,groovypost.com,jamesdeenblog.com,krazyworks.com,lynda.com,mobileattack.com,mobilesyrup.com,neowin.net,netbooknews.com,newsfeed.time.com,reghardware.com,splitsider.com,thatsfit.com,theawl.com,thebrowser.com,thefrisky.com,theoatmeal.com,thesuperficial.com,treatme.co.nz,wordpress.com###follow
@@ -8059,6 +8068,7 @@ fark.com,geeksaresexy.net,imgur.com,mayoclinic.com,nintendogal.com,status.twitte
 adultswim.com###rss-footer
 agein.com###rsss_sidebar
 slashdot.org###rsswarn
+cnbc.com###rt_contact
 androidadvices.com###rwd_tab
 rahulbalyan.com###s2_form_widget-3
 enterprisenews.com###s_tool
@@ -8171,6 +8181,7 @@ ibtimes.com###sl_wrap
 medicalxpress.com,phys.org###slick-social
 indiatimes.com###slideAdd
 heatworld.com###slideBoxContainer
+nymag.com###slideOutBoxContainer
 pcworld.in###slide_box
 tabletmag.com###slide_in
 berryreview.com,bit.com.au,bornrich.com,business-standard.com,crunchyroll.com,dailynewsegypt.com,dailystar.com.lb,developersarena.com,do-while.com,ecofriend.com,fotomage.com,gearburn.com,healthcommunities.com,hometone.com,indiatimes.com,jagranjosh.com,livemint.com,memeburn.com,moveon.org,newsok.com,northjersey.com,oddee.com,pcauthority.com.au,pcmag.com,standardmedia.co.ke,technologyreview.com,theatlantic.com,theatlanticwire.com,thedailynewsegypt.com,theedge.co.nz,thehindu.com,thehindubusinessline.com,thelocal.ch,thelocal.de,thelocal.es,thelocal.fr,thelocal.it,thelocal.no,thelocal.se,theweek.co.uk,timesofisrael.com,tuaw.com,tucsoncitizen.com,washingtonexaminer.com###slidebox
@@ -8474,7 +8485,7 @@ youtube.com###yt-hitchhiker-feedback
 yahoo.com###yuhead-promo
 windowssecrets.com###yui-gen0
 zap2it.com###zap-ad-newsletter-signup
-photobucket.com,shmoop.com###zenbox_tab
+latimes.com,photobucket.com,shmoop.com###zenbox_tab
 webpronews.com###zero-bar
 frontdoor.com###zillow-footer-twig
 shmoop.com###zinch-link-tab
@@ -9612,6 +9623,7 @@ theonion.com##.topspace.last
 trustedreviews.com##.tr-newsletter-email-signup
 guardian.co.uk##.trail-icon
 matadornetwork.com##.traversebox
+latimes.com##.trb_bnn
 silktide.com##.trialsignupform
 sitepoint.com##.triggered-cta-box-wrapper-bg
 way2sms.com##.tt
@@ -10182,6 +10194,7 @@ entertainmentwise.com###trend
 slate.com###twit_hp_box
 bitcoins.lc,creativeapplications.net,dansingerman.com,digitalstormonline.com,fark.com,feedmyapp.com,fluffyapp.com,lawyersweekly.com.au,longreads.com,nintendogal.com,thekit.ca,thetvaddict.com,womenwithmustaches.com,x17online.com,zap2it.com###twitter
 foxnews.com###twitter-api
+nationaljournal.com###walkingHeader
 suckmytrend.com###wdsi-slide_in
 yahoo.com###yom-twitter
 onlineshoes.com###youtubeLink
@@ -11115,6 +11128,7 @@ okcupid.com#@#.facebook_button
 airbnb.de#@#.fb-button
 facebook.com,fb.com#@#.fb-like
 ~facebook.com##.fb-likebox
+facebook.com,fb.com#@#.fb-link
 ~facebook.com##.fb-recommendations
 ~facebook.com##.fb-recommendations-bar
 facebook.com#@#.fb-share-box
@@ -11139,6 +11153,7 @@ carsguide.com.au#@#.icon-social-linkedin
 squidoo.com#@#.icon-twitter
 dailymail.co.uk#@#.img-share
 instagram.com#@#.instagram-follow
+katproxy.com,kickass.to,kickasstor.net,kickassunblock.info,kickassunblock.net#@#.likeButton
 ~pinterest.com##.pin-it-button
 llbean.com#@#.pinit-overlay
 ~pinterest.com##.pinit_btn
@@ -11401,6 +11416,7 @@ acceptableads.org,easyicon.net#@#img[alt="Reddit"]
 @@||weather.com/cssRollup?*-social-share.css
 @@||weather.com/jsRollup?*/social-share.js
 @@||weser-kurier.de/stellen/riot-utils/joined.js?*/socialshareprivacy/
+@@||wfcdn.de^*/social_icons.png$domain=winfuture.de
 @@||whatismyip.com/wp-content/plugins/social-network-tabs/$stylesheet
 @@||widgets.fbshare.me/files/$domain=smashingapps.com
 @@||wincert.net/forum/public/min/index.php?$stylesheet,domain=wincert.net

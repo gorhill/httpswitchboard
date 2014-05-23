@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: e/Wubr/zyBTD+AClnDQGIA
-! Version: 201405171020
+! Checksum: Bdo/CXJ4sHY7JRrUdKZohQ
+! Version: 201405191410
 ! Title: Wiltteri
 ! Description: Finnish supplement list for EasyList
-! Last modified: 17 May 2014 10:20 UTC
+! Last modified: 19 May 2014 14:10 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: http://wiltteri.net/
 ! License: http://creativecommons.org/licenses/by-sa/3.0/
@@ -1848,6 +1848,7 @@ iltasanomat.fi###ad-container1
 iltasanomat.fi###ad-container2
 iltasanomat.fi###ad-container3
 fin.afterdawn.com###ad-front-page-300x250-placeholder
+aijaa.com###ad1
 dvdplaza.fi,muskleforum.com###ad_global_below_navbar
 paljakka.fi###add-banner
 e-finland.org###add_468
@@ -3999,7 +4000,14 @@ seksitreffit.fi##table[width="1024"][bgcolor="#d31517"]
 @@||taskumuro.com^*/advertisement.js
 @@||tuuri.fi/mainokset/
 ! Sanoma
-@@||adtech.de/?adrawdata/$object-subrequest,domain=groovefm.fi|hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|loop.fi|metrohelsinki.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
+@@||adtech.de/?adrawdata/3.0/*/noperf=1;cc=2;$object-subrequest,domain=groovefm.fi|hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|loop.fi|metrohelsinki.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
+@@||adtech.de/?advideo/3.0/*//cc=2;*;alias=*_pauseover;$object-subrequest,domain=groovefm.fi|hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|loop.fi|metrohelsinki.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
+@@||adtech.de/?advideo/3.0/*//cc=2;vidAS=channel_intro;$object-subrequest,domain=groovefm.fi|hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|loop.fi|metrohelsinki.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
+@@||adtech.de/?advideo/3.0/*//cc=2;vidAS=mid_roll;$object-subrequest,domain=groovefm.fi|hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|loop.fi|metrohelsinki.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
+@@||adtech.de/?advideo/3.0/*//cc=2;vidAS=overlay;$object-subrequest,domain=groovefm.fi|hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|loop.fi|metrohelsinki.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
+@@||adtech.de/?advideo/3.0/*//cc=2;vidAS=post_roll;$object-subrequest,domain=groovefm.fi|hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|loop.fi|metrohelsinki.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
+@@||adtech.de/?advideo/3.0/*//cc=2;vidAS=pre_roll;$object-subrequest,domain=groovefm.fi|hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|loop.fi|metrohelsinki.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
+@@||aka-cdn-ns.adtech.de/apps/$object-subrequest,domain=groovefm.fi|hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|loop.fi|metrohelsinki.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
 @@||gatling.nelonenmedia.fi^*/logo/$object-subrequest,domain=groovefm.fi|hs.fi|iltasanomat.fi|istv.fi|jimtv.fi|livtv.fi|loop.fi|metrohelsinki.fi|nelonen.fi|nelonenpro.fi|nyt.fi|radioaalto.fi|radiorock.fi|radiosuomipop.fi|ruokala.net|ruutu.fi
 ! -------------------- wiltteri-whitelist-hide.txt ------------------ !
 autot.oikotie.fi#@##ad-header
