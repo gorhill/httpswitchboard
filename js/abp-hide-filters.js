@@ -204,6 +204,15 @@ FilterParser.prototype.parse = function(s) {
     this.anchor = matches[2];
     this.suffix = matches[3];
 
+    // 2014-05-23:
+    // https://github.com/gorhill/httpswitchboard/issues/260
+    // Any sequence of `#` longer than two means the line is not a valid
+    // cosmetic filter.
+    if ( this.suffix.indexOf('##') >= 0 ) {
+        this.invalid = true;
+        return this;
+    }
+
     this.filterType = this.anchor.charAt(1);
     if ( this.prefix !== '' ) {
         this.hostnames = this.prefix.split(/\s*,\s*/);
