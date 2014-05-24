@@ -566,7 +566,7 @@
 
 
     "aboutUserDataHeader" : {
-        "message": "Ваши данные",
+        "message": "Ваши настройки",
         "description": "English: Your data"
     },
     "aboutUserDataBackupButton" : {
@@ -578,11 +578,11 @@
         "description": "English: Restore all..."
     },
     "aboutUserDataOr" : {
-        "message": "... or ...",
+        "message": "... или ...",
         "description": "English: ... or ..."
     },
     "aboutUserDataResetButton" : {
-        "message": "Start from scratch...",
+        "message": "Запустить настройку с нуля...",
         "description": "English: Start from scratch..."
     },
     "aboutUserDataRestoreConfirm" : {
@@ -636,75 +636,75 @@
 
 
     "setupPagePrompt" : {
-        "message": "<p><b>HTTP Switchboard</b> is highly configurable: it can be set anywhere between &ldquo;blocking everything&rdquo; and &ldquo;block nothing&rdquo;. <p>The higher the security, the more likely web pages will be &ldquo;broken&rdquo;, i.e. will not render and/or behave as intended. Thus, higher security also means more intervention required from the user in order to &ldquo;unbreak&rdquo; those web pages which a user trust. <p>Here you can pick a profile which best matches how you plan to use <b>HTTP Switchboard</b>. Consider these a starting point, as you can customize at will afterward.",
+        "message": "<p><b>HTTP Switchboard</b> можно гибко настроить: в любом месте можно уставновить &ldquo;блокирование всего&rdquo; и &ldquo;ничего не блокировать&rdquo;. <p>Чем выше безопасность, тем больше вероятность &ldquo;поломки&rdquo; сайтов, это означает, что сайт будет загружаться не полностью или вести себя не так, как задумавал создатель. Поэтому скорее всего потребуется вмешательство пользователя, чтобы &ldquo;починить&rdquo; эти страницы, которым пользователь доверяет, разрешив в матрице данные необходимые для нормальной работы сайта. <p>Здесь вы можете выбрать готовый профиль, как будет работать <b>HTTP Switchboard</b>. Можно считать это начальной настройкой т.к. дальше их можно дополнять для конкретных сайтов отдельно.",
         "description": "Appears at the top of the setup page"
     },
     "setupBlockAllAllowExceptionally" : {
-        "message": "Block all / allow exceptionally",
+        "message": "Блокировать все / разрешать исключения",
         "description": "English: Block all / allow exceptionally"
     },
     "setupAllowAllBlockExceptionally" : {
-        "message": "Allow all / block exceptionally",
+        "message": "Разрешить все / блокировать исключения",
         "description": "English: Allow all / block exceptionally"
     },
     "setupAdBlocker" : {
-        "message": "Ad blocker-like",
+        "message": "Как блокировщик рекламы",
         "description": "English: Ad blocker-like"
     },
     "setupNoScript" : {
-        "message": "NoScript-like",
+        "message": "Как блокировщик скриптов",
         "description": "English: NoScript-like"
     },
     "setupRequestPolicy" : {
-        "message": "RequestPolicy-like",
+        "message": "Как политика запросов",
         "description": "English: RequestPolicy-like"
     },
     "setupBlockNothingReportAll" : {
-        "message": "Block nothing / report everything",
+        "message": "Ничего не блокировать / докладывать обо всем",
         "description": "English: Block nothing / report everything"
     },
     "setupSecurity" : {
-        "message": "Security:",
+        "message": "Безопасность:",
         "description": "English: Security:"
     },
     "setupBreakage" : {
-        "message": "Breakage:",
+        "message": "Вероятность неправильного отображения сайта::",
         "description": "English: Breakage:"
     },
     "setupVeryHigh" : {
-        "message": "very high",
+        "message": "очень высокая",
         "description": "English: very high"
     },
     "setupHigh" : {
-        "message": "high",
+        "message": "высокая",
         "description": "English: high"
     },
     "setupMediumHigh" : {
-        "message": "medium high",
+        "message": "выше среднего",
         "description": "English: medium high"
     },
     "setupMedium" : {
-        "message": "medium",
+        "message": "средняя",
         "description": "English: medium"
     },
     "setupMediumLow" : {
-        "message": "medium low",
+        "message": "ниже среднего",
         "description": "English: medium low"
     },
     "setupLow" : {
-        "message": "low",
+        "message": "низкая",
         "description": "English: low"
     },
     "setupVeryLow" : {
-        "message": "very low",
+        "message": "очень низкая",
         "description": "English: very low"
     },
     "setupNone" : {
-        "message": "none",
+        "message": "ни влияет",
         "description": "English: none"
     },
     "setupRestoreConfirm" : {
-        "message": "All your settings and rules will be overwritten\nand HTTP Switchboard will restart.\n\nOverwrite all existing data?",
+        "message": "Все ваши правила и настройки будут перезаписаны\nи HTTP Switchboard перезапустится.\n\nПерезаписать существующие настройки?",
         "description": "English: All your settings and rules will be overwritten\nand HTTP Switchboard will restart.\n\nOverwrite all existing data?"
     },
 
