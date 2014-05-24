@@ -128,7 +128,7 @@ var onMessageHandler = function(request, sender, callback) {
 
 
     case 'retrieveABPHideSelectors':
-        response = HTTPSB.abpHideFilters.retrieve(request.locationURL, request.selectors);
+        response = HTTPSB.abpHideFilters.retrieve(request);
         break;
 
     default:

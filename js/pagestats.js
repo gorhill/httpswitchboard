@@ -212,9 +212,9 @@ var makeRequestKey = function(uri, reqType) {
     var i = uri.length;
     while ( i-- ) {
         hint ^= uri.charCodeAt(i);
-        hint += hint<<1 + hint<<4 + hint<<7 + hint<<8 + hint<<24;
+        hint += (hint<<1) + (hint<<4) + (hint<<7) + (hint<<8) + (hint<<24);
+        hint >>>= 0;
     }
-    hint = hint >>> 0;
     var key  = typeToCode[reqType] || 'z';
     return key +
            String.fromCharCode(hint >>> 16, hint & 0xFFFF) +

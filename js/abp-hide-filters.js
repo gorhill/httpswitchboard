@@ -67,7 +67,7 @@ var histogram = function(label, buckets) {
     h = h.slice(0, 50);
 
     h.forEach(function(v) {
-        console.log('\tkey=%s  count=%d', v.k, v.n);
+        console.log('\tkey="%s" count=%d', v.k, v.n);
     });
     console.log('\tTotal buckets count: %d', total);
 };
@@ -206,7 +206,7 @@ FilterParser.prototype.parse = function(s) {
 
     // 2014-05-23:
     // https://github.com/gorhill/httpswitchboard/issues/260
-    // Any sequence of `#` longer than two means the line is not a valid
+    // Any sequence of `#` longer than one means the line is not a valid
     // cosmetic filter.
     if ( this.suffix.indexOf('##') >= 0 ) {
         this.invalid = true;
@@ -343,7 +343,7 @@ FilterContainer.prototype.freeze = function() {
     //console.log('HTTPSB> adp-hide-filters.js: unfiltered dont hide selectors:', this.donthideUnfiltered);
     //console.log('HTTPSB> adp-hide-filters.js: rejected selectors:', this.rejected);
 
-    //histogram('allFilters', this.filters);
+    // histogram('allFilters', this.filters);
 };
 
 /******************************************************************************/
@@ -363,23 +363,41 @@ FilterContainer.prototype.freeze = function() {
 //                  |
 //                  +-- filter type ('#'=hide '@'=unhide)
 //
-// TODO: Keep trying to find a better hash (ls 12 bits of FNV32a?).
-// Ideally, all buckets have the same (low) number of filters.
 
 var makePrefixHash = function(type, prefix) {
+    // Ref: Given a URL, returns a unique 4-character long hash string
+    // Based on: FNV32a
+    // http://www.isthe.com/chongo/tech/comp/fnv/index.html#FNV-reference-source
+    // The rest is custom, suited for HTTPSB.
     var len = prefix.length;
     var i2 = len >> 1;
     var i4 = len >> 2;
     var i8 = len >> 3;
-    var pCode = (prefix.charCodeAt(0)     & 3) << 14 | // 0/8
-                (prefix.charCodeAt(i8)    & 3) << 12 | // 1/8
-                (prefix.charCodeAt(i4)    & 3) << 10 | // 2/8
-                (prefix.charCodeAt(i4+i8) & 3) <<  8 | // 3/8
-                (prefix.charCodeAt(i2)    & 3) <<  6 | // 4/8
-                (prefix.charCodeAt(i2+i8) & 3) <<  4 | // 5/8
-                (prefix.charCodeAt(i2+i4) & 3) <<  2 | // 6/8
-                (prefix.charCodeAt(len-1) & 3);        // 8/8
-    return String.fromCharCode(type.charCodeAt(0), pCode, 0);
+    var hint = (0x811c9dc5 ^ prefix.charCodeAt(0)) >>> 0;
+        hint += (hint<<1) + (hint<<4) + (hint<<7) + (hint<<8) + (hint<<24);
+        hint >>>= 0;
+        hint ^= prefix.charCodeAt(i8);
+        hint += (hint<<1) + (hint<<4) + (hint<<7) + (hint<<8) + (hint<<24);
+        hint >>>= 0;
+        hint ^= prefix.charCodeAt(i4);
+        hint += (hint<<1) + (hint<<4) + (hint<<7) + (hint<<8) + (hint<<24);
+        hint >>>= 0;
+        hint ^= prefix.charCodeAt(i4+i8);
+        hint += (hint<<1) + (hint<<4) + (hint<<7) + (hint<<8) + (hint<<24);
+        hint >>>= 0;
+        hint ^= prefix.charCodeAt(i2);
+        hint += (hint<<1) + (hint<<4) + (hint<<7) + (hint<<8) + (hint<<24);
+        hint >>>= 0;
+        hint ^= prefix.charCodeAt(i2+i8);
+        hint += (hint<<1) + (hint<<4) + (hint<<7) + (hint<<8) + (hint<<24);
+        hint >>>= 0;
+        hint ^= prefix.charCodeAt(i2+i4);
+        hint += (hint<<1) + (hint<<4) + (hint<<7) + (hint<<8) + (hint<<24);
+        hint >>>= 0;
+        hint ^= prefix.charCodeAt(len-1);
+        hint += (hint<<1) + (hint<<4) + (hint<<7) + (hint<<8) + (hint<<24);
+        hint >>>= 0;
+    return String.fromCharCode(type.charCodeAt(0), hint & 0xFFFF, 0);
 };
 
 var makeSuffixHash = function(type, suffix) {
@@ -387,75 +405,91 @@ var makeSuffixHash = function(type, suffix) {
     var i2 = len >> 1;
     var i4 = len >> 2;
     var i8 = len >> 3;
-    var sCode = (suffix.charCodeAt(0)     & 3) << 14 | // 0/8
-                (suffix.charCodeAt(i8)    & 3) << 12 | // 1/8
-                (suffix.charCodeAt(i4)    & 3) << 10 | // 2/8
-                (suffix.charCodeAt(i4+i8) & 3) <<  8 | // 3/8
-                (suffix.charCodeAt(i2)    & 3) <<  6 | // 4/8
-                (suffix.charCodeAt(i2+i8) & 3) <<  4 | // 5/8
-                (suffix.charCodeAt(i2+i4) & 3) <<  2 | // 6/8
-                (suffix.charCodeAt(len-1) & 3);        // 8/8
-    return String.fromCharCode(type.charCodeAt(0), 0, sCode);
+    var hint = (0x811c9dc5 ^ suffix.charCodeAt(0)) >>> 0;
+        hint += (hint<<1) + (hint<<4) + (hint<<7) + (hint<<8) + (hint<<24);
+        hint >>>= 0;
+        hint ^= suffix.charCodeAt(i8);
+        hint += (hint<<1) + (hint<<4) + (hint<<7) + (hint<<8) + (hint<<24);
+        hint >>>= 0;
+        hint ^= suffix.charCodeAt(i4);
+        hint += (hint<<1) + (hint<<4) + (hint<<7) + (hint<<8) + (hint<<24);
+        hint >>>= 0;
+        hint ^= suffix.charCodeAt(i4+i8);
+        hint += (hint<<1) + (hint<<4) + (hint<<7) + (hint<<8) + (hint<<24);
+        hint >>>= 0;
+        hint ^= suffix.charCodeAt(i2);
+        hint += (hint<<1) + (hint<<4) + (hint<<7) + (hint<<8) + (hint<<24);
+        hint >>>= 0;
+        hint ^= suffix.charCodeAt(i2+i8);
+        hint += (hint<<1) + (hint<<4) + (hint<<7) + (hint<<8) + (hint<<24);
+        hint >>>= 0;
+        hint ^= suffix.charCodeAt(i2+i4);
+        hint += (hint<<1) + (hint<<4) + (hint<<7) + (hint<<8) + (hint<<24);
+        hint >>>= 0;
+        hint ^= suffix.charCodeAt(len-1);
+        hint += (hint<<1) + (hint<<4) + (hint<<7) + (hint<<8) + (hint<<24);
+        hint >>>= 0;
+    return String.fromCharCode(type.charCodeAt(0), 0, hint & 0x0FFF);
 };
 
 /**
 Histogram for above hash generator:
 
 Histogram allFilters
-	Entries with only 3 filter(s) start at index 1869 (key = "#镉")
-	Entries with only 2 filter(s) start at index 3117 (key = "@ᶹ")
-	Entries with only 1 filter(s) start at index 5902 (key = "#蹐")
-	key=#叭  count=141
-	key=#徭  count=101
-	key=#雽  count=59
-	key=#ｭ  count=49
-	key=#֭  count=47
-	key=#節  count=42
-	key=#㼉  count=36
-	key=#傭  count=36
-	key=#  count=35
-	key=#ﾭ  count=32
-	key=#教  count=32
-	key=#ꗴ  count=29
-	key=#홹  count=29
-	key=#敨  count=27
-	key=#䓕  count=27
-	key=#媭  count=27
-	key=#㪉  count=26
-	key=#ꪭ  count=25
-	key=#釭  count=24
-	key=#�  count=24
-	key=#ꕔ  count=24
-	key=#嵩  count=24
-	key=#錀  count=23
-	key=#ꗰ  count=22
-	key=#酹  count=22
-	key=#ꖭ  count=22
-	key=#৙  count=22
-	key=#꿴  count=21
-	key=#ㅩ  count=21
-	key=#龭  count=21
-	key=#施  count=21
-	key=#ꂭ  count=20
-	key=#ꔄ  count=20
-	key=#�  count=19
-	key=#ય  count=19
-	key=#꽔  count=19
-	key=#ꗼ  count=19
-	key=#鎀  count=19
-	key=#ꕘ  count=19
-	key=#隹  count=19
-	key=#  count=19
-	key=#璙  count=18
-	key=#᤭  count=18
-	key=#֯  count=18
-	key=#  count=18
-	key=#䉏  count=17
-	key=#ꔌ  count=17
-	key=#  count=17
-	key=#嫜  count=17
-	key=#ᱭ  count=17
-	Total buckets count: 14348 
+    Entries with only 3 filter(s) start at index 2706 (key = "#ꍵ")
+	Entries with only 2 filter(s) start at index 4349 (key = "#냶")
+	Entries with only 1 filter(s) start at index 6896 (key = "#퀛")
+	key="#싣" count=141
+	key="#隁" count=57
+	key="#Ꚇ" count=48
+	key="#" count=45
+	key="#캃" count=36
+	key="#력" count=33
+	key="#끻" count=30
+	key="#ｕ" count=26
+	key="#" count=25
+	key="#Ꮳ" count=24
+	key="#鵲" count=23
+	key="#䙇" count=20
+	key="#ḇ" count=19
+	key="#睅" count=19
+	key="#㔽" count=19
+	key="#뻧" count=18
+	key="#䕀" count=18
+	key="#퉫" count=17
+	key="#筙" count=17
+	key="#㮰" count=17
+	key="#鯛" count=16
+	key="#꛿" count=16
+	key="#꣱" count=16
+	key="#ü" count=16
+	key="#告" count=16
+	key="#╡" count=16
+	key="#㰁" count=16
+	key="#৹" count=16
+	key="#镳" count=15
+	key="#碇" count=15
+	key="#৾" count=15
+	key="#貿" count=15
+	key="#š" count=15
+	key="#" count=15
+	key="#" count=14
+	key="#ຏ" count=14
+	key="#낶" count=14
+	key="#瑻" count=14
+	key="#ৡ" count=14
+	key="#" count=13
+	key="#ᯋ" count=13
+	key="#⼒" count=13
+	key="#腫" count=13
+	key="#겚" count=13
+	key="#耏" count=13
+	key="#匋" count=13
+	key="#튦" count=13
+	key="#ﰹ" count=13
+	key="#㭴" count=13
+	key="#" count=13
+	Total buckets count: 12098
 */
 
 /******************************************************************************/
@@ -520,48 +554,69 @@ FilterContainer.prototype.addFilterEntry = function(hash, f) {
 
 /******************************************************************************/
 
-FilterContainer.prototype.retrieve = function(url, inSelectors) {
-    if ( httpsb.userSettings.parseAllABPHideFilters !== true ||
-         httpsb.getTemporaryABPFilteringFromPageURL(url) !== true ) {
+FilterContainer.prototype.retrieve = function(request) {
+    if ( httpsb.userSettings.parseAllABPHideFilters !== true ) {
         return;
     }
+
+    if ( httpsb.getTemporaryABPFilteringFromPageURL(request.pageURL) !== true ) {
+        return;
+    }
+
+    //quickProfiler.start('FilterContainer.retrieve()');
+
     //filterTestCount = 0;
     //bucketTestCount = 0;
-    var hostname = pageHostname = httpsb.URI.hostnameFromURI(url);
-    var domain = httpsb.URI.domainFromHostname(hostname);
-    var hideSelectors = [];
-    var donthideSelectors = [];
-    var i = inSelectors.length;
-    var selector, hash, bucket;
-    while ( i-- ) {
-        selector = inSelectors[i];
-        if ( !selector ) {
-            continue;
-        }
-        hash = makeSuffixHash('#', selector);
+
+    var r = {
+        hide: [],
+        donthide: [],
+        hideUnfiltered: [],
+        donthideUnfiltered: []
+    };
+
+    var hash, bucket;
+
+    if ( request.locationURL ) {
+        var hostname = pageHostname = httpsb.URI.hostnameFromURI(request.locationURL);
+        var domain = httpsb.URI.domainFromHostname(hostname);
+        hash = makePrefixHash('#', domain);
         if ( bucket = this.filters[hash] ) {
             //bucketTestCount += 1;
             //filterTestCount += 1;
-            bucket.retrieve(selector, hideSelectors);
+            bucket.retrieve(null, r.hide);
+        }
+        hash = makePrefixHash('@', domain);
+        if ( bucket = this.filters[hash] ) {
+            //bucketTestCount += 1;
+            //filterTestCount += 1;
+            bucket.retrieve(null, r.donthide);
         }
     }
-    // Any selectors for a specific domain
-    // rhill 2014-05-20: When a domain exists, the set of selectors is
-    // already quite narrowed down, so no need to actually narrow further
-    // based on selector type -- this probably save a good chunk of overhead
-    // in the above loop.
-    hash = makePrefixHash('#', domain);
-    if ( bucket = this.filters[hash] ) {
-        //bucketTestCount += 1;
-        //filterTestCount += 1;
-        bucket.retrieve(selector, hideSelectors);
+
+    if ( request.selectors ) {
+        var hideSelectors = r.hide;
+        var selectors = request.selectors;
+        var i = selectors.length;
+        var selector;
+        while ( i-- ) {
+            selector = selectors[i];
+            if ( !selector ) {
+                continue;
+            }
+            hash = makeSuffixHash('#', selector);
+            if ( bucket = this.filters[hash] ) {
+                //bucketTestCount += 1;
+                //filterTestCount += 1;
+                bucket.retrieve(selector, hideSelectors);
+            }
+        }
+
+        r.hideUnfiltered = this.hideUnfiltered;
+        r.donthideUnfiltered = this.donthideUnfiltered;
     }
-    hash = makePrefixHash('@', domain);
-    if ( bucket = this.filters[hash] ) {
-        //bucketTestCount += 1;
-        //filterTestCount += 1;
-        bucket.retrieve(selector, donthideSelectors);
-    }
+
+    //quickProfiler.stop();
 
 /*
      console.log(
@@ -574,12 +629,7 @@ FilterContainer.prototype.retrieve = function(url, inSelectors) {
     );
 */
 
-    return {
-        hide: hideSelectors,
-        donthide: donthideSelectors,
-        hideUnfiltered: this.hideUnfiltered,
-        donthideUnfiltered: this.donthideUnfiltered
-    };
+    return r;
 };
 
 /******************************************************************************/

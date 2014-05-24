@@ -19,6 +19,7 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
+/* jshint multistr: true */
 /* global chrome */
 
 // Injected into content pages
@@ -33,6 +34,72 @@
 (function() {
 
 /******************************************************************************/
+/******************************************************************************/
+
+// If you play with this code, mind:
+//   https://github.com/gorhill/httpswitchboard/issues/261
+//   https://github.com/gorhill/httpswitchboard/issues/252
+
+var navigatorSpoofer = " \
+;(function() { \
+    try { \
+        var spoofedUserAgent = {{ua-json}}; \
+        if ( spoofedUserAgent === navigator.userAgent ) { \
+            return; \
+        } \
+        var realNavigator = navigator; \
+        var SpoofedNavigator = function(ua) { \
+            this.navigator = navigator; \
+        }; \
+        var spoofedNavigator = new SpoofedNavigator(spoofedUserAgent); \
+        var makeFunction = function(n, k) { \
+            n[k] = function() { \
+                return this.navigator[k].apply(this.navigator, arguments); }; \
+        }; \
+        for ( var k in realNavigator ) { \
+            if ( typeof realNavigator[k] === 'function' ) { \
+                makeFunction(spoofedNavigator, k); \
+            } else { \
+                spoofedNavigator[k] = realNavigator[k]; \
+            } \
+        } \
+        spoofedNavigator.userAgent = spoofedUserAgent; \
+        var pos = spoofedUserAgent.indexOf('/'); \
+        spoofedNavigator.appName = pos < 0 ? '' : spoofedUserAgent.slice(0, pos); \
+        spoofedNavigator.appVersion = pos < 0 ? spoofedUserAgent : spoofedUserAgent.slice(pos + 1); \
+        navigator = window.navigator = spoofedNavigator; \
+    } catch (e) { \
+    } \
+})();";
+
+/******************************************************************************/
+
+// Because window.userAgent is read-only, we need to create a fake Navigator
+// object to contain our fake user-agent string.
+// Because objects created by a content script are local to the content script
+// and not visible to the web page itself (and vice versa), we need the context
+// of the web page to create the fake Navigator object directly, and the only
+// way to do this is to inject appropriate javascript code into the web page.
+
+var injectNavigatorSpoofer = function(spoofedUserAgent) {
+    if ( typeof spoofedUserAgent !== 'string' ) {
+        return;
+    }
+    if ( spoofedUserAgent === navigator.userAgent ) {
+        return;
+    }
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.id = 'httpsb-ua-spoofer';
+    var js = document.createTextNode(navigatorSpoofer.replace('{{ua-json}}', JSON.stringify(spoofedUserAgent)));
+    script.appendChild(js);
+    document.documentElement.appendChild(script, document.documentElement.firstChild);
+};
+
+chrome.runtime.sendMessage({ what: 'getUserAgentReplaceStr' }, injectNavigatorSpoofer);
+
+/******************************************************************************/
+/******************************************************************************/
 
 // ABP cosmetic filters
 
@@ -41,12 +108,25 @@ var CosmeticFiltering = function() {
     this.injectedSelectors = {};
     this.classSelectors = null;
     this.idSelectors = null;
-    this.classesFromNodeList(document.querySelectorAll('*[class]'));
-    this.idsFromNodeList(document.querySelectorAll('*[id]'));
-    this.retrieve();
+    this.retrieveDomainSelectors();
 };
 
-CosmeticFiltering.prototype.retrieve = function() {
+CosmeticFiltering.prototype.onDOMContentLoaded = function() {
+    this.classesFromNodeList(document.querySelectorAll('*[class]'));
+    this.idsFromNodeList(document.querySelectorAll('*[id]'));
+    this.retrieveGenericSelectors();
+};
+
+CosmeticFiltering.prototype.retrieveDomainSelectors = function() {
+    //console.log('HTTPSB> ABP cosmetic filters: retrieving CSS rules using domain');
+    chrome.runtime.sendMessage({
+        what: 'retrieveABPHideSelectors',
+        locationURL: window.location.href,
+        pageURL: window.location.href
+    }, this.retrieveHandler.bind(this, false));
+};
+
+CosmeticFiltering.prototype.retrieveGenericSelectors = function() {
     var selectors = this.classSelectors !== null ? Object.keys(this.classSelectors) : [];
     if ( this.idSelectors !== null ) {
         selectors = selectors.concat(this.idSelectors);
@@ -56,30 +136,34 @@ CosmeticFiltering.prototype.retrieve = function() {
         chrome.runtime.sendMessage({
             what: 'retrieveABPHideSelectors',
             selectors: selectors,
-            locationURL: window.location.href
-        }, this.retrieveHandler.bind(this));
+            pageURL: window.location.href
+        }, this.retrieveHandler.bind(this, true));
     }
     this.idSelectors = null;
     this.classSelectors = null;
 };
 
-CosmeticFiltering.prototype.retrieveHandler = function(selectors) {
+CosmeticFiltering.prototype.retrieveHandler = function(generic, selectors) {
     if ( !selectors ) {
         return;
     }
     var styleText = [];
-    this.filterUnfiltered(selectors.hideUnfiltered, selectors.hide);
-    this.reduce(selectors.hide, this.injectedSelectors);
+    if ( generic ) {
+        this.filterUnfiltered(selectors.hideUnfiltered, selectors.hide);
+        this.reduce(selectors.hide, this.injectedSelectors);
+    }
     if ( selectors.hide.length ) {
-        var hideStyleText = '{{hideSelectors}} {display:none; !important}'
+        var hideStyleText = '{{hideSelectors}} {display:none !important;}'
             .replace('{{hideSelectors}}', selectors.hide.join(','));
         styleText.push(hideStyleText);
         //console.log('HTTPSB> ABP cosmetic filters: injecting %d CSS rules:', selectors.hide.length, hideStyleText);
     }
-    this.filterUnfiltered(selectors.donthideUnfiltered, selectors.donthide);
-    this.reduce(selectors.donthide, this.injectedSelectors);
+    if ( generic ) {
+        this.filterUnfiltered(selectors.donthideUnfiltered, selectors.donthide);
+        this.reduce(selectors.donthide, this.injectedSelectors);
+    }
     if ( selectors.donthide.length ) {
-        var dontHideStyleText = '{{donthideSelectors}} {display:initial;  !important}'
+        var dontHideStyleText = '{{donthideSelectors}} {display:initial !important;}'
             .replace('{{donthideSelectors}}', selectors.donthide.join(','));
         styleText.push(dontHideStyleText);
         //console.log('HTTPSB> ABP cosmetic filters: injecting %d CSS rules:', selectors.donthide.length, dontHideStyleText);
@@ -206,6 +290,7 @@ var cosmeticFiltering = new CosmeticFiltering();
 
 /******************************************************************************/
 /******************************************************************************/
+
 /*------------[ Unrendered Noscript (because CSP) Workaround ]----------------*/
 
 var fixNoscriptTags = function() {
@@ -325,7 +410,7 @@ var mutationObservedHandler = function(mutations) {
         cosmeticFiltering.allFromNodeList(mutation.addedNodes);
     }
 
-    cosmeticFiltering.retrieve();
+    cosmeticFiltering.retrieveGenericSelectors();
 
     if ( summary.mustReport ) {
         chrome.runtime.sendMessage(summary);
@@ -388,7 +473,9 @@ var firstObservationHandler = function() {
 /******************************************************************************/
 /******************************************************************************/
 
-var loadHandler = function() {
+var onLoaded = function() {
+    cosmeticFiltering.onDOMContentLoaded();
+
     // Checking to see if script is blacklisted
     // Not sure if this is right place to check. I don't know if subframes with
     // <noscript> tags will be fixed.
@@ -408,6 +495,7 @@ var loadHandler = function() {
 };
 
 /******************************************************************************/
+/******************************************************************************/
 
 // rhill 2013-11-09: Weird... This code is executed from HTTP Switchboard
 // context first time extension is launched. Avoid this.
@@ -422,10 +510,10 @@ if ( /^https?:\/\/./.test(window.location.href) ) {
     // rhill 2014-01-26: If document is already loaded, handle all immediately,
     // otherwise defer to later when document is loaded.
     // https://github.com/gorhill/httpswitchboard/issues/168
-    if ( document.readyState === 'interactive' ) {
-        loadHandler();
+    if ( document.readyState === 'loading' ) {
+        window.addEventListener('DOMContentLoaded', onLoaded);
     } else {
-        window.addEventListener('load', loadHandler);
+        onLoaded();
     }
 }
 

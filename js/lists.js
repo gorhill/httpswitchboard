@@ -82,12 +82,6 @@ PermissionList.prototype.fromString = function(s) {
         if ( !pattern.length ) {
             continue;
         }
-        // rhill 2013-11-02:
-        //   Old format: */*
-        //   New format: *|*
-        if ( pattern.indexOf('|') < 0 ) {
-            pattern = pattern.replace('/', '|');
-        }
         // rhill 2013-11-16: somehow (maybe during development), a
         // 'undefined|*' made it to the storage..
         if ( pattern === 'undefined|*' ) {
@@ -107,12 +101,6 @@ PermissionList.prototype.fromList = function(other) {
         if ( !other.list.hasOwnProperty(kother) ) {
             continue;
         }
-        // rhill 2013-11-02:
-        //   Old format: */*
-        //   New format: *|*
-        if ( kother.indexOf('|') < 0 ) {
-            kother = kother.replace('/', '|');
-        }
         if ( !this.list[kother] ) {
             this.list[kother] = true;
             this.count++;
@@ -127,16 +115,8 @@ PermissionList.prototype.fromArray = function(filters) {
         throw 'PermissionList.fromArray() > expecting an array';
     }
     var i = filters.length;
-    var filter;
     while ( i-- ) {
-        filter = filters[i];
-        // rhill 2013-11-02:
-        //   Old format: */*
-        //   New format: *|*
-        if ( filter.indexOf('|') < 0 ) {
-            filter = filter.replace('/', '|');
-        }
-        this.addOne(filter);
+        this.addOne(filters[i]);
     }
 };
 
