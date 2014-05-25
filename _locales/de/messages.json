@@ -396,7 +396,7 @@
         "description": "minutes."
     },
     "settingsSpoofUserAgentHelp" : {
-        "message": "<a href='https://www.eff.org/deeplinks/2010/01/tracking-by-user-agent'>Laut der <i>Electronic Frontier Foundation</i></a>: &ldquo;[...] sendet dein Browser einen &lsquo;User Agent&rsquo; Header an die Webseite und sagt damit präzise, welches Betriebssystem und welchen Webbrowser du benutzt. Diese Informationen tragen dazu bei, Internet-Nutzer von anderen zu unterscheiden, da diese Versionen häufig beträchtlich von Person zu Person unterschiedlich sind. [...] <b>der User Agent wird damit zu einer reellen Gefahr für die Privatsphäre</b>.&rdquo;<p>Diese OptionThis option allows you to address the privacy issue raised by the EFF.</p><p>You can supply your own list of user agent strings. One string per line. Blank lines and lines prefixed with &lsquo;#&rsquo; will be ignored.</p>",
+        "message": "<a href='https://www.eff.org/deeplinks/2010/01/tracking-by-user-agent'>Laut der <i>Electronic Frontier Foundation</i></a>: &ldquo;[...] sendet dein Browser einen &lsquo;User Agent&rsquo; Header an die Webseite und sagt damit präzise, welches Betriebssystem und welchen Webbrowser du benutzt. Diese Informationen tragen dazu bei, Internet-Nutzer von anderen zu unterscheiden, da diese Versionen häufig beträchtlich von Person zu Person unterschiedlich sind. [...] <b>der User Agent wird damit zu einer reellen Gefahr für die Privatsphäre</b>.&rdquo;<p>Diese Option ermöglicht dir, auf diese Bedrohung zu reagieren.</p><p>Du kannst deine eigene Liste von User Agents einstellen, und zwar eine Variante pro Zeile. Leere Zeilen und Zeilen mit einem vorangestellten &lsquo;#&rsquo; werden ignoriert.</p>",
         "description": "..."
     },
     "settingsBehindTheSceneHeader" : {
@@ -414,35 +414,35 @@
 
 
     "ubiquitousWhatIsThisHeader" : {
-        "message": "What is this?",
+        "message": "Was ist das?",
         "description": "English: What is this?"
     },
     "ubiquitousWhatIsThisPrompt" : {
-        "message": "&ldquo;Ubiquitous rules&rdquo; are rules which applies everywhere, i.e. in all scopes.",
+        "message": "&ldquo;Omnipräsente Regeln&rdquo; sind Regeln, die überall gelten, d.h. in allen Geltungsbereichen.",
         "description": "English: &ldquo;Ubiquitous rules&rdquo; are rules which applies everywhere, i.e. in all scopes."
     },
     "ubiquitousListsOfBlockedHostsPrompt1" : {
-        "message": "All lists of blocked hosts are loaded as ubiquitous rules, hence these hosts are blacklisted in all scopes.",
+        "message": "Alle Listen blockierter Hostnamen werden als omnipräsente Regeln geladen, womit diese Hostnamen in allen Geltungsbereichen auf der Blacklist stehen.",
         "description": "English: All lists of blocked hosts are loaded as ubiquitous rules, hence these hosts are blacklisted in all scopes."
     },
     "ubiquitousListsOfBlockedHostsPrompt2" : {
-        "message": "{{ubiquitousBlacklistCount}} distinct blocked hostnames from:",
+        "message": "{{ubiquitousBlacklistCount}} eindeutig blockierte Hostnamen aus:",
         "description": "English: {{ubiquitousBlacklistCount}} distinct blocked hostnames from:"
     },
     "ubiquitousListsOfBlockedHostsPerListStats" : {
-        "message": "{{used}} used out of {{total}}",
+        "message": "{{used}} benutzt aus {{total}}",
         "description": "English: {{used}} used out of {{total}}"
     },
     "ubiquitousParseAllABPFiltersPrompt1" : {
-        "message": "Parse and enforce Adblock+ complex filters.",
+        "message": "Adblock+ komplexe Filter analysieren und anwenden.",
         "description": "English: Parse and enforce Adblock+ complex filters."
     },
     "ubiquitousParseAllABPFiltersPrompt2" : {
-        "message": "{{abpFilterCount}} complex filters used.",
+        "message": "{{abpFilterCount}} komplexe Filter benutzt.",
         "description": "English: {{abpFilterCount}} complex filters used."
     },
     "ubiquitousParseAllABPFiltersInfo" : {
-        "message": "<p>Normally, <i>HTTP Switchboard</i> will extract from <i>Adblock Plus</i>-compatible filter lists <b>only</b> those filters which are used to block an entire domain (example: &ldquo;<b>||a.ucoz.net^</b>&rdquo;).</p><p>This option enables the parsing and enforcing of finer-grained <i>Adblock Plus</i> filters (example: &ldquo;<b>/adwords-conversion-tracking.</b>&rdquo;). These complex filters are incompatible with the matrix, and thus are only used internally to evaluate whether a net request should be blocked: they have no user interface counterpart.</p><p>Even if this option is enabled, <i>Adblock Plus</i> filters used for <a href=\"https://adblockplus.org/en/filters#elemhide\">element hiding</a> are completely ignored.</p><p>Memory usage requirement is higher when this option is enabled.</p>",
+        "message": "<p>Normalerweise wird <i>HTTP Switchboard</i> aus den <i>Adblock Plus</i>-kompatiblen Filterlisten <b>nur</b> diejenigen Filter extrahieren, die für das Blockieren einer gesamten Domain benutzt werden (Beispiel: &ldquo;<b>||a.ucoz.net^</b>&rdquo;).</p><p>Diese Option ermöglicht die Analyse und Anwendung feinkörnigerer <i>Adblock Plus</i>-Filter (Beispiel: &ldquo;<b>/adwords-conversion-tracking.</b>&rdquo;). Diese komplexen Filetr sind inkompatibel mit der Matrix und werden daher nur intern benutzt, um zu beurteilen, ob eine Netzanfrage geblockt werden soll: für sie gibt es keine Benutzeroberfläche.</p><p>Selbst wenn diese Option aktiviert ist, werden <i>Adblock Plus</i> Filter zum <a href=\"https://adblockplus.org/de/filters#elemhide\">Verstecken von Elementen</a> komplett ignoriert.</p><p>Die Speicherbelegung ist höher, wenn diese Option aktiviert ist.</p>",
         "description": "English: ..."
     },
     "ubiquitousParseAllABPHideFiltersPrompt1" : {
