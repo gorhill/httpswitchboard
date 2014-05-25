@@ -140,7 +140,7 @@
         "description": "English: Export a recipe: Temporary rules \u000a of current scope will be encoded \u000a as a recipe"
     },
     "matrixPresetMoreWriteTip" : {
-        "message": "Importiere ein Rezept: Temporäre Regeln \u000a werden im  aktuellen Geltungsbereichs erzeugt",
+        "message": "Importiere ein Rezept: Im  aktuellen Geltungsbereichs \u000a werden temporäre Regeln erzeugt",
         "description": "English: Import a recipe: Temporary rules \u000a will be created into current scope"
     },
     "matrixPresetMoreRecipeTip" : {
@@ -178,8 +178,8 @@
         "description": "Browser caches cleared: {{count}}"
     },
     "statsPageABPHits" : {
-        "message": "Anfragen blockiert durch Adblock+ komplexe Filter: {{count}} ({{percent}}% of all blocked requests)",
-        "description": "Requests blocked by Adblock+ complex filters: {{count}} ({{percent}}% of all blocked requests)"
+        "message": "Anfragen blockiert durch Adblock+ komplexe Filter: {{count}} ({{percent}}% aller blockierter Anfragen)",
+        "description": "Requests blocked by Adblock+ complex filters: {{count}} ({{percent}}% aller blockierter Anfragen)"
     },
     "statsPageDetailedStats" : {
         "message": "Detaillierte Statistik",
@@ -284,7 +284,7 @@
         "description": "English: scope"
     },
     "settingsAutoCreateScopeInfo": {
-        "message": "<p>Diese Option ermöglicht das automatische Erzeugen eines temporären Geltungsbereichs für eine besuchte Webseite, falls für diese noch kein Geltungsbereich definiert ist.</p><p>Das Benutzen von Domain- oder Webseiten-spezifischen Regeln hat viele Vorteile, vor allem der, dass diese Regeln in einer Art Sandbox eingesperrt werden - eine gute Angewohnheit für mehr Sicherheit.</p><p>Beispiel: Wenn du &ldquo;alles&rdquo; auf einer Webseite (www.example.com) erlaubst (also auf die Whitelist setzt), hat die Benutzung eines Geltungsbereichs auf Domain-Ebene zur Folge, dass diese extrem freizügige Regel tatsächlich auch nur für Webseiten dieser spezifischen Domain (example.com) gültig ist; hättest du stattdessen einen Globalen Geltungsbereich (&ldquo;&#x2217;&rdquo;) benutzt, würde diese extrem freizügige Regel für <i>alle</i> Webseiten gelten, d.h. du würdest damit das ganze Internet auf die Whitelist setzen.</p>",
+        "message": "<p>Diese Option ermöglicht das automatische Erzeugen eines temporären Geltungsbereichs für eine besuchte Webseite, falls für diese noch kein Geltungsbereich definiert ist.</p><p>Das Benutzen von Domain- oder Webseiten-spezifischen Regeln hat viele Vorteile, vor allem der, dass diese Regeln in einer Art Sandbox eingesperrt werden - eine gute Angewohnheit für mehr Sicherheit.</p><p>Beispiel: Wenn du &ldquo;alles&rdquo; auf einer Webseite (www.example.com) erlaubst (also auf die Whitelist setzt), hat die Benutzung eines Geltungsbereichs auf Domain-Ebene zur Folge, dass diese extrem freizügige Regel tatsächlich nur für Webseiten dieser spezifischen Domain (example.com) gültig ist; hättest du stattdessen einen Globalen Geltungsbereich (&ldquo;&#x2217;&rdquo;) benutzt, würde diese extrem freizügige Regel für <i>alle</i> Webseiten gelten, d.h. du würdest damit das ganze Internet auf die Whitelist setzen.</p>",
         "description": "English: see relevant messages.json file"
     },
     "settingsMatrixLessSecurityHeader" : {
@@ -660,7 +660,7 @@
         "description": "English: RequestPolicy-like"
     },
     "setupBlockNothingReportAll" : {
-        "message": "Blockire nichts / melde alles",
+        "message": "Blockiere nichts / melde alles",
         "description": "English: Block nothing / report everything"
     },
     "setupSecurity" : {
@@ -704,7 +704,7 @@
         "description": "English: none"
     },
     "setupRestoreConfirm" : {
-        "message": "Alle deine Einstellungen und Regeln wir überschrieben\nund HTTP Switchboard wir neu starten.\n\nAlle existierenden Daten überschreiben?",
+        "message": "Alle deine Einstellungen und Regeln werden überschrieben\nund HTTP Switchboard wird neu starten.\n\nAlle existierenden Daten überschreiben?",
         "description": "English: All your settings and rules will be overwritten\nand HTTP Switchboard will restart.\n\nOverwrite all existing data?"
     },
 
