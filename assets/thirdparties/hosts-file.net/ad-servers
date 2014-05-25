@@ -3110,6 +3110,7 @@
 127.0.0.1	ads1.powerpage.org
 127.0.0.1	ads1.qadabra.com
 127.0.0.1	ads1.searchmiracle.com
+127.0.0.1	ads1.solocpm.com
 127.0.0.1	ads1.speedbit.com
 127.0.0.1	ads1.spiderware.com
 127.0.0.1	ads1.theglobeandmail.com
@@ -5953,6 +5954,7 @@
 127.0.0.1	caartoonnetwork.com
 127.0.0.1	caasco.go2cloud.org
 127.0.0.1	cache-ssl.celtra.com
+127.0.0.1	cache.addthiscdn.com
 127.0.0.1	cache.adviva.net
 127.0.0.1	cache.bizrate.com
 127.0.0.1	cache.blogads.com
@@ -6383,6 +6385,7 @@
 127.0.0.1	click.safe-sender.co.uk
 127.0.0.1	click.scour.com
 127.0.0.1	click.silvercash.com
+127.0.0.1	click.solocpm.com
 127.0.0.1	click.tck-3005-12.pl
 127.0.0.1	click.topica.com
 127.0.0.1	click.your-farmers-market.com
@@ -10842,6 +10845,7 @@
 127.0.0.1	img.propellerads.com
 127.0.0.1	img.revmob.com
 127.0.0.1	img.soft.mail.ru
+127.0.0.1	img.solocpm.com
 127.0.0.1	img.stamps.com
 127.0.0.1	img.szm.sk
 127.0.0.1	img.techweb.com
@@ -19642,4 +19646,4 @@
 127.0.0.1	zxypenguin.people-group.su
 127.0.0.1	zz.cqcounter.com
 127.0.0.1	_thums.ero-advertising.com
-# Hosts: 19637
+# Hosts: 19641

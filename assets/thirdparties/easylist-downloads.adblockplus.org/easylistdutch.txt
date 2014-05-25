@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: IzMQ9fU5WEYVPf28TI7k3A
-! Version: 201405231451
+! Checksum: ThtDP64Mb1yaL3LpWCESkg
+! Version: 201405250441
 ! Title: EasyList Dutch
 ! Description: Dutch supplement for the Easylist filters
-! Last modified: 23 May 2014 14:51 UTC
+! Last modified: 25 May 2014 04:41 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -487,6 +487,7 @@
 ||onestat.com/app/banneriframe.aspx?
 ||onestat.com/banners/adone-
 ||onlineluisteren.nl/banner.html
+||onlineluisteren.nl^*-banner.png
 ||ontdek-amerika.nl/marketing/
 ||onzetaal.nl/banners/
 ||optimaalfm.nl/upload/files/banner-left/
@@ -641,7 +642,7 @@
 @@||adform.net/Banners/scripts/rmb/Adform.RMB.js?$domain=spel.nl
 @@||adhese.be/tag/tagv1.js$domain=nieuwsblad.be
 @@||admatcher.videostrip.com/?format=mp4,$object-subrequest,domain=herhaling.nl|myradio.nl|radioveronica.nl|tvgids.tv|voetbalprimeur.nl
-@@||admatcher.videostrip.com/?format=mp4,$xmlhttprequest,domain=ongein.nl|twentefans.nl
+@@||admatcher.videostrip.com/?format=mp4,$xmlhttprequest,domain=ongein.nl|radioluisteren.fm|twentefans.nl
 @@||admatcher.videostrip.com/crossdomain.xml$object-subrequest,domain=herhaling.nl|myradio.nl|radioveronica.nl|tvgids.tv|voetbalprimeur.nl
 @@||ads.spilgames.com/ad/pb/1/*/*?$script,domain=spel.nl|spelletjes.nl
 @@||adserver.adtech.de/addyn/3.0/$script,domain=girlsgogames.nl|spel.nl|spelletjes.nl
@@ -658,6 +659,7 @@
 @@||doubleclick.net^*adj/hbvl/homepage;tile=15;sz=160x600;$script,domain=hbvl.be
 @@||doubleclick.net^*adj/ster_cinema.nl/preroll;$script,domain=cinema.nl
 @@||g.doubleclick.net/gampad/ads?$script,domain=marktplaats.nl
+@@||g.doubleclick.net/gampad/ads?$xmlhttprequest,domain=radioluisteren.fm
 @@||google.com/ads/search/module/ads/*/search.js$domain=zoover.be|zoover.nl
 @@||google.com/adsense/$subdocument,domain=sedo.nl
 @@||google.com/adsense/search/ads.js$domain=zoover.be|zoover.nl

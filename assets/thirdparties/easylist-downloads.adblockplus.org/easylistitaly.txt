@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: i68Ne+VAaUTpLA3ZlaMWFA
-! Version: 201405231451
+! Checksum: ScFk2XHBHFZDGyNhQeJFWg
+! Version: 201405250441
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 23 May 2014 14:51 UTC
+! Ultima modifica: 25 May 2014 04:41 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -522,9 +522,12 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||adginforma.it/images/banners/
 ||adnkronos.com^*/banner/
 ||adnkronos.com^*/Promo/
+||affaritaliani.it/includes/files/affari/
+||affaritaliani.it/mutuionline/imgmol/
 ||affaritaliani.it/static/generated_external/shopping/
 ||affaritaliani.it/static/upload/234x/
 ||affaritaliani.it/static/upload/food/foodita.jpg
+||affaritaliani.it^*/classicvoice1801.jpg
 ||affaritaliani.libero.it/static/upload/234x/
 ||affaritaliani.libero.it/static/upload/food/foodita.jpg
 ||affiliati.cellulare.net^
@@ -540,6 +543,11 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||alfamitoclub.it/images/banner/
 ||alfamitoclub.it/images/sponsor/
 ||alfamitoclub.it^*_banner_180.swf
+||algheroeco.com^**-960x30.swf
+||algheroeco.com^*-300x500.swf
+||algheroeco.com^*/banner_
+||algheroeco.com^*300x250.gif
+||algheroeco.com^*_skin_
 ||altoadigetv.it/images/social/banner
 ||alverde.net/banner/
 ||amadeusonline.net/banner/
@@ -1064,6 +1072,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||lavoripubblici.it/gif/banner/
 ||lazionews24.com/images/*/skin.jpg
 ||leccenews24.it/upload/banner/
+||leccesette.it/img/banner/
 ||lecconotizie.com^*/domination_
 ||lecconotizie.com^*/PopUpLeopardi.jpg
 ||lecconotizie.com^*/sponsor_
@@ -1742,7 +1751,7 @@ macitynet.it###boxItunes
 telefonino.net###boxShopping
 diesis.it###box_banner
 libero.it###box_expedia_case
-italiaoggi.it,milanofinanza.it,panorama.it###box_immo
+affaritaliani.it,italiaoggi.it,milanofinanza.it,panorama.it###box_immo
 masterviaggi.it###box_link_sponsor
 ricettedelmondo.it###box_pub2
 centrometeoitaliano.it###box_publi
@@ -2133,6 +2142,7 @@ tiscali.it##.c1c6.f12
 quotidiano.net##.category-SPONSOR
 edilportale.com##.click-Skin
 tripadvisor.it##.commerce
+leccesette.it##.cont_banner
 gazzetta.it##.contain-sisal-magicup
 borsaitaliana.it##.container_banner_top
 macitynet.it##.contentTop
@@ -2149,6 +2159,7 @@ gazzettadiparma.it##.elenco-textlink
 adnkronos.com##.evidenceBox
 comingsoon.it##.expanding-footer-container
 ilsole24ore.com##.fabbrica24
+leccesette.it##.featured_banner
 masterviaggi.it##.fieldset_sponsor
 livesicilia.it##.flash-box-a-sponsor-2
 netweek.it##.flexslider-header
@@ -2453,6 +2464,7 @@ gelocal.it##div[style="width:294px; height:74px; border:3px solid #90c539; displ
 gelocal.it##div[style="width:294px; height:74px; border:3px solid #e2001a; display:block; background-color:#90c539; cursor:pointer; margin:0 0 10px;"]
 unita.it##div[style="width:298px;float:left;margin-top:20px;height:148px;border:1px solid #cccccc; position:relative;"]
 panorama.it##div[style="width:300px; height:125px; background-image:url('http://www.panorama.it/statici/img_nuovosito/blocchetti/facileIT/box_ricerca/sfondo.gif'); font-family:Arial,Verdana,Helvetica,sans-serif !important; font-size:11px; overflow:hidden"]
+affaritaliani.it##div[style="width:300px; height:180px; background-image:url(http://www.affaritaliani.it/mutuionline/imgmol/mol_background_form3campi.png)"]
 unionesarda.it##div[style="width:300px; height:250px; float:left; margin-right:40px;"]
 unionesarda.it##div[style="width:300px; height:250px; float:left;"]
 f1passion.it##div[style="width:300px; height:250px; margin-bottom:24px;"]
@@ -2465,6 +2477,7 @@ ilfattoquotidiano.it##div[style="width:300px; height:75px; overflow:hidden; floa
 ilfattoquotidiano.it##div[style="width:300px; height:75px; overflow:hidden; float:left; margin-top: 10px;line-height:15px;"]
 xvideoscopate.com##div[style="width:300px;float:right;margin-right:15px;border: 4px solid rgb(85, 85, 85);padding: 40px 40px;"]
 outune.net##div[style="width:300px;height:180px; background:#fff;"]
+affaritaliani.it##div[style="width:300px;height:200px;border:solid 5px #afb2b4 ; background-image:url('http://www.affaritaliani.it/includes/files/affari/fondo.png');font-family:Verdana; color:white"]
 ticinolibero.ch##div[style="width:300px;height:250px;margin-bottom:10px"]
 strettoweb.com##div[style="width:307px; height:250px; text-align:left; margin:0 0 5px 5px; float:right;"]
 film-review.it,fullhd.it##div[style="width:308px; margin-left: 4px; height:260px;text-align: center;display:block;margin-top:10px;margin-bottom:10px;"]
@@ -2521,6 +2534,7 @@ radiolombardia.it##img[width="300"][height="250"]
 mmorpgitalia.it##img[width="500"][height="122"]
 tuttoshoppingmotori.com##img[width="610px;"]
 corrieredelgiorno.com##ins[style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent"]
+algheroeco.com##object[width="960"][height="30"]
 azpoint.net##table[cellspacing="2"][cellpadding="1"][border="0"][align="center"][width="90%"]
 cronacaqui.it##table[height="112"][width="998"]
 bikeracing.it##table[height="180"][width="100%"]
@@ -2532,6 +2546,7 @@ cheauto.it##table[width="208"][height="148"][style="font-family:Verdana, Arial, 
 guidaviaggi.it##table[width="215"][height="240"]
 acquaportal.it##table[width="284px"][style="border:1px solid #A5C9ED"]
 tio.ch##table[width="302"][style="border:1px solid #A7A9AC;border-top:none;"]
+mnews.it##table[width="728"][height="280"]
 312.it##table[width="728"][height="90"]
 cinemadelsilenzio.it##table[width="956"][height="306"]
 cinemadelsilenzio.it##table[width="956"][height="72"]

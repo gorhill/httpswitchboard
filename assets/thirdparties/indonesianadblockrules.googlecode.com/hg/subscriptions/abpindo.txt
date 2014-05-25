@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: i8ELs0hxHGsKqIZA2heIvA
+! Checksum: JiXtfLj/EfR5hqpXLjyzkA
 ! Title: ABPindo
-! Last modified: 08 Mei 2014, 18:13:57 WIB
+! Last modified: 24 Mei 2014, 23:36:28 WIB
 ! Expires: 4 days (update frequency)
 ! Homepage: http://abpindo.blogspot.com/
 ! Licence: http://indonesianadblockrules.googlecode.com/hg/subscriptions/COPYING
@@ -78,9 +78,9 @@ blogspot.com##img[alt="ads"]
 ||188bet.com^$third-party
 ||1iklanbaris.com^$third-party
 ||1st-iklan.com^$third-party
-||39bola.com^$third-party
 ||988bet.com^$third-party
 ||abadiklan.com^$third-party
+||ad.adflazz.com^$third-party
 ||ad.directrev.com/$popup,third-party
 ||adbusinessfree.com^$third-party
 ||adcenter2u.com^$third-party
@@ -91,7 +91,6 @@ blogspot.com##img[alt="ads"]
 ||adsbingo.com^$third-party
 ||adsense-id.com^$third-party
 ||adsensemu.com^$third-party
-||adsentra.com^$third-party
 ||adspeedy.com^$third-party
 ||adsrelease.com^$third-party
 ||adversal.com^$third-party
@@ -103,15 +102,12 @@ blogspot.com##img[alt="ads"]
 ||alamatemail.com^$third-party
 ||anadvertorial.com^$third-party
 ||anekaiklan.com^$third-party
-||antariklan.com^$third-party
 ||apmmedia.net^$third-party
 ||arenabola.com^$third-party
 ||asiabolabet.com^$third-party
 ||axverta.com^$third-party
 ||baliadv.com^$third-party
 ||bandarjudi.com/$popup,third-party
-||barisiklangratis.com^$third-party
-||bebaspikiran.com^$third-party
 ||bejopoker.com^$third-party
 ||bekas.com^$third-party
 ||belajar-bisnis.com^$third-party
@@ -132,19 +128,16 @@ blogspot.com##img[alt="ads"]
 ||bravevolitation.com^$third-party
 ||btybet.com^$third-party
 ||bursabet.com^$third-party
-||c-stat.eu^$third-party
 ||carasukses.com^$third-party
 ||cash-harvest.com^$third-party
 ||cashburners.biz/banners/$third-party
 ||cfs.u-ad.info^$third-party
 ||clickdbs.com^$third-party
-||clicklifter.com^$third-party
 ||clickmedia.co.id^$third-party
 ||clicks4cents.com^$third-party
 ||clicksia.com^$third-party
 ||dewa-bisnis.com^$third-party
 ||dewamabuk.com^$third-party
-||direktori-iklan.com^$third-party
 ||doremibet.com^$third-party
 ||duitbux.com^$third-party
 ||duitmu.com^$third-party
@@ -168,19 +161,16 @@ blogspot.com##img[alt="ads"]
 ||gratisiklanpasang.com^$third-party
 ||gratisiklanpasang.net^$third-party
 ||groupiklan.com^$third-party
-||hiddenbux.com^$third-party
 ||idblognetwork.com/images/banner468x60/$third-party
 ||idblognetwork.com/images/banner728x90/$third-party
 ||idr-clickit.com^$third-party
 ||iklan-baris.org^$third-party
-||iklan-iklan.com^$third-party
 ||iklan-indo.org^$third-party
 ||iklan-laris.com^$third-party
 ||iklan-sukses.com^$third-party
 ||iklanads.com^$third-party
 ||iklanbaliku.com^$third-party
 ||iklanbaris-gratis.com^$third-party
-||iklanbarisaceh.com^$third-party
 ||iklanbarisgratis.co.uk^$third-party
 ||iklanbarisgratis.info^$third-party
 ||iklanbarisgratis.net^$third-party
@@ -195,7 +185,6 @@ blogspot.com##img[alt="ads"]
 ||iklanbaristanpadaftar.com^$third-party
 ||iklanbiru.com^$third-party
 ||iklanbisnisbali.com^$third-party
-||iklanbisnisindonesia.com^$third-party
 ||iklanbisnisku.com^$third-party
 ||iklanbisnispro.com^$third-party
 ||iklanblogger.com^$third-party
@@ -223,8 +212,6 @@ blogspot.com##img[alt="ads"]
 ||iklanhoki.com^$third-party
 ||iklanhouse.com^$third-party
 ||iklanjagoan.com^$third-party
-||iklanjoglo.com^$third-party
-||iklankito.com^$third-party
 ||iklankomplit.com^$third-party
 ||iklanlowongan.com^$third-party
 ||iklanmarket.com^$third-party
@@ -249,7 +236,6 @@ blogspot.com##img[alt="ads"]
 ||imgur.com/*.gif$domain=movie76.com
 ||incentria.com^$third-party
 ||incrasebux.com^$third-party
-||indo-solusta.com^$third-party
 ||indoagenbola.com^$popup,third-party
 ||indobanner.com^$third-party
 ||indofreeads.com^$third-party
@@ -263,7 +249,6 @@ blogspot.com##img[alt="ads"]
 ||javapic.com^$third-party
 ||jillsclickcorner.com^$third-party
 ||jingkrak.com^$third-party
-||jmp9.com^$third-party
 ||jollywallet.com^$third-party
 ||juruiklan.com^$third-party
 ||kakakdewa.com/$popup,third-party
@@ -277,25 +262,20 @@ blogspot.com##img[alt="ads"]
 ||lokeriklan.com^$third-party
 ||lytogame.com/images/partner/$third-party
 ||lytogame.com/partner/$third-party
-||m88media.com^$third-party
 ||mabosbet.com^$third-party
 ||manasuka.com/gbr_banner_link/$third-party
 ||maripromosi.com^$third-party
 ||marketbola.com^$third-party
 ||masteriklan.net^$third-party
 ||mauiklangratis.com^$third-party
-||medaniklan.com^$third-party
 ||mediaiklanpapua.com^$third-party
 ||mesiniklan.andipublisher.com^$third-party
-||modaliklan.com^$third-party
 ||mpnrs.com^$third-party
 ||mybannermaker.com^$third-party
 ||nuansaiklan.com^$third-party
 ||numpanglewat.com^$third-party
-||onbux.com^$third-party
 ||onclinic24.com^$third-party
 ||onedollarptc.com^$third-party
-||optimsystems.org/images/banners/
 ||paidforfree.com^$third-party
 ||paidtoclick.com^$third-party
 ||paneniklan.com^$third-party
@@ -334,18 +314,15 @@ blogspot.com##img[alt="ads"]
 ||promobagus.com^$third-party
 ||promosiiklan.com^$third-party
 ||promotioncamp.com^$third-party
-||prophetofdoom.net^$third-party
 ||publish.web.id^$third-party
 ||pundibux.net^$third-party
 ||pusatiklan.com^$third-party
-||pusatmarketing.com^$third-party
 ||pusatpromosiiklan.com^$third-party
 ||rahasiapanas.com^$third-party
 ||rajabet77.com/$popup,third-party
 ||ratubola.com^$third-party
 ||realwap.net^$third-party
 ||referral-secrets.com^$third-party
-||ro2.biz^$third-party
 ||rupiahbux.com^$third-party
 ||sanglah.com^$third-party
 ||sbbanner.com^$third-party
@@ -356,20 +333,16 @@ blogspot.com##img[alt="ads"]
 ||sentrapromosi.com^$third-party
 ||serbapromo.com^$third-party
 ||sharepointads.com^$third-party
-||sitipromo.web.id^$third-party
 ||sitti.co.id^$third-party
 ||situsbet.com^$third-party
 ||situsiklan.web.id^$third-party
 ||situsiklanbaris.com^$third-party
 ||situsjudi.com^$popup,third-party
-||smart-iklan.com^$third-party
 ||sogoplaza.com^$third-party
 ||suarabola.com/banners/$third-party
 ||sumberiklan.com^$third-party
 ||suryaiklan.com^$third-party
-||teknikbisnis.com^$third-party
 ||teliad.com^$third-party
-||tempatiklan.com^$third-party
 ||textlinksdepot.com^$third-party
 ||textspace.net^$third-party
 ||theclickers.net^$third-party
@@ -380,7 +353,6 @@ blogspot.com##img[alt="ads"]
 ||trafficfactory.biz^$popup,third-party
 ||tri7bet.com^$third-party
 ||twap.eu^$third-party
-||txtsrving.info^$third-party
 ||u-on.eu/c.php?$third-party
 ||u1win.com^$third-party
 ||unobux.com^$third-party
@@ -446,6 +418,7 @@ blogspot.com##img[alt="ads"]
 ||kikil.ws/forum/banner/
 ||kkcdn-static.kaskus.co.id/css_v0.1/img/skin/
 ||kompas.com/data/banner/
+||krucil.net/banner/
 ||krucil.net/KD.js
 ||krucil.net/KD_adplib.js
 ||kumpulblogger.com/minibanner/
@@ -589,6 +562,7 @@ gugling.com##.ad336x280atas
 mangafox.com##.ad728x90.left + .right
 indobokepz.com##.adBar-vertical.left
 indobokepz.com##.adBar-vertical.right
+loveindonesia.com##.ad_990_80
 bharian.com.my##.adbtm
 21sinema.com,dapurpacu.com,kompas.com##.ads
 republika.co.id##.ads-160-600

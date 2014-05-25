@@ -1,6 +1,6 @@
 [Adblock Plus 2.0]
-! Checksum: JOkBV3OMf5nL8GCM00W4VA
-! Version: 201405231451
+! Checksum: cjO1qMfGJkxtW3jSC4tkEw
+! Version: 201405250441
 ! Liste FR ~ Filtres francophones complémentaires à EasyList
 ! Title: Liste FR
 ! Licence : http://www.adblock-listefr.com/A_propos
@@ -1345,6 +1345,7 @@ _regiepub/
 ||protect-stream.com/series-streaming.php
 ||psgenforce.net/upload/Bwin/
 ||pub.babygo.fr^
+||pub.dozenofelites.com^
 ||pub.hdfever.fr^
 ||pub.jeuxactu.com^
 ||pub.lesinrocks.com^

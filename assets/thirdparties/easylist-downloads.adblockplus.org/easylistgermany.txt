@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: dM1+//6G4SlEcdw2U9CoeA
-! Version: 201405231451
+! Checksum: HQ36I66R73a2WKNpx5MEGw
+! Version: 201405250440
 ! Title: EasyList Germany
 ! EasyList Germany - Deutsche Ergänzung zu EasyList
-! Last modified: 23 May 2014 14:51 UTC
+! Last modified: 25 May 2014 04:40 UTC
 ! Expires: 1 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -115,6 +115,7 @@
 /werbung_*?
 /werbung_banner.
 /werbung_banner1.
+/werbung_frame.
 /werbungheader.
 /werbunglongbanner1.
 /WerbungPlatzhalter/*
@@ -134,6 +135,7 @@ _werbebanner/
 _werbebanner_
 _werbebreak.
 _werbepartner.
+_werbung.php
 _werbung.pl
 _Werbung260.
 _woz_banner_vote.
@@ -1112,7 +1114,7 @@ gamestar.de#@#.topAdvBox
 ||film2mp3.com/images/banner$third-party
 ||financeads.net/tb.php$third-party
 ||finanzen.de/banner/$third-party
-||finanzen.net/partner/$subdocument,third-party
+||finanzen.net/partner/$subdocument,third-party,domain=~finanzen.at
 ||finddy.de/banner/$third-party
 ||finerio.de/box/$subdocument,third-party
 ||fireradio.fm/img/banner/$third-party
@@ -3551,6 +3553,7 @@ gamestar.de#@#.topAdvBox
 ||wilmaa.com^*/brandings/
 ||win-lan.de^*/banners/
 ||windows-tweaks.info^*/safersurf__
+||windowspro.de^*=*!$xmlhttprequest
 ||windowspro.de^*?*=$xmlhttprequest
 ||winrar.de/images/emsi.jpg
 ||winrar.de/images/emsi2.jpg
@@ -4660,7 +4663,7 @@ sims-3.net###subheader
 xolopo.de###subnav_partner
 nanu.de###superBanner
 t-online.de###superBannerContainer
-allesueberfilme.de,apotheke-adhoc.de,boulevard-baden.de,braunschweiger-zeitung.de,deutsche-wirtschafts-nachrichten.de,donaukurier.de,internetworld.de,itwissen.info,lecker.de,lpgforum.de,morgenpost.de,morgenweb.de,netdoktor.at,neue-braunschweiger.de,pkw-forum.de,rtl.de,stimme.de,wer-kennt-wen.de###superbanner
+allesueberfilme.de,apotheke-adhoc.de,boulevard-baden.de,braunschweiger-zeitung.de,deutsche-wirtschafts-nachrichten.de,donaukurier.de,internetworld.de,itwissen.info,lecker.de,lpgforum.de,morgenpost.de,morgenweb.de,netdoktor.at,neue-braunschweiger.de,pkw-forum.de,rtl.de,stimme.de,vogue.de,wer-kennt-wen.de###superbanner
 juve.de###superbanner_side
 juve.de###superbanner_top
 tri-mag.de###superbanner_wide
@@ -5185,6 +5188,7 @@ gamestar.de##.eventBtnPrm
 picdumps.com##.evil_1
 sueddeutsche.de##.expediasearch
 wetter.com##.ext_url[onclick^="_gaq.push(['_trackEvent', 'Toolbar_Pets"]
+bild.de##.eyecatcher
 fussballoesterreich.at##.fadeVerein1
 fussballoesterreich.at##.fadeVerein2
 fussballoesterreich.at##.fadeVerein3
@@ -5364,7 +5368,6 @@ franken-tv.de,kanal8.de,radio-trausnitz.de##.metrieanzeigen
 radio7.de##.microbanner
 fettspielen.de##.middle-leaderboard
 downloadstube.net##.mirror
-bild.de##.misc.sep .eyecatcher
 aol.de##.mnid-daily-buzz5
 aol.de##.mnid-marketplace3-2line-ad_evergreen
 aol.de##.mnid-qnav-quick-nav-amazon_quick-nav-global
@@ -7158,6 +7161,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||insel-usedom-wollin.de/ads/$script,stylesheet
 @@||inskinmedia.com^*/generic.js$domain=clipfish.de
 @@||interhome.at/javascript/ad-gallery.js
+@@||jade-hs.de^*/ext-adv.js
 @@||jobpostings.tuja.de/Advertisment.aspx?$subdocument
 @@||joepenas.com/index.swf?clicktag=$object,~third-party
 @@||juleps-esslingen.de/index.swf?clicktag=$object,~third-party
@@ -7382,6 +7386,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||amazonaws.com^$object-subrequest,domain=gmx.net|homerj.de|spiegel.tv|sueddeutsche.de|web.de
 @@||amgdgt.com/ads?$object-subrequest,domain=clipfish.de
 @@||apmebf.com/ad/js/*&mpvc=http://ad.de.doubleclick.net/click%$script,domain=n-tv.de
+@@||audio.de^$elemhide
 @@||audio.de^$image
 @@||aussenwirtschaftslupe.de^$elemhide
 @@||betreut-wohnen.de/adserver/ad.js
@@ -7398,11 +7403,15 @@ pcwelt.de##div[id^="google_ads_"]
 @@||cdn.flashtalking.com^*.mp4$object-subrequest,domain=clipfish.de|n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
 @@||chat.lycos.de/adimages/$subdocument
 @@||cloudfront.net^$object-subrequest,domain=gmx.net|homerj.de|spiegel.tv|sueddeutsche.de|web.de
+@@||colorfoto.de^$elemhide
 @@||colorfoto.de^$image
 @@||combatarms-game.de/adframe.js
+@@||connect.de^$elemhide
+@@||connect.de^$image
+@@||connected-home.de^$elemhide
 @@||connected-home.de^$image
 @@||crackajack.de^*/advertising.js
-@@||cuiron.de^$image,domain=gamona.de
+@@||cuiron.de^$image,domain=gamona.de|lustich.de
 @@||data-ero-advertising.com/impopup/layer.js$domain=berlin-nutten.com
 @@||david-forum.de/advertisement.css
 @@||ddl-search.biz/js/advertisement.js
@@ -7442,6 +7451,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||fastshare.org/advertisement.js
 @@||feed-reader.net^$elemhide,image,script
 @@||fernsehen.to^$elemhide
+@@||feropt.de^$image,domain=gamona.de
 @@||files.adform.net/Banners/Stream/*.flv$object-subrequest,domain=clipfish.de|n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
 @@||finanzmarkttransaktionssteuer.de^$elemhide
 @@||flashtalking.com/imp/*;BMWTVTeaser220x180/?click=$script,domain=teleboerse.de
@@ -7465,7 +7475,6 @@ pcwelt.de##div[id^="google_ads_"]
 @@||green-24.de^$elemhide
 @@||grundrechteschutz.de^$elemhide
 @@||hartzbote.de^$elemhide
-@@||homad-global-configs.schneevonmorgen.com^$object-subrequest,domain=gmx.net|homerj.de|spiegel.tv|sueddeutsche.de|web.de
 @@||hubbahotel.cc^*/advertisement.js
 @@||imagesrv.adition.com/js/adition.js$domain=n-tv.de
 @@||innovid.com^*;cb=$object-subrequest,domain=clipfish.de|n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
@@ -7482,6 +7491,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||lustich.de^$image
 @@||magistrix.de/ads/iframe.html?*#content$subdocument
 @@||magistrix.de^*/advertisement-$script
+@@||magnus.de/public/scripts/afc/$script,domain=audio.de|colorfoto.de|connect.de|connected-home.de|pc-magazin.de|video-magazin.de
 @@||mannfuermann.com/mfm/static/adcode.js
 @@||mediationslupe.de^$elemhide
 @@||medienrechtsnews.de^$elemhide
@@ -7511,6 +7521,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||partner.googleadservices.com/gampad/google_ads.js$domain=abfrager.de
 @@||partner.googleadservices.com/gampad/google_service.js$domain=abfrager.de
 @@||partner.googleadservices.com/gpt/pubads_impl_$script,domain=gamona.de|pcwelt.de
+@@||pc-magazin.de^$elemhide
 @@||pc-magazin.de^$image
 @@||peugeot-metropolis.de^$elemhide
 @@||picload.org/ads-1.js
@@ -7525,6 +7536,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||rene-neuweiler.ch^$elemhide
 @@||rentenbote.de^$elemhide
 @@||revsci.net/pql?placementIdList=*&cb=$script,domain=gamestar.de
+@@||schneevonmorgen.com^$object-subrequest,domain=gmx.net|homerj.de|spiegel.tv|sueddeutsche.de|web.de
 @@||schuetzenrecht.de^$elemhide
 @@||schulzeux.de/js/show_ads.js
 @@||schweizer-abgeltungssteuer.ch^$elemhide
@@ -7572,6 +7584,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||uploaded-premium.ru^$elemhide
 @@||uploaded-premium.ru^$script
 @@||vereinslupe.de^$elemhide
+@@||video-magazin.de^$elemhide
 @@||video-magazin.de^$image
 @@||videoplaza.tv/proxy/distributor/v2?tt=p&rt=vast_2.0&s=validation&t=standard$object-subrequest,domain=gmx.net|web.de
 @@||videoplaza.tv/proxy/distributor^$object-subrequest,domain=n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de

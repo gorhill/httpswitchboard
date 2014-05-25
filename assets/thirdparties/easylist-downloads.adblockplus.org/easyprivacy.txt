@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: ihbwbJlqcqTrktPpF8KL1Q
-! Version: 201405231451
+! Checksum: hifWMBFc8ZIjT2ONq9f/Uw
+! Version: 201405250441
 ! Title: EasyPrivacy
-! Last modified: 23 May 2014 14:51 UTC
+! Last modified: 25 May 2014 04:41 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -2251,6 +2251,7 @@ http://utm.
 ||alexametrics.com^$third-party
 ||alltagcloud.info^$third-party
 ||alltracked.com^$third-party
+||alnera.eu^$third-party
 ||altastat.com^$third-party
 ||alvenda.com^$third-party
 ||alzexa.com^$third-party
@@ -8264,7 +8265,6 @@ http://utm.
 ||pagesjaunes.fr/crmmetrix/
 ||rtl.be^*/trkfblk.js
 ||rtl.fr/stats/
-||s-sfr.fr/stats/
 ||sfr.fr/js/pent-stats.jsp
 ||stats1x1.kapaza.be^
 ||surace-jujitsu.fr/outils/compteur_php/
