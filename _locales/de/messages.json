@@ -570,35 +570,35 @@
         "description": "English: Your data"
     },
     "aboutUserDataBackupButton" : {
-        "message": "Backup to file...",
+        "message": "Backup in eine Datei...",
         "description": "English: Backup all..."
     },
     "aboutUserDataRestoreButton" : {
-        "message": "Restore from file...",
+        "message": "Aus einer Datei wiederherstellen...",
         "description": "English: Restore all..."
     },
     "aboutUserDataOr" : {
-        "message": "... or ...",
+        "message": "... oder ...",
         "description": "English: ... or ..."
     },
     "aboutUserDataResetButton" : {
-        "message": "Start from scratch...",
+        "message": "Fange von ganz vorne an ...",
         "description": "English: Start from scratch..."
     },
     "aboutUserDataRestoreConfirm" : {
-        "message": "All your settings and rules will be overwritten\nusing data backed up on {{time}},\nand HTTP Switchboard will restart.\n\nOverwrite all existing data using backed up data?",
+        "message": "Alle deine Einstellungen und Regeln werden überschrieben\nmit Daten gesichert am {{time}},\nund HTTP Switchboard wird neu starten.\n\nSollen alle existierenden Daten mit Backup-Daten überschrieben werden?",
         "description": "Message asking user to confirm restore"
     },
     "aboutExtensionDataHeader" : {
-        "message": "Extension data",
+        "message": "Daten dieser Erweiterung",
         "description": "English: Extension data"
     },
     "aboutAssetsUpdatePrompt" : {
-        "message": "<i>HTTP Switchboard</i> assets can be updated here without having to wait for the next release of the extension. These assets are pulled from the <a href=\"https://github.com/gorhill/httpswitchboard\">project's Github repository</a>.",
+        "message": "Von <i>HTTP Switchboard</i> benutzte Komponenten können hier upgedatet werden, ohne auf eine neue Version dieser Erweiterung warten zu müssen. Diese Komponenten werden bezogen vom <a href=\"https://github.com/gorhill/httpswitchboard\">Github Repository diese Projekts</a>.",
         "description": "Short descriptive text of the update feature"
     },
     "aboutAssetsUpdateColPath" : {
-        "message": "Path",
+        "message": "Pfad",
         "description": "Path column header"
     },
     "aboutAssetsUpdateColStatus" : {
@@ -606,23 +606,23 @@
         "description": "Status column header"
     },
     "aboutAssetsUpdateGetListError" : {
-        "message": "An error occurred. Is <b>XHR</b> blocked for <b>raw2.github.com</b>?",
+        "message": "Ein Fehler ist aufgetreten. Ist <b>XHR</b> blockiert für <b>raw2.github.com</b>?",
         "description": "Successful outcome of clicking 'update' button"
     },
     "aboutAssetsUpdateStatusAdded" : {
-        "message": "To add",
+        "message": "Hinzufügen",
         "description": "Displayed in the status column for each entry"
     },
     "aboutAssetsUpdateStatusChanged" : {
-        "message": "New version available",
+        "message": "Neue Version verfügbar",
         "description": "Displayed in the status column for each entry"
     },
     "aboutAssetsUpdateStatusUnchanged" : {
-        "message": "Up to date",
+        "message": "Up-to-date",
         "description": "Displayed in the status column for each entry"
     },
     "aboutAssetsUpdateStatusRemoved" : {
-        "message": "To remove",
+        "message": "Entfernen",
         "description": "Displayed in the status column for each entry"
     },
     "aboutAssetsUpdateButton" : {
@@ -636,75 +636,75 @@
 
 
     "setupPagePrompt" : {
-        "message": "<p><b>HTTP Switchboard</b> is highly configurable: it can be set anywhere between &ldquo;blocking everything&rdquo; and &ldquo;block nothing&rdquo;. <p>The higher the security, the more likely web pages will be &ldquo;broken&rdquo;, i.e. will not render and/or behave as intended. Thus, higher security also means more intervention required from the user in order to &ldquo;unbreak&rdquo; those web pages which a user trust. <p>Here you can pick a profile which best matches how you plan to use <b>HTTP Switchboard</b>. Consider these a starting point, as you can customize at will afterward.",
+        "message": "<p><b>HTTP Switchboard</b> ist hochgradig konfigurierbar: Die Einstellungen können fast beliebig gesetzt werden zwischen den beiden Extremen &ldquo;alles blockieren&rdquo; und &ldquo;nichts blockieren&rdquo;. <p>Je höher die Sicherheit, desto höher die Wahrscheinlichkeit, dass Webseiten &ldquo;nicht funktionieren&rdquo;, d.h. sie werden nicht gerendert  und/oder verhalten sich nicht wie gewünscht. Daher bedeutet höhere Sicherheit auch mehr notwendige Interventionen durch den Benutzer, damit vertrauenswürdige Webseiten wieder &ldquo;funktionieren&rdquo;. <p>Hier kannst du ein Profil wählen, das am besten zu dem passt, wie du gedenkst, <b>HTTP Switchboard</b> zu benutzen. Bitte berücksichtige, dass diese Profile lediglich einen Startpunkt repräsentieren, den du später beliebig an deine Vorstellungen anpassen kannst .",
         "description": "Appears at the top of the setup page"
     },
     "setupBlockAllAllowExceptionally" : {
-        "message": "Block all / allow exceptionally",
+        "message": "Blockier alles / erlaube ausnahmsweise",
         "description": "English: Block all / allow exceptionally"
     },
     "setupAllowAllBlockExceptionally" : {
-        "message": "Allow all / block exceptionally",
+        "message": "Erlaube alles / blockiere ausnahmsweise",
         "description": "English: Allow all / block exceptionally"
     },
     "setupAdBlocker" : {
-        "message": "Ad blocker-like",
+        "message": "Verhalten als Werbeblocker",
         "description": "English: Ad blocker-like"
     },
     "setupNoScript" : {
-        "message": "NoScript-like",
+        "message": "Verhalten wie NoScript",
         "description": "English: NoScript-like"
     },
     "setupRequestPolicy" : {
-        "message": "RequestPolicy-like",
+        "message": "Verhalten wie RequestPolicy",
         "description": "English: RequestPolicy-like"
     },
     "setupBlockNothingReportAll" : {
-        "message": "Block nothing / report everything",
+        "message": "Blockire nichts / melde alles",
         "description": "English: Block nothing / report everything"
     },
     "setupSecurity" : {
-        "message": "Security:",
+        "message": "Sicherheit:",
         "description": "English: Security:"
     },
     "setupBreakage" : {
-        "message": "Breakage:",
+        "message": "Bruchgefahr:",
         "description": "English: Breakage:"
     },
     "setupVeryHigh" : {
-        "message": "very high",
+        "message": "sehr hoch",
         "description": "English: very high"
     },
     "setupHigh" : {
-        "message": "high",
+        "message": "hoch",
         "description": "English: high"
     },
     "setupMediumHigh" : {
-        "message": "medium high",
+        "message": "mittel-hoch",
         "description": "English: medium high"
     },
     "setupMedium" : {
-        "message": "medium",
+        "message": "mittel",
         "description": "English: medium"
     },
     "setupMediumLow" : {
-        "message": "medium low",
+        "message": "mittel-niedrig",
         "description": "English: medium low"
     },
     "setupLow" : {
-        "message": "low",
+        "message": "niedrig",
         "description": "English: low"
     },
     "setupVeryLow" : {
-        "message": "very low",
+        "message": "sehr niedrig",
         "description": "English: very low"
     },
     "setupNone" : {
-        "message": "none",
+        "message": "gar nicht",
         "description": "English: none"
     },
     "setupRestoreConfirm" : {
-        "message": "All your settings and rules will be overwritten\nand HTTP Switchboard will restart.\n\nOverwrite all existing data?",
+        "message": "Alle deine Einstellungen und Regeln wir überschrieben\nund HTTP Switchboard wir neu starten.\n\nAlle existierenden Daten überschreiben?",
         "description": "English: All your settings and rules will be overwritten\nand HTTP Switchboard will restart.\n\nOverwrite all existing data?"
     },
 
