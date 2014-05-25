@@ -516,57 +516,57 @@
         "description": "English: Recipes"
     },
     "scopedRecipesInfo": {
-        "message": "Ein &ldquo;Rezeot&rdquo; ist einfach ein Satz von Regeln, die auf eine Weise kodiert sind, dass sie leicht gesichert oder mit anderen Benutzern ausgetauscht werden kannis just a set of rules encoded in a way to make it easy to backup or exchange set of rules between users. Hopefully advanced users will share their carefully crafted recipes to help novice users.",
+        "message": "Ein &ldquo;Rezeot&rdquo; ist einfach ein Satz von Regeln, die auf eine Weise kodiert sind, dass sie leicht gesichert oder mit anderen Benutzern ausgetauscht werden können. In der Hoffnung, dass fortgeschrittene Benutzer ihre sorgfältig erstellten Rezepte mit Neulingen teilen werden, um diese zu unterstützen.",
         "description": "English: [see english message.json]"
     },
     "scopedBackupRecipeButton": {
-        "message": "Backup to file",
+        "message": "Backup in eine Datei",
         "description": "English: Backup to file"
     },
     "scopedRestoreRecipeButton": {
-        "message": "Restore from file",
+        "message": "Aus einer Datei wiederherstellen",
         "description": "English: Restore from file"
     },
     "scopedDecodeRecipeButton": {
-        "message": "Decode recipe",
+        "message": "Rezept dekodieren",
         "description": "English: Decode recipe"
     },
     "scopedEncodeRecipeButton": {
-        "message": "Encode recipe",
+        "message": "In ein Rezept kodieren",
         "description": "English: Encode recipe"
     },
     "scopedImportRulesButton": {
-        "message": "Import rules",
+        "message": "Regeln importieren",
         "description": "English: Import rules"
     },
     "scopedExportRulesButton": {
-        "message": "Export rules",
+        "message": "Regeln exportieren",
         "description": "English: Export rules"
     },
     "scopedGlobalScopeHeader": {
-        "message": "Global scope",
+        "message": "Globaler Geltungsbereich",
         "description": "English: Global scope"
     },
     "scopedBtsScopeHeader": {
-        "message": "Behind-the-scene scope",
+        "message": "Geltungsbereich Huntergrundanfragen",
         "description": "English: Behind-the-scene scope"
     },
     "scopedDomainScopeHeader": {
-        "message": "Domain-level scope",
+        "message": "Geltungsbereich Domain-Ebene",
         "description": "English: Domain-level scope"
     },
     "scopedSiteScopeHeader": {
-        "message": "Site-level scope",
+        "message": "Geltungsbereich Webseiten-Ebene",
         "description": "English: Site-level scope"
     },
     "scopedDeletionPrompt": {
-        "message": "You are about to delete {{deleteCount}} rules.\nIt is irreversible.\nClick OK to confirm.",
+        "message": "Du bist dabei, {{deleteCount}} Regeln zu löschen.\nDas ist irreversibel.\nKlicke OK zur Bestätigung.",
         "description": "English: You are about to delete {{deleteCount}} rules.\nIt is irreversible.\nClick OK to confirm."
     },
 
 
     "aboutUserDataHeader" : {
-        "message": "Your data",
+        "message": "Deine Daten",
         "description": "English: Your data"
     },
     "aboutUserDataBackupButton" : {
