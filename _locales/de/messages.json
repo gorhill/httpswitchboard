@@ -446,15 +446,15 @@
         "description": "English: ..."
     },
     "ubiquitousParseAllABPHideFiltersPrompt1" : {
-        "message": "Parse and enforce Adblock+ element hiding filters.",
+        "message": "Adblock+ Filter zum Verstecken von Elementen analysieren und anwenden.",
         "description": "English: Parse and enforce Adblock+ element hiding filters."
     },
     "ubiquitousParseAllABPHideFiltersPrompt2" : {
-        "message": "{{abpHideFilterCount}} element hiding filters used.",
+        "message": "{{abpHideFilterCount}} Filter zum Verstecken von Elementen genutzt.",
         "description": "English: {{abpHideFilterCount}} element hiding filters used."
     },
     "ubiquitousParseAllABPHideFiltersInfo" : {
-        "message": "<p>This option enables the parsing and enforcing of <a href=\"https://adblockplus.org/en/faq_internal#elemhide\">Adblock Plus-compatible &ldquo;element hiding&rdquo; filters</a>. These filters are essentially cosmetic, they serve to hide elements in a web page which are deemed to be a visual nuisance, and which can't be blocked by the matrix- or ABP-filtering engines.</p><p>Enabling this feature increases <i>HTTP Switchboard</i>'s memory footprint.</p>",
+        "message": "<p>Diese Option die Analyse und Anwendung von <a href=\"https://adblockplus.org/de/faq_internal#elemhide\">Adblock Plus-kompatiblen Filtern zum &ldquo;Verstecken von Elementen&rdquo; </a>. Diese Filter sind in erster Linie kosmetischer Natur und dienen zum Verstecken von Elementen auf einer Webseite, die als optische Belästigung wahrgenommen werden und nicht von der Matrix oder normalen ABP-Filtern geblockt werden können.</p><p>Das Aktivieren dieser Option erhöht den Speicherbedarf von <i>HTTP Switchboard</i>.</p>",
         "description": "English: see English messages.json"
     },
     "ubiquitousListsOfBlockedHostsHeader" : {
@@ -462,61 +462,61 @@
         "description": "English: Lists of blocked hosts"
     },
     "userUbiquitousBlacklistHeader" : {
-        "message": "Your block rules",
+        "message": "Deine Blockierregeln",
         "description": "English: Your block rules"
     },
     "userUbiquitousWhitelistHeader" : {
-        "message": "Your allow rules",
+        "message": "Deine Ausnahmeregeln",
         "description": "English: Your allow rules"
     },
     "ubiquitousApplyChanges" : {
-        "message": "Apply changes",
+        "message": "Änderungen anwenden",
         "description": "English: Apply changes"
     },
     "ubiquitousFormatHint" : {
-        "message": "One rule per line. A rule can be a plain hostname, or an Adblock Plus-compatible filter. Lines prefixed with &lsquo;#&rsquo; will be ignored.",
+        "message": "Eine Regel pro Zeile. Eine Regel kann eine einfacher Hostname sein oder ein Adblock Plus-kompatibler Filter. Zeilen mit vorangestelltem &lsquo;#&rsquo; werden ignoriert.",
         "description": "English: One rule per line. A rule can be a plain hostname, or an Adblock Plus-compatible filter. Lines prefixed with &lsquo;#&rsquo; will be ignored."
     },
     "ubiquitousImport" : {
-        "message": "Import and append",
+        "message": "Importieren und anfügen",
         "description": "English: Import and append"
     },
     "ubiquitousExport" : {
-        "message": "Export",
+        "message": "Exportieren",
         "description": "English: Export"
     },
 
 
     "scopedCommitAllButton": {
-        "message": "Commit all",
+        "message": "Alle dauerhaft speichern",
         "description": "English: Commit all"
     },
     "scopedRevertAllButton": {
-        "message": "Revert all",
+        "message": "Alle rückgängig machen",
         "description": "English: Revert all"
     },
     "scopedMarkAllForDeletionButton": {
-        "message": "Mark all for deletion",
+        "message": "Alle zum Löschen markieren",
         "description": "English: Mark all for deletion"
     },
     "scopedResetToFactoryButton": {
-        "message": "Reset to factory",
+        "message": "Auf Werkseinstellungen zurücksetzen",
         "description": "English: Reset to factory"
     },
     "scopedRulesHeader": {
-        "message": "Rules",
+        "message": "Regeln",
         "description": "English: Rules"
     },
     "scopedRulesInfo": {
-        "message": "This is where you want to backup all of your scopes and rules: Click &ldquo;Export rules&rdquo;, optionally click &ldquo;Encode recipe&rdquo;, save the result into a file which content can be pasted here later. <p>Syntax is very strict, only advanced users should risk editing here. If you are importing a recipe from an untrusted source, be sure there is nothing wrong with it (ex.: <b>&ldquo;whitelist * evil.com&rdquo;</b>)</p>",
+        "message": "Hier kannst du für deine Geltungsbereiche und Regeln ein Backup anlegen: Klicke auf &ldquo;Regeln exportieren&rdquo;, klicke optional auf &ldquo;Als Rezept kodieren&rdquo;, und speichere das Ergbenis als Datei, dessen Inhalt später hier eingefügt werden kann.<p>Die Syntax ist strikt, nur fortgeschrittene Benutzer sollten es riskieren, hier zu editieren. Wenn du ein Rezept von einer nicht vertrauenswürdigen Quelle importierst, solltest du sicher sein, dass nichts damit verkehrt ist (Bsp.: <b>&ldquo;whitelist * evil.com&rdquo;</b>)</p>",
         "description": "English: [see english message.json]"
     },
     "scopedRecipeHeader": {
-        "message": "Recipes",
+        "message": "Rezepte",
         "description": "English: Recipes"
     },
     "scopedRecipesInfo": {
-        "message": "A &ldquo;recipe&rdquo; is just a set of rules encoded in a way to make it easy to backup or exchange set of rules between users. Hopefully advanced users will share their carefully crafted recipes to help novice users.",
+        "message": "Ein &ldquo;Rezeot&rdquo; ist einfach ein Satz von Regeln, die auf eine Weise kodiert sind, dass sie leicht gesichert oder mit anderen Benutzern ausgetauscht werden kannis just a set of rules encoded in a way to make it easy to backup or exchange set of rules between users. Hopefully advanced users will share their carefully crafted recipes to help novice users.",
         "description": "English: [see english message.json]"
     },
     "scopedBackupRecipeButton": {
