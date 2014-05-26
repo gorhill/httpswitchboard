@@ -439,6 +439,14 @@ Tom's Hardware:
             * bestofmicro.com
             script ajax.googleapis.com
 
+Toronto Star:
+    keys: '*.thestar.com'
+    scope: '*.thestar.com'
+        whitelist: |
+            * thestar.com
+            script admin.brightcove.com
+            script ajax.googleapis.com
+
 Tumblr:
     keys: '*.tumblr.com'
     scope: '*.tumblr.com'
