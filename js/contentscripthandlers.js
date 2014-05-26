@@ -19,6 +19,8 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
+/* global chrome, HTTPSB */
+
 /******************************************************************************/
 
 (function() {

@@ -20,6 +20,7 @@
 */
 
 /*jshint multistr: true */
+/* global chrome, HTTPSB */
 
 /******************************************************************************/
 
@@ -488,7 +489,6 @@ var foilRefererHeaders = function(httpsb, toHostname, details) {
 /******************************************************************************/
 
 var foilUserAgent = function(httpsb, details) {
-    var changed = false;
     var headers = details.requestHeaders;
     var header;
     var i = 0;
