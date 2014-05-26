@@ -34,6 +34,7 @@ var contentScriptSummaryHandler = function(details, sender) {
     }
     var httpsb = HTTPSB;
     var pageURL = httpsb.pageUrlFromTabId(sender.tab.id);
+    var pageStats = httpsb.pageStatsFromPageUrl(pageURL);
     var httpsburi = httpsb.URI.set(details.locationURL);
     var frameURL = httpsburi.normalizedURI();
     var urls, url, r;
@@ -45,27 +46,34 @@ var contentScriptSummaryHandler = function(details, sender) {
 
     // scripts
     // https://github.com/gorhill/httpswitchboard/issues/25
-    urls = details.scriptSources;
-    for ( url in urls ) {
-        if ( !urls.hasOwnProperty(url) ) {
-            continue;
+    if ( pageStats && pageStats.pageScriptBlocked ) {
+        urls = details.scriptSources;
+        for ( url in urls ) {
+            if ( !urls.hasOwnProperty(url) ) {
+                continue;
+            }
+            if ( url === '{inline_script}' ) {
+                url = frameURL + '{inline_script}';
+            }
+            r = httpsb.filterRequest(pageURL, 'script', url);
+            pageStats.recordRequest('script', url, r !== false, r);
         }
-        if ( url === '{inline_script}' ) {
-            url = frameURL + '{inline_script}';
-        }
-        r = httpsb.filterRequest(pageURL, 'script', url);
-        httpsb.recordFromPageUrl(pageURL, 'script', url, r !== false, r);
     }
 
+    // TODO: as of 2014-05-26, not sure this is needed anymore, since HTTPSB
+    // no longer uses chrome.contentSettings API (I think that was the reason
+    // this code was put in).
     // plugins
     // https://github.com/gorhill/httpswitchboard/issues/25
-    urls = details.pluginSources;
-    for ( url in urls ) {
-        if ( !urls.hasOwnProperty(url) ) {
-            continue;
+    if ( pageStats ) {
+        urls = details.pluginSources;
+        for ( url in urls ) {
+            if ( !urls.hasOwnProperty(url) ) {
+                continue;
+            }
+            r = httpsb.filterRequest(pageURL, 'object', url);
+            pageStats.recordRequest('object', url, r !== false, r);
         }
-        r = httpsb.filterRequest(pageURL, 'object', url);
-        httpsb.recordFromPageUrl(pageURL, 'object', url, r !== false, r);
     }
 
     // https://github.com/gorhill/httpswitchboard/issues/181

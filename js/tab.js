@@ -91,6 +91,10 @@ PageStatsEntry.prototype.recordRequest = function(type, url, block, reason) {
     // Count blocked/allowed requests
     this.requestStats.record(type, block);
 
+    // https://github.com/gorhill/httpswitchboard/issues/306
+    // If it is recorded locally, record globally
+    httpsb.requestStats.record(type, block);
+
     if ( block !== false ) {
         this.perLoadBlockedRequestCount++;
     } else {

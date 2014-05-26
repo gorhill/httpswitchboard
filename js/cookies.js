@@ -229,7 +229,6 @@ var recordPageCookie = function(pageStats, cookieKey) {
         cookieLogEntryBuilder.join(''),
         block
     );
-    httpsb.requestStats.record('cookie', block);
 
     // rhill 2013-11-21:
     // https://github.com/gorhill/httpswitchboard/issues/65

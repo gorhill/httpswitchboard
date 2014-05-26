@@ -220,9 +220,6 @@ var onBeforeRootFrameRequestHandler = function(details) {
 
     // console.debug('onBeforeRequestHandler()> block=%s "%s": %o', block, details.url, details);
 
-    // Collect global stats
-    httpsb.requestStats.record('main_frame', block);
-
     // whitelisted?
     if ( !block ) {
         // rhill 2013-11-07: Senseless to do this for behind-the-scene requests.
@@ -357,9 +354,6 @@ var onBeforeRequestHandler = function(details) {
 
     // Page stats
     pageStats.recordRequest(requestType, requestURL, block, reason);
-
-    // Global stats
-    httpsb.requestStats.record(requestType, block);
 
     // whitelisted?
     if ( !block ) {
