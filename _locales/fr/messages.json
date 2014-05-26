@@ -256,7 +256,7 @@
         "description": "..."
     },
     "settingsMatrixDisplayColorBlind" : {
-        "message": "Compatible au daltonisme",
+        "message": "Mode Daltonien",
         "description": "English: Color-blind friendly"
     },
     "settingsMatrixMoreSecurityHeader" : {
