@@ -574,27 +574,27 @@
 
 
     "aboutChangelog" : {
-        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki/Change-log'>Change log</a>",
+        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki/Change-log'>Journal des changements (en Anglais)</a>",
         "description": "English: <a href='https://github.com/gorhill/httpswitchboard/wiki/Change-log'>Change log</a>"
     },
     "aboutStorageUsed" : {
-        "message": "Storage used: {{storageUsed}}%",
+        "message": "Stockage utilisé : {{storageUsed}}%",
         "description": "English: Storage used: {{storageUsed}}%"
     },
     "aboutDoc" : {
-        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki'>Documentation</a>",
+        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki'>Documentation (en Anglais)</a>",
         "description": "English: <a href='https://github.com/gorhill/httpswitchboard/wiki'>Documentation</a>"
     },
     "aboutPermissions" : {
-        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki/Permissions'>Permissions</a>",
+        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki/Permissions'>Permissions (en Anglais)</a>",
         "description": "English: <a href='https://github.com/gorhill/httpswitchboard/wiki/Permissions'>Permissions</a>"
     },
     "aboutCode" : {
-        "message": "<a href='https://github.com/gorhill/httpswitchboard'>Source code (GPLv3)</a>",
+        "message": "<a href='https://github.com/gorhill/httpswitchboard'>Code Source (Licence GPLv3, en Anglais)</a>",
         "description": "English: <a href='https://github.com/gorhill/httpswitchboard'>Source code (GPLv3)</a>"
     },
     "aboutCredits" : {
-        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki/Credits'>Credits</a>",
+        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki/Credits'>Crédits (en Anglais)</a>",
         "description": "English: <a href='https://github.com/gorhill/httpswitchboard/wiki/Credits'>Credits</a>"
     },
     "aboutUserDataHeader" : {
