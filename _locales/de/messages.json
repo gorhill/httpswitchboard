@@ -516,7 +516,7 @@
         "description": "English: Rules"
     },
     "scopedRulesInfo": {
-        "message": "Hier kannst du für deine Geltungsbereiche und Regeln ein Backup anlegen: Klicke auf &ldquo;Regeln exportieren&rdquo;, klicke optional auf &ldquo;Als Rezept kodieren&rdquo;, und speichere das Ergbenis als Datei, dessen Inhalt später hier eingefügt werden kann.<p>Die Syntax ist strikt, nur fortgeschrittene Benutzer sollten es riskieren, hier zu editieren. Wenn du ein Rezept von einer nicht vertrauenswürdigen Quelle importierst, solltest du sicher sein, dass nichts damit verkehrt ist (Bsp.: <b>&ldquo;whitelist * evil.com&rdquo;</b>)</p>",
+        "message": "Hier kannst du für deine Geltungsbereiche und Regeln ein Backup anlegen: Klicke auf &ldquo;Regeln exportieren&rdquo;, klicke optional auf &ldquo;Als Rezept kodieren&rdquo;, und speichere das Ergebnis als Datei, dessen Inhalt später hier eingefügt werden kann.<p>Die Syntax ist strikt, nur fortgeschrittene Benutzer sollten es riskieren, hier zu editieren. Wenn du ein Rezept von einer nicht vertrauenswürdigen Quelle importierst, solltest du sicher sein, dass nichts damit verkehrt ist (Bsp.: <b>&ldquo;whitelist * evil.com&rdquo;</b>)</p>",
         "description": "English: [see english message.json]"
     },
     "scopedRecipeHeader": {
@@ -524,7 +524,7 @@
         "description": "English: Recipes"
     },
     "scopedRecipesInfo": {
-        "message": "Ein &ldquo;Rezeot&rdquo; ist einfach ein Satz von Regeln, die auf eine Weise kodiert sind, dass sie leicht gesichert oder mit anderen Benutzern ausgetauscht werden können. In der Hoffnung, dass fortgeschrittene Benutzer ihre sorgfältig erstellten Rezepte mit Neulingen teilen werden, um diese zu unterstützen.",
+        "message": "Ein &ldquo;Rezept&rdquo; ist einfach ein Satz von Regeln, die auf eine Weise kodiert sind, dass sie leicht gesichert oder mit anderen Benutzern ausgetauscht werden können. In der Hoffnung, dass fortgeschrittene Benutzer ihre sorgfältig erstellten Rezepte mit Neulingen teilen werden, um diese zu unterstützen.",
         "description": "English: [see english message.json]"
     },
     "scopedBackupRecipeButton": {
@@ -540,7 +540,7 @@
         "description": "English: Decode recipe"
     },
     "scopedEncodeRecipeButton": {
-        "message": "In ein Rezept kodieren",
+        "message": "Als Rezept kodieren",
         "description": "English: Encode recipe"
     },
     "scopedImportRulesButton": {
@@ -556,7 +556,7 @@
         "description": "English: Global scope"
     },
     "scopedBtsScopeHeader": {
-        "message": "Geltungsbereich Huntergrundanfragen",
+        "message": "Geltungsbereich Hintergrundanfragen",
         "description": "English: Behind-the-scene scope"
     },
     "scopedDomainScopeHeader": {
@@ -598,11 +598,11 @@
         "description": "Message asking user to confirm restore"
     },
     "aboutExtensionDataHeader" : {
-        "message": "Daten dieser Erweiterung",
+        "message": "Komponenten dieser Erweiterung",
         "description": "English: Extension data"
     },
     "aboutAssetsUpdatePrompt" : {
-        "message": "Von <i>HTTP Switchboard</i> benutzte Komponenten können hier upgedatet werden, ohne auf eine neue Version dieser Erweiterung warten zu müssen. Diese Komponenten werden bezogen vom <a href=\"https://github.com/gorhill/httpswitchboard\">Github Repository diese Projekts</a>.",
+        "message": "Von <i>HTTP Switchboard</i> benutzte Komponenten können hier upgedatet werden, ohne auf eine neue Version dieser Erweiterung warten zu müssen. Diese Komponenten werden bezogen vom <a href=\"https://github.com/gorhill/httpswitchboard\">Github Repository dieses Projekts</a>.",
         "description": "Short descriptive text of the update feature"
     },
     "aboutAssetsUpdateColPath" : {
