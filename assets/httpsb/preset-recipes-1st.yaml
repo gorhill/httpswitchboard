@@ -286,6 +286,13 @@ Mashable:
             frame mashable.com
             * mshcdn.com
 
+Medium:
+    keys: medium.com
+    scope: '*.medium.com'
+        whitelist: |
+            * medium.com
+            * dnqgz544uhbo8.cloudfront.net
+
 Météomedia:
     keys: www.meteomedia.com
     scope: www.meteomedia.com
