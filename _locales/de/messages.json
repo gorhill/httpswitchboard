@@ -256,7 +256,7 @@
         "description": "..."
     },
     "settingsMatrixDisplayColorBlind" : {
-        "message": "Color-blind friendly",
+        "message": "Anzeige für farbenblinde Benutzer",
         "description": "English: Color-blind friendly"
     },
     "settingsMatrixMoreSecurityHeader" : {
