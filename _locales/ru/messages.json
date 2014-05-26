@@ -573,6 +573,30 @@
     },
 
 
+    "aboutChangelog" : {
+        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki/Change-log'>Change log</a>",
+        "description": "English: <a href='https://github.com/gorhill/httpswitchboard/wiki/Change-log'>Change log</a>"
+    },
+    "aboutStorageUsed" : {
+        "message": "Storage used: {{storageUsed}}%",
+        "description": "English: Storage used: {{storageUsed}}%"
+    },
+    "aboutDoc" : {
+        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki'>Documentation</a>",
+        "description": "English: <a href='https://github.com/gorhill/httpswitchboard/wiki'>Documentation</a>"
+    },
+    "aboutPermissions" : {
+        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki/Permissions'>Permissions</a>",
+        "description": "English: <a href='https://github.com/gorhill/httpswitchboard/wiki/Permissions'>Permissions</a>"
+    },
+    "aboutCode" : {
+        "message": "<a href='https://github.com/gorhill/httpswitchboard'>Source code (GPLv3)</a>",
+        "description": "English: <a href='https://github.com/gorhill/httpswitchboard'>Source code (GPLv3)</a>"
+    },
+    "aboutCredits" : {
+        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki/Credits'>Credits</a>",
+        "description": "English: <a href='https://github.com/gorhill/httpswitchboard/wiki/Credits'>Credits</a>"
+    },
     "aboutUserDataHeader" : {
         "message": "Ваши настройки",
         "description": "English: Your data"

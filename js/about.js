@@ -281,7 +281,7 @@ var onMessageHandler = function(request) {
 (function() {
     var httpsb = getHTTPSB();
     $('#aboutVersion').html(httpsb.manifest.version);
-    $('#aboutStorageUsed').html(httpsb.storageQuota ? (httpsb.storageUsed / httpsb.storageQuota * 100).toFixed(1) : 0);
+    $('#aboutStorageUsed').html(chrome.i18n.getMessage('aboutStorageUsed').replace('{{storageUsed}}', httpsb.storageQuota ? (httpsb.storageUsed / httpsb.storageQuota * 100).toFixed(1) : 0));
 })();
 
 /******************************************************************************/
