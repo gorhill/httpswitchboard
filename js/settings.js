@@ -60,7 +60,6 @@ var onSubframeColorChanged = function() {
     }
     changeUserSettings('subframeOpacity', opacity);
     updateSubframeDemo();
-    return color;
 };
 
 /******************************************************************************/
