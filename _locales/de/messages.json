@@ -340,7 +340,7 @@
         "description": "English: Blocked frames:&ensp;Color"
     },
     "settingsSubframeOpacity" : {
-        "message": "Opacity:",
+        "message": "Undurchsichtigkeit:",
         "description": "English: Opacity:"
     },
     "settingsPrivacyHeader" : {
