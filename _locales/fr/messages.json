@@ -336,11 +336,11 @@
         "description": "English:"
     },
     "settingsSubframeColor" : {
-        "message": "Couleur pour les &lt;iframe&gt; bloqués:",
+        "message": "Couleur pour les &lt;iframe&gt; bloquées :",
         "description": "English: Blocked frames:&ensp;Color"
     },
     "settingsSubframeOpacity" : {
-        "message": "Opacité:",
+        "message": "Opacité :",
         "description": "English: Opacity:"
     },
     "settingsPrivacyHeader" : {
