@@ -19,8 +19,7 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
-/******************************************************************************/
-
+/*jshint multistr: true */
 
 /******************************************************************************/
 
@@ -30,7 +29,6 @@
 
 /******************************************************************************/
 
-/*jshint multistr: true */
 var rootFrameReplacement = "<!DOCTYPE html> \
 <html> \
 <head> \
@@ -109,7 +107,7 @@ padding:0;\
 font:13px httpsb,sans-serif;\
 }\
 #bg{\
-border:1px dotted {{fgColor}};\
+border:1px dotted {{subframeColor}};\
 position:absolute;\
 top:0;\
 right:0;\
@@ -120,11 +118,12 @@ background-size:10px 10px;\
 background-image:\
 repeating-linear-gradient(\
 -45deg,\
-{{fgColor}},{{fgColor}} 24%,\
+{{subframeColor}},{{subframeColor}} 24%,\
 transparent 25%,transparent 49%,\
-{{fgColor}} 50%,{{fgColor}} 74%,\
+{{subframeColor}} 50%,{{subframeColor}} 74%,\
 transparent 75%,transparent\
 );\
+opacity:{{subframeOpacity}};\
 text-align:center;\
 }\
 #bg > div{\
@@ -135,7 +134,7 @@ background-color:rgba(255,255,255,1);\
 padding:0 2px;\
 display:inline-block;\
 color:white;\
-background-color:{{fgColor}};\
+background-color:{{subframeColor}};\
 }\
 </style>\
 <title>Blocked by HTTPSB</title>\
@@ -380,7 +379,8 @@ var onBeforeRequestHandler = function(details) {
         var html = subFrameReplacement
             .replace(/{{fontUrl}}/g, httpsb.fontCSSURL)
             .replace(/{{hostname}}/g, requestHostname)
-            .replace(/{{fgColor}}/g, httpsb.userSettings.subframeFgColor);
+            .replace(/{{subframeColor}}/g, httpsb.userSettings.subframeColor)
+            .replace(/{{subframeOpacity}}/g, (httpsb.userSettings.subframeOpacity / 100).toFixed(1));
         // quickProfiler.stop();
         return { 'redirectUrl': 'data:text/html,' + encodeURIComponent(html) };
     }

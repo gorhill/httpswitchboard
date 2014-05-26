@@ -1598,8 +1598,9 @@ $(function() {
 
     var popup = HTTPSBPopup;
 
-    // Display size
+    // Matrix appearance
     $('body').css('font-size', getUserSetting('displayTextSize'));
+    $('body').toggleClass('colorblind', getUserSetting('colorBlindFriendly') === true);
 
     // We reuse for all cells the one and only cell hotspots.
     matrixCellHotspots = $('#cellHotspots').detach();

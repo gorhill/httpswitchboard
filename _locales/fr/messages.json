@@ -241,7 +241,7 @@
     },
     "settingsMatrixDisplayHeader" : {
         "message": "Affichage",
-        "description": "header of Matrix/Display settings section"
+        "description": "English: Appearance"
     },
     "settingsMatrixDisplayTextSizePrompt" : {
         "message": "Taille du texte :",
@@ -254,6 +254,10 @@
     "settingsMatrixDisplayTextSizeLarge" : {
         "message": "Large",
         "description": "..."
+    },
+    "settingsMatrixDisplayColorBlind" : {
+        "message": "Compatible au daltonisme",
+        "description": "English: Color-blind friendly"
     },
     "settingsMatrixMoreSecurityHeader" : {
         "message": "Sécurité renforcée",
@@ -331,9 +335,13 @@
         "message": "",
         "description": "English:"
     },
-    "settingsSubframeFgColor" : {
-        "message": "Couleur pour les &lt;iframe&gt; bloqués (syntaxe CSS):",
-        "description": "English: Blocked frames color (any valid CSS color):"
+    "settingsSubframeColor" : {
+        "message": "Couleur pour les &lt;iframe&gt; bloqués:",
+        "description": "English: Blocked frames:&ensp;Color"
+    },
+    "settingsSubframeOpacity" : {
+        "message": "Opacité:",
+        "description": "English: Opacity:"
     },
     "settingsPrivacyHeader" : {
         "message": "Confidentialité",

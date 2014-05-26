@@ -255,6 +255,10 @@
         "message": "Большой",
         "description": "..."
     },
+    "settingsMatrixDisplayColorBlind" : {
+        "message": "Color-blind friendly",
+        "description": "English: Color-blind friendly"
+    },
     "settingsMatrixMoreSecurityHeader" : {
         "message": "Больше защиты",
         "description": "..."
@@ -331,9 +335,13 @@
         "message": "",
         "description": "English:"
     },
-    "settingsSubframeFgColor" : {
-        "message": "Цвет заблокированного фрейма (любой CSS цвет):",
-        "description": "English: Blocked frames color (any valid CSS color):"
+    "settingsSubframeColor" : {
+        "message": "Цвет заблокированного фрейма:",
+        "description": "English: Blocked frames:&ensp;Color"
+    },
+    "settingsSubframeOpacity" : {
+        "message": "Opacity:",
+        "description": "English: Opacity:"
     },
     "settingsPrivacyHeader" : {
         "message": "Конфиденциальность",

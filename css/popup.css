@@ -419,13 +419,6 @@ body.powerOff .matrix .g3Meta.g3Collapsed ~ .matRow.ro {
     color: white;
     background-color: #080;
     }
-.matRow.rw .matCell {
-    cursor: pointer;
-    }
-body.powerOff .matRow.rw .matCell {
-    cursor: auto;
-    opacity: 0.6;
-    }
 .rpt {
     color: black;
     background-color: #f8d0d0;
@@ -455,32 +448,47 @@ body.powerOff .matRow.rw .matCell {
     background-position: -1px -1px;
     }
 
-.top {
-    font-weight: bold;
+/* Cell coloring for color blind-friendly (hopefully) */
+body.colorblind .rdt {
+    color: white;
+    background-color: #000;
+    }
+body.colorblind .gdt {
+    color: black;
+    background-color: #fff;
+    }
+body.colorblind .rpt {
+    color: white;
+    background-color: #777;
+    }
+body.colorblind .gpt {
+    color: black;
+    background-color: #ddd;
+    }
+body.colorblind .matCell.rdp {
+    background-image: url('/img/permanent-black-small-cb.png');
+    }
+body.colorblind .matCell.gdp {
+    background-image: url('/img/permanent-white-small-cb.png');
+    }
+body.colorblind .matCell.rpp {
+    background-image: url('/img/permanent-black-small-cb.png');
+    }
+body.colorblind .matCell.gpp {
+    background-image: url('/img/permanent-white-small-cb.png');
     }
 
-#message {
-    margin: 0;
-    border: 0;
-    padding: 0;
-    position: absolute;
-    left: 2.5em;
-    right: 4.5em;
-    top: 4px;
-    color: #888;
-    word-break: normal;
-    font-size: 115%;
-    line-height: 120%;
-    overflow: hidden;
-    text-align: center;
-    background-color: transparent;
+
+.matRow.rw .matCell {
+    cursor: pointer;
     }
-#message b {
-    color: black;
-    font-weight: normal;
+body.powerOff .matRow.rw .matCell {
+    cursor: auto;
+    opacity: 0.6;
     }
-#message .gdt, #message .rdt {
-    padding: 0 4px;
+
+.top {
+    font-weight: bold;
     }
 
 #cellHotspots {
@@ -517,9 +525,17 @@ body.powerOff #whitelist, body.powerOff #blacklist {
     background-color: #080;
     opacity: 0.25;
     }
+body.colorblind .rw .matCell.rpt #whitelist:hover {
+    background-color: #fff;
+    opacity: 0.6;
+    }
 .rw .matCell.gpt #whitelist:hover {
     background-color: #080;
     opacity: 0.25;
+    }
+body.colorblind .rw .matCell.gpt #whitelist:hover {
+    background-color: #fff;
+    opacity: 0.6;
     }
 .matCell.rdt #whitelist:hover {
     background-color: transparent;
@@ -531,9 +547,17 @@ body.powerOff #whitelist, body.powerOff #blacklist {
     background-color: #c00;
     opacity: 0.25;
     }
+body.colorblind .rw .matCell.rpt #blacklist:hover {
+    background-color: #000;
+    opacity: 0.4;
+    }
 .rw .matCell.gpt #blacklist:hover {
     background-color: #c00;
     opacity: 0.25;
+    }
+body.colorblind .rw .matCell.gpt #blacklist:hover {
+    background-color: #000;
+    opacity: 0.4;
     }
 .matCell.rdt #blacklist:hover {
     background-color: transparent;

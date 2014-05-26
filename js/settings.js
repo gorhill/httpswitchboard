@@ -34,23 +34,32 @@ function gethttpsb() {
 var subframeDemoBackgroundImage = 'repeating-linear-gradient(\
 -45deg,\
 {{color}},{{color}} 24%,\
-transparent 25%,transparent 49%,\
-{{color}} 50%,{{color}} 74%,\
-transparent 75%,transparent\
+transparent 26%,transparent 49%,\
+{{color}} 51%,{{color}} 74%,\
+transparent 76%,transparent\
 )';
 
 var updateSubframeDemo = function() {
-    var demo = $('#subframe-fgcolor-demo');
-    var color = $('#subframe-fgcolor').val();
+    var demo = $('#subframe-color-demo');
+    var color = $('#subframe-color').val();
     demo.css('border-color', color);
     var re = new RegExp('\{\{color\}\}', 'g');
     demo.css('background-image', subframeDemoBackgroundImage.replace(re, color));
+    demo.css('opacity', (parseInt($('#subframe-opacity').val(), 10) / 100).toFixed(1));
 };
 
-var validateColor = function(color) {
+var onSubframeColorChanged = function() {
+    var color = $('#subframe-color').val();
     if ( color === '' ) {
-        return 'rgba(204,0,0,1)';
+        $('#subframe-color').val(color);
     }
+    changeUserSettings('subframeColor', color);
+    var opacity = parseInt($('#subframe-opacity').val(), 10);
+    if ( Number.isNaN(opacity) ) {
+        opacity = 100;
+    }
+    changeUserSettings('subframeOpacity', opacity);
+    updateSubframeDemo();
     return color;
 };
 
@@ -99,7 +108,7 @@ function onChangeValueHandler(elem, setting, min, max) {
 /******************************************************************************/
 
 function prepareToDie() {
-    changeUserSettings('subframeFgColor', validateColor($('#subframe-fgcolor').val()));
+    onSubframeColorChanged();
     onChangeValueHandler($('#delete-unused-session-cookies-after'), 'deleteUnusedSessionCookiesAfter', 15, 1440);
     onChangeValueHandler($('#clear-browser-cache-after'), 'clearBrowserCacheAfter', 15, 1440);
     onChangeValueHandler($('#spoof-user-agent-every'), 'spoofUserAgentEvery', 2, 999);
@@ -114,13 +123,15 @@ $(function() {
     $('input[name="displayTextSize"]').attr('checked', function(){
         return $(this).attr('value') === userSettings.displayTextSize;
         });
+    $('#color-blind-friendly').attr('checked', userSettings.colorBlindFriendly === true);
     $('#strict-blocking').attr('checked', userSettings.strictBlocking === true);
     $('#auto-create-scope').attr('checked', userSettings.autoCreateScope !== '');
     $('#auto-create-scope-level').val(userSettings.autoCreateScope !== '' ? userSettings.autoCreateScope : 'domain');
     $('#auto-whitelist-page-domain').attr('checked', userSettings.autoWhitelistPageDomain === true);
     $('#smart-auto-reload').val(userSettings.smartAutoReload);
     $('#delete-unused-temporary-scopes').attr('checked', userSettings.deleteUnusedTemporaryScopes === true);
-    $('#subframe-fgcolor').val(userSettings.subframeFgColor);
+    $('#subframe-color').val(userSettings.subframeColor);
+    $('#subframe-opacity').val(userSettings.subframeOpacity);
     updateSubframeDemo();
     $('#delete-unused-session-cookies').attr('checked', userSettings.deleteUnusedSessionCookies === true);
     $('#delete-unused-session-cookies-after').val(userSettings.deleteUnusedSessionCookiesAfter);
@@ -136,6 +147,9 @@ $(function() {
     // Handle user interaction
     $('input[name="displayTextSize"]').on('change', function(){
         changeUserSettings('displayTextSize', $(this).attr('value'));
+    });
+    $('#color-blind-friendly').on('change', function(){
+        changeUserSettings('colorBlindFriendly', $(this).is(':checked'));
     });
     $('#strict-blocking').on('change', function(){
         changeUserSettings('strictBlocking', $(this).is(':checked'));
@@ -161,12 +175,8 @@ $(function() {
     $('#delete-unused-temporary-scopes').on('change', function(){
         changeUserSettings('deleteUnusedTemporaryScopes', $(this).is(':checked'));
     });
-    $('#subframe-fgcolor').on('change', function(){
-        var color = validateColor($(this).val());
-        $(this).val(color);
-        changeUserSettings('subframeFgColor', color);
-        updateSubframeDemo();
-    });
+    $('#subframe-color').on('change', function(){ onSubframeColorChanged(); });
+    $('#subframe-opacity').on('change', function(){ onSubframeColorChanged(); });
     $('#delete-unused-session-cookies').on('change', function(){
         changeUserSettings('deleteUnusedSessionCookies', $(this).is(':checked'));
     });

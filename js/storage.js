@@ -56,9 +56,9 @@ HTTPSB.loadUserSettings = function() {
             store.autoCreateScope = store.autoCreateSiteScope ? 'site' : '';
             delete store.autoCreateSiteScope;
         }
-        // https://github.com/gorhill/httpswitchboard/issues/135
+        // https://github.com/gorhill/httpswitchboard/issues/299
         // No longer needed.
-        delete store.subframeOpacity;
+        delete store.subframeFgColor;
 
         HTTPSB.userSettings = store;
     };

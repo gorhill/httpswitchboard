@@ -241,7 +241,7 @@
     },
     "settingsMatrixDisplayHeader" : {
         "message": "Anzeige",
-        "description": "header of Matrix/Display settings section"
+        "description": "English: Appearance"
     },
     "settingsMatrixDisplayTextSizePrompt" : {
         "message": "Textgröße:",
@@ -254,6 +254,10 @@
     "settingsMatrixDisplayTextSizeLarge" : {
         "message": "Groß",
         "description": "..."
+    },
+    "settingsMatrixDisplayColorBlind" : {
+        "message": "Color-blind friendly",
+        "description": "English: Color-blind friendly"
     },
     "settingsMatrixMoreSecurityHeader" : {
         "message": "Mehr Sicherheit",
@@ -331,9 +335,13 @@
         "message": "",
         "description": "English:"
     },
-    "settingsSubframeFgColor" : {
-        "message": "Farbe blockierter Frames (jede gültige CSS Farbe):",
-        "description": "English: Blocked frames color (any valid CSS color):"
+    "settingsSubframeColor" : {
+        "message": "Farbe blockierter Frames:",
+        "description": "English: Blocked frames:&ensp;Color"
+    },
+    "settingsSubframeOpacity" : {
+        "message": "Opacity:",
+        "description": "English: Opacity:"
     },
     "settingsPrivacyHeader" : {
         "message": "Privatsphäre",
