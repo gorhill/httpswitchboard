@@ -256,7 +256,7 @@
         "description": "..."
     },
     "settingsMatrixDisplayColorBlind" : {
-        "message": "Color-blind friendly",
+        "message": "Режим для дальтоников",
         "description": "English: Color-blind friendly"
     },
     "settingsMatrixMoreSecurityHeader" : {
@@ -340,7 +340,7 @@
         "description": "English: Blocked frames:&ensp;Color"
     },
     "settingsSubframeOpacity" : {
-        "message": "Opacity:",
+        "message": "Прозрачность:",
         "description": "English: Opacity:"
     },
     "settingsPrivacyHeader" : {
