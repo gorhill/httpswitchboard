@@ -15,12 +15,15 @@
 .eg/ads/
 .ma/ads/
 /ads468x60.
+/advStatLib.js
+/advStatSettings.js
 /ar/ads/*
 /ara/ads/*
 !
 !----------------------- Éléments génériques -----------------!
 ###pub-730x90
 ##.pub-730x90
+##a[href*="/ads/ad_link.php?"]
 ##a[href*="adintop.com/outgoing/click.php?"]
 ##a[href*="dubizzle.com/ar/?utm_source="]
 ##a[href^="ads.php?id="]
@@ -341,6 +344,7 @@
 ||a7lacartoon.com/fetees.js
 ||a7lahmsa.com/vb/aerowindow/
 ||a7lahmsa.com/vb/open/
+||actionha.net/stylesheets/takeover-rani/$stylesheet
 ||adf.ly^$popup,domain=nassamat.com
 ||adslgate.com/upload/mini-android-banner
 ||adv.mmnon.com^
@@ -746,6 +750,7 @@
 ||qalansuwa.com/online/images/stories/flash/
 ||qalansuwa.com/online/images/stories/spots/
 ||qaradawi.net^*/banners/
+||qariya.info/adv/
 ||qatar2.net^$popup,domain=qatarw.com
 ||qatarw.com/get-11-2008-1.gif
 ||qatarw.com/images/88.gif
@@ -853,6 +858,8 @@
 !
 !----------------------- Éléments -----------------------!
 !
+arabnet5.com###AdDivUnderNews
+arabnet5.com###Addiv
 i-share-ads.com###Ads1
 i-share-ads.com###Ads4
 ahram.org.eg###AdvShowCase1_divShowcase
@@ -860,6 +867,7 @@ arabseyes.com###Banner
 i-share-ads.com###ContentPlaceHolder1_MPE_AdsShow_backgroundElement
 i-share-ads.com###ContentPlaceHolder1_Pnl_ShowAds
 alarab.net###FloatBanner
+arabnet5.com###GoogleDivUnderNews
 ounousa.com###LeftBannerContainer
 jeddahbikers.com###Main_MPU
 ounousa.com###TopBanner

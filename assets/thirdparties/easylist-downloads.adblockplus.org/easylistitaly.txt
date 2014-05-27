@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: ScFk2XHBHFZDGyNhQeJFWg
-! Version: 201405250441
+! Checksum: Sv2Y4Muv5Oh0o9FJIR/GJA
+! Version: 201405271711
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 25 May 2014 04:41 UTC
+! Ultima modifica: 27 May 2014 17:11 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -1492,6 +1492,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||terninrete.it/skins/terninrete2/images/headings/head_ha_suggerimenti_da_google.gif
 ||terranauta.it/banner/
 ||tesionline.it/v2/img/skin/
+||tgcom24.mediaset.it^*_BoxSpeciali_
 ||tggialloblu.it/images/banner-
 ||therockblog.net^*/banner-
 ||ticinofinanza.ch/banner/
@@ -1656,6 +1657,7 @@ ilsole24ore.com###annunci
 palermomania.com###area_banner_top
 fastweb.it,jacktech.it###assicu_box_ricerca
 autoxy.it,motousate.it###assicu_widget_300x80
+sportmediaset.it###b300xn
 libero.it###b468x60bottoms
 242movietv.com###back_inside
 calciomercato.com###background_left
@@ -1864,6 +1866,7 @@ ok-salute.it###ppn_center
 ilgiornale.it###primopiano
 ciao.it###productlevellink
 mtv.it###promoInfo
+sportmediaset.it###promobox
 loudvision.it###prop-leader
 catanzaroinforma.it###pubbliinmezzo
 nonsolocap.it###qk
@@ -2138,6 +2141,7 @@ omniauto.it##.box_listinousato
 35mm.it##.box_rightcol_banner1
 35mm.it##.box_rightcol_banner2
 subito.it##.box_sponsor
+tgcom24.mediaset.it##.boxspeciale
 tiscali.it##.c1c6.f12
 quotidiano.net##.category-SPONSOR
 edilportale.com##.click-Skin

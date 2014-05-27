@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: ThtDP64Mb1yaL3LpWCESkg
-! Version: 201405250441
+! Checksum: ZRAYIfe7Y6+aclFmXB3jgw
+! Version: 201405271711
 ! Title: EasyList Dutch
 ! Description: Dutch supplement for the Easylist filters
-! Last modified: 25 May 2014 04:41 UTC
+! Last modified: 27 May 2014 17:11 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -1107,6 +1107,7 @@ dutchattraction.nl##a[onclick^="countAdClick("]
 leukstespel.nl##a[target="_blank"] > img
 hln.be##a[title="Powered by Autozone.be"]
 moviemeter.nl##div[class^="banner"]
+startpagina.nl##div[class^="banner-"]
 hababam.nl##div[class^="had"]
 sexdumpert.nl##div[class^="maincenterbanner"]
 sexdumpert.nl##div[class^="mainleftbanner"]

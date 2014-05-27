@@ -1,16 +1,12 @@
 [Adblock Plus 2.0]
-! Checksum: Bdo/CXJ4sHY7JRrUdKZohQ
-! Version: 201405191410
+! Checksum: jCDlWPKEtmxbf7KmoifUmw
+! Version: 201405261320
 ! Title: Wiltteri
 ! Description: Finnish supplement list for EasyList
-! Last modified: 19 May 2014 14:10 UTC
+! Last modified: 26 May 2014 13:20 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: http://wiltteri.net/
-! License: http://creativecommons.org/licenses/by-sa/3.0/
-!
-! Please report any unblocked adverts or problems
-! in the forums (http://wiltteri.net/keskustelu/)
-! or via e-mail (wiltteri@wiltteri.net).
+! License: http://unlicense.org/
 !
 ! -------------------- wiltteri-general-block.txt ------------------- !
 /mainokset.
@@ -777,7 +773,6 @@ _mainosnappi.
 ||kutsunohjaus.tns-gallup.fi/public/js/
 ||kuvalauta.fi/bannerit/
 ||kuvanmaailma.fi/swf/
-||kuvaton.com/*mainos.jpg
 ||kuvaton.com/banners/
 ||kuvaton.com/bansku
 ||kvps.fi/pics/muut-logot/

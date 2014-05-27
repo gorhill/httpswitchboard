@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: Y+lZVkfioZ6y1aAp9Y407w
-! Version: 201405250440
-! Last modified: 25 May 2014 04:40 UTC
+! Checksum: wtq3Oc1JH1zKCGj40ziPYA
+! Version: 201405271710
+! Last modified: 27 May 2014 17:10 UTC
 ! Homepage: http://ruadlist.googlecode.com/
 !
 ! Дополнительная региональная подписка RU AdList к подписке EasyList
@@ -278,7 +278,6 @@ by,ru,ua##.banner_box
 &vk_t=*&adv_ids=
 -240x400_
 -teasers-
--tizer.
 .bannerbank.
 .bannerbank_
 .clickunder.
@@ -303,8 +302,6 @@ by,ru,ua##.banner_box
 .swf?url=http
 .teaser.
 .tizer-
-.tizer.
-.tizer/
 .tizermedia.
 .tizers.
 .viptizer.
@@ -2885,6 +2882,7 @@ wmforum.2bb.ru###pun-announcement
 2ip.ru##.ads + .nav
 auto.e1.ru##.au-main-container_e1 > noindex
 allmoldova.com##.banner_main
+staforceteam.ru##.boardlistInner[style="background-image: url(/logo/Standart/TemaLine2.png); background-repeat: repeat-y"]
 tfilm.tv##.branding
 allmoldova.com##.left_banner > a[target="_blank"]
 tvnet.lv##.list.customer
@@ -4195,9 +4193,11 @@ zelenograd.ru##td[width="99%"] + td:last-child
 urod.ru##tr[valign="top"] > td[width="249"]
 ! *** advblock/specific_hide_cosmetic.txt ***
 inosmi.ru###DIV_RNN_100
+underverse.su###ad-101
 demotivation.me###add2_div
 mygames.com.ua###admit-ad
 gismeteo.ru##.body > .top
+i.ua##.clear.logo_container
 tvnet.lv##.fp_horiz_ads_150x150
 comss.ru##.links ~ .box
 2ip.ru##.mainadv
@@ -4400,6 +4400,7 @@ _advideo/$object-subrequest,domain=megogo.net
 ||comnews.ru/ds_comnews/files/$object
 ||comnews.ru/ds_comnews/img_object/
 ||comnews.ru/ds_comnews/img_pictures/*.gif
+||companion.ua/www/images/
 ||consmed.ru/branding/
 ||consmed.ru/tizergen/
 ||cool-archive.ru/*_adv.
@@ -4587,6 +4588,7 @@ _advideo/$object-subrequest,domain=megogo.net
 ||hwp.ru/images/mid/h-anons.
 ||hyundai-club.com.ua/banner_
 ||i-pic.ru/clx_
+||i.ua^*_brandpage_
 ||ibusiness.ru^*/netlab/style.css?
 ||iccup.com/templates/images/*-iccup.jpg
 ||idownloads.ru^*/banners/
@@ -4937,7 +4939,7 @@ _advideo/$object-subrequest,domain=megogo.net
 ||restotv.ru/promo/$domain=restoclub.ru
 ||rf-cheats.ru/img/$object
 ||rg.ru/i/bnr/
-||rgfootball.net/upload/Atrisport/
+||rgfootball.net/upload/$image
 ||rghost.ru/a/
 ||rghost.ru/download/a/
 ||rin.ru/bodyadv.
@@ -5161,6 +5163,7 @@ _advideo/$object-subrequest,domain=megogo.net
 ||youtube.com/embed/$domain=kakprosto.ru
 ||zadolba.li/img/ur.jpg
 ||zakonia.ru/imgs/adshtml/
+||zaycev.net^*/brendirovaniya.
 ||zegame.net/files/
 ||zelenograd.ru/b/
 ||zerx.ru/templates/zerxnew/images/zerx_bg.
@@ -5241,6 +5244,7 @@ news.mail.ru##.s-article__banner-place
 lady.mail.ru##.slot
 hi-tech.mail.ru##.sony-text-wrap
 soft.mail.ru##.sputnik
+otvet.mail.ru##.torg-answer-banner
 mail.ru##.trg-b-banner-block
 mail.ru##body > .ad
 go.mail.ru##div[class^="ya_"][class$="_bottom"]
@@ -5518,26 +5522,21 @@ sadiki.tomsk.ru##td[valign] > a > img[vspace="10"]
 ||x-soft.tomsk.ru/dsa/
 !
 ! Чебоксаркие сайты
-/img/bg/*$domain=cheb.ru|na-svyazi.ru
-21forum.ru,na-svyazi.ru###user2s
-cheb.ru,na-svyazi.ru###f5img
-pokupki21.ru##.main_width > div[align="center"]
-zarulem.ws###begin #userlinks
-||cheb.ru/img/$object
-||cheb.ru/img/bg/
-||cheb.ru/uploads/$object
+/img/*$object,domain=21forum.ru|cheb.ru|na-svyazi.ru
+/img/bg/*$domain=21forum.ru|cheb.ru|na-svyazi.ru
+/uploads/*$object,domain=21forum.ru|cheb.ru|na-svyazi.ru
 ||kugesi.ru/fl2s/
 ||kugesi.ru/fl3s/
-||na-svyazi.ru/img/$object
-||na-svyazi.ru/uploads/$object
 ! Привет!
+zarulem.ws###begin #userlinks
+pokupki21.ru##.main_width > div[align="center"]
 .ru/*.swf|$third-party,domain=21forum.ru|afisha21.ru|cheb.ru|cheb.ws|cheboksary.ws|kugesi.ru|na-svyazi.ru|zarulem.ws
-cheb.ru##div[style*="background:"][style*=".gif)"]
+cheb.ru,na-svyazi.ru##.ru200200
+cheb.ru##.ru560130
+cheb.ru##.ru56080
 21forum.ru,afisha21.ru,cheb.ru,cheb.ws,cheboksary.ws,kugesi.ru,na-svyazi.ru,zarulem.ws##td[align][height="200"]
 21forum.ru,afisha21.ru,cheb.ru,cheb.ws,cheboksary.ws,kugesi.ru,na-svyazi.ru,zarulem.ws##td[background$=".gif"]
-21forum.ru##td[height="70"][align="center"]
 21forum.ru,afisha21.ru,cheb.ru,cheb.ws,cheboksary.ws,kugesi.ru,na-svyazi.ru,zarulem.ws##td[style*="background:"][style*=".gif)"]
-na-svyazi.ru##td[width="320"][align="center"]
 ||212121.ru^
 ||21dengi.ru^
 ||21doctor.ru^
@@ -5635,6 +5634,7 @@ izvestia.ru##div[style*="/popup-banner/"]
 @@/spcjs.php$script,domain=altapress.ru
 @@/teasers.$domain=joindota.com
 @@/teasers/*$domain=hock5.ru|rw.by
+@@/tizer/*$domain=sibtravel42.ru|tutu.ru
 @@/upload/bx/*$domain=ffan.ru|transbank.ru
 @@/upload/rk/*$domain=211.ru|bbk.ru|biysk22.ru|fixiki.ru|kykyryza.ru|oschadnybank.com|qwerty.ru|radiorecord.ru|tsu.ru|бийск.рф
 @@/webadvert.$domain=webadvert.ru
@@ -5732,6 +5732,7 @@ izvestia.ru##div[style*="/popup-banner/"]
 @@||russia.ru/reklama/32x32.flv?link1=$object-subrequest,domain=vz.ru
 @@||s5o.ru/common/css/teaser.css?
 @@||sarafannoeradio.org/images/stories/$domain=sarafannoeradio.org
+@@||sellua.info^*/ad/$domain=sellua.info
 @@||semrush.com/m/scripts/reports/backlinks.$~third-party
 @@||sims3club.ru/images/bn/$~third-party
 @@||stat.pladform.ru^$domain=chatovod.ru
@@ -5747,7 +5748,6 @@ izvestia.ru##div[style*="/popup-banner/"]
 @@||teachvideo.ru/www/delivery/$~third-party
 @@||teasers.gs-media.de^$domain=joindota.com
 @@||tripit.com/js/components/popover.js?$domain=tripit.com
-@@||tu-tu.ru/*/main/tizer/$domain=tutu.ru
 @@||tut.by/*/ads1/*/params.php?uid=$object-subrequest,domain=tut.by
 @@||tvnet.lv/o/servlet/view/banner/javascript/media?$script,domain=tvnet.lv
 @@||ukrainianiphone.com/baners/r/$~third-party
@@ -5767,6 +5767,9 @@ izvestia.ru##div[style*="/popup-banner/"]
 @@||yandex.ru/resource/$domain=bestpersons.ru
 @@||yandex.ru/system/context.js$domain=bestpersons.ru
 roshlam.ru#@#.adverts
+sellua.info#@#.ad_img
+sellua.info#@#.ad_item
+sellua.info#@#.lastads
 !#unhiding.bookmark
 stepashka.com#@##ad_header
 devicesearch.ru#@##ad_top
@@ -5800,7 +5803,7 @@ mts.ru#@#.wide-ad
 bestpersons.ru#@#.ya-partner_ads-up
 !#detect.bookmark
 @@#-page-peel/-text-ads.$image,domain=free-send.ru
-@@.jpg?ad_height=$domain=payforpic.ru|picforall.ru|torrent-pirat.com
+@@.jpg?ad_height=$domain=payforpic.ru|picforall.ru|torrent-pirat.com|youpic.su
 @@.png#$image,domain=evonews.org|planetaua.net
 @@/advertise.js|$domain=raketa-tv.com
 @@/advertisement.js|$script,domain=kurs.com.ua|megogo.net|online.ua|raketa-tv.com|теплорасчет.рф
@@ -5823,6 +5826,7 @@ bestpersons.ru#@#.ya-partner_ads-up
 @@||ualinux.com/modules/mod_jpayday/js/advertisement.js$domain=ualinux.com
 @@||visitweb.com^$script,domain=99px.ru
 aqa.ru#@#div[id^="div-gpt-ad-"]
+chatovod.ru#@#.withAds
 debilizator.tv#@#.adsbygoogle
 evonews.org#@##ad_bigbox
 evonews.org#@##ad_content

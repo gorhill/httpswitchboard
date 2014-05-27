@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: yhsc2YiZIIFKnEjgraZesw
+! Checksum: dB/0B+H3ZbAAnHz67Pznzg
 ! Title: EasyList Hebrew
-! Last modified: 23/05/14  16:21 Jerusalem Daylight Time
+! Last modified: 26/05/14  16:41 Jerusalem Daylight Time
 ! Expires: 4 days (update frequency)
 ! Homepage: https://github.com/AdBlockPlusIsrael/EasyListHebrew/
 ! Forums: https://github.com/AdBlockPlusIsrael/EasyListHebrew/issues
@@ -34,6 +34,7 @@
 ||clickon.co.il^$third-party
 ||descreti.co.il^$popup
 ||expert-offers.com^$popup
+||akamaihd.net^$image,third-party,domain=fxp.co.il
 ||great-offers.co.il^$popup
 ||greenlead.co.il^$popup
 ||ha-deal.co.il^$popup
@@ -250,7 +251,7 @@
 @@||mako.checkm8.com/adam/inline?cat=mako.*=MIDROLL_$object-subrequest
 @@||mako.checkm8.com/adam/inline?cat=mako.*=OVERLAY$object-subrequest
 @@||mako.checkm8.com/adam/inline?cat=mako.*=SAGIR_$object-subrequest
-@@||mako.checkm8.com/adam/inline?cat=mako.*=VIDEOSPOT_$object-subrequest
+@@||mako.checkm8.com/adam/inline?*cat=mako.*VIDEOSPOT_$object-subrequest
 @@||mako.checkm8.com/crossdomain.xml$object-subrequest
 @@||mouse.co.il/images/ad_mouse_cafe.jpg
 @@||nrg.co.il/online/*_468.htm$~third-party,xmlhttprequest
@@ -389,11 +390,12 @@ flix.tapuz.co.il##DIV[style="background-color: #FFFFFF; margin-left: auto; margi
 forbes.co.il##EMBED[src^="/download/banners/"]
 forbes.co.il##TABLE[style="background-color:#e8e8e8"]
 frogi.co.il##.adbox
-fxp.co.il###vc_widget
 fxp.co.il###adfxp
+fxp.co.il###vc_widget
 fxp.co.il###web_3_tool
 fxp.co.il##A[href^="http://fcdn.co.il"]
 fxp.co.il##[style="width: 160px; height: 600px; top: 50px; position: fixed; right: 9.5px;"]
+fxp.co.il##[style^="opacity:"]
 games.nana10.co.il###tmp1632_46
 games.nana10.co.il##.BannerMiddle
 gamex.co.il###skyscraper
@@ -710,6 +712,7 @@ yad2.co.il##.banner_strip
 yad2.co.il##.plasma_banner.pie
 yad2.co.il##.search_banners
 yad2.co.il##.yad1_mergetitle
+yad2.co.il##TD[style="background:#FFFFFF;"]
 yad2.co.il##TH[style="background: #505D6A; font-size: 13px; font-family: arial; text-align: left; color: white; font-weight: bold; padding: 0px; margin: 0px; padding-right: 0px; padding-left: 10px; height: 31px; border-bottom: 1px solid white;"][colspan="9"]
 yad2.co.il##div[style=" height: 90px; background-color: #DDDDDD; border-radius:6px; width:978px; padding-top:8px; padding-bottom:8px; margin-left: auto; margin-right: auto; margin-bottom: 8px; position: relative;"]
 yeshanews.com###sideban
