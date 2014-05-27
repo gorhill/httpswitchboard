@@ -19,6 +19,8 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
+/* global chrome, HTTPSB */
+
 /******************************************************************************/
 
 (function() {
@@ -60,8 +62,7 @@
             return;
         }
         var liveScopeKeys = null;
-        var ttl = httpsb.userSettings.deleteUnusedTemporaryScopesAfter * 60 * 1000;
-        var now = Date.now();
+        var obsolete = Date.now() - httpsb.userSettings.deleteUnusedTemporaryScopesAfter * 60 * 1000;
         var tscopes = httpsb.temporaryScopes.scopes;
         var pscopes = httpsb.permanentScopes.scopes;
         var tscope;
@@ -75,7 +76,7 @@
                 continue;
             }
             tscope = tscopes[scopeKey];
-            if ( (now - tscope.lastUsedTime) < ttl ) {
+            if ( tscope.lastUsedTime > obsolete ) {
                 continue;
             }
             // Do not remove live scopes, i.e. scopes which might have not

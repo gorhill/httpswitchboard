@@ -959,6 +959,7 @@ FilterContainer.prototype.reset = function() {
 FilterContainer.prototype.freeze = function() {
     // histogram('allFilters', this.categories);
     this.blocked3rdPartyHostnames.freeze();
+    this.filterParser.reset();
 };
 
 /******************************************************************************/

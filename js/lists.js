@@ -258,21 +258,6 @@ PermissionScope.prototype.diffCount = function(other) {
 //      Yes: evaluated as blacklisted
 //   Evaluated as graylisted
 //      Evaluate next level
-//
-// It is a naturally recursive function, but I unwind it completely here
-// because it is a core function, used in time critical parts of the
-// code, and I gain by making local references to global variables, which
-// is better if done once, which would happen for each recursive call
-// otherwise.
-//
-// rhill 2014-04-03: With the addition of ubiquitous whitelisting, the function
-// has grown to be quite large. The logic is relatively simple, though for an
-// outsider it may appear hairy. Now re. "I unwind it completely here", well
-// I need to come up with some numbers really. Who knows, maybe the javascript
-// engine optimize better when code paths are at a minimum? Specifically, the
-// code handling strict blocking is repeated four times, encapsulating it into
-// its own function would help tidy up the code, it all depends how much
-// performance is negatively affected, if any. Need to measure.
 
 PermissionScope.prototype.evaluate = function(type, hostname) {
     // rhill 2013-12-03: When matrix filtering is turned off, all requests are
