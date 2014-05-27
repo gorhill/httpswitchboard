@@ -11,7 +11,7 @@ disabled, or more can be enabled).
 Much effort has been spent on creating **highly efficient filtering engines**: 
 HTTPSB can hold tens of thousands more filtering rules in memory while having a
 significantly smaller memory and CPU footprint than other comparable popular
-blockers out there.
+blockers.
 
 ## Installation
 
