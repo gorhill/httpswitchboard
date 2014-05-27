@@ -98,6 +98,7 @@ var HTTPSB = {
         'assets/thirdparties/easylist-downloads.adblockplus.org/advblock.txt': { off: true },
         'assets/thirdparties/easylist-downloads.adblockplus.org/easylistchina.txt': { off: true },
         'assets/thirdparties/adblock-chinalist.googlecode.com/svn/trunk/adblock.txt': { off: true },
+        'assets/thirdparties/adblock-plus-japanese-filter.googlecode.com/hg/abp_jp.txt': { off: true },
         'assets/thirdparties/stanev.org/abp/adblock_bg.txt': { off: true },
         'assets/thirdparties/indonesianadblockrules.googlecode.com/hg/subscriptions/abpindo.txt': { off: true },
         'assets/thirdparties/liste-ar-adblock.googlecode.com/hg/Liste_AR.txt': { off: true },
