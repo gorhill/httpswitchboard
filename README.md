@@ -9,10 +9,9 @@ totaling over 60,000 distinct hostnames out of the box (these lists can be
 disabled, or more can be enabled).
 
 Much effort has been spent on creating **highly efficient filtering engines**: 
-You won't find blockers out there which come close to that kind of efficiency 
-memory- and CPU-wise. Result: HTTPSB can hold tens of thousands more filtering 
-rules in memory while having a significantly smaller memory footprint than other 
-comparable popular blockers out there.
+HTTPSB can hold tens of thousands more filtering rules in memory while having a
+significantly smaller memory and CPU footprint than other comparable popular
+blockers out there.
 
 ## Installation
 
