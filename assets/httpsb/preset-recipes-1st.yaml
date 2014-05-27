@@ -167,6 +167,7 @@ Github:
             other s3.amazonaws.com
 
 Google:
+    facode: f1a0
     keys: '*.google.com'
     scope: '*.google.com'
         whitelist: |
@@ -456,6 +457,16 @@ Tumblr:
             frame www.tumblr.com
             script ajax.googleapis.com
 
+Twitch:
+    facode: f008
+    keys: '*.twitch.tv'
+    scope: '*.twitch.tv'
+        whitelist: |
+            * twitch.tv
+            frame twitch.tv
+            plugin jtvnw.net
+            script jtvnw.net
+
 Twitter (with account):
     keys: '*.twitter.com'
     scope: '*.twitter.com'
@@ -541,6 +552,7 @@ Wired UK:
             script ajax.googleapis.com
 
 Yahoo News:
+    facode: f19e
     keys: news.yahoo.com
     scope: news.yahoo.com
         whitelist: |
