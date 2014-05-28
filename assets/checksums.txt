@@ -1,5 +1,5 @@
 f92fb201840fcb83afd1125791433229 assets/httpsb/preset-recipes-1st.yaml
-b99d0cce829129374398bbe9f352de9f assets/httpsb/ubiquitous-block-lists.json
+3e23a3cb2a9b5578cfbca94e04df6c34 assets/httpsb/ubiquitous-block-lists.json
 c44ab157ef8197738dafd197de8ae19d assets/httpsb/setup/httpsb-noscript-like-setup.txt
 5ef7d1963eb5095bd5e63095c29fdda7 assets/httpsb/setup/httpsb-requestpolicy-like-setup.txt
 9d87fad4c10ece4464760a865a10744f assets/httpsb/setup/httpsb-block-all-narrowly-allow-all-setup.txt
