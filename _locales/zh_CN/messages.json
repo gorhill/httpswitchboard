@@ -398,7 +398,7 @@
         "description": "..."
     },
     "settingsSpoofUserAgentPrompt1" : {
-        "message": "从下面列表中随机选取新的一条，来伪装<a href='https://zh.wikipedia.org/wiki/%E7%94%A8%E6%88%B7%E4%BB%A3%E7%90%86'>用户代理</a>字符串，每隔"
+        "message": "从下面列表中随机选取新的一条，来伪装<a href='https://zh.wikipedia.org/wiki/%E7%94%A8%E6%88%B7%E4%BB%A3%E7%90%86'>用户代理</a>字符串，每隔",
         "description": "Spoof <a href='https://en.wikipedia.org/wiki/User_agent'>User-Agent</a> string by randomly picking a new one below every"
     },
     "settingsSpoofUserAgentPrompt2" : {

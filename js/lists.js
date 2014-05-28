@@ -290,7 +290,7 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
     if ( type !== '*' ) {
         if ( this.white.list['*|*'] ) { return 'gpt'; }
         // ** TEST GLOBAL : Issue #301 **
-       return 'rpt';
+        return 'rpt';
     }
 
     // [any hostname, any type]: inherits from hard-coded block
