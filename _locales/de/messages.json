@@ -158,7 +158,7 @@
         "description": "English: Generic statistics"
     },
     "statsPageCookieHeadersFoiled" : {
-        "message": "<a href='https://de.wikipedia.org/wiki/HTTP_cookie'>HTTP Cookie</a> Header blockiert: {{count}}",
+        "message": "<a href='https://de.wikipedia.org/wiki/HTTP_Cookie'>HTTP Cookie</a> Header blockiert: {{count}}",
         "description": "English: HTTP cookie headers foiled: {{count}}"
     },
     "statsPageRefererHeadersFoiled" : {
