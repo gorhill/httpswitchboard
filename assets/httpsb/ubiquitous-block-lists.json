@@ -1,0 +1,97 @@
+{
+    "mirror1.malwaredomains.com/files/immortal_domains.txt": {
+        "title": "Long-lived malware domains"
+        },
+    "mirror1.malwaredomains.com/files/justdomains": {
+        "title": "Malware domains"
+        },
+    "pgl.yoyo.org/as/serverlist": {
+        "title": "Peter Lowe’s Ad server list"
+        },
+    "www.malwaredomainlist.com/hostslist/hosts.txt": {
+        "title": "Malware Domain List"
+        },
+    "hosts-file.net/ad-servers": {
+        "title": "hpHosts’s Ad and tracking servers"
+        },
+    "someonewhocares.org/hosts/hosts": {
+        "title": "Dan Pollock’s hosts file"
+        },
+    "winhelp2002.mvps.org/hosts.txt": {
+        "title": "MVPS HOSTS"
+        },
+    "easylist-downloads.adblockplus.org/easylist.txt": {
+        "title": "EasyList"
+        },
+    "easylist-downloads.adblockplus.org/easyprivacy.txt": {
+        "title": "EasyPrivacy"
+        },
+    "easylist-downloads.adblockplus.org/fanboy-annoyance.txt": {
+        "off": true,
+        "title": "Fanboy’s Annoyance List"
+        },
+    "www.fanboy.co.nz/enhancedstats.txt": {
+        "off": true,
+        "title": "Fanboy’s Enhanced Tracking List"
+        },
+    "easylist-downloads.adblockplus.org/easylistgermany.txt": {
+        "off": true,
+        "title": "EasyList Germany"
+        },
+    "easylist-downloads.adblockplus.org/easylistitaly.txt": {
+        "off": true,
+        "title": "EasyList Italy"
+        },
+    "easylist-downloads.adblockplus.org/easylistdutch.txt": {
+        "off": true,
+        "title": "EasyList Dutch"
+        },
+    "easylist-downloads.adblockplus.org/liste_fr.txt": {
+        "off": true,
+        "title": "EasyList Liste FR"
+        },
+    "easylist-downloads.adblockplus.org/advblock.txt": {
+        "off": true,
+        "title": "EasyList RU AdList"
+        },
+    "easylist-downloads.adblockplus.org/easylistchina.txt": {
+        "off": true,
+        "title": "EasyList China"
+        },
+    "adblock-chinalist.googlecode.com/svn/trunk/adblock.txt": {
+        "off": true,
+        "title": "EasyList China (obsolete: to be removed)"
+        },
+    "adblock-plus-japanese-filter.googlecode.com/hg/abp_jp.txt": {
+        "off": true,
+        "title": "ABP Japanese filters"
+        },
+    "stanev.org/abp/adblock_bg.txt": {
+        "off": true,
+        "title": "Bulgarian Adblock list"
+        },
+    "indonesianadblockrules.googlecode.com/hg/subscriptions/abpindo.txt": {
+        "off": true,
+        "title": "ABPindo"
+        },
+    "liste-ar-adblock.googlecode.com/hg/Liste_AR.txt": {
+        "off": true,
+        "title": "Liste AR"
+        },
+    "adblock-czechoslovaklist.googlecode.com/svn/filters.txt": {
+        "off": true,
+        "title": "EasyList Czech and Slovak"
+        },
+    "raw.github.com/AdBlockPlusIsrael/EasyListHebrew/master/EasyListHebrew.txt": {
+        "off": true,
+        "title": "EasyList Hebrew"
+        },
+    "download.wiltteri.net/wiltteri.txt": {
+        "off": true,
+        "title": "Wiltteri"
+        },
+    "hosts-file.net/hosts.txt": {
+        "off": true,
+        "title": "hpHosts’ HOSTS"
+        }
+}
