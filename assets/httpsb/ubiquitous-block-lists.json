@@ -24,6 +24,7 @@
         "title": "EasyList"
         },
     "spam404bl.com/spam404scamlist.txt": {
+        "off": true,
         "title": "Spam404"
         },
     "easylist-downloads.adblockplus.org/easyprivacy.txt": {
