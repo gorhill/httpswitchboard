@@ -180,6 +180,8 @@ Google:
             * www.googleapis.com
             # <<<
             * googleusercontent.com
+            # https://github.com/gorhill/httpswitchboard/issues/316
+            frame mail-attachment.googleusercontent.com
             * gstatic.com
             * youtube.com
             frame accounts.youtube.com
