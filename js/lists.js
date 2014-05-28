@@ -270,6 +270,7 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
     var cellKey = type + '|' + hostname;
     if ( this.white.list[cellKey] ) { return 'gdt'; }
     if ( this.black.list[cellKey] ) { return 'rdt'; }
+    // ** TEST GLOBAL : Issue #301 **
     // cell doesn't have own rules, inherit
 
     // [specific hostname, ?]: [parent hostname, ?]
@@ -288,7 +289,8 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
     // [any hostname, specific type]: inherits from [any hostname, any type]
     if ( type !== '*' ) {
         if ( this.white.list['*|*'] ) { return 'gpt'; }
-        return 'rpt';
+        // ** TEST GLOBAL : Issue #301 **
+       return 'rpt';
     }
 
     // [any hostname, any type]: inherits from hard-coded block
@@ -296,6 +298,14 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
 };
 
 /******************************************************************************/
+
+// ** TEST GLOBAL : Issue #301 **
+//
+// if not locally graylisted
+//     if globally whitelisted
+//         return 'gdt'
+//     if globally blacklisted
+//         return 'rdt'
 
 PermissionScope.prototype.evaluateTypeHostnameCellStrict = function(type, hostname) {
     // https://github.com/gorhill/httpswitchboard/issues/29
@@ -315,9 +325,11 @@ PermissionScope.prototype.evaluateTypeHostnameCellStrict = function(type, hostna
             cellKey = type + '|' + parent;
             if ( whitelist[cellKey] ) { return 'gpt'; }
             if ( blacklist[cellKey] ) { return 'rpt'; }
+            // ** TEST GLOBAL : Issue #301 **
         }
         if ( whitelist[typeKey] ) { return 'gpt'; }
         if ( blacklist[typeKey] ) { return 'rpt'; }
+        // ** TEST GLOBAL : Issue #301 **
         return 'gpt';
     }
     if ( blacklist[cellKey] ) { return 'rpt'; }
@@ -333,9 +345,11 @@ PermissionScope.prototype.evaluateTypeHostnameCellStrict = function(type, hostna
                 cellKey = type + '|' + parent;
                 if ( whitelist[cellKey] ) { return 'gpt'; }
                 if ( blacklist[cellKey] ) { return 'rpt'; }
+                // ** TEST GLOBAL : Issue #301 **
             }
             if ( whitelist[typeKey] ) { return 'gpt'; }
             if ( blacklist[typeKey] ) { return 'rpt'; }
+            // ** TEST GLOBAL : Issue #301 **
             return 'gpt';
         }
         if ( ubiquitousBlacklist.test(hostname) ) {
@@ -350,18 +364,22 @@ PermissionScope.prototype.evaluateTypeHostnameCellStrict = function(type, hostna
         cellKey = type + '|' + parent;
         if ( whitelist[cellKey] ) { return 'gpt'; }
         if ( blacklist[cellKey] ) { return 'rpt'; }
+        // ** TEST GLOBAL : Issue #301 **
         cellKey = '*|' + parent;
         if ( whitelist[cellKey] ) {
             while ( parent = parents[i++] ) {
                 cellKey = type + '|' + parent;
                 if ( whitelist[cellKey] ) { return 'gpt'; }
                 if ( blacklist[cellKey] ) { return 'rpt'; }
+                // ** TEST GLOBAL : Issue #301 **
             }
             if ( whitelist[typeKey] ) { return 'gpt'; }
             if ( blacklist[typeKey] ) { return 'rpt'; }
+            // ** TEST GLOBAL : Issue #301 **
             return 'gpt';
         }
         if ( blacklist[cellKey] ) { return 'rpt'; }
+        // ** TEST GLOBAL : Issue #301 **
         if ( !graylist[cellKey] ) {
             if ( ubiquitousWhitelist.test(parent) ) {
                 // Strict blocking: the type column must not be blacklisted
@@ -369,9 +387,11 @@ PermissionScope.prototype.evaluateTypeHostnameCellStrict = function(type, hostna
                     cellKey = type + '|' + parent;
                     if ( whitelist[cellKey] ) { return 'gpt'; }
                     if ( blacklist[cellKey] ) { return 'rpt'; }
+                    // ** TEST GLOBAL : Issue #301 **
                 }
                 if ( whitelist[typeKey] ) { return 'gpt'; }
                 if ( blacklist[typeKey] ) { return 'rpt'; }
+                // ** TEST GLOBAL : Issue #301 **
                 return 'gpt';
             }
             if ( ubiquitousBlacklist.test(parent) ) { return 'rpt'; }
@@ -380,8 +400,10 @@ PermissionScope.prototype.evaluateTypeHostnameCellStrict = function(type, hostna
     // specific type, any hostname
     if ( whitelist[typeKey] ) { return 'gpt'; }
     if ( blacklist[typeKey] ) { return 'rpt'; }
+    // ** TEST GLOBAL : Issue #301 **
     // any type, any hostname
     if ( whitelist['*|*'] ) { return 'gpt'; }
+    // ** TEST GLOBAL : Issue #301 **
     return 'rpt';
 };
 
@@ -404,6 +426,7 @@ PermissionScope.prototype.evaluateTypeHostnameCellRelax = function(type, hostnam
 
     if ( whitelist[cellKey] ) { return 'gpt'; }
     if ( blacklist[cellKey] ) { return 'rpt'; }
+    // ** TEST GLOBAL : Issue #301 **
     if ( !graylist[cellKey] ) {
         if ( ubiquitousWhitelist.test(hostname) ) { return 'gpt'; }
         if ( ubiquitousBlacklist.test(hostname) ) { return 'rpt'; }
@@ -417,9 +440,11 @@ PermissionScope.prototype.evaluateTypeHostnameCellRelax = function(type, hostnam
         cellKey = type + '|' + parent;
         if ( whitelist[cellKey] ) { return 'gpt'; }
         if ( blacklist[cellKey] ) { return 'rpt'; }
+        // ** TEST GLOBAL : Issue #301 **
         cellKey = '*|' + parent;
         if ( whitelist[cellKey] ) { return 'gpt'; }
         if ( blacklist[cellKey] ) { return 'rpt'; }
+        // ** TEST GLOBAL : Issue #301 **
         if ( !graylist[cellKey] ) {
             if ( ubiquitousWhitelist.test(parent) ) { return 'gpt'; }
             if ( ubiquitousBlacklist.test(parent) ) { return 'rpt'; }
@@ -428,6 +453,7 @@ PermissionScope.prototype.evaluateTypeHostnameCellRelax = function(type, hostnam
     // indirect: specific type, any hostname
     if ( whitelist[typeKey] ) { return 'gpt'; }
     if ( blacklist[typeKey] ) { return 'rpt'; }
+    // ** TEST GLOBAL : Issue #301 **
     // indirect: any type, any hostname
     if ( whitelist['*|*'] ) { return 'gpt'; }
     return 'rpt';
@@ -439,6 +465,7 @@ PermissionScope.prototype.evaluateHostnameCell = function(hostname) {
     // direct: any type, specific hostname
     var ubiquitousWhitelist = this.httpsb.ubiquitousWhitelist;
     var ubiquitousBlacklist = this.httpsb.ubiquitousBlacklist;
+    // ** TEST GLOBAL : Issue #301 **
     var graylist = this.gray.list;
     if ( !graylist['*|' + hostname] ) {
         if ( ubiquitousWhitelist.test(hostname) ) { return 'gdt'; }
@@ -452,6 +479,7 @@ PermissionScope.prototype.evaluateHostnameCell = function(hostname) {
         cellKey = '*|' + parent;
         if ( whitelist[cellKey] ) { return 'gpt'; }
         if ( blacklist[cellKey] ) { return 'rpt'; }
+        // ** TEST GLOBAL : Issue #301 **
         if ( !graylist[cellKey] ) {
             if ( ubiquitousWhitelist.test(parent) ) { return 'gpt'; }
             if ( ubiquitousBlacklist.test(parent) ) { return 'rpt'; }
