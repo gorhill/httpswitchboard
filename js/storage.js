@@ -212,8 +212,14 @@ HTTPSB.loadUbiquitousBlacklists = function() {
         }
         if ( details.what === 'mergeUbiquitousBlacklist' ) {
             mergeBlacklist(details);
+            return;
+        }
+        if ( details.what === 'listOfBlockListsLoaded' ) {
+            onListOfBlockListsLoaded(details);
+            return;
         }
     };
+    chrome.runtime.onMessage.addListener(onMessageHandler);
 
     var removeObsoleteBlacklistsHandler = function(store) {
         if ( !store.remoteBlacklists ) {
@@ -271,21 +277,17 @@ HTTPSB.loadUbiquitousBlacklists = function() {
         // Load each preset blacklist which is not disabled.
         var location;
         while ( location = blacklistLocations.pop() ) {
-            // rhill 2014-01-24: HTTPSB-maintained lists sit now in their
-            // own directory, "asset/httpsb/". Ensure smooth transition.
-            // TODO: Remove this code when everybody upgraded beyond 0.7.7.1
-            if ( location === 'assets/httpsb-blacklist.txt' && store.remoteBlacklists[location].off === true ) {
-                // In case it was already processed
-                httpsb.remoteBlacklists['assets/httpsb/blacklist.txt'].off = true;
-                // In case it was not yet processed
-                store.remoteBlacklists['assets/httpsb/blacklist.txt'].off = true;
-            }
             // If loaded list location is not part of default list locations,
             // remove its entry from local storage.
             if ( !httpsb.remoteBlacklists[location] ) {
                 obsoleteBlacklists.push(location);
                 blacklistLoadCount -= 1;
                 continue;
+            }
+            // https://github.com/gorhill/httpswitchboard/issues/218
+            // Transfer potentially existing list title into restored list data.
+            if ( store.remoteBlacklists[location].title !== httpsb.remoteBlacklists[location].title ) {
+                store.remoteBlacklists[location].title = httpsb.remoteBlacklists[location].title;
             }
             // Store details of this preset blacklist
             httpsb.remoteBlacklists[location] = store.remoteBlacklists[location];
@@ -300,13 +302,32 @@ HTTPSB.loadUbiquitousBlacklists = function() {
         }
     };
 
-    chrome.runtime.onMessage.addListener(onMessageHandler);
+    var onListOfBlockListsLoaded = function(details) {
+        var httpsb = HTTPSB;
+        // Initialize built-in list of 3rd-party block lists.
+        var lists = JSON.parse(details.content);
+        for ( var location in lists ) {
+            if ( lists.hasOwnProperty(location) === false ) {
+                continue;
+            }
+            httpsb.remoteBlacklists['assets/thirdparties/' + location] = lists[location];
+        }
+        // Now get user's selection of list of block lists.
+        chrome.storage.local.get(
+            { 'remoteBlacklists': httpsb.remoteBlacklists },
+            loadBlacklistsStart
+        );
+    };
 
-    // Get remote blacklist data (which may be saved locally).
-    chrome.storage.local.get(
-        { 'remoteBlacklists': this.remoteBlacklists },
-        loadBlacklistsStart
-    );
+    // Reset list of 3rd-party block lists.
+    for ( var location in this.remoteBlacklists ) {
+        if ( location.indexOf('assets/thirdparties/') === 0 ) {
+            delete this.remoteBlacklists[location];
+        }
+    }
+
+    // Get new list of 3rd-party block lists.
+    this.assets.get('assets/httpsb/ubiquitous-block-lists.json', 'listOfBlockListsLoaded');
 };
 
 /******************************************************************************/

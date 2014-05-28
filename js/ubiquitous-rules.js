@@ -19,6 +19,8 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
+/* global chrome, $ */
+
 /******************************************************************************/
 
 (function() {
@@ -74,27 +76,46 @@ function renderBlacklists() {
             .replace('{{ubiquitousBlacklistCount}}', renderNumber(httpsb.ubiquitousBlacklist.count))
     );
 
+    // Assemble a pretty blacklist name if possible
+    var prettifyListName = function(blacklistTitle, blacklistHref) {
+        if ( !blacklistTitle ) {
+            return blacklistHref;
+        }
+        if ( blacklistHref.indexOf('assets/thirdparties/') !== 0 ) {
+            return blacklistTitle;
+        }
+        var matches = blacklistHref.match(/^assets\/thirdparties\/([^\/]+)/);
+        if ( matches === null || matches.length !== 2 ) {
+            return blacklistTitle;
+        }
+        var domain = httpsb.URI.domainFromHostname(matches[1]);
+        if ( domain === '' ) {
+            return blacklistTitle;
+        }
+        return blacklistTitle + ' <i>(' + domain + ')</i>';
+    };
+
     var blacklists = httpsb.remoteBlacklists;
     var ul = $('#blacklists');
     var keys = Object.keys(blacklists);
     var i = keys.length;
-    var blacklist, blacklistName;
+    var blacklist, blacklistHref;
     var liTemplate = $('#blacklistTemplate .blacklistDetails').first();
     var li, child, text;
     while ( i-- ) {
-        blacklistName = keys[i];
-        blacklist = blacklists[blacklistName];
+        blacklistHref = keys[i];
+        blacklist = blacklists[blacklistHref];
         li = liTemplate.clone();
         child = $('input', li);
         child.prop('checked', !blacklist.off);
         child = $('a', li);
         // Special rendering: user list
-        if ( blacklistName === httpsb.userBlacklistPath ) {
+        if ( blacklistHref === httpsb.userBlacklistPath ) {
             child.attr('href', userListHref);
             child.text($(userListHref).text());
         } else {
-            child.attr('href', encodeURI(blacklistName));
-            child.text(blacklistName);
+            child.attr('href', encodeURI(blacklistHref));
+            child.html(prettifyListName(blacklist.title, blacklistHref));
         }
         child = $('span', li);
         text = child.text()
