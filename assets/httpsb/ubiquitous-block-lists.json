@@ -20,8 +20,16 @@
     "winhelp2002.mvps.org/hosts.txt": {
         "title": "MVPS HOSTS"
         },
+    "spam404bl.com/spam404scamlist.txt": {
+        "off": true,
+        "title": "Spam404"
+        },
     "easylist-downloads.adblockplus.org/easylist.txt": {
         "title": "EasyList"
+        },
+    "easylist-downloads.adblockplus.org/easylist_noelemhide.txt": {
+        "off": true,
+        "title": "EasyList without element hiding rules"
         },
     "easylist-downloads.adblockplus.org/easyprivacy.txt": {
         "title": "EasyPrivacy"

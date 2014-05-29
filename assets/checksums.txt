@@ -1,5 +1,5 @@
 f92fb201840fcb83afd1125791433229 assets/httpsb/preset-recipes-1st.yaml
-b99d0cce829129374398bbe9f352de9f assets/httpsb/ubiquitous-block-lists.json
+708c8e4e1e5ed0c8c85320a6c04ff4c9 assets/httpsb/ubiquitous-block-lists.json
 c44ab157ef8197738dafd197de8ae19d assets/httpsb/setup/httpsb-noscript-like-setup.txt
 5ef7d1963eb5095bd5e63095c29fdda7 assets/httpsb/setup/httpsb-requestpolicy-like-setup.txt
 9d87fad4c10ece4464760a865a10744f assets/httpsb/setup/httpsb-block-all-narrowly-allow-all-setup.txt
@@ -12,10 +12,12 @@ d2822badb9d66ee0d16d20fa2c5a5cb6 assets/httpsb/setup/httpsb-just-block-ads-setup
 933a2fa3515c1b5bbdf58e2b3792acd4 assets/httpsb/preset-recipes-3rd.yaml
 36d8978c647291a4415dc02fe176e54e assets/thirdparties/download.wiltteri.net/wiltteri.txt
 132b3ecc9da8a68c3faf740c00af734b assets/thirdparties/adblock-plus-japanese-filter.googlecode.com/hg/abp_jp.txt
+70ac16f39482a7b76d258646b8cef3d5 assets/thirdparties/spam404bl.com/spam404scamlist.txt
 28335fc27c7f93cbd5e51e029b57c078 assets/thirdparties/easylist-downloads.adblockplus.org/easylistchina.txt
 15083fefad393cad8342463e89fef546 assets/thirdparties/easylist-downloads.adblockplus.org/fanboy-annoyance.txt
 b5bde640c7a9065ae32d39452cae1950 assets/thirdparties/easylist-downloads.adblockplus.org/easylistdutch.txt
 34acfd90aa6cf03272ab95e3f1e20753 assets/thirdparties/easylist-downloads.adblockplus.org/easyprivacy.txt
+7b60b5258b08f4dac3864a62e6d06891 assets/thirdparties/easylist-downloads.adblockplus.org/easylist_noelemhide.txt
 4a2d9a804e121414261c875d0eb60be4 assets/thirdparties/easylist-downloads.adblockplus.org/advblock.txt
 fa133a043a742c2fcc77510eb504fa3c assets/thirdparties/easylist-downloads.adblockplus.org/liste_fr.txt
 6d58fc9940bb8785ab5c0bdd64cf3dc9 assets/thirdparties/easylist-downloads.adblockplus.org/easylistitaly.txt
