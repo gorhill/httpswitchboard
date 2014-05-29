@@ -574,27 +574,27 @@
 
 
     "aboutChangelog" : {
-        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki/Change-log'>Change log</a>",
+        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki/Change-log'>Список изменений</a>",
         "description": "English: <a href='https://github.com/gorhill/httpswitchboard/wiki/Change-log'>Change log</a>"
     },
     "aboutStorageUsed" : {
-        "message": "Storage used: {{storageUsed}}%",
+        "message": "Памяти используется: {{storageUsed}}%",
         "description": "English: Storage used: {{storageUsed}}%"
     },
     "aboutDoc" : {
-        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki'>Documentation</a>",
+        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki'>Документация</a>",
         "description": "English: <a href='https://github.com/gorhill/httpswitchboard/wiki'>Documentation</a>"
     },
     "aboutPermissions" : {
-        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki/Permissions'>Permissions</a>",
+        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki/Permissions'>Разрешения</a>",
         "description": "English: <a href='https://github.com/gorhill/httpswitchboard/wiki/Permissions'>Permissions</a>"
     },
     "aboutCode" : {
-        "message": "<a href='https://github.com/gorhill/httpswitchboard'>Source code (GPLv3)</a>",
+        "message": "<a href='https://github.com/gorhill/httpswitchboard'>Исходный код (GPLv3)</a>",
         "description": "English: <a href='https://github.com/gorhill/httpswitchboard'>Source code (GPLv3)</a>"
     },
     "aboutCredits" : {
-        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki/Credits'>Credits</a>",
+        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki/Credits'>Благодарности</a>",
         "description": "English: <a href='https://github.com/gorhill/httpswitchboard/wiki/Credits'>Credits</a>"
     },
     "aboutUserDataHeader" : {
