@@ -88,11 +88,20 @@ function renderBlacklists() {
         if ( matches === null || matches.length !== 2 ) {
             return blacklistTitle;
         }
-        var domain = httpsb.URI.domainFromHostname(matches[1]);
+        var hostname = matches[1];
+        var domain = httpsb.URI.domainFromHostname(hostname);
         if ( domain === '' ) {
             return blacklistTitle;
         }
-        return blacklistTitle + ' <i>(' + domain + ')</i>';
+        var html = [
+            blacklistTitle,
+            ' <i>(<a href="http://',
+            hostname,
+            '" target="_blank">',
+            domain,
+            '</a>)</i>'
+        ];
+        return html.join('');
     };
 
     var blacklists = httpsb.remoteBlacklists;
