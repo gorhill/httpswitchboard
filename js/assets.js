@@ -61,7 +61,7 @@ File system structure:
 /******************************************************************************/
 
 var fileSystem;
-var fileSystemQuota = 24 * 1024 * 1024;
+var fileSystemQuota = 30 * 1024 * 1024;
 var remoteRoot = HTTPSB.projectServerRoot;
 
 /******************************************************************************/
