@@ -2,8 +2,7 @@
 
 See [Change log](https://github.com/gorhill/httpswitchboard/wiki/Change-log) for latest changes.
 
-<img align="right" src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-mem-vs-others-mem.png" />
-A Chromium browser extension which let you whitelist or blacklist requests
+<img align="right" src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-mem-vs-others-mem.png" /> A Chromium browser extension which let you whitelist or blacklist requests
 originating from within a web page according to their type and/or destination
 as per domain name. As of May 2014, the extension comes with preset blacklists
 totaling over 60,000 distinct hostnames out of the box (these lists can be
