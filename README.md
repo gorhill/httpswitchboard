@@ -6,12 +6,15 @@ A Chromium browser extension which let you whitelist or blacklist requests
 originating from within a web page according to their type and/or destination
 as per domain name. As of May 2014, the extension comes with preset blacklists
 totaling over 60,000 distinct hostnames out of the box (these lists can be
-disabled, or more can be enabled). <img align="right" src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-mem-vs-others-mem.png" />
+disabled, or more can be enabled).
 
+<duv>
+<img align="right" src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-mem-vs-others-mem.png" />
 Much effort has been spent on creating **highly efficient filtering engines**: 
 HTTPSB can hold tens of thousands more filtering rules in memory while having a
 significantly smaller memory and CPU footprint than other comparable popular
 blockers.
+</div>
 
 ## Installation
 
