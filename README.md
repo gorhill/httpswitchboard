@@ -40,10 +40,12 @@ I expect the extension to work on a stable release of any Chromium-based browser
 Much effort has been spent on creating **highly efficient filtering engines**: 
 HTTPSB can hold tens of thousands more filtering rules in memory while having a 
 significantly smaller memory and CPU footprint than other comparable popular 
-blockers. In the picture below, HTTPSB was running with over 115K filters, **tens 
+blockers.
+
+In the picture below, HTTPSB was running with over 115K filters, **tens 
 of thousands more** than other blockers. After running this 
 [reference benchmark](https://github.com/gorhill/httpswitchboard/wiki/Comparative-benchmarks-against-widely-used-blockers:-Top-15-Most-Popular-News-Websites), 
-the memory footprint:
+the memory footprints:
 
 <p align="center"><img src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-mem-vs-others-mem.png" /></p>
 
