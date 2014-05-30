@@ -17,7 +17,7 @@ of thousands more** than other blockers, after running this
 
 <p align="center"><img src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-mem-vs-others-mem.png" /></p>
 
-<sup>**Adblock Plus:** EasyList, EasyPrivacy. **Adblock:** EasyList, EasyPrivacy, Malware protection. **Adguard:** English filter, Spyware & tracking filter, Phishing & malware protection. **HTTPSB:** 65,935 malware, ads, trackers, etc hostname-based filters, 25,206 ABP-compatible net filters, 24,184 cosmetic filters. Garbage collection was forced for all blockers using Chromium dev tools.</sup>
+<sup>**Adblock Plus:** EasyList, EasyPrivacy. **Adblock:** EasyList, EasyPrivacy, Malware protection. **Adguard:** English filter, Spyware & tracking filter, Phishing & malware protection. **HTTPSB:** 65,935 malware, ads, trackers, etc hostname-based filters, 25,206 ABP-compatible net filters, 24,184 ABP-compatible cosmetic filters. Garbage collection was forced for all blockers using Chromium dev tools.</sup>
 
 ## Installation
 
