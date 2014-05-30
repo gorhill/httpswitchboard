@@ -17,7 +17,7 @@ HTTPSB was running with over 115K filters, **tens of thousands more** than other
 
 <p align="center"><img src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-mem-vs-others-mem.png" /></p>
 
-<sup>Results would probably look worst for some other blockers if they were tested alone, as they didn't get to handle all net traffic in the above benchmark.</sup>
+<sup>**Adblock Plus & Adblock:** EasyList, EasyPrivacy, Malware protection. **Adguard:** English filter, Spyware & tracking filter, Phishing & malware protection. **HTTPSB:** 65,935 malware, ads, trackers, etc hostname-based filters, 25,206 ABP-compatible net filters, 24,184 cosmetic filters.</sup>
 
 ## Installation
 
