@@ -13,7 +13,7 @@ disabled, or more can be enabled).
 HTTPSB can hold tens of thousands more filtering rules in memory while having a
 significantly smaller memory and CPU footprint than other comparable popular
 blockers.
-<td><img align="right" src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-mem-vs-others-mem.png" />
+<td><img src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-mem-vs-others-mem.png" />
 
 </table>
 
