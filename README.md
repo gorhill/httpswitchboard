@@ -14,6 +14,7 @@ significantly smaller memory and CPU footprint than other comparable popular
 blockers.
 
 HTTPSB running with over 115K filters, tens of thousands more than other blockers, after running this [reference benchmark](/gorhill/httpswitchboard/wiki/Comparative-benchmarks-against-widely-used-blockers:-Top-15-Most-Popular-News-Websites) (repeat was set to 2):
+
 <img align="center" src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-mem-vs-others-mem.png" /><br>
 
 <sup>Results would probably look worst for some other blockers if they were tested alone, as they didn't get to handle all net traffic in the above benchmark.</sup>
