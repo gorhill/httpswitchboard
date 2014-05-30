@@ -11,9 +11,7 @@ disabled, or more can be enabled).
 Much effort has been spent on creating **highly efficient filtering engines**: 
 HTTPSB can hold tens of thousands more filtering rules in memory while having a
 significantly smaller memory and CPU footprint than other comparable popular
-blockers.
-
-HTTPSB was running with over 115K filters, **tens of thousands more** than other blockers, after running this [reference benchmark](/gorhill/httpswitchboard/wiki/Comparative-benchmarks-against-widely-used-blockers:-Top-15-Most-Popular-News-Websites) (repeat was set to 2):
+blockers. In the picture below, HTTPSB was running with over 115K filters, **tens of thousands more** than other blockers, after running this [reference benchmark](/gorhill/httpswitchboard/wiki/Comparative-benchmarks-against-widely-used-blockers:-Top-15-Most-Popular-News-Websites) (repeat was set to 2):
 
 <p align="center"><img src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-mem-vs-others-mem.png" /></p>
 
