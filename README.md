@@ -8,12 +8,13 @@ as per domain name. As of May 2014, the extension comes with preset blacklists
 totaling over 60,000 distinct hostnames out of the box (these lists can be
 disabled, or more can be enabled).
 
-<table style="border:0;padding:0">
-<tr><td>Much effort has been spent on creating **highly efficient filtering engines**: 
+Much effort has been spent on creating **highly efficient filtering engines**: 
 HTTPSB can hold tens of thousands more filtering rules in memory while having a
 significantly smaller memory and CPU footprint than other comparable popular
 blockers.
-<td><img src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-mem-vs-others-mem.png" />
+
+<img src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-mem-vs-others-mem.png" /><br>
+<sup>HTTPSB running with over 110K filters, tens of thousands more than other blockers.</sup>
 
 </table>
 
