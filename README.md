@@ -13,7 +13,7 @@ HTTPSB can hold tens of thousands more filtering rules in memory while having a
 significantly smaller memory and CPU footprint than other comparable popular
 blockers.
 
-<p style="text-align:center">
+<p align="center">
 <img src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-mem-vs-others-mem.png" /><br>
 <sup>HTTPSB running with over 115K filters, tens of thousands more than other blockers.</sup>
 </p>
