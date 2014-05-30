@@ -8,17 +8,6 @@ as per domain name. As of May 2014, the extension comes with preset blacklists
 totaling over 60,000 distinct hostnames out of the box (these lists can be
 disabled, or more can be enabled).
 
-Much effort has been spent on creating **highly efficient filtering engines**: 
-HTTPSB can hold tens of thousands more filtering rules in memory while having a 
-significantly smaller memory and CPU footprint than other comparable popular 
-blockers. In the picture below, HTTPSB was running with over 115K filters, **tens 
-of thousands more** than other blockers, after running this 
-[reference benchmark](https://github.com/gorhill/httpswitchboard/wiki/Comparative-benchmarks-against-widely-used-blockers:-Top-15-Most-Popular-News-Websites):
-
-<p align="center"><img src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-mem-vs-others-mem.png" /></p>
-
-<sup>**Adblock Plus:** EasyList, EasyPrivacy. **Adblock:** EasyList, EasyPrivacy, Malware protection. **Adguard:** English filter, Spyware & tracking filter, Phishing & malware protection. **HTTPSB:** 65,935 malware, ads, trackers, etc hostname-based filters, 25,206 ABP-compatible net filters, 24,184 ABP-compatible cosmetic filters. Garbage collection was forced for all blockers using Chromium dev tools.</sup>
-
 ## Installation
 
 Available from [Chrome web store](https://chrome.google.com/webstore/detail/httpswitchboard/mghdpehejfekicfjcdbfofhcmnjhgaag), 
@@ -47,6 +36,18 @@ I expect the extension to work on a stable release of any Chromium-based browser
  </a><br>
  <a href="https://github.com/gorhill/httpswitchboard/wiki/Net-request-filtering:-overview">Click for more details</a>
 </p>
+
+Much effort has been spent on creating **highly efficient filtering engines**: 
+HTTPSB can hold tens of thousands more filtering rules in memory while having a 
+significantly smaller memory and CPU footprint than other comparable popular 
+blockers. In the picture below, HTTPSB was running with over 115K filters, **tens 
+of thousands more** than other blockers. After running this 
+[reference benchmark](https://github.com/gorhill/httpswitchboard/wiki/Comparative-benchmarks-against-widely-used-blockers:-Top-15-Most-Popular-News-Websites), 
+the memory footprint:
+
+<p align="center"><img src="https://raw.githubusercontent.com/gorhill/httpswitchboard/master/doc/img/httpsb-mem-vs-others-mem.png" /></p>
+
+<sup>**Adblock Plus:** EasyList, EasyPrivacy. **Adblock:** EasyList, EasyPrivacy, Malware protection. **Adguard:** English filter, Spyware & tracking filter, Phishing & malware protection. **HTTPSB:** 65,935 malware, ads, trackers, etc hostname-based filters, 25,206 ABP-compatible net filters, 24,184 ABP-compatible cosmetic filters. Garbage collection was forced for all blockers using Chromium dev tools.</sup>
 
 ## Documentation
 
