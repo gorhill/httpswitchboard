@@ -582,13 +582,13 @@ FilterParser.prototype.reset = function() {
     this.fopts = '';
     this.action = BlockAction;
     this.hostname = false;
-    this.types.length = 0;
+    this.types = [];
     this.firstParty = false;
     this.thirdParty = false;
-    this.hostnames.length = 0;
-    this.notHostnames.length = 0;
-    this.domains.length = 0;
-    this.notDomains.length = 0;
+    this.hostnames = [];
+    this.notHostnames = [];
+    this.domains = [];
+    this.notDomains = [];
     this.elemHiding = false;
     this.unsupported = false;
     return this;
@@ -755,6 +755,7 @@ FilterBucket.prototype.match = function(url, tokenBeg) {
 
 var FilterContainer = function() {
     this.categories = {};
+    this.duplicates = {};
     this.url = '';
     this.tokenBeg = 0;
     this.tokenEnd = 0;
@@ -820,6 +821,11 @@ FilterContainer.prototype.add = function(s) {
     if ( parsed.elemHiding ) {
         return false;
     }
+
+    if ( this.duplicates[s] ) {
+        return false;
+    }
+    this.duplicates[s] = true;
 
     this.processedFilterCount += 1;
 
@@ -952,6 +958,8 @@ FilterContainer.prototype.reset = function() {
     this.blockFilterCount = 0;
     this.categories = {};
     this.blocked3rdPartyHostnames.reset();
+    this.duplicates = {};
+    this.filterParser.reset();
 };
 
 /******************************************************************************/
@@ -959,6 +967,7 @@ FilterContainer.prototype.reset = function() {
 FilterContainer.prototype.freeze = function() {
     // histogram('allFilters', this.categories);
     this.blocked3rdPartyHostnames.freeze();
+    this.duplicates = {};
     this.filterParser.reset();
 };
 

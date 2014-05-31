@@ -19,11 +19,18 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
-/* global HTTPSB */
+/* global chrome, HTTPSB */
 
-/******************************************************************************/
+/*******************************************************************************
 
-(function() {
+A PageRequestStore object is used to store net requests in two ways:
+
+To record distinct net requests
+To create a log of net requests
+
+**/
+
+HTTPSB.PageRequestStats = (function() {
 
 /******************************************************************************/
 
@@ -144,18 +151,6 @@ var stringPacker = {
 
 /******************************************************************************/
 
-// To export
-
-var pageRequestStats = {
-    factory: function() {
-        var pageRequests = new PageRequestStats();
-        pageRequests.resizeLogBuffer(httpsb.userSettings.maxLoggedRequests);
-        return pageRequests;
-    }
-};
-
-/******************************************************************************/
-
 var LogEntry = function() {
     this.url = '';
     this.type = '';
@@ -189,6 +184,62 @@ var PageRequestStats = function() {
     this.ringBufferPointer = 0;
     if ( !httpsburi ) {
         httpsburi = httpsb.URI;
+    }
+};
+
+/******************************************************************************/
+
+PageRequestStats.prototype.init = function() {
+    return this;
+};
+
+/******************************************************************************/
+
+var pageRequestStoreJunkyard = [];
+
+var pageRequestStoreFactory = function() {
+    var pageRequestStore = pageRequestStoreJunkyard.pop();
+    if ( pageRequestStore ) {
+        pageRequestStore.init();
+    } else {
+        pageRequestStore = new PageRequestStats();
+    }
+    pageRequestStore.resizeLogBuffer(httpsb.userSettings.maxLoggedRequests);
+    return pageRequestStore;
+};
+
+/******************************************************************************/
+
+PageRequestStats.prototype.disposeOne = function(reqKey) {
+    if ( this.requests[reqKey] ) {
+        delete this.requests[reqKey];
+        forgetRequestKey(reqKey);
+    }
+};
+
+/******************************************************************************/
+
+PageRequestStats.prototype.dispose = function() {
+    var requests = this.requests;
+    for ( var reqKey in requests ) {
+        if ( requests.hasOwnProperty(reqKey) === false ) {
+            continue;
+        }
+        stringPacker.forget(reqKey.slice(3));
+        delete requests[reqKey];
+    }
+    var i = this.ringBuffer.length;
+    var logEntry;
+    while ( i-- ) {
+        logEntry = this.ringBuffer[i];
+        if ( logEntry ) {
+            logEntry.dispose();
+        }
+    }
+    this.ringBuffer = [];
+    this.ringBufferPointer = 0;
+    if ( pageRequestStoreJunkyard.length < 8 ) {
+        pageRequestStoreJunkyard.push(this);
     }
 };
 
@@ -239,14 +290,12 @@ var hostnameFromRequestKey = function(reqKey) {
     return stringPacker.unpack(reqKey.slice(3));
 };
 
-pageRequestStats.hostnameFromRequestKey = hostnameFromRequestKey;
 PageRequestStats.prototype.hostnameFromRequestKey = hostnameFromRequestKey;
 
 var typeFromRequestKey = function(reqKey) {
     return codeToType[reqKey.charAt(0)];
 };
 
-pageRequestStats.typeFromRequestKey = typeFromRequestKey;
 PageRequestStats.prototype.typeFromRequestKey = typeFromRequestKey;
 
 /******************************************************************************/
@@ -352,39 +401,204 @@ PageRequestStats.prototype.getRequestDict = function() {
 
 /******************************************************************************/
 
-PageRequestStats.prototype.disposeOne = function(reqKey) {
-    if ( this.requests[reqKey] ) {
-        delete this.requests[reqKey];
-        forgetRequestKey(reqKey);
-    }
-};
-
-/******************************************************************************/
-
-PageRequestStats.prototype.dispose = function() {
-    var requests = this.requests;
-    for ( var reqKey in requests ) {
-        if ( requests.hasOwnProperty(reqKey) ) {
-            stringPacker.forget(reqKey.slice(3));
-            delete requests[reqKey];
-        }
-    }
-    var i = this.ringBuffer.length;
-    while ( i-- ) {
-        this.ringBuffer[i] = null;
-    }
-    this.ringBufferPointer = 0;
-};
-
-/******************************************************************************/
-
 // Export
 
-httpsb.PageRequestStats = pageRequestStats;
+return {
+    factory: pageRequestStoreFactory,
+    hostnameFromRequestKey: hostnameFromRequestKey,
+    typeFromRequestKey: typeFromRequestKey
+};
 
 /******************************************************************************/
 
 })();
 
 /******************************************************************************/
+/******************************************************************************/
 
+HTTPSB.PageStore = (function() {
+
+/******************************************************************************/
+
+var httpsb = HTTPSB;
+var pageStoreJunkyard = [];
+
+/******************************************************************************/
+
+var pageStoreFactory = function(pageUrl) {
+    var entry = pageStoreJunkyard.pop();
+    if ( entry ) {
+        return entry.init(pageUrl);
+    }
+    return new PageStore(pageUrl);
+};
+
+/******************************************************************************/
+
+function PageStore(pageUrl) {
+    this.pageUrl = '';
+    this.pageHostname = '';
+    this.pageDomain = '';
+    this.pageScriptBlocked = false;
+    this.thirdpartyScript = false;
+    this.requests = httpsb.PageRequestStats.factory();
+    this.domains = {};
+    this.state = {};
+    this.visible = false;
+    this.requestStats = new WebRequestStats();
+    this.distinctRequestCount = 0;
+    this.perLoadAllowedRequestCount = 0;
+    this.perLoadBlockedRequestCount = 0;
+    this.off = false;
+    this.abpBlockCount = 0;
+    this.init(pageUrl);
+}
+
+/******************************************************************************/
+
+PageStore.prototype.init = function(pageUrl) {
+    this.pageUrl = pageUrl;
+    this.pageHostname = httpsb.URI.hostnameFromURI(pageUrl);
+    this.pageDomain = httpsb.URI.domainFromHostname(this.pageHostname);
+    this.pageScriptBlocked = false;
+    this.thirdpartyScript = false;
+    this.requests = httpsb.PageRequestStats.factory();
+    this.domains = {};
+    this.state = {};
+    this.requestStats.reset();
+    this.distinctRequestCount = 0;
+    this.perLoadAllowedRequestCount = 0;
+    this.perLoadBlockedRequestCount = 0;
+    this.abpBlockCount = 0;
+    return this;
+};
+
+/******************************************************************************/
+
+PageStore.prototype.dispose = function() {
+    this.requests.dispose();
+
+    // rhill 2013-11-07: Even though at init time these are reset, I still
+    // need to release the memory taken by these, which can amount to
+    // sizeable enough chunks (especially requests, through the request URL
+    // used as a key).
+    this.pageUrl = '';
+    this.pageHostname = '';
+    this.pageDomain = '';
+    this.domains = {};
+    this.state = {};
+
+    if ( pageStoreJunkyard.length < 8 ) {
+        pageStoreJunkyard.push(this);
+    }
+};
+
+/******************************************************************************/
+
+// rhill 2014-03-11: If `block` !== false, then block.toString() may return
+// user legible information about the reason for the block.
+
+PageStore.prototype.recordRequest = function(type, url, block, reason) {
+    // TODO: this makes no sense, I forgot why I put this here.
+    if ( !this ) {
+        // console.error('HTTP Switchboard> PageStore.recordRequest(): no pageStats');
+        return;
+    }
+
+    // rhill 2013-10-26: This needs to be called even if the request is
+    // already logged, since the request stats are cached for a while after
+    // the page is no longer visible in a browser tab.
+    httpsb.updateBadge(this.pageUrl);
+
+    // Count blocked/allowed requests
+    this.requestStats.record(type, block);
+
+    // https://github.com/gorhill/httpswitchboard/issues/306
+    // If it is recorded locally, record globally
+    httpsb.requestStats.record(type, block);
+
+    if ( block !== false ) {
+        this.perLoadBlockedRequestCount++;
+    } else {
+        this.perLoadAllowedRequestCount++;
+    }
+
+    this.requests.logRequest(url, type, block, reason);
+
+    if ( !this.requests.createEntryIfNotExists(url, type, block) ) {
+        return;
+    }
+
+    var hostname = httpsb.URI.hostnameFromURI(url);
+
+    // https://github.com/gorhill/httpswitchboard/issues/181
+    if ( type === 'script' && hostname !== this.pageHostname ) {
+        this.thirdpartyScript = true;
+    }
+
+    // rhill 2013-12-24: put blocked requests in dict on the fly, since
+    // doing it only at one point after the page has loaded completely will
+    // result in unnecessary reloads (because requests can be made *after*
+    // the page load has completed).
+    // https://github.com/gorhill/httpswitchboard/issues/98
+    // rhill 2014-03-12: disregard blocking operations which do not originate
+    // from matrix evaluation, or else this can cause a useless reload of the
+    // page if something important was blocked through ABP filtering.
+    if ( block !== false && reason === undefined ) {
+        this.state[type + '|' + hostname] = true;
+    }
+
+    this.distinctRequestCount++;
+    this.domains[hostname] = true;
+
+    httpsb.urlStatsChanged(this.pageUrl);
+    // console.debug("HTTP Switchboard> PageStore.recordRequest(): %o: %s @ %s", this, type, url);
+};
+
+/******************************************************************************/
+
+// Update badge, incrementally
+
+// rhill 2013-11-09: well this sucks, I can't update icon/badge
+// incrementally, as chromium overwrite the icon at some point without
+// notifying me, and this causes internal cached state to be out of sync.
+
+PageStore.prototype.updateBadge = function(tabId) {
+    // Icon
+    var iconPath;
+    var total = this.perLoadAllowedRequestCount + this.perLoadBlockedRequestCount;
+    if ( total ) {
+        var squareSize = 19;
+        var greenSize = squareSize * Math.sqrt(this.perLoadAllowedRequestCount / total);
+        greenSize = greenSize < squareSize/2 ? Math.ceil(greenSize) : Math.floor(greenSize);
+        iconPath = 'img/browsericons/icon19-' + greenSize + '.png';
+    } else {
+        iconPath = 'img/browsericons/icon19.png';
+    }
+    chrome.browserAction.setIcon({ tabId: tabId, path: iconPath });
+
+    // Badge text & color
+    var badgeColor;
+    var badgeStr = httpsb.formatCount(this.distinctRequestCount);
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(this.pageUrl);
+    if ( httpsb.isDomainScopeKey(scopeKey) ) {
+        badgeColor = '#24c';
+    } else if ( httpsb.isSiteScopeKey(scopeKey) ) {
+        badgeColor = '#48c';
+    } else {
+        badgeColor = '#000';
+    }
+
+    chrome.browserAction.setBadgeText({ tabId: tabId, text: badgeStr });
+    chrome.browserAction.setBadgeBackgroundColor({ tabId: tabId, color: badgeColor });
+};
+
+/******************************************************************************/
+
+return {
+    factory: pageStoreFactory
+};
+
+})();
+
+/******************************************************************************/

@@ -27,16 +27,33 @@ HTTPSB.turnOn();
 
 /******************************************************************************/
 
-function onUpdatedTabsHandler(tabId, changeInfo, tab) {
-    // Following code is for script injection, which makes sense only if
-    // web page in tab is completely loaded.
-    if ( changeInfo.status !== 'complete' ) {
+function onTabCreated(tab) {
+    // Can this happen?
+    if ( tab.id < 0 || !tab.url || tab.url === '' ) {
         return;
     }
 
+    // https://github.com/gorhill/httpswitchboard/issues/303
+    // This takes care of rebinding the tab to the proper page store
+    // when the user navigate back in his history.
+    HTTPSB.bindTabToPageStats(tab.id, tab.url);
+}
+
+chrome.tabs.onCreated.addListener(onTabCreated);
+
+/******************************************************************************/
+
+function onTabUpdated(tabId, changeInfo, tab) {
     // Can this happen?
-    if ( !tab.url || !tab.url.length ) {
+    if ( !tab.url || tab.url === '' ) {
         return;
+    }
+
+    // https://github.com/gorhill/httpswitchboard/issues/303
+    // This takes care of rebinding the tab to the proper page store
+    // when the user navigate back in his history.
+    if ( changeInfo.url ) {
+        HTTPSB.bindTabToPageStats(tabId, tab.url);
     }
 
     // rhill 2013-12-23: Compute state after whole page is loaded. This is
@@ -48,18 +65,19 @@ function onUpdatedTabsHandler(tabId, changeInfo, tab) {
     // blocked page using HTTPSB internal data URI-based page to be properly
     // unblocked when user un-blacklist the hostname.
     // https://github.com/gorhill/httpswitchboard/issues/198
-
-    var pageStats = HTTPSB.pageStatsFromTabId(tabId);
-    if ( pageStats ) {
-        pageStats.state = HTTPSB.computeTabState(tabId);
+    if ( changeInfo.status === 'complete' ) {
+        var pageStats = HTTPSB.pageStatsFromTabId(tabId);
+        if ( pageStats ) {
+            pageStats.state = HTTPSB.computeTabState(tabId);
+        }
     }
 }
 
-chrome.tabs.onUpdated.addListener(onUpdatedTabsHandler);
+chrome.tabs.onUpdated.addListener(onTabUpdated);
 
 /******************************************************************************/
 
-function onRemovedTabHandler(tabId) {
+function onTabRemoved(tabId) {
     // Can this happen?
     if ( tabId < 0 ) {
         return;
@@ -68,7 +86,7 @@ function onRemovedTabHandler(tabId) {
     HTTPSB.unbindTabFromPageStats(tabId);
 }
 
-chrome.tabs.onRemoved.addListener(onRemovedTabHandler);
+chrome.tabs.onRemoved.addListener(onTabRemoved);
 
 /******************************************************************************/
 
@@ -81,7 +99,7 @@ function onBeforeNavigateCallback(details) {
     }
     // console.debug('onBeforeNavigateCallback() > "%s" = %o', details.url, details);
 
-    HTTPSB.bindTabToPageStats(details.tabId, HTTPSB.URI.set(details.url).normalizedURI());
+    HTTPSB.bindTabToPageStats(details.tabId, details.url);
 }
 
 chrome.webNavigation.onBeforeNavigate.addListener(onBeforeNavigateCallback);
@@ -98,11 +116,9 @@ HTTPSB.load();
 // normal way forbid binding behind the scene tab.
 // https://github.com/gorhill/httpswitchboard/issues/67
 
-(function(tabId, pageUrl) {
-    HTTPSB.createPageStats(pageUrl);
-    HTTPSB.pageUrlToTabId[pageUrl] = tabId;
-    HTTPSB.tabIdToPageUrl[tabId] = pageUrl;
-})(HTTPSB.behindTheSceneTabId, HTTPSB.behindTheSceneURL);
+HTTPSB.createPageStats(HTTPSB.behindTheSceneURL);
+HTTPSB.pageUrlToTabId[HTTPSB.behindTheSceneURL] = HTTPSB.behindTheSceneTabId;
+HTTPSB.tabIdToPageUrl[HTTPSB.behindTheSceneTabId] = HTTPSB.behindTheSceneURL;
 
 /******************************************************************************/
 
@@ -111,10 +127,8 @@ HTTPSB.load();
 chrome.tabs.query({ url: '<all_urls>' }, function(tabs) {
     var i = tabs.length;
     // console.debug('HTTP Switchboard > preparing to bind %d tabs', i);
-    var tab;
     while ( i-- ) {
-        tab = tabs[i];
-        HTTPSB.bindTabToPageStats(tab.id, HTTPSB.URI.set(tab.url).normalizedURI());
+        HTTPSB.bindTabToPageStats(tabs[i].id, tabs[i].url);
     }
     // Tabs are now bound to url stats stores, therefore it is now safe
     // to handle net traffic.
@@ -137,8 +151,8 @@ chrome.tabs.query({ url: '<all_urls>' }, function(tabs) {
             if ( matches && matches.length > 1 ) {
                 tabid = parseInt(matches[1], 10);
             }
+            httpsb.port = null;
         }
-        httpsb.port = null;
         // https://github.com/gorhill/httpswitchboard/issues/94
         if ( httpsb.userSettings.smartAutoReload ) {
             httpsb.smartReloadTabs(httpsb.userSettings.smartAutoReload, tabid);

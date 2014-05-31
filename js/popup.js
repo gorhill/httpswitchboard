@@ -35,6 +35,7 @@ var targetPageHostname;
 var targetPageDomain;
 
 var matrixCellHotspots = null;
+var matrixHasRows = false;
 
 /******************************************************************************/
 
@@ -205,7 +206,6 @@ var HTTPSBPopup = {
 
     matrixStats: MatrixStats.prototype.createMatrixStats(),
     matrixHeaderTypes: ['*'],
-    matrixHasRows: false,
     matrixGroup3Collapsed: false,
 
     groupsSnapshot: [],
@@ -246,7 +246,7 @@ function initMatrixStats() {
     var reqKeys = pageRequests.getRequestKeys();
     var iReqKey = reqKeys.length;
 
-    HTTPSBPopup.matrixHasRows = iReqKey > 0;
+    matrixHasRows = iReqKey > 0;
 
     while ( iReqKey-- ) {
         reqKey = reqKeys[iReqKey];
@@ -716,9 +716,17 @@ var startMatrixUpdate = function() {
 };
 
 var endMatrixUpdate = function() {
+    // https://github.com/gorhill/httpswitchboard/issues/246
+    // If the matrix has no rows, we need to insert a dummy one, invisible,
+    // to ensure the extension pop-up is properly sized. This is needed because
+    // the header pane's `position` property is `fixed`, which means it doesn't
+    // affect layout size, hence the matrix header row will be truncated.
+    if ( !matrixHasRows ) {
+        matrixList.append(createMatrixRow().css('visibility', 'hidden'));
+    }
     updateMatrixBehavior();
-    matrixList.appendTo($('.paneContent'));
     matrixList.css('display', '');
+    matrixList.appendTo($('.paneContent'));
 };
 
 var createMatrixGroup = function() {
@@ -740,6 +748,7 @@ var createMatrixSection = function() {
 var createMatrixRow = function() {
     var row = matrixRowPool.pop();
     if ( row ) {
+        row.style.visibility = '';
         row = $(row);
         row.children('.matCell').removeClass().addClass('matCell');
         row.removeClass().addClass('matRow');
@@ -1110,23 +1119,24 @@ function makeMatrixGroup3Section(hostnames) {
 
 function makeMatrixGroup3(group) {
     var domains = Object.keys(group).sort(hostnameCompare);
-    if ( domains.length ) {
-        var groupDiv = createMatrixGroup()
-            .addClass('g3');
-        createMatrixSection()
-            .addClass('g3Meta')
-            .toggleClass('g3Collapsed', !!getUserSetting('popupHideBlacklisted'))
-            .appendTo(groupDiv);
-        makeMatrixMetaRow(computeMatrixGroupMetaStats(group), 'g3')
-            .appendTo(groupDiv);
-        makeMatrixGroup3Section(Object.keys(group[domains[0]].all).sort(hostnameCompare))
-            .appendTo(groupDiv);
-        for ( var i = 1; i < domains.length; i++ ) {
-            makeMatrixGroup3Section(Object.keys(group[domains[i]].all).sort(hostnameCompare))
-                .appendTo(groupDiv);
-        }
-        groupDiv.appendTo(matrixList);
+    if ( domains.length === 0 ) {
+        return;
     }
+    var groupDiv = createMatrixGroup()
+        .addClass('g3');
+    createMatrixSection()
+        .addClass('g3Meta')
+        .toggleClass('g3Collapsed', !!getUserSetting('popupHideBlacklisted'))
+        .appendTo(groupDiv);
+    makeMatrixMetaRow(computeMatrixGroupMetaStats(group), 'g3')
+        .appendTo(groupDiv);
+    makeMatrixGroup3Section(Object.keys(group[domains[0]].all).sort(hostnameCompare))
+        .appendTo(groupDiv);
+    for ( var i = 1; i < domains.length; i++ ) {
+        makeMatrixGroup3Section(Object.keys(group[domains[i]].all).sort(hostnameCompare))
+            .appendTo(groupDiv);
+    }
+    groupDiv.appendTo(matrixList);
 }
 
 /******************************************************************************/
@@ -1236,8 +1246,12 @@ function initScopeCell() {
     }
     // Fill in the scope menu entries
     var httpsb = HTTPSB;
-    $('#scopeKeyDomain').text(httpsb.domainScopeKeyFromURL(targetPageURL).replace('*', '\u2217'));
-    $('#scopeKeySite').text(httpsb.siteScopeKeyFromURL(targetPageURL));
+    if ( targetPageDomain === '' ) {
+        $('#scopeKeyDomain').css('display', 'none');
+    } else {
+        $('#scopeKeyDomain').text(httpsb.domainScopeKeyFromURL(targetPageURL).replace('*', '\u2217'));
+    }
+    $('#scopeKeySite').text(httpsb.siteScopeKeyFromHostname(targetPageHostname));
     updateScopeCell();
 }
 
@@ -1568,7 +1582,7 @@ var bindToTab = function(tabs) {
     makeMenu();
 
     // After popup menu is built, check whether there is a non-empty matrix
-    if ( !HTTPSBPopup.matrixHasRows ) {
+    if ( !targetPageURL ) {
         $('#matHead').remove();
         $('#toolbarLeft').remove();
         $('#buttonPresets').remove();

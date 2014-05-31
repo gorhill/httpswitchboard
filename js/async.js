@@ -233,10 +233,14 @@ function gotoExtensionURL(url) {
 // rebuild their matrix).
 
 HTTPSB.urlStatsChanged = function(pageUrl) {
+    // rhill 2013-11-17: No point in sending this message if the popup menu
+    // does not exist. I suspect this could be related to
+    // https://github.com/gorhill/httpswitchboard/issues/58
+    if ( !this.port ) {
+        return;
+    }
+
     var urlStatsChangedCallback = function(pageUrl) {
-        // rhill 2013-11-17: No point in sending this message if the popup menu
-        // does not exist. I suspect this could be related to
-        // https://github.com/gorhill/httpswitchboard/issues/58
         var httpsb = HTTPSB;
         if ( httpsb.port ) {
             httpsb.port.postMessage({
@@ -246,7 +250,7 @@ HTTPSB.urlStatsChanged = function(pageUrl) {
         }
     };
 
-    this.asyncJobs.add('urlStatsChanged ' + pageUrl, pageUrl, urlStatsChangedCallback, 1000);
+    this.asyncJobs.add('urlStatsChanged-' + pageUrl, pageUrl, urlStatsChangedCallback, 1000);
 };
 
 /******************************************************************************/

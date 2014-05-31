@@ -30,8 +30,10 @@
 
 /******************************************************************************/
 
-var rootFrameReplacement = "<!DOCTYPE html> \
-<html> \
+// The `id='httpsb'` is important, it allows HTTPSB to detect whether a
+// specific data URI originates from itself.
+
+var rootFrameReplacement = "<!DOCTYPE html><html id='httpsb'> \
 <head> \
 <style> \
 @font-face { \
@@ -156,22 +158,6 @@ var onBeforeChromeExtensionRequestHandler = function(details) {
 
     // console.debug('onBeforeChromeExtensionRequestHandler()> "%s": %o', details.url, details);
 
-    // Is it me?
-    if ( requestURL.indexOf(chrome.runtime.id) < 0 ) {
-        return;
-    }
-
-    // Is it a top frame?
-    if ( details.parentFrameId >= 0 ) {
-        return;
-    }
-
-    // Is it the noop css file?
-    var httpsb = HTTPSB;
-    if ( requestURL.indexOf(httpsb.noopCSSURL) !== 0 ) {
-        return;
-    }
-
     // rhill 2013-12-10: Avoid regex whenever a faster indexOf() can be used:
     // here we can use fast indexOf() as a first filter -- which is executed
     // for every single request (so speed matters).
@@ -183,7 +169,7 @@ var onBeforeChromeExtensionRequestHandler = function(details) {
     // Is the target page still blacklisted?
     var pageURL = decodeURIComponent(matches[1]);
     var hostname = decodeURIComponent(matches[2]);
-    if ( httpsb.blacklisted(pageURL, 'main_frame', hostname) ) {
+    if ( HTTPSB.blacklisted(pageURL, 'main_frame', hostname) ) {
         return;
     }
 
@@ -201,9 +187,6 @@ var onBeforeChromeExtensionRequestHandler = function(details) {
 
 var onBeforeRootFrameRequestHandler = function(details) {
     var httpsb = HTTPSB;
-    var httpsburi = httpsb.URI.set(details.url);
-    var requestURL = httpsburi.normalizedURI();
-    var requestHostname = httpsburi.hostname;
 
     // Do not ignore traffic outside tabs
     var tabId = details.tabId;
@@ -212,9 +195,16 @@ var onBeforeRootFrameRequestHandler = function(details) {
     }
     // It's a root frame, bind to a new page stats store
     else {
-        httpsb.bindTabToPageStats(tabId, requestURL);
+        httpsb.bindTabToPageStats(tabId, details.url);
     }
 
+    var uri = httpsb.URI.set(details.url);
+    if ( uri.scheme !== 'http' && uri.scheme !== 'https' ) {
+        return;
+    }
+
+    var requestURL = uri.normalizedURI();
+    var requestHostname = uri.hostname;
     var pageStats = httpsb.pageStatsFromTabId(tabId);
     var pageURL = httpsb.pageUrlFromPageStats(pageStats);
     var block = httpsb.blacklisted(pageURL, 'main_frame', requestHostname);
@@ -273,8 +263,21 @@ var onBeforeRequestHandler = function(details) {
         return;
     }
 
-    // Don't block chrome extensions
-    if ( requestScheme === 'chrome-extension' ) {
+    // quickProfiler.start('onBeforeRequest');
+
+    // console.debug('onBeforeRequestHandler()> "%s": %o', details.url, details);
+
+    var requestType = details.type;
+    
+    // https://github.com/gorhill/httpswitchboard/issues/303
+    // Wherever the main doc comes from, create a receiver page URL: synthetize
+    // one if needed.
+    if ( requestType === 'main_frame' && details.parentFrameId < 0 ) {
+        return onBeforeRootFrameRequestHandler(details);
+    }
+
+    // Is it HTTPSB's noop css file?
+    if ( requestURL.slice(0, httpsb.noopCSSURL.length) === httpsb.noopCSSURL ) {
         return onBeforeChromeExtensionRequestHandler(details);
     }
 
@@ -282,16 +285,6 @@ var onBeforeRequestHandler = function(details) {
     if ( requestScheme.indexOf('http') !== 0 ) {
         return;
     }
-
-    // quickProfiler.start('onBeforeRequest');
-
-    var requestType = details.type;
-
-    if ( requestType === 'main_frame' && details.parentFrameId < 0 ) {
-        return onBeforeRootFrameRequestHandler(details);
-    }
-
-    // console.debug('onBeforeRequestHandler()> "%s": %o', details.url, details);
 
     // Do not block myself from updating assets
     // https://github.com/gorhill/httpswitchboard/issues/202

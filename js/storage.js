@@ -335,9 +335,8 @@ HTTPSB.loadUbiquitousBlacklists = function() {
 HTTPSB.mergeUbiquitousBlacklist = function(details) {
     // console.log('HTTP Switchboard > mergeUbiquitousBlacklist from "%s": "%s..."', details.path, details.content.slice(0, 40));
 
-    var rawOriginal = details.content;
-    var rawLowercase = rawOriginal.toLowerCase();
-    var rawEnd = rawLowercase.length;
+    var rawText = details.content;
+    var rawEnd = rawText.length;
 
     // rhill 2013-10-21: No need to prefix with '* ', the hostname is just what
     // we need for preset blacklists. The prefix '* ' is ONLY needed when
@@ -362,9 +361,9 @@ HTTPSB.mergeUbiquitousBlacklist = function(details) {
     var line, c;
 
     while ( lineBeg < rawEnd ) {
-        lineEnd = rawLowercase.indexOf('\n', lineBeg);
+        lineEnd = rawText.indexOf('\n', lineBeg);
         if ( lineEnd < 0 ) {
-            lineEnd = rawLowercase.indexOf('\r', lineBeg);
+            lineEnd = rawText.indexOf('\r', lineBeg);
             if ( lineEnd < 0 ) {
                 lineEnd = rawEnd;
             }
@@ -373,7 +372,7 @@ HTTPSB.mergeUbiquitousBlacklist = function(details) {
         // rhill 2014-04-18: The trim is important here, as without it there
         // could be a lingering `\r` which would cause problems in the
         // following parsing code.
-        line = rawLowercase.slice(lineBeg, lineEnd).trim();
+        line = rawText.slice(lineBeg, lineEnd).trim();
         currentLineBeg = lineBeg;
         lineBeg = lineEnd + 1;
 
@@ -386,7 +385,7 @@ HTTPSB.mergeUbiquitousBlacklist = function(details) {
         // 2014-05-18: ABP element hide filters are allowed to contain space
         // characters
         if ( abpHideFilters !== null ) {
-            if ( abpHideFilters.add(rawOriginal.slice(currentLineBeg, lineEnd).trim()) ) {
+            if ( abpHideFilters.add(line) ) {
                 continue;
             }
         }
@@ -394,12 +393,14 @@ HTTPSB.mergeUbiquitousBlacklist = function(details) {
         if ( c === '#' ) {
             continue;
         }
-        line = line.replace(/\s+#.*$/, '');
 
         // https://github.com/gorhill/httpswitchboard/issues/15
         // Ensure localhost et al. don't end up in the ubiquitous blacklist.
-        line = line.replace(reLocalhost, '');
-        line = line.trim();
+        line = line
+            .replace(/\s+#.*$/, '')
+            .toLowerCase()
+            .replace(reLocalhost, '')
+            .trim();
 
         // The filter is whatever sequence of printable ascii character without
         // whitespaces

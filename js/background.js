@@ -123,7 +123,7 @@ var HTTPSB = {
     webRequestHandler: false,
 
     // record what chromium is doing behind the scene
-    behindTheSceneURL: 'http://chromium-behind-the-scene',
+    behindTheSceneURL: 'http://chromium-behind-the-scene/',
     behindTheSceneTabId: 0x7FFFFFFF,
     behindTheSceneMaxReq: 250,
     behindTheSceneScopeKey: 'chromium-behind-the-scene',

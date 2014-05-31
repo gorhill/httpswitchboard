@@ -23,243 +23,19 @@
 
 /******************************************************************************/
 
-PageStatsEntry.junkyard = [];
-
-PageStatsEntry.factory = function(pageUrl) {
-    var entry = PageStatsEntry.junkyard.pop();
-    if ( entry ) {
-        return entry.init(pageUrl);
-    }
-    return new PageStatsEntry(pageUrl);
-};
-
-/******************************************************************************/
-
-PageStatsEntry.prototype.init = function(pageUrl) {
-    this.pageUrl = pageUrl;
-    this.pageHostname = HTTPSB.URI.hostnameFromURI(pageUrl);
-    this.pageDomain = HTTPSB.URI.domainFromHostname(this.pageHostname);
-    this.pageScriptBlocked = false;
-    this.thirdpartyScript = false;
-    this.requests = HTTPSB.PageRequestStats.factory();
-    this.domains = {};
-    this.state = {};
-    this.requestStats.reset();
-    this.distinctRequestCount = 0;
-    this.perLoadAllowedRequestCount = 0;
-    this.perLoadBlockedRequestCount = 0;
-    this.abpBlockCount = 0;
-    return this;
-};
-
-/******************************************************************************/
-
-PageStatsEntry.prototype.dispose = function() {
-    this.requests.dispose();
-
-    // rhill 2013-11-07: Even though at init time these are reset, I still
-    // need to release the memory taken by these, which can amount to
-    // sizeable enough chunks (especially requests, through the request URL
-    // used as a key).
-    this.pageUrl = '';
-    this.pageHostname = '';
-    this.pageDomain = '';
-    this.domains = {};
-    this.state = {};
-
-    PageStatsEntry.junkyard.push(this);
-};
-
-/******************************************************************************/
-
-// rhill 2014-03-11: If `block` !== false, then block.toString() may return
-// user legible information about the reason for the block.
-
-PageStatsEntry.prototype.recordRequest = function(type, url, block, reason) {
-    // TODO: this makes no sense, I forgot why I put this here.
-    if ( !this ) {
-        // console.error('HTTP Switchboard > PageStatsEntry.recordRequest() > no pageStats');
-        return;
-    }
-
-    // rhill 2013-10-26: This needs to be called even if the request is
-    // already logged, since the request stats are cached for a while after
-    // the page is no longer visible in a browser tab.
-    var httpsb = HTTPSB;
-    httpsb.updateBadge(this.pageUrl);
-
-    // Count blocked/allowed requests
-    this.requestStats.record(type, block);
-
-    // https://github.com/gorhill/httpswitchboard/issues/306
-    // If it is recorded locally, record globally
-    httpsb.requestStats.record(type, block);
-
-    if ( block !== false ) {
-        this.perLoadBlockedRequestCount++;
-    } else {
-        this.perLoadAllowedRequestCount++;
-    }
-
-    this.requests.logRequest(url, type, block, reason);
-
-    if ( !this.requests.createEntryIfNotExists(url, type, block) ) {
-        return;
-    }
-
-    var hostname = httpsb.URI.hostnameFromURI(url);
-
-    // https://github.com/gorhill/httpswitchboard/issues/181
-    if ( type === 'script' && hostname !== this.pageHostname ) {
-        this.thirdpartyScript = true;
-    }
-
-    // rhill 2013-12-24: put blocked requests in dict on the fly, since
-    // doing it only at one point after the page has loaded completely will
-    // result in unnecessary reloads (because requests can be made *after*
-    // the page load has completed).
-    // https://github.com/gorhill/httpswitchboard/issues/98
-    // rhill 2014-03-12: disregard blocking operations which do not originate
-    // from matrix evaluation, or else this can cause a useless reload of the
-    // page if something important was blocked through ABP filtering.
-    if ( block !== false && reason === undefined ) {
-        this.state[type + '|' + hostname] = true;
-    }
-
-    this.distinctRequestCount++;
-    this.domains[hostname] = true;
-
-    httpsb.urlStatsChanged(this.pageUrl);
-    // console.debug("HTTP Switchboard > PageStatsEntry.recordRequest() > %o: %s @ %s", this, type, url);
-};
-
-/******************************************************************************/
-
-PageStatsEntry.prototype.getPageURL = function() {
-    if ( !this ) {
-        return undefined;
-    }
-    return this.pageUrl;
-};
-
-/******************************************************************************/
-
-// Update badge, incrementally
-
-// rhill 2013-11-09: well this sucks, I can't update icon/badge
-// incrementally, as chromium overwrite the icon at some point without
-// notifying me, and this causes internal cached state to be out of sync.
-
-PageStatsEntry.prototype.updateBadge = function(tabId) {
-    var httpsb = HTTPSB;
-
-    // Icon
-    var iconPath;
-    var total = this.perLoadAllowedRequestCount + this.perLoadBlockedRequestCount;
-    if ( total ) {
-        var squareSize = 19;
-        var greenSize = squareSize * Math.sqrt(this.perLoadAllowedRequestCount / total);
-        greenSize = greenSize < squareSize/2 ? Math.ceil(greenSize) : Math.floor(greenSize);
-        iconPath = 'img/browsericons/icon19-' + greenSize + '.png';
-    } else {
-        iconPath = 'img/browsericons/icon19.png';
-    }
-    chrome.browserAction.setIcon({ tabId: tabId, path: iconPath });
-
-    // Badge text & color
-    var badgeColor;
-    var badgeStr = httpsb.formatCount(this.distinctRequestCount);
-    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(this.pageUrl);
-    if ( httpsb.isDomainScopeKey(scopeKey) ) {
-        badgeColor = '#24c';
-    } else if ( httpsb.isSiteScopeKey(scopeKey) ) {
-        badgeColor = '#48c';
-    } else {
-        badgeColor = '#000';
-    }
-
-    chrome.browserAction.setBadgeText({ tabId: tabId, text: badgeStr });
-    chrome.browserAction.setBadgeBackgroundColor({ tabId: tabId, color: badgeColor });
-};
-
-/******************************************************************************/
-
-// Garbage collect stale url stats entries
-// rhill 2013-10-23: revised to avoid closures.
-
-function garbageCollectStalePageStatsWithNoTabsCallback(tabs) {
-    var httpsb = HTTPSB;
-    var visibleTabs = {};
-    tabs.map(function(tab) {
-        visibleTabs[tab.id] = true;
-    });
-    var pageUrls = Object.keys(httpsb.pageStats);
-    var i = pageUrls.length;
-    var pageUrl, tabId, pageStats;
-    while ( i-- ) {
-        pageUrl = pageUrls[i];
-        // Do not dispose of chromium-behind-the-scene virtual tab,
-        // GC is done differently on this one (i.e. just pruning).
-        if ( pageUrl === httpsb.behindTheSceneURL ) {
-            continue;
-        }
-        tabId = httpsb.tabIdFromPageUrl(pageUrl);
-        pageStats = httpsb.pageStats[pageUrl];
-        if ( !visibleTabs[tabId] && !pageStats.visible ) {
-            httpsb.cookieHunter.removePageCookies(pageStats);
-            httpsb.pageStats[pageUrl].dispose();
-            delete httpsb.pageStats[pageUrl];
-            // console.debug('HTTP Switchboard > GC: disposed of "%s"', pageUrl);
-        }
-        pageStats.visible = !!visibleTabs[tabId];
-        if ( !pageStats.visible ) {
-            httpsb.unbindTabFromPageStats(tabId);
-        }
-    }
-}
-
-function garbageCollectStalePageStatsCallback() {
-    var httpsb = HTTPSB;
-
-    // Get rid of stale pageStats, those not bound to a tab for more than
-    // {duration placeholder}.
-    chrome.tabs.query({ 'url': '<all_urls>' }, garbageCollectStalePageStatsWithNoTabsCallback);
-
-    // Prune content of chromium-behind-the-scene virtual tab
-    // When `suggest-as-you-type` is on in Chromium, this can lead to a
-    // LOT of uninteresting behind the scene requests.
-    var pageStats = httpsb.pageStats[httpsb.behindTheSceneURL];
-    if ( pageStats ) {
-        var reqKeys = pageStats.requests.getRequestKeys();
-        if ( reqKeys.length > httpsb.behindTheSceneMaxReq ) {
-            reqKeys = reqKeys.sort(function(a,b){
-                return pageStats.requests[b] - pageStats.requests[a];
-            }).slice(httpsb.behindTheSceneMaxReq);
-            var iReqKey = reqKeys.length;
-            while ( iReqKey-- ) {
-                pageStats.requests.disposeOne(reqKeys[iReqKey]);
-            }
-        }
-    }
-}
-
-// Time somewhat arbitrary: If a web page has not been in a tab for 10 minutes,
-// flush its stats.
-//                                                                              min  sec   1sec
-HTTPSB.asyncJobs.add('gcPageStats', null, garbageCollectStalePageStatsCallback, 10 * 60 * 1000, true);
-
-/******************************************************************************/
-
 // Create a new page url stats store (if not already present)
 
 HTTPSB.createPageStats = function(pageUrl) {
+    // https://github.com/gorhill/httpswitchboard/issues/303
+    // At this point, the URL has been page-URL-normalized
+
     // do not create stats store for urls which are of no interest
     if ( pageUrl.search(/^https?:\/\//) !== 0 ) {
         return undefined;
     }
     var pageStats = this.pageStats[pageUrl];
     if ( !pageStats ) {
-        pageStats = PageStatsEntry.factory(pageUrl);
+        pageStats = this.PageStore.factory(pageUrl);
         // These counters are used so that icon presents an overview of how
         // much allowed/blocked.
         pageStats.perLoadAllowedRequestCount =
@@ -274,9 +50,45 @@ HTTPSB.createPageStats = function(pageUrl) {
 
 /******************************************************************************/
 
+// https://github.com/gorhill/httpswitchboard/issues/303
+// Some kind of trick going on here:
+//   Any scheme other than 'http' and 'https' is remapped into a fake
+//   URL which trick the rest of HTTPSB into being able to process an
+//   otherwise unmanageable scheme. HTTPSB needs web page to have a proper
+//   hostname to work properly, so just like the 'chromium-behind-the-scene'
+//   fake domain name, we map unknown schemes into a fake '{scheme}-scheme'
+//   hostname. This way, for a specific scheme you can create scope with
+//   rules which will apply only to that scheme.
+
+HTTPSB.normalizePageURL = function(pageURL) {
+    var uri = this.URI.set(pageURL);
+    if ( uri.scheme === 'https' || uri.scheme === 'http' ) {
+        return uri.normalizedURI();
+    }
+    // If it is a scheme-based page URL, it is important it is crafted as a
+    // normalized URL just like above.
+    if ( uri.scheme !== '' ) {
+        return 'http://' + uri.scheme + '-scheme/';
+    }
+    return '';
+}
+
+/******************************************************************************/
+
 // Create an entry for the tab if it doesn't exist
 
 HTTPSB.bindTabToPageStats = function(tabId, pageURL) {
+    // https://github.com/gorhill/httpswitchboard/issues/303
+    // Don't rebind pages blocked by HTTPSB.
+    var blockedRootFramePrefix = 'data:text/html;base64,PCFET0NUWVBFIGh0bWw+PGh0bWwgaWQ9J2h0dHBzYic+';
+    if ( pageURL.slice(0, blockedRootFramePrefix.length) === blockedRootFramePrefix ) {
+        return null;
+    }
+
+    // https://github.com/gorhill/httpswitchboard/issues/303
+    // Normalize to a page-URL.
+    pageURL = this.normalizePageURL(pageURL);
+
     var pageStats = this.createPageStats(pageURL);
 
     // console.debug('HTTP Switchboard> HTTPSB.bindTabToPageStats(): dispatching traffic in tab id %d to url stats store "%s"', tabId, pageUrl);
@@ -284,17 +96,22 @@ HTTPSB.bindTabToPageStats = function(tabId, pageURL) {
     // rhill 2013-11-24: Never ever rebind chromium-behind-the-scene
     // virtual tab.
     // https://github.com/gorhill/httpswitchboard/issues/67
-    if ( tabId !== this.behindTheSceneTabId ) {
-        this.unbindTabFromPageStats(tabId);
-
-        // rhill 2014-02-08: Do not create an entry if no page store
-        // exists (like when visiting about:blank)
-        // https://github.com/gorhill/httpswitchboard/issues/186
-        if ( pageStats ) {
-            this.pageUrlToTabId[pageURL] = tabId;
-            this.tabIdToPageUrl[tabId] = pageURL;
-        }
+    if ( tabId === this.behindTheSceneTabId ) {
+        return pageStats;
     }
+
+    this.unbindTabFromPageStats(tabId);
+
+    // rhill 2014-02-08: Do not create an entry if no page store
+    // exists (like when visiting about:blank)
+    // https://github.com/gorhill/httpswitchboard/issues/186
+    if ( !pageStats ) {
+        return null;
+    }
+    pageStats.visible = true;
+
+    this.pageUrlToTabId[pageURL] = tabId;
+    this.tabIdToPageUrl[tabId] = pageURL;
 
     return pageStats;
 };
@@ -489,8 +306,10 @@ HTTPSB.computeTabState = function(tabId) {
 
 /******************************************************************************/
 
-HTTPSB.tabIdFromPageUrl = function(pageUrl) {
-    return this.pageUrlToTabId[pageUrl];
+HTTPSB.tabIdFromPageUrl = function(pageURL) {
+    // https://github.com/gorhill/httpswitchboard/issues/303
+    // Normalize to a page-URL.
+    return this.pageUrlToTabId[this.normalizePageURL(pageURL)];
 };
 
 HTTPSB.tabIdFromPageStats = function(pageStats) {
@@ -503,7 +322,7 @@ HTTPSB.pageUrlFromTabId = function(tabId) {
 
 HTTPSB.pageUrlFromPageStats = function(pageStats) {
     if ( pageStats ) {
-        return pageStats.getPageURL();
+        return pageStats.pageUrl;
     }
     return undefined;
 };
@@ -516,9 +335,9 @@ HTTPSB.pageStatsFromTabId = function(tabId) {
     return undefined;
 };
 
-HTTPSB.pageStatsFromPageUrl = function(pageUrl) {
-    if ( pageUrl ) {
-        return this.pageStats[pageUrl];
+HTTPSB.pageStatsFromPageUrl = function(pageURL) {
+    if ( pageURL ) {
+        return this.pageStats[this.normalizePageURL(pageURL)];
     }
     return null;
 };
@@ -532,3 +351,73 @@ HTTPSB.forceReload = function(pageURL) {
     }
 };
 
+/******************************************************************************/
+
+// Garbage collect stale url stats entries
+(function() {
+    var gcOrphanPageStats = function(tabs) {
+        var httpsb = HTTPSB;
+        var visibleTabs = {};
+        tabs.map(function(tab) {
+            visibleTabs[tab.id] = true;
+        });
+        var pageUrls = Object.keys(httpsb.pageStats);
+        var i = pageUrls.length;
+        var pageUrl, tabId, pageStats;
+        while ( i-- ) {
+            pageUrl = pageUrls[i];
+            // Do not dispose of chromium-behind-the-scene virtual tab,
+            // GC is done differently on this one (i.e. just pruning).
+            if ( pageUrl === httpsb.behindTheSceneURL ) {
+                continue;
+            }
+            tabId = httpsb.tabIdFromPageUrl(pageUrl);
+            pageStats = httpsb.pageStats[pageUrl];
+            if ( !visibleTabs[tabId] && !pageStats.visible ) {
+                // console.debug('HTTP Switchboard> tab.js: page stats garbage collector letting go of "%s"', pageUrl);
+                httpsb.cookieHunter.removePageCookies(pageStats);
+                httpsb.pageStats[pageUrl].dispose();
+                delete httpsb.pageStats[pageUrl];
+            }
+            pageStats.visible = !!visibleTabs[tabId];
+            if ( !pageStats.visible ) {
+                httpsb.unbindTabFromPageStats(tabId);
+            }
+        }
+    };
+
+    var gcPageStats = function() {
+        var httpsb = HTTPSB;
+
+        // Get rid of stale pageStats, those not bound to a tab for more than
+        // {duration placeholder}.
+        chrome.tabs.query({ 'url': '<all_urls>' }, gcOrphanPageStats);
+
+        // Prune content of chromium-behind-the-scene virtual tab
+        // When `suggest-as-you-type` is on in Chromium, this can lead to a
+        // LOT of uninteresting behind the scene requests.
+        var pageStats = httpsb.pageStats[httpsb.behindTheSceneURL];
+        if ( pageStats ) {
+            var reqKeys = pageStats.requests.getRequestKeys();
+            if ( reqKeys.length > httpsb.behindTheSceneMaxReq ) {
+                reqKeys = reqKeys.sort(function(a,b){
+                    return pageStats.requests[b] - pageStats.requests[a];
+                }).slice(httpsb.behindTheSceneMaxReq);
+                var iReqKey = reqKeys.length;
+                while ( iReqKey-- ) {
+                    pageStats.requests.disposeOne(reqKeys[iReqKey]);
+                }
+            }
+        }
+    };
+
+    // Time somewhat arbitrary: If a web page has not been in a tab
+    // for some time minutes, flush its stats.
+    HTTPSB.asyncJobs.add(
+        'gcPageStats',
+        null,
+        gcPageStats,
+        8 * 60 * 1000,
+        true
+    );
+})();

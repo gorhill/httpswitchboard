@@ -62,23 +62,3 @@ function PermissionScopes() {
     this.scopes = {};
     this.scopes['*'] = new PermissionScope();
 }
-
-function PageStatsEntry(pageUrl) {
-    this.pageUrl = '';
-    this.pageHostname = '';
-    this.pageDomain = '';
-    this.pageScriptBlocked = false;
-    this.thirdpartyScript = false;
-    this.requests = HTTPSB.PageRequestStats.factory();
-    this.domains = {};
-    this.state = {};
-    this.visible = false;
-    this.requestStats = new WebRequestStats();
-    this.distinctRequestCount = 0;
-    this.perLoadAllowedRequestCount = 0;
-    this.perLoadBlockedRequestCount = 0;
-    this.off = false;
-    this.abpBlockCount = 0;
-    this.init(pageUrl);
-}
-
