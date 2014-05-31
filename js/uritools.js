@@ -19,6 +19,8 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
+/* global HTTPSB, publicSuffixList */
+
 /*******************************************************************************
 
 RFC 3986 as reference: http://tools.ietf.org/html/rfc3986#appendix-A
@@ -345,7 +347,7 @@ URI.parentHostnameFromHostname = function(hostname) {
     // `example.org` === `example.org` => bye
     // `www.example.org` !== `example.org` => stay
     // `tomato.www.example.org` !== `example.org` => stay
-    if ( !domain || domain === hostname ) {
+    if ( domain === '' || domain === hostname ) {
         return undefined;
     }
 
@@ -363,23 +365,22 @@ URI.parentHostnamesFromHostname = function(hostname) {
     // the list of hostnames by making it reusable (junkyard etc.) and which
     // has its own element counter property in order to avoid memory
     // alloc/dealloc.
-    var pos = hostname.indexOf('.');
-    if ( pos < 0 ) {
-        return [];
-    }
-    hostname = hostname.slice(pos + 1);
     var domain = this.domainFromHostname(hostname);
-    if ( domain === '' ) {
+    if ( domain === '' || domain === hostname ) {
         return [];
     }
-    var nodes = [hostname];
-    while ( hostname !== domain ) {
+    var nodes = [];
+    var pos;
+    for (;;) {
         pos = hostname.indexOf('.');
         if ( pos < 0 ) {
             break;
         }
         hostname = hostname.slice(pos + 1);
         nodes.push(hostname);
+        if ( hostname === domain ) {
+            break;
+        }
     }
     return nodes;
 };
