@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: dB/0B+H3ZbAAnHz67Pznzg
+! Checksum: qe8ABqgx6Qzs/rjN5Hw7Ww
 ! Title: EasyList Hebrew
-! Last modified: 26/05/14  16:41 Jerusalem Daylight Time
+! Last modified: 01/06/14  23:40 Jerusalem Daylight Time
 ! Expires: 4 days (update frequency)
 ! Homepage: https://github.com/AdBlockPlusIsrael/EasyListHebrew/
 ! Forums: https://github.com/AdBlockPlusIsrael/EasyListHebrew/issues
@@ -27,6 +27,7 @@
 ||3dots.co.il^$third-party,domain=~maple-team.com
 ||ad-sys.com^$third-party
 ||adland.co.il^$third-party
+||adtv.me^$popup
 ||amazing-offers.co.il^$popup
 ||asafnewcalc.mataniphone.tempurl.co.il/calculator3/$popup
 ||best-offers.co.il^$popup
@@ -53,6 +54,7 @@
 ||pera.co.il^$third-party
 ||s.tool-site.com^$third-party
 ||sekindo.com^$popup
+||streamin.to^$popup
 ||talkahead.com^$third-party
 ||tbuy.co.il^$popup
 ||unbouncepages.com^$popup
@@ -108,8 +110,10 @@
 ||tapuz.co.il^*CloseBanner.gif
 ||tapuz.co.il^*ClosePopup.gif
 !-inn-!
+||dwnmedia.a7.org/inntv/media/
 ||info.a7.org^$domain=inn.co.il
 ||inn.co.il/info_en/
+||media-ios.a7.org^$third-party
 !-Globes-!
 ||download.cast-tv.com/*_flv/prerole$object-subrequest
 ||globes.co.il/data/js/gtv_ads.js
@@ -213,6 +217,7 @@
 @@||forbes.co.il/download/banners/
 @@||go.ynet.co.il/short/commerce/2012/weathernew/
 @@||i.total-media.net/yc/dc.$script,domain=winwin.co.il
+@@||info.a7.org/info/$script,domain=inn.co.il
 @@||internet-bee.com/Feats/
 @@||net-games.co.il/flvPlayer/dist/flowplayer-$script
 @@||themarker.com/css/advertisement_article.css
@@ -275,6 +280,7 @@ bipbip.co.il#@#.adlist
 bipbip.co.il#@#.adpic
 blms.co.il#@#.addtitle
 homeless.co.il#@#.postad
+inn.co.il#@##divTopAd
 junkyard.co.il#@#.ad-body
 one.co.il#@#a[href^="http://xads.zedo.com/"]
 !
@@ -331,7 +337,9 @@ bari-p2.co.il##TD[style="padding-left:3px; padding-right:3px; padding-top:3px; p
 bbls.co.il###phonepopup
 bbls.co.il###opacity_curtain
 beok.co.il##.BannerMid
+bhol.co.il###AdvertisementSystemTakeOver
 bhol.co.il###divPlazma
+bhol.co.il###flashBtnX
 bhol.co.il###test.f-right
 bhol.co.il##.banner.clear
 bhol.co.il##.response[style="background-color:#F4F2F0"]

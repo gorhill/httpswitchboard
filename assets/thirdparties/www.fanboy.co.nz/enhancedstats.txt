@@ -1,7 +1,7 @@
 [Adblock Plus 1.1]
-! Checksum: YKky7u1+41pOrAY3VlMakg
+! Checksum: RWtWdeRfQGrQ0VUF55Xksw
 ! Title: Fanboy's Enhanced Tracking List
-! Updated: 21 May 2014
+! Updated: 29 May 2014
 ! This list expires after 2 days
 ! License: http://creativecommons.org/licenses/by/3.0/
 ! Email: fanboyadblock@googlegroups.com
@@ -704,8 +704,7 @@ drugs.com##div[style="left: 0px; position: fixed; top: auto; bottom: 48px;"]
 @@||rentals.com/javascripts/primedia-webtrends-
 @@||rentals.com/javascripts/webtrends-bindings.js
 @@||reseguiden.se^*.siteCatalyst.js
-@@||resources.ea.com/omniture/omniture_wrapper.js
-@@||resources.ea.com/omniture/utils.js
+@@||ea.com/omniture/
 @@||reuters.com/resources_v2/js/webtrends.js
 @@||reutersmedia.net/resources_v2/js/webtrends.js$domain=reuters.com
 @@||rightnow.com/javascript/omniture_variable_

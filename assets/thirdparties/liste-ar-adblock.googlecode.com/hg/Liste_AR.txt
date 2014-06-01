@@ -23,11 +23,11 @@
 !----------------------- Éléments génériques -----------------!
 ###pub-730x90
 ##.pub-730x90
+##[href*="ad2games.com/"]
 ##a[href*="/ads/ad_link.php?"]
 ##a[href*="adintop.com/outgoing/click.php?"]
 ##a[href*="dubizzle.com/ar/?utm_source="]
 ##a[href^="ads.php?id="]
-##a[href^="http://ad2games.com/"]
 ##a[href^="http://adserver.adtech.de/?adlink|"]
 ##a[href^="http://booraq.org"]
 ##a[href^="http://deals.souq.com/"]
@@ -64,6 +64,7 @@
 ||clients-ads.panet.co.il^
 ||clkmon.com^$third-party
 ||cpxmasters.com^$third-party
+||edomz.com^$third-party
 ||emarketing.net.sa^$third-party
 ||gainmoneyfast.com^$third-party
 ||geniusinstaller.com^$third-party
@@ -127,6 +128,7 @@
 ||amalh.net/images/amalh2.jpg
 ||amalh.net/images/monjz.gif
 ||amazonaws.com/*/KSA-Footer/images_leader_souq/
+||amazonaws.com/irgames/bnrs/
 ||anbagate.com/adv/
 ||anota-des.com/vb/$subdocument,domain=a7lahmsa.com
 ||arabdvd.net/banner/
@@ -251,6 +253,7 @@
 ||profvb.com/pub/
 ||ps-0.com/vb/$popup,domain=s-ajfan.com
 ||ps-0.com/vb/$subdocument,domain=a7lahmsa.com|s-ajfan.com
+||rackcdn.com/1114112_1114112.swf
 ||raya.ps^*/banners/
 ||realup.net/201001/1362674452.gif
 ||realup.net/201001/1362765520.gif
@@ -728,6 +731,7 @@
 ||nogooom.com/up2/uploads/137659633062.gif
 ||nokiagate.com/bans/
 ||nono6.com/open.js
+||okanime.com/pub/
 ||oleeh.com/images/Adv
 ||op-arab.com/pro/
 ||othaimmarkets.com/themes/*/BannerRotator.swf?
@@ -843,6 +847,8 @@
 ||uob-bh.com/uploadfiles/bahraindir.gif
 ||uskarmawi.com^$subdocument,domain=asalahpal.com
 ||vbdar.com^$popup,domain=darseries.com
+||vip4soft.com/draw.swf
+||vip4soft.com/images/baneers/
 ||waffarnalk.com/googlead1.php
 ||waffarnalk.com/site_ads/
 ||wiki-net.net/$subdocument,domain=panorama-istanbul.org
@@ -921,6 +927,7 @@ mazika2day.com###page_end_bans
 qalansuwa.com###pathway
 alwatannews.net###pnlAdv12
 elkhabar.com###pub_entete
+okanime.com###pubbbbbbb
 alarab.net###secncom
 arabia.com###showcase
 ninjaup.com###spons

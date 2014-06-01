@@ -3,7 +3,7 @@
 # For more information about this list, see: http://pgl.yoyo.org/adservers/
 # ----
 # last updated:   Fri, 16 May 2014 13:34:05 GMT
-# entries:        2495
+# entries:        2491
 # format:         hosts (hosts -- in hosts file format)
 # credits:        Peter Lowe - pgl@yoyo.org - http://pgl.yoyo.org/
 # this URL:       http://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext
@@ -126,7 +126,6 @@
 127.0.0.1 ad.jamba.net
 127.0.0.1 ad.jamster.co.uk
 127.0.0.1 ad.jetsoftware.com
-127.0.0.1 ad.keenspace.com
 127.0.0.1 ad.leadbolt.net
 127.0.0.1 ad.liveinternet.ru
 127.0.0.1 ad.lupa.cz
@@ -679,7 +678,6 @@
 127.0.0.1 ads.tripod.spray.se
 127.0.0.1 ads.tso.dennisnet.co.uk
 127.0.0.1 ads.tweetmeme.com
-127.0.0.1 ads.ucomics.com
 127.0.0.1 ads.uknetguide.co.uk
 127.0.0.1 ads.ultimate-guitar.com
 127.0.0.1 ads.uncrate.com
@@ -1152,7 +1150,6 @@
 127.0.0.1 best-pr.info
 127.0.0.1 best-top.ro
 127.0.0.1 bestsearch.net
-127.0.0.1 betarget.net
 127.0.0.1 bidbuddy.com
 127.0.0.1 bidclix.com
 127.0.0.1 bidclix.net
@@ -1838,7 +1835,6 @@
 127.0.0.1 netclickstats.com
 127.0.0.1 netcommunities.com
 127.0.0.1 netdirect.nl
-127.0.0.1 neteu.eu
 127.0.0.1 netflame.cc
 127.0.0.1 netincap.com
 127.0.0.1 netpool.netbookia.net

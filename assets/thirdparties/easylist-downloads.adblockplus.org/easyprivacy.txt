@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: O5Xj9nXkNEfEMB/SYwpcaA
-! Version: 201405271711
+! Checksum: celTQ2VXTeXWg6hbGMuzmg
+! Version: 201406012251
 ! Title: EasyPrivacy
-! Last modified: 27 May 2014 17:11 UTC
+! Last modified: 01 Jun 2014 22:51 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -965,6 +965,7 @@
 /ipfx?eid=
 /ipixel?spacedesc
 /iporganictrack.
+/ips-invite.iperceptions.com/*
 /iqtm.js
 /istat.aspx?
 /ists.tag?
@@ -1367,6 +1368,7 @@
 /powercount.
 /pphlogger.
 /pr.php?
+/prime-email-metrics/*$image
 /printtracker.js
 /prnx_track.
 /pro-ping.php?
@@ -1689,6 +1691,7 @@
 /track.gif?
 /track.js?referrer
 /track.js?screen=
+/track.php?*&uid=
 /track/*?rnd=0.$image
 /track/?site
 /track/aggregate?
@@ -3417,6 +3420,7 @@ http://utm.
 ||surfertracker.com^$third-party
 ||surveyscout.com^$third-party
 ||surveywriter.com^$third-party
+||survicate.com^$third-party
 ||swfstats.com^$third-party
 ||swiss-counter.com^$third-party
 ||swoopgrid.com^$third-party
@@ -8755,7 +8759,7 @@ http://utm.
 @@||google-analytics.com/urchin.js$domain=denverbroncos.com|muselive.com|streetfire.net|wickedthemusical.com
 @@||google.com/js/gweb/analytics/$domain=google.com
 @@||google.com/js/gweb/analytics/doubletrack.js$domain=android.com
-@@||googletagmanager.com/gtm.js?$domain=ebuyer.com|google.com
+@@||googletagmanager.com/gtm.js?$domain=drumstick.com|ebuyer.com|google.com
 @@||grapeshot.co.uk/image-resize/$image
 @@||grapeshot.co.uk/sare-api/
 @@||graphracer.com/js/libs/heatmap.js
@@ -8846,6 +8850,7 @@ http://utm.
 @@||nyandcompany.com^*/resxclsa.js$domain=nyandcompany.com
 @@||nymag.com/decor/javascript/magnify_stats.js
 @@||nymag.com/vltr/scripts/analytics.js$domain=vulture.com
+@@||nyt.com/bi/js/tagx/tagx.js$domain=nytimes.com
 @@||nytimes.com/bi/js/analytics/EventTracker.js
 @@||nytimes.com/bi/js/tagx/tagx.js$domain=myaccount.nytimes.com
 @@||nytimes.com^*/wtbase.js

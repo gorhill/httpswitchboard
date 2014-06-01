@@ -8,7 +8,7 @@
 # Please forward any additions, corrections or comments by email to
 # hosts@someonewhocares.org
 
-# Last updated: May 23rd, 2014 at 01:47
+# Last updated: May 29th, 2014 at 20:05
 
 # Use this file to prevent your computer from connecting to selected
 # internet hosts. This is an easy and effective way to protect you from 
@@ -3350,7 +3350,7 @@ fe80::1%lo0	localhost
 127.0.0.1 admedia.xoom.com
 127.0.0.1 admeld.com
 127.0.0.1 admeta.vo.llnwd.net
-127.0.0.1 adm.fwmrm.net
+#127.0.0.1 adm.fwmrm.net	#may interfere with nhl.com
 127.0.0.1 admin.digitalacre.com
 127.0.0.1 admin.hotkeys.com
 127.0.0.1 admin.inq.com
@@ -4749,6 +4749,7 @@ fe80::1%lo0	localhost
 127.0.0.1 advmaker.ru
 127.0.0.1 adv.merlin.co.il
 127.0.0.1 adv.netshelter.net
+127.0.0.1 adv.publy.net
 127.0.0.1 adv.surinter.net
 127.0.0.1 advt.webindia123.com
 127.0.0.1 ad.vurts.com
@@ -6629,6 +6630,7 @@ fe80::1%lo0	localhost
 127.0.0.1 pix522.adtech.fr
 127.0.0.1 pix522.adtech.us
 127.0.0.1 pixel.everesttech.net
+127.0.0.1 pixel.mathtag.com
 127.0.0.1 pixel.quantserve.com
 127.0.0.1 pixel.sitescout.com
 127.0.0.1 plasmatv4free.com

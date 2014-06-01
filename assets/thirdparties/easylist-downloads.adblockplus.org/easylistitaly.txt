@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: Sv2Y4Muv5Oh0o9FJIR/GJA
-! Version: 201405271711
+! Checksum: bDeXxfy/ufp7uWEBkLX2vQ
+! Version: 201406012251
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 27 May 2014 17:11 UTC
+! Ultima modifica: 01 Jun 2014 22:51 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -421,6 +421,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||rdn.it/images/BANNER/
 ||regaliper.me^$subdocument,third-party
 ||resources.saldiprivati.com^$third-party
+||riparautonline.com/banner/
 ||rivenditori.aruba.it^$third-party
 ||roi.ediscom.it^
 ||sanistatic.it/*/300x100_
@@ -1551,6 +1552,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||twww.tv^*/background.jpg
 ||ucciotube.altervista.org/skyscraper.html
 ||udinese.it^*/sponsor/
+||ultimouomo.com^*/skin-
 ||umbriaingol.it//immagini/File_banner/
 ||unionemonregalese.it/UP_BANNERS/
 ||universfilms.com^*_bluebutton_watchonline_
@@ -1684,6 +1686,7 @@ paginegialle.it###banner300x250_1
 sardegna24.net,tiscali.it###banner300x250c20
 telefonino.net###banner300x250pos2
 telefonino.net###banner300x250pos3
+ansa.it###banner300x250r15
 cronacamilano.it###banner728
 ilmeteo.it###banner728x90bottom
 ansa.it###banner970x30strip
@@ -1971,6 +1974,7 @@ internazionale.it###wideSkinWrapper
 italiaoggi.it,milanofinanza.it###widget_ticketcrociere
 animeclick.it###wrapper
 corriere.it###yoodeal
+corriere.it###yoodeal2
 gay.it###yukendu
 shippingonline.ilsecoloxix.it###zona_181
 ttmweb.it###zona_245
@@ -2040,7 +2044,7 @@ piacenzanight.com##.back_style
 avmagazine.it,ilcrotonese.it,tomshw.it##.background-link
 lavorincasa.it##.bak
 milanofinanza.it,oggitreviso.it##.ban
-advertiser.it,agi.it,agichina24.it,airdave.it,alessandrianews.it,america24.com,casateonline.it,corrieredelgiorno.com,corrieremercantile.it,gazzettahockey.it,giochidicalcio.com,html.it,ilcambiamento.it,ilfriuli.it,ilgiornale.it,insegreto.it,lindro.it,lipari.biz,macitynet.it,merateonline.it,oggitreviso.it,orangedropdesign.com,orvietosi.it,pmi.it,programmitv.com,pubblicitaitalia.it,r101.it,rcdc.it,rockit.it,softonic.it,strettoweb.com,ticinolibero.ch,vocenuova.tv##.banner
+advertiser.it,agi.it,agichina24.it,airdave.it,alessandrianews.it,america24.com,casateonline.it,corrieredelgiorno.com,corrieremercantile.it,gazzettahockey.it,giochidicalcio.com,html.it,ilcambiamento.it,ilfriuli.it,ilgiornale.it,insegreto.it,lindro.it,lipari.biz,macitynet.it,merateonline.it,oggitreviso.it,orangedropdesign.com,orvietosi.it,pmi.it,programmitv.com,pubblicitaitalia.it,r101.it,rcdc.it,rockit.it,softonic.it,strettoweb.com,ticinolibero.ch,ultimouomo.com,vocenuova.tv##.banner
 rollingstonemagazine.it##.banner-abbonamenti
 telesud3.com##.banner-destra
 telesud3.com##.banner-destra-tyf
@@ -2533,6 +2537,7 @@ elaborare.info##img[style="height: 960px;\a             margin-left: 970px;\a   
 rietilife.it##img[style="width: 205px; height: 82px;"]
 frosinoneweb.net##img[style="width: 930px; height: 115px;"]
 melamorsicata.it##img[width="160"][height="300"]
+automobili.it##img[width="256"][height="170"]
 parmaquotidiano.info##img[width="290"][height="90"]
 radiolombardia.it##img[width="300"][height="250"]
 mmorpgitalia.it##img[width="500"][height="122"]

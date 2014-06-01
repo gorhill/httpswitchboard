@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: ZRAYIfe7Y6+aclFmXB3jgw
-! Version: 201405271711
+! Checksum: 17uxLDWJQV7zny2+09kSxw
+! Version: 201406012251
 ! Title: EasyList Dutch
 ! Description: Dutch supplement for the Easylist filters
-! Last modified: 27 May 2014 17:11 UTC
+! Last modified: 01 Jun 2014 22:51 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -15,6 +15,7 @@
 !
 !--------Algemene blokkeerregels--------!
 ! *** easylistdutch/block_general.txt ***
+.be/ads/
 /adbron.
 /adtwee/*
 /adv_tekstlinks.
@@ -227,6 +228,7 @@
 ||startpagina.nl^*/dochters/*/banners/
 ||static-voetbalzone.nl/images/banners/
 ||static-voetbalzone.nl/images/unibet/
+||static-voetbalzone.nl^*/banner.js
 ||static-webregio.nl/content/acties/crosspromo/
 ||static-webregio.nl/content/banners/
 ||static2-voetbalzone.nl/images/ext_banners_
@@ -528,6 +530,7 @@
 ||sochicken.nl/images/*_banner.jpg
 ||speedtest.nl/images/banner/
 ||spel.nl/vda/
+||spel.nl/wdg/promo_
 ||spele.nl/js/ad.js
 ||spelletjes.nl/cimg/promothumbnails/
 ||spelletjes.nl/vda/
@@ -660,6 +663,7 @@
 @@||doubleclick.net^*adj/ster_cinema.nl/preroll;$script,domain=cinema.nl
 @@||g.doubleclick.net/gampad/ads?$script,domain=marktplaats.nl
 @@||g.doubleclick.net/gampad/ads?$xmlhttprequest,domain=radioluisteren.fm
+@@||ghstatic.com/archives/*&adurl=$object,domain=game.zylom.com
 @@||google.com/ads/search/module/ads/*/search.js$domain=zoover.be|zoover.nl
 @@||google.com/adsense/$subdocument,domain=sedo.nl
 @@||google.com/adsense/search/ads.js$domain=zoover.be|zoover.nl
@@ -674,7 +678,7 @@
 @@||nl.gmads.net/crossdomain.xml$object-subrequest,domain=radioveronica.nl
 @@||nl.gmads.net/r?gmtr=$object-subrequest,domain=radioveronica.nl
 @@||openad.tf1.fr/RealMedia/ads/adstream_mjx.ads/www.eurosportplayer.nl/home/$script,domain=eurosportplayer.nl
-@@||pagead2.googlesyndication.com/pagead/show_ads.js$domain=spel.nl|spelletjes.nl
+@@||pagead2.googlesyndication.com/pagead/show_ads.js$domain=spel.nl|spelletjes.nl|wereldklokken.nl
 @@||partner.googleadservices.com/gampad/$domain=jaggle.nl
 @@||partner.googleadservices.com/gpt/pubads_impl_36.js$domain=marktplaats.nl
 @@||partner.googleadservices.com/gpt/pubads_impl_39.js$domain=marktplaats.nl
@@ -707,6 +711,7 @@
 @@||adsense.nl^$domain=adsense.nl
 @@||adv.scoutingkatwijk.nl^$domain=scoutingkatwijk.nl
 @@||adverteer-gratis.nl/ads/$domain=adverteer-gratis.nl
+@@||bibliotheek.be/detail/*-advertise/$subdocument,~third-party,xmlhttprequest
 @@||cinema.nl/ads/mediaplayer.jsp?$subdocument
 @@||doopsgezind.nl/templates/ads/$domain=doopsgezind.nl
 @@||earnieland.be/images/photolib/*_120_60.
@@ -720,6 +725,7 @@
 @@||leukespellen.be/n/js/ads_hider.js
 @@||marktplaats.com/gzip_*/aurora/res/js/common/AdSense.js
 @@||media.shopvip.com/banners/$image,domain=shopvip.com
+@@||metdehand.nl/var/ads/$~third-party
 @@||milkinc.be/ad.php|$subdocument
 @@||mtvmobile.nl/assets/css/advert/carousel.css$domain=mtvmobile.nl
 @@||mtvmobile.nl/assets/js/advert/cycle.js$domain=mtvmobile.nl
@@ -742,12 +748,10 @@
 @@||zomoto.nl/js/advertisement.js?
 @@||zuka.nl/images/ad_$image
 ! Anti-Adblock
-@@.png#$domain=gelrenieuws.nl
 @@||alfaforum.nl/forum/images/misc/vbulletin4_logo.png#$image
 @@||alfaforum.nl^$elemhide
 @@||autoblog.nl/javascript/advertisement2.js
 @@||dumpert.nl^*/admatcher.doubleclick.net
-@@||gelrenieuws.nl^$elemhide
 @@||motor-forum.nl/motorshopper/json/advertenties/$xmlhttprequest
 !--------Algemene verbergregels--------!
 ! *** easylistdutch/hide_general.txt ***
@@ -894,6 +898,7 @@ hetkanwel.net###secondary > aside[id^="text-"]:nth-child(3) > .ssc > .textwidget
 hetkanwel.net###secondary > aside[id^="text-"]:nth-child(5) > .ssc > .textwidget
 stoerejongenzzz.nl###sidebar .jetpack-image-container > a
 beautylab.nl###sidebar .textwidget > a[target="_blank"]
+gelrenieuws.nl###sidebar2 > script + center
 dejaap.nl###sidebarRight > .blockHeading + article
 computertotaal.nl###sidebar_mediamarkt
 digitaalburg.com###sidebar_wrap_right #sidebar_left center a
@@ -921,6 +926,7 @@ marktplaats.nl###top-banner-wrapper
 voetbalzone.nl###uniGroot
 pokercollege.nl###verticalbanner
 telegraaf.nl###vsl_banner
+spel.nl###wdg_promo_kogama
 telegraaf.nl###widget4-300-250
 nederland.fm###xbtm
 nederland.fm###xttm
@@ -1148,7 +1154,7 @@ kopen.marktplaats.nl##tr[onclick^="window.open(logAdmarktClick('"]
 bouweenpc.nl###header-banner
 !--------Uitzonderingen (verbergregels)--------!
 ! *** easylistdutch/hide_whitelist.txt ***
-autodealers.nl,speurders.nl,xxxplaza.nl#@##advertentie
+autodealers.nl,metdehand.nl,speurders.nl,xxxplaza.nl#@##advertentie
 koopjes.marktplaats.nl,verkopen.marktplaats.nl#@#.ad_list_row_normal1
 koopjes.marktplaats.nl,verkopen.marktplaats.nl#@#.ad_list_row_normal1_no_border
 koopjes.marktplaats.nl,verkopen.marktplaats.nl#@#.ad_list_row_normal2
