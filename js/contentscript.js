@@ -167,7 +167,7 @@ CosmeticFiltering.prototype.retrieveHandler = function(generic, selectors) {
         var dontHideStyleText = '{{donthideSelectors}} {display:initial !important;}'
             .replace('{{donthideSelectors}}', selectors.donthide.join(','));
         styleText.push(dontHideStyleText);
-        this.applyCSS(selectors.hide, 'display', 'initial');
+        this.applyCSS(selectors.donthide, 'display', 'initial');
         //console.log('HTTPSB> ABP cosmetic filters: injecting %d CSS rules:', selectors.donthide.length, dontHideStyleText);
     }
     if ( styleText.length > 0 ) {
