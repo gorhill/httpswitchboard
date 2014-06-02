@@ -183,7 +183,7 @@ CosmeticFiltering.prototype.retrieveHandler = function(generic, selectors) {
 CosmeticFiltering.prototype.applyCSS = function(selectors, prop, value) {
     var elems = document.querySelectorAll(selectors);
     if ( elems !== null ) {
-        var i = elems.length, elem;
+        var i = elems.length;
         while ( i-- ) {
             elems[i].style[prop] = value;
         }
