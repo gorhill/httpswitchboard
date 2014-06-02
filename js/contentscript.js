@@ -181,12 +181,13 @@ CosmeticFiltering.prototype.retrieveHandler = function(generic, selectors) {
 };
 
 CosmeticFiltering.prototype.applyCSS = function(selectors, prop, value) {
+    if ( document.body === null ) {
+        return;
+    }
     var elems = document.querySelectorAll(selectors);
-    if ( elems !== null ) {
-        var i = elems.length;
-        while ( i-- ) {
-            elems[i].style[prop] = value;
-        }
+    var i = elems.length;
+    while ( i-- ) {
+        elems[i].style[prop] = value;
     }
 };
 

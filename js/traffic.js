@@ -454,7 +454,6 @@ var foilCookieHeaders = function(httpsb, details) {
 /******************************************************************************/
 
 var foilRefererHeaders = function(httpsb, toHostname, details) {
-    var changed = false;
     var headers = details.requestHeaders;
     var header;
     var fromDomain, toDomain;
@@ -471,12 +470,14 @@ var foilRefererHeaders = function(httpsb, toHostname, details) {
         if ( toDomain === fromDomain ) {
             continue;
         }
-        // console.debug('foilRefererHeaders()> nulling referer "%s" for "%s"', fromDomain, toDomain);
-        headers[i].value = '';
+        // console.debug('foilRefererHeaders()> foiled referer "%s" for "%s"', fromDomain, toDomain);
+        // https://github.com/gorhill/httpswitchboard/issues/222#issuecomment-44828402
+        // Splicing instead of blanking: not sure how much it helps
+        headers.splice(i, 1);
         httpsb.refererHeaderFoiledCounter++;
-        changed = true;
+        return true;
     }
-    return changed;
+    return false;
 };
 
 /******************************************************************************/
