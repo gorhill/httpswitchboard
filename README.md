@@ -132,12 +132,6 @@ This extension is also useful if you wish to speed up your browsing, by blocking
 
 HTTP Switchboard is the fruit of a personal project, there no company of any kind involved, therefore no agenda other than giving users the tools to be in complete control of their browser. I appreciate the thought, but I do not want donation, now or in the future.
 
-If you **REALLY** want to give something in return, then my wish would be that you direct your donation to an organisation genuinely dedicated to defend basic principles of democracy. Examples: [Freedom of the Press Foundation](https://pressfreedomfoundation.org/), [EFF](https://www.eff.org/), [Wikileaks](https://wikileaks.org/), or whatever non-for-profit organisation fits the _"genuinely dedicated to defend basic principles of democracy"_ profile in your home country.
-
-You can also donate to those who maintain and generously make available for personal use the [third-party assets](https://github.com/gorhill/httpswitchboard/tree/master/assets/thirdparties) which you use in HTTPSB.
-
-Also, can't deny it, encouraging comments from the stores or elsewhere do help.
-
 ## License
 
 <a href="https://github.com/gorhill/httpswitchboard/blob/master/LICENSE.txt">GPLv3</a>.
