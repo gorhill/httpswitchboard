@@ -156,6 +156,7 @@ CosmeticFiltering.prototype.retrieveHandler = function(generic, selectors) {
         var hideStyleText = '{{hideSelectors}} {display:none !important;}'
             .replace('{{hideSelectors}}', selectors.hide.join(','));
         styleText.push(hideStyleText);
+        this.applyCSS(selectors.hide, 'display', 'none');
         //console.log('HTTPSB> ABP cosmetic filters: injecting %d CSS rules:', selectors.hide.length, hideStyleText);
     }
     if ( generic ) {
@@ -166,12 +167,26 @@ CosmeticFiltering.prototype.retrieveHandler = function(generic, selectors) {
         var dontHideStyleText = '{{donthideSelectors}} {display:initial !important;}'
             .replace('{{donthideSelectors}}', selectors.donthide.join(','));
         styleText.push(dontHideStyleText);
+        this.applyCSS(selectors.hide, 'display', 'initial');
         //console.log('HTTPSB> ABP cosmetic filters: injecting %d CSS rules:', selectors.donthide.length, dontHideStyleText);
     }
     if ( styleText.length > 0 ) {
         var style = document.createElement('style');
         style.appendChild(document.createTextNode(styleText.join('')));
-        document.documentElement.appendChild(style);
+        var parent = document.body || document.documentElement;
+        if ( parent ) {
+            parent.appendChild(style);
+        }
+    }
+};
+
+CosmeticFiltering.prototype.applyCSS = function(selectors, prop, value) {
+    var elems = document.querySelectorAll(selectors);
+    if ( elems !== null ) {
+        var i = elems.length, elem;
+        while ( i-- ) {
+            elems[i].style[prop] = value;
+        }
     }
 };
 
