@@ -190,7 +190,7 @@
         "description": "English: All"
     },
     "statsPageDetailedBehindTheScenePage" : {
-        "message": "Chromium: Сбор личной информации",
+        "message": "Chromium: Фоновые запросы",
         "description": "English: Chromium: Behind the scene"
     },
     "statsPageOverview" : {
@@ -408,11 +408,11 @@
         "description": "..."
     },
     "settingsBehindTheSceneHeader" : {
-        "message": "Chromium: сбор личной информации о пользователе",
+        "message": "Chromium: Фоновые запросы",
         "description": "header of Chromium: behind-the-scene requests section"
     },
     "settingsProcessBehindTheSceneHelp" : {
-        "message": "<p>В соответствии с <a href='http://www.google.com/intl/en/chrome/browser/privacy/whitepaper.html'>Google Chrome Privacy Whitepaper</a>, <i>Chromium</i> может послать HTTP-запросы в <i>Google</i> даже, если пользователь не загружает веб страницы. Давайте назовем эти запросы  <strong>сбором личной информации о пользователе</strong>. Кроме того, другие установленные расширения могут вести <strong>сбор личной информации о пользователе</strong>.</p><p><i>HTTP Switchboard</i> позволяет контролировать доступ к этой информации: эти запросы могут быть обработаны, чтобы разрешить/запретить их в соответствии с настройками белого/черного списков.</p><p>Кликните на иконку расширения, для начала работы. Обязательно прочтите: <a href='https://github.com/gorhill/httpswitchboard/wiki/Behind-the-scene-requests'>Запросы и сбор личной информации</a>.</p><div class='warn'><p><span style='color:red; font-weight:bold'>Внимание!</span> Запрещение <strong>сбора и посылки личной информации</strong> может вызвать <a href='https://github.com/gorhill/httpswitchboard/issues/27'>запрос</a> когда пользовать хочет установить расширение из Chrome store (включая проблемы с обновлением расширений), возможно отключить эту функцию здесь. Блокирование сбора этой информации может вызывать разные проблемы с работой расширений.</p> <p>Даже если эта функция не включена, то запросы о  <strong>сборе личной информации</strong> продолжают записываться в <i>HTTP Switchboard</i>. Вы можете посмотреть эти запросы на (на странице <a href='dashboard.html#statistics'>Статистики</a>).</p>",
+        "message": "<p>В соответствии с <a href='http://www.google.com/intl/en/chrome/browser/privacy/whitepaper.html'>Google Chrome Privacy Whitepaper</a>, <i>Chromium</i> может послать HTTP-запросы в <i>Google</i> даже, если пользователь не загружает веб страницы. Давайте назовем это - <strong>фоновые запросы</strong>. Кроме того, другие установленные расширения могут делать <strong>фоновые запросы</strong>.</p><p><i>HTTP Switchboard</i> позволяет контролировать доступ к этой информации: эти запросы могут быть обработаны, чтобы разрешить/запретить их в соответствии с настройками белого/черного списков.</p><p>Кликните на иконку расширения, для начала работы. Обязательно прочтите: <a href='https://github.com/gorhill/httpswitchboard/wiki/Behind-the-scene-requests'>Фоновые запросы</a>.</p><div class='warn'><p><span style='color:red; font-weight:bold'>Внимание!</span> Запрещение <strong>фоновых запросов</strong> может вызвать <a href='https://github.com/gorhill/httpswitchboard/issues/27'>проблему</a> когда пользовать хочет установить расширение из Chrome store (включая проблемы с обновлением расширений), возможно отключить эту функцию здесь. Блокирование этих запросов может вызывать разные проблемы с работой расширений.</p> <p>Даже если эта функция не включена, то <strong>фоновые запросы</strong> логироваться в <i>HTTP Switchboard</i>. Вы можете посмотреть эти запросы на (на странице <a href='dashboard.html#statistics'>Статистики</a>).</p>",
         "description": "..."
     },
     "settingsDoneButton" : {
@@ -594,7 +594,7 @@
         "description": "English: <a href='https://github.com/gorhill/httpswitchboard'>Source code (GPLv3)</a>"
     },
     "aboutCredits" : {
-        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki/Credits'>Благодарность</a>",
+        "message": "<a href='https://github.com/gorhill/httpswitchboard/wiki/Credits'>Благодарности</a>",
         "description": "English: <a href='https://github.com/gorhill/httpswitchboard/wiki/Credits'>Credits</a>"
     },
     "aboutUserDataHeader" : {
