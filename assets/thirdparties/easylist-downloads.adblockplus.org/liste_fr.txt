@@ -1,6 +1,6 @@
 [Adblock Plus 2.0]
-! Checksum: LKxu5EDbMaFSmlnTitQCBg
-! Version: 201406012251
+! Checksum: ABdghTZVnhxAURm3mp7BWA
+! Version: 201406031321
 ! Liste FR ~ Filtres francophones complémentaires à EasyList
 ! Title: Liste FR
 ! Licence : http://www.adblock-listefr.com/A_propos
@@ -99,6 +99,7 @@ _regiepub/
 ||appsfire.com^$third-party
 ||atedra.com^$third-party
 ||avenir-affiliation.fr^$third-party
+||aw3bdhwfl3.pw^$third-party
 ||b117f8da23446a91387efea0e428392a.pl^$third-party
 ||beead.fr^$third-party
 ||bizhentai.com^$third-party
@@ -2220,6 +2221,7 @@ annonces-dz.com###hb
 live-medias.net###headbanner
 750g.com,cod-france.com,maxistreaming.com,oumma.com,rtl.be###header
 jam-mag.com###header-banner
+zero-complexe.com###header-blocks
 mobiles-actus.com###header3
 autojdid.com###header72890
 lalibre.be###headerRelook
@@ -3391,14 +3393,10 @@ lien-torrent.com##u > a:not([href*="lien-torrent.com"]):not([href*="../"]):not([
 @@||pagead2.googlesyndication.com/simgad/$image,third-party,domain=5nodes.fr|actu95.net|addons-wow.fr|adunblock.com|aeropassion.net|afrokanlife.com|annuaire-bleu.net|anthonix.fr|applebigmac.fr|applicationsandroidfrance.com|arnaques-internet.info|bdcraft.net|br1team.fr|buzzer-manager.com|buzzwebzine.fr|byothe.fr|cle-usb.info|consoledejeux.info|coolradio.be|culture-communication.fr|degroupnews.com|degrouptest.com|dofusmotion.com|donnemoilinfo.com|e-puzzles.fr|fight4craft.fr|gamewinner.fr|geneanum.com|geoforum.fr|geowiki.fr|go-streaming-gratuit.com|gridam.com|hitek.fr|imagesia.com|jackieetmicheltv.fr|kboard.fr|kerbalspaceprogram.fr|lebouletdunet.com|leetgamerz.net|lesarbres.fr|loractu.fr|macworld.fr|maviesurleweb.fr|minecraft-france.fr|minecraftmod.fr|monlinker3ds.com|monlinkerds.com|monlinkerdsi.com|moto85.com|muslimette-magazine.com|nas-forum.com|nifoune.com|ocre-annuaire.net|ogame-winner.com|opalenews.com|pcworld.fr|phonandroid.com|physagreg.fr|pix-geeks.com|pyrros.fr|reef-guardian.com|rue89strasbourg.com|sanditrad.com|sen.flam.me|seomaker.estsurle.net|simonfr.org|sous-la-mer.com|space-blogs.com|space-blogs.net|space-forums.com|space-forums.net|styled-gaming.eu|sucha.net|suchablog.com|tout-gratuit.be|toutes-les-solutions.fr|tryandplay.com|untourenchine.fr|visiban.com|wiilogic.com|xavbox.com|xavbox.info|xavbox.org|xavbox360.com|xavboxcube.com|xavboxds.com|xavboxforum.com|xavboxnews.com|xavboxone.com|xavboxphone.com|xavboxps2.com|xavboxps3.com|xavboxpsp.com|xavboxtuning.com|xavboxwii.com|xavboxwiiu.com|xavdrone.com|xavfun.com
 @@||pubads.g.doubleclick.net/gampad/ads?|$subdocument,third-party
 !
-/http://([a-z]+\.)+[a-z]+/\wb/\w{32}/$third-party,xmlhttprequest
-/http://([a-z]+\.)+[a-z]+/\wd/\w{32}/$third-party,xmlhttprequest
-/http://([a-z]+\.)+[a-z]+/\wp/\w{32}/$third-party,xmlhttprequest
-/http://([a-z]+\.)+[a-z]+/\wv/\w{32}/$third-party,xmlhttprequest
-/http://([a-z]+\.)+[a-z]+/b\w/\w{32}/$third-party,xmlhttprequest
-/http://([a-z]+\.)+[a-z]+/d\w/\w{32}/$third-party,xmlhttprequest
-/http://([a-z]+\.)+[a-z]+/p\w/\w{32}/$third-party,xmlhttprequest
-/http://([a-z]+\.)+[a-z]+/v\w/\w{32}/$third-party,xmlhttprequest
+/http://([a-z]+\.)+[a-z]+/ab/\w{32}/$third-party,xmlhttprequest
+/http://([a-z]+\.)+[a-z]+/ad/\w{32}/$third-party,xmlhttprequest
+/http://([a-z]+\.)+[a-z]+/ap/\w{32}/$third-party,xmlhttprequest
+/http://([a-z]+\.)+[a-z]+/av/\w{32}/$third-party,xmlhttprequest
 !
 @@/http://(?!a\.ligatus\.com/timeout)/$subdocument,third-party,domain=rue89strasbourg.com
 @@/http://(?!ad\.zanox\.com/ppv/|pubads\.g\.doubleclick\.net/gampad/ads\?g)/$image,script,subdocument,third-party,domain=degrouptest.com

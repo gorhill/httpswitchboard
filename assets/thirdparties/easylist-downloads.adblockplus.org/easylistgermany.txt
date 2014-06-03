@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: bJp/w9aRHP9AGCcQyVYuPw
-! Version: 201406012251
+! Checksum: k6f+cyUeEFo53xP9/bTdtw
+! Version: 201406031320
 ! Title: EasyList Germany
 ! EasyList Germany - Deutsche Ergänzung zu EasyList
-! Last modified: 01 Jun 2014 22:51 UTC
+! Last modified: 03 Jun 2014 13:20 UTC
 ! Expires: 1 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -2678,6 +2678,7 @@ mov-world.net#@#a[href^="http://www.FriendlyDuck.com/AF_"]
 ||lintorfer.eu/wp-content/uploads/*/lintorfer1.png
 ||lintorfer.eu/wp-content/uploads/*/pflegeunion.jpg
 ||lintorfer.eu/wp-content/uploads/*/steingen2013.jpg
+||linux-forum.de/images/misc/ebay_logo.gif
 ||loaderz.org^*/layer.php
 ||lohn-info.de/banner_meritum.gif
 ||lokalanzeiger.de/images/banner/
@@ -3639,11 +3640,14 @@ mov-world.net#@#a[href^="http://www.FriendlyDuck.com/AF_"]
 ||zweinullig.de/wp-content/uploads/chaershop.jpg
 ! Anti-Adblock
 ||audio.de/test/img/
+||audio.de/test1/img/
 ||colorfoto.de/test/img/
+||colorfoto.de/test1/img/
 ||connect.de/test/img/
 ||connect.de/test1/img/
 ||connect.de/test2/img/
 ||connected-home.de/test/img/
+||connected-home.de/test1/img/
 ||gamona.de/assets/*.swf
 ||gamona.de/assets/*_1000x140.
 ||gamona.de/assets/*_160x800_
@@ -3658,7 +3662,9 @@ mov-world.net#@#a[href^="http://www.FriendlyDuck.com/AF_"]
 ||mv-spion.de/ajax/lc?content=qwert
 ||mv-spion.de/ajax/lc|
 ||pc-magazin.de/test/img/
+||pc-magazin.de/test1/img/
 ||video-magazin.de/test/img/
+||video-magazin.de/test1/img/
 ||video.spiegel.de/flash/*.mp4$object-subrequest,domain=spiegel.tv
 ! *** easylistgermany:easylistgermany/easylistgermany_specific_block_popup.txt ***
 &t202kw=$popup,domain=lustich.de|pcaction.de
@@ -5160,7 +5166,7 @@ downloadstube.net##.download_hoster
 vip.de##.eTeaser
 mtg-forum.de##.ebay_banner
 camidos.de##.ebay_hits
-amerika-forum.de,aquariumforum.de,campen.de,deejayforum.de,pferd.de,rechnungswesenforum.de,reitforum.de,sat-ulc.eu##.ebayitems
+amerika-forum.de,aquariumforum.de,campen.de,deejayforum.de,linux-forum.de,pferd.de,rechnungswesenforum.de,reitforum.de,sat-ulc.eu##.ebayitems
 amerika-forum.de,aquariumforum.de,pferd.de,rechnungswesenforum.de##.ebayitems3
 sinn-frei.com##.ebp
 pcwelt.de##.ecommerce + .ecommerce

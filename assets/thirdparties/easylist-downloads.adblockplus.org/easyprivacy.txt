@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: celTQ2VXTeXWg6hbGMuzmg
-! Version: 201406012251
+! Checksum: qFLWtoc7mb+75WetN3ofiw
+! Version: 201406031321
 ! Title: EasyPrivacy
-! Last modified: 01 Jun 2014 22:51 UTC
+! Last modified: 03 Jun 2014 13:21 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -8400,7 +8400,6 @@ http://utm.
 ||wumii.com/images/pixel.png
 ||youdao.com/cf.gif?
 ||youdao.com/imp/cac.js
-||youdao.com/rlog.js
 ||youku.com/compvlog?
 ! Croatian
 ||dnevnik.hr/bin/usrtrck-new.php?
@@ -8479,7 +8478,6 @@ http://utm.
 ||paginegialle.it/cgi-bin/jimpres.cgi?
 ||pornolupo.org/track.js
 ||quattroruote.it/log.htm?
-||rainews.it/dl/analytics/
 ||rmastri.it/plugins/log/log.php?
 ||seat.it/cgi-bin/getcod.cgi?
 ||servizi.unionesarda.it/controlli/
@@ -9091,6 +9089,7 @@ http://utm.
 @@||pingjs.qq.com/ping_tcss_ied.js$domain=dnf.qq.com
 @@||uwants.com/include/*/swfaddress.js
 @@||vanclimg.com/js.ashx?*/google-analytics.js$domain=vancl.com
+@@||wrating.com/a1.js$domain=tudou.com
 ! Czech
 @@||adobetag.com/d2/vodafonecz/live/VodafoneCZ.js
 ! Danish

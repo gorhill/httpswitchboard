@@ -1,8 +1,8 @@
 [Adblock Plus 2.0]
-! Checksum: u6mCAM42gNqUIzmqOn10nA
-! Version: 201406012250
+! Checksum: 1HuaLCu0O2RD8GbOntA96g
+! Version: 201406031320
 ! Title: EasyList
-! Last modified: 01 Jun 2014 22:50 UTC
+! Last modified: 03 Jun 2014 13:20 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -18102,6 +18102,7 @@ _popunder+$popup
 ##.pageGoogleAds
 ##.pageGoogleAdsContainer
 ##.pageLeaderAd
+##.pageSkinAds
 ##.page_ad
 ##.page_content_right_ad
 ##.pagead
@@ -19889,6 +19890,7 @@ _popunder+$popup
 ###tadsto.c
 ###topstuff > #tads
 ##.GB3L-QEDGY .GB3L-QEDF- > .GB3L-QEDE-
+##.GHOFUQ5BG2 > .GHOFUQ5BF2 > .GHOFUQ5BG5
 ##.GJJKPX2N1 > .GJJKPX2M1 > .GJJKPX2P4
 ##.GPMV2XEDA2 > .GPMV2XEDP1 > .GPMV2XEDJBB
 ##.ch[onclick="ga(this,event)"]
@@ -20076,7 +20078,7 @@ tei-c.org#@##msad
 4kidstv.com#@##myAd
 180upload.nl,epicshare.net,lemuploads.com,megarelease.org#@##player_ads
 govolsxtra.com#@##pre_advertising_wrapper
-box10.com,enemy.com,flashgames247.com,washingtonpost.com#@##prerollAd
+box10.com,enemy.com,flashgames247.com,hackedarcadegames.com,washingtonpost.com#@##prerollAd
 flickr.com#@##promo-ad
 dailygames.com#@##publicidad
 mmgastro.pl#@##reklama
@@ -22378,6 +22380,7 @@ topzone.lt#@#.forumAd
 ||play24.us^$third-party
 ||playertraffic.com^$third-party
 ||plenomedia.com^$third-party
+||pllddc.com^$third-party
 ||plocap.com^$third-party
 ||plugerr.com^$third-party
 ||plusfind.net^$third-party
@@ -22485,6 +22488,7 @@ topzone.lt#@#.forumAd
 ||rbcdn.com^$third-party
 ||rcads.net^$third-party
 ||rcurn.com^$third-party
+||rddywd.com^$third-party
 ||reachjunction.com^$third-party
 ||reachlocal.com^$third-party
 ||reachmode.com^$third-party
@@ -22858,6 +22862,7 @@ topzone.lt#@#.forumAd
 ||trker.com^$third-party
 ||trklnks.com^$third-party
 ||trks.us^$third-party
+||trtrccl.com^$third-party
 ||trygen.co.uk^$third-party
 ||ttzmedia.com^$third-party
 ||tubemogul.com^$third-party
@@ -24779,6 +24784,7 @@ topzone.lt#@#.forumAd
 ||intermrkts.vo.llnwd.net^$third-party
 ||internetbrands.com/partners/$third-party
 ||interserver.net/logos/vps-$third-party
+||interstitial.glsp.netdna-cdn.com^$third-party
 ||intexchange.ru/Content/banners/
 ||iobit.com/partner/$third-party
 ||iol.co.za^*/sponsors/
@@ -42057,7 +42063,7 @@ literotica.com##tr[style="background: #fff; text-align: center; font-size: 80%; 
 @@||zylom.com^*/realgames_loader.*.swf?*&adurl=$object
 ! Anti-Adblock
 @@.com/$object-subrequest,domain=cbs.com
-@@.gif#$domain=funniermoments.com
+@@.gif#$domain=funniermoments.com|remo-xp.com
 @@.gif#$image,domain=needrom.com
 @@.gif?ad_banner=$domain=majorleaguegaming.com
 @@.jpg#$domain=desionlinetheater.com|mac2sell.net|myiplayer.eu|uploadlw.com
@@ -42370,6 +42376,7 @@ literotica.com##tr[style="background: #fff; text-align: center; font-size: 80%; 
 @@||rapidmoviez.com/files/php/mgid-ad$subdocument
 @@||ratebeer.com/javascript/advertisement.js
 @@||rctrails.com^$script,domain=eventhubs.com
+@@||remo-xp.com^$elemhide
 @@||resources.infolinks.com/js/*/ice.js$domain=cyberdevilz.net
 @@||resources.infolinks.com/js/infolinks_main.js$domain=cyberdevilz.net
 @@||rincondelvago.com^*_adsense.js

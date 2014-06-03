@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: MGaGpcV5L0caa06YGjQarg
-! Version: 201406012250
-! Last modified: 01 Jun 2014 22:50 UTC
+! Checksum: 7Szvss29G+puSq5XGVS+MQ
+! Version: 201406031320
+! Last modified: 03 Jun 2014 13:20 UTC
 ! Homepage: http://ruadlist.googlecode.com/
 !
 ! Дополнительная региональная подписка RU AdList к подписке EasyList
@@ -974,6 +974,7 @@ _tizers.
 ||goodbody.ru^$third-party
 ||goodkukhni2.ru^$third-party
 ||goon.ru^$third-party
+||gorodnews.ru/bb/
 ||govazd.am^
 ||grattis.ru/promo/
 ||gravdee.com^
@@ -2025,6 +2026,7 @@ _tizers.
 ||copercato.com^
 ||cpa-system.ru^
 ||cpa6.ru^
+||cpa600.ru^
 ||crackac.com^
 ||crateac.com^
 ||crpoy.com^
@@ -2617,6 +2619,7 @@ _tizers.
 ||tmserver-1.com^
 ||to/code/$third-party,script
 ||to/files/$third-party
+||todayad.ru^
 ||tolicando.com^
 ||tomobol.com^
 ||tonopole.com^
@@ -2881,6 +2884,7 @@ prokazan.ru###BottomContent
 2ip.ru###advertNews
 world-mmo.com###brend
 xxx-base.org###center2 > .block
+dota2.ru###click
 last.by###dbtn2
 zdsimulator.com.ua###flashContent
 tvnet.lv###footer_banner
@@ -2895,6 +2899,7 @@ auto.e1.ru##.au-main-container_e1 > noindex
 allmoldova.com##.banner_main
 staforceteam.ru##.boardlistInner[style="background-image: url(/logo/Standart/TemaLine2.png); background-repeat: repeat-y"]
 101.ru,tfilm.tv##.branding
+my-cinema.net##.left-a
 allmoldova.com##.left_banner > a[target="_blank"]
 tvnet.lv##.list.customer
 torrent-pirat.com##.logo + div
@@ -2902,6 +2907,7 @@ allmoldova.com##.middle_banner
 forum.soft4dle.com##.navbar > center
 allmoldova.com##.promo
 eg.ru##.rbanner
+my-cinema.net##.right-a
 tvnet.lv##.right-two-pics
 map.cn.ua##.sModuleContent
 2ip.ru##.sapediv
@@ -2916,6 +2922,7 @@ pornoboss.tv##a[href^="/go.php?id="]
 porno-monster.ru##a[href^="http://www.mirorgazma.ru/?partner="]
 goodgame.ru##a[id^="banner-"]
 chesalka.com##a[rel="nofollow"] > img[src^="/"]
+allesuper.ru##a[target="_blank"][href^="/go?"] > img[src^="/uploads/"]
 auto.e1.ru##div[class*="advlink-hide-"]
 tvnet.lv##div[class^="right_custom_ad_"]
 exler.ru##div[id^="Banner"]
@@ -4219,6 +4226,7 @@ tvnet.lv##.fp_horiz_ads_150x150
 comss.ru##.links ~ .box
 2ip.ru##.mainadv
 forum.soft4dle.com##.navbar > br
+rentv-smolensk.ru##.promo
 medikforum.ru##.r_banner
 delfi.lv##.top-banner
 comss.info,comss.ru##.toppage
@@ -4231,7 +4239,6 @@ comss.ru##td[style="width:180px"]
 ! *** advblock/specific_block.txt ***
 .adriver.$object-subrequest,domain=cybergame.tv|fs.ua|smotri.com
 .autorambler.ru/*/promo/
-.dota2.ru^$object,script
 .js?rt=$domain=antistarforce.com|rustorka.com|rustorka.net
 .lostfilm.tv^*^yash=
 .ru/inc/$subdocument,domain=vz.ru
@@ -4445,8 +4452,7 @@ _advideo/$object-subrequest,domain=megogo.net
 ||dleshka.org/go/
 ||dofiga.net^*/trade
 ||dontr.ru/upload/Banner/
-||dota2.ru/img/$object
-||dota2.ru/img/avermedia-
+||dota2.ru/img/brand-
 ||dprealty.ru/iframe/property4scroll/
 ||drive.ru/images/promo/
 ||drumandbass.ru/img*banner
@@ -4647,6 +4653,7 @@ _advideo/$object-subrequest,domain=megogo.net
 ||ixbt.com/cgi-bin/r.
 ||ixbt.com/img/branding/
 ||ixbt.com/include/ctx2.js
+||jaymedianetwork.com/get.php?id=
 ||jurnalik.ru/slider.php
 ||k.img.com.ua/static/img/banners/
 ||k.img.com.ua/static/js/fotos_banner.js
@@ -4700,6 +4707,7 @@ _advideo/$object-subrequest,domain=megogo.net
 ||kurufin.ru/mayk_
 ||l2on.net/img/friends/
 ||lacucinaitaliana.ru/images/
+||lada-granta.net/button/
 ||ladyline.com.ua/images/banner
 ||lanzone.info/rek/
 ||lectro.ru^*-pop-under-
@@ -4798,6 +4806,7 @@ _advideo/$object-subrequest,domain=megogo.net
 ||muzoff.ru/html/
 ||muzoff.ru/rek/
 ||muzofon.com/banner/
+||my-cinema.net/branding/
 ||my-hit.ru/*/banner/
 ||my-hit.ru/branding/
 ||mysw.info/ext/
@@ -5267,6 +5276,7 @@ soft.mail.ru##.sputnik
 otvet.mail.ru##.torg-answer-banner
 mail.ru##.trg-b-banner-block
 mail.ru##body > .ad
+mail.ru##div[class^="adv-slot-"]
 go.mail.ru##div[class^="ya_"][class$="_bottom"]
 maps.mail.ru##img[width="200"][height="30"]
 health.mail.ru##img[width="240"][height="200"]

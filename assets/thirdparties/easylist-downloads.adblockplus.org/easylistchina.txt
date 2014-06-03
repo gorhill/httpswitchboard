@@ -1,9 +1,9 @@
 [Adblock Plus 2.1]
-! Checksum: L3NIDNhj4Wg4jfllSqZkkg
-! Version: 201406012251
+! Checksum: blNLyoUXk09/W5d23oUQsA
+! Version: 201406031321
 ! Title: EasyList China
 ! Chinese supplement for the EasyList filters
-! Last Modified: 01 Jun 2014 22:51 UTC
+! Last Modified: 03 Jun 2014 13:21 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: http://abpchina.org/forum/
 ! License: https://easylist-downloads.adblockplus.org/COPYING
@@ -366,7 +366,7 @@
 ||p.777wyx.com^$third-party
 ||pagechoice.net^$third-party
 ||pangu.cc^$third-party
-||phone.waystorm.com^$third-party
+||waystorm.com^$third-party
 ||pixelinteractivemedia.com^$third-party
 ||pk38.com^$third-party
 ||pk840.com^$third-party
@@ -761,6 +761,7 @@ hk.yahoo.com###ysm-ad
 |http://*.tv/ad/
 |http://*.us/ad/
 |http://*/ad.js?sn=
+|http://*/ad.js?v=
 |http://*/i.js$third-party,domain=~liuyanbaike.com
 |http://ad.$domain=~gridsum.com|~gridsumdissector.com|~opinion.cw.com.tw|~wsj.com
 !------------------------General element hiding rules-------------------------!
@@ -2376,6 +2377,7 @@ weather.com.cn##div[class^="adpos"]
 ||kbcool.com/Mon_1403/1030_160536_27e5f220cb92b9a.swf
 ||kbcool.com/other/yytf/
 ||kdnet.net/pimg/1920-
+||kdnet.net/pimg/*_1920_$image
 ||kekejp.com/Images/2013/
 ||kekenet.com/Images/2013/
 ||kekenet.com/images/kekepic/tom468X60.gif
@@ -3393,11 +3395,24 @@ weather.com.cn##div[class^="adpos"]
 ||bunnybee.com.tw/mini200
 ||jxold.com/index.php?m=poster&
 ||zzsky.cn/images/zzskycom_
+||qq.com/swf/sx_ads.swf
+||qpic.cn/manhua_detail/$object-subrequest
+||freep.cn/lianjie/xuanfuwang.js
 ||rentiyishu.org/*.js
 ||hongxiu.com/images/home20140530.gif
+||17173.com/bd/ifm/allyes/adHaoYeiPlay
+||shared.ydstatic.com/images/hao163/600-45_2.jpg
+||static.u17i.com/v3/www/images/other/
+||jinzhuedu.com/k/img/swt.png
 !------------------------Specific element hiding rules------------------------!
 gpcxw.com###AA2
 jxold.com##DIV[style="margin: 0 auto;  height: 60px;  "]
+qidian.com##.gg990X90
+hao.163.com###topTip
+178.com##.ad2
+178.com##.ad4
+yyets.com##DIV[style="width:700px;height:100px; overflow:hidden; margin-bottom:1em; text-align:left;"]
+semonk.info###hd + .wp.cl
 etlife.tw##.box_0.masonry-brick:first-child
 baidu.com###bdyx_float_rb
 baidu.com###asideLeft
@@ -3671,7 +3686,6 @@ my0511.com###duilianleftdiv
 my0511.com###duilianrightdiv
 gongkong.com###dull_left
 gongkong.com###dull_right
-mail.126.com,mail.163.com###dvWelcomeRightUp
 cs.com.cn###dyjAdLayer1
 ipv6.baidu.com,www.baidu.com,www1.baidu.com###ec_im_container
 image.baidu.com###ecomContainer
@@ -3822,6 +3836,7 @@ kshot.com###navbanner1
 kshot.com###navbanner2
 tgbus.com###neck_970
 u17.com###newgame_pop
+u17.com###ldpop
 shangdu.com###news_daohang + div:last-child
 lzep.cn###no_Left
 nownews.com###nownews_pickup
@@ -4972,7 +4987,6 @@ hualady.com##.tu_guangao
 hualady.com##.tu_guangao2
 7060.com,y80s.com##.tuiguang
 ltaaa.com##.txtads
-mail.126.com,mail.163.com##.uR
 iciba.com##.vRecomm
 neihan8.com##.viewbox > div[style="overflow: hidden; height: 250px;"]
 400gb.com,bego.cc,pipipan.com##.viewfile_content_main_r > .row-fluid:nth-child(2)
@@ -5155,9 +5169,7 @@ weibo.com##div[feedtype="ad"]
 txooo.com##div[floatad]
 qvodsou.com##div[id$="-union"]
 share.dmhy.me,share.dmhy.org##div[id$="_ad"]
-mail.126.com,mail.163.com##div[id$="_adDiv"]
 ipv6.baidu.com,www.baidu.com,www1.baidu.com##div[id$="_canvas"]
-mail.126.com,mail.163.com##div[id$="_dvPopup"]
 anhuinews.com##div[id$="dl"]
 pixnet.net##div[id*="-AD-"]
 pixnet.net##div[id*="-Ad-"]
@@ -5376,6 +5388,9 @@ lywww.com##ul[id^="addimg_"]
 taihainet.com##ul[style=" width:1000px; height:90px; padding:10px 0; background-color:#ffffff;"]
 00sy.com##ul[style="width: 830px;margin:0 auto;height:250px;text-align:center;margin-top:10px;"]
 hongxiu.com###sideadleft
+hao.163.com##.qa
+kdnet.net###indexTopPub
+jinzhuedu.com###kfbox
 !---------------------------------Whitelists----------------------------------!
 920url.com#@##AdDiv
 news.now.com#@##ad-2
