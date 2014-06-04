@@ -500,6 +500,12 @@ var onLoaded = function() {
     firstObservationHandler();
 
     // Observe changes in the DOM
+
+    // This fixes http://acid3.acidtests.org/
+    if ( document.body === null ) {
+        return;
+    }
+
     // https://github.com/gorhill/httpswitchboard/issues/176
     var observer = new MutationObserver(mutationObservedHandler);
     observer.observe(document.body, {
