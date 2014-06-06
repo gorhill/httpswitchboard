@@ -485,6 +485,10 @@
         "message": "Une règle par ligne. Une règle peut être un simple nom d'hôte, ou encore un filtre respectant la syntaxe des filtres Adblock Plus. Les lignes débutant par &lsquo;#&rsquo; seront ignorées.",
         "description": "English: One rule per line. A rule can be a plain hostname, or an Adblock Plus-compatible filter. Lines prefixed with &lsquo;#&rsquo; will be ignored."
     },
+    "ubiquitousAllowFormatHint" : {
+        "message": "Une règle par ligne. Une règle peut être un simple nom d'hôte, ou encore un filtre respectant la syntaxe des filtres d'exception Adblock Plus. Les lignes débutant par &lsquo;#&rsquo; seront ignorées.",
+        "description": "English: One rule per line. A rule can be a plain hostname, or an Adblock Plus-compatible exception filter. Lines prefixed with &lsquo;#&rsquo; will be ignored."
+    },
     "ubiquitousImport" : {
         "message": "Importer",
         "description": "English: Import and append"

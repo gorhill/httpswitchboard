@@ -167,7 +167,10 @@ HTTPSB.loadUbiquitousWhitelists = function() {
 
 HTTPSB.mergeUbiquitousWhitelist = function(details) {
     var ubiquitousWhitelist = this.ubiquitousWhitelist;
-    var reAdblockFilter = /^[^a-z0-9:]|[^a-z0-9]$|[^a-z0-9_:.-]/;
+    var reAdblockHideFilter = /#@#/;
+    var reAdblockNetFilter = /^@@/;
+    var abpNetFilters = this.userSettings.parseAllABPFilters ? this.abpFilters : null;
+    var abpHideFilters = this.userSettings.parseAllABPHideFilters ? this.abpHideFilters : null;
     var raw = details.content.toLowerCase();
     var rawEnd = raw.length;
     var lineBeg = 0;
@@ -183,16 +186,27 @@ HTTPSB.mergeUbiquitousWhitelist = function(details) {
         }
         line = raw.slice(lineBeg, lineEnd).trim();
         lineBeg = lineEnd + 1;
+
+        if ( reAdblockHideFilter.test(line) ) {
+            if ( abpHideFilters !== null ) {
+                abpHideFilters.add(line);
+            }
+            continue;
+        }
+
+        if ( reAdblockNetFilter.test(line) ) {
+            if ( abpNetFilters !== null ) {
+                abpNetFilters.add(line);
+            }
+            continue;
+        }
+
         pos = line.indexOf('#');
         if ( pos >= 0 ) {
             line = line.slice(0, pos);
         }
         line = line.trim();
         if ( line === '' ) {
-            continue;
-        }
-        // Ignore whatever appears to be an Adblock filters
-        if ( reAdblockFilter.test(line) ) {
             continue;
         }
         ubiquitousWhitelist.add(line);
