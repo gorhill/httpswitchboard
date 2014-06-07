@@ -171,20 +171,20 @@ HTTPSB.mergeUbiquitousWhitelist = function(details) {
     var reAdblockNetFilter = /^@@/;
     var abpNetFilters = this.userSettings.parseAllABPFilters ? this.abpFilters : null;
     var abpHideFilters = this.userSettings.parseAllABPHideFilters ? this.abpHideFilters : null;
-    var raw = details.content.toLowerCase();
-    var rawEnd = raw.length;
+    var rawText = details.content;
+    var rawEnd = rawText.length;
     var lineBeg = 0;
     var lineEnd;
-    var line, pos;
+    var line, pos, c;
     while ( lineBeg < rawEnd ) {
-        lineEnd = raw.indexOf('\n', lineBeg);
+        lineEnd = rawText.indexOf('\n', lineBeg);
         if ( lineEnd < 0 ) {
-            lineEnd = raw.indexOf('\r', lineBeg);
+            lineEnd = rawText.indexOf('\r', lineBeg);
             if ( lineEnd < 0 ) {
                 lineEnd = rawEnd;
             }
         }
-        line = raw.slice(lineBeg, lineEnd).trim();
+        line = rawText.slice(lineBeg, lineEnd).trim();
         lineBeg = lineEnd + 1;
 
         if ( reAdblockHideFilter.test(line) ) {
@@ -194,6 +194,22 @@ HTTPSB.mergeUbiquitousWhitelist = function(details) {
             continue;
         }
 
+        c = line.charAt(0);
+        if ( c === '#' || c === '!' ) {
+            continue;
+        }
+
+        pos = line.indexOf('#');
+        if ( pos >= 0 ) {
+            line = line.slice(0, pos).trim();
+        }
+
+        if ( line === '' ) {
+            continue;
+        }
+
+        line = line.toLowerCase();
+
         if ( reAdblockNetFilter.test(line) ) {
             if ( abpNetFilters !== null ) {
                 abpNetFilters.add(line);
@@ -201,14 +217,6 @@ HTTPSB.mergeUbiquitousWhitelist = function(details) {
             continue;
         }
 
-        pos = line.indexOf('#');
-        if ( pos >= 0 ) {
-            line = line.slice(0, pos);
-        }
-        line = line.trim();
-        if ( line === '' ) {
-            continue;
-        }
         ubiquitousWhitelist.add(line);
     }
 };
