@@ -3,7 +3,7 @@
 # For more information about this list, see: http://pgl.yoyo.org/adservers/
 # ----
 # last updated:   Fri, 16 May 2014 13:34:05 GMT
-# entries:        2491
+# entries:        2493
 # format:         hosts (hosts -- in hosts file format)
 # credits:        Peter Lowe - pgl@yoyo.org - http://pgl.yoyo.org/
 # this URL:       http://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext
@@ -317,6 +317,7 @@
 127.0.0.1 adnews.maddog2000.de
 127.0.0.1 adocean.pl
 127.0.0.1 adonspot.com
+127.0.0.1 adoperator.com
 127.0.0.1 adorigin.com
 127.0.0.1 adpepper.dk
 127.0.0.1 adpepper.nl
@@ -1199,6 +1200,7 @@
 127.0.0.1 bwp.download.com
 127.0.0.1 c.bigmir.net
 127.0.0.1 c.compete.com
+127.0.0.1 c1.nowlinux.com
 127.0.0.1 campaign.bharatmatrimony.com
 127.0.0.1 canadatop.com
 127.0.0.1 caniamedia.com
@@ -1324,6 +1326,7 @@
 127.0.0.1 counter.fateback.com
 127.0.0.1 counter.mirohost.net
 127.0.0.1 counter.mojgorod.ru
+127.0.0.1 counter.nowlinux.com
 127.0.0.1 counter.rambler.ru
 127.0.0.1 counter.search.bg
 127.0.0.1 counter.sparklit.com
@@ -1826,7 +1829,6 @@
 127.0.0.1 nedstat.nl
 127.0.0.1 nedstatbasic.net
 127.0.0.1 nedstatpro.net
-127.0.0.1 neocounter.neoworx-blog-tools.net
 127.0.0.1 neocounter.net
 127.0.0.1 neoffic.com
 127.0.0.1 net-filter.com

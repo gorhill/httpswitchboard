@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: qe8ABqgx6Qzs/rjN5Hw7Ww
+! Checksum: KAWLpbcZZ3HWmRdwhe7/Og
 ! Title: EasyList Hebrew
-! Last modified: 01/06/14  23:40 Jerusalem Daylight Time
+! Last modified: 06/06/14  18:21 Jerusalem Daylight Time
 ! Expires: 4 days (update frequency)
 ! Homepage: https://github.com/AdBlockPlusIsrael/EasyListHebrew/
 ! Forums: https://github.com/AdBlockPlusIsrael/EasyListHebrew/issues
@@ -218,6 +218,7 @@
 @@||go.ynet.co.il/short/commerce/2012/weathernew/
 @@||i.total-media.net/yc/dc.$script,domain=winwin.co.il
 @@||info.a7.org/info/$script,domain=inn.co.il
+@@||info.a7.org/info/delivery/
 @@||internet-bee.com/Feats/
 @@||net-games.co.il/flvPlayer/dist/flowplayer-$script
 @@||themarker.com/css/advertisement_article.css
@@ -229,7 +230,10 @@
 !
 !--------------Whitelists Rules (caused by EasyList / EasyPrivacy )-----------!
 !
+@@||ads.one.co.il/images/Ads/2014/05/22/1500/51x20.gif
+@@||ads.one.co.il/images/MSites/2014/05/22/1530/cremahadash.png
 @@||ads.one.co.il/images/ads/2014/01/21/1400/home.png
+@@||ads.one.co.il/images/ads/2014/06/02/1430/444.png
 @@||adserver.adtech.de/?advideo/$object-subrequest,domain=mako.co.il
 @@||adserver.adtech.de/rmevent/$object-subrequest,domain=mako.co.il,media
 @@||advertising.themarker.com^$~third-party
@@ -253,14 +257,17 @@
 @@||mako.checkm8.com/adam/em/$object-subrequest
 @@||mako.checkm8.com/adam/inline?*=HEAVY_PIC_$object-subrequest
 @@||mako.checkm8.com/adam/inline?*=STANDARD_TV_$object-subrequest
+@@||mako.checkm8.com/adam/inline?*cat=mako.*VIDEOSPOT_$object-subrequest
 @@||mako.checkm8.com/adam/inline?cat=mako.*=MIDROLL_$object-subrequest
 @@||mako.checkm8.com/adam/inline?cat=mako.*=OVERLAY$object-subrequest
 @@||mako.checkm8.com/adam/inline?cat=mako.*=SAGIR_$object-subrequest
-@@||mako.checkm8.com/adam/inline?*cat=mako.*VIDEOSPOT_$object-subrequest
 @@||mako.checkm8.com/crossdomain.xml$object-subrequest
 @@||mouse.co.il/images/ad_mouse_cafe.jpg
 @@||nrg.co.il/online/*_468.htm$~third-party,xmlhttprequest
 @@||one.co.il/ads/*.mp4$object-subrequest
+@@||one.co.il/images/Ads/2011/12/26/1015/logo_51x20.gif
+@@||one.co.il/images/Ads/2013/10/20/2230/racer_51x20hp.png
+@@||one.co.il/images/ads/2014/06/02/1415/MNDL2.swf
 @@||players.edgesuite.net/flash/analytics/qos$domain=mako.co.il
 @@||pubads.g.doubleclick.net/gampad/ads?sz=$object-subrequest,domain=globes.co.il
 @@||se.c04dl.vds-is.castup.net/server12/468/208/20816834-115.mp4$domain=mako.co.il
@@ -581,10 +588,13 @@ nrg.co.il##.tallBanner
 nrg.co.il##IFRAME[style="height:250px;width:300px;"]
 one.co.il###Adv2
 one.co.il###adBomba
+one.co.il###divAdChance
 one.co.il###divYnetNews
 one.co.il###tblAdBlock
 one.co.il##.adBg
+one.co.il##.adBg1
 one.co.il##.divZedoAd
+one.co.il##DIV[style="width:100%;height:25px;text-align:left;direction:rtl;"]
 one.co.il##DIV[style="width:300px;height:250px;padding:10px 12px 10px 12px;text-align:center;background:#ebebeb;"]
 one.co.il##div[style="height:43px;padding-bottom:18px"]
 one.co.il##div[style="text-align:right;border:solid 1px #d5d5d5;"]

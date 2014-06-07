@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: k6f+cyUeEFo53xP9/bTdtw
-! Version: 201406031320
+! Checksum: jLWZnIbaRhgprEV0mWBq0w
+! Version: 201406072221
 ! Title: EasyList Germany
 ! EasyList Germany - Deutsche Ergänzung zu EasyList
-! Last modified: 03 Jun 2014 13:20 UTC
+! Last modified: 07 Jun 2014 22:21 UTC
 ! Expires: 1 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -3641,13 +3641,17 @@ mov-world.net#@#a[href^="http://www.FriendlyDuck.com/AF_"]
 ! Anti-Adblock
 ||audio.de/test/img/
 ||audio.de/test1/img/
+||audio.de/test2/img/
 ||colorfoto.de/test/img/
 ||colorfoto.de/test1/img/
+||colorfoto.de/test2/img/
 ||connect.de/test/img/
 ||connect.de/test1/img/
 ||connect.de/test2/img/
+||connect.de/test3/img/
 ||connected-home.de/test/img/
 ||connected-home.de/test1/img/
+||connected-home.de/test2/img/
 ||gamona.de/assets/*.swf
 ||gamona.de/assets/*_1000x140.
 ||gamona.de/assets/*_160x800_
@@ -3663,8 +3667,10 @@ mov-world.net#@#a[href^="http://www.FriendlyDuck.com/AF_"]
 ||mv-spion.de/ajax/lc|
 ||pc-magazin.de/test/img/
 ||pc-magazin.de/test1/img/
+||pc-magazin.de/test2/img/
 ||video-magazin.de/test/img/
 ||video-magazin.de/test1/img/
+||video-magazin.de/test2/img/
 ||video.spiegel.de/flash/*.mp4$object-subrequest,domain=spiegel.tv
 ! *** easylistgermany:easylistgermany/easylistgermany_specific_block_popup.txt ***
 &t202kw=$popup,domain=lustich.de|pcaction.de
@@ -5129,6 +5135,7 @@ designtagebuch.de##.content-mediumrec
 heimspiel-online.de##.content-rahmen + table[cellspacing="0"][cellpadding="0"][border="0"][style="padding-bottom:5px;"]
 kostenlosspielen.net##.content-right-box-300x250right
 primavera24.de##.contentBanner
+pcgames.de##.contentFrameEddie
 1001spiele.de##.contentIndex > #contentRow
 energiesparen-im-haushalt.de##.contentMainWrap > div[style="background:#A6BF2D;width:468px;height:94px;"]
 welt.de##.contentRow.bgColor6
@@ -5682,6 +5689,7 @@ pcwelt.de##.top-sales
 netzkino.de##.topA
 deraktionaer.de##.topBanner
 ebay.de##.topBnrSc
+pcgames.de##.topFrameEddie
 comedycentral.de##.topHatLink
 golfv.de##.topLeaderBoard
 frauenzimmer.de##.topSpacer
@@ -7520,6 +7528,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||mannfuermann.com/mfm/static/adcode.js
 @@||mediationslupe.de^$elemhide
 @@||medienrechtsnews.de^$elemhide
+@@||mename.de^$script,domain=gamona.de
 @@||mirror-archiv.com/banner/ads/adserver/click/ad.js
 @@||mobilfunk-geschichte.de^$elemhide
 @@||mufa.de/js/advertisement.js
@@ -7547,7 +7556,6 @@ pcwelt.de##div[id^="google_ads_"]
 @@||partner.googleadservices.com/gampad/google_service.js$domain=abfrager.de
 @@||partner.googleadservices.com/gpt/pubads_impl_$script,domain=gamona.de|pcwelt.de
 @@||pcaction.de^$image
-@@||pcgames.de^$image
 @@||pcgameshardware.de^$image
 @@||peugeot-metropolis.de^$elemhide
 @@||picload.org/ads-1.js

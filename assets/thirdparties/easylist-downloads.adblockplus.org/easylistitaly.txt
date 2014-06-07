@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: AtqerAUfwDK9BOo1JmGIXA
-! Version: 201406031321
+! Checksum: mGszvevGmGn+iRdJmwsyMg
+! Version: 201406072221
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 03 Jun 2014 13:21 UTC
+! Ultima modifica: 07 Jun 2014 22:21 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -1049,6 +1049,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||laprovinciadilecco.it^*/banner/
 ||laregione.ch/ban.asp?
 ||laroma24.it/banner/
+||laroma24.it^*/skin-
 ||lascommessasportiva.it^*/banners/
 ||lasignoraingiallorosso.it^*/banners/
 ||lastampa.it/common/_banner/
@@ -1110,6 +1111,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||lombardianews.it/banner/
 ||lospiffero.com/banner/
 ||losportivo.sm/img/banner/
+||luccaindiretta.it/images/banners/
 ||lunico.eu/images/banners/
 ||macexchange.it/included/banner*.bfr
 ||maidireborsa.it/banners/
@@ -1199,6 +1201,9 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||oipamagazine.eu/banner_
 ||oipamagazine.eu^*/banner-
 ||oipamagazine.eu^*/banner/
+||oktennis.it/images/*-Skin.jpg
+||oktennis.it/images/*_logo.png
+||oktennis.it/images/banners/
 ||omniauto.it/2.0/banners/
 ||omniauto.it^*/sponsoredby_
 ||omniauto.it^*_sponsor.jpg
@@ -1251,6 +1256,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||professionemotori.it/wp-content/uploads/panini-box.jpg
 ||professionemotori.it/wp-content/uploads/williamHillbox.png
 ||professionemotori.it/wp-content/uploads/wwf-242x160.jpg
+||prontotaxi5737.it/images/banners/
 ||pubblicitaitalia.it/skin_
 ||pubblicitaitalia.it^*/background.jpg
 ||pubblicitaitalia.it^*banner_
@@ -1843,6 +1849,7 @@ telesud3.com###linkamici
 asroma.it###logos
 eurogamer.it###low-leaderboard
 catanzaroinforma.it###mainsponsor
+laroma24.it###marketingRotator
 it.msn.com###markette
 max.rcs.it###max_ppn
 itespresso.it###megabanner
@@ -2015,6 +2022,7 @@ meteowebcam.it##.adsense_menu
 a-realestate.it,adessoin.tv,animalidalmondo.it,ansa.it,beauty.it,dagospia.com,esseresani.it,faidatemania.it,gay.it,giornalettismo.com,guidecucina.it,ideeviaggi.it,ilsole24ore.com,iobloggo.com,iogames.it,iomobile.it,lavoroefinanza.it,mammaebambino.it,nonsolocultura.it,odiami.it,outcast.it,pianetagreen.it,pianetamotori.it,radiolina.it,radiomontecarlo.net,repubblica.it,romagnaoggi.it,sky.it,sportpower.it,tuttopercasa.it,verytech.it,virgilio.it,vivalascuola.it,vocenuova.tv##.adv
 famigliacristiana.it##.adv-box
 motori.it##.adv-items
+oktennis.it##.adv1
 delleconomia.it##.adv200
 virgilio.it##.advTuning
 addicted2play.com,amonapoli.it,eurogamer.it,giardini.biz,morningstar.it,tvtv.it##.advert
@@ -2330,6 +2338,7 @@ mrwebmaster.it##.txt
 ilsoftware.it##.txtboxleft[style="width:280px; height:200px;"]
 turistipercaso.it##.utilink
 bresciaoggi.it,larena.it##.v2_banner-wrapper
+larena.it##.v3_horz-banner
 ilsalvagente.it##.video
 giallozafferano.it##.vini-sp
 vivastreet.it##.vs-summary-300x250
@@ -2433,6 +2442,7 @@ teamspeakitalia.it##div[style="text-align:center; width:100%; height:250px;"]
 laroma24.it##div[style="text-align:center; width:300px; height:250px; float:left;"]
 lavoratorio.it##div[style="text-align:center;width:336px;height:280px;margin:0px auto;margin-bottom:25px;"]
 libero.it##div[style="width: 180px; height: 150px;"]
+laroma24.it##div[style="width: 184px; height: 138px;"]
 raffaeleauriemma.com##div[style="width: 248px; height: 250px; visibility: visible;"]
 pyrosonline.it##div[style="width: 265px; height: 265px;"]
 paginebianche.it##div[style="width: 300px; height: 100px;"]

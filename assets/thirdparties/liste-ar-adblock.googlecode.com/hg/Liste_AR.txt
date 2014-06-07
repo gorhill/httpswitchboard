@@ -223,6 +223,7 @@
 ||m5zn.com/themes/dir/assets/images/120_banner_black.gif
 ||m5zn.com/uploads3/*/photo/040912220452picoovy1i4g2q.jpg
 ||mark4you.com/mark.gif
+||marocfraja.com/bzf.php
 ||masatv.com^$popup,domain=2flam.org
 ||mazikadrama.com/vidads2.php
 ||mirecal-d.com/300download.gif
@@ -429,6 +430,8 @@
 ||arab4mp3.com/banner/
 ||arab4mp3.com/up/uploads/arab4mp3
 ||arab4mp3.com^*/banners/
+||arabe-media.com/700.php
+||arabe-media.com/open18.js
 ||arabhard.co/open19.js
 ||arabhardware.net/$popup
 ||arablionz.com/histate/du.png
@@ -1149,6 +1152,7 @@ arabnet5.com##div[style^="width:728px; height:90px;"]
 ##div[style^="z-index: 99999; position: fixed; width: 100%; background-color: rgb(251, 236, 173);"]
 eqla3.com##iframe
 fibladi.com##iframe[id^="google_ads"]
+arabe-media.com##iframe[width="300"][height="250"]
 el3b.sukrbnat.com##img[alt="M5znUpload"]
 bh-gn.com##img[alt="ضع إعلانك هنا"]
 algeriamax.com##img[alt="مساحة إعلانية"]
@@ -1210,6 +1214,7 @@ traidnt.net##td[width="160px"]
 !
 @@||ads.hsoub.com/$domain=hsoub.com
 @@||adtvnetwork.com/wp-content/themes/adtv/images/ad
+@@||arabe-media.com/advertisement.js
 @@||bawazir-tech.com/banners/
 @@||betakonline.com/advertisements/securimage/
 @@||echoroukonline.com/banners/half/

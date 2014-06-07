@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: qFLWtoc7mb+75WetN3ofiw
-! Version: 201406031321
+! Checksum: AEhXjCZiHUK2ckrGAzS0zQ
+! Version: 201406072221
 ! Title: EasyPrivacy
-! Last modified: 03 Jun 2014 13:21 UTC
+! Last modified: 07 Jun 2014 22:21 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -1048,7 +1048,6 @@
 /log.cfm?
 /log.gif?
 /log.jphp?
-/log.js?
 /log.jsp?
 /log.php?*http
 /log.php?id
@@ -2165,6 +2164,7 @@ http://utm.
 ! *** easylist:easyprivacy/easyprivacy_trackingservers.txt ***
 ||0tracker.com^$third-party
 ||1-cl0ud.com^$third-party
+||100im.info^$third-party
 ||103bees.com^$third-party
 ||11nux.com^$third-party
 ||123count.com^$third-party
@@ -3640,6 +3640,7 @@ http://utm.
 ||wp-stats.com^$third-party
 ||wpdstat.com^$third-party
 ||wredint.com^$third-party
+||wt-eu02.net^$third-party
 ||wtp101.com^$third-party
 ||wtstats.com^$third-party
 ||wundercounter.com^$third-party
@@ -4359,6 +4360,7 @@ http://utm.
 ||6waves.com/edm.php?uid=$image
 ||74.117.176.217/trf/track.php?$third-party,domain=~adult.sites.ip
 ||88.208.248.58/tracking/
+||93.93.53.198^$third-party,domain=~awempire.ip
 ||99widgets.com/counters/
 ||9msn.com.au^*/tracking/
 ||a.mobify.com^$third-party
@@ -4820,6 +4822,7 @@ http://utm.
 ||freehostedscripts.net^*.php?site=*&s=*&h=$third-party
 ||friends.totallynsfw.com^
 ||fsdn.com/con/js/webtracker.js$domain=sourceforge.net
+||ftimg.net/js/log.js?
 ||fwix.com/ref.js
 ||fwix.com^*/trackclicks_
 ||fyre.co^*/tracking/
@@ -7437,6 +7440,7 @@ http://utm.
 ||socialcodedev.com/pixel/
 ||socialstreamingplayer.crystalmedianetworks.com/tracker/
 ||soe.com/js/web-platform/web-data-tracker.js
+||sofascore.com/geoip.js
 ||somniture.theglobeandmail.com^
 ||sony-europe.com/tr/p.gif?
 ||sourceforge.net/images/mlopen_post.html?
@@ -8676,6 +8680,7 @@ http://utm.
 @@||cdn-redfin.com^*/page_analytics.js$domain=redfin.com
 @@||cdn-redfin.com^*/page_analytics.xd.js
 @@||cdn.optimizely.com/js/*.js$domain=heroku.com|hotukdeals.com|imageshack.com|policymic.com|ricardo.ch
+@@||centurylink.net/images/track/track.gif?track=$xmlhttprequest
 @@||chanel.com/js/chanel-tracking.js$script
 @@||chartbeat.com/*/chartbeat/$~third-party
 @@||chartbeat.com/js/chartbeat.js$domain=salon.com
@@ -8688,6 +8693,7 @@ http://utm.
 @@||cloudfront.net/atrk.js$domain=karnaval.com|livestream.com|luxuryrealestate.com
 @@||cloudfront.net^*/jquery.google-analytics.js$domain=homepath.com
 @@||collegeboard.org/webanalytics/
+@@||components.bellmedia.ca/tracking/Include|$script,domain=ctvnews.ca
 @@||computerworld.com/resources/scripts/lib/demandbase.js$script
 @@||constantcontact.com/js/WebTracking/
 @@||coremetrics.com/eluminate.js
@@ -8769,6 +8775,7 @@ http://utm.
 @@||hostlogr.com/etc/geo.php?
 @@||hotmail.com/mail/*/i2a.js
 @@||hotwirestatic.com^*/opinionLab.js$domain=hotwire.com
+@@||img.en25.com/eloquaimages/clients/PentonMediaInc/$image,domain=windowsitpro.com
 @@||imrworldwide.com/crossdomain.xml$object-subrequest,domain=sbs.com.au
 @@||imrworldwide.com/novms/*/ggcm*.js$domain=europafm.com
 @@||imrworldwide.com/v60.js$domain=musicfeeds.com.au|nzherald.co.nz|sf.se|weatherchannel.com.au
@@ -8870,6 +8877,7 @@ http://utm.
 @@||ping.hellobar.com/?*&_e=click&$image
 @@||piwik.pro/images/
 @@||pix04.revsci.net/E05510/a4/0/0/pcx.js?$domain=video.foxbusiness.com
+@@||pixel.facebook.com/ajax/notifications/mark_read.php?*&alert_ids%$image
 @@||pixel.fetchback.com^$subdocument,domain=sears.com
 @@||pixel.quantserve.com/api/segments.json?$domain=ap.org|newsinc.com
 @@||pixel.quantserve.com/api/segments.xml?a=$domain=associatedcontent.com|cbs.com|cbsatlanta.com|centurylink.net|comedy.com|eurweb.com|fox5vegas.com|foxcarolina.com|grabnetworks.com|kctv5.com|kpho.com|kptv.com|theimproper.com|thenewsroom.com|tv.com|tvguide.com|wfsb.com|wnem.com|wsmv.com
@@ -9151,4 +9159,5 @@ http://utm.
 @@||reseguiden.se^*.siteCatalyst.js
 ! Turkey
 @@||google-analytics.com/analytics.js$domain=ligtv.com.tr
+@@||turkcelltvplus.com.tr^*/google_analytics/main.js?
 @@||tvyo.com/player/plugins/comscorePlugin.swf?$object-subrequest

@@ -1,8 +1,8 @@
 [Adblock Plus 2.0]
-! Checksum: ylObq0Tpu9J/sfmPo/GBcA
-! Version: 201406031321
+! Checksum: UgPmF5JAIFIqyrrVELIyTw
+! Version: 201406072221
 ! Title: Fanboy's Annoyance List
-! Last modified: 03 Jun 2014 13:21 UTC
+! Last modified: 07 Jun 2014 22:21 UTC
 ! Expires: 4 days (update frequency)
 ! License: http://creativecommons.org/licenses/by/3.0/
 ! Please report any unblocked content or problems by email or in our forums
@@ -1263,7 +1263,9 @@ _social_rss.
 /share/*/twitter.png
 /share/buttons/*
 /share/facebook.
+/share/flattr.
 /share/footer/*
+/share/google.
 /share/icon_
 /share/js/*
 /share/plusone.
@@ -5290,6 +5292,7 @@ _youtube_small.
 ##.share-this
 ##.share-this-article
 ##.share-this-page
+##.share-this-static
 ##.share-this-tip
 ##.share-title
 ##.share-toolbar-box
@@ -5598,6 +5601,7 @@ _youtube_small.
 ##.social-article
 ##.social-badge
 ##.social-badges
+##.social-banner
 ##.social-bar
 ##.social-bar-bottom
 ##.social-bar-h
@@ -6444,6 +6448,7 @@ _youtube_small.
 ##[title="Thumb this up at StumbleUpon"]
 ##[title="Tweet This"]
 ##[title="Yahoo! Buzz"]
+##a[alt="Follow Us on Twitter"]
 ##a[alt="follow us on twitter"]
 ##a[data-tm-ref-type-id="Follow-on-Facebook"]
 ##a[data-tm-ref-type-id="Follow-on-YouTube"]
@@ -6464,6 +6469,7 @@ _youtube_small.
 ##a[href^="http://www.linkedin.com/shareArticle?"]
 ##a[href^="http://www.sharethis.com/share/?publisher="]
 ##a[href^="http://www.tumblr.com/share/"]
+##a[href^="http://www.tumblr.com/share?u="]
 ##a[href^="https://facebook.com/sharer.php?"]
 ##a[href^="https://plus.google.com/share?url="]
 ##a[href^="https://twitter.com/intent/follow?"]
@@ -6481,6 +6487,7 @@ _youtube_small.
 ##a[title="Bookmark on Yahoo!"]
 ##a[title="Bookmark on del.icio.us"]
 ##a[title="Follow Me on Pinterest"]
+##a[title="Follow Us on Facebook"]
 ##a[title="Follow me on  Facebook"]
 ##a[title="Follow us on Google+"]
 ##a[title="Follow us on Instagram"]
@@ -8100,7 +8107,7 @@ arstechnica.com###primary.nav-fixed
 scientificamerican.com###printPromo
 google.com###prm
 economist.com###product-events
-pinknews.co.uk,search.comcast.net###promo
+eztv.it,pinknews.co.uk,search.comcast.net###promo
 stackexchange.com###promo-box
 militaryaerospace.com###promo-floater-background
 militaryaerospace.com###promo-floater-box
@@ -11453,6 +11460,7 @@ acceptableads.org,easyicon.net#@#img[alt="Reddit"]
 @@||fbcdn.net/connect.php/js/FB.Share$domain=jamendo.com
 @@||foreignpolicy.com^*/sharrre.js
 @@||foreignpolicy.com^*_id_twitter_icon.png
+@@||friendfeed.com/static/images/icons/$~third-party
 @@||fyre.co/*/facebook_share_post.png
 @@||ge.tt/s/images/twitter-extension-icon.png
 @@||ge.tt/s/images/twitter-signin.png
@@ -11510,6 +11518,7 @@ acceptableads.org,easyicon.net#@#img[alt="Reddit"]
 @@||quilt.janrain.com/*/linkedin.png
 @@||qz.com/images/buttons/sign-in-with-twitter.png
 @@||redbullusa.com^*/socialmedia/
+@@||reformgovernmentsurveillance.com/images/resized-icons/
 @@||rfi.fr/sites/all/modules/maison/aef_boulangerie/$image
 @@||s7.addthis.com^*/addthis_widget.js*pubid=
 @@||s7.addthis.com^*/addthis_widget.js*username=$domain=iamsecond.com

@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: x/7km+lQ2VYFAD1svdubdA
-! Version: 201406031321
+! Checksum: afJPR1HNYJ2MOMGwVnCLYg
+! Version: 201406072221
 ! Title: EasyList Dutch
 ! Description: Dutch supplement for the Easylist filters
-! Last modified: 03 Jun 2014 13:21 UTC
+! Last modified: 07 Jun 2014 22:21 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -135,6 +135,7 @@
 ||actiecode.nl/dynamics/modules/spub$third-party
 ||adslwinkel.nl/templates/adslwinkel/images/adslnl.gif$domain=htforum.nl
 ||antares.fm/banners/
+||api.skyscanner.net/api.ashx?$domain=viva.nl
 ||babysitster.nl/banners/
 ||bol.com/nl/upload/banners/
 ||buzzlab.nl/input/*Banner
@@ -987,6 +988,7 @@ startkabel.nl,vitesse.org##.banners
 dinnersite.nl##.banners_full
 dinnersite.nl##.banners_regio
 telegraaf.nl##.bbBannerTmg_wrapper
+moviemeter.nl##.billboard_wrapper
 biertijd.com##.blogrollAanraders
 okokorecepten.nl##.bnr_hd_rightcol
 girlsgogames.nl##.categoryBanner
@@ -1124,6 +1126,7 @@ songteksten.net##div[id$="banner"]
 pp2g.com##div[id*="_Leaderboard_"]
 zie.nl##div[id^="advertisement_"]
 hababam.nl##div[id^="had"]
+binaries4all.nl##div[id^="payserver"]
 treinreiziger.nl##div[id^="subbanner"]
 phphulp.nl##div[style$="background: #ff0000 url(/img/ads/bhosted.png) top left no-repeat; margin-bottom: 10px;"]
 voetbalzone.nl##div[style*="url(http://static-voetbalzone.nl/images/adfactor/"]
