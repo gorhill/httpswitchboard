@@ -626,11 +626,11 @@
         "description": "Message asking user to confirm restore"
     },
     "aboutExtensionDataHeader" : {
-        "message": "Komponenten dieser Erweiterung",
+        "message": "Ressourcen dieser Erweiterung",
         "description": "English: Extension data"
     },
     "aboutAssetsUpdatePrompt" : {
-        "message": "Von <i>HTTP Switchboard</i> benutzte Komponenten können hier upgedatet werden, ohne auf eine neue Version dieser Erweiterung warten zu müssen. Diese Komponenten werden bezogen vom <a href=\"https://github.com/gorhill/httpswitchboard\">Github Repository dieses Projekts</a>.",
+        "message": "Von <i>HTTP Switchboard</i> benutzte Ressourcen können hier upgedatet werden, ohne auf eine neue Version dieser Erweiterung warten zu müssen. Diese Ressourcen werden bezogen vom <a href=\"https://github.com/gorhill/httpswitchboard\">Github Repository dieses Projekts</a>.",
         "description": "Short descriptive text of the update feature"
     },
     "aboutAssetsUpdateColPath" : {
@@ -750,3 +750,4 @@
         "description": "so we dont need to deal with comma for last entry"
     }
 }
+urc
