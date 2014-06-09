@@ -39,16 +39,16 @@ var contentScriptSummaryHandler = function(details, sender) {
     var pageStats = httpsb.pageStatsFromPageUrl(pageURL);
     var httpsburi = httpsb.URI.set(details.locationURL);
     var frameURL = httpsburi.normalizedURI();
+    var frameHostname = httpsburi.hostname;
     var urls, url, r;
 
-    // rhill 2014-01-17: I try not to use Object.keys() anymore when it can
-    // be avoided, because extracting the keys this way results in a
-    // transient javascript array being created, which means mem allocation,
-    // and with all that come with it (mem fragmentation, GC, whatever).
+    // https://github.com/gorhill/httpswitchboard/issues/333
+    // Look-up here whether inline scripting is blocked for the frame.
+    var inlineScriptBlocked = httpsb.blacklisted(pageURL, 'script', frameHostname);
 
     // scripts
     // https://github.com/gorhill/httpswitchboard/issues/25
-    if ( pageStats && pageStats.pageScriptBlocked ) {
+    if ( pageStats && inlineScriptBlocked ) {
         urls = details.scriptSources;
         for ( url in urls ) {
             if ( !urls.hasOwnProperty(url) ) {
@@ -137,8 +137,12 @@ var onMessageHandler = function(request, sender, callback) {
         break;
 
 
-    case 'retrieveABPHideSelectors':
-        response = HTTPSB.abpHideFilters.retrieve(request);
+    case 'retrieveDomainCosmeticSelectors':
+        response = HTTPSB.abpHideFilters.retrieveDomainSelectors(request);
+        break;
+
+    case 'retrieveGenericCosmeticSelectors':
+        response = HTTPSB.abpHideFilters.retrieveGenericSelectors(request);
         break;
 
     default:

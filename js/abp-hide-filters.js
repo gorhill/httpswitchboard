@@ -554,12 +554,16 @@ FilterContainer.prototype.addFilterEntry = function(hash, f) {
 
 /******************************************************************************/
 
-FilterContainer.prototype.retrieve = function(request) {
+FilterContainer.prototype.retrieveGenericSelectors = function(request) {
     if ( httpsb.userSettings.parseAllABPHideFilters !== true ) {
         return;
     }
 
     if ( httpsb.getTemporaryABPFilteringFromPageURL(request.pageURL) !== true ) {
+        return;
+    }
+
+    if ( !request.selectors ) {
         return;
     }
 
@@ -576,44 +580,80 @@ FilterContainer.prototype.retrieve = function(request) {
     };
 
     var hash, bucket;
-
-    if ( request.locationURL ) {
-        var hostname = pageHostname = httpsb.URI.hostnameFromURI(request.locationURL);
-        var domain = httpsb.URI.domainFromHostname(hostname);
-        hash = makePrefixHash('#', domain);
-        if ( bucket = this.filters[hash] ) {
-            //bucketTestCount += 1;
-            //filterTestCount += 1;
-            bucket.retrieve(null, r.hide);
+    var hideSelectors = r.hide;
+    var selectors = request.selectors;
+    var i = selectors.length;
+    var selector;
+    while ( i-- ) {
+        selector = selectors[i];
+        if ( !selector ) {
+            continue;
         }
-        hash = makePrefixHash('@', domain);
+        hash = makeSuffixHash('#', selector);
         if ( bucket = this.filters[hash] ) {
             //bucketTestCount += 1;
             //filterTestCount += 1;
-            bucket.retrieve(null, r.donthide);
+            bucket.retrieve(selector, hideSelectors);
         }
     }
 
-    if ( request.selectors ) {
-        var hideSelectors = r.hide;
-        var selectors = request.selectors;
-        var i = selectors.length;
-        var selector;
-        while ( i-- ) {
-            selector = selectors[i];
-            if ( !selector ) {
-                continue;
-            }
-            hash = makeSuffixHash('#', selector);
-            if ( bucket = this.filters[hash] ) {
-                //bucketTestCount += 1;
-                //filterTestCount += 1;
-                bucket.retrieve(selector, hideSelectors);
-            }
-        }
+    r.hideUnfiltered = this.hideUnfiltered;
+    r.donthideUnfiltered = this.donthideUnfiltered;
 
-        r.hideUnfiltered = this.hideUnfiltered;
-        r.donthideUnfiltered = this.donthideUnfiltered;
+    //quickProfiler.stop();
+
+/*
+     console.log(
+        'HTTPSB> abp-hide-filters.js: "%s"\n\t%d selectors in => %d/%d filters/buckets tested => %d selectors out',
+        url,
+        inSelectors.length,
+        //filterTestCount,
+        //bucketTestCount,
+        hideSelectors.length + donthideSelectors.length
+    );
+*/
+
+    return r;
+};
+
+/******************************************************************************/
+
+FilterContainer.prototype.retrieveDomainSelectors = function(request) {
+    if ( httpsb.userSettings.parseAllABPHideFilters !== true ) {
+        return;
+    }
+
+    if ( httpsb.getTemporaryABPFilteringFromPageURL(request.pageURL) !== true ) {
+        return;
+    }
+
+    if ( !request.locationURL ) {
+        return;
+    }
+
+    //quickProfiler.start('FilterContainer.retrieve()');
+
+    //filterTestCount = 0;
+    //bucketTestCount = 0;
+
+    var hostname = pageHostname = httpsb.URI.hostnameFromURI(request.locationURL);
+    var r = {
+        domain: httpsb.URI.domainFromHostname(hostname),
+        hide: [],
+        donthide: []
+    };
+    var bucket;
+    var hash = makePrefixHash('#', r.domain);
+    if ( bucket = this.filters[hash] ) {
+        //bucketTestCount += 1;
+        //filterTestCount += 1;
+        bucket.retrieve(null, r.hide);
+    }
+    hash = makePrefixHash('@', r.domain);
+    if ( bucket = this.filters[hash] ) {
+        //bucketTestCount += 1;
+        //filterTestCount += 1;
+        bucket.retrieve(null, r.donthide);
     }
 
     //quickProfiler.stop();
