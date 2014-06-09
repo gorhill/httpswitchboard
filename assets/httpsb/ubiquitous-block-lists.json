@@ -60,11 +60,11 @@
         },
     "easylist-downloads.adblockplus.org/advblock.txt": {
         "off": true,
-        "title": "EasyList RU AdList"
+        "title": "EasyList RU AdList (дополнение к EasyList)"
         },
     "easylist-downloads.adblockplus.org/easylistchina.txt": {
         "off": true,
-        "title": "EasyList China"
+        "title": "EasyList China 中文"
         },
     "adblock-chinalist.googlecode.com/svn/trunk/adblock.txt": {
         "off": true,
@@ -72,7 +72,11 @@
         },
     "adblock-plus-japanese-filter.googlecode.com/hg/abp_jp.txt": {
         "off": true,
-        "title": "ABP Japanese filters"
+        "title": "ABP の日本用フィルタ"
+        },
+    "margevicius.lt/AdBlockPlusLithuania.txt": {
+        "off": true,
+        "title": "Adblock Plus Lithuania"
         },
     "stanev.org/abp/adblock_bg.txt": {
         "off": true,
@@ -90,6 +94,10 @@
         "off": true,
         "title": "EasyList Czech and Slovak"
         },
+    "raw.githubusercontent.com/adblockpolska/Adblock_PL_List/master/adblock_polska.txt": {
+        "off": true,
+        "title": "Adblock Polska"
+        },
     "raw.github.com/AdBlockPlusIsrael/EasyListHebrew/master/EasyListHebrew.txt": {
         "off": true,
         "title": "EasyList Hebrew"
@@ -97,6 +105,18 @@
     "download.wiltteri.net/wiltteri.txt": {
         "off": true,
         "title": "Wiltteri"
+        },
+    "adblock.gardar.net/is.abp.txt": {
+        "off": true,
+        "title": "Icelandic ABP List"
+        },
+    "www.void.gr/kargig/void-gr-filters.txt": {
+        "off": true,
+        "title": "Greek AdBlock Filter"
+        },
+    "abp.mozilla-hispano.org/nauscopio/filtros.txt": {
+        "off": true,
+        "title": "Filtros Nauscopicos"
         },
     "hosts-file.net/hosts.txt": {
         "off": true,

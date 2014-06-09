@@ -27,12 +27,17 @@ THIRDPARTY_REMOTEURLS=(
     'https://easylist-downloads.adblockplus.org/easylistchina.txt'
     'http://adblock-chinalist.googlecode.com/svn/trunk/adblock.txt'
     'https://adblock-plus-japanese-filter.googlecode.com/hg/abp_jp.txt'
+    'http://margevicius.lt/AdBlockPlusLithuania.txt'
     'http://stanev.org/abp/adblock_bg.txt'
     'http://indonesianadblockrules.googlecode.com/hg/subscriptions/abpindo.txt'
     'http://liste-ar-adblock.googlecode.com/hg/Liste_AR.txt'
     'http://adblock-czechoslovaklist.googlecode.com/svn/filters.txt'
+    'https://raw.githubusercontent.com/adblockpolska/Adblock_PL_List/master/adblock_polska.txt'
     'https://raw.github.com/AdBlockPlusIsrael/EasyListHebrew/master/EasyListHebrew.txt'
     'http://download.wiltteri.net/wiltteri.txt'
+    'http://adblock.gardar.net/is.abp.txt'
+    'http://www.void.gr/kargig/void-gr-filters.txt'
+    'http://abp.mozilla-hispano.org/nauscopio/filtros.txt'
     )
 
 THIRDPARTY_LOCALURLS=(
@@ -56,12 +61,17 @@ THIRDPARTY_LOCALURLS=(
     'thirdparties/easylist-downloads.adblockplus.org/easylistchina.txt'
     'thirdparties/adblock-chinalist.googlecode.com/svn/trunk/adblock.txt'
     'thirdparties/adblock-plus-japanese-filter.googlecode.com/hg/abp_jp.txt'
+    'thirdparties/margevicius.lt/AdBlockPlusLithuania.txt'
     'thirdparties/stanev.org/abp/adblock_bg.txt'
     'thirdparties/indonesianadblockrules.googlecode.com/hg/subscriptions/abpindo.txt'
     'thirdparties/liste-ar-adblock.googlecode.com/hg/Liste_AR.txt'
     'thirdparties/adblock-czechoslovaklist.googlecode.com/svn/filters.txt'
+    'thirdparties/raw.githubusercontent.com/adblockpolska/Adblock_PL_List/master/adblock_polska.txt'
     'thirdparties/raw.github.com/AdBlockPlusIsrael/EasyListHebrew/master/EasyListHebrew.txt'
     'thirdparties/download.wiltteri.net/wiltteri.txt'
+    'thirdparties/adblock.gardar.net/is.abp.txt'
+    'thirdparties/www.void.gr/kargig/void-gr-filters.txt'
+    'thirdparties/abp.mozilla-hispano.org/nauscopio/filtros.txt'
     )
 
 ENTRY_INDEX=0
