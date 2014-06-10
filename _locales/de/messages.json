@@ -746,19 +746,19 @@
 
 
     "commandRevertAll" : {
-        "message": "Remove all temporary changes",
+        "message": "Alle temporären Änderungen löschen",
         "description": "English: Remove all temporary changes"
     },
     "commandWhitelistPageDomain" : {
-        "message": "Temporarily whitelist page domain",
+        "message": "Temporär die Domain erlauben",
         "description": "English: Temporarily whitelist page domain"
     },
     "commandWhitelistAll" : {
-        "message": "Temporarily whitelist all",
+        "message": "Temporär alles erlauben",
         "description": "English: Temporarily whitelist all"
     },
     "commandOpenSettings" : {
-        "message": "Settings...",
+        "message": "Einstellungen ...",
         "description": "English: Settings..."
     },
 
