@@ -45,6 +45,7 @@ Brightcove:
     whitelist: |
         plugin brightcove.com
         script brightcove.com
+        plugin c.brightcove.com
 
 Daily Motion:
     facode: f008
