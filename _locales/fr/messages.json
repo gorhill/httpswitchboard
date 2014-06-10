@@ -745,6 +745,24 @@
     },
 
 
+    "commandRevertAll" : {
+        "message": "Annuler tous les changements temporaires",
+        "description": "English: Remove all temporary changes"
+    },
+    "commandWhitelistPageDomain" : {
+        "message": "Permettre temporairement le domaine de la page",
+        "description": "English: Temporarily whitelist page domain"
+    },
+    "commandWhitelistAll" : {
+        "message": "Permettre temporairement tous les domaines la page",
+        "description": "English: Temporarily whitelist all"
+    },
+    "commandOpenSettings" : {
+        "message": "Paramètres...",
+        "description": "English: Settings..."
+    },
+
+
     "dummy": {
         "message": "This entry must be the last one",
         "description": "so we dont need to deal with comma for last entry"

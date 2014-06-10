@@ -34,19 +34,53 @@ var gotoDashboard = function(which) {
 
 /******************************************************************************/
 
+var whitelistPageDomain = function(tabs) {
+    if ( tabs.length === 0 ) {
+        return;
+    }
+    var tab = tabs[0];
+    if ( !tab.url ) {
+        return;
+    }
+    var httpsb = HTTPSB;
+    if ( httpsb.autoWhitelistTemporarilyPageDomain(tab.url) ) {
+        httpsb.smartReloadTab(tab.id);
+    }
+};
+
+/******************************************************************************/
+
+var whitelistAll = function(tabs) {
+    if ( tabs.length === 0 ) {
+        return;
+    }
+    var tab = tabs[0];
+    if ( !tab.url ) {
+        return;
+    }
+    var httpsb = HTTPSB;
+    if ( httpsb.autoWhitelistTemporarilyAll(tab.url) ) {
+        httpsb.smartReloadTab(tab.id);
+    }
+};
+
+/******************************************************************************/
+
 var onCommand = function(command) {
     switch ( command ) {
-    case 'open-statistics':
-        gotoDashboard('statistics');
+    case 'revert-all':
+        HTTPSB.revertAllRules();
         break;
-    case 'open-ubiquitous-rules':
-        gotoDashboard('ubiquitous-rules');
+    case 'whitelist-page-domain':
+        chrome.tabs.query({ active: true }, whitelistPageDomain);
         break;
-    case 'open-scoped-rules':
-        gotoDashboard('scoped-rules');
+    case 'whitelist-all':
+        chrome.tabs.query({ active: true }, whitelistAll);
         break;
     case 'open-settings':
         gotoDashboard('settings');
+        break;
+    default:
         break;
     }
 };

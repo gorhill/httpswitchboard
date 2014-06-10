@@ -20,32 +20,32 @@
         "page": "background.html"
     },
     "commands": {
-       "open-settings": {
-            "description": "Open Settings",
+       "revert-all": {
+            "description": "__MSG_commandRevertAll__",
             "suggested_key": {
-                "default": "Ctrl+Shift+1",
-                "mac": "Command+Shift+S"
+                "default": "Alt+Q",
+                "mac": "Command+Shift+Q"
             }
         },
-        "open-statistics": {
-            "description": "Open Statistics",
+       "whitelist-all": {
+            "description": "__MSG_commandWhitelistAll__",
             "suggested_key": {
-                "default": "Ctrl+Shift+2",
+                "default": "Alt+A",
                 "mac": "Command+Shift+A"
             }
         },
-       "open-scoped-rules": {
-            "description": "Open Scoped rules",
+       "whitelist-page-domain": {
+            "description": "__MSG_commandWhitelistPageDomain__",
             "suggested_key": {
-                "default": "Ctrl+Shift+3",
-                "mac": "Command+Shift+R"
+                "default": "Alt+W",
+                "mac": "Command+Shift+W"
             }
         },
-       "open-ubiquitous-rules": {
-            "description": "Open Ubiquitous rules",
+       "open-settings": {
+            "description": "__MSG_commandOpenSettings__",
             "suggested_key": {
-                "default": "Ctrl+Shift+4",
-                "mac": "Command+Shift+U"
+                "default": "Alt+S",
+                "mac": "Command+Shift+S"
             }
         }
     },

@@ -745,6 +745,24 @@
     },
 
 
+    "commandRevertAll" : {
+        "message": "Remove all temporary changes",
+        "description": "English: Remove all temporary changes"
+    },
+    "commandWhitelistPageDomain" : {
+        "message": "Temporarily whitelist page domain",
+        "description": "English: Temporarily whitelist page domain"
+    },
+    "commandWhitelistAll" : {
+        "message": "Temporarily whitelist all",
+        "description": "English: Temporarily whitelist all"
+    },
+    "commandOpenSettings" : {
+        "message": "Settings...",
+        "description": "English: Settings..."
+    },
+
+
     "dummy": {
         "message": "Эта запись должна быть последней",
         "description": "so we dont need to deal with comma for last entry"

@@ -539,9 +539,26 @@ HTTPSB.autoWhitelistTemporarilyPageDomain = function(pageURL) {
     var domain = this.URI.domainFromURI(pageURL);
     // 'rp' as in 'red pale', i.e. graylisted-blocked:
     // Autowhitelist only if the domain is graylisted and blocked.
-    if ( this.evaluateFromScopeKey(scopeKey, '*', domain).indexOf('rp') === 0 ) {
-        // console.log('autoWhitelistTemporarilyPageDomain()> "%s"', pageURL);
+    if ( this.evaluateFromScopeKey(scopeKey, '*', domain).slice(0, 2) === 'rp' ) {
+        // console.log('HTTPSB> autoWhitelistTemporarilyPageDomain("%s")', pageURL);
         this.whitelistTemporarily(scopeKey, '*', domain);
+        return true;
+    }
+    return false;
+};
+
+HTTPSB.autoWhitelistTemporarilyAll = function(pageURL) {
+    var scopeKey = this.temporaryScopeKeyFromPageURL(pageURL);
+    // Do not auto-whitelist if a matrix filtering is off.
+    // https://github.com/gorhill/httpswitchboard/issues/237
+    if ( this.getTemporaryMtxFiltering(scopeKey) !== true ) {
+        return false;
+    }
+    // 'rp' as in 'red pale', i.e. graylisted-blocked:
+    // Whitelist only if the `all` cell is blacklisted.
+    if ( this.evaluateFromScopeKey(scopeKey, '*', '*').charAt(0) === 'r' ) {
+        // console.log('HTTPSB> autoWhitelistTemporarilyAll("%s")', pageURL);
+        this.whitelistTemporarily(scopeKey, '*', '*');
         return true;
     }
     return false;
