@@ -547,12 +547,22 @@ HTTPSB.autoWhitelistTemporarilyPageDomain = function(pageURL) {
     return false;
 };
 
+/******************************************************************************/
+
+// Auto-whitelisting the `all` cell is a serious action, hence this will be
+// done only from within a scope.
+
 HTTPSB.autoWhitelistTemporarilyAll = function(pageURL) {
     var scopeKey = this.temporaryScopeKeyFromPageURL(pageURL);
     // Do not auto-whitelist if a matrix filtering is off.
     // https://github.com/gorhill/httpswitchboard/issues/237
     if ( this.getTemporaryMtxFiltering(scopeKey) !== true ) {
         return false;
+    }
+    // Create a scope if global scope.
+    if ( this.isGlobalScopeKey(scopeKey) ) {
+        scopeKey = this.domainScopeKeyFromURL(pageURL);
+        this.createTemporaryScopeFromScopeKey(scopeKey);
     }
     // 'rp' as in 'red pale', i.e. graylisted-blocked:
     // Whitelist only if the `all` cell is blacklisted.
