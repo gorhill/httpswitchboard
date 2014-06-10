@@ -262,7 +262,12 @@ var readRemoteFile = function(path, msg) {
 
     var onRemoteFileLoaded = function() {
         // console.log('HTTP Switchboard> readRemoteFile() / onRemoteFileLoaded()');
-        sendMessage(this.responseText);
+        // https://github.com/gorhill/httpswitchboard/issues/263
+        if ( this.status === 200 ) {
+            sendMessage(this.responseText);
+        } else {
+            sendMessage('', 'Error ' + this.statusText);
+        }
         this.onload = this.onerror = null;
     };
 
