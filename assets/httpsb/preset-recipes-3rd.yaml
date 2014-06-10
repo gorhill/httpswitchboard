@@ -122,6 +122,16 @@ Instagram:
         frame instagram.com
         script d36xtkk24g8jdx.cloudfront.net
 
+Kickstarter:
+    facode: f008
+    keys: www.kickstarter.com
+    whitelist: |
+        script www.kickstarter.com
+        xhr www.kickstarter.com
+        frame www.kickstarter.com
+        script d297h9he240fqh.cloudfront.net
+        other d2pq0u4uni88oo.cloudfront.net
+
 Longtail Video:
     facode: f008
     keys: p.jwpcdn.com
