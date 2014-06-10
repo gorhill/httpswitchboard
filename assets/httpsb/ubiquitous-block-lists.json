@@ -64,7 +64,7 @@
         },
     "easylist-downloads.adblockplus.org/easylistchina.txt": {
         "off": true,
-        "title": "EasyList China 中文"
+        "title": "EasyList China (中文)"
         },
     "adblock-chinalist.googlecode.com/svn/trunk/adblock.txt": {
         "off": true,
@@ -72,7 +72,7 @@
         },
     "adblock-plus-japanese-filter.googlecode.com/hg/abp_jp.txt": {
         "off": true,
-        "title": "ABP の日本用フィルタ"
+        "title": "ABP Japanese filters (の日本用フィルタ)"
         },
     "margevicius.lt/AdBlockPlusLithuania.txt": {
         "off": true,

@@ -2553,7 +2553,7 @@ ara.cat##[href*="abertis"]
 ara.cat##A[href*="estrelladamm"]
 ara.cat##DL[class^="ad-"]
 ara.cat##EMBED[width="315"]
-ara.cat##IMG[alt^="Amb lâ€™ARA"]
+ara.cat##IMG[alt^="Amb l’ARA"]
 ara.cat##IMG[alt="La Caixa"]
 ara.cat##P.ara-patrocinio
 aragirona.cat##[class^="publicitat"]
@@ -3007,7 +3007,7 @@ diarioprogresista.es##P[style^="text-align: center; padding: 10px 0pt;"]
 diarioprogresista.es##TD[height="100"]
 diariosdefutbol.com##TABLE[width="1010px"][height="96px"]
 diariosigloxxi.com##A[onclick*="bannerads"]
-diariosigloxxi.com##IMG[alt="Tienda Siglo XXI - ElectrÃ³nica e informÃ¡tica a bajo coste"]
+diariosigloxxi.com##IMG[alt="Tienda Siglo XXI - Electrónica e informática a bajo coste"]
 diariosigloxxi.com##TABLE[width="90"]
 diariosigloxxi.com##TD[bgcolor="#E7E7E7"]
 diariosigloxxi.com##TD[height="100"][bgcolor="#ffffff"]
@@ -3496,7 +3496,7 @@ finanzas.com##.mod-right.mod-bg-right
 finanzas.com##.mod-right.publicity
 finanzas.com##[href="http://www.latiendademujerhoy.com/"]
 finanzas.com##A[href^="http://ad.doubleclick.net/"]
-finanzas.com##IMG[alt^="Campaña"]
+finanzas.com##IMG[alt^="Campa�a"]
 finanzas.inicia.es##TABLE.fondo_gris_oscuro
 finaperf.com###c1c2Pub
 flavorwire.com###ad-top-wrapper

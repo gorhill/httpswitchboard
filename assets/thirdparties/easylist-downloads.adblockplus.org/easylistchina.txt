@@ -1,9 +1,9 @@
 [Adblock Plus 2.1]
-! Checksum: JkKbIZywJnMamdyplHZqTA
-! Version: 201406072221
+! Checksum: mfWrlLDpBxAawn2izWLLvw
+! Version: 201406091701
 ! Title: EasyList China
 ! Chinese supplement for the EasyList filters
-! Last Modified: 07 Jun 2014 22:21 UTC
+! Last Modified: 09 Jun 2014 17:01 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: http://abpchina.org/forum/
 ! License: https://easylist-downloads.adblockplus.org/COPYING
@@ -565,7 +565,6 @@
 |http://*/js/ad/
 |http://*/js/tc.js
 |http://acs.
-|http://gg.$~stylesheet,domain=~gg.ma
 |https://*/ad/$domain=~pay.suning.com
 !---Online Novel/Comic Sites
 /configs/article/*$script,subdocument
@@ -755,6 +754,7 @@ hk.yahoo.com###ysm-ad
 /static/adsview/*
 /tan.js
 /tanchuang.
+|http://gg.$third-party
 |http://*.cc/ad/
 |http://*.in/ad/
 |http://*.tv/ad/
@@ -851,6 +851,7 @@ hk.yahoo.com###ysm-ad
 :81/page/?s=$third-party
 :99/page/?s=$third-party
 dnserror*.wo.com.cn^
+||haiyunx.com^$third-party
 ||220.115.251.25^
 ||odin.goo.mx^$third-party
 ||007y.net^$third-party
@@ -990,6 +991,7 @@ dnserror*.wo.com.cn^
 ||e97527f0.se^$popup
 !---------------------------Popups--------------------------------------------!
 .com/playad.html$popup
+||cnyjk.com^$popup,third-party
 .info/diantan.html$popup
 .info/luoliao/$popup
 /pushstart.aspx?$popup,third-party
@@ -3092,7 +3094,6 @@ weather.com.cn##div[class^="adpos"]
 ||tinypic.com^$domain=54xr.com|xrba.net
 ||tk001.com/quote$subdocument
 ||tlt.cn/index.php?action=bbs&
-||tmcdn.net/img/h000/h59/img20130828202923456460.jpg
 ||tntdown.com/News/js/C_
 ||tom.com/templets/tomwq/ad/
 ||tom365.com/js/*0
@@ -3449,11 +3450,38 @@ weather.com.cn##div[class^="adpos"]
 ||kiees.cn/mm.js
 ||img1.ruyig.com/80.png
 ||news.duba.com/info/images/yxpf_6.gif
+||domeng.cn/js/index_
+||jiyun360.com/content/js/aqiooad.min.js
+||gougousoso.com/css/dy.js
+||top.taobao.com/interface_v2.php?$domain=gougousoso.com
+||downxia.com/zejs/y/
+||downxia.com/zejs/ad*.js
+||tmcdn.net/img/h000/h67/img201405211716540f9230.jpg
+||wacowla.com/wp-content/uploads/*320x250
+||wacowla.com/wp-content/uploads/*140x400
+||wacowla.com/wp-content/plugins/codecanyon-*-pullout-widgets-for-wordpress/
+||wacowla.com/wp-admin/admin-ajax.php?*=popover_selective_ajax&
+||gg.kugou.com^
+||daqianduan.com/wp-content/uploads/*/ads.
+||kaixin001.com.cn/i3/client/hflgad/adlj.png
 ||zzqhy.com^*/page/
 ||zzsky.cn/images/zzskycom_
+||1688.com.au/site1/1688ad/
 !------------------------Specific element hiding rules------------------------!
 gpcxw.com###AA2
 yaolan.com###AD
+163.com###thread_inside_ad
+163.com##.ad260
+163.com##.comment_bottom_ad
+wacowla.com###widget_appthemes_blog_posts
+94as.com##TABLE[width="950"][height="124"]
+v.61.com,61.hz.letv.com,61.iqiyi.com###J_videoBox > .view
+kaixin001.com###appMenu > DIV:nth-last-child(-n+2)
+kafan.cn##.gg
+daqianduan.com##.d_banner
+daqianduan.com##.banner
+gamersky.com###bgAdWrapClose
+ipv6.baidu.com,www.baidu.com,www1.baidu.com##div[tpl^="ecr_pc_game_"]
 guokr.com##.side-adv
 duba.com##.taobao_ad
 duba.com##.baidu_ad
@@ -5061,7 +5089,7 @@ hualady.com##.tu_guangao2
 ltaaa.com##.txtads
 iciba.com##.vRecomm
 neihan8.com##.viewbox > div[style="overflow: hidden; height: 250px;"]
-400gb.com,bego.cc,pipipan.com##.viewfile_content_main_r > .row-fluid:nth-child(2)
+400gb.com,bego.cc,fmdisk.com,pipipan.com##.viewfile_content_main_r > .row-fluid:nth-child(2)
 kanxi123.com##.viewt_77
 hdpfans.com##.vk_nv_sub
 m1905.com##.vod-external
@@ -5442,7 +5470,6 @@ ebiotrade.com##table[width="220"]
 gog.com.cn##table[width="300"][cellspacing="0"][style="margin-top:10px"]
 gog.com.cn##table[width="670"][style="margin-bottom:10px;"]
 mitbbs.com##table[width="886"] > tbody > tr:first-child
-94as.com##table[width="950"][bordercolor="#CCCCCC"]
 oaixs.com##table[width="950"][height="250"]
 hotsk.com##table[width="960"]
 gpcxw.com,kanguba.com##table[width="960"][height="90"]
@@ -5522,7 +5549,7 @@ house.shangdu.com#@#.top_ad
 @@/advs/*$domain=gotobuy.com.tw
 @@/guanggao/*$domain=igame.qq.com
 @@/guanggao/*$domain=tuan.duba.com
-@@/images/ad$domain=2kuai.com|32666.com|baopan.cc|dxrr.com|lepan.cc|nyhx.com
+@@/images/ad$domain=2kuai.com|32666.com|baopan.cc|dxrr.com|fmdisk.com|lepan.cc|nyhx.com
 @@/pop.js|$domain=189.cn
 @@/qplayer.swf?*&showAd=
 @@/show_ad_$domain=wb.qq.com

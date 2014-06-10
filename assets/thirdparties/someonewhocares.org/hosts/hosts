@@ -8,7 +8,7 @@
 # Please forward any additions, corrections or comments by email to
 # hosts@someonewhocares.org
 
-# Last updated: Jun 6th, 2014 at 09:48
+# Last updated: Jun 7th, 2014 at 20:30
 
 # Use this file to prevent your computer from connecting to selected
 # internet hosts. This is an easy and effective way to protect you from 
@@ -4275,6 +4275,7 @@ fe80::1%lo0	localhost
 127.0.0.1 ads.jwtt3.com
 127.0.0.1 ads.kazaa.com
 127.0.0.1 ads.keywordblocks.com
+127.0.0.1 ads.kixer.com
 127.0.0.1 ads.kleinman.com
 127.0.0.1 ads.kmpads.com
 127.0.0.1 ads.koreanfriendfinder.com
@@ -4900,6 +4901,7 @@ fe80::1%lo0	localhost
 127.0.0.1 asn.cunda.advolution.biz
 127.0.0.1 a.ss34.on9mail.com
 127.0.0.1 assets.igapi.com
+127.0.0.1 assets.kixer.com
 127.0.0.1 assets.percentmobile.com
 127.0.0.1 as.sexad.net
 127.0.0.1 asv.nuggad.net
@@ -6150,6 +6152,7 @@ fe80::1%lo0	localhost
 127.0.0.1 kitaramedia.com
 127.0.0.1 kitaratrk.com
 127.0.0.1 kithrup.matchlogic.com
+127.0.0.1 kixer.com
 127.0.0.1 klikk.linkpulse.com
 127.0.0.1 klikmoney.net
 127.0.0.1 kliksaya.com
@@ -7941,6 +7944,7 @@ fe80::1%lo0	localhost
 127.0.0.1 www.kitaramarketplace.com
 127.0.0.1 www.kitaramedia.com
 127.0.0.1 www.kitaratrk.com
+127.0.0.1 www.kixer.com
 127.0.0.1 www.kliksaya.com
 127.0.0.1 www.kmdl101.com
 127.0.0.1 www.kontera.com

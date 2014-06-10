@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: mGszvevGmGn+iRdJmwsyMg
-! Version: 201406072221
+! Checksum: e2iuRfDUgunb+0v5Jn/zfQ
+! Version: 201406091701
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 07 Jun 2014 22:21 UTC
+! Ultima modifica: 09 Jun 2014 17:01 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -1472,6 +1472,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||supercalcioextra.com/miniwh.jpg
 ||superzeta.it^*/dummy.gif
 ||targatocn.it/fileadmin/archivio/targatocn/*/bgr_body45_
+||targatocn.it^*/box/
 ||techassistance.it/media//adv/
 ||technologyreview.it/img/banner/
 ||technologyreview.it/img/banner_
@@ -2682,18 +2683,6 @@ termometropolitico.it##[id^="bsa"]
 @@||webmail.virgilio.it/cp/bannervirgilio/$subdocument
 @@||youreporter.it/adv/ova-matrix-yrn.xml.php?$object-subrequest,domain=youreporternews.it
 @@||youreporter.it/adv/ova-matrix.xml.php?$object-subrequest
-! Anti-Adblock
-@@.png#$domain=italiatv.org
-@@||blogspot.com^*#$image,domain=dataok.altervista.org
-@@||dataok.altervista.org^$elemhide
-@@||hwupgrade.org/forum/advertisement.js
-@@||italiatv.org^$elemhide
-@@||tvgratis.altervista.org^$elemhide
-@@||tvgratis.altervista.org^*#$image
-@@||tvgratis.altervista.org^*/advertisement.js
-@@||violanews.com/js/adframe.js
-@@||zeb89.altervista.org^$elemhide
-@@||zeb89.altervista.org^*#$image
 ! *** easylistitaly:easylistitaly/easylistitaly_whitelist_dimensions.txt ***
 @@||barillagroup.com/pic/media/uploads/*.300x250_$domain=piccolini.it
 @@||widget.traderlink.it/modules/marketmap/*=300x250&

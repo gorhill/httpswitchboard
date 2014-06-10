@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: AEhXjCZiHUK2ckrGAzS0zQ
-! Version: 201406072221
+! Checksum: ygQzymtqsB03gZ+HGvjxeA
+! Version: 201406091701
 ! Title: EasyPrivacy
-! Last modified: 07 Jun 2014 22:21 UTC
+! Last modified: 09 Jun 2014 17:01 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -4492,6 +4492,7 @@ http://utm.
 ||appsolutions.com/hitme?$third-party
 ||apture.com/v3/?5=%7b%22stats%22$xmlhttprequest
 ||archive.org/includes/analytics.js
+||arclk.net/trax?
 ||aserve.directorym.com^
 ||ask.com^*/i.gif?
 ||assoc-amazon.*^e/ir?t=$image
@@ -8995,6 +8996,8 @@ http://utm.
 @@||zillowstatic.com/c/*/linktrack.js$domain=zillow.com
 @@||zylom.com/images/site/zylom/scripts/google-analytics.js
 @@||zynga.com/current/iframe/track.php?$domain=apps.facebook.com
+! Whitelisting due to High-CPU usage bug (https://adblockplus.org/forum/viewtopic.php?f=11&t=23443)
+@@||gametrailers.com/b/ss/$object-subrequest
 ! Preliminarily whitelisting Omniture s_code tracking pixels (script versions H.25 - H.25.2) due to breakage (https://adblockplus.org/forum/viewtopic.php?f=10&t=11378) if blocking the script causes issues
 @@||112.2o7.net/b/ss/$image,domain=espn.com.br
 @@||122.2o7.net/b/ss/$image,domain=billetnet.dk|billettservice.no|goal.com|lippupalvelu.fi|pcworld.com|riverisland.com|techhive.com|ticketmaster.ae|ticketmaster.co.uk|ticketmaster.de|ticketmaster.ie|ticketmaster.nl|ticnet.se
@@ -9092,6 +9095,7 @@ http://utm.
 @@||tv5.org/cms/javascript/*/sitestat.js
 ! Chinese
 @@||amazonaws.com/angular-ui-router.min.js*-google-analytics.js$script,domain=dcard.tw
+@@||google-analytics.com/analytics.js$domain=news.gamme.com.tw
 @@||hm.baidu.com/h.js?$domain=weaku.com
 @@||imrworldwide.com/novms/js/2/ggcmb353.js$domain=nexttv.com.tw
 @@||pingjs.qq.com/ping_tcss_ied.js$domain=dnf.qq.com

@@ -3565,7 +3565,6 @@
 127.0.0.1	adserve.bess.net
 127.0.0.1	adserve.bizrate.com
 127.0.0.1	adserve.gogreece.com
-127.0.0.1	adserve.ph
 127.0.0.1	adserver-2.ig.com.br
 127.0.0.1	adserver-4.ig.com.br
 127.0.0.1	adserver-5.ig.com.br
@@ -6089,6 +6088,7 @@
 127.0.0.1	cbaol.112.2o7.net
 127.0.0.1	cbeckads.com
 127.0.0.1	cben1.net
+127.0.0.1	cbgoto.com
 127.0.0.1	cbird.sextracker.com
 127.0.0.1	cbird4.sextracker.com
 127.0.0.1	cbird6.sextracker.com
@@ -11617,7 +11617,6 @@
 127.0.0.1	link.net
 127.0.0.1	link.p0.com
 127.0.0.1	link.profitreload.com
-127.0.0.1	link.superprize.pch.com
 127.0.0.1	link.tbtrack.com
 127.0.0.1	link4link.com
 127.0.0.1	link4u.de
@@ -13711,6 +13710,7 @@
 127.0.0.1	qosim.doubleclick.net
 127.0.0.1	qqc.co
 127.0.0.1	qrcodetrackers.com
+127.0.0.1	qrdeom.com
 127.0.0.1	qrtrackers.com
 127.0.0.1	qs.ioam.de
 127.0.0.1	qs.ivwbox.de
@@ -13756,6 +13756,7 @@
 127.0.0.1	r1.cooleremail.com
 127.0.0.1	r1.fmpub.net
 127.0.0.1	r1.plugrush.com
+127.0.0.1	r1.seasonengine.com
 127.0.0.1	r1.zedo.com
 127.0.0.1	r10.cooleremail.com
 127.0.0.1	r10.plugrush.com
@@ -17470,6 +17471,7 @@
 127.0.0.1	www.catrina-linzy.us
 127.0.0.1	www.catrina-mcrae.us
 127.0.0.1	www.cbeckads.com
+127.0.0.1	www.cbgoto.com
 127.0.0.1	www.cbsmarket.com
 127.0.0.1	www.cedemailtracker.com
 127.0.0.1	www.celebrity-image.com
@@ -18755,6 +18757,7 @@
 127.0.0.1	www.qdigital.co.il
 127.0.0.1	www.qqc.co
 127.0.0.1	www.qrcodetrackers.com
+127.0.0.1	www.qrdeom.com
 127.0.0.1	www.qrtrackers.com
 127.0.0.1	www.qualaroo.com
 127.0.0.1	www.qualigo.de
@@ -19711,4 +19714,4 @@
 127.0.0.1	zxypenguin.people-group.su
 127.0.0.1	zz.cqcounter.com
 127.0.0.1	_thums.ero-advertising.com
-# Hosts: 19706
+# Hosts: 19709

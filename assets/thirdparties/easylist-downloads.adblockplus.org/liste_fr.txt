@@ -1,6 +1,6 @@
 [Adblock Plus 2.0]
-! Checksum: HoC/GFTXJdE5EDua4nJD0Q
-! Version: 201406072221
+! Checksum: 2PE9mDhNT7bZuUMR2VRA6w
+! Version: 201406091701
 ! Liste FR ~ Filtres francophones complémentaires à EasyList
 ! Title: Liste FR
 ! Licence : http://www.adblock-listefr.com/A_propos
@@ -1641,7 +1641,6 @@ _regiepub/
 ||zoomdici.fr/media/pub/
 ! Anti-Adblock
 ! A l'attention des webmasters : https://easylist.adblockplus.org/blog/2013/05/10/anti-adblock-guide-for-site-admins
-||manivelle.viedemerde.fr^
 ||pubdirecte.com^$~collapse,domain=debrideurstream.fr
 !
 !------------------ Éléments génériques -----------------!
@@ -3320,6 +3319,11 @@ lien-torrent.com##u > a:not([href*="lien-torrent.com"]):not([href*="../"]):not([
 @@||tracking.veoxa.com/click/banner?$subdocument,domain=track.radins.com
 ! Anti-Adblock
 ! A l'attention des webmasters : https://easylist.adblockplus.org/blog/2013/05/10/anti-adblock-guide-for-site-admins
+! VDM
+@@||cdn.dekalee.net/serve/$script,domain=viedemerde.fr
+@@||pagead2.googlesyndication.com/pagead/show_ads.js$domain=viedemerde.fr
+viedemerde.fr##.droite > .part + .part.second > div[style="position: relative;"]
+||origami.viedemerde.fr^
 ! Adunblock
 @@|http://*.ax.lt/*.js|$script,third-party
 @@|http://*.cr.rs/*.js|$script,third-party
@@ -3341,9 +3345,11 @@ lien-torrent.com##u > a:not([href*="lien-torrent.com"]):not([href*="../"]):not([
 @@||dyx.com/*.js|$script,third-party
 @@||ebogh.mm.my/*.js|$script,third-party
 @@||freebsd.md/*.js|$script,third-party
+@@||ghaman.com/*.js|$script,third-party
 @@||home.kg/*.js|$script,third-party
 @@||hpc.tw/*.js|$script,third-party
 @@||hrnob.ro.lt/*.js|$script,third-party
+@@||icello.in/*.js|$script,third-party
 @@||inc.gs/*.js|$script,third-party
 @@||joe.dj/*.js|$script,third-party
 @@||jpe.js/*.js|$script,third-party
@@ -3369,8 +3375,10 @@ lien-torrent.com##u > a:not([href*="lien-torrent.com"]):not([href*="../"]):not([
 |http://*.dyx.com/*/$image,third-party,xmlhttprequest
 |http://*.eye.rs/*/$image,third-party,xmlhttprequest
 |http://*.freebsd.md/*/$image,third-party,xmlhttprequest
+|http://*.ghaman.com/*/$image,third-party,xmlhttprequest
 |http://*.home.kg/*/$image,third-party,xmlhttprequest
 |http://*.hpc.tw/*/$image,third-party,xmlhttprequest
+|http://*.icello.in/*/$image,third-party,xmlhttprequest
 |http://*.joe.dj/*/$image,third-party,xmlhttprequest
 |http://*.jpe.js/*/$image,third-party,xmlhttprequest
 |http://*.keep.se/*/$image,third-party,xmlhttprequest
@@ -3577,7 +3585,7 @@ lien-torrent.com##u > a:not([href*="lien-torrent.com"]):not([href*="../"]):not([
 @@||xavdrone.com^$elemhide
 @@||xavfun.com^$elemhide
 !
-/fuckadblock.min.js|
+/fuckadblock.min.js
 @@.gif#$domain=automobile-sportive.com
 @@.jpg#$domain=dpstream.cc
 @@.png#$domain=dpstream.cc|dpstream.tv|ebookdz.com|leetgamerz.net|total-sport.tv|tout-gratuit.be
@@ -3598,7 +3606,7 @@ lien-torrent.com##u > a:not([href*="lien-torrent.com"]):not([href*="../"]):not([
 @@||easybillets.com/js/advertisement.js
 @@||ebookdz.com^$elemhide
 @@||entrepriseindividuelle.info^$elemhide
-@@||fansubresistance.in^$script,domain=fansubresistance.in
+@@||fansubresistance.biz^$script,domain=fansubresistance.in
 @@||funeralforamanga.fr/js/advertisement.js
 @@||gamersconnexion.com/js/advertisement.js
 @@||gowonda.com^$image,~third-party
@@ -3611,6 +3619,7 @@ lien-torrent.com##u > a:not([href*="lien-torrent.com"]):not([href*="../"]):not([
 @@||mega-exclue.com^*/unblock/blockBlock/advertisement.js
 @@||meteomedia.com/common/js/master/adframe.js
 @@||notre-planete.info^$elemhide
+@@||notre-planete.info^$subdocument
 @@||pagead2.googlesyndication.com/pagead/expansion_embed.js$domain=universal-soundbank.com
 @@||pagead2.googlesyndication.com/pagead/js/*/show_ads_impl.js$domain=automobile-sportive.com|freedom-ip.com|hugolescargot.com|leetgamerz.net|universal-soundbank.com|zeperfs.com
 @@||pagead2.googlesyndication.com/pagead/js/adsbygoogle.js$domain=leetgamerz.net

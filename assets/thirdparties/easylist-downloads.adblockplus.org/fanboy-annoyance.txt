@@ -1,8 +1,8 @@
 [Adblock Plus 2.0]
-! Checksum: UgPmF5JAIFIqyrrVELIyTw
-! Version: 201406072221
+! Checksum: 9WXG/q1qD7K6Q2NFMWOFTg
+! Version: 201406091701
 ! Title: Fanboy's Annoyance List
-! Last modified: 07 Jun 2014 22:21 UTC
+! Last modified: 09 Jun 2014 17:01 UTC
 ! Expires: 4 days (update frequency)
 ! License: http://creativecommons.org/licenses/by/3.0/
 ! Please report any unblocked content or problems by email or in our forums
@@ -1174,6 +1174,7 @@ _social_rss.
 /plugins/facebook-button-plugin/*
 /plugins/facebook-like-content-locker/*
 /plugins/facebook-page-promoter-lightbox/*$~stylesheet
+/plugins/facebookpopuppro/*
 /plugins/flare/*$~stylesheet
 /plugins/flare/js/flare.js
 /plugins/fv-sharing/*$~stylesheet
@@ -2450,6 +2451,7 @@ _youtube_small.
 ##.iconeRss
 ##.icons-rss-feed
 ##.infoCookies
+##.inlineNewsletterSubscription
 ##.ione-widget-bp_newsletter_signup
 ##.ione-widget-jobs
 ##.jetpack_subscription_widget
@@ -2841,6 +2843,7 @@ _youtube_small.
 ###contentSharerResult
 ###content_share
 ###cpf-viewbox-sharebar
+###csSocial
 ###ctSocialShare
 ###ctl00_DescriptionBlock_lblTwitter
 ###ctl00_ctl00_ConMainBody_ConMainBody_Share1_socialSharing
@@ -4042,6 +4045,7 @@ _youtube_small.
 ##.aToolType-social
 ##.aa_share
 ##.aboutShareLinks
+##.abtlikebox
 ##.actions_facebook
 ##.actions_sharethis
 ##.actions_twitter
@@ -4223,8 +4227,10 @@ _youtube_small.
 ##.btn-tw
 ##.btn-twitter
 ##.btnFB
+##.btnFacebook
 ##.btnSocial
 ##.btnSocialStumbleUpon
+##.btnTwitter
 ##.btnTwitterConnect
 ##.btnTwt
 ##.btn_delicious
@@ -4286,6 +4292,7 @@ _youtube_small.
 ##.custom-social
 ##.custom-social-widgets
 ##.custom-tweet-button
+##.custom_fb_button
 ##.customsocialmod
 ##.dSocialButton
 ##.dc-social-float
@@ -4794,6 +4801,7 @@ _youtube_small.
 ##.icn_twtr
 ##.ico-facebook
 ##.ico-facebook-1
+##.ico-facebook-circle
 ##.ico-fb
 ##.ico-googleplus
 ##.ico-gplus
@@ -4802,6 +4810,7 @@ _youtube_small.
 ##.ico-social
 ##.ico-tw
 ##.ico-twitter
+##.ico-twitter-circle
 ##.ico-twttr
 ##.ico-vkontakte
 ##.ico-youtube
@@ -5011,6 +5020,7 @@ _youtube_small.
 ##.mbt_social_floating
 ##.mdl_followUs
 ##.media-social
+##.menu-article-share
 ##.menu-social-menu-container
 ##.menu-socnav
 ##.menu_share
@@ -6068,6 +6078,7 @@ _youtube_small.
 ##.story_allsocial
 ##.story_share
 ##.story_tools_social_buttons_top
+##.str-social-sidebar
 ##.strx-simple-sharing-sidebar-buttons
 ##.stumble-box-header
 ##.stumble-box-small
@@ -7228,6 +7239,7 @@ arnnet.com.au,computerworld.com.au###article_suggestion
 news24.com###article_toolbox_bot
 csoonline.com,telegram.com###article_tools
 itworld.com###ask-tab
+whenonearth.net###at-noti-screen-bottom-container
 allthingsd.com###atd-conference-content-promo
 furiousfanboys.com###attentionGrabber
 regretfulmorning.com,runningshoesguru.com,techinasia.com,webotes.com###attentionGrabberWrap
@@ -8228,6 +8240,7 @@ joystiq.com###sec-nav
 gamepro.com###secondaryMenu
 computerworld.com###secondary_nav
 usatoday.com###section-nav
+foxsports.com###section-sidebar
 zimbio.com###sectionHeadWrapper.shFixed
 moshtix.com.au###sectionMoshtixSubscribeForm
 appbrain.com###send-email
@@ -10334,7 +10347,6 @@ socialblade.com##.GoogleButton
 avon.com,highstakesdb.com##.Social
 tasteofhome.com##.TOH-follow-us
 abc.go.com##.abc-facebook-like
-freeccnaworkbook.com##.abtlikebox
 slideshare.net##.action-btns-container
 goodnet.org##.activity
 askmen.com##.addThis
@@ -11325,10 +11337,13 @@ nytimes.com#@#.sharetools
 bitbucket.org,paypal.com,tvspielfilm.de#@#.social-box
 cheezburger.com#@#.social-buttons
 github.com#@#.social-count
+4players.de#@#.social-facebook
+4players.de#@#.social-gplus
 time.com#@#.social-links
 technorati.com#@#.social-media
 last.fm,lastfm.com.br,lastfm.com.tr,lastfm.de,lastfm.es,lastfm.fr,lastfm.it,lastfm.jp,lastfm.pl,lastfm.ru,lastfm.se#@#.social-sharing
 tv-kino.net#@#.social-tab
+4players.de#@#.social-twitter
 coub.com#@#.socialBlock
 answers.microsoft.com#@#.socialIcon
 welt.de#@#.socialMedia
@@ -11396,6 +11411,7 @@ acceptableads.org,easyicon.net#@#img[alt="Reddit"]
 @@||redditarchive.com^
 @@||rentalsystems.com/advert_price_imbed.asp
 @@||static.bbci.co.uk/modules/*/sharetools.js$domain=bbc.co.uk
+@@||taboola.com/libtrc/*/loader.js?$domain=foxsports.com
 @@||theslingshot.com/w/$script,domain=guyspeed.com
 @@||umbro.com/umbroNS/assets/shared/img/follow/
 @@||viastream.viasat.tv/flvplayer/play/share/$domain=tv3play.se
@@ -11492,6 +11508,7 @@ acceptableads.org,easyicon.net#@#img[alt="Reddit"]
 @@||kpopstarz.com^*/ic_comment_facebook.png
 @@||last.fm/flatness/partners/facebook_32x32.png
 @@||lastpass.com/images/vault/share.png
+@@||lemaker.org/uploadfile/icon/google.jpg
 @@||lifetricks.com/wp-content/plugins/nextend-facebook-connect/
 @@||mediafirerepack.net^*/facebook-page-promoter-lightbox/$script
 @@||meetmecdna.com/images/Connect/btn_facebook_custom_text.png$domain=meetme.com

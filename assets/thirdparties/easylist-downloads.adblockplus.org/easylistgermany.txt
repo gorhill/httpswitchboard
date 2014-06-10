@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: jLWZnIbaRhgprEV0mWBq0w
-! Version: 201406072221
+! Checksum: D1afM8eGCXTRKUufJ0Rfug
+! Version: 201406091700
 ! Title: EasyList Germany
 ! EasyList Germany - Deutsche Ergänzung zu EasyList
-! Last modified: 07 Jun 2014 22:21 UTC
+! Last modified: 09 Jun 2014 17:00 UTC
 ! Expires: 1 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -1621,6 +1621,7 @@ mov-world.net#@#a[href^="http://www.FriendlyDuck.com/AF_"]
 ||4-seasons.tv^*/FsProducts.swf
 ||4memes.net/rec$subdocument
 ||4players.de/4pl/wallpaper/
+||4players.de/javascript/4players/billiger.de.js
 ||4players.de/sourcen/portal/4players/utraforce/
 ||4taktershop.de^$subdocument,domain=rollertuningpage.de
 ||5-jahres-wertung.de/apd/online/5-jahres-wertung-dateien/image*.gif
@@ -3639,19 +3640,7 @@ mov-world.net#@#a[href^="http://www.FriendlyDuck.com/AF_"]
 ||zweinullig.de/wp-content/uploads/125.png
 ||zweinullig.de/wp-content/uploads/chaershop.jpg
 ! Anti-Adblock
-||audio.de/test/img/
-||audio.de/test1/img/
-||audio.de/test2/img/
-||colorfoto.de/test/img/
-||colorfoto.de/test1/img/
-||colorfoto.de/test2/img/
-||connect.de/test/img/
-||connect.de/test1/img/
-||connect.de/test2/img/
-||connect.de/test3/img/
-||connected-home.de/test/img/
-||connected-home.de/test1/img/
-||connected-home.de/test2/img/
+/test*/img/*$image,domain=audio.de|colorfoto.de|connect.de|connected-home.de|pc-magazin.de|video-magazin.de
 ||gamona.de/assets/*.swf
 ||gamona.de/assets/*_1000x140.
 ||gamona.de/assets/*_160x800_
@@ -3665,12 +3654,6 @@ mov-world.net#@#a[href^="http://www.FriendlyDuck.com/AF_"]
 ||gamona.de/wp-content/up/
 ||mv-spion.de/ajax/lc?content=qwert
 ||mv-spion.de/ajax/lc|
-||pc-magazin.de/test/img/
-||pc-magazin.de/test1/img/
-||pc-magazin.de/test2/img/
-||video-magazin.de/test/img/
-||video-magazin.de/test1/img/
-||video-magazin.de/test2/img/
 ||video.spiegel.de/flash/*.mp4$object-subrequest,domain=spiegel.tv
 ! *** easylistgermany:easylistgermany/easylistgermany_specific_block_popup.txt ***
 &t202kw=$popup,domain=lustich.de|pcaction.de
@@ -4284,7 +4267,7 @@ hornoxe.com###lside > center > a[target="_blank"] > img
 chili-warez.net,mov-world.net,xxx-4-free.net###lyr
 filmz.de###m > div[style="left:16px;width:468px;overflow:hidden"] + .p[style="left:4px;width:492px;height:262px"]:last-child
 crackajack.de###madcowdesease_premium
-mov-world.net###main > #lblock + div[style="float: right; margin: 10px; overflow: hidden; padding: 0px; width: 180px; display: inline;"]
+mov-world.net###main > #lblock + [style*="width: 180px"]
 emergency-forum.de###main > .border > .container-1[style="text-align: center"]:first-child:last-child
 abendblatt.de###main > .column-1 > .widget > #lt_Wrap
 esbgforum.de###main > .pageOptions + .info + div[align="center"]
@@ -5806,6 +5789,7 @@ hoerbuch.in,lesen.to##a[href="http://aktiv-abnehmen.com"]
 bild.de##a[href="http://ampya.bild.de"]
 nik-o-mat.de##a[href="http://australienblog.com/kostenlose-kreditkarte"]
 bild.de##a[href="http://automarkt.bild.de/"]
+bild.de##a[href="http://carsharing.bild.de"]
 cinebee.org##a[href="http://cinebee.org/download.php"]
 bild.de##a[href="http://dsl-vergleich.bild.de/dsl-vergleich/"]
 e-bol.net##a[href="http://e-bol.net/goto/topspeed/"]
@@ -5996,7 +5980,7 @@ g-stream.in##a[href^="http://g-stream.in/mirror/"]
 movie-blog.org##a[href^="http://gg.gg/"]
 movie-blog.org##a[href^="http://goo.by/"]
 drop-games.org##a[href^="http://goo.gl"]
-1load.net,atomload.at,boerse.bz,cinebee.org,ebook-hell.to,goldesel.to,movie-blog.org,porn2you.org,saugzone.info,torrent.to,trendhure.com,warezking.in,zensiert.to##a[href^="http://goo.gl/"]
+1load.net,atomload.at,boerse.bz,cinebee.org,ebook-hell.to,goldesel.to,leave.to,movie-blog.org,porn2you.org,saugzone.info,torrent.to,trendhure.com,warezking.in,zensiert.to##a[href^="http://goo.gl/"]
 ingame.de##a[href^="http://green.ingame.de/www/delivery/inck.php?"]
 duckcrypt.info##a[href^="http://highspeed.duckcrypt.info"]
 moviebox.to##a[href^="http://highspeed.moviebox.to"]
@@ -6322,6 +6306,8 @@ maxwireless.de##aside a[target="_blank"][onclick^="javascript:_gaq.push(['_track
 gamestar.de##blockquote > p > strong + a[href^="http://www.amazon.de/"]
 trackfox.com,trackfox2.com##body
 eye-games.com##body > #header:first-child + #wrapper
+leave.to##body > #wrapper > header + aside
+leave.to##body > #wrapper > header + aside + #content:last-child
 boerse.bz##body > #wrapper:first-child:last-child > header:first-child + aside
 boerse.bz##body > #wrapper:first-child:last-child > header:first-child + aside + #content
 spieletipps.de##body > .jqmOverlay
@@ -7378,8 +7364,11 @@ pcwelt.de##div[id^="google_ads_"]
 @@.org^$script,domain=ul-load.com|uploaded-premium.ru
 @@.png#$domain=aktuelles-handelsrecht.info|aussenwirtschaftslupe.de|energielupe.de|europalupe.eu|finanzmarkttransaktionssteuer.de|gerichtsboulevard.de|grundrechteschutz.de|hartzbote.de|jagdlupe.de|kirchensteuerinfo.de|mediationslupe.de|medienrechtsnews.de|mutterschutz-rechner.de|rappers.in|rechtslupe.de|rechtslupe.net|rechtsschutzversicherunginfo.de|rentenbote.de|schuetzenrecht.de|sozialrechtsnews.de|steuerschmiede-aktuell.de|teamspeak-ts.com|tobinsteuer.de|twixzo.de|ul-load.com|uploaded-premium.ru|vereinslupe.de|vorsorgebote.de|wintotal-forum.de|wirtschaft-recht-aktuell.de
 @@.png?$domain=mobilfunk-geschichte.de
+@@|http://*.com^*_$image,third-party,domain=gamona.de
 @@|http://*.de^$image,third-party,domain=gamona.de|lustich.de
+@@|http://*.net^$image,third-party,domain=gamona.de
 @@|http://*/*.gif?*=*&*=$object-subrequest,third-party,domain=gmx.net|homerj.de|spiegel.tv|sueddeutsche.de|web.de
+@@|http://*?*=*&*=*&*=$object-subrequest,domain=gmx.net|homerj.de|spiegel.tv|sueddeutsche.de|web.de
 @@|http://*uk.to^$script,domain=ul-load.com|uploaded-premium.ru
 @@||2mdn.net/879366/flashwrite_1_2.js$domain=n-tv.de|teleboerse.de
 @@||2mdn.net/viewad/*-grey.gif|$domain=n-tv.de|teleboerse.de
@@ -7440,6 +7429,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||combatarms-game.de/adframe.js
 @@||crackajack.de^*/advertising.js
 @@||cuiron.de^$image,domain=gamona.de|lustich.de
+@@||cuiron.de^$script,domain=gamona.de|lustich.de
 @@||data-ero-advertising.com/impopup/layer.js$domain=berlin-nutten.com
 @@||david-forum.de/advertisement.css
 @@||ddl-search.biz/js/advertisement.js
@@ -7451,6 +7441,8 @@ pcwelt.de##div[id^="google_ads_"]
 @@||doubleclick.net/ad/clipfish.smartclip/$object-subrequest,domain=clipfish.de
 @@||doubleclick.net/ad/pushbackde.smartclip/clipfish.smartclip/$object-subrequest,domain=clipfish.de
 @@||doubleclick.net/ad/|$object-subrequest,domain=gmx.net|homerj.de|spiegel.tv|sueddeutsche.de|web.de
+@@||doubleclick.net/adj/*.4players.de_de/*;sz=2x2;$script,domain=4players.de
+@@||doubleclick.net/adj/*.4players.de_de/*;sz=301x250;$script,domain=4players.de
 @@||doubleclick.net/crossdomain.xml$domain=kabeleins.de|prosieben.de|sat1.de|sixx.de
 @@||doubleclick.net/ddm/trackimp/*.IPDEUTSCHLAND/*;dc_trk_aid=*;dc_trk_cid=*;ord=$object-subrequest,domain=clipfish.de|n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
 @@||doubleclick.net/pfadx/*.IPDEUTSCHLAND/*;sz=0x0;$object-subrequest,domain=sueddeutsche.de
@@ -7481,8 +7473,9 @@ pcwelt.de##div[id^="google_ads_"]
 @@||exoclick.com/ads-iframe-display.php?*&type=300x250&$subdocument,domain=board.world-of-hentai.to
 @@||fastshare.org/advertisement.js
 @@||feed-reader.net^$elemhide,image,script
+@@||fernsehen.to/advertisement.js
 @@||fernsehen.to^$elemhide
-@@||feropt.de^$image,domain=gamona.de
+@@||feropt.de^$image,script,domain=gamona.de|lustich.de
 @@||files.adform.net/Banners/Stream/*.flv$object-subrequest,domain=clipfish.de|n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
 @@||finanzmarkttransaktionssteuer.de^$elemhide
 @@||flashtalking.com/imp/*;BMWTVTeaser220x180/?click=$script,domain=teleboerse.de

@@ -803,7 +803,7 @@ gossip-tv.gr##.bottom-popout.is-open
 onsports.gr##.bottom-popout.is-open
 gazzetta.gr##A[href*="http://ads.meridianbet.gr/"]
 gazzetta.gr##A[href*="http://media.mybet.com/"]
-gazzetta.gr##A[href*="http://Î“Î¹Î±"]
+gazzetta.gr##A[href*="http://Για"]
 gazzetta.gr###block-wblocks-wblocks_promoted_companies
 athinorama.gr##.disaronnobox
 pitsirikos.net###text-19
