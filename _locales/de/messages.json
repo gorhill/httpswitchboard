@@ -750,7 +750,7 @@
         "description": "English: Remove all temporary changes"
     },
     "commandWhitelistPageDomain" : {
-        "message": "Temporär die Domain erlauben",
+        "message": "Temporär die aktuelle Domain erlauben",
         "description": "English: Temporarily whitelist page domain"
     },
     "commandWhitelistAll" : {
