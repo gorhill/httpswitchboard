@@ -9,12 +9,12 @@ c44ab157ef8197738dafd197de8ae19d assets/httpsb/setup/httpsb-noscript-like-setup.
 db1b1e7f114b9d9f14163fb5fa66a619 assets/httpsb/setup/httpsb-factory-setup.txt
 73ae2398b6fedbdf7f5d1201f20258f7 assets/httpsb/blacklist.txt
 847b801091b64d0bfb1dcd2f7c6fe204 assets/httpsb/block-facebook.txt
-ed0c54bd2b06f867d411950a27589eec assets/httpsb/preset-recipes-3rd.yaml
+5abadf5f1dd9935497fe5fdb4b7deff3 assets/httpsb/preset-recipes-3rd.yaml
 36d8978c647291a4415dc02fe176e54e assets/thirdparties/download.wiltteri.net/wiltteri.txt
 132b3ecc9da8a68c3faf740c00af734b assets/thirdparties/adblock-plus-japanese-filter.googlecode.com/hg/abp_jp.txt
 04df6f23a246fa471f6005a32f3e4f99 assets/thirdparties/adblock.gardar.net/is.abp.txt
 ffbae230b87496ec2db39c9ef36a6f6a assets/thirdparties/raw.githubusercontent.com/adblockpolska/Adblock_PL_List/master/adblock_polska.txt
-70ac16f39482a7b76d258646b8cef3d5 assets/thirdparties/spam404bl.com/spam404scamlist.txt
+fd2f48a0632e61bfdfe149f742847a46 assets/thirdparties/spam404bl.com/spam404scamlist.txt
 9a9af1c1ae4c1b64f65700ef0eb9d6bc assets/thirdparties/easylist-downloads.adblockplus.org/easylistchina.txt
 352303709c81f4750f454f4cb0a7535d assets/thirdparties/easylist-downloads.adblockplus.org/fanboy-annoyance.txt
 ddac2197ae693e85c37fc54e4bcc9c86 assets/thirdparties/easylist-downloads.adblockplus.org/easylistdutch.txt

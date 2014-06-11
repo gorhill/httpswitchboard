@@ -2,14 +2,15 @@
 ! Homepage: http://www.spam404.com/
 ! Title: Spam404
 ! Expires: 2 days
-! Version: 11
-! Last modified: 23 May 2014
+! Version: 25
+! Last modified: 3 Jun 2014
 ! Description: This filter protects you from online scams. This filter is regularly updated with data collected by Spam404.com.
 !
 ! You can report unblocked content and direct general queries to us
-! via e-mail - admin@spam404.com.
+! via e-mail - admin@spam404.com
 !
-!
+! License: We give everyone permission to modify, copy and distribute this list.
+!          While not mandatory, we would appreciate credit if you use this list. 
 !
 !-_-_-_-_-_-_-_-External Link Survey Scams-_-_-_-_-_-_-_-!
 ##[href^="http://cleanfiles.net/"]
@@ -46,6 +47,11 @@
 ##[href^="http://gotlinks.co/"]
 ##[href^="http://file-speedy.com/"]
 ##[href^="http://fileblckr.com/"]
+##[href^="http://filesmy.com/"]
+##[href^="http://getmyfile.org/"]
+##[href^="http://flamefile.com/"]
+##[href^="http://playwatch.pl/"]
+##[href^="http://ubfiles.com/"]
 !
 !
 !
@@ -3941,6 +3947,26 @@ dream-file.com##[alt="Regular Download"]
 ||fbpirateruncompte.com^
 ||hackfbhacker.com^
 ||downloadkeyfull.com^
+||blackopsprestigehack.com^
+||megadirtyfiles.com^
+||piratercomptefb.com^
+||commentpirateruncomptefacebook.org^
+||matt-zone.com^
+||facebook-steal.com^
+||warlordsofdraenorbetakeys.net^
+||clashofclanshacktriche.com^
+||freeitunesgiveaway.com^
+||appsgamecheats.com^
+||cheatsfreedownload.eu^
+||face-hijack.fr^
+||freexblgoldcode.com^
+||getcreditcodes.com^
+||highfiles.net^
+||riofiles.net^
+||unlcked.net^
+||juicyfiles.net^
+||howtocheat.net^
+||codes4free.net^
 !
 !
 !
