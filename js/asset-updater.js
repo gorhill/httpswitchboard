@@ -39,13 +39,13 @@ var getUpdateList = function(msg) {
         }
         switch ( request.what ) {
         case 'assetManagerLocalChecksumsLoaded':
-            localChecksumsText = request.error ? 'Error' : request.content;
+            localChecksumsText = validateChecksums(request);
             if ( remoteChecksumsText !== '' ) {
                 compareChecksums();
             }
             break;
         case 'assetManagerRemoteChecksumsLoaded':
-            remoteChecksumsText = request.error ? 'Error' : request.content;
+            remoteChecksumsText = validateChecksums(request);
             if ( localChecksumsText !== '' ) {
                 compareChecksums();
             }
@@ -53,6 +53,16 @@ var getUpdateList = function(msg) {
         default:
             break;
         }
+    };
+
+    var validateChecksums = function(request) {
+        if ( request.error || request.content === '' ) {
+            return 'Error';
+        }
+        if ( /^(?:[0-9a-f]{32}\s+\S+(\s+|$))+/.test(request.content) ) {
+            return request.content;
+        }
+        return 'Error';
     };
 
     var compareChecksums = function() {
@@ -179,9 +189,7 @@ var updateList = function(list) {
 
     var onAllLocalAssetUpdated = function(details) {
         chrome.runtime.onMessage.removeListener(onMessage);
-        chrome.runtime.sendMessage({
-            'what': 'allLocalAssetsUpdated'
-        });
+        chrome.runtime.sendMessage({ 'what': 'allLocalAssetsUpdated' });
     };
 
     chrome.runtime.onMessage.addListener(onMessage);
@@ -193,13 +201,19 @@ var updateList = function(list) {
         }
         entry = list[path];
         if ( entry.status === 'Added' || entry.status === 'Changed' ) {
-            HTTPSB.assets.update(path, 'assetManagerLocalAssetUpdated');
-        } else {
-            if ( entry.status === 'Unchanged' ) {
-                updatedAssetChecksums.push(entry.localChecksum + ' ' + path);
-            }
-            assetToUpdateCount -= 1;
+            HTTPSB.assets.update(
+                {
+                    path: path,
+                    md5: entry.remoteChecksum
+                },
+                'assetManagerLocalAssetUpdated'
+            );
+            continue;
         }
+        if ( entry.status === 'Unchanged' ) {
+            updatedAssetChecksums.push(entry.localChecksum + ' ' + path);
+        }
+        assetToUpdateCount -= 1;
     }
 };
 

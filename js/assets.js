@@ -61,7 +61,7 @@ File system structure:
 /******************************************************************************/
 
 var fileSystem;
-var fileSystemQuota = 30 * 1024 * 1024;
+var fileSystemQuota = 40 * 1024 * 1024;
 var remoteRoot = HTTPSB.projectServerRoot;
 
 /******************************************************************************/
@@ -359,33 +359,45 @@ var writeLocalFile = function(path, content, msg) {
 
 /******************************************************************************/
 
-var updateFromRemote = function(path, msg) {
+var updateFromRemote = function(details, msg) {
     // 'httpsb=...' is to skip browser cache
-    var remoteURL = remoteRoot + path + '?httpsb=' + Date.now();
+    var remoteURL = remoteRoot + details.path + '?httpsb=' + Date.now();
+
+    var sendErrorMessage = function() {
+        chrome.runtime.sendMessage({
+            'what': msg,
+            'path': details.path,
+            'error': 'Error'
+        });
+    };
 
     var onRemoteFileLoaded = function() {
-        // console.log('HTTP Switchboard> updateFromRemote() / onRemoteFileLoaded()');
-        if ( this.responseText && this.responseText.length ) {
-            writeLocalFile(path, this.responseText, msg);
-        }
         this.onload = this.onerror = null;
+        // console.log('HTTPSB> updateFromRemote("%s") / onRemoteFileLoaded()', remoteURL);
+        if ( typeof this.responseText !== 'string' ) {
+            console.error('HTTPSB> updateFromRemote("%s") / onRemoteFileLoaded(): no response', remoteURL);
+            sendErrorMessage();
+            return;
+        }
+        if ( typeof details.md5 === 'string' && details.md5 !== md5omatic(this.responseText) ) {
+            console.error('HTTPSB> updateFromRemote("%s") / onRemoteFileLoaded(): bad md5 checksum', remoteURL);
+            sendErrorMessage();
+            return;
+        }
+        writeLocalFile(details.path, this.responseText, msg);
     };
 
     var onRemoteFileError = function(ev) {
-        console.error('HTTP Switchboard> updateFromRemote() / onRemoteFileError("%s"):', remoteURL, this.statusText);
-        chrome.runtime.sendMessage({
-            'what': msg,
-            'path': path,
-            'error': 'Error'
-        });
         this.onload = this.onerror = null;
+        console.error('HTTPSB> updateFromRemote() / onRemoteFileError("%s"):', remoteURL, this.statusText);
+        sendErrorMessage();
     };
 
     getTextFileFromURL(
         remoteURL,
         onRemoteFileLoaded,
         onRemoteFileError
-        );
+    );
 };
 
 /******************************************************************************/
