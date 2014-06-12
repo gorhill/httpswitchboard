@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: fBw18ONqMbiY3BWwrELE0A
-! Version: 201406091701
+! Checksum: VJ/DnM8Ora9du/4SLMEWPQ
+! Version: 201406121541
 ! Title: EasyList Dutch
 ! Description: Dutch supplement for the Easylist filters
-! Last modified: 09 Jun 2014 17:01 UTC
+! Last modified: 12 Jun 2014 15:41 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -661,7 +661,7 @@
 @@||doubleclick.net^*;tile=$script,domain=syndication.vmma.be|vtm.be
 @@||doubleclick.net^*adj/hbvl/homepage;tile=15;sz=160x600;$script,domain=hbvl.be
 @@||doubleclick.net^*adj/ster_cinema.nl/preroll;$script,domain=cinema.nl
-@@||g.doubleclick.net/gampad/ads?$script,domain=marktplaats.nl
+@@||g.doubleclick.net/gampad/ads?$script,domain=insidegamer.nl|marktplaats.nl
 @@||g.doubleclick.net/gampad/ads?$xmlhttprequest,domain=radioluisteren.fm
 @@||ghstatic.com/archives/*&adurl=$object,domain=game.zylom.com
 @@||google.com/ads/search/module/ads/*/search.js$domain=zoover.be|zoover.nl
@@ -680,8 +680,7 @@
 @@||openad.tf1.fr/RealMedia/ads/adstream_mjx.ads/www.eurosportplayer.nl/home/$script,domain=eurosportplayer.nl
 @@||pagead2.googlesyndication.com/pagead/show_ads.js$domain=spel.nl|spelletjes.nl|wereldklokken.nl
 @@||partner.googleadservices.com/gampad/$domain=jaggle.nl
-@@||partner.googleadservices.com/gpt/pubads_impl_36.js$domain=marktplaats.nl
-@@||partner.googleadservices.com/gpt/pubads_impl_39.js$domain=marktplaats.nl
+@@||partner.googleadservices.com/gpt/pubads_impl_$script,domain=insidegamer.nl|marktplaats.nl
 @@||smartinit.webads.nl/bin/smartinit.dll?$script,domain=vi.nl
 @@||spilcdn.com^*/js/advertisement/css/sgadgirls.css$domain=girlsgogames.nl
 @@||spilcdn.com^*/js/advertisement/flowplayer/flowplayer-3.2.6.min.js$domain=girlsgogames.nl|spel.nl|spelletjes.nl
@@ -955,7 +954,7 @@ apparata.nl,autoblog.nl##.advertisement
 biertijd.com##.advertorialtitle ~ *
 synoniemen.net##.annblokslot
 welingelichtekringen.nl##.artblok:nth-child(-2n+6)
-2xklikken.nl,at5.nl,belgie.fm,camping-frankrijk.nl,ed.nl,elkspel.nl,express.be,fd.nl,hardwarewoensdag.tv,hetkrantje-online.nl,koopplein.nl,mensenlinq.nl,nederland.fm,nederlandmobiel.nl,nieuws.nl,privesexopname.nl,startbewijs.nl,studenten.nl,telegraaf.nl,toeto.com,westlanders.nu,zappsite.nl##.banner
+2xklikken.nl,at5.nl,belgie.fm,camping-frankrijk.nl,ed.nl,elkspel.nl,express.be,fd.nl,hardwarewoensdag.tv,hetkrantje-online.nl,insidegamer.nl,koopplein.nl,mensenlinq.nl,nederland.fm,nederlandmobiel.nl,nieuws.nl,privesexopname.nl,startbewijs.nl,studenten.nl,telegraaf.nl,toeto.com,westlanders.nu,zappsite.nl##.banner
 weeronline.nl##.banner + .specialBlockDiv
 at5.nl##.banner-300-100
 tvgids.nl##.banner-custom

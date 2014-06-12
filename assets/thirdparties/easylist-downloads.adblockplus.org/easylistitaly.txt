@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: e2iuRfDUgunb+0v5Jn/zfQ
-! Version: 201406091701
+! Checksum: YmSRvwV98IckE1WqJ2H1lw
+! Version: 201406121541
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 09 Jun 2014 17:01 UTC
+! Ultima modifica: 12 Jun 2014 15:41 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -2043,6 +2043,7 @@ ilsole24ore.com##.annunci_g
 pyrosonline.it##.anyClass[style="visibility: visible; overflow: hidden; position: relative; z-index: 2; left: 0px; width: 840px;"]
 romagiornoenotte.it##.areabannerTop
 ilsecoloxix.it##.artbanner
+violanews.com##.article_banners
 si24.it##.attachment-300x600
 radiogold.it##.autobanner
 tiscali.it##.b300x250
@@ -2293,7 +2294,7 @@ agrigentonotizie.it,anconatoday.it,baritoday.it,bolognatoday.it,bresciatoday.it,
 soldionline.it##.sm_widget_contenitore
 tgcom24.mediaset.it##.spaceBanner
 ciao.it##.specialOfferMod
-gazzetta.it,ilgiornale.it,pubblicitaitalia.it,repubblica.it,stickmangames.altervista.org##.sponsor
+gazzetta.it,ilgiornale.it,pubblicitaitalia.it,repubblica.it,stickmangames.altervista.org,violanews.com##.sponsor
 fcparma.com##.sponsor-group
 erbanotizie.com,lecconotizie.com##.sponsor-rubrica
 treccani.it##.sponsorLogo
@@ -2617,7 +2618,7 @@ termometropolitico.it##[id^="bsa"]
 @@||dotandad.com^*.mp3$object-subrequest,domain=r101.it
 @@||doubleclick.net/adj/tuttosport.home/home;sz=336x600,300x250,300x600;=$script,domain=tuttosport.com
 @@||download.deejay.it/adv/podcast/$object-subrequest
-@@||edintorni.net/related/service/*/jscript/$script,domain=amicidimotociclismo.it|armietiro.it|articolotre.com|automobilismo.it|businessmagazine.it|ciclismo.it|cucinare.meglio.it|fotografidigitali.it|freeonline.org|gamemag.it|giallozafferano.it|girlpower.it|gpone.com|hwfiles.it|hwupgrade.it|ilfattoquotidiano.it|ilgiorno.it|ilquotidianodellacalabria.it|ilquotidianoweb.it|ilrestodelcarlino.it|ilsecoloxix.it|iltempo.it|informarexresistere.fr|internazionale.it|invidia.it|italia24ore.it|lagazzettadelmezzogiorno.it|lanazione.it|lastampa.it|macitynet.it|metropolisweb.it|modenaonline.info|motociclismo.it|parmaonline.info|pianetadonna.it|quotidiano.net|reggionline.com|runnersworld.it|studenti.it|tennisitaliano.it|torinofree.it|unita.it|velaemotore.it|voceditalia.it|wallstreetitalia.com|yourself.it
+@@||edintorni.net/related/service/*/jscript/$script,domain=amicidimotociclismo.it|armietiro.it|articolotre.com|automobilismo.it|businessmagazine.it|ciclismo.it|cucinare.meglio.it|fotografidigitali.it|freeonline.org|gamemag.it|giallozafferano.it|girlpower.it|gpone.com|hwfiles.it|hwupgrade.it|ilfattoquotidiano.it|ilgiorno.it|ilquotidianodellacalabria.it|ilquotidianoweb.it|ilrestodelcarlino.it|ilsecoloxix.it|iltempo.it|informarexresistere.fr|internazionale.it|invidia.it|italia24ore.it|lagazzettadelmezzogiorno.it|lanazione.it|lastampa.it|macitynet.it|metropolisweb.it|modenaonline.info|motociclismo.it|parmaonline.info|pianetadonna.it|quotidiano.net|reggionline.com|runnersworld.it|studenti.it|tennisitaliano.it|torinofree.it|unita.it|velaemotore.it|violanews.com|voceditalia.it|wallstreetitalia.com|yourself.it
 @@||eyewonder.com^*/video/$object-subrequest,domain=serviziopubblico.it
 @@||files.adform.net/banners/stream/$object-subrequest,domain=la7.tv|liberoquotidiano.it|sky.it
 @@||foolbite.com/foolbite/*_pubblicita_$~third-party
@@ -2683,6 +2684,16 @@ termometropolitico.it##[id^="bsa"]
 @@||webmail.virgilio.it/cp/bannervirgilio/$subdocument
 @@||youreporter.it/adv/ova-matrix-yrn.xml.php?$object-subrequest,domain=youreporternews.it
 @@||youreporter.it/adv/ova-matrix.xml.php?$object-subrequest
+! Anti-Adblock
+@@.png#$domain=italiatv.org
+@@||blogspot.com^*#$image,domain=dataok.altervista.org
+@@||dataok.altervista.org^$elemhide
+@@||italiatv.org^$elemhide
+@@||tvgratis.altervista.org^$elemhide
+@@||tvgratis.altervista.org^*#$image
+@@||tvgratis.altervista.org^*/advertisement.js
+@@||zeb89.altervista.org^$elemhide
+@@||zeb89.altervista.org^*#$image
 ! *** easylistitaly:easylistitaly/easylistitaly_whitelist_dimensions.txt ***
 @@||barillagroup.com/pic/media/uploads/*.300x250_$domain=piccolini.it
 @@||widget.traderlink.it/modules/marketmap/*=300x250&

@@ -228,6 +228,7 @@
 ||marocfraja.com/bzf.php
 ||masatv.com^$popup,domain=2flam.org
 ||mazikadrama.com/vidads2.php
+||menacircle.com/goggog.gif
 ||mirecal-d.com/300download.gif
 ||mirecal-d.com/d7001.gif
 ||ml7n.com/open.js

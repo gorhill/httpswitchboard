@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: D1afM8eGCXTRKUufJ0Rfug
-! Version: 201406091700
+! Checksum: TywYvPHJ6hGrcJhW+1S2CA
+! Version: 201406121540
 ! Title: EasyList Germany
 ! EasyList Germany - Deutsche Ergänzung zu EasyList
-! Last modified: 09 Jun 2014 17:00 UTC
+! Last modified: 12 Jun 2014 15:40 UTC
 ! Expires: 1 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -1679,6 +1679,7 @@ mov-world.net#@#a[href^="http://www.FriendlyDuck.com/AF_"]
 ||akkuschlapp.de/images/asuv_leaderboard.jpg
 ||alatest.de/banner/
 ||alatest.de/banners.php?
+||alkoblog.de/wp-content/uploads/*/banner_weisshaus_
 ||allesueberfilme.de/img/nextbase_banner.gif
 ||alpine-auskunft.de/images/banners/
 ||altesrad.net/phpBB3/images/banner/
@@ -1885,6 +1886,7 @@ mov-world.net#@#a[href^="http://www.FriendlyDuck.com/AF_"]
 ||center.tv/cms/fileadmin/site/flash/anzeigen/
 ||center.tv^*_pimpmyleasing.jpg
 ||centertv.de/upload/anzeigen/
+||chillmo.com/wp-content/uploads/*/mariokart81.jpg
 ||chillmo.com/wp-content/uploads/2014/05/watchdogs.jpg
 ||chillmo.com/wp-content/uploads/2014/05/wolfenstein.jpg
 ||chilloutzone.net/consume/
@@ -3640,7 +3642,8 @@ mov-world.net#@#a[href^="http://www.FriendlyDuck.com/AF_"]
 ||zweinullig.de/wp-content/uploads/125.png
 ||zweinullig.de/wp-content/uploads/chaershop.jpg
 ! Anti-Adblock
-/test*/img/*$image,domain=audio.de|colorfoto.de|connect.de|connected-home.de|pc-magazin.de|video-magazin.de
+/c*/img/*$image,domain=audio.de|colorfoto.de|connect.de|connected-home.de|pc-magazin.de|video-magazin.de
+/t*/img/*$image,domain=audio.de|colorfoto.de|connect.de|connected-home.de|pc-magazin.de|video-magazin.de
 ||gamona.de/assets/*.swf
 ||gamona.de/assets/*_1000x140.
 ||gamona.de/assets/*_160x800_
@@ -3849,8 +3852,9 @@ adhs-zentrum.de,enuresis-zentrum.de,zeitarbeit-zentrum.de###a4d1af + div
 namibia-forum.ch###abakus
 1jux.net###abp
 handballworld.com###absolute > .bannergroup
-20min.ch,anime-loads.org,doku.to,fanfiktion.de,german-foreign-policy.com,hardwarelabs.de,otrkey.com,otrking.com,webos-blog.de,xboxaktuell.de###ad
+20min.ch,anime-loads.org,doku.to,fanfiktion.de,german-foreign-policy.com,hardwarelabs.de,otrkey.com,otrking.com,radiolisten.de,webos-blog.de,xboxaktuell.de###ad
 anime-stream24.com###ad1
+radiolisten.de###ad3
 allinklwith.us,carpassion.com,high-minded.us,messerforum.net,mmorpg-core.com,schachburg.de,thinkpad-forum.de,unixboard.de,world-of-hentai.to###ad_global_below_navbar
 musicelster.net###ad_global_below_navbar > center > div[style="float:right; width:50%;"]
 motorsport-xl.de###adala
@@ -4766,6 +4770,8 @@ stb-web.de###wpbg
 wikio.de###wpub
 manager-magazin.de###wrapBoard > #wrapMain:first-child > .pbox
 schwaebische.de###wrapper > #titelkopf
+leave.to###wrapper > header + .wrapping
+leave.to###wrapper > header + .wrapping + .wrapping:last-child
 micky-maus.de###wrapper-1 > #extra1[style="padding-left: 108px;"]
 scdhfk-handball.de###wrapper_SWL
 n-tv.de###wrapper_content > div[style="height: 120px;"]:first-child
@@ -5816,6 +5822,7 @@ bild.de##a[href="http://tickets.bild.de"]
 outleter.org##a[href="http://topne.ws/onlineoutlet"]
 sexuria.com##a[href="http://wixtube.com/frame.htm"]
 12free-sms.de##a[href="http://www.12free-sms.de/free-sms.php"]
+leave.to##a[href="http://www.boerse.bz/boerse/software-angebote/free-vpn-signup/"]
 byte.to##a[href="http://www.byte.to/first/"]
 cinebee.org##a[href="http://www.cinebee.org/tipp/"]
 eliteanimes.com##a[href="http://www.eliteanimes.com/els/"]
@@ -7061,6 +7068,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||banner.t-online.de/addyn/*/ADTECH;loc=100;target=_blank;misc=$script,domain=sportdaten.t-online.de
 @@||banner.t-online.de/crossdomain.xml$object-subrequest,domain=mahjonggwelt.de
 @@||banners.webmasterplan.com/view.asp?ref=$image,domain=sms-box.de
+@@||bauer-plus.de^*?advertiser=$subdocument,domain=abosgratis.de
 @@||belboon.de/adtracking/$subdocument,domain=gutscheindoktor.de|preis-vergleich.tv|preismafia.com
 @@||belboon.de/clickout.php?$subdocument,domain=preis-vergleich.tv
 @@||berliner-zeitung-online.de/specials/ads/scripts/standard_ads.css
@@ -7321,6 +7329,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||tkqlhce.com/click-$subdocument,domain=eule.de
 @@||toggo.de/js/advertise.js
 @@||toggo.de/xml/admeta.xml?$object-subrequest
+@@||track.adform.net/C/?$subdocument,domain=abosgratis.de
 @@||tradedoubler.com/click?$subdocument,domain=eule.de|gutscheindoktor.de|preismafia.com
 @@||tradedoubler.com/file/$image,domain=sunsteps.org
 @@||tradedoubler.com/redirect/*^affID^$subdocument,domain=gutscheindoktor.de
@@ -7364,17 +7373,22 @@ pcwelt.de##div[id^="google_ads_"]
 @@.org^$script,domain=ul-load.com|uploaded-premium.ru
 @@.png#$domain=aktuelles-handelsrecht.info|aussenwirtschaftslupe.de|energielupe.de|europalupe.eu|finanzmarkttransaktionssteuer.de|gerichtsboulevard.de|grundrechteschutz.de|hartzbote.de|jagdlupe.de|kirchensteuerinfo.de|mediationslupe.de|medienrechtsnews.de|mutterschutz-rechner.de|rappers.in|rechtslupe.de|rechtslupe.net|rechtsschutzversicherunginfo.de|rentenbote.de|schuetzenrecht.de|sozialrechtsnews.de|steuerschmiede-aktuell.de|teamspeak-ts.com|tobinsteuer.de|twixzo.de|ul-load.com|uploaded-premium.ru|vereinslupe.de|vorsorgebote.de|wintotal-forum.de|wirtschaft-recht-aktuell.de
 @@.png?$domain=mobilfunk-geschichte.de
+@@?ref=$object-subrequest,third-party,domain=gmx.net|homerj.de|spiegel.tv|sueddeutsche.de|web.de
+@@|http://*&ref=$object-subrequest,third-party,domain=gmx.net|homerj.de|spiegel.tv|sueddeutsche.de|web.de
+@@|http://*.com^$image,third-party,domain=gamona.de
 @@|http://*.com^*_$image,third-party,domain=gamona.de
 @@|http://*.de^$image,third-party,domain=gamona.de|lustich.de
+@@|http://*.de^*/*/*/*.js|$script,third-party,domain=lustich.de
 @@|http://*.net^$image,third-party,domain=gamona.de
 @@|http://*/*.gif?*=*&*=$object-subrequest,third-party,domain=gmx.net|homerj.de|spiegel.tv|sueddeutsche.de|web.de
 @@|http://*?*=*&*=*&*=$object-subrequest,domain=gmx.net|homerj.de|spiegel.tv|sueddeutsche.de|web.de
 @@|http://*uk.to^$script,domain=ul-load.com|uploaded-premium.ru
 @@||2mdn.net/879366/flashwrite_1_2.js$domain=n-tv.de|teleboerse.de
 @@||2mdn.net/viewad/*-grey.gif|$domain=n-tv.de|teleboerse.de
+@@||2mdn.net/viewad/*.gif$object-subrequest,domain=n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
+@@||2mdn.net/viewad/*.jpg$object-subrequest,domain=n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
 @@||2mdn.net^*.swf?clicktag=$object,domain=n-tv.de|teleboerse.de
 @@||37.59.248.204^$script,domain=ul-load.com|uploaded-premium.ru
-@@||4players.de^$image
 @@||5.135.58.25^$script,domain=uploaded-premium.ru
 @@||ad-emea.doubleclick.net/crossdomain.xml$object-subrequest,domain=clipfish.de|homerj.de|n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|spiegel.tv|sueddeutsche.de|superrtlnow.de|voxnow.de
 @@||ad-emea.doubleclick.net/pfadx/spiegel.tv.smartclip/;sz=*;dcmt=*;ord=$object-subrequest,domain=spiegel.tv
@@ -7387,6 +7401,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||ad4mat.de/ads/js/adtrust-min.php?*&w=468&h=60&$script,domain=mufa.de
 @@||adclient.uimserv.net/crossdomain.xml$object-subrequest,domain=gmx.net|web.de
 @@||adclient.uimserv.net/|$object-subrequest,domain=gmx.net|web.de
+@@||adfarm1.adition.com/banner?co=$object-subrequest,domain=n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
 @@||adfarm1.adition.com/banner?sid=$object-subrequest,domain=n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
 @@||adfarm1.adition.com/banner?sid=*&adjsver=*&clickurl=http%3A//ad.de.doubleclick.net/click%$script,domain=n-tv.de
 @@||adfarm1.adition.com/crossdomain.xml$object-subrequest,domain=n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
@@ -7396,6 +7411,10 @@ pcwelt.de##div[id^="google_ads_"]
 @@||ads.exoclick.com/ads.js$domain=board.world-of-hentai.to
 @@||ads.flirttown.net/www/delivery/afr.php?zoneid=1&age=*&gender=$subdocument
 @@||ads.yahoo.com/st?ad_type=iframe&ad_size=800x440^$subdocument,domain=uploaded-premium.ru
+@@||adscale.de/adscale-ih/impr?$script,domain=4players.de
+@@||adscale.de/adscale-ih/rtb?iid=$script,domain=4players.de
+@@||adscale.de/adscale-ih/t.js$domain=4players.de
+@@||adscale.de/getads.js$domain=4players.de
 @@||adserv.quality-channel.de/crossdomain.xml$object-subrequest,domain=spiegel.tv
 @@||adserv.quality-channel.de/RealMedia/ads/adstream_sx.ads/www.spiegel.tv/*@VMiddle$object-subrequest,domain=spiegel.tv
 @@||adserv3.deutschland-spion.de/www/delivery/spc.php?$script,domain=mv-spion.de
@@ -7442,6 +7461,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||doubleclick.net/ad/pushbackde.smartclip/clipfish.smartclip/$object-subrequest,domain=clipfish.de
 @@||doubleclick.net/ad/|$object-subrequest,domain=gmx.net|homerj.de|spiegel.tv|sueddeutsche.de|web.de
 @@||doubleclick.net/adj/*.4players.de_de/*;sz=2x2;$script,domain=4players.de
+@@||doubleclick.net/adj/*.4players.de_de/*;sz=300x250;$script,domain=4players.de
 @@||doubleclick.net/adj/*.4players.de_de/*;sz=301x250;$script,domain=4players.de
 @@||doubleclick.net/crossdomain.xml$domain=kabeleins.de|prosieben.de|sat1.de|sixx.de
 @@||doubleclick.net/ddm/trackimp/*.IPDEUTSCHLAND/*;dc_trk_aid=*;dc_trk_cid=*;ord=$object-subrequest,domain=clipfish.de|n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
@@ -7469,6 +7489,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||einrichtungsbeispiele.de^*/click.js
 @@||energielupe.de^$elemhide
 @@||ethnarc.de^$image,domain=gamona.de
+@@||ethnarc.de^$script,domain=gamona.de|lustich.de
 @@||europalupe.eu^$elemhide
 @@||exoclick.com/ads-iframe-display.php?*&type=300x250&$subdocument,domain=board.world-of-hentai.to
 @@||fastshare.org/advertisement.js
@@ -7535,7 +7556,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||nuggad.net/bk?*&nuggtg=de_putpattv_music&$object-subrequest,domain=putpat.tv
 @@||nuggad.net/bk?nuggn=$object-subrequest,domain=homerj.de
 @@||nuggad.net/crossdomain.xml$object-subrequest,domain=putpat.tv|tape.tv
-@@||nuggad.net/rc?nuggn=$script,domain=gamestar.de
+@@||nuggad.net/rc?nuggn=$script,domain=4players.de|gamestar.de
 @@||onlinetvrecorder.com/adcodes/?$subdocument
 @@||onlinetvrecorder.com/buyclicks/*.php?r=$subdocument
 @@||onlinetvrecorder.com/buyclicks/weasel.php$document

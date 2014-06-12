@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: ygQzymtqsB03gZ+HGvjxeA
-! Version: 201406091701
+! Checksum: jeonawX4d1Ol08Uq7fJnGw
+! Version: 201406121541
 ! Title: EasyPrivacy
-! Last modified: 09 Jun 2014 17:01 UTC
+! Last modified: 12 Jun 2014 15:41 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -2857,6 +2857,7 @@ http://utm.
 ||ip2map.com^$third-party
 ||ip2phrase.com^$third-party
 ||ipcatch.com^$third-party
+||ipcounter.de^$third-party
 ||iperceptions.com^$third-party
 ||ipfingerprint.com^$third-party
 ||ipinfo.info^$third-party
@@ -2957,6 +2958,7 @@ http://utm.
 ||marketo.net^$third-party
 ||martianstats.com^$third-party
 ||masterstats.com^$third-party
+||matheranalytics.com^$third-party
 ||mathtag.com^$third-party
 ||maxtracker.net^$third-party
 ||maxymiser.com^$third-party
@@ -3234,6 +3236,7 @@ http://utm.
 ||referforex.com^$third-party
 ||referlytics.com^$third-party
 ||referrer.org^$third-party
+||refersion.com^$third-party
 ||reinvigorate.net^$third-party
 ||relead.com^$third-party
 ||relmaxtop.com^$third-party
@@ -3806,7 +3809,6 @@ http://utm.
 ||interaktiv-net.de^$third-party
 ||interhits.de^$third-party
 ||ipcount.net^$third-party
-||ipcounter.de^$third-party
 ||ipcounter.net^$third-party
 ||iptrack.biz^$third-party
 ||ivwbox.de^$third-party
@@ -4697,6 +4699,7 @@ http://utm.
 ||d2oh4tlt9mrke9.cloudfront.net^
 ||d2ry9vue95px0b.cloudfront.net^
 ||d2so4705rl485y.cloudfront.net^
+||d33im0067v833a.cloudfront.net^
 ||d34ko97cxuv4p7.cloudfront.net^
 ||d36lvucg9kzous.cloudfront.net^
 ||d396ihyrqc81w.cloudfront.net^
@@ -4965,6 +4968,7 @@ http://utm.
 ||link.americastestkitchencorp.com^
 ||link.huffingtonpost.com^$third-party
 ||link.informer.com^
+||linkbucks.com/visitScript/
 ||linkedin.com/emimp/$image
 ||linkwithin.com/pixel.png
 ||list-manage.com/track/
@@ -5199,6 +5203,7 @@ http://utm.
 ||reports.maxperview.com^
 ||reports.pagesuite-professional.co.uk^
 ||reports.tstlabs.co.uk^
+||researchintel.com^$third-party
 ||returnpath.net/pixel.gif?
 ||reverbnation.com/widgets/trk/
 ||rhapsody.com^*/pixel?
@@ -5228,6 +5233,7 @@ http://utm.
 ||secure.ifbyphone.com^$third-party
 ||seg.sharethis.com^
 ||segments.adap.tv^$third-party
+||sendtonews.com/player/loggingajax.php?
 ||serifwebresources.com/control.php?
 ||sftrack.searchforce.net^
 ||shareaholic.com/analytics_
@@ -5890,6 +5896,7 @@ http://utm.
 ||stat.freetool.it^
 ||stat.webtool.it^
 ||stats.itsol.it^
+||stats.rcsobjects.it^
 ||stats.technopia.it^
 ||top100.mrwebmaster.it^
 ||top100.tuttoperinternet.it^
@@ -6609,7 +6616,6 @@ http://utm.
 ||ezinearticles.com/encrypt/blank.gif?
 ||f-secure.com^*/wtsdc.js
 ||f.staticlp.com^
-||facebook.com/ai.php?
 ||facebook.com/ajax/*/log.php
 ||facebook.com/ajax/*logging
 ||facebook.com/ct.php
@@ -7975,6 +7981,7 @@ http://utm.
 ||csmonitor.com/extension/csm_base/design/csm_design/javascript/omniture/s_code.js
 ||el-mundo.net/js/s_code.js$domain=elmundo.es|marca.com
 ||expressen.se/static/scripts/s_code.js?
+||hayneedle.com/js/s_code.min.*.js
 ||images-amazon.com/images/*/wcs-help-omniture/wcs-help-omniture-$script
 ||img-bahn.de/v/*/js/s_code.js$domain=bahn.de
 ||kohls.com/media/omniture/s_code.js
@@ -7998,6 +8005,8 @@ http://utm.
 ||vmware.com/files/templates/inc/s_code_my.js
 ||westernunion.*/_globalAssets/js/omniture/AppMeasurement.js
 ||wp.com/wp-content/themes/vip/metrouk/js/site-catalyst.js$domain=metro.co.uk
+! Blocking filters due to High-CPU usage bug (https://adblockplus.org/forum/viewtopic.php?f=11&t=23368)
+||radio-canada.ca/omniture/omni_stats_base.js?
 !-----------------International individual tracking systems-----------------!
 ! *** easylist:easyprivacy/easyprivacy_specific_international.txt ***
 ! German
@@ -8680,7 +8689,7 @@ http://utm.
 @@||cdn-redfin.com^*/clicktracker.js$domain=redfin.com
 @@||cdn-redfin.com^*/page_analytics.js$domain=redfin.com
 @@||cdn-redfin.com^*/page_analytics.xd.js
-@@||cdn.optimizely.com/js/*.js$domain=heroku.com|hotukdeals.com|imageshack.com|policymic.com|ricardo.ch
+@@||cdn.optimizely.com/js/*.js$domain=freeshipping.com|heroku.com|hotukdeals.com|imageshack.com|policymic.com|ricardo.ch
 @@||centurylink.net/images/track/track.gif?track=$xmlhttprequest
 @@||chanel.com/js/chanel-tracking.js$script
 @@||chartbeat.com/*/chartbeat/$~third-party
