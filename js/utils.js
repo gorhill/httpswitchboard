@@ -19,7 +19,7 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
-/* global HTTPSB */
+/* global chrome, HTTPSB */
 
 /******************************************************************************/
 

@@ -19,11 +19,11 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
+/* global chrome, HTTPSB */
+
 /******************************************************************************/
-//
+
 // Asset update manager
-//
-/******************************************************************************/
 
 HTTPSB.assetUpdater = (function() {
 
@@ -55,7 +55,8 @@ var getUpdateList = function(callback) {
         var remoteAssetChecksums = parseChecksumsText(remoteChecksumsText);
 
         var toUpdate = {};
-        for ( var path in remoteAssetChecksums ) {
+        var path;
+        for ( path in remoteAssetChecksums ) {
             if ( !remoteAssetChecksums.hasOwnProperty(path) ) {
                 continue;
             }
@@ -81,7 +82,7 @@ var getUpdateList = function(callback) {
                 localChecksum: localAssetChecksums[path]
             };
         }
-        for ( var path in localAssetChecksums ) {
+        for ( path in localAssetChecksums ) {
             if ( !localAssetChecksums.hasOwnProperty(path) ) {
                 continue;
             }

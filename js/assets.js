@@ -19,6 +19,8 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
+/* global chrome, HTTPSB */
+
 /*******************************************************************************
 
 Assets
@@ -51,10 +53,8 @@ File system structure:
 // Ref: http://www.html5rocks.com/en/tutorials/file/filesystem/
 
 /******************************************************************************/
-//
+
 // Low-level asset files manager
-//
-/******************************************************************************/
 
 HTTPSB.assets = (function() {
 
