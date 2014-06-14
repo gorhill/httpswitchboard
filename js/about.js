@@ -89,7 +89,7 @@ var restoreUserDataFromFile = function() {
         accept: 'text/plain'
     });
 
-    var restartCountdown = 2;
+    var restartCountdown = 4;
     var doCountdown = function() {
         restartCountdown -= 1;
         if ( restartCountdown > 0 ) {
@@ -100,7 +100,7 @@ var restoreUserDataFromFile = function() {
 
     var restoreBackup = function(data) {
         var httpsb = getHTTPSB();
-        chrome.storage.local.set(data.userSettings);
+        chrome.storage.local.set(data.userSettings, doCountdown);
         var store = {
             'version': data.version,
             'scopes': data.scopes
@@ -110,7 +110,7 @@ var restoreUserDataFromFile = function() {
         if ( data.remoteBlacklists !== undefined ) {
             store.remoteBlacklists = data.remoteBlacklists;
         }
-        chrome.storage.local.set(store);
+        chrome.storage.local.set(store, doCountdown);
         httpsb.assets.put(httpsb.userBlacklistPath, data.ubiquitousBlacklist, doCountdown);
         httpsb.assets.put(httpsb.userWhitelistPath, data.ubiquitousWhitelist, doCountdown);
     };

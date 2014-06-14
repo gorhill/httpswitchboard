@@ -37,11 +37,20 @@ var restoreUserDataFromFile = function() {
     if ( inputElem.length === 0 ) {
         return;
     }
-    var setupUrl = chrome.runtime.getURL(inputElem.val());
+    var setupUrl = inputElem.val();
+
+    var restartCountdown = 4;
+    var doCountdown = function() {
+        restartCountdown -= 1;
+        if ( restartCountdown > 0 ) {
+            return;
+        }
+        chrome.runtime.reload();
+    };
 
     var restoreBackup = function(data) {
         var httpsb = getHTTPSB();
-        chrome.storage.local.set(data.userSettings);
+        chrome.storage.local.set(data.userSettings, doCountdown);
         var store = {
             'version': data.version,
             'scopes': data.scopes
@@ -51,9 +60,9 @@ var restoreUserDataFromFile = function() {
         if ( data.remoteBlacklists !== undefined ) {
             store.remoteBlacklists = data.remoteBlacklists;
         }
-        chrome.storage.local.set(store);
-        httpsb.assets.put(httpsb.userBlacklistPath, data.ubiquitousBlacklist, 'restoreUserDataFromFileUserRestartCountdown');
-        httpsb.assets.put(httpsb.userWhitelistPath, data.ubiquitousWhitelist, 'restoreUserDataFromFileUserRestartCountdown');
+        chrome.storage.local.set(store, doCountdown);
+        httpsb.assets.put(httpsb.userBlacklistPath, data.ubiquitousBlacklist, doCountdown);
+        httpsb.assets.put(httpsb.userWhitelistPath, data.ubiquitousWhitelist, doCountdown);
     };
 
     var validateBackup = function(s) {
@@ -76,8 +85,11 @@ var restoreUserDataFromFile = function() {
         return data;
     };
 
-    var onLoadHandler = function() {
-        var data = validateBackup(this.responseText);
+    var onLoadHandler = function(details) {
+        if ( details.error ) {
+            return;
+        }
+        var data = validateBackup(details.content);
         if ( !data ) {
             return;
         }
@@ -89,36 +101,7 @@ var restoreUserDataFromFile = function() {
         }
     };
 
-    var getSetupDataFromURL = function(url, onLoad, onError) {
-        // console.log('HTTP Switchboard> getTextFileFromURL("%s"):', url);
-        var xhr = new XMLHttpRequest();
-        xhr.responseType = 'text';
-        xhr.onload = onLoad;
-        xhr.onerror = onError;
-        xhr.ontimeout = onError;
-        xhr.open('get', url, true);
-        xhr.send();
-    };
-
-
-    var restartCountdown = 2;
-    var onMessageHandler = function(request) {
-        if ( !request || !request.what ) {
-            return;
-        }
-        if ( request.what === 'restoreUserDataFromFileUserRestartCountdown' ) {
-            restartCountdown -= 1;
-            if ( restartCountdown > 0 ) {
-                return;
-            }
-        }
-        chrome.runtime.onMessage.removeListener(onMessageHandler);
-        chrome.runtime.reload();
-    };
-
-    chrome.runtime.onMessage.addListener(onMessageHandler);
-
-    getSetupDataFromURL(setupUrl, onLoadHandler, function(){});
+    getHTTPSB().assets.get(setupUrl, onLoadHandler);
 };
 
 $('.setup img').on('click', restoreUserDataFromFile);
