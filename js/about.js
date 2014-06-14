@@ -50,50 +50,32 @@ var backupUserDataToFile = function() {
         ubiquitousWhitelist: ''
     };
 
-    var userSettingsReady = function(store) {
-        allUserData.userSettings = store;
-        chrome.storage.local.get(['version', 'scopes', 'remoteBlacklists'], ruleDataReady);
+    var userWhitelistReady = function(details) {
+        allUserData.ubiquitousWhitelist = details.content;
+        chrome.downloads.download({
+            'url': 'data:text/plain,' + encodeURIComponent(JSON.stringify(allUserData)),
+            'filename': 'httpsb-alluserdata-backup.txt',
+            'saveAs': true
+        });
+    };
+
+    var userBlacklistReady = function(details) {
+        allUserData.ubiquitousBlacklist = details.content;
+        httpsb.assets.get(httpsb.userWhitelistPath, userWhitelistReady);
     };
 
     var ruleDataReady = function(store) {
         allUserData.version = store.version;
         allUserData.scopes = store.scopes;
         allUserData.remoteBlacklists = store.remoteBlacklists;
-        httpsb.assets.get(
-            httpsb.userBlacklistPath,
-            'userUbiquitousBlacklistReady'
-        );
+        httpsb.assets.get(httpsb.userBlacklistPath, userBlacklistReady);
     };
 
-    var onMessageHandler = function(request) {
-        if ( !request || !request.what ) {
-            return;
-        }
-        switch ( request.what ) {
-        case 'userUbiquitousBlacklistReady':
-            allUserData.ubiquitousBlacklist = request.content;
-            httpsb.assets.get(
-                httpsb.userWhitelistPath,
-                'userUbiquitousWhitelistReady'
-            );
-            break;
-        case 'userUbiquitousWhitelistReady':
-            allUserData.ubiquitousWhitelist = request.content;
-            saveToFile();
-            break;
-        }
+    var userSettingsReady = function(store) {
+        allUserData.userSettings = store;
+        chrome.storage.local.get(['version', 'scopes', 'remoteBlacklists'], ruleDataReady);
     };
 
-    var saveToFile = function() {
-        chrome.downloads.download({
-            'url': 'data:text/plain,' + encodeURIComponent(JSON.stringify(allUserData)),
-            'filename': 'httpsb-alluserdata-backup.txt',
-            'saveAs': true
-        });
-        chrome.runtime.onMessage.removeListener(onMessageHandler);
-    };
-
-    chrome.runtime.onMessage.addListener(onMessageHandler);
     chrome.storage.local.get(httpsb.userSettings, userSettingsReady);
 };
 
@@ -104,6 +86,15 @@ var restoreUserDataFromFile = function() {
         type: 'file',
         accept: 'text/plain'
     });
+
+    var restartCountdown = 2;
+    var doCountdown = function() {
+        restartCountdown -= 1;
+        if ( restartCountdown > 0 ) {
+            return;
+        }
+        chrome.runtime.reload();
+    };
 
     var restoreBackup = function(data) {
         var httpsb = getHTTPSB();
@@ -118,8 +109,8 @@ var restoreUserDataFromFile = function() {
             store.remoteBlacklists = data.remoteBlacklists;
         }
         chrome.storage.local.set(store);
-        httpsb.assets.put(httpsb.userBlacklistPath, data.ubiquitousBlacklist, 'restoreUserDataFromFileUserRestartCountdown');
-        httpsb.assets.put(httpsb.userWhitelistPath, data.ubiquitousWhitelist, 'restoreUserDataFromFileUserRestartCountdown');
+        httpsb.assets.put(httpsb.userBlacklistPath, data.ubiquitousBlacklist, doCountdown);
+        httpsb.assets.put(httpsb.userWhitelistPath, data.ubiquitousWhitelist, doCountdown);
     };
 
     var validateBackup = function(s) {
@@ -148,7 +139,9 @@ var restoreUserDataFromFile = function() {
             return;
         }
         var time = new Date(data.timeStamp);
-        var msg = chrome.i18n.getMessage('aboutUserDataRestoreConfirm').replace('{{time}}', time.toLocaleString());
+        var msg = chrome.i18n
+            .getMessage('aboutUserDataRestoreConfirm')
+            .replace('{{time}}', time.toLocaleString());
         var proceed = window.confirm(msg);
         if ( proceed ) {
             restoreBackup(data);
@@ -169,22 +162,6 @@ var restoreUserDataFromFile = function() {
         fr.readAsText(file);
         input.off('change', filePickerOnChangeHandler);
     };
-
-    var restartCountdown = 2;
-    var onMessageHandler = function(request) {
-        if ( !request || !request.what ) {
-            return;
-        }
-        if ( request.what === 'restoreUserDataFromFileUserRestartCountdown' ) {
-            restartCountdown -= 1;
-            if ( restartCountdown > 0 ) {
-                return;
-            }
-        }
-        chrome.runtime.onMessage.removeListener(onMessageHandler);
-        chrome.runtime.reload();
-    };
-    chrome.runtime.onMessage.addListener(onMessageHandler);
 
     input.on('change', filePickerOnChangeHandler);
     input.trigger('click');
@@ -244,37 +221,29 @@ var renderAssetList = function(details) {
 var updateAssets = function() {
     var httpsb = getHTTPSB();
     setAssetListClassBit(2, true);
-    httpsb.assetUpdater.update(updateList);
-};
-
-/******************************************************************************/
-
-var onAllLocalAssetsUpdated = function() {
-    var httpsb = getHTTPSB();
-    var onMessageHandler = function(request) {
-        if ( !request || !request.what ) {
-            return;
-        }
-        if ( request.what !== 'dashboardAboutCachedAssetList' ) {
-            return;
-        }
-        renderAssetList(request);
-        chrome.runtime.onMessage.removeListener(onMessageHandler);
+    var onDone = function() {
+        httpsb.loadUpdatableAssets(false);
     };
-    chrome.runtime.onMessage.addListener(onMessageHandler);
-    httpsb.assetUpdater.getList('dashboardAboutCachedAssetList');
+    httpsb.assetUpdater.update(updateList, onDone);
 };
 
 /******************************************************************************/
 
-var onMessageHandler = function(request) {
-    if ( !request || !request.what ) {
-        return;
-    }
-    if ( request.what === 'allLocalAssetsUpdated' ) {
-        onAllLocalAssetsUpdated();
+var updateAssetsList = function() {
+    getHTTPSB().assetUpdater.getList(renderAssetList);
+};
+
+/******************************************************************************/
+
+// Updating all assets could be done from elsewhere and if so the
+// list here needs to be updated.
+
+var onMessage = function(request) {
+    if ( request && request.what === 'allLocalAssetsUpdated' ) {
+        updateAssetsList();
     }
 };
+chrome.runtime.onMessage.addListener(onMessage);
 
 /******************************************************************************/
 
@@ -293,9 +262,7 @@ $('#resetUserDataButton').on('click', resetUserData);
 
 /******************************************************************************/
 
-chrome.runtime.onMessage.addListener(onMessageHandler);
-
-onAllLocalAssetsUpdated();
+updateAssetsList();
 
 /******************************************************************************/
 

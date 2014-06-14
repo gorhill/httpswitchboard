@@ -61,6 +61,7 @@ var HTTPSB = {
     clearBrowserCacheCycle: 0,
     inlineFieldSeparator: '#',
 
+    updateAssetsEvery: 2 * 24 * 60 * 60 * 1000,
     projectServerRoot: 'https://raw2.github.com/gorhill/httpswitchboard/master/',
 
     // list of remote blacklist locations

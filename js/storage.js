@@ -525,10 +525,38 @@ HTTPSB.loadPublicSuffixList = function() {
 
 /******************************************************************************/
 
-HTTPSB.reloadAllLocalAssets = function() {
-    this.loadUbiquitousBlacklists();
-    this.loadPublicSuffixList();
-    this.reloadAllPresets();
+// Load updatable assets
+
+HTTPSB.loadUpdatableAssets = function(update) {
+    var load = function(httpsb) {
+        httpsb.loadUbiquitousBlacklists();
+        httpsb.loadPublicSuffixList();
+        httpsb.reloadAllPresets();
+    };
+
+    if ( update !== true ) {
+        load(this);
+        return;
+    }
+
+    var assetsUpdated = function() {
+        load(HTTPSB);
+    };
+
+    var timestampLoaded = function(store) {
+        var httpsb = HTTPSB;
+        var elapsed = Date.now();
+        if ( typeof store.assetsUpdateTimestamp === 'number' ) {
+            elapsed -= store.assetsUpdateTimestamp;
+        }
+        if ( elapsed < httpsb.updateAssetsEvery ) {
+            load(httpsb);
+        } else {
+            httpsb.assetUpdater.update(null, assetsUpdated);
+        }
+    };
+
+    chrome.storage.local.get('assetsUpdateTimestamp', timestampLoaded);
 };
 
 /******************************************************************************/
@@ -539,12 +567,11 @@ HTTPSB.load = function() {
     // user
     this.loadUserSettings();
     this.loadScopedRules();
-    this.loadUbiquitousBlacklists();
     this.loadUbiquitousWhitelists();
 
-    // system
-    this.loadPublicSuffixList();
-    this.reloadAllPresets();
+    // updatable assets
+    this.loadUpdatableAssets(true);
+
     this.getBytesInUse();
 };
 

@@ -56,7 +56,7 @@ File system structure:
 //
 /******************************************************************************/
 
-(function() {
+HTTPSB.assets = (function() {
 
 /******************************************************************************/
 
@@ -180,32 +180,31 @@ var synchronizeCache = function(onCacheSynchronized) {
 
 /******************************************************************************/
 
-var readLocalFile = function(path, msg) {
-    var sendMessage = function(content, err) {
+var readLocalFile = function(path, callback) {
+    var reportBack = function(content, err) {
         var details = {
-            'what': msg,
             'path': path,
             'content': content,
             'error': err
         };
-        chrome.runtime.sendMessage(details);
+        HTTPSB.utils.reportBack(callback, details);
     };
 
     var onLocalFileLoaded = function() {
         // console.log('HTTP Switchboard> onLocalFileLoaded()');
-        sendMessage(this.responseText);
+        reportBack(this.responseText);
         this.onload = this.onerror = null;
     };
 
     var onLocalFileError = function(ev) {
         console.error('HTTP Switchboard> readLocalFile() / onLocalFileError("%s")', path);
-        sendMessage('', 'Error');
+        reportBack('', 'Error');
         this.onload = this.onerror = null;
     };
 
     var onCacheFileLoaded = function() {
         // console.log('HTTP Switchboard> readLocalFile() / onCacheFileLoaded()');
-        sendMessage(this.responseText);
+        reportBack(this.responseText);
         this.onload = this.onerror = null;
     };
 
@@ -249,31 +248,30 @@ var readLocalFile = function(path, msg) {
 
 /******************************************************************************/
 
-var readRemoteFile = function(path, msg) {
-    var sendMessage = function(content, err) {
+var readRemoteFile = function(path, callback) {
+    var reportBack = function(content, err) {
         var details = {
-            'what': msg,
             'path': path,
             'content': content,
             'error': err
         };
-        chrome.runtime.sendMessage(details);
+        HTTPSB.utils.reportBack(callback, details);
     };
 
     var onRemoteFileLoaded = function() {
         // console.log('HTTP Switchboard> readRemoteFile() / onRemoteFileLoaded()');
         // https://github.com/gorhill/httpswitchboard/issues/263
         if ( this.status === 200 ) {
-            sendMessage(this.responseText);
+            reportBack(this.responseText);
         } else {
-            sendMessage('', 'Error ' + this.statusText);
+            reportBack('', 'Error ' + this.statusText);
         }
         this.onload = this.onerror = null;
     };
 
     var onRemoteFileError = function(ev) {
         console.error('HTTP Switchboard> readRemoteFile() / onRemoteFileError("%s")', path);
-        sendMessage('', 'Error');
+        reportBack('', 'Error');
         this.onload = this.onerror = null;
     };
 
@@ -287,28 +285,24 @@ var readRemoteFile = function(path, msg) {
 
 /******************************************************************************/
 
-var writeLocalFile = function(path, content, msg) {
-    var sendMessage = function(err) {
-        if ( msg === undefined ) {
-            return;
-        }
+var writeLocalFile = function(path, content, callback) {
+    var reportBack = function(err) {
         var details = {
-            'what': msg,
             'path': path,
             'content': content,
             'error': err
         };
-        chrome.runtime.sendMessage(details);
+        HTTPSB.utils.reportBack(callback, details);
     };
 
     var onFileWriteSuccess = function() {
         // console.log('HTTP Switchboard> writeLocalFile() / onFileWriteSuccess("%s")', path);
-        sendMessage();
+        reportBack();
     };
 
     var onFileWriteError = function(err) {
         console.error('HTTP Switchboard> writeLocalFile() / onFileWriteError("%s"):', path, err.name);
-        sendMessage(err.name);
+        reportBack(err.name);
     };
 
     var onFileTruncateSuccess = function() {
@@ -321,7 +315,7 @@ var writeLocalFile = function(path, content, msg) {
 
     var onFileTruncateError = function(err) {
         console.error('HTTP Switchboard> writeLocalFile() / onFileTruncateError("%s"):', path, err.name);
-        sendMessage(err.name);
+        reportBack(err.name);
     };
 
     var onCreateFileWriterSuccess = function(fwriter) {
@@ -332,7 +326,7 @@ var writeLocalFile = function(path, content, msg) {
 
     var onCreateFileWriterError = function(err) {
         console.error('HTTP Switchboard> writeLocalFile() / onCreateFileWriterError("%s"):', path, err.name);
-        sendMessage(err.name);
+        reportBack(err.name);
     };
 
     var onCacheEntryFound = function(file) {
@@ -342,12 +336,12 @@ var writeLocalFile = function(path, content, msg) {
 
     var onCacheEntryError = function(err) {
         console.error('HTTP Switchboard> writeLocalFile() / onCacheEntryError("%s"):', path, err.name);
-        sendMessage(err.name);
+        reportBack(err.name);
     };
 
     var onRequestFileSystemError = function(err) {
         console.error('HTTP Switchboard> writeLocalFile() / onRequestFileSystemError():', err.name);
-        sendMessage(err.name);
+        reportBack(err.name);
     };
 
     var onRequestFileSystem = function(fs) {
@@ -359,38 +353,39 @@ var writeLocalFile = function(path, content, msg) {
 
 /******************************************************************************/
 
-var updateFromRemote = function(details, msg) {
+var updateFromRemote = function(details, callback) {
     // 'httpsb=...' is to skip browser cache
     var remoteURL = remoteRoot + details.path + '?httpsb=' + Date.now();
+    var targetPath = details.path;
+    var targetMd5 = details.md5 || '';
 
-    var sendErrorMessage = function() {
-        chrome.runtime.sendMessage({
-            'what': msg,
-            'path': details.path,
+    var reportBackError = function() {
+        HTTPSB.utils.reportBack(callback, {
+            'path': targetPath,
             'error': 'Error'
         });
     };
 
     var onRemoteFileLoaded = function() {
         this.onload = this.onerror = null;
-        // console.log('HTTPSB> updateFromRemote("%s") / onRemoteFileLoaded()', remoteURL);
         if ( typeof this.responseText !== 'string' ) {
             console.error('HTTPSB> updateFromRemote("%s") / onRemoteFileLoaded(): no response', remoteURL);
-            sendErrorMessage();
+            reportBackError();
             return;
         }
-        if ( typeof details.md5 === 'string' && details.md5 !== md5omatic(this.responseText) ) {
+        if ( YaMD5.hashStr(this.responseText) !== targetMd5 ) {
             console.error('HTTPSB> updateFromRemote("%s") / onRemoteFileLoaded(): bad md5 checksum', remoteURL);
-            sendErrorMessage();
+            reportBackError();
             return;
         }
-        writeLocalFile(details.path, this.responseText, msg);
+        // console.debug('HTTPSB> updateFromRemote("%s") / onRemoteFileLoaded()', remoteURL);
+        writeLocalFile(targetPath, this.responseText, callback);
     };
 
     var onRemoteFileError = function(ev) {
         this.onload = this.onerror = null;
         console.error('HTTPSB> updateFromRemote() / onRemoteFileError("%s"):', remoteURL, this.statusText);
-        sendErrorMessage();
+        reportBackError();
     };
 
     getTextFileFromURL(
@@ -404,7 +399,7 @@ var updateFromRemote = function(details, msg) {
 
 // Export API
 
-HTTPSB.assets = {
+return {
     'get': readLocalFile,
     'getRemote': readRemoteFile,
     'put': writeLocalFile,

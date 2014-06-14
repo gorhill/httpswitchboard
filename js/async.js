@@ -263,10 +263,6 @@ function onMessageHandler(request, sender, callback) {
     if ( request && request.what ) {
         switch ( request.what ) {
 
-        case 'allLocalAssetsUpdated':
-            HTTPSB.reloadAllLocalAssets();
-            break;
-
         case 'forceReloadTab':
             HTTPSB.forceReload(request.pageURL);
             break;
@@ -281,10 +277,6 @@ function onMessageHandler(request, sender, callback) {
             } else {
                 chrome.tabs.create({ url: request.url });
             }
-            break;
-
-        case 'localAssetUpdated':
-            HTTPSB.onLocalAssetUpdated(request);
             break;
 
         case 'reloadPresetBlacklists':
