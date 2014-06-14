@@ -3,6 +3,7 @@
 
 2mdn.net            # "2mdn.net is a domain used by Doubleclick which is an advertising company..."
 aad73c550c.se       # Related to adrotator.se which is itself blacklisted
+acxiom-online.com   # Wikipedia: "Acxiom Corporation is a marketing technology and services company".
 adextent.com        # "We are an advertising technology company - we build technologies that improve ads performance"
 adgear.com          # "AdGear is an online advertising technologies company based in Montreal, Canada"
 adnxs.com           # "Adnxs.com is run by AppNexus, a company that provides technology, data and analytics to help companies buy and sell online display advertising" (Ref.: http://www.theguardian.com/technology/2012/apr/23/adnxs-tracking-trackers-cookies-web-monitoring)
