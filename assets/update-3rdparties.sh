@@ -83,13 +83,13 @@ for THIRDPARTY_REMOTEURL in ${THIRDPARTY_REMOTEURLS[@]}; do
     if wget -q -T 30 -O $TEMPFILE -- $THIRDPARTY_REMOTEURL; then
         if [ -s $TEMPFILE ]; then
             if ! cmp -s $TEMPFILE $THIRDPARTY_LOCALURL; then
-                echo "    New version found, copying to $THIRDPARTY_LOCALURL"
-                mv $TEMPFILE $THIRDPARTY_LOCALURL
+                echo "    New version found: $THIRDPARTY_LOCALURL"
+                if [ "$1" != "dry" ]; then
+                    mv $TEMPFILE $THIRDPARTY_LOCALURL
+                fi
             fi
         fi
     fi
     let ENTRY_INDEX+=1
 done
-
-echo "*** HTTP Switchboard: remote assets updated."
 

@@ -3,7 +3,7 @@
 # For more information about this list, see: http://pgl.yoyo.org/adservers/
 # ----
 # last updated:   Fri, 16 May 2014 13:34:05 GMT
-# entries:        2493
+# entries:        2490
 # format:         hosts (hosts -- in hosts file format)
 # credits:        Peter Lowe - pgl@yoyo.org - http://pgl.yoyo.org/
 # this URL:       http://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext
@@ -409,7 +409,6 @@
 127.0.0.1 ads.cgnetworks.com
 127.0.0.1 ads.channel4.com
 127.0.0.1 ads.cimedia.com
-127.0.0.1 ads.clanservers.com
 127.0.0.1 ads.clearchannel.com
 127.0.0.1 ads.clubtickets.com
 127.0.0.1 ads.cnn.com
@@ -1192,7 +1191,6 @@
 127.0.0.1 bs.yandex.ru
 127.0.0.1 budsinc.com
 127.0.0.1 bullseye.backbeatmedia.com
-127.0.0.1 bux-jungle.com
 127.0.0.1 buyhitscheap.com
 127.0.0.1 buysellads.com
 127.0.0.1 buysub.com
@@ -1932,7 +1930,6 @@
 127.0.0.1 passion-4.net
 127.0.0.1 passport.baidu.com
 127.0.0.1 pay-ads.com
-127.0.0.1 pay-to-promote.com
 127.0.0.1 paycounter.com
 127.0.0.1 paydayasap.com
 127.0.0.1 paypopup.com

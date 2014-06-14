@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: PzQRBOxE4IALd/UmG1jLlg
-! Version: 201406121540
-! Last modified: 12 Jun 2014 15:40 UTC
+! Checksum: aSSPYQnlRTZjNbqWT7u3HQ
+! Version: 201406132350
+! Last modified: 13 Jun 2014 23:50 UTC
 ! Homepage: http://ruadlist.googlecode.com/
 !
 ! Дополнительная региональная подписка RU AdList к подписке EasyList
@@ -2894,12 +2894,15 @@ prokazan.ru###BottomContent
 world-mmo.com###brend
 xxx-base.org###center2 > .block
 dota2.ru###click
+dota2.ru###click2
 last.by###dbtn2
 zdsimulator.com.ua###flashContent
 tvnet.lv###footer_banner
 gmbox.ru###gmboxPromoSliderBlock
 world-mmo.com###header-wrapper
 kino-teatr.ru###header_banner
+now.ru###lightbox
+now.ru###lightboxOverlay
 rupier.com###logo > noindex
 fototeens.lifeforums.ru###popup
 wmforum.2bb.ru###pun-announcement
@@ -2913,6 +2916,7 @@ staforceteam.ru##.boardlistInner[style="background-image: url(/logo/Standart/Tem
 101.ru,tfilm.tv##.branding
 knigi-chitaty.ru##.button[href^="/download.php?q="]
 pornoneverdie.com##.fly_player
+brb.to,cxz.to,fs.to##.l-body-branding-link
 my-cinema.net##.left-a
 allmoldova.com##.left_banner > a[target="_blank"]
 tvnet.lv##.list.customer
@@ -4797,6 +4801,7 @@ _advideo/$object-subrequest,domain=megogo.net
 ||megashara.com^*/branding/
 ||megashara.com^*_branding/
 ||megatorrents.*/forum/$object
+||megogo.net^*?autoplay=1$domain=coldfilm.ru
 ||melt.ru/images/cms/_*0*_/
 ||mercatos.net/banner/
 ||meta.ua/f_new.*_teaser&
@@ -5944,9 +5949,9 @@ all-episodes.com##div[class^="bn_"]
 @@||rehab51.ru^$domain=ph4.info|ph4.ru
 ! - Против "бесконечной загрузки страниц" -------------------------------------
 !#excompat.bookmark
-@@/getCodeTest?$script,domain=kakprosto.ru|livejournal.com
+@@/getCodeTest?$script,domain=kakprosto.ru|livejournal.com|now.ru
 @@/prepareCode?$script,domain=livejournal.com
-@@/prepareCode?*&pct=a&$script,domain=7days.ru|championat.com
+@@/prepareCode?*&pct=a&$script,domain=7days.ru|championat.com|now.ru
 @@/prepareCode?*&prr=*&dl=$script,domain=aif.ru|diary.ru|irr.ru|kakprosto.ru|lenta.ru|rosbalt.ru|soccer.ru|sport-express.ru|vesti.ru
 @@/prepareCode?*&puid1=|$domain=rg.ru
 @@||adriver.ru/cgi-bin/erle.cgi?$script,domain=afisha.ru|aif.ru|cnews.ru|ex.ua|forum.tatfish.com|meta.ua|ozon.ru|ria.ru|rian.ru|thg.ru|vz.ru

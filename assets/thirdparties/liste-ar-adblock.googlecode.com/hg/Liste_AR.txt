@@ -156,6 +156,7 @@
 ||blogspot.com^*/al3abo.png$domain=th3professional.com
 ||bothemes.com^*/popup.js
 ||casasky.com/bannerslider/
+||cs-proton.tv/images/banner-*.
 ||ctn-abbas.com/*_ads.
 ||d3oyytf0n6db9a.cloudfront.net^
 ||darendeal.com/widgets/recommendation_box?
@@ -183,6 +184,7 @@
 ||g44g.com/g44g-games.gif
 ||galileosolutions.net^*/banners_
 ||gamepower7.com/forum/banner.swf
+||geek4arab.net/banner/
 ||gulfbase.com/APopUp.
 ||gulfbase.com/Assets/css/AeroWindow
 ||gulfup.com/2012-06-04/133881477241.gif
@@ -604,6 +606,7 @@
 ||g7a.com^$popup,domain=str-ly.com
 ||g9g.im/open.js
 ||g9g.im^$subdocument,domain=algremh.com
+||geek4arab.com^*/banner/
 ||gem-flash.com^*/banners1.php?
 ||glwan.com/adv/
 ||goo.gl^$popup,domain=abotlal.com|arabseed.com|mazika2day.com
@@ -655,6 +658,7 @@
 ||kazaroza.net^$popup,domain=arablionz.com
 ||khaleejcal.com^*/banners/
 ||kleeja.com/static/images/e3/
+||korabia.com/Content/img/Cocacola.jpg
 ||ktaby.com/adv_ktaby/
 ||ktaby.com/vb/open/
 ||ktaby.com/wzayef^$subdocument,domain=ktaby.com
@@ -803,6 +807,7 @@
 ||saidaonline.com/gifs/bsatad2013.jpg
 ||saidaonline.com/gifs/image5464df131311.jpg
 ||saidaonline.com/gifs/Shubadak-Baner-600x200.jpg
+||satna.tv/styles/*/satna-promo.gif
 ||sawt-alahrar.net/ara/themes/*/img/alimisurata3.gif
 ||sawt-alahrar.net/ara/themes/*/img/ichhar.jpg
 ||sawt-alahrar.net^*/banners/pub
@@ -1042,6 +1047,7 @@ hao123.com##.pr
 europages.ma,menara.ma##.pub
 rassoulallah.info##.right_column
 swalif.net##.sab-adPlace
+korabia.com##.sayingOutOfContent
 syrcafe.co##.semoo
 alaan.tv##.show-specificimg1
 el3ab.com##.showcase

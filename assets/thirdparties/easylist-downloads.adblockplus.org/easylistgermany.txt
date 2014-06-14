@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: TywYvPHJ6hGrcJhW+1S2CA
-! Version: 201406121540
+! Checksum: rBeCLpo+Eom2Ph7AIiO2gg
+! Version: 201406132351
 ! Title: EasyList Germany
 ! EasyList Germany - Deutsche Ergänzung zu EasyList
-! Last modified: 12 Jun 2014 15:40 UTC
+! Last modified: 13 Jun 2014 23:51 UTC
 ! Expires: 1 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -3642,6 +3642,7 @@ mov-world.net#@#a[href^="http://www.FriendlyDuck.com/AF_"]
 ||zweinullig.de/wp-content/uploads/125.png
 ||zweinullig.de/wp-content/uploads/chaershop.jpg
 ! Anti-Adblock
+/a*/img/*$image,domain=audio.de|colorfoto.de|connect.de|connected-home.de|pc-magazin.de|video-magazin.de
 /c*/img/*$image,domain=audio.de|colorfoto.de|connect.de|connected-home.de|pc-magazin.de|video-magazin.de
 /t*/img/*$image,domain=audio.de|colorfoto.de|connect.de|connected-home.de|pc-magazin.de|video-magazin.de
 ||gamona.de/assets/*.swf
@@ -7381,6 +7382,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@|http://*.de^*/*/*/*.js|$script,third-party,domain=lustich.de
 @@|http://*.net^$image,third-party,domain=gamona.de
 @@|http://*/*.gif?*=*&*=$object-subrequest,third-party,domain=gmx.net|homerj.de|spiegel.tv|sueddeutsche.de|web.de
+@@|http://*/?*=*&$object-subrequest,third-party,domain=gmx.net|homerj.de|spiegel.tv|sueddeutsche.de|web.de
 @@|http://*?*=*&*=*&*=$object-subrequest,domain=gmx.net|homerj.de|spiegel.tv|sueddeutsche.de|web.de
 @@|http://*uk.to^$script,domain=ul-load.com|uploaded-premium.ru
 @@||2mdn.net/879366/flashwrite_1_2.js$domain=n-tv.de|teleboerse.de
@@ -7455,6 +7457,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||ddl-search.biz/js/advertisements.js
 @@||derlacher.de/static/lib/advertisement.js
 @@||dhads.net/kamp/rot.php?art=leaderboardview&uid=*&sid=$script,domain=uploaded-premium.ru
+@@||digentu.de^$script,domain=lustich.de
 @@||dokumente-online.com^*/adframe.js
 @@||doubleclick.net/ad/*;sz=1x1;ord=$object-subrequest,domain=clipfish.de|n-tvnow.de|rtl-now.rtl.de|rtl2now.rtl2.de|rtlnitronow.de|superrtlnow.de|voxnow.de
 @@||doubleclick.net/ad/clipfish.smartclip/$object-subrequest,domain=clipfish.de

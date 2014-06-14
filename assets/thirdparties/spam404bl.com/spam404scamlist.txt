@@ -2,8 +2,8 @@
 ! Homepage: http://www.spam404.com/
 ! Title: Spam404
 ! Expires: 2 days
-! Version: 25
-! Last modified: 3 Jun 2014
+! Version: 3977
+! Last modified: 13 Jun 2014
 ! Description: This filter protects you from online scams. This filter is regularly updated with data collected by Spam404.com.
 !
 ! You can report unblocked content and direct general queries to us
@@ -52,6 +52,7 @@
 ##[href^="http://flamefile.com/"]
 ##[href^="http://playwatch.pl/"]
 ##[href^="http://ubfiles.com/"]
+##[href^="http://riofiles.net/"]
 !
 !
 !
@@ -3967,6 +3968,13 @@ dream-file.com##[alt="Regular Download"]
 ||juicyfiles.net^
 ||howtocheat.net^
 ||codes4free.net^
+||clashofclansgamesonline.com^
+||free-ebookdownloads.com^
+||brave-frontier-hack.com^
+||true-hacks.com^
+||minecraftpremiumgenerator.net^
+||face-secu.com^
+||e-telecharger.com^
 !
 !
 !

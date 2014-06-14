@@ -1,6 +1,6 @@
 [Adblock Plus 2.0]
-! Checksum: o0hiaXCuDfyNmNg+3jBcKw
-! Version: 201406121541
+! Checksum: nsyX+JbmwRyM+4C7xlDLzw
+! Version: 201406132351
 ! Liste FR ~ Filtres francophones complémentaires à EasyList
 ! Title: Liste FR
 ! Licence : http://www.adblock-listefr.com/A_propos
@@ -331,6 +331,9 @@ _regiepub/
 ||bourgogne-restaurants.com/a_decouvrir_resto_$third-party
 ||boutique.aero/images/block_pub_
 ||business-lounge.fr/public/widget-prod/
+||buzzypeople.fr/download/115163_k.gif
+||buzzypeople.fr/pluginbarre/
+||buzzypeople.fr/webplayertv/728x90wa.png
 ||c-gratuit.com/logo/aff_logo.php?
 ||canaljeuvideo.com/var/storage/habillages/
 ||carasexe.com/promo/$third-party
@@ -535,6 +538,7 @@ _regiepub/
 ||promo.eurolive.com^$third-party
 ||promo.partie-membres.com^
 ||promo.sextape-streaming.com^
+||pronosoft.com/fr/bookmakers/unibet/120x120_u.swf
 ||pronoturf.free.fr/pub/
 ||pub-bans.sexytools.be^
 ||pub.airweb.fr^
@@ -1277,7 +1281,7 @@ _regiepub/
 ||mybloggertricks.googlecode.com/files/mbtlikebox2.js
 ||myfreesurf.com/partenaires/
 ||natoms.com/js/partner/
-||nautiljon.com/images/boutiques/
+||nautiljon.com/images/boutique/
 ||nautisme.nc/PUBS/
 ||neezzmail.com/js/box.js
 ||neomag.fr/e-pubs/
@@ -1681,6 +1685,7 @@ _regiepub/
 ###banniere_pub
 ###bg_pub
 ###bloc-pub
+###bloc-pub-gauche-160-600
 ###bloc-pub-header
 ###blocPub300
 ###blocPublicitaire
@@ -1736,6 +1741,7 @@ _regiepub/
 ###pub-300x250
 ###pub-468x60
 ###pub-728
+###pub-728-90-sous-categories
 ###pub-728x90
 ###pub-ban
 ###pub-banner
@@ -1923,6 +1929,7 @@ _regiepub/
 ##.pub-block
 ##.pub-carre
 ##.pub-gigaban
+##.pub-haut
 ##.pub-img
 ##.pub-megaban
 ##.pub-megabanner
@@ -2021,6 +2028,7 @@ _regiepub/
 ##.wrapperPub
 ##.zonepub
 ##a[href^="http://styleapplicationzillion.com/"]
+##a[href^="http://www.espace-plus.net/"]
 !
 !----------------------- Éléments -----------------------!
 !
@@ -2719,6 +2727,7 @@ lesechos.fr##.nosparts
 generation-nt.com##.ntSponsored
 challenges.fr##.obs-block.cab-right > .obs-blockcontent.obs-bloc-media
 wamiz.com##.orange
+nautiljon.com##.pad
 priceminister.com##.panel_pub
 leparisien.fr##.parisien-section.pratique
 photo.fr##.parrains
@@ -3364,6 +3373,7 @@ viedemerde.fr##.droite > .part + .part.second > div[style="position: relative;"]
 @@||opensrc.mx/*.js|$script,third-party
 @@||qjbvc.ro.lt/*.js|$script,third-party
 @@||rcwmu.us.to/*.js|$script,third-party
+@@||remote.mx/*.js|$script,third-party
 @@||sefpq.us.to/*.js|$script,third-party
 @@||stemline.com/*.js|$script,third-party
 @@||tjxpq.ro.lt/*.js|$script,third-party
@@ -3392,6 +3402,7 @@ viedemerde.fr##.droite > .part + .part.second > div[style="position: relative;"]
 |http://*.negeriau.net/$third-party,xmlhttprequest
 |http://*.opensrc.mx/$third-party,xmlhttprequest
 |http://*.qq.my/$third-party,xmlhttprequest
+|http://*.remote.mx/$third-party,xmlhttprequest
 |http://*.ro.lt/$third-party,xmlhttprequest
 |http://*.stemline.com/$third-party,xmlhttprequest
 |http://*.suka.se/$third-party,xmlhttprequest
@@ -3433,7 +3444,6 @@ viedemerde.fr##.droite > .part + .part.second > div[style="position: relative;"]
 #@##cubeAd
 #@##cxnAdrail
 #@##topadspace
-/http://([a-z]+\.)+[a-z]+/(O|M|N)\w{55}/$third-party,xmlhttprequest
 @@||googleads.g.doubleclick.net/pagead/ads?client=ca-pub-|$subdocument,third-party
 @@||pagead2.googlesyndication.com/simgad/$image,third-party,domain=5nodes.fr|actu95.net|actuping.com|addons-wow.fr|adunblock.com|aeropassion.net|annuaire-bleu.net|anthonix.fr|applebigmac.fr|applicationsandroidfrance.com|arnaques-internet.info|bdcraft.net|br1team.fr|buzzer-manager.com|buzzwebzine.fr|byothe.fr|cle-usb.info|consoledejeux.info|coolradio.be|culture-communication.fr|degroupnews.com|degrouptest.com|dofusmotion.com|donnemoilinfo.com|e-puzzles.fr|fight4craft.fr|gamekult.com|gamewinner.fr|geneanum.com|geoforum.fr|geowiki.fr|go-streaming-gratuit.com|gridam.com|hitek.fr|imagesia.com|jackieetmicheltv.fr|kboard.fr|kerbalspaceprogram.fr|lebouletdunet.com|leetgamerz.net|lesarbres.fr|livrespourtous.com|loractu.fr|macworld.fr|maviesurleweb.fr|minecraft-france.fr|minecraftmod.fr|monlinker3ds.com|monlinkerds.com|monlinkerdsi.com|moto85.com|muslimette-magazine.com|nas-forum.com|nifoune.com|ocre-annuaire.net|ogame-winner.com|opalenews.com|pcworld.fr|phonandroid.com|physagreg.fr|pix-geeks.com|pyrros.fr|quedesbonsplans.com|reef-guardian.com|rue89strasbourg.com|sanditrad.com|scoopmosaique.be|sen.flam.me|seomaker.estsurle.net|simonfr.org|sous-la-mer.com|space-blogs.com|space-blogs.net|space-forums.com|space-forums.net|styled-gaming.eu|sucha.net|suchablog.com|syskb.com|toolzzz.fr|tout-gratuit.be|toutes-les-solutions.fr|tryandplay.com|untourenchine.fr|visiban.com|wiilogic.com|xavbox.com|xavbox.info|xavbox.org|xavbox360.com|xavboxcube.com|xavboxds.com|xavboxforum.com|xavboxnews.com|xavboxone.com|xavboxphone.com|xavboxps2.com|xavboxps3.com|xavboxpsp.com|xavboxtuning.com|xavboxwii.com|xavboxwiiu.com|xavdrone.com|xavfun.com
 @@||pubads.g.doubleclick.net/gampad/ads?|$subdocument,third-party

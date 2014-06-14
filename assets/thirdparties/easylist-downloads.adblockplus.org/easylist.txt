@@ -1,8 +1,8 @@
 [Adblock Plus 2.0]
-! Checksum: 2CiKR7Q/DQ1NaiVbsGyC7A
-! Version: 201406121540
+! Checksum: /E4H/bsY1l0O/6R8FKXcxg
+! Version: 201406132350
 ! Title: EasyList
-! Last modified: 12 Jun 2014 15:40 UTC
+! Last modified: 13 Jun 2014 23:50 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -1773,6 +1773,7 @@
 /ads/oas_
 /ads/original/*
 /ads/oscar/*
+/ads/outbrain?
 /ads/overlay-
 /ads/p/*
 /ads/page.
@@ -10773,6 +10774,7 @@ _popunder+$popup
 ###idRightAdArea
 ###idSponsoredresultend
 ###idSponsoredresultstart
+###id_SearchAds
 ###iframe-ad-container-Top3
 ###iframeAd_2
 ###iframeRightAd
@@ -21110,6 +21112,7 @@ topzone.lt#@#.forumAd
 ||backlinks.com^$third-party
 ||badjocks.com^$third-party
 ||baldiro.de^$third-party
+||bananaflippy.com^$third-party
 ||banner-clix.com^$third-party
 ||bannerbank.ru^$third-party
 ||bannerblasters.com^$third-party
@@ -21690,6 +21693,7 @@ topzone.lt#@#.forumAd
 ||findbestsolution.net^$third-party
 ||findsthat.com^$third-party
 ||firegob.com^$third-party
+||firmharborlinked.com^$third-party
 ||first-rate.com^$third-party
 ||firstadsolution.com^$third-party
 ||firstlightera.com^$third-party
@@ -23216,6 +23220,7 @@ topzone.lt#@#.forumAd
 ||ad2games.com^$popup,third-party
 ||ad4game.com^$popup,third-party
 ||adcash.com^$popup,third-party
+||adform.net^$popup,third-party
 ||adjuggler.net^$popup,third-party
 ||adlure.net^$popup,third-party
 ||adnxs.com^$popup,third-party
@@ -25101,6 +25106,7 @@ topzone.lt#@#.forumAd
 ||playata.myvideo.de^$subdocument,third-party
 ||player.screenwavemedia.com^*/ova-jw.swf$object-subrequest
 ||playfooty.tv/jojo.html
+||plexidigest.com/plexidigest-300x300.jpg
 ||pm.web.com^$third-party
 ||pokerjunkie.com/rss/
 ||pokerroomkings.com^*/banner/$third-party
@@ -28205,6 +28211,7 @@ topzone.lt#@#.forumAd
 ||ngfiles.com/bg-skins/sponsored/skins/$domain=newgrounds.com
 ||ngohq.com/images/ad.jpg$~collapse
 ||ngrguardiannews.com/images/banners/
+||nigeriafootball.com/img/affiliate_
 ||niggasbelike.com/wp-content/themes/zeecorporate/images/b.jpg
 ||nijobfinder.co.uk/affiliates/
 ||nimbb.com^$domain=my.rsscache.com
@@ -30863,6 +30870,7 @@ share-links.biz###advice
 sofeminine.co.uk###af_lmbcol_sep
 katzforums.com###aff
 zap2it.com###aff_rightbar
+nigeriafootball.com###affiliate-bottom
 gtopala.com###affiliate-index-300x250
 carmall.com###affiliates
 awkwardfamilyphotos.com###afpadq-leaderboard
@@ -31110,6 +31118,7 @@ stopthedrugwar.org###below-masthead
 rantsports.com###below-post
 tgdaily.com###bestcovery_container
 dailygalaxy.com###beta-inner
+nigeriafootball.com###bettingCompetition
 howtogeek.com,livescience.com###bgImage
 frostytech.com###bg_googlebanner_160x600LH
 georgefm.co.nz###bg_link
@@ -32026,6 +32035,7 @@ hi5.com###hi5-common-header-banner
 atdhe.so,atdhe.xxx###hiddenBannerCanvas
 wbond.net###hide_sup
 flashi.tv###hideall
+rapidvideo.tv###hidiv
 itweb.co.za###highlight-on
 codinghorror.com###hireme
 quill.com###hl_1_728x90
@@ -32067,6 +32077,7 @@ youtube.com###homepage-chrome-side-promo
 studentbeans.com###homepage_banner
 beepbeep.com,rr.com###homepagewallpaper
 pcmech.com###homepromo
+fashiontv.com###horiz_banner
 sydneyolympicfc.com###horiz_image_rotation
 horsetalk.co.nz###horseclicks
 webmd.com###hot-tpcs
@@ -34078,7 +34089,7 @@ wusa9.com##.ad-image
 metro.co.uk##.ad-side-one + #text-74
 hollywoodjournal.com##.ad-title
 bnqt.com##.ad05
-afreecodec.com,brothersoft.com,rodalenews.com,sundaymail.co.zw,sundaynews.co.zw,webmaster-source.com##.ad1
+afreecodec.com,brothersoft.com,msn.com,rodalenews.com,sundaymail.co.zw,sundaynews.co.zw,webmaster-source.com##.ad1
 brothersoft.com,livemint.com,mirrorfootball.co.uk,nowvideo.co,nowvideo.eu,nowvideo.sx,roms4droid.com,sundaymail.co.zw,sundaynews.co.zw##.ad2
 afreecodec.com,harpersbazaar.com,livemint.com,mpog100.com,sundaymail.co.zw,sundaynews.co.zw##.ad3
 hitfreegames.com,sundaymail.co.zw,sundaynews.co.zw##.ad4
@@ -35082,7 +35093,6 @@ facebook.com##.fbEmuEgoUnit
 facebook.com##.fbEmuLink
 facebook.com##.fbPhotoAdsCol
 facebook.com##.fbTimelineSideAds
-accrisoft.com##.fba_links
 tormovies.org##.fbd-banner
 sharkscope.com##.fbstyle
 bankrate.com##.fcAdGrey
@@ -35768,6 +35778,7 @@ androidcentral.com##.mn-banner
 mnn.com##.mnn-homepage-adv1-block
 cultofmac.com##.mob-mpu
 techspot.com##.mobile-hide
+rapidvideo.tv##.mobile_hd
 espn.go.com##.mod-outbrain
 orlandosentinel.com##.mod-trbad
 capitalethiopia.com,demerarawaves.com,thenewamerican.com,wadldetroit.com##.mod_bannerslider
@@ -36171,6 +36182,7 @@ kvcr.org##.radio_livesupport
 mygames4girls.com##.rads07
 dailyfreegames.com##.radsbox
 weatherzone.com.au##.rainbowstrip
+nairaland.com##.ratatamp
 isearch.whitesmoke.com##.rating
 amctv.com##.rb-dart
 bustedcoverage.com##.rcr-box
@@ -37607,6 +37619,7 @@ linksave.in##a[href^="http://www.gamesaffiliate.de/"]
 bootstrike.com##a[href^="http://www.gog.com/en/frontpage/?pp="]
 ultimate-guitar.com##a[href^="http://www.guitarmatcher.com/"]
 bingo-hunter.com##a[href^="http://www.harrysbingo.co.uk/index.php"]
+rapidvideo.tv##a[href^="http://www.hdvid-codecs.com/"]
 hotelnewsnow.com##a[href^="http://www.hotelnewsnow.com/adcounter.aspx?ad="]
 vidxden.com##a[href^="http://www.ilivid.com/vidxden_download_video.htm?"]
 guns.ru##a[href^="http://www.impactguns.com/cgi-bin/affiliates/"]
@@ -42152,7 +42165,7 @@ literotica.com##tr[style="background: #fff; text-align: center; font-size: 80%; 
 @@.gif?ad_banner=$domain=majorleaguegaming.com
 @@.gif|$object-subrequest,domain=cbs.com
 @@.jpeg|$object-subrequest,domain=cbs.com
-@@.jpg#$domain=desionlinetheater.com|mac2sell.net|myiplayer.eu|uploadlw.com
+@@.jpg#$domain=desionlinetheater.com|lag10.net|mac2sell.net|myiplayer.eu|uploadlw.com
 @@.jpg|$object-subrequest,domain=cbs.com
 @@.min.js$domain=ftlauderdalewebcam.com|nyharborwebcam.com|portcanaveralwebcam.com|portevergladeswebcam.com|portmiamiwebcam.com
 @@.png#$domain=android-zone.org|anime2enjoy.com|anonytext.tk|backin.net|better-explorer.com|chrissmoove.com|lordpyrak.net|myiplayer.eu
@@ -42235,6 +42248,7 @@ literotica.com##tr[style="background: #fff; text-align: center; font-size: 80%; 
 @@||appfull.net^$elemhide
 @@||arto.com/includes/js/adtech.de/script.axd/adframe.js?
 @@||atomicmpc.com.au/ads/chico.js$domain=atomicmpc.com.au
+@@||atresplayer.com/static/js/advertisement.js
 @@||auditude.com/player/js/lib/aud.html5player.js
 @@||avaxhome.cc/assets/dtim*.js
 @@||avforums.com/*ad$script
@@ -42383,6 +42397,7 @@ literotica.com##tr[style="background: #fff; text-align: center; font-size: 80%; 
 @@||jkanime.net^*/advertisement2.js
 @@||jtvnw.net/*/advertisement.js$domain=justin.tv|twitch.tv
 @@||kissanime.com^$elemhide
+@@||lag10.net^$elemhide
 @@||leaguesecretary.com/advertisement.js
 @@||liberallogic101.com/show_ads.js
 @@||lilfile.com/js/advertise-2.js
