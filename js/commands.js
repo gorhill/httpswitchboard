@@ -25,15 +25,6 @@
 
 /******************************************************************************/
 
-var gotoDashboard = function(which) {
-    chrome.runtime.sendMessage({
-        what: 'gotoExtensionURL',
-        url: 'dashboard.html#' + which
-    });
-};
-
-/******************************************************************************/
-
 var whitelistPageDomain = function(tabs) {
     if ( tabs.length === 0 ) {
         return;
@@ -78,7 +69,10 @@ var onCommand = function(command) {
         chrome.tabs.query({ active: true }, whitelistAll);
         break;
     case 'open-settings':
-        gotoDashboard('settings');
+        chrome.runtime.sendMessage({
+            what: 'gotoExtensionURL',
+            url: 'dashboard.html'
+        });
         break;
     default:
         break;
