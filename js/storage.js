@@ -228,21 +228,6 @@ HTTPSB.loadUbiquitousBlacklists = function() {
     var blacklistLoadCount;
     var obsoleteBlacklists = [];
 
-    var onMessageHandler = function(details) {
-        if ( !details || !details.what ) {
-            return;
-        }
-        if ( details.what === 'mergeUbiquitousBlacklist' ) {
-            mergeBlacklist(details);
-            return;
-        }
-        if ( details.what === 'listOfBlockListsLoaded' ) {
-            onListOfBlockListsLoaded(details);
-            return;
-        }
-    };
-    chrome.runtime.onMessage.addListener(onMessageHandler);
-
     var removeObsoleteBlacklistsHandler = function(store) {
         if ( !store.remoteBlacklists ) {
             return;
@@ -277,7 +262,6 @@ HTTPSB.loadUbiquitousBlacklists = function() {
         HTTPSB.abpFilters.freeze();
         HTTPSB.abpHideFilters.freeze();
         removeObsoleteBlacklists();
-        chrome.runtime.onMessage.removeListener(onMessageHandler);
         chrome.runtime.sendMessage({ what: 'loadUbiquitousBlacklistCompleted' });
     };
 
@@ -320,7 +304,7 @@ HTTPSB.loadUbiquitousBlacklists = function() {
                 blacklistLoadCount -= 1;
                 continue;
             }
-            httpsb.assets.get(location, 'mergeUbiquitousBlacklist');
+            httpsb.assets.get(location, mergeBlacklist);
         }
     };
 
@@ -349,7 +333,7 @@ HTTPSB.loadUbiquitousBlacklists = function() {
     }
 
     // Get new list of 3rd-party block lists.
-    this.assets.get('assets/httpsb/ubiquitous-block-lists.json', 'listOfBlockListsLoaded');
+    this.assets.get('assets/httpsb/ubiquitous-block-lists.json', onListOfBlockListsLoaded);
 };
 
 /******************************************************************************/
@@ -502,24 +486,16 @@ HTTPSB.reloadPresetBlacklists = function(switches) {
 /******************************************************************************/
 
 HTTPSB.loadPublicSuffixList = function() {
-    var onMessage = function(request) {
-        if ( !request || !request.what ) {
-            return;
-        }
-        if ( request.what === 'publicSuffixListLoaded' ) {
-            applyPublicSuffixList(request);
-        }
-    };
     var applyPublicSuffixList = function(details) {
+        // TODO: Not getting proper suffix list is a bit serious, I think
+        // the extension should be force-restarted if it occurs..
         if ( !details.error ) {
             publicSuffixList.parse(details.content, punycode.toASCII);
         }
-        chrome.runtime.onMessage.removeListener(onMessage);
     };
-    chrome.runtime.onMessage.addListener(onMessage);
     this.assets.get(
         'assets/thirdparties/publicsuffix.org/list/effective_tld_names.dat',
-        'publicSuffixListLoaded'
+        applyPublicSuffixList
     );
 };
 
@@ -527,36 +503,10 @@ HTTPSB.loadPublicSuffixList = function() {
 
 // Load updatable assets
 
-HTTPSB.loadUpdatableAssets = function(update) {
-    var load = function(httpsb) {
-        httpsb.loadUbiquitousBlacklists();
-        httpsb.loadPublicSuffixList();
-        httpsb.reloadAllPresets();
-    };
-
-    if ( update !== true ) {
-        load(this);
-        return;
-    }
-
-    var assetsUpdated = function() {
-        load(HTTPSB);
-    };
-
-    var timestampLoaded = function(store) {
-        var httpsb = HTTPSB;
-        var elapsed = Date.now();
-        if ( typeof store.assetsUpdateTimestamp === 'number' ) {
-            elapsed -= store.assetsUpdateTimestamp;
-        }
-        if ( elapsed < httpsb.updateAssetsEvery ) {
-            load(httpsb);
-        } else {
-            httpsb.assetUpdater.update(null, assetsUpdated);
-        }
-    };
-
-    chrome.storage.local.get('assetsUpdateTimestamp', timestampLoaded);
+HTTPSB.loadUpdatableAssets = function() {
+    this.loadUbiquitousBlacklists();
+    this.loadPublicSuffixList();
+    this.reloadAllPresets();
 };
 
 /******************************************************************************/
@@ -569,8 +519,8 @@ HTTPSB.load = function() {
     this.loadScopedRules();
     this.loadUbiquitousWhitelists();
 
-    // updatable assets
-    this.loadUpdatableAssets(true);
+    // load updatable assets -- after updating them if needed
+    this.assetUpdater.update(null, this.loadUpdatableAssets.bind(this));
 
     this.getBytesInUse();
 };

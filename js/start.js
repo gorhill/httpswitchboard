@@ -171,19 +171,45 @@ chrome.tabs.query({ url: '<all_urls>' }, function(tabs) {
 
 // Browser data jobs
 
-function clearBrowserCacheCallback() {
-    var httpsb = HTTPSB;
-    if ( httpsb.userSettings.clearBrowserCache ) {
-        httpsb.clearBrowserCacheCycle -= 15;
-        if ( httpsb.clearBrowserCacheCycle <= 0 ) {
-            httpsb.clearBrowserCacheCycle = httpsb.userSettings.clearBrowserCacheAfter;
-            httpsb.browserCacheClearedCounter++;
-            chrome.browsingData.removeCache({ since: 0 });
-            // console.debug('clearBrowserCacheCallback()> chrome.browsingData.removeCache() called');
+(function() {
+    var jobCallback = function() {
+        var httpsb = HTTPSB;
+        if ( !httpsb.userSettings.clearBrowserCache ) {
+            return;
         }
-    }
-}
+        httpsb.clearBrowserCacheCycle -= 15;
+        if ( httpsb.clearBrowserCacheCycle > 0 ) {
+            return;
+        }
+        httpsb.clearBrowserCacheCycle = httpsb.userSettings.clearBrowserCacheAfter;
+        httpsb.browserCacheClearedCounter++;
+        chrome.browsingData.removeCache({ since: 0 });
+        // console.debug('clearBrowserCacheCallback()> chrome.browsingData.removeCache() called');
+    };
 
-HTTPSB.asyncJobs.add('clearBrowserCache', null, clearBrowserCacheCallback, 15 * 60 * 1000, true);
+    HTTPSB.asyncJobs.add('clearBrowserCache', null, jobCallback, 15 * 60 * 1000, true);
+})();
+
+/******************************************************************************/
+
+// Automatic update of non-user assets
+// https://github.com/gorhill/httpswitchboard/issues/334
+
+(function() {
+    var httpsb = HTTPSB;
+
+    var jobDone = function(details) {
+        if ( details.changedCount === 0 ) {
+            return;
+        }
+        httpsb.loadUpdatableAssets();
+    };
+
+    var jobCallback = function() {
+        httpsb.assetUpdater.update(null, jobDone);
+    };
+
+    httpsb.asyncJobs.add('autoUpdateAssets', null, jobCallback, httpsb.updateAssetsEvery, true);
+})();
 
 /******************************************************************************/

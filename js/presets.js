@@ -491,36 +491,21 @@ HTTPSB.reloadAllPresets = function() {
     } else {
         presetManager.resetAll();
     }
-    var presetListCount = 2;
-    var onMessage = function(request) {
-        if ( !request || !request.what ) {
-            return;
-        }
-        if ( request.what === '1stPartyPresetRecipesLoaded' ) {
-            if ( !request.error ) {
-                presetManager.merge1stPartyPresets(request);
-            }
-            onePresetListLoaded();
-            return;
-        }
-        if ( request.what === '3rdPartyPresetRecipesLoaded' ) {
-            if ( !request.error ) {
-                presetManager.merge3rdPartyPresets(request);
-            }
-            onePresetListLoaded();
-            return;
-        }
-    };
-    var onePresetListLoaded = function() {
-        presetListCount -= 1;
-        if ( presetListCount === 0 ) {
-            chrome.runtime.onMessage.removeListener(onMessage);
-        }
-    };
-    chrome.runtime.onMessage.addListener(onMessage);
 
-    this.assets.get('assets/httpsb/preset-recipes-1st.yaml', '1stPartyPresetRecipesLoaded');
-    this.assets.get('assets/httpsb/preset-recipes-3rd.yaml', '3rdPartyPresetRecipesLoaded');
+    var firstPartyPresetRecipesLoaded = function(details) {
+        if ( !details.error ) {
+            presetManager.merge1stPartyPresets(details);
+        }
+    };
+
+    var thirdPartyPresetRecipesLoaded = function(details) {
+        if ( !details.error ) {
+            presetManager.merge3rdPartyPresets(details);
+        }
+    };
+
+    this.assets.get('assets/httpsb/preset-recipes-1st.yaml', firstPartyPresetRecipesLoaded);
+    this.assets.get('assets/httpsb/preset-recipes-3rd.yaml', thirdPartyPresetRecipesLoaded);
 };
 
 /******************************************************************************/

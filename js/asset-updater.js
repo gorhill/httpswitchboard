@@ -131,17 +131,22 @@ var getUpdateList = function(callback) {
 // If `list` is null, it will be fetched internally.
 
 var update = function(list, callback) {
-    var assetToUpdateCount;
+    var assetChangedCount = 0;
+    var assetProcessedCount;
     var updatedAssetChecksums = [];
 
     var reportBack = function() {
-        HTTPSB.utils.reportBack(callback);
-        chrome.runtime.sendMessage({ what: 'allLocalAssetsUpdated' });
+        var details = {
+            what: 'allLocalAssetsUpdated',
+            changedCount: assetChangedCount
+        };
+        HTTPSB.utils.reportBack(callback, details);
+        chrome.runtime.sendMessage(details);
     };
 
-    var countdown = function() {
-        assetToUpdateCount -= 1;
-        if ( assetToUpdateCount > 0 ) {
+    var doCountdown = function() {
+        assetProcessedCount -= 1;
+        if ( assetProcessedCount > 0 ) {
             return;
         }
         HTTPSB.assets.put(
@@ -159,13 +164,14 @@ var update = function(list, callback) {
             updatedAssetChecksums.push(entry.localChecksum + ' ' + path);
         } else {
             updatedAssetChecksums.push(entry.remoteChecksum + ' ' + path);
+            assetChangedCount += 1;
         }
-        countdown();
+        doCountdown();
     };
 
     var processList = function() {
-        assetToUpdateCount = Object.keys(list).length;
-        if ( assetToUpdateCount === 0 ) {
+        assetProcessedCount = Object.keys(list).length;
+        if ( assetProcessedCount === 0 ) {
             reportBack();
             return;
         }
@@ -185,7 +191,7 @@ var update = function(list, callback) {
             if ( entry.status === 'Unchanged' ) {
                 updatedAssetChecksums.push(entry.localChecksum + ' ' + path);
             }
-            countdown();
+            doCountdown();
         }
     };
 

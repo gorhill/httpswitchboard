@@ -115,22 +115,21 @@ var requestFileSystem = function(onSuccess, onError) {
 
 /******************************************************************************/
 
-// Flush cached 3rd-party assets if these are from a prior version.
+// Flush cached non-user assets if these are from a prior version.
 // https://github.com/gorhill/httpswitchboard/issues/212
 
 var cacheSynchronized = false;
 
-var synchronizeCache = function(onCacheSynchronized) {
+var synchronizeCache = function() {
+    if ( cacheSynchronized ) {
+        return;
+    }
+    cacheSynchronized = true;
+
     var directoryReader;
     var done = function() {
         directoryReader = null;
-        onCacheSynchronized();
     };
-
-    if ( cacheSynchronized ) {
-        return done();
-    }
-    cacheSynchronized =  true;
 
     var onReadEntries = function(entries) {
         var n = entries.length;
@@ -140,8 +139,7 @@ var synchronizeCache = function(onCacheSynchronized) {
         var entry;
         for ( var i = 0; i < n; i++ ) {
             entry = entries[i];
-            // Ignore whatever is in 'user' folder: these are
-            // NOT cached entries.
+            // Ignore whatever is in 'user' folder: these are NOT cached entries.
             if ( pathFromCachePath(entry.fullPath).indexOf('/assets/user/') >= 0 ) {
                 continue;
             }
@@ -239,11 +237,7 @@ var readLocalFile = function(path, callback) {
         getTextFileFromURL(chrome.runtime.getURL(path), onLocalFileLoaded, onLocalFileError);
     };
 
-    var onCacheSynchronized = function() {
-        requestFileSystem(onRequestFileSystemSuccess, onRequestFileSystemError);
-    };
-
-    synchronizeCache(onCacheSynchronized);
+    requestFileSystem(onRequestFileSystemSuccess, onRequestFileSystemError);
 };
 
 /******************************************************************************/
@@ -394,6 +388,13 @@ var updateFromRemote = function(details, callback) {
         onRemoteFileError
     );
 };
+
+/******************************************************************************/
+
+// Flush cached assets if cache content is from an older version: the extension
+// always ships with the most up-to-date assets.
+
+synchronizeCache();
 
 /******************************************************************************/
 

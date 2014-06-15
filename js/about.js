@@ -223,8 +223,10 @@ var renderAssetList = function(details) {
 var updateAssets = function() {
     var httpsb = getHTTPSB();
     setAssetListClassBit(2, true);
-    var onDone = function() {
-        httpsb.loadUpdatableAssets(false);
+    var onDone = function(details) {
+        if ( details.changedCount !== 0 ) {
+            httpsb.loadUpdatableAssets();
+        }
     };
     httpsb.assetUpdater.update(updateList, onDone);
 };
