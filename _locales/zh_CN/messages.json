@@ -746,19 +746,19 @@
 
 
     "commandRevertAll" : {
-        "message": "Remove all temporary changes",
+        "message": "移除所有临时变更",
         "description": "English: Remove all temporary changes"
     },
     "commandWhitelistPageDomain" : {
-        "message": "Temporarily whitelist page domain",
+        "message": "临时把当前页面的域名添加到白名单",
         "description": "English: Temporarily whitelist page domain"
     },
     "commandWhitelistAll" : {
-        "message": "Temporarily whitelist all",
+        "message": "临时把当前页面的所有请求添加到白名单",
         "description": "English: Temporarily whitelist all"
     },
     "commandOpenDashboard" : {
-        "message": "Open dashboard",
+        "message": "打开仪表板",
         "description": "English: Open dashboard"
     },
 
