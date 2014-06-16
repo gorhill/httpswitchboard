@@ -24,6 +24,7 @@ clicktale.com       # "See absolutely everything your visitors do on your webpag
 clicktale.net       # Redirect to `clicktale.com`
 crosspixel.net      # (cookies, localStorage) "leading provider of high performance audience data and information for the real-time advertising industry"
 crsspxl.com         # Related to crosspixel.net
+datarating.com      # see https://github.com/gorhill/httpswitchboard/issues/343 
 displaymarketplace.com
 erovinmo.com        # No info whatsoever from site itself can be found = naughty corner. Ironically spotted at "http://www.technologyreview.com/news/519336/bruce-schneier-nsa-spying-is-making-us-less-safe/" (also: http://www.mywot.com/en/scorecard/erovinmo.com)
 exelator.com        # "domain used by eXelate Media which is an advertising company that is part of a network of sites, cookies, and other technologies used to track you" (Ref.: http://www.donottrackplus.com/trackers/exelator.com.php)
