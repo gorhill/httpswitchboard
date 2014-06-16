@@ -384,7 +384,7 @@
         "description": "English: minutes."
     },
     "settingsClearCacheHelp" : {
-        "message": "<p>Einige Webseiten sind wirklich darauf aus, dich zu verfolgen bzw. zu tracken, und scheuen nicht davor zurück, gar nicht nette Tricks zu verwenden, um Maßnahmen, die dieses Tracking verhindern sollen, zu unterlaufen.</p><p>Einige dieser Tricks benutzen dazu den <sup style='font-size:smaller'>[1, 2]</sup> on the <a href='https://de.wikipedia.org/wiki/Browser-Cache'>Browser Cache</a>, dessen Inhalt häufig für lange Zeit auslesbar ist, da viele Benutzer ihn nicht regelmäßig löschen.</p><p>Das regelmäßige Löschen des Browser Caches bringt kaum Nachteile mit sich (wahrscheinlich wirst du gar keine bemerken), während die Vorteile darin bestehen, dass diese fiesen Tracker davon abgehalten werden, in deine Privatsphäre einzudringen.</p><p>Aktiviere diesen Schalter, damit  <i>HTTP Switchboard</i> diese Aufgabe in dem von dir gewünschten Intervall übernimmt.</p><p style='font-size:smaller'>[1] <a href='https://grepular.com/Preventing_Web_Tracking_via_the_Browser_Cache'>&ldquo;Preventing Web Tracking via the Browser Cache&rdquo;</a><br>[2] <a href='http://lucb1e.com/rp/cookielesscookies/'>&ldquo;Cookieless cookies&rdquo;</a></p>",
+        "message": "<p>Einige Webseiten sind wirklich darauf aus, dich zu verfolgen bzw. zu tracken, und scheuen nicht davor zurück, unfeine Tricks zu verwenden, um Maßnahmen, die dieses Tracking verhindern sollen, zu unterlaufen.</p><p>Einige dieser Tricks benutzen dazu den <sup style='font-size:smaller'>[1, 2]</sup> on the <a href='https://de.wikipedia.org/wiki/Browser-Cache'>Browser Cache</a>, dessen Inhalt häufig für lange Zeit auslesbar ist, da viele Benutzer ihn nicht regelmäßig löschen.</p><p>Das regelmäßige Löschen des Browser Caches bringt kaum Nachteile mit sich (wahrscheinlich wirst du gar keine bemerken), während die Vorteile darin bestehen, dass diese fiesen Tracker davon abgehalten werden, in deine Privatsphäre einzudringen.</p><p>Aktiviere diesen Schalter, damit  <i>HTTP Switchboard</i> diese Aufgabe in dem von dir gewünschten Intervall übernimmt.</p><p style='font-size:smaller'>[1] <a href='https://grepular.com/Preventing_Web_Tracking_via_the_Browser_Cache'>&ldquo;Preventing Web Tracking via the Browser Cache&rdquo;</a><br>[2] <a href='http://lucb1e.com/rp/cookielesscookies/'>&ldquo;Cookieless cookies&rdquo;</a></p>",
         "description": "..."
     },
     "settingsProcessRefererPrompt" : {
@@ -626,11 +626,11 @@
         "description": "Message asking user to confirm restore"
     },
     "aboutExtensionDataHeader" : {
-        "message": "Ressourcen dieser Erweiterung",
+        "message": "Externe Ressourcen dieser Erweiterung",
         "description": "English: Extension data"
     },
     "aboutAssetsUpdatePrompt" : {
-        "message": "Von <i>HTTP Switchboard</i> benutzte Ressourcen können hier upgedatet werden, ohne auf eine neue Version dieser Erweiterung warten zu müssen. Diese Ressourcen werden bezogen vom <a href=\"https://github.com/gorhill/httpswitchboard\">Github Repository dieses Projekts</a>.",
+        "message": "Von <i>HTTP Switchboard</i> benutzte externe Ressourcen können hier upgedatet werden, ohne auf eine neue Version dieser Erweiterung warten zu müssen. Diese Ressourcen werden bezogen vom <a href=\"https://github.com/gorhill/httpswitchboard\">Github Repository dieses Projekts</a>.",
         "description": "Short descriptive text of the update feature"
     },
     "aboutAssetsUpdateColPath" : {
