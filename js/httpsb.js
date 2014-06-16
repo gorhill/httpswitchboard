@@ -781,12 +781,32 @@ HTTPSB.revertScopeRules = function(scopeKey) {
         return;
     }
     var pscope = this.permanentScopeFromScopeKey(scopeKey);
-    // If no permanent scope found, use factory settings
-    if ( !pscope ) {
-        pscope = this.factoryScope;
+    if ( pscope ) {
+        // TODO: if global scope, intersect using ruleset
+        tscope.assign(pscope);
+        return;
     }
-    // TODO: if global scope, intersect using ruleset
-    tscope.assign(pscope);
+
+    // https://github.com/gorhill/httpswitchboard/issues/248
+    // If no permanent scope found, use generic rules in global scope
+    tscope.removeAllRules();
+    pscope = this.permanentScopeFromScopeKey('*');
+    tscope.mtxFiltering = pscope.mtxFiltering;
+    tscope.abpFiltering = pscope.abpFiltering;
+    var listKeys = ['white', 'black'];
+    var listKey, list;
+    while ( listKey = listKeys.pop() ) {
+        list = pscope[listKey];
+        for ( var ruleKey in list.list ) {
+            if ( list.list.hasOwnProperty(ruleKey) === false ) {
+                continue;
+            }
+            // Mind only rules which apply on any domain
+            if ( list.hostnameFromRuleKey(ruleKey) === '*' ) {
+                tscope[listKey].addOne(ruleKey);
+            }
+        }
+    }
 };
 
 /******************************************************************************/

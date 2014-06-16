@@ -173,6 +173,17 @@ PermissionList.prototype.diffCount = function(other) {
 };
 
 /******************************************************************************/
+
+PermissionList.prototype.typeFromRuleKey = function(ruleKey) {
+    var pos = ruleKey.indexOf('|');
+    return pos < 0 ? '' : ruleKey.slice(0, pos);
+};
+PermissionList.prototype.hostnameFromRuleKey = function(ruleKey) {
+    var pos = ruleKey.indexOf('|');
+    return pos < 0 ? '' : ruleKey.slice(pos + 1);
+};
+
+/******************************************************************************/
 /******************************************************************************/
 
 // A scope exhibits three lists: white, black and gray.
@@ -214,6 +225,14 @@ PermissionScope.prototype.add = function(other) {
     this.white.add(other.white);
     this.black.add(other.black);
     this.gray.add(other.gray);
+};
+
+/******************************************************************************/
+
+PermissionScope.prototype.removeAllRules = function() {
+    this.white.removeAll();
+    this.black.removeAll();
+    this.gray.removeAll();
 };
 
 /******************************************************************************/
