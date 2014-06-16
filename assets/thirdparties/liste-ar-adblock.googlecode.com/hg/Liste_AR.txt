@@ -15,6 +15,7 @@
 .eg/ads/
 .ma/ads/
 /ads468x60.
+/ads_90_728.
 /advStatLib.js
 /advStatSettings.js
 /ar/ads/*
@@ -22,6 +23,7 @@
 !
 !----------------------- Éléments génériques -----------------!
 ###pub-730x90
+##.ban-728
 ##.inside_adv_section
 ##.pub-730x90
 ##[href*="ad2games.com/"]
@@ -505,6 +507,8 @@
 ||cairo7.com/vb/open19.js
 ||ce4arab.com/images/myus-banner
 ||ce4arab.com/vb7/images/*/963081.jpg
+||chadafm.net/images/banner_
+||chadafm.net/images/pub/
 ||chadafm.net/images/stories/ban-605x106.gif
 ||christian-dogma.com^*/banners/
 ||cima4u.com/open/
@@ -626,9 +630,6 @@
 ||hibapress.com/Hanya90.jpg
 ||hibasport.com/pubip/
 ||hoolmiz.com/tvd/
-||http://l7en.com/ps/new/$script
-||http://www.chadafm.net/images/stories/ban-605x106.gif
-||http://www.elmassar-ar.com/ara/ads/
 ||i3z.net/styles/3iz/images/Bnr1.png
 ||i3z.net/styles/3iz/images/Bnr2.png
 ||ibtesama.com/adv/
@@ -666,10 +667,7 @@
 ||ktaby.com^*/open.js
 ||kuwait1.co^$subdocument,domain=syrcafe.co
 ||l7en.com/javascript/main.js
-||l7en.com/ps/new/fidaa3.js
-||l7en.com/ps/new/palgirls.js
-||l7en.com/ps/new/v-ttal.js
-||l7en.com/ps/new/voicegerman3.js
+||l7en.com/ps/new/$script
 ||lahbabi.ma//home/code-widjet.html
 ||learn.wiki-net.net^$popup,domain=panorama-istanbul.org
 ||lhzro.com^$popup,domain=lhzro.com
@@ -1035,6 +1033,7 @@ alarab.net##.left_sqr
 bokra.net##.main_baner
 alarab.net##.mbAdImg
 mediamasr.tv##.mediumbanner
+hawaaweb.com##.middle-banner
 ech-chaab.net##.module.mod-line.color-black.deepest
 abotlal.com##.nannr
 rassoulallah.info##.narrow_column
@@ -1045,11 +1044,13 @@ now24.net##.pad5
 chat-alriyadh.com##.paner
 hao123.com##.pr
 europages.ma,menara.ma##.pub
+hawaaweb.com##.right-banner
 rassoulallah.info##.right_column
 swalif.net##.sab-adPlace
 korabia.com##.sayingOutOfContent
 syrcafe.co##.semoo
 alaan.tv##.show-specificimg1
+kol7agh.com##.show_left_left_google
 el3ab.com##.showcase
 souqa3mal.com##.slid-topmaxtech-costom-ads
 alayam.com##.slides1

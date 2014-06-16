@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: qlZaL1v+OjwqqkGwx054Lg
+! Checksum: APTmYmxr7W+eCQgUSL+fYw
 ! Title: EasyList Hebrew
-! Last modified: 12/06/14  09:16 Jerusalem Daylight Time
+! Last modified: 16/06/14  14:03 Jerusalem Daylight Time
 ! Expires: 4 days (update frequency)
 ! Homepage: https://github.com/AdBlockPlusIsrael/EasyListHebrew/
 ! Forums: https://github.com/AdBlockPlusIsrael/EasyListHebrew/issues
@@ -158,6 +158,7 @@
 ||bgu4u.co.il/download/banners/
 ||bizportal.co.il/Scripts/maavaron.js?v=
 ||cdn.mdigital.co.il/video/*.flv$domain=globes.co.il
+||cdn.shorte.st/link-converter.min.js
 ||chabad.info/images/pirsomot/
 ||cinema-city.co.il/media/nlc2013/flash/*banner
 ||d.co.il/Hebrew/images/Premium/
@@ -208,6 +209,9 @@
 ||view-movies.co.il/images/sideSticky.png
 ||view-movies.co.il/malabi/
 ||view-movies.co.il/winner.jpg
+||view-movies.co.il^$popup
+||vodmovies.co.il/images/connect.jpg
+||vodmovies.co.il/tasia.jpg
 ||wcdn.co.il/banners/
 !
 !----------------------------------Whitelists---------------------------------!
@@ -244,8 +248,7 @@
 @@||banners.hosting-il.com^$domain=cinema-city.co.il
 @@||bhol.co.il/imagebank/400x250
 @@||bipbip.co.il/Images/Ads/$~third-party
-@@||bs.serving-sys.com/BurstingPipe/adServer.bs$object-subrequest
-@@||bs.serving-sys.com/crossdomain.xml$object-subrequest
+@@||bs.serving-sys.com/crossdomain.xml$object-subrequest,domain=mako.co.il
 @@||c04dl.vds-is.castup.net/crossdomain.net
 @@||cbci16.b1.cdn.co.il^
 @@||ds.serving-sys.com/BurstingRes/$object-subrequest,domain=one.co.il
@@ -406,6 +409,7 @@ flix.tapuz.co.il##DIV[style="background-color: #FFFFFF; margin-left: auto; margi
 forbes.co.il##EMBED[src^="/download/banners/"]
 forbes.co.il##TABLE[style="background-color:#e8e8e8"]
 frogi.co.il##.adbox
+fun-city.co.il###videoImage1_login
 fxp.co.il###adfxp
 fxp.co.il###vc_widget
 fxp.co.il###web_3_tool
@@ -611,6 +615,8 @@ ori-diamonds.co.il###hoverConnect
 ori-diamonds.co.il##A[href^="http://www.view-movies.co.il/"]
 ori-diamonds.co.il##IMG[style="cursor: default; width: 100%;"]
 pitro.net###p_lt_WebPartZone3_zoneTopBanner_PitronetBannerRotator_nolinkPanel
+popcorate.co.il###hoverConnect
+popcorate.co.il###videoImage1_login
 reshet.tv###DivContent[rel="5498"]
 reshet.tv###prArea
 rest.co.il###divLeftBanner
@@ -629,6 +635,7 @@ seret.co.il##.cbthfds
 seret.co.il##DIV[style="width:100%;text-align:center;"]
 seret.co.il##SPAN[style="line-height:192px;height:192px;clear:both;display:block;"]
 seretil.me###ads516516as
+solitaire.co.il##.viv
 sport5.co.il###ucHeader_rptLinks_lnkAnchor_3
 sport5.co.il###ucHeader_rptLinks_lnkAnchor_4
 sport5.co.il##.article-holder > .alt
@@ -692,6 +699,7 @@ view-movies.co.il##A[href="http://www.view-movies.co.il/minisite.php"]
 view-movies.co.il##DIV[itemtype="http://data-vocabulary.org/Breadcrumb"]
 vodmovies.co.il###wrapper6
 vodmovies.co.il##A[href^="http://www.view-movies.co.il/"]
+vodx.co.il##.top-banner
 walla.co.il###ARKIA_CONTAINER
 walla.co.il###navbar
 walla.co.il###sec_jobcity_906

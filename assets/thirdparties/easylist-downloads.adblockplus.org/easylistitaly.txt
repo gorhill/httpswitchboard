@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: Hq9Y2wxpsD/ms4ex+mU+3A
-! Version: 201406132351
+! Checksum: A02oiVr0G76dA04XkEQ8Kw
+! Version: 201406161521
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 13 Jun 2014 23:51 UTC
+! Ultima modifica: 16 Jun 2014 15:21 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -408,6 +408,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||passionevideo.it/inc/ova.swf$object-subrequest
 ||percorsidigitali.com/consulting300.gif
 ||plug.it/*/oas/
+||plug.it/oas/
 ||pop.virgilio.us^
 ||popspace.virgilio.us^
 ||pornotizie.com/image/banner/
@@ -1192,6 +1193,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||novara.com/public/WAPPS/LinksBannerData/
 ||novara.com^*/MainBanner_
 ||nuovadelsud.it/images/banners/
+||nuovavicenza.it/banner/
 ||nyc-site.com/newyork/hotel/
 ||oas.repubblica.it^
 ||occhiodisalerno.com/images/banners/
@@ -1649,7 +1651,8 @@ ilsoftware.it###SponsorFull
 tio.ch###Tio_News_Sponsor_basso_Flat
 ladistanza.it###a1[style="top: 523px;"]
 spaziogames.it###a_boder_bg
-2night.it###ad
+2night.it,ascoltareradio.com###ad
+ascoltareradio.com###ad3
 digital-forum.it,esigarettaforum.com###ad_global_below_navbar
 bordighera.net,italianhack.org,mailexpress.it,spaziogames.it###ads
 ilgazzettinovesuviano.com###adsensing
@@ -1719,11 +1722,13 @@ si24.it###banner_branciforte
 contosulconto.it###banner_content
 tuttobasket.net###banner_head
 laprovinciadicomo.it###banner_header
+tuttosport.com###banner_leaderboard
 lastampa.it###banner_maxticker
 html.it###banner_piede_articolo
 paginegialle.it###banner_pushbar
 firenzespettacolo.it###banner_side
 livesicilia.it###banner_skin
+tuttosport.com###banner_square
 notiziediprato.it###banner_strip
 ilcorrieredabruzzo.it###banner_testata
 ilcorrieredabruzzo.it###banner_testata_1004x114
@@ -1802,7 +1807,7 @@ key4biz.it###ebookNews
 unita.it###eimp[style="width:298px;float:left;margin-top:20px;height:248px;border:1px solid #cccccc; position:relative; z-index:0"]
 comingsoon.it###expSkin
 tipiace.it###externalbanner
-avvisatore.ilsecoloxix.it,shippingonline.ilsecoloxix.it,ttmweb.it###footer
+avvisatore.ilsecoloxix.it,lavocedivenezia.it,shippingonline.ilsecoloxix.it,ttmweb.it###footer
 insegreto.it###footer-banners
 ladige.it###footer-leaderboard
 red-live.it###footer_banner
@@ -1832,6 +1837,7 @@ radiospeaker.it###home-banner
 avvenire.it###htmlcomponent18 > .boxAggiuntivi
 ladige.it,panorama.it###immob_box_ricerca
 r101.it###innamorarsiA101
+sportstadio.it###iol-partners
 cittaceleste.it,juvenews.eu###itemBannerSottoImg
 unita.it###ixeBanner
 prowrestling.it###landingbanner
@@ -2451,6 +2457,7 @@ paginebianche.it##div[style="width: 300px; height: 100px;"]
 corriereromagna.it##div[style="width: 300px; height: 250px; border: 0px solid black; position: relative; background-color: #013671;"]
 tiscali.it##div[style="width: 300px; height: 250px; vertical-align: top; text-align: left;"]
 libero.it,paginebianche.it##div[style="width: 300px; height: 250px;"]
+blogo.it##div[style="width: 300px;height: 250px;"]
 articolotre.com##div[style="width: 500px; min-height: 50px; border-bottom: 1px dotted rgb(205, 23, 19); padding: 0px 0px 5px; margin: 0px; background-color: rgb(232, 239, 252);"]
 ilfattoquotidiano.it##div[style="width: 600px; min-height: 42px; border: 0px none; margin: 0px 10px 10px; padding: 0px; background-color: rgb(239, 239, 239);"]
 regginacalcio.com##div[style="width: 702px; height:300px; border: 4px solid #fff; margin-bottom: 0px;"]
@@ -2586,6 +2593,8 @@ termometropolitico.it##[id^="bsa"]
 @@||151.1.68.170/index.php?zoneid=$object-subrequest,domain=la7.it
 @@||ad.smartclip.net/crossdomain.xml$object-subrequest,domain=serviziopubblico.it
 @@||ad.smartclip.net/delivery/tag?$object-subrequest,domain=serviziopubblico.it
+@@||ad2.neodatagroup.com/uploads/js/sid49jq.js$domain=rai.it|rai.tv
+@@||ad49.neodatagroup.com/ad/sipra.jsp?*&player=html5$script,domain=rai.it|rai.tv
 @@||adimg.matrixspa.it/cookie_script/read_crt.html$domain=webmail.virgilio.it
 @@||adimg.matrixspa.it/jsc/advManage.js$domain=webmail.virgilio.it
 @@||adnkronos.com/ign/mediacenter/fotogallery/data_01/img/ad_
@@ -2650,6 +2659,7 @@ termometropolitico.it##[id^="bsa"]
 @@||pad.mymovies.it/v9/adv/media/preroll/*.flv$object-subrequest
 @@||paesesera.it/design/paesesera/stylesheets/advertising.css
 @@||pagead2.googlesyndication.com/pagead/googlevideoadslibrary.swf$object-subrequest,domain=giochidicalcio.com
+@@||pagead2.googlesyndication.com/pagead/js/adsbygoogle.js$domain=windowsblogitalia.com
 @@||pagead2.googlesyndication.com/pagead/scache/googlevideoads.swf$object-subrequest,domain=giochidicalcio.com
 @@||pagead2.googlesyndication.com/pagead/show_ads.js$domain=ipaditalia.com|iphoneitalia.com
 @@||panorama.it/adv/$image
@@ -2692,6 +2702,7 @@ termometropolitico.it##[id^="bsa"]
 @@||tvgratis.altervista.org^$elemhide
 @@||tvgratis.altervista.org^*#$image
 @@||tvgratis.altervista.org^*/advertisement.js
+@@||windowsblogitalia.com^$elemhide,image
 @@||zeb89.altervista.org^$elemhide
 @@||zeb89.altervista.org^*#$image
 ! *** easylistitaly:easylistitaly/easylistitaly_whitelist_dimensions.txt ***

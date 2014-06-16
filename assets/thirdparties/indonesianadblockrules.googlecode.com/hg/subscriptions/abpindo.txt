@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: ZlvJlHaGJqf79XWLFs22og
+! Checksum: ie4zMbwDawgY882Q9imDYQ
 ! Title: ABPindo
-! Last modified: 05 Juni 2014, 09:26:43 WIB
+! Last modified: 15 Juni 2014, 13:14:24 WIB
 ! Expires: 4 days (update frequency)
 ! Homepage: http://abpindo.blogspot.com/
 ! Licence: http://indonesianadblockrules.googlecode.com/hg/subscriptions/COPYING
@@ -478,8 +478,7 @@ lintas.me###facebox_overlay
 bioskop21.us###fadeinbox
 teknoup.com###fancybox-wrap
 teknoup.com###fancybox_ajax
-forumbokep.com,vocland.com###floating_banner_bottom
-krucil.net###floating_banner_bottom.krucil_ads
+forumbokep.com,krucil.net,vocland.com###floating_banner_bottom
 ganool.com###floating_banner_top2
 untukku.com###footer-adcont
 resep.web.id###googlebox
@@ -612,7 +611,7 @@ komikbaru.com##.iklan_kiri
 detik.com##.iklan_tengah
 gambarkeren.info##.iklankotak1
 krucil.net##.krucil_ads
-krucil.net##.krucil_ads.krucil_floating_banner_top
+krucil.net##.krucil_floating_banner_top
 kaskus.co.id##.l-link
 lapar.com##.leftcontent[style="padding:0px; margin:0px auto; height:250px; width:720px; border:0px; background:none; "]
 tribunnews.com##.mb20.ac.bsh3.ads
@@ -690,7 +689,6 @@ zonamuda.com##td[valign="top"][height="56px"][align="center"]
 ||eelsoup.net^
 ||fanbangho.com^
 ||festered.com^
-||fingerslam.com^
 ||fishermen.ytmnd.com^
 ||fragskin.com^
 ||fruitlauncher.com^
@@ -731,11 +729,9 @@ zonamuda.com##td[valign="top"][height="56px"][align="center"]
 ||mangems.com^
 ||martectx.de^
 ||meatrolled.com^
-||meatspin.com^
 ||melondude.com^
 ||milkfountain.com^
 ||moldymen.com^
-||motherman.com^
 ||mrshands.com^
 ||mudfall.com^
 ||mudmonster.org^
@@ -781,10 +777,8 @@ zonamuda.com##td[valign="top"][height="56px"][align="center"]
 ||whoomp.org^
 ||winterrowd.com^
 ||wormgush.com^
-||wowomg.com^
 ||xnescat.info^
 ||yellaface.com^
-||youaresogay.com^
 ! *** abpindo_whitelist.txt ***
 @@.png#$domain=animeindo.tv|oploverz.net|wardhanime.net
 @@||animeindo.tv^$elemhide

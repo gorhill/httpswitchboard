@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: rBeCLpo+Eom2Ph7AIiO2gg
-! Version: 201406132351
+! Checksum: eYm6+HlkuY5Jbs03CMn3/g
+! Version: 201406161521
 ! Title: EasyList Germany
 ! EasyList Germany - Deutsche Ergänzung zu EasyList
-! Last modified: 13 Jun 2014 23:51 UTC
+! Last modified: 16 Jun 2014 15:20 UTC
 ! Expires: 1 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -311,6 +311,7 @@ _woz_banner_vote.
 ##.reklame
 ##.right-content-werbung
 ##.seitenleiste_werbung
+##.shift-widget > .cm-article
 ##.sidebarwerbung
 ##.sponsorinaktiv
 ##.sponsorlinkgruen
@@ -2692,6 +2693,7 @@ mov-world.net#@#a[href^="http://www.FriendlyDuck.com/AF_"]
 ||looki.de/gfx/cache/ba_*.png
 ||looki.de^*/take_over_
 ||lose-keller.de/sk_views.php
+||lounge.fm^*_Anzeige_
 ||lowbird.com/media/ichwuerde.gif
 ||luebeck-tourismus.de/images/stories/*_154x70
 ||luebeck-tourismus.de/images/stories/banners/
@@ -3643,6 +3645,7 @@ mov-world.net#@#a[href^="http://www.FriendlyDuck.com/AF_"]
 ||zweinullig.de/wp-content/uploads/chaershop.jpg
 ! Anti-Adblock
 /a*/img/*$image,domain=audio.de|colorfoto.de|connect.de|connected-home.de|pc-magazin.de|video-magazin.de
+/b*/img/*$image,domain=audio.de|colorfoto.de|connect.de|connected-home.de|pc-magazin.de|video-magazin.de
 /c*/img/*$image,domain=audio.de|colorfoto.de|connect.de|connected-home.de|pc-magazin.de|video-magazin.de
 /t*/img/*$image,domain=audio.de|colorfoto.de|connect.de|connected-home.de|pc-magazin.de|video-magazin.de
 ||gamona.de/assets/*.swf
@@ -5052,6 +5055,7 @@ chip.de##.bullet-partner
 web.de##.buster
 tt.com##.button145
 xink.it##.buttonMirror
+lounge.fm##.buy
 giga.de##.buy[target="_blank"]
 giga.de##.buy[target="blank"]
 magistrix.de##.buy_song
@@ -5140,6 +5144,7 @@ bild.de##.contentbar
 dastelefonbuch.de##.context_banners
 klassikradio.de##.cssmedia[height="125"][width="288"]
 rimparerhandballer.de##.custom > .adv_slideshowTable
+lounge.fm##.custom-sponsor
 mobile.de##.d-05-opromo_de
 winload.de##.darklayer
 3dl.tv##.ddl-mirror-box.button[title]
@@ -7382,6 +7387,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@|http://*.de^*/*/*/*.js|$script,third-party,domain=lustich.de
 @@|http://*.net^$image,third-party,domain=gamona.de
 @@|http://*/*.gif?*=*&*=$object-subrequest,third-party,domain=gmx.net|homerj.de|spiegel.tv|sueddeutsche.de|web.de
+@@|http://*/?*&*=$object-subrequest,third-party,domain=gmx.net|homerj.de|spiegel.tv|sueddeutsche.de|web.de
 @@|http://*/?*=*&$object-subrequest,third-party,domain=gmx.net|homerj.de|spiegel.tv|sueddeutsche.de|web.de
 @@|http://*?*=*&*=*&*=$object-subrequest,domain=gmx.net|homerj.de|spiegel.tv|sueddeutsche.de|web.de
 @@|http://*uk.to^$script,domain=ul-load.com|uploaded-premium.ru
@@ -7545,7 +7551,7 @@ pcwelt.de##div[id^="google_ads_"]
 @@||mannfuermann.com/mfm/static/adcode.js
 @@||mediationslupe.de^$elemhide
 @@||medienrechtsnews.de^$elemhide
-@@||mename.de^$script,domain=gamona.de
+@@||mename.de^$script,domain=gamona.de|lustich.de
 @@||mirror-archiv.com/banner/ads/adserver/click/ad.js
 @@||mobilfunk-geschichte.de^$elemhide
 @@||mufa.de/js/advertisement.js

@@ -1,8 +1,8 @@
 [Adblock Plus 2.0]
-! Checksum: /E4H/bsY1l0O/6R8FKXcxg
-! Version: 201406132350
+! Checksum: vWxCHFTmCHU86k7schWMNg
+! Version: 201406161520
 ! Title: EasyList
-! Last modified: 13 Jun 2014 23:50 UTC
+! Last modified: 16 Jun 2014 15:20 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -747,6 +747,7 @@
 /ad/realclick/*
 /ad/rectangle.
 /ad/reklamy.
+/ad/request?
 /ad/right2.
 /ad/rotate?
 /ad/script/*
@@ -2836,6 +2837,7 @@
 /bbad9.
 /bckgrnd_ad.
 /bdcustomadsense-
+/beacon/ad/*
 /behaviorads/*
 /beta-ad.
 /betrad.js
@@ -7918,6 +7920,7 @@ _popunder+$popup
 ###ad_layer
 ###ad_layer1
 ###ad_layer2
+###ad_ldb
 ###ad_lead1
 ###ad_leader
 ###ad_leaderBoard
@@ -13355,6 +13358,7 @@ _popunder+$popup
 ##.ad-messaging
 ##.ad-midleader
 ##.ad-mobile
+##.ad-mobile-banner
 ##.ad-module
 ##.ad-mpl
 ##.ad-mpu
@@ -15456,6 +15460,7 @@ _popunder+$popup
 ##.adverhrz
 ##.adverserve145
 ##.adverstisement_right
+##.advert--banner-wrap
 ##.advert--vc
 ##.advert--vc__wrapper
 ##.advert-100
@@ -17282,6 +17287,7 @@ _popunder+$popup
 ##.home-ad-links
 ##.home-ads-container
 ##.home-ads-container1
+##.home-advert
 ##.home-area3-adv-text
 ##.home-body-ads
 ##.home-features-ad
@@ -19480,6 +19486,7 @@ _popunder+$popup
 ##.under-player-ads
 ##.under_ads
 ##.undertimyads
+##.uniAdBox
 ##.uniAds
 ##.uniblue-text-ad
 ##.unit-ad
@@ -21448,6 +21455,7 @@ topzone.lt#@#.forumAd
 ||delivery45.com^$third-party
 ||delivery47.com^$third-party
 ||delivery49.com^$third-party
+||delivery51.com^$third-party
 ||deplayer.net^$third-party
 ||derlatas.com^$third-party
 ||designweekly.co.cc^$third-party
@@ -22307,6 +22315,7 @@ topzone.lt#@#.forumAd
 ||objectservers.com^$third-party
 ||oceanwebcraft.com^$third-party
 ||oclus.com^$third-party
+||oehposan.com^$third-party
 ||offeradvertising.biz^$third-party
 ||offerforge.com^$third-party
 ||offerpalads.com^$third-party
@@ -26080,6 +26089,7 @@ topzone.lt#@#.forumAd
 /uts.js?$domain=mediafire.com
 /vendors/*$domain=rzrforums.net
 ?random=$script,domain=allmyvideos.net|mediafire.com|mooshare.biz|muchshare.net|tvmuse.com|tvmuse.eu|vidspot.net
+^5ff0fb62-$domain=mediafire.com
 ^guid=$script,domain=allmyvideos.net|mediafire.com|mooshare.biz|muchshare.net|tvmuse.com|tvmuse.eu|vidspot.net
 |http:$subdocument,third-party,domain=2ad.in|adf.ly|adfoc.us|adv.li|allmyvideos.net|j.gs|linkbucksmedia.com|q.gs|shr77.com|tigerleech.com|u.bb|vidspot.net
 |http://j.gs/omnigy*.swf
@@ -26913,6 +26923,7 @@ topzone.lt#@#.forumAd
 ||dota-trade.com/img/branding_
 ||doubleclick.net/gampad/ads?*^vpos^$domain=cbs.com
 ||doubleviking.com/ss.html
+||downloadian.com/assets/banner.jpg
 ||dprogram.net^*/rightsprites.png
 ||dpstatic.com/s/ad.js
 ||dreamscene.org^*_Banner.
@@ -27539,6 +27550,7 @@ topzone.lt#@#.forumAd
 ||inanyevent.ch/images/banners/
 ||incentivetravel.co.uk/images/banners/
 ||indeed.com/ads/
+||independent.co.ug/images/banners/
 ||independent.co.uk/kelkoo/
 ||independent.co.uk/multimedia/archive/$subdocument
 ||independent.co.uk^*/partners/
@@ -30840,7 +30852,7 @@ tortoisesvn.net###adgroup
 girlsgames.biz###admd
 mp3skull.com###adr_banner
 mp3skull.com###adr_banner_2
-909lifefm.com,anichart.net,audioreview.com,carlow-nationalist.ie,daemon-tools.cc,disconnect.me,dreadcentral.com,duckduckgo.com,eveningecho.ie,financenews.co.uk,gearculture.com,genevalunch.com,hdcast.tv,healthboards.com,hiphopisdream.com,inspirationti.me,isearch-for.com,kildare-nationalist.ie,laois-nationalist.ie,lorempixel.com,lyricstime.com,mobilerevamp.org,mtbr.com,nylonguysmag.com,placehold.it,playr.org,privack.com,quiz4fun.com,quote.com,roscommonherald.ie,skyuser.co.uk,theindustry.cc,toorgle.net,tvope.com,washingtonmonthly.com,waterford-news.ie,wccftech.com,westernpeople.com,wexfordecho.ie###ads
+909lifefm.com,anichart.net,audioreview.com,carlow-nationalist.ie,daemon-tools.cc,disconnect.me,dreadcentral.com,duckduckgo.com,eveningecho.ie,financenews.co.uk,footballfancast.com,gearculture.com,genevalunch.com,hdcast.tv,healthboards.com,hiphopisdream.com,inspirationti.me,isearch-for.com,kildare-nationalist.ie,laois-nationalist.ie,lorempixel.com,lyricstime.com,mobilerevamp.org,mtbr.com,nylonguysmag.com,placehold.it,playr.org,privack.com,quiz4fun.com,quote.com,roscommonherald.ie,skyuser.co.uk,theindustry.cc,toorgle.net,tvope.com,washingtonmonthly.com,waterford-news.ie,wccftech.com,westernpeople.com,wexfordecho.ie###ads
 release-ddl.com,womanowned.com###ads3
 chia-anime.com###ads4
 chia-anime.com###ads8
@@ -32976,6 +32988,7 @@ urbandictionary.com###rightist
 herold.at###rightsponsor
 elyricsworld.com###ringtone
 tubeconverter.net###ringtone-button
+youtump3.com###ringtoner
 egotastic.com,idolator.com,socialitelife.com,thesuperficial.com###river-container
 getauto.com###rmBottom
 getauto.com###rm_Right1
@@ -33189,6 +33202,7 @@ knucklesunited.com###site-title
 opendemocracy.net###site-topbanner
 tmz.com###site-white-cover
 kstp.com###siteHeaderLeaderboard
+arsenal-mania.com###sitePromos
 reddit.com###siteTable_organic
 texastribune.org###site_roofline
 smsfun.com.au###sitebanners
@@ -36530,6 +36544,7 @@ bit.com.au##.skin-btn
 autocarindia.com##.skin-link
 videogamer.com,zdnet.com##.skinClick
 entrepreneur.com,metro.co.uk,newstatesman.com##.sky
+skysports.com##.skyBetLinkBox
 petoskeynews.com##.skyScraper
 planet-rugby.co.za,planetf1.com,planetrugby.com##.skybetbar
 eweek.com##.skylabel
@@ -36678,7 +36693,7 @@ fbdownloader.com##.sponsored-info
 techtipsgeek.com##.sponsored-level
 usnews.com##.sponsored-listing
 thestar.com##.sponsored-listings
-dailystar.co.uk##.sponsored-section
+dailystar.co.uk,standardmedia.co.ke##.sponsored-section
 computerandvideogames.com##.sponsored-slideshow
 futuresmag.com##.sponsored-tops
 windowsitpro.com,winsupersite.com##.sponsoredAnnouncementWrap
@@ -38829,6 +38844,7 @@ rapbasement.com##div[style="width:300px;height:260px;background:#000000;margin-b
 judgespot.com##div[style="width:300px;height:270px; line-height: 18px;border-width:0px;border-style:solid;border-color:white;padding:0px; font-size: 13px;"]
 amazon.co.uk##div[style="width:300px;height:280px;"]
 metro.us##div[style="width:300px;height:600px;"]
+thefreedictionary.com##div[style="width:300px;height:60px;margin:18px 0 3px -6px;text-align:left"]
 extremefile.com##div[style="width:300px;margin-left:360px;padding-top:29px;"]
 howtogeek.com##div[style="width:300px;min-height:20px;"]
 howtogeek.com##div[style="width:300px;min-height:20px;padding-bottom:20px;"]
@@ -39273,6 +39289,7 @@ thefinancialbrand.com##li[id^="banner"]
 mpgh.net##li[style="display: block; clear: both; height: 100px; border: 1px solid #E9E9E9; background-color: #FAFAFA;"]
 webmastertalkforums.com##li[style="width: 100%; height: 100px !important;"]
 cynagames.com##li[style="width: 25%; margin: 0; clear: none; padding: 0; float: left; display: block;"]
+psfk.com##li[style="width:300px; height:250px; margin-left: auto; margin-right:auto;"]
 bittorrent.am##noindex
 featve.com##object + script + div[class]
 stream4.tv##object[id^="stream"] + script + div[class]
@@ -40317,6 +40334,7 @@ sexyshare.net##.videosz_banner
 youporn.com##.views_left
 lubetube.com##.viewvideobanner
 imagearn.com##.wide_banner
+beeg.com##.window
 mrskin.com##.yui3-u-1-3:last-child
 porn.com##.zone
 alotporn.com##[class^="right-iframe-rotate2"]
@@ -42382,7 +42400,7 @@ literotica.com##tr[style="background: #fff; text-align: center; font-size: 80%; 
 @@||hqpdb.com/ads/banner.jpg?
 @@||i-stream.pl^*/advertisement.js
 @@||i.imgur.com^*#.$image,domain=newmusicforpeople.org
-@@||ilive.to/js/advertisement.js
+@@||ilive.to/js/advert*.js
 @@||ilix.in^$script,domain=ilix.in|priva.us
 @@||imageontime.com/ads/banner.jpg?
 @@||images.bangtidy.net^$elemhide
@@ -42487,6 +42505,7 @@ literotica.com##tr[style="background: #fff; text-align: center; font-size: 80%; 
 @@||rapidmoviez.com/files/php/mgid-ad$subdocument
 @@||ratebeer.com/javascript/advertisement.js
 @@||rctrails.com^$script,domain=eventhubs.com
+@@||redtube.com*/adframe.js
 @@||remo-xp.com^$elemhide
 @@||resources.infolinks.com/js/*/ice.js$domain=cyberdevilz.net
 @@||resources.infolinks.com/js/infolinks_main.js$domain=cyberdevilz.net
