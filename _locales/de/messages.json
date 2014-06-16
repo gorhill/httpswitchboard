@@ -757,9 +757,9 @@
         "message": "Temporär alles erlauben",
         "description": "English: Temporarily whitelist all"
     },
-    "commandOpenSettings" : {
-        "message": "Einstellungen ...",
-        "description": "English: Settings..."
+    "commandOpenDashboard" : {
+        "message": "Einstellungen",
+        "description": "English: Open dashboard"
     },
 
 

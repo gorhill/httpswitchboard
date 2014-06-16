@@ -757,9 +757,9 @@
         "message": "Temporarily whitelist all",
         "description": "English: Temporarily whitelist all"
     },
-    "commandOpenSettings" : {
-        "message": "Settings...",
-        "description": "English: Settings..."
+    "commandOpenDashboard" : {
+        "message": "Open dashboard",
+        "description": "English: Open dashboard"
     },
 
 

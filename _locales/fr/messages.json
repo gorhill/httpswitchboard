@@ -757,9 +757,9 @@
         "message": "Permettre temporairement tous les domaines la page",
         "description": "English: Temporarily whitelist all"
     },
-    "commandOpenSettings" : {
-        "message": "Paramètres...",
-        "description": "English: Settings..."
+    "commandOpenDashboard" : {
+        "message": "Paramètres",
+        "description": "English: Open dashboard"
     },
 
 

@@ -68,7 +68,7 @@ var onCommand = function(command) {
     case 'whitelist-all':
         chrome.tabs.query({ active: true }, whitelistAll);
         break;
-    case 'open-settings':
+    case 'open-dashboard':
         chrome.runtime.sendMessage({
             what: 'gotoExtensionURL',
             url: 'dashboard.html'

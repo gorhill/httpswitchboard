@@ -41,8 +41,8 @@
                 "mac": "Command+Shift+W"
             }
         },
-       "open-settings": {
-            "description": "__MSG_commandOpenSettings__",
+       "open-dashboard": {
+            "description": "__MSG_commandOpenDashboard__",
             "suggested_key": {
                 "default": "Alt+S",
                 "mac": "Command+Shift+S"
