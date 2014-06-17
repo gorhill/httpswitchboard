@@ -165,6 +165,10 @@
         "message": "<a href='https://en.wikipedia.org/wiki/HTTP_referer'>HTTP ссылок</a> блокировано: {{count}}",
         "description": "English: HTTP referer headers foiled: {{count}}"
     },
+    "statsPageHyperlinkAuditingFoiled" : {
+        "message": "<a href='http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing'>Hyperlink auditing</a> attempts foiled: {{count}}",
+        "description": "English: Hyperlink auditing attempts foiled: {{count}}"
+    },
     "statsPageCookiesRemoved" : {
         "message": "Удалено локальных кукисов: {{count}}",
         "description": "Local cookies removed: {{count}}"
@@ -394,6 +398,14 @@
     "settingsProcessRefererHelp" : {
         "message": "<p>Из Википедии: &ldquo;в протоколе HTTP один из заголовков запроса клиента. Содержит URL источника запроса. Если перейти с одной страницы на другую, referer будет содержать адрес первой страницы.  ... <b>Поскольку посылаемая информация может нарушить конфиденциальность, некоторые веб браузеры могут позволить пользователям отключить посылку этих данных.</b>&rdquo;</p><p>Если выбрана эта опция, <i>HTTP Switchboard</i> будет удалять HTTP запросы, при условии, что выполняются условия <b>ниже</b>:<ul style='padding-left:1em;list-style-type:disc;'><li>Доменное имя HTTP-referer не соответствует имени домена из URL запроса (referer сторонней веб-страницы);<li>Адрес хоста в запросе не из белого списка.</ul></p>",
         "описание": "..."
+    },
+    "settingsProcessHyperlinkAuditingPrompt" : {
+        "message": "Block all <a href='http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing'>hyperlink auditing</a> attempts.",
+        "description": "..."
+    },
+    "settingsProcessHyperlinkAuditingHelp" : {
+        "message": "<p>Hyperlink auditing is a mechanism which allow a party, <b>any party</b>, to be informed about which link a user clicked on a particular web page. It is essentially a tracking feature: it allows a web site, or any third-party to that web site, to be informed about which link you clicked on which one of its web pages. The sole purpose is to track your browsing activity.</p>",
+        "description": "..."
     },
     "settingsSpoofUserAgentPrompt1" : {
         "message": "Подмена <a href='https://en.wikipedia.org/wiki/User_agent'>User-Agent</a> строки, выбирая случайную строку ниже каждые",

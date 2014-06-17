@@ -165,6 +165,10 @@
         "message": "<a href='https://de.wikipedia.org/wiki/Referrer'>HTTP Referrer</a> Header blockiert: {{count}}",
         "description": "English: HTTP referer headers foiled: {{count}}"
     },
+    "statsPageHyperlinkAuditingFoiled" : {
+        "message": "<a href='http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing'>Hyperlink auditing</a> attempts foiled: {{count}}",
+        "description": "English: Hyperlink auditing attempts foiled: {{count}}"
+    },
     "statsPageCookiesRemoved" : {
         "message": "Lokale Cookies entfernt: {{count}}",
         "description": "Local cookies removed: {{count}}"
@@ -393,6 +397,14 @@
     },
     "settingsProcessRefererHelp" : {
         "message": "<p>Aus Wikipedia: &ldquo;Ein Referrer ist die Internetadresse der Webseite, von der der Benutzer durch Anklicken eines Links zu der aktuellen Seite gekommen ist. ... <b>(Die Übertragung eines Referrers zu verhindern) ...ist unter anderem aus Datenschutzerwägungen interessant, da andernfalls die Möglichkeit besteht, die Referrer mit den Nutzer-IP-Adressen in Verbindung zu bringen.</b>&rdquo;</p><p>Wenn dieser Schalter aktiviert ist, wird <i>HTTP Switchboard</i> den HTTP Referrer entfernen, wenn <b>beide</b> folgenden Bedingungen erfüllt sind:<ul style='padding-left:1em;list-style-type:disc;'><li>Der Domänenname des HTTP Referrer stimmt nicht mit dem Domänenname der anfragenden URL überein (das heißt, der Referrer stammt von einer Drittseite);<li>Der anfragende Hostname ist nicht auf der Whitelist.</ul></p>",
+        "description": "..."
+    },
+    "settingsProcessHyperlinkAuditingPrompt" : {
+        "message": "Block all <a href='http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing'>hyperlink auditing</a> attempts.",
+        "description": "..."
+    },
+    "settingsProcessHyperlinkAuditingHelp" : {
+        "message": "<p>Hyperlink auditing is a mechanism which allow a party, <b>any party</b>, to be informed about which link a user clicked on a particular web page. It is essentially a tracking feature: it allows a web site, or any third-party to that web site, to be informed about which link you clicked on which one of its web pages. The sole purpose is to track your browsing activity.</p>",
         "description": "..."
     },
     "settingsSpoofUserAgentPrompt1" : {

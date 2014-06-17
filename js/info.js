@@ -177,6 +177,7 @@ function renderStats() {
 
     renderLocalized('statsPageCookieHeadersFoiled', { count: renderNumber(httpsb.cookieHeaderFoiledCounter) });
     renderLocalized('statsPageRefererHeadersFoiled', { count: renderNumber(httpsb.refererHeaderFoiledCounter) });
+    renderLocalized('statsPageHyperlinkAuditingFoiled', { count: renderNumber(httpsb.hyperlinkAuditingFoiledCounter) });
     renderLocalized('statsPageCookiesRemoved', { count: renderNumber(httpsb.cookieRemovedCounter) });
     renderLocalized('statsPageLocalStoragesCleared', { count: renderNumber(httpsb.localStorageRemovedCounter) });
     renderLocalized('statsPageBrowserCacheCleared', { count: renderNumber(httpsb.browserCacheClearedCounter) });

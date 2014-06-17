@@ -139,6 +139,7 @@ $(function() {
     $('#clear-browser-cache').attr('checked', userSettings.clearBrowserCache === true);
     $('#clear-browser-cache-after').val(userSettings.clearBrowserCacheAfter);
     $('#process-referer').attr('checked', userSettings.processReferer);
+    $('#process-hyperlink-auditing').attr('checked', userSettings.processHyperlinkAuditing);
     $('#spoof-user-agent').attr('checked', userSettings.spoofUserAgent);
     $('#spoof-user-agent-every').val(userSettings.spoofUserAgentEvery);
     $('#spoof-user-agent-with').val(userSettings.spoofUserAgentWith);
@@ -196,6 +197,9 @@ $(function() {
     });
     $('#process-referer').on('change', function(){
         changeUserSettings('processReferer', $(this).is(':checked'));
+    });
+    $('#process-hyperlink-auditing').on('change', function(){
+        changeUserSettings('processHyperlinkAuditing', $(this).is(':checked'));
     });
     $('#spoof-user-agent').on('change', function(){
         changeUserSettings('spoofUserAgent', $(this).is(':checked'));

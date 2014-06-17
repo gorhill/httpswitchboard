@@ -244,7 +244,92 @@ var onBeforeRootFrameRequestHandler = function(details) {
 
     // quickProfiler.stop();
     
-    return { "redirectUrl": dataURI };
+    return { 'redirectUrl': dataURI };
+};
+
+/******************************************************************************/
+
+// Process a request.
+//
+// This can be called from the context of onBeforeSendRequest() or
+// onBeforeSendHeaders().
+
+var processRequest = function(httpsb, details) {
+    var httpsburi = httpsb.URI;
+    var requestType = details.type;
+    var requestURL = httpsburi.set(details.url).normalizedURI();
+    var requestHostname = httpsburi.hostname;
+    var requestPath = httpsburi.path;
+
+    // Re-classify orphan HTTP requests as behind-the-scene requests. There is
+    // not much else which can be done, because there are URLs
+    // which cannot be handled by HTTP Switchboard, i.e. `opera://startpage`,
+    // as this would lead to complications with no obvious solution, like how
+    // to scope on unknown scheme? Etc.
+    // https://github.com/gorhill/httpswitchboard/issues/191
+    // https://github.com/gorhill/httpswitchboard/issues/91#issuecomment-37180275
+    var pageStats = httpsb.pageStatsFromTabId(details.tabId);
+    if ( !pageStats ) {
+        pageStats = httpsb.pageStatsFromTabId(httpsb.behindTheSceneTabId);
+    }
+    var pageURL = httpsb.pageUrlFromPageStats(pageStats);
+
+    // rhill 2013-12-15:
+    // Try to transpose generic `other` category into something more
+    // meaningful.
+    if ( requestType === 'other' ) {
+        requestType = httpsb.transposeType(requestType, requestPath);
+    }
+
+    // Block request?
+    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(pageURL);
+    var block = httpsb.evaluateFromScopeKey(scopeKey, requestType, requestHostname).charAt(0) === 'r';
+    var reason;
+
+    // Block using ABP filters?
+    if ( block === false ) {
+        var scope = httpsb.temporaryScopeFromScopeKey(scopeKey);
+        if ( scope.abpFiltering === true ) {
+            block = httpsb.abpFilters.matchString(pageStats, requestURL, requestType, requestHostname);
+            if ( block !== false ) {
+                pageStats.abpBlockCount += 1;
+                httpsb.abpBlockCount += 1;
+                reason = 'ABP filter: ' + block;
+            }
+        }
+    }
+
+    // Record request.
+    // https://github.com/gorhill/httpswitchboard/issues/342
+    // The way requests are handled now, it may happen at this point some
+    // processing has already been performed, and that a synthetic URL has
+    // been constructed for logging purpose. Use this synthetic URL if
+    // it is available.
+    pageStats.recordRequest(requestType, details.httpsbRequestURL || requestURL, block, reason);
+
+    // whitelisted?
+    if ( !block ) {
+        // console.debug('onBeforeRequestHandler()> ALLOW "%s": %o', details.url, details);
+        return;
+    }
+
+    // blacklisted
+    // console.debug('onBeforeRequestHandler()> BLOCK "%s": %o', details.url, details);
+
+    // If it's a blacklisted frame, redirect to frame.html
+    // rhill 2013-11-05: The root frame contains a link to noop.css, this
+    // allows to later check whether the root frame has been unblocked by the
+    // user, in which case we are able to force a reload using a redirect.
+    if ( requestType === 'sub_frame' ) {
+        var html = subFrameReplacement
+            .replace(/{{fontUrl}}/g, httpsb.fontCSSURL)
+            .replace(/{{hostname}}/g, requestHostname)
+            .replace(/{{subframeColor}}/g, httpsb.userSettings.subframeColor)
+            .replace(/{{subframeOpacity}}/g, (httpsb.userSettings.subframeOpacity / 100).toFixed(1));
+        return { 'redirectUrl': 'data:text/html,' + encodeURIComponent(html) };
+    }
+
+    return { 'cancel': true };
 };
 
 /******************************************************************************/
@@ -277,7 +362,7 @@ var onBeforeRequestHandler = function(details) {
     }
 
     // Is it HTTPSB's noop css file?
-    if ( requestURL.slice(0, httpsb.noopCSSURL.length) === httpsb.noopCSSURL ) {
+    if ( requestType === 'stylesheet' && requestURL.slice(0, httpsb.noopCSSURL.length) === httpsb.noopCSSURL ) {
         return onBeforeChromeExtensionRequestHandler(details);
     }
 
@@ -288,106 +373,91 @@ var onBeforeRequestHandler = function(details) {
 
     // Do not block myself from updating assets
     // https://github.com/gorhill/httpswitchboard/issues/202
-    if ( requestType === 'xmlhttprequest' ) {
-        if ( requestURL.slice(0, httpsb.projectServerRoot.length) === httpsb.projectServerRoot ) {
-            // quickProfiler.stop();
-            return;
-        }
-    }
-
-    // Normalizing will get rid of the fragment part
-    requestURL = httpsburi.set(requestURL).normalizedURI();
-
-    var requestHostname = httpsburi.hostname;
-    var requestPath = httpsburi.path;
-
-    // Do not ignore traffic outside tabs
-    var tabId = details.tabId;
-    if ( tabId < 0 ) {
-        tabId = httpsb.behindTheSceneTabId;
-    }
-
-    // Re-classify orphan HTTP requests as behind-the-scene requests. There is
-    // not much else which can be done, because there are URLs
-    // which cannot be handled by HTTP Switchboard, i.e. `opera://startpage`,
-    // as this would lead to complications with no obvious solution, like how
-    // to scope on unknown scheme? Etc.
-    // https://github.com/gorhill/httpswitchboard/issues/191
-    // https://github.com/gorhill/httpswitchboard/issues/91#issuecomment-37180275
-    var pageStats = httpsb.pageStatsFromTabId(tabId);
-    if ( !pageStats ) {
-        tabId = httpsb.behindTheSceneTabId;
-        pageStats = httpsb.pageStatsFromTabId(tabId);
-    }
-    var pageURL = httpsb.pageUrlFromPageStats(pageStats);
-
-    // rhill 2013-12-15:
-    // Try to transpose generic `other` category into something more
-    // meaningful.
-    if ( requestType === 'other' ) {
-        requestType = httpsb.transposeType(requestType, requestPath);
-    }
-
-    // Block request?
-    var scopeKey = httpsb.temporaryScopeKeyFromPageURL(pageURL);
-    var block = httpsb.evaluateFromScopeKey(scopeKey, requestType, requestHostname).charAt(0) === 'r';
-    var reason;
-
-    // Block using ABP filters?
-    if ( block === false ) {
-        var scope = httpsb.temporaryScopeFromScopeKey(scopeKey);
-        if ( scope.abpFiltering === true ) {
-            block = httpsb.abpFilters.matchString(pageStats, requestURL, requestType, requestHostname);
-            if ( block !== false ) {
-                pageStats.abpBlockCount += 1;
-                httpsb.abpBlockCount += 1;
-                reason = 'ABP filter: ' + block;
-            }
-        }
-    }
-
-    // Page stats
-    pageStats.recordRequest(requestType, requestURL, block, reason);
-
-    // whitelisted?
-    if ( !block ) {
-        // console.debug('onBeforeRequestHandler()> ALLOW "%s": %o', details.url, details);
-        // quickProfiler.stop();
+    if ( requestType === 'xmlhttprequest' && requestURL.slice(0, httpsb.projectServerRoot.length) === httpsb.projectServerRoot ) {
         return;
     }
 
-    // blacklisted
-    // console.debug('onBeforeRequestHandler()> BLOCK "%s": %o', details.url, details);
-
-    // If it's a blacklisted frame, redirect to frame.html
-    // rhill 2013-11-05: The root frame contains a link to noop.css, this
-    // allows to later check whether the root frame has been unblocked by the
-    // user, in which case we are able to force a reload using a redirect.
-    if ( requestType === 'sub_frame' ) {
-        var html = subFrameReplacement
-            .replace(/{{fontUrl}}/g, httpsb.fontCSSURL)
-            .replace(/{{hostname}}/g, requestHostname)
-            .replace(/{{subframeColor}}/g, httpsb.userSettings.subframeColor)
-            .replace(/{{subframeOpacity}}/g, (httpsb.userSettings.subframeOpacity / 100).toFixed(1));
-        // quickProfiler.stop();
-        return { 'redirectUrl': 'data:text/html,' + encodeURIComponent(html) };
+    // https://github.com/gorhill/httpswitchboard/issues/342
+    // If the request cannot be bound to a specific tab, delay request
+    // handling to onBeforeSendHeaders(), maybe there the referrer
+    // information will allow us to properly bind the request to the tab
+    // from which it originates.
+    // Important: since it is not possible to redirect requests at
+    // onBeforeSendHeaders() point, we can't delay when the request type is
+    // `sub_frame`.
+    if ( requestType !== 'sub_frame' && details.tabId < 0 ) {
+        return;
     }
 
-    // quickProfiler.stop();
-
-    return { "cancel": true };
+    return processRequest(httpsb, details);
 };
 
 /******************************************************************************/
 
-// This is to handle cookies leaving the browser.
+// This is where tabless requests are processed, as here there may be a chance
+// we can bind a request to a specific tab, as headers may contain useful
+// information to accomplish this.
+//
+// Also we sanitize outgoing headers as per user settings.
 
 var onBeforeSendHeadersHandler = function(details) {
 
+    var httpsb = HTTPSB;
+    var requestURL = details.url;
+
     // console.debug('onBeforeSendHeadersHandler()> "%s": %o', details.url, details);
 
-    var httpsb = HTTPSB;
-    var tabId = details.tabId;
+    // Do not block myself from updating assets
+    // https://github.com/gorhill/httpswitchboard/issues/202
+    var requestType = details.type;
+    if ( requestType === 'xmlhttprequest' && requestURL.slice(0, httpsb.projectServerRoot.length) === httpsb.projectServerRoot ) {
+        return;
+    }
+
+    // https://github.com/gorhill/httpswitchboard/issues/342
+    // Is this hyperlink auditing?
+    // If yes, create a synthetic URL for reporting hyperlink auditing
+    // record requests. This way the user is better informed of what went
+    // on.
+    var linkAuditor = hyperlinkAuditorFromHeaders(details.requestHeaders);
+    if ( linkAuditor ) {
+        details.httpsbRequestURL = requestURL + '{Ping-To:' + linkAuditor + '}';
+    }
+
+    // If we are dealing with a behind-the-scene request, make a last attempt
+    // to bind the request to a specific tab by using the referrer or the
+    // `Ping-From` header if any of these exists.
+    var r;
+    if ( details.tabId < 0 ) {
+        details.tabId = tabIdFromHeaders(httpsb, details.requestHeaders) || -1;
+        // Do not process `main_frame`/`sub_frame` requests, these were handled
+        // unconditionally at onBeforeRequest() time (because of potential
+        // need to redirect).
+        if ( requestType !== 'main_frame' && requestType !== 'sub_frame' ) {
+            r = processRequest(httpsb, details);
+        }
+    }
+
+    // If the request was not cancelled above, check whether hyperlink auditing
+    // is globally forbidden.
+    if ( !r ) {
+        if ( linkAuditor && httpsb.foilHyperlinkAuditing ) {
+            r = { 'cancel': true };
+        }
+    }
+
+    // Block request?
+    if ( r ) {
+        // Count number of hyperlink auditing foiled, even attempts blocked
+        // through the matrix.
+        if ( linkAuditor ) {
+            httpsb.hyperlinkAuditingFoiledCounter += 1;
+        }
+        return r;
+    }
+
+    // If we reach this point, request is not blocked, so what is left to do
+    // is to sanitize headers.
 
     // Re-classify orphan HTTP requests as behind-the-scene requests. There is
     // not much else which can be done, because there are URLs
@@ -396,6 +466,7 @@ var onBeforeSendHeadersHandler = function(details) {
     // to scope on unknown scheme? Etc.
     // https://github.com/gorhill/httpswitchboard/issues/191
     // https://github.com/gorhill/httpswitchboard/issues/91#issuecomment-37180275
+    var tabId = details.tabId;
     var pageStats = httpsb.pageStatsFromTabId(tabId);
     if ( !pageStats ) {
         tabId = httpsb.behindTheSceneTabId;
@@ -403,7 +474,8 @@ var onBeforeSendHeadersHandler = function(details) {
     }
 
     var pageURL = httpsb.pageUrlFromPageStats(pageStats);
-    var reqHostname = httpsb.URI.hostnameFromURI(details.url);
+    var reqHostname = httpsb.URI.hostnameFromURI(requestURL);
+
     var changed = false;
 
     if ( httpsb.blacklisted(pageURL, 'cookie', reqHostname) ) {
@@ -426,9 +498,53 @@ var onBeforeSendHeadersHandler = function(details) {
     }
 
     if ( changed ) {
-        // console.debug('onBeforeSendHeadersHandler()> CHANGED "%s": %o', details.url, details);
+        // console.debug('onBeforeSendHeadersHandler()> CHANGED "%s": %o', requestURL, details);
         return { requestHeaders: details.requestHeaders };
     }
+};
+
+/******************************************************************************/
+
+// http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing
+//
+// Target URL = the href of the link
+// Doc URL = URL of the document containing the target URL
+// Ping URLs = servers which will be told that user clicked target URL
+//
+// `Content-Type` = `text/ping` (always present)
+// `Ping-To` = target URL (always present)
+// `Ping-From` = doc URL
+// `Referer` = doc URL
+// request URL = URL which will receive the information
+//
+// With hyperlink-auditing, removing header(s) is pointless, the whole
+// request must be cancelled.
+
+var hyperlinkAuditorFromHeaders = function(headers) {
+    var i = headers.length;
+    while ( i-- ) {
+        if ( headers[i].name.toLowerCase() === 'ping-to' ) {
+            return headers[i].value;
+        }
+    }
+    return;
+};
+
+/******************************************************************************/
+
+var tabIdFromHeaders = function(httpsb, headers) {
+    var header;
+    var i = headers.length;
+    while ( i-- ) {
+        header = headers[i];
+        if ( header.name.toLowerCase() === 'referer' ) {
+            return httpsb.tabIdFromPageUrl(header.value);
+        }
+        if ( header.name.toLowerCase() === 'ping-from' ) {
+            return httpsb.tabIdFromPageUrl(header.value);
+        }
+    }
+    return -1;
 };
 
 /******************************************************************************/

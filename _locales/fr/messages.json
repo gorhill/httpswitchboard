@@ -165,6 +165,10 @@
         "message": "Nombre de <a href='https://fr.wikipedia.org/wiki/R%C3%A9f%C3%A9rant'>Référants HTTP</a> bloqués : {{count}}",
         "description": "English: HTTP referer headers foiled: {{count}}"
     },
+    "statsPageHyperlinkAuditingFoiled" : {
+        "message": "Nombre de <a href='http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing'>&ldquo;hyperlink auditing&rdquo;</a> bloqués: {{count}}",
+        "description": "English: Hyperlink auditing attempts foiled: {{count}}"
+    },
     "statsPageCookiesRemoved" : {
         "message": "Nombre de Cookies supprimés : {{count}}",
         "description": "Local cookies removed: {{count}}"
@@ -393,6 +397,14 @@
     },
     "settingsProcessRefererHelp" : {
         "message": "<p>D'après Wikipedia : Un référant est une information transmise à un serveur HTTP lorsqu'un visiteur suit un lien pour accéder à l'une de ses ressources, lui indiquant l'URL de la page où se situe ce lien qu'il a suivi [...] <b>Les référants peuvent poser des problèmes d'atteinte à la vie privée, puisque le webmestre peut connaître les pages que ses visiteurs ont consulté avant d'accéder aux siennes.</b></p><p>Si ce paramètre est coché, <i>HTTP Switchboard</i> supprimera le référant HTTP si les <b>DEUX</b> conditions suivantes sont vérifiées :<ul style='padding-left:1em;list-style-type:disc;'><li>Le nom de domaine du référant HTTP ne correspond pas à l'URL de la requête (c'est-à-dire que le référant est un tiers par-rapport à la page);<li>Le nom d'hôte de la requête n'est pas sur liste blanche.</ul></p>",
+        "description": "..."
+    },
+    "settingsProcessHyperlinkAuditingPrompt" : {
+        "message": "Bloquer toutes les requêtes de type <a href='http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing'>&ldquo;hyperlink auditing&rdquo;</a>.",
+        "description": "..."
+    },
+    "settingsProcessHyperlinkAuditingHelp" : {
+        "message": "<p>Hyperlink auditing is a mechanism which allow a party, <b>any party</b>, to be informed about which link a user clicked on a particular web page. It is essentially a tracking feature: it allows a web site, or any third-party to that web site, to be informed about which link you clicked on which one of its web pages. The sole purpose is to track your browsing activity.</p>",
         "description": "..."
     },
     "settingsSpoofUserAgentPrompt1" : {
