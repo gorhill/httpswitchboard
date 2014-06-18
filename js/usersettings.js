@@ -37,22 +37,40 @@ function changeUserSettings(name, value) {
         return httpsb.userSettings[name];
     }
 
+    // Pre-change
     switch ( name ) {
-        // Need to visit each pageStats object to resize ring buffer
-        case 'maxLoggedRequests':
-            value = Math.max(Math.min(value, 500), 0); 
-            httpsb.userSettings[name] = value;
-            var pageStats = httpsb.pageStats;
-            for ( var pageUrl in pageStats ) {
-                if ( pageStats.hasOwnProperty(pageUrl) ) {
-                    pageStats[pageUrl].requests.resizeLogBuffer(value);
-                }
-            }
-            break;
+    
+    case 'maxLoggedRequests':
+        value = Math.max(Math.min(value, 500), 0); 
+        break;
 
-        default:        
-            httpsb.userSettings[name] = value;
-            break;
+    default:        
+        break;
+    }
+
+    // Change
+    httpsb.userSettings[name] = value;
+
+    // Post-change
+    switch ( name ) {
+    
+    // Need to visit each pageStats object to resize ring buffer
+    case 'maxLoggedRequests':
+        var pageStats = httpsb.pageStats;
+        for ( var pageUrl in pageStats ) {
+            if ( pageStats.hasOwnProperty(pageUrl) ) {
+                pageStats[pageUrl].requests.resizeLogBuffer(value);
+            }
+        }
+        break;
+
+    // https://github.com/gorhill/httpswitchboard/issues/344
+    case 'spoofUserAgentWith':
+        HTTPSB.userAgentSpoofer.shuffle();
+        break;
+
+    default:        
+        break;
     }
 
     httpsb.saveUserSettings();

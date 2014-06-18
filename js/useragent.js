@@ -21,7 +21,7 @@
 
 /******************************************************************************/
 
-(function() {
+HTTPSB.userAgentSpoofer = (function() {
 
 /******************************************************************************/
 
@@ -60,6 +60,7 @@ var userAgentSpoofer = function() {
     }
 };
 
+// Prime spoofer
 userAgentSpoofer();
 
 /******************************************************************************/
@@ -67,6 +68,10 @@ userAgentSpoofer();
 HTTPSB.asyncJobs.add('userAgentSwitcher', null, userAgentSpoofer, 120 * 1000, true);
 
 /******************************************************************************/
+
+return {
+    shuffle: userAgentSpoofer
+};
 
 })();
 

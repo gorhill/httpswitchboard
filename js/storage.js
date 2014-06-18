@@ -61,6 +61,9 @@ HTTPSB.loadUserSettings = function() {
         delete store.subframeFgColor;
 
         HTTPSB.userSettings = store;
+
+        // https://github.com/gorhill/httpswitchboard/issues/344
+        HTTPSB.userAgentSpoofer.shuffle();
     };
 
     chrome.storage.local.get(this.userSettings, settingsLoaded);
