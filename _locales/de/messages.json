@@ -166,7 +166,7 @@
         "description": "English: HTTP referer headers foiled: {{count}}"
     },
     "statsPageHyperlinkAuditingFoiled" : {
-        "message": "<a href='http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing'>Hyperlink auditing</a> attempts foiled: {{count}}",
+        "message": "<a href='http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing'>Hyperlink auditing</a> Versuche vereitelt: {{count}}",
         "description": "English: Hyperlink auditing attempts foiled: {{count}}"
     },
     "statsPageCookiesRemoved" : {
@@ -400,11 +400,11 @@
         "description": "..."
     },
     "settingsProcessHyperlinkAuditingPrompt" : {
-        "message": "Block all <a href='http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing'>hyperlink auditing</a> attempts.",
+        "message": "Blockiere alle <a href='http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing'>Hyperlink Auditing</a> Versuche.",
         "description": "..."
     },
     "settingsProcessHyperlinkAuditingHelp" : {
-        "message": "<p>Hyperlink auditing is a mechanism which allow a party, <b>any party</b>, to be informed about which link a user clicked on a particular web page. It is essentially a tracking feature: it allows a web site, or any third-party to that web site, to be informed about which link you clicked on which one of its web pages. The sole purpose is to track your browsing activity.</p>",
+        "message": "<p>Hyperlink Auditing ist ein Mechanismus, der es <b>allen</b> beteiligten Parteien erlaubt herauszufinden, auf welchen Link ein Benutzer auf einer bestimmten Webseite klickt. Im Grunde ist es eine Tracking-Funktion: Es erlaubt einer Webseite oder auch Drittparteien auf dieser Webseite, sich darüber zu informieren, auf welche Links du auf eine dieser Seiten geklickt hast. Der einzige Zweck besteht darin, deine Browsing-Aktivitätten zu verfolgen.</p>",
         "description": "..."
     },
     "settingsSpoofUserAgentPrompt1" : {
