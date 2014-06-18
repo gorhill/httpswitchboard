@@ -166,7 +166,7 @@
         "description": "English: HTTP referer headers foiled: {{count}}"
     },
     "statsPageHyperlinkAuditingFoiled" : {
-        "message": "Nombre de <a href='http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing'>&ldquo;hyperlink auditing&rdquo;</a> bloqués: {{count}}",
+        "message": "Nombre d&ldquo;<a href='http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing'>&ldquo;audits hyperliens&rdquo;</a> bloqués: {{count}}",
         "description": "English: Hyperlink auditing attempts foiled: {{count}}"
     },
     "statsPageCookiesRemoved" : {
@@ -400,11 +400,11 @@
         "description": "..."
     },
     "settingsProcessHyperlinkAuditingPrompt" : {
-        "message": "Bloquer toutes les requêtes de type <a href='http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing'>&ldquo;hyperlink auditing&rdquo;</a>.",
+        "message": "Bloquer toutes les requêtes de type <a href='http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing'>&ldquo;audit hyperlien&rdquo;</a>.",
         "description": "..."
     },
     "settingsProcessHyperlinkAuditingHelp" : {
-        "message": "<p>Hyperlink auditing is a mechanism which allow a party, <b>any party</b>, to be informed about which link a user clicked on a particular web page. It is essentially a tracking feature: it allows a web site, or any third-party to that web site, to be informed about which link you clicked on which one of its web pages. The sole purpose is to track your browsing activity.</p>",
+        "message": "<p>L'audit hyperlien est un méchanisme qui permet à <b>n'importe quel parti</b> de connaître le lien sur lequel une personne clique dans une page Web précise. C'est surtout une fonctionnalité de pistage : ça permet à un site Web, ou à un quelconque tierce partie de ce dernier, d'être informé sur quel lien vous cliquez sur tel page Web du site.</p>",
         "description": "..."
     },
     "settingsSpoofUserAgentPrompt1" : {
