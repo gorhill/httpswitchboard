@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: A02oiVr0G76dA04XkEQ8Kw
-! Version: 201406161521
+! Checksum: 6nw5946okAgtg/+hNsFsGQ
+! Version: 201406191701
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 16 Jun 2014 15:21 UTC
+! Ultima modifica: 19 Jun 2014 17:01 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -1161,6 +1161,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||modena2000.it/bnrs/
 ||momentosera.it/bannerupload/
 ||mondoclassica.it^*/banner/
+||mondopallone.it^*/skin_
 ||montecarlonews.it^*/banner/
 ||montecarlonews.it^*/box/
 ||motoclub-tingavert.it/modules/Dv_Banner/
@@ -1627,6 +1628,7 @@ beppegrillo.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ! *** easylistitaly:easylistitaly/easylistitaly_specific_block_popup.txt ***
 ||adf.ly^$popup,domain=vstau.info
 ||adv2.spaziogames.it^$popup
+||goo.gl^$popup,domain=mondopallone.it
 ||linkbucks.com^$popup,domain=vstau.info
 ||mammevacche.com/out?$popup
 !--------------Regole specifiche per le pubblicità da nascondere--------------!
@@ -2201,6 +2203,7 @@ bastardidentro.it##.gigabanner_clickable
 html.it##.google
 quotidiano.net##.google-728
 ilturista.info##.google-box
+dday.it##.google-dfp
 fantagazzetta.com##.h-box
 ilgiornaledivicenza.it##.header-box
 bow.it,cronacamilano.it##.header_banner
@@ -2505,6 +2508,7 @@ ilfattoquotidiano.it##div[style="width:300px; height:75px; overflow:hidden; floa
 xvideoscopate.com##div[style="width:300px;float:right;margin-right:15px;border: 4px solid rgb(85, 85, 85);padding: 40px 40px;"]
 outune.net##div[style="width:300px;height:180px; background:#fff;"]
 affaritaliani.it##div[style="width:300px;height:200px;border:solid 5px #afb2b4 ; background-image:url('http://www.affaritaliani.it/includes/files/affari/fondo.png');font-family:Verdana; color:white"]
+dday.it##div[style="width:300px;height:250px"]
 ticinolibero.ch##div[style="width:300px;height:250px;margin-bottom:10px"]
 strettoweb.com##div[style="width:307px; height:250px; text-align:left; margin:0 0 5px 5px; float:right;"]
 film-review.it,fullhd.it##div[style="width:308px; margin-left: 4px; height:260px;text-align: center;display:block;margin-top:10px;margin-bottom:10px;"]

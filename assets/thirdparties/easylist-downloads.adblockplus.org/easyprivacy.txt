@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: dKZNxZb94m2T+l96Ooj1FQ
-! Version: 201406161521
+! Checksum: oOvYZnSGBlf8j5eU7VIC8w
+! Version: 201406191701
 ! Title: EasyPrivacy
-! Last modified: 16 Jun 2014 15:21 UTC
+! Last modified: 19 Jun 2014 17:01 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -2212,6 +2212,7 @@ http://utm.
 ||abmr.net^$third-party
 ||absolstats.co.za^$third-party
 ||access-analyze.org^$third-party
+||access-traffic.com^$third-party
 ||accessintel.com^$third-party
 ||acestats.net^$third-party
 ||acetrk.com^$third-party
@@ -5115,6 +5116,7 @@ http://utm.
 ||partypoker.com^*/tracking-
 ||passport.pfn.bz^
 ||paypal.com^*/pixel.gif$third-party
+||paypalobjects.com^*/pixel.gif
 ||pf.aclst.com^$third-party
 ||pg.buzzfeed.com^
 ||phncdn.com/js/ssig_helper.js
@@ -5604,6 +5606,7 @@ http://utm.
 ||aftonbladet.se/trafikfonden/
 ||agitos.de/content/track?
 ||analytics-static.unister-gmbh.de^
+||analytics.cnd-motionmedia.de^$third-party
 ||analytics.gameforge.de^
 ||analytics.loop-cloud.de^$third-party
 ||analytics.unister-gmbh.de^

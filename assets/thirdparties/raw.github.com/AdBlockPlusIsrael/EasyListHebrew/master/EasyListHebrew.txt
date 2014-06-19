@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: APTmYmxr7W+eCQgUSL+fYw
+! Checksum: atrrPDkYyBKB7ljBDBcHGg
 ! Title: EasyList Hebrew
-! Last modified: 16/06/14  14:03 Jerusalem Daylight Time
+! Last modified: 19/06/14  15:05 Jerusalem Daylight Time
 ! Expires: 4 days (update frequency)
 ! Homepage: https://github.com/AdBlockPlusIsrael/EasyListHebrew/
 ! Forums: https://github.com/AdBlockPlusIsrael/EasyListHebrew/issues
@@ -244,11 +244,13 @@
 @@||advertising.themarker.com^$~third-party
 @@||adworks.co.il^$~third-party
 @@||agenda.nana10.co.il/counter.asp
+@@||amazonaws.com/static.madlan.co.il/
 @@||banners.e-dologic.co.il^$domain=bamba.co.il
 @@||banners.hosting-il.com^$domain=cinema-city.co.il
 @@||bhol.co.il/imagebank/400x250
 @@||bipbip.co.il/Images/Ads/$~third-party
-@@||bs.serving-sys.com/crossdomain.xml$object-subrequest,domain=mako.co.il
+@@||bs.serving-sys.com/BurstingPipe/adServer.bs?cn=is&c=*VAST$object-subrequest
+@@||bs.serving-sys.com/crossdomain.xml$object-subrequest
 @@||c04dl.vds-is.castup.net/crossdomain.net
 @@||cbci16.b1.cdn.co.il^
 @@||ds.serving-sys.com/BurstingRes/$object-subrequest,domain=one.co.il
@@ -293,6 +295,7 @@ blms.co.il#@#.addtitle
 homeless.co.il#@#.postad
 inn.co.il#@##divTopAd
 junkyard.co.il#@#.ad-body
+kml.co.il#@#div[id^="div-gpt-ad-"]
 one.co.il#@#a[href^="http://xads.zedo.com/"]
 !
 !---------------------------------Mobile Ads----------------------------------!
@@ -499,6 +502,7 @@ kipa.co.il##.textualy
 kipa.co.il##A[href="http://www.babetov.co.il"]
 kipa.co.il##DIV[style=" float:right; width:300px; margin:-2px ; height:160px; padding:0px;"]
 kipa.co.il##[id^="pir-"]
+kml.co.il###div-gpt-ad-1389452292530-0
 ladaat.info###divBranzaRightBanner
 ladaat.info###divMainBanner
 ladaat.info###divMekomiRightBanner

@@ -1,8 +1,8 @@
 [Adblock Plus 2.0]
-! Checksum: m/QCqYoaFQRmm//ItqVLNQ
-! Version: 201406161521
+! Checksum: IShpYgpoGZlJ9/lP1AVw6Q
+! Version: 201406191701
 ! Title: Fanboy's Annoyance List
-! Last modified: 16 Jun 2014 15:21 UTC
+! Last modified: 19 Jun 2014 17:01 UTC
 ! Expires: 4 days (update frequency)
 ! License: http://creativecommons.org/licenses/by/3.0/
 ! Please report any unblocked content or problems by email or in our forums
@@ -4673,6 +4673,7 @@ _youtube_small.
 ##.frontpage-social-block
 ##.fs-facebook-iframe
 ##.fs-retweet-block
+##.fs-sitesocials
 ##.ft-facebook
 ##.ft-twitter
 ##.ftr-social
@@ -9040,6 +9041,7 @@ dlife.com##.findUs
 blog.leanstart.ch##.fixed
 businessnewsdaily.com##.fixed-bar
 tecmint.com##.fixedBar
+lightlybuzzed.com##.fixnav
 develop-online.net##.fl320
 wonderwall.msn.com##.flag-show-next
 forwardprogressives.com##.flare-vertical
@@ -10441,6 +10443,7 @@ indiatimes.com##.commonlistwrap
 allafrica.com,callofduty.com,ctvnews.ca,environmentalgraffiti.com,epicurious.com,timesnews.net##.connect
 android4fans.com##.consigliaci_su_google
 gyazo.com##.container > #gyazo + #buttons
+visual.ly##.credits
 loop21.com##.ctbtextshr
 unlockboot.com##.danka
 alternativeto.net##.delicious
@@ -11495,6 +11498,7 @@ acceptableads.org,easyicon.net#@#img[alt="Reddit"]
 @@||alternativefuer.de/wp-content/plugins/2-click-socialmedia-buttons/js/social_bookmarks-min.js?
 @@||amazonaws.com/etc/designs/slate/images/social/$domain=slate.com
 @@||amazonaws.com/images/$image,domain=wordsquared.com
+@@||androidpit.info/userfiles/*image/youtube-logo-
 @@||aol.com^*/sharrre.js
 @@||aolcdn.com/aboutme/*/icons/socialmedia/$domain=about.me
 @@||apple.com/kb/resources/images/i_facebook.png

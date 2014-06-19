@@ -8,7 +8,7 @@
 # Please forward any additions, corrections or comments by email to
 # hosts@someonewhocares.org
 
-# Last updated: Jun 7th, 2014 at 20:30
+# Last updated: Jun 16th, 2014 at 15:59
 
 # Use this file to prevent your computer from connecting to selected
 # internet hosts. This is an easy and effective way to protect you from 
@@ -1656,6 +1656,7 @@ fe80::1%lo0	localhost
 127.0.0.1 hakerzy.net
 127.0.0.1 hatrecord.ru				# Facebook trojan
 127.0.0.1 hellwert.biz
+127.0.0.1 hieruu.apicultoresweb.com
 127.0.0.1 hotchix.servepics.com
 127.0.0.1 hsb-canada.com	# phishing site for hsbc.ca
 127.0.0.1 hsbconline.ca 	# phishing site for hsbc.ca
@@ -1801,6 +1802,7 @@ fe80::1%lo0	localhost
 127.0.0.1 toolbarweb.biz
 127.0.0.1 traffic.adwitty.com
 127.0.0.1 trialreg.com
+127.0.0.1 trovi.com
 127.0.0.1 tvshowslist.com
 127.0.0.1 twitter.login.kevanshome.org
 127.0.0.1 twitter.secure.bzpharma.net
@@ -3033,6 +3035,7 @@ fe80::1%lo0	localhost
 127.0.0.1 a.boom.ro
 127.0.0.1 abrogatesdv.info
 127.0.0.1 abseckw.adtlgc.com
+127.0.0.1 achetezfacile.com
 127.0.0.1 a.collective-media.net
 127.0.0.1 ac.rnm.ca
 127.0.0.1 actiondesk.com
@@ -7250,7 +7253,7 @@ fe80::1%lo0	localhost
 127.0.0.1 um.simpli.fi
 127.0.0.1 undertonenetworks.com
 127.0.0.1 uole.ad.uol.com.br
-127.0.0.1 u.openx.net
+127.0.0.1 u.openx.net			# may interfere with Adobe updates
 127.0.0.1 upload.adtech.de
 127.0.0.1 upload.adtech.fr
 127.0.0.1 upload.adtech.us
@@ -7430,6 +7433,7 @@ fe80::1%lo0	localhost
 127.0.0.1 w.ic.tynt.com
 127.0.0.1 widget3.linkwithin.com
 127.0.0.1 widget5.linkwithin.com
+127.0.0.1 widget.achetezfacile.com
 127.0.0.1 widget.crowdignite.com
 127.0.0.1 widget.plugrush.com
 127.0.0.1 widgets.outbrain.com

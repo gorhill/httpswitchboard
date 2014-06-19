@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: 1kFOiuLGgNhEJeD3b1H51A
-! Version: 201406161531
+! Checksum: vblhLrMsJDQoPJsNbprKrw
+! Version: 201406191701
 ! Title: EasyList Dutch
 ! Description: Dutch supplement for the Easylist filters
-! Last modified: 16 Jun 2014 15:31 UTC
+! Last modified: 19 Jun 2014 17:01 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -51,6 +51,7 @@
 ||affiliatepartners.com^$third-party
 ||am.seoptics.nl^$third-party
 ||asp.unitedconsumers.com^$third-party
+||assets.nudeal.nl^$third-party
 ||autotekoop.nl^$third-party
 ||banners.vip.nl^$third-party
 ||bannerwerving.nl^$third-party
@@ -837,6 +838,7 @@ cip.nl###banners_zijkant
 engineeringnet.be###bredeskyscraper
 z24.nl###bva336x280container
 telegraaf.nl###bvacontainer
+tvgids.nl###content-banner-rectangle
 pen.nl###contentdiv a[target="_blank"] > img[style="border:1px solid black"]
 nl.msn.com###dating
 acom.nl###divBanner
@@ -982,6 +984,7 @@ telegraaf.nl##.bannercenter
 automatiseringgids.nl##.bannercontainer
 wetenschapsforum.nl##.bannercontainer-carrousel
 bbb-carrierebeurs.nl,wassenaarders.nl##.bannergroup
+joomlanl.nl##.banneritem
 startkabel.nl,vitesse.org##.banners
 dinnersite.nl##.banners_full
 dinnersite.nl##.banners_regio
@@ -1022,6 +1025,7 @@ ajaxcafe.nl##.leaderBoard
 top40.nl##.left-banner
 2xklikken.nl##.linksall:first-child
 nieuws.nl##.lokaal_banner_right
+woordenlijst.eu##.maincontents > center a[target="_blank"]
 allesamerika.com##.menu > p > a[target="_blank"]
 checkcams.com##.mfoot
 wiebetaaltwat.nl##.mr-miller-leaderboard-footer
