@@ -166,7 +166,7 @@
         "description": "English: HTTP referer headers foiled: {{count}}"
     },
     "statsPageHyperlinkAuditingFoiled" : {
-        "message": "<a href='http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing'>Hyperlink auditing</a> attempts foiled: {{count}}",
+        "message": "阻止的<a href='http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing'>超链接审计</a>尝试数：{{count}}",
         "description": "English: Hyperlink auditing attempts foiled: {{count}}"
     },
     "statsPageCookiesRemoved" : {
@@ -400,11 +400,11 @@
         "description": "..."
     },
     "settingsProcessHyperlinkAuditingPrompt" : {
-        "message": "Block all <a href='http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing'>hyperlink auditing</a> attempts.",
+        "message": "屏蔽所有<a href='http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing'>超链接审计</a>尝试。",
         "description": "..."
     },
     "settingsProcessHyperlinkAuditingHelp" : {
-        "message": "<p>Hyperlink auditing is a mechanism which allow a party, <b>any party</b>, to be informed about which link a user clicked on a particular web page. It is essentially a tracking feature: it allows a web site, or any third-party to that web site, to be informed about which link you clicked on which one of its web pages. The sole purpose is to track your browsing activity.</p>",
+        "message": "<p>超链接审计是一种允许一个团体，<b>任何一个团体</b>，被告知一个用户在某个具体页面中点击了哪个链接的机制。它实质上是一个追踪用户的功能：它允许一个网站，或任何第三方，被告知您在该网站的哪个页面中点击了哪个链接。它唯一的目的就是追踪您的浏览活动。</p>",
         "description": "..."
     },
     "settingsSpoofUserAgentPrompt1" : {
