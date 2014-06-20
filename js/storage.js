@@ -149,7 +149,8 @@ HTTPSB.loadUbiquitousWhitelists = function() {
         if ( details.content.indexOf('@@||docs.google.com/stat|$xmlhttprequest') >= 0 ) {
             details.content = details.content
                 .replace('@@||docs.google.com/stat|$xmlhttprequest,domain=docs.google.com', '')
-                .replace('@@||docs.google.com/stat|$xmlhttprequest', '');
+                .replace('@@||docs.google.com/stat|$xmlhttprequest', '')
+                .trim();
             httpsb.assets.put(httpsb.userWhitelistPath, details.content, function(){});
         }
 
@@ -250,7 +251,25 @@ HTTPSB.loadUbiquitousBlacklists = function() {
     };
 
     var mergeBlacklist = function(details) {
-        HTTPSB.mergeUbiquitousBlacklist(details);
+        var httpsb = HTTPSB;
+
+        // https://github.com/gorhill/httpswitchboard/issues/302
+        // Remove workaround rule, now that right-anchoring is supported, the
+        // workaround rule would prevent the good block rule in EasyPrivacy
+        // from working.
+        // TODO: remove this code when I am confident nobody has this
+        // workaround rule in their settings.
+        if ( details.path === httpsb.userBlacklistPath ) {
+            if ( details.content.indexOf('@@||docs.google.com/stat|$xmlhttprequest') >= 0 ) {
+                details.content = details.content
+                    .replace('@@||docs.google.com/stat|$xmlhttprequest,domain=docs.google.com', '')
+                    .replace('@@||docs.google.com/stat|$xmlhttprequest', '')
+                    .trim();
+                httpsb.assets.put(httpsb.userBlacklistPath, details.content, function(){});
+            }
+        }
+
+        httpsb.mergeUbiquitousBlacklist(details);
         blacklistLoadCount -= 1;
         if ( blacklistLoadCount === 0 ) {
             loadBlacklistsEnd();
