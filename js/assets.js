@@ -185,7 +185,7 @@ var readLocalFile = function(path, callback) {
             'content': content,
             'error': err
         };
-        HTTPSB.utils.reportBack(callback, details);
+        callback(details);
     };
 
     var onLocalFileLoaded = function() {
@@ -249,7 +249,7 @@ var readRemoteFile = function(path, callback) {
             'content': content,
             'error': err
         };
-        HTTPSB.utils.reportBack(callback, details);
+        callback(details);
     };
 
     var onRemoteFileLoaded = function() {
@@ -286,7 +286,7 @@ var writeLocalFile = function(path, content, callback) {
             'content': content,
             'error': err
         };
-        HTTPSB.utils.reportBack(callback, details);
+        callback(details);
     };
 
     var onFileWriteSuccess = function() {
@@ -354,7 +354,7 @@ var updateFromRemote = function(details, callback) {
     var targetMd5 = details.md5 || '';
 
     var reportBackError = function() {
-        HTTPSB.utils.reportBack(callback, {
+        callback({
             'path': targetPath,
             'error': 'Error'
         });

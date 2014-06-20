@@ -25,21 +25,185 @@
 // Injected into content pages
 
 /******************************************************************************/
+/******************************************************************************/
 
-// OK, I keep changing my mind whether a closure should be used or not. This
-// will be the rule: if there are any variables directly accessed on a regular
-// basis, use a closure so that they are cached. Otherwise I don't think the
-// overhead of a closure is worth it. That's my understanding.
+// https://github.com/gorhill/httpswitchboard/issues/345
+
+var messaging = (function(name){
+    var port = null;
+    var dangling = false;
+    var requestId = 1;
+    var requestIdToCallbackMap = {};
+    var listenCallback = null;
+
+    var onPortMessage = function(details) {
+        if ( typeof details.id !== 'number' ) {
+            return;
+        }
+        // Announcement?
+        if ( details.id < 0 ) {
+            if ( listenCallback ) {
+                listenCallback(details.msg);
+            }
+            return;
+        }
+        var callback = requestIdToCallbackMap[details.id];
+        if ( !callback ) {
+            return;
+        }
+        callback(details.msg);
+        delete requestIdToCallbackMap[details.id];
+        checkDisconnect();
+    };
+
+    var start = function(name) {
+        port = chrome.runtime.connect({
+            name:   name +
+                    '/' +
+                    String.fromCharCode(
+                        Math.random() * 0x7FFF | 0, 
+                        Math.random() * 0x7FFF | 0,
+                        Math.random() * 0x7FFF | 0,
+                        Math.random() * 0x7FFF | 0
+                    )
+        });
+        port.onMessage.addListener(onPortMessage);
+    };
+
+    if ( typeof name === 'string' && name.length > 0 ) {
+        start(name);
+    }
+
+    var stop = function() {
+        listenCallback = null;
+        dangling = true;
+        checkDisconnect();
+    };
+
+    var ask = function(msg, callback) {
+        if ( !callback ) {
+            tell(msg);
+            return;
+        }
+        var id = requestId++;
+        port.postMessage({ id: id, msg: msg });
+        requestIdToCallbackMap[id] = callback;
+    };
+
+    var tell = function(msg) {
+        port.postMessage({ id: 0, msg: msg });
+    };
+
+    var listen = function(callback) {
+        listenCallback = callback;
+    };
+
+    var checkDisconnect = function() {
+        if ( !dangling ) {
+            return;
+        }
+        if ( Object.keys(requestIdToCallbackMap).length ) {
+            return;
+        }
+        port.disconnect();
+        port = null;
+    };
+
+    return {
+        start: start,
+        stop: stop,
+        ask: ask,
+        tell: tell,
+        listen: listen
+    };
+})('contentscript-end.js');
+
+/******************************************************************************/
+/******************************************************************************/
+
+// This is to be executed only once: putting this code in its own closure
+// means the code will be flushed from memory once executed.
 
 (function() {
 
 /******************************************************************************/
+
+/*------------[ Unrendered Noscript (because CSP) Workaround ]----------------*/
+
+var checkScriptBlacklistedHandler = function(response) {
+    if ( !response.scriptBlacklisted ) {
+        return;
+    }
+    var scripts = document.querySelectorAll('noscript');
+    var i = scripts.length;
+    var realNoscript, fakeNoscript;
+    while ( i-- ) {
+        realNoscript = scripts[i];
+        fakeNoscript = document.createElement('div');
+        fakeNoscript.innerHTML = '<!-- HTTP Switchboard NOSCRIPT tag replacement: see <https://github.com/gorhill/httpswitchboard/issues/177> -->\n' + realNoscript.textContent;
+        realNoscript.parentNode.replaceChild(fakeNoscript, realNoscript);
+    }
+};
+
+messaging.ask({
+        what: 'checkScriptBlacklisted',
+        url: window.location.href
+    },
+    checkScriptBlacklistedHandler
+);
+
+/******************************************************************************/
+
+var localStorageHandler = function(mustRemove) {
+    if ( mustRemove ) {
+        window.localStorage.clear();
+        // console.debug('HTTP Switchboard > found and removed non-empty localStorage');
+    }
+};
+
+// Check with extension whether local storage must be emptied
+// rhill 2014-03-28: we need an exception handler in case 3rd-party access
+// to site data is disabled.
+// https://github.com/gorhill/httpswitchboard/issues/215
+try {
+    if ( window.localStorage && window.localStorage.length ) {
+        messaging.ask({
+                what: 'contentScriptHasLocalStorage',
+                url: window.location.href
+            },
+            localStorageHandler
+        );
+    }
+
+    // TODO: indexedDB
+    if ( window.indexedDB && !!window.indexedDB.webkitGetDatabaseNames ) {
+        // var db = window.indexedDB.webkitGetDatabaseNames().onsuccess = function(sender) {
+        //    console.debug('webkitGetDatabaseNames(): result=%o', sender.target.result);
+        // };
+    }
+
+    // TODO: Web SQL
+    if ( window.openDatabase ) {
+        // Sad:
+        // "There is no way to enumerate or delete the databases available for an origin from this API."
+        // Ref.: http://www.w3.org/TR/webdatabase/#databases
+    }
+}
+catch (e) {
+}
+
+/******************************************************************************/
+
+})();
+
+/******************************************************************************/
+/******************************************************************************/
+
+(function() {
+
 /******************************************************************************/
 
 // ABP cosmetic filters
-
-/******************************************************************************/
-/******************************************************************************/
 
 var CosmeticFiltering = function() {
     this.queriedSelectors = {};
@@ -61,11 +225,13 @@ CosmeticFiltering.prototype.retrieveGenericSelectors = function() {
     }
     if ( selectors.length > 0 ) {
         //console.log('HTTPSB> ABP cosmetic filters: retrieving CSS rules using %d selectors', selectors.length);
-        chrome.runtime.sendMessage({
-            what: 'retrieveGenericCosmeticSelectors',
-            pageURL: window.location.href,
-            selectors: selectors
-        }, this.retrieveHandler.bind(this));
+        messaging.ask({
+                what: 'retrieveGenericCosmeticSelectors',
+                pageURL: window.location.href,
+                selectors: selectors
+            },
+            this.retrieveHandler.bind(this)
+        );
     }
     this.idSelectors = null;
     this.classSelectors = null;
@@ -229,48 +395,6 @@ CosmeticFiltering.prototype.allFromNodeList = function(nodes) {
 var cosmeticFiltering = new CosmeticFiltering();
 
 /******************************************************************************/
-/******************************************************************************/
-
-/*------------[ Unrendered Noscript (because CSP) Workaround ]----------------*/
-
-var fixNoscriptTags = function() {
-    var a = document.querySelectorAll('noscript');
-    var i = a.length;
-    var realNoscript,
-        fakeNoscript;
-    while ( i-- ) {
-        realNoscript = a[i];
-        fakeNoscript = document.createElement('div');
-        fakeNoscript.innerHTML = '<!-- HTTP Switchboard NOSCRIPT tag replacement: see <https://github.com/gorhill/httpswitchboard/issues/177> -->\n' + realNoscript.textContent;
-        realNoscript.parentNode.replaceChild(fakeNoscript, realNoscript);
-    }
-};
-
-var checkScriptBlacklistedHandler = function(response) {
-    if ( response.scriptBlacklisted ) {
-        fixNoscriptTags();
-    }
-};
-
-var checkScriptBlacklisted = function() {
-    chrome.runtime.sendMessage({
-        what: 'checkScriptBlacklisted',
-        url: window.location.href
-    }, checkScriptBlacklistedHandler);
-};
-
-/******************************************************************************/
-/******************************************************************************/
-
-var localStorageHandler = function(mustRemove) {
-    if ( mustRemove ) {
-        window.localStorage.clear();
-        // console.debug('HTTP Switchboard > found and removed non-empty localStorage');
-    }
-};
-
-/******************************************************************************/
-/******************************************************************************/
 
 var nodesAddedHandler = function(nodeList, summary) {
     var i = 0;
@@ -353,7 +477,7 @@ var mutationObservedHandler = function(mutations) {
     cosmeticFiltering.retrieveGenericSelectors();
 
     if ( summary.mustReport ) {
-        chrome.runtime.sendMessage(summary);
+        messaging.tell(summary);
     }
 };
 
@@ -365,8 +489,6 @@ var firstObservationHandler = function() {
         locationURL: window.location.href,
         scriptSources: {}, // to avoid duplicates
         pluginSources: {}, // to avoid duplicates
-        localStorage: false,
-        indexedDB: false,
         mustReport: true
     };
     // https://github.com/gorhill/httpswitchboard/issues/25
@@ -375,42 +497,11 @@ var firstObservationHandler = function() {
     // https://github.com/gorhill/httpswitchboard/issues/131
     nodesAddedHandler(document.querySelectorAll('script, a[href^="javascript:"], object, embed'), summary);
 
-    // Check with extension whether local storage must be emptied
-    // rhill 2014-03-28: we need an exception handler in case 3rd-party access
-    // to site data is disabled.
-    // https://github.com/gorhill/httpswitchboard/issues/215
-    try {
-        if ( window.localStorage && window.localStorage.length ) {
-            summary.localStorage = true;
-            chrome.runtime.sendMessage({
-                what: 'contentScriptHasLocalStorage',
-                url: summary.locationURL
-            }, localStorageHandler);
-        }
-
-        // TODO: indexedDB
-        if ( window.indexedDB && !!window.indexedDB.webkitGetDatabaseNames ) {
-            // var db = window.indexedDB.webkitGetDatabaseNames().onsuccess = function(sender) {
-            //    console.debug('webkitGetDatabaseNames(): result=%o', sender.target.result);
-            // };
-        }
-
-        // TODO: Web SQL
-        if ( window.openDatabase ) {
-            // Sad:
-            // "There is no way to enumerate or delete the databases available for an origin from this API."
-            // Ref.: http://www.w3.org/TR/webdatabase/#databases
-        }
-    }
-    catch (e) {
-    }
-
     //console.debug('HTTPSB> firstObservationHandler(): found %d script tags in "%s"', Object.keys(summary.scriptSources).length, window.location.href);
 
-    chrome.runtime.sendMessage(summary);
+    messaging.tell(summary);
 };
 
-/******************************************************************************/
 /******************************************************************************/
 
 // rhill 2013-11-09: Weird... This code is executed from HTTP Switchboard
@@ -423,15 +514,11 @@ var firstObservationHandler = function() {
 // console.debug('HTTPSB> window.location.href = "%s"', window.location.href);
 
 if ( /^https?:\/\/./.test(window.location.href) === false ) {
+    console.debug("Huh?");
     return;
 }
 
 cosmeticFiltering.onDOMContentLoaded();
-
-// Checking to see if script is blacklisted
-// Not sure if this is right place to check. I don't know if subframes with
-// <noscript> tags will be fixed.
-checkScriptBlacklisted();
 
 firstObservationHandler();
 
@@ -450,8 +537,5 @@ if ( document.body ) {
 }
 
 /******************************************************************************/
-/******************************************************************************/
 
 })();
-
-/******************************************************************************/

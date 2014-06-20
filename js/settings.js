@@ -25,9 +25,9 @@
 
 /******************************************************************************/
 
-function gethttpsb() {
-    return chrome.extension.getBackgroundPage().HTTPSB;
-}
+messaging.start('settings.js');
+
+var cachedUserSettings = {};
 
 /******************************************************************************/
 
@@ -80,7 +80,7 @@ function renderNumber(value) {
 /******************************************************************************/
 
 function changeUserSettings(name, value) {
-    chrome.runtime.sendMessage({
+    messaging.tell({
         what: 'userSettings',
         name: name,
         value: value
@@ -90,7 +90,7 @@ function changeUserSettings(name, value) {
 /******************************************************************************/
 
 function onChangeValueHandler(elem, setting, min, max) {
-    var oldVal = gethttpsb().userSettings[setting];
+    var oldVal = cachedUserSettings[setting];
     var newVal = Math.round(parseFloat(elem.val()));
     if ( typeof newVal !== 'number' ) {
         newVal = oldVal;
@@ -115,36 +115,7 @@ function prepareToDie() {
 
 /******************************************************************************/
 
-$(function() {
-    var httpsb = gethttpsb();
-    var userSettings = httpsb.userSettings;
-
-    $('input[name="displayTextSize"]').attr('checked', function(){
-        return $(this).attr('value') === userSettings.displayTextSize;
-        });
-    $('#color-blind-friendly').attr('checked', userSettings.colorBlindFriendly === true);
-    $('#strict-blocking').attr('checked', userSettings.strictBlocking === true);
-    $('#auto-create-scope').attr('checked', userSettings.autoCreateScope !== '');
-    $('#auto-create-scope-level').val(userSettings.autoCreateScope !== '' ? userSettings.autoCreateScope : 'domain');
-    $('#auto-whitelist-page-domain').attr('checked', userSettings.autoWhitelistPageDomain === true);
-    $('#smart-auto-reload').val(userSettings.smartAutoReload);
-    $('#delete-unused-temporary-scopes').attr('checked', userSettings.deleteUnusedTemporaryScopes === true);
-    $('#subframe-color').val(userSettings.subframeColor);
-    $('#subframe-opacity').val(userSettings.subframeOpacity);
-    updateSubframeDemo();
-    $('#delete-unused-session-cookies').attr('checked', userSettings.deleteUnusedSessionCookies === true);
-    $('#delete-unused-session-cookies-after').val(userSettings.deleteUnusedSessionCookiesAfter);
-    $('#delete-blacklisted-cookies').attr('checked', userSettings.deleteCookies === true);
-    $('#delete-blacklisted-localstorage').attr('checked', userSettings.deleteLocalStorage);
-    $('#clear-browser-cache').attr('checked', userSettings.clearBrowserCache === true);
-    $('#clear-browser-cache-after').val(userSettings.clearBrowserCacheAfter);
-    $('#process-referer').attr('checked', userSettings.processReferer);
-    $('#process-hyperlink-auditing').attr('checked', userSettings.processHyperlinkAuditing);
-    $('#spoof-user-agent').attr('checked', userSettings.spoofUserAgent);
-    $('#spoof-user-agent-every').val(userSettings.spoofUserAgentEvery);
-    $('#spoof-user-agent-with').val(userSettings.spoofUserAgentWith);
-
-    // Handle user interaction
+var installEventHandlers = function() {
     $('input[name="displayTextSize"]').on('change', function(){
         changeUserSettings('displayTextSize', $(this).attr('value'));
     });
@@ -213,6 +184,43 @@ $(function() {
 
     // https://github.com/gorhill/httpswitchboard/issues/197
     $(window).one('beforeunload', prepareToDie);
+};
+
+/******************************************************************************/
+
+$(function() {
+    var onUserSettingsReceived = function(userSettings) {
+        // Cache copy
+        cachedUserSettings = userSettings;
+
+        $('input[name="displayTextSize"]').attr('checked', function(){
+            return $(this).attr('value') === userSettings.displayTextSize;
+            });
+        $('#color-blind-friendly').attr('checked', userSettings.colorBlindFriendly === true);
+        $('#strict-blocking').attr('checked', userSettings.strictBlocking === true);
+        $('#auto-create-scope').attr('checked', userSettings.autoCreateScope !== '');
+        $('#auto-create-scope-level').val(userSettings.autoCreateScope !== '' ? userSettings.autoCreateScope : 'domain');
+        $('#auto-whitelist-page-domain').attr('checked', userSettings.autoWhitelistPageDomain === true);
+        $('#smart-auto-reload').val(userSettings.smartAutoReload);
+        $('#delete-unused-temporary-scopes').attr('checked', userSettings.deleteUnusedTemporaryScopes === true);
+        $('#subframe-color').val(userSettings.subframeColor);
+        $('#subframe-opacity').val(userSettings.subframeOpacity);
+        updateSubframeDemo();
+        $('#delete-unused-session-cookies').attr('checked', userSettings.deleteUnusedSessionCookies === true);
+        $('#delete-unused-session-cookies-after').val(userSettings.deleteUnusedSessionCookiesAfter);
+        $('#delete-blacklisted-cookies').attr('checked', userSettings.deleteCookies === true);
+        $('#delete-blacklisted-localstorage').attr('checked', userSettings.deleteLocalStorage);
+        $('#clear-browser-cache').attr('checked', userSettings.clearBrowserCache === true);
+        $('#clear-browser-cache-after').val(userSettings.clearBrowserCacheAfter);
+        $('#process-referer').attr('checked', userSettings.processReferer);
+        $('#process-hyperlink-auditing').attr('checked', userSettings.processHyperlinkAuditing);
+        $('#spoof-user-agent').attr('checked', userSettings.spoofUserAgent);
+        $('#spoof-user-agent-every').val(userSettings.spoofUserAgentEvery);
+        $('#spoof-user-agent-with').val(userSettings.spoofUserAgentWith);
+
+        installEventHandlers();
+    };
+    messaging.ask({ what: 'getUserSettings' }, onUserSettingsReceived);
 });
 
 /******************************************************************************/

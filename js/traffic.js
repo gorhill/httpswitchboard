@@ -26,7 +26,7 @@
 
 // Start isolation from global scope
 
-(function() {
+HTTPSB.webRequest = (function() {
 
 /******************************************************************************/
 
@@ -173,12 +173,13 @@ var onBeforeChromeExtensionRequestHandler = function(details) {
         return;
     }
 
-    // Reload to cancel jailing
-    chrome.runtime.sendMessage({
-        what: 'gotoURL',
-        tabId: details.tabId,
-        url: pageURL
-    });
+    HTTPSB.asyncJobs.add(
+        'gotoURL-' + details.tabId,
+        { tabId: details.tabId, url: pageURL },
+        HTTPSB.utils.gotoURL,
+        200,
+        false
+    );
 };
 
 /******************************************************************************/
@@ -864,12 +865,6 @@ var headerIndexFromName = function(headerName, headers) {
 
 /******************************************************************************/
 
-var onMessageHandler = function(request) {
-    if ( request && request.what && request.what === 'startWebRequestHandler' ) {
-        startWebRequestHandler(request.from);
-    }
-};
-
 var webRequestHandlerRequirements = {
     'tabsBound': 0,
     'listsLoaded': 0
@@ -884,8 +879,6 @@ var startWebRequestHandler = function(from) {
     if ( Object.keys(o).map(function(k){return o[k];}).join().search('0') >= 0 ) {
         return;
     }
-
-    chrome.runtime.onMessage.removeListener(onMessageHandler);
 
     chrome.webRequest.onBeforeRequest.addListener(
         onBeforeRequestHandler,
@@ -944,11 +937,13 @@ var startWebRequestHandler = function(from) {
     );
 };
 
-chrome.runtime.onMessage.addListener(onMessageHandler);
-
 /******************************************************************************/
 
-// End isolation from global scope
+return {
+    checklist: startWebRequestHandler
+};
+
+/******************************************************************************/
 
 })();
 

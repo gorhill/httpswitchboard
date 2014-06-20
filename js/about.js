@@ -33,15 +33,7 @@ var commitHistoryURLPrefix = 'https://github.com/gorhill/httpswitchboard/commits
 
 /******************************************************************************/
 
-var getHTTPSB = function() {
-    return chrome.extension.getBackgroundPage().HTTPSB;
-};
-
-/******************************************************************************/
-
 var backupUserDataToFile = function() {
-    var httpsb = getHTTPSB();
-
     var allUserData = {
         timeStamp: Date.now(),
         version: '',
@@ -63,14 +55,14 @@ var backupUserDataToFile = function() {
 
     var userBlacklistReady = function(details) {
         allUserData.ubiquitousBlacklist = details.content;
-        httpsb.assets.get(httpsb.userWhitelistPath, userWhitelistReady);
+        messaging.ask({ what: 'readUserUbiquitousAllowRules' }, userWhitelistReady);
     };
 
     var ruleDataReady = function(store) {
         allUserData.version = store.version;
         allUserData.scopes = store.scopes;
         allUserData.remoteBlacklists = store.remoteBlacklists;
-        httpsb.assets.get(httpsb.userBlacklistPath, userBlacklistReady);
+        messaging.ask({ what: 'readUserUbiquitousBlockRules' }, userBlacklistReady);
     };
 
     var userSettingsReady = function(store) {
@@ -78,7 +70,7 @@ var backupUserDataToFile = function() {
         chrome.storage.local.get(['version', 'scopes', 'remoteBlacklists'], ruleDataReady);
     };
 
-    chrome.storage.local.get(httpsb.userSettings, userSettingsReady);
+    messaging.ask({ what: 'readUserSettings' }, userSettingsReady);
 };
 
 /******************************************************************************/
@@ -99,7 +91,6 @@ var restoreUserDataFromFile = function() {
     };
 
     var restoreBackup = function(data) {
-        var httpsb = getHTTPSB();
         chrome.storage.local.set(data.userSettings, doCountdown);
         var store = {
             'version': data.version,
@@ -111,8 +102,18 @@ var restoreUserDataFromFile = function() {
             store.remoteBlacklists = data.remoteBlacklists;
         }
         chrome.storage.local.set(store, doCountdown);
-        httpsb.assets.put(httpsb.userBlacklistPath, data.ubiquitousBlacklist, doCountdown);
-        httpsb.assets.put(httpsb.userWhitelistPath, data.ubiquitousWhitelist, doCountdown);
+        messaging.ask({
+                what: 'writeUserUbiquitousBlockRules',
+                content: data.ubiquitousBlacklist
+            },
+            doCountdown
+        );
+        messaging.ask({
+                what: 'writeUserUbiquitousAllowRules',
+                content: data.ubiquitousWhitelist
+            },
+            doCountdown
+        );
     };
 
     var validateBackup = function(s) {
@@ -172,7 +173,7 @@ var restoreUserDataFromFile = function() {
 /******************************************************************************/
 
 var resetUserData = function() {
-    chrome.runtime.sendMessage({
+    messaging.tell({
         what: 'gotoExtensionURL',
         url: 'setup.html'
     });
@@ -221,20 +222,19 @@ var renderAssetList = function(details) {
 /******************************************************************************/
 
 var updateAssets = function() {
-    var httpsb = getHTTPSB();
     setAssetListClassBit(2, true);
     var onDone = function(details) {
         if ( details.changedCount !== 0 ) {
-            httpsb.loadUpdatableAssets();
+            messaging.tell({ what: 'loadUpdatableAssets' });
         }
     };
-    httpsb.assetUpdater.update(updateList, onDone);
+    messaging.ask({ what: 'launchAssetUpdater', list: updateList }, onDone);
 };
 
 /******************************************************************************/
 
 var updateAssetsList = function() {
-    getHTTPSB().assetUpdater.getList(renderAssetList);
+    messaging.ask({ what: 'getAssetUpdaterList' }, renderAssetList);
 };
 
 /******************************************************************************/
@@ -242,19 +242,33 @@ var updateAssetsList = function() {
 // Updating all assets could be done from elsewhere and if so the
 // list here needs to be updated.
 
-var onMessage = function(request) {
-    if ( request && request.what === 'allLocalAssetsUpdated' ) {
-        updateAssetsList();
+var onAnnounce = function(msg) {
+    switch ( msg.what ) {
+        case 'allLocalAssetsUpdated':
+            updateAssetsList();
+            break;
+
+        default:
+            break;
     }
 };
-chrome.runtime.onMessage.addListener(onMessage);
+
+messaging.start('about.js');
+messaging.listen(onAnnounce);
 
 /******************************************************************************/
 
 (function() {
-    var httpsb = getHTTPSB();
-    $('#aboutVersion').html(httpsb.manifest.version);
-    $('#aboutStorageUsed').html(chrome.i18n.getMessage('aboutStorageUsed').replace('{{storageUsed}}', httpsb.storageQuota ? (httpsb.storageUsed / httpsb.storageQuota * 100).toFixed(1) : 0));
+    $('#aboutVersion').html(chrome.runtime.getManifest().version);
+    var renderStats = function(details) {
+        var template = chrome.i18n.getMessage('aboutStorageUsed');
+        var percent = 0;
+        if ( details.storageQuota ) {
+            percent = (details.storageUsed / details.storageQuota * 100).toFixed(1);
+        }
+        $('#aboutStorageUsed').html(template.replace('{{storageUsed}}', percent));
+    };
+    messaging.ask({ what: 'getSomeStats' }, renderStats);
 })();
 
 /******************************************************************************/

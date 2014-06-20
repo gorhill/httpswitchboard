@@ -1,7 +1,7 @@
 /*******************************************************************************
 
     httpswitchboard - a Chromium browser extension to black/white list requests.
-    Copyright (C) 2013  Raymond Hill
+    Copyright (C) 2013 Raymond Hill
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -132,40 +132,8 @@ chrome.tabs.query({ url: '<all_urls>' }, function(tabs) {
     }
     // Tabs are now bound to url stats stores, therefore it is now safe
     // to handle net traffic.
-    chrome.runtime.sendMessage({
-        'what': 'startWebRequestHandler',
-        'from': 'tabsBound'
-        });
+    HTTPSB.webRequest.checklist('tabsBound');
 });
-
-/******************************************************************************/
-
-// Listeners to let popup let us know when pages must be reloaded.
-
-(function() {
-    var onDisconnectHandler = function() {
-        var httpsb = HTTPSB;
-        var tabid;
-        if ( httpsb.port ) {
-            var matches = httpsb.port.name.match(/^httpsb-matrix-tabid-(\d+)$/);
-            if ( matches && matches.length > 1 ) {
-                tabid = parseInt(matches[1], 10);
-            }
-            httpsb.port = null;
-        }
-        // https://github.com/gorhill/httpswitchboard/issues/94
-        if ( httpsb.userSettings.smartAutoReload ) {
-            httpsb.smartReloadTabs(httpsb.userSettings.smartAutoReload, tabid);
-        }
-    };
-
-    var onConnectHandler = function(port) {
-        HTTPSB.port = port;
-        port.onDisconnect.addListener(onDisconnectHandler);
-    };
-
-    chrome.extension.onConnect.addListener(onConnectHandler);
-})();
 
 /******************************************************************************/
 

@@ -25,9 +25,11 @@
 
 /******************************************************************************/
 
+messaging.start('info.js');
+
 var targetUrl = 'all';
 var maxRequests = 500;
-
+var cachedUserSettings = {};
 var tableFriendlyTypeNames = {
    'main_frame': 'page',
    'stylesheet': 'css',
@@ -37,52 +39,27 @@ var tableFriendlyTypeNames = {
 
 /******************************************************************************/
 
-function gethttpsb() {
-    return chrome.extension.getBackgroundPage().HTTPSB;
-}
-
-function pageStatsFromPageUrl(pageUrl) {
-    return gethttpsb().pageStatsFromPageUrl(pageUrl);
-}
-
-/******************************************************************************/
-
 // Get a list of latest net requests
 
-function updateRequestData() {
-    var requests = [];
-    var pageUrls = targetUrl === 'all' ?
-          Object.keys(gethttpsb().pageStats) :
-          [targetUrl];
-    var pageUrl;
-    var logEntries, i, n, logEntry;
-    var pageStats, pageRequests;
-
-    var nPageUrls = pageUrls.length;
-    for ( var iPageUrl = 0; iPageUrl < nPageUrls; iPageUrl++ ) {
-        pageUrl = pageUrls[iPageUrl];
-        pageStats = pageStatsFromPageUrl(pageUrl);
-        // Unsure if it can happen... Just in case
-        if ( !pageStats ) {
-            continue;
-        }
-        pageRequests = pageStats.requests;
-        logEntries = pageRequests.getLoggedRequests();
-        n = logEntries.length;
-        for ( i = 0; i < n; i++ ) {
-            logEntry = logEntries[i];
-            // rhill 2013-12-04: `logEntry` can be null since a ring buffer is
-            // now used, and it might not have been filled yet.
-            if ( !logEntry ) {
+function updateRequestData(callback) {
+    var onResponseReceived = function(r) {
+        var requests = [];
+        for ( var pageURL in r ) {
+            if ( r.hasOwnProperty(pageURL) === false ) {
                 continue;
             }
-            requests.push(logEntry);
+            requests = requests.concat(r[pageURL]);
         }
+        requests = requests
+            .sort(function(a,b){return b.when-a.when;})
+            .slice(0, maxRequests);
+        callback(requests);
     }
-
-    return requests
-        .sort(function(a,b){return b.when-a.when;})
-        .slice(0, maxRequests);
+    var request = {
+        what: 'getRequestLogs',
+        pageURL: targetUrl !== 'all' ? targetUrl : null
+    };
+    messaging.ask(request, onResponseReceived);
 }
 
 /******************************************************************************/
@@ -132,88 +109,95 @@ var renderLocalized = function(id, map) {
 /******************************************************************************/
 
 function renderPageUrls() {
-    var httpsb = gethttpsb();
-    var select = $('#selectPageUrls');
+    var onResponseReceived = function(r) {
+        var select = $('#selectPageUrls');
 
-    // One of the permanent entry will serve as a template
-    var optionTemplate = $('#selectPageUrlTemplate', select);
+        // One of the permanent entry will serve as a template
+        var optionTemplate = $('#selectPageUrlTemplate', select);
 
-    // Remove whatever was put there in a previous call
-    $(optionTemplate).nextAll().remove();
+        // Remove whatever was put there in a previous call
+        $(optionTemplate).nextAll().remove();
 
-    var pageUrls = Object.keys(httpsb.pageUrlToTabId).sort();
-    var pageUrl, option;
-    for ( var i = 0; i < pageUrls.length; i++ ) {
-        pageUrl = pageUrls[i];
-        // Avoid duplicating
-        if ( pageUrl === httpsb.behindTheSceneURL ) {
-            continue;
+        var pageURLs = r.pageURLs.sort();
+        var pageURL, option;
+        for ( var i = 0; i < pageURLs.length; i++ ) {
+            pageURL = pageURLs[i];
+            // Behind-the-scene entry is always present, no need to recreate it
+            if ( pageURL === r.behindTheSceneURL ) {
+                continue;
+            }
+            option = optionTemplate.clone();
+            option.attr('id', '');
+            option.attr('value', pageURL);
+            option.text(pageURL);
+            select.append(option);
         }
-        option = optionTemplate.clone();
-        option.attr('id', '');
-        option.attr('value', pageUrl);
-        option.text(pageUrl);
-        select.append(option);
-    }
-    // Deselect whatever is currently selected
-    $('option:selected', select).prop('selected', false);
-    // Select whatever needs to be selected
-    $('option[value="'+targetUrl+'"]', select).prop('selected', true);
+        // Deselect whatever is currently selected
+        $('option:selected', select).prop('selected', false);
+        // Select whatever needs to be selected
+        $('option[value="'+targetUrl+'"]', select).prop('selected', true);
+    };
+    messaging.ask({ what: 'getPageURLs' }, onResponseReceived);
 }
 
 /******************************************************************************/
 
 function renderStats() {
-    var httpsb = gethttpsb();
+    var onResponseReceived = function(r) {
+        if ( !r.pageNetStats ) {
+            targetUrl = 'all';
+        }
 
-    // Make sure targetUrl is valid
-    if ( targetUrl !== 'all' && !httpsb.pageStats[targetUrl] ) {
-        targetUrl = 'all';
-    }
+        var requestStats = targetUrl === 'all' ? r.globalNetStats : r.pageNetStats;
+        var blockedStats = requestStats.blocked;
+        var allowedStats = requestStats.allowed;
 
-    var requestStats = targetUrl === 'all' ? httpsb.requestStats : httpsb.pageStats[targetUrl].requestStats;
-    var blockedStats = requestStats.blocked;
-    var allowedStats = requestStats.allowed;
+        renderLocalized('statsPageCookieHeadersFoiled', { count: renderNumber(r.cookieHeaderFoiledCounter) });
+        renderLocalized('statsPageRefererHeadersFoiled', { count: renderNumber(r.refererHeaderFoiledCounter) });
+        renderLocalized('statsPageHyperlinkAuditingFoiled', { count: renderNumber(r.hyperlinkAuditingFoiledCounter) });
+        renderLocalized('statsPageCookiesRemoved', { count: renderNumber(r.cookieRemovedCounter) });
+        renderLocalized('statsPageLocalStoragesCleared', { count: renderNumber(r.localStorageRemovedCounter) });
+        renderLocalized('statsPageBrowserCacheCleared', { count: renderNumber(r.browserCacheClearedCounter) });
 
-    renderLocalized('statsPageCookieHeadersFoiled', { count: renderNumber(httpsb.cookieHeaderFoiledCounter) });
-    renderLocalized('statsPageRefererHeadersFoiled', { count: renderNumber(httpsb.refererHeaderFoiledCounter) });
-    renderLocalized('statsPageHyperlinkAuditingFoiled', { count: renderNumber(httpsb.hyperlinkAuditingFoiledCounter) });
-    renderLocalized('statsPageCookiesRemoved', { count: renderNumber(httpsb.cookieRemovedCounter) });
-    renderLocalized('statsPageLocalStoragesCleared', { count: renderNumber(httpsb.localStorageRemovedCounter) });
-    renderLocalized('statsPageBrowserCacheCleared', { count: renderNumber(httpsb.browserCacheClearedCounter) });
+        var blockedAllCount = r.globalNetStats.blocked.all;
+        renderLocalized('statsPageABPHits', {
+            count: renderNumber(r.abpBlockCount),
+            percent: blockedAllCount ? (r.abpBlockCount * 100 / blockedAllCount).toFixed(1) : 0
+        });
 
-    var blockedAllCount = httpsb.requestStats.blocked.all;
-    renderLocalized('statsPageABPHits', {
-        count: renderNumber(httpsb.abpBlockCount),
-        percent: blockedAllCount ? (httpsb.abpBlockCount * 100 / blockedAllCount).toFixed(1) : 0
-    });
+        renderNumbers({
+            '#blockedAllCount': requestStats.blocked.all,
+            '#blockedMainFrameCount': blockedStats.main_frame,
+            '#blockedCookieCount': blockedStats.cookie,
+            '#blockedStylesheetCount': blockedStats.stylesheet,
+            '#blockedImageCount': blockedStats.image,
+            '#blockedObjectCount': blockedStats.object,
+            '#blockedScriptCount': blockedStats.script,
+            '#blockedXHRCount': blockedStats.xmlhttprequest,
+            '#blockedSubFrameCount': blockedStats.sub_frame,
+            '#blockedOtherCount': blockedStats.other,
+            '#allowedAllCount': allowedStats.all,
+            '#allowedMainFrameCount': allowedStats.main_frame,
+            '#allowedCookieCount': allowedStats.cookie,
+            '#allowedStylesheetCount': allowedStats.stylesheet,
+            '#allowedImageCount': allowedStats.image,
+            '#allowedObjectCount': allowedStats.object,
+            '#allowedScriptCount': allowedStats.script,
+            '#allowedXHRCount': allowedStats.xmlhttprequest,
+            '#allowedSubFrameCount': allowedStats.sub_frame,
+            '#allowedOtherCount': allowedStats.other
+        });
 
-    renderNumbers({
-        '#blockedAllCount': requestStats.blocked.all,
-        '#blockedMainFrameCount': blockedStats.main_frame,
-        '#blockedCookieCount': blockedStats.cookie,
-        '#blockedStylesheetCount': blockedStats.stylesheet,
-        '#blockedImageCount': blockedStats.image,
-        '#blockedObjectCount': blockedStats.object,
-        '#blockedScriptCount': blockedStats.script,
-        '#blockedXHRCount': blockedStats.xmlhttprequest,
-        '#blockedSubFrameCount': blockedStats.sub_frame,
-        '#blockedOtherCount': blockedStats.other,
-        '#allowedAllCount': allowedStats.all,
-        '#allowedMainFrameCount': allowedStats.main_frame,
-        '#allowedCookieCount': allowedStats.cookie,
-        '#allowedStylesheetCount': allowedStats.stylesheet,
-        '#allowedImageCount': allowedStats.image,
-        '#allowedObjectCount': allowedStats.object,
-        '#allowedScriptCount': allowedStats.script,
-        '#allowedXHRCount': allowedStats.xmlhttprequest,
-        '#allowedSubFrameCount': allowedStats.sub_frame,
-        '#allowedOtherCount': allowedStats.other,
-        '#maxLoggedRequests': httpsb.userSettings.maxLoggedRequests
-    });
+        // because some i18n messages may contain links
+        $('a').attr('target', '_blank');
+    };
 
-    // because some i18n messages may contain links
-    $('a').attr('target', '_blank');
+    messaging.ask({
+            what: 'getStats',
+            pageURL: targetUrl === 'all' ? null : targetUrl
+        },
+        onResponseReceived
+    );
 }
 
 /******************************************************************************/
@@ -267,38 +251,40 @@ function renderRequestRow(row, request) {
 
 /*----------------------------------------------------------------------------*/
 
-function renderRequests() {
-    var table = $('#requestsTable');
-    var requests = updateRequestData();
-    var i, row;
-    var rowTemplate = table.find('#requestRowTemplate').first();
+var renderRequests = function() {
+    var onResponseReceived = function(requests) {
+        var table = $('#requestsTable');
+        var i, row;
+        var rowTemplate = table.find('#requestRowTemplate').first();
 
-    // Reuse whatever rows is already in there.
-    var rows = table.find('tr:not(.ro)').toArray();
-    var n = Math.min(requests.length, rows.length);
-    for ( i = 0; i < n; i++ ) {
-        renderRequestRow(rows[i], requests[i]);
-    }
+        // Reuse whatever rows is already in there.
+        var rows = table.find('tr:not(.ro)').toArray();
+        var n = Math.min(requests.length, rows.length);
+        for ( i = 0; i < n; i++ ) {
+            renderRequestRow(rows[i], requests[i]);
+        }
 
-    // Hide extra rows
-    $(rows.slice(0, i)).removeClass('unused');
-    $(rows.slice(i)).addClass('unused');
+        // Hide extra rows
+        $(rows.slice(0, i)).removeClass('unused');
+        $(rows.slice(i)).addClass('unused');
 
-    // Create new rows to receive what is left
-    n = requests.length;
-    for ( ; i < n; i++ ) {
-        row = rowTemplate.clone();
-        renderRequestRow(row, requests[i]);
-        row.insertBefore(rowTemplate);
-    }
+        // Create new rows to receive what is left
+        n = requests.length;
+        for ( ; i < n; i++ ) {
+            row = rowTemplate.clone();
+            renderRequestRow(row, requests[i]);
+            row.insertBefore(rowTemplate);
+        }
 
-    syncWithFilters();
+        syncWithFilters();
+    };
+    updateRequestData(onResponseReceived);
 }
 
 /******************************************************************************/
 
 function changeUserSettings(name, value) {
-    chrome.runtime.sendMessage({
+    messaging.tell({
         what: 'userSettings',
         name: name,
         value: value
@@ -308,7 +294,7 @@ function changeUserSettings(name, value) {
 /******************************************************************************/
 
 function changeValueHandler(elem, setting, min, max) {
-    var oldVal = gethttpsb().userSettings[setting];
+    var oldVal = cachedUserSettings[setting];
     var newVal = Math.round(parseFloat(elem.val()));
     if ( typeof newVal !== 'number' ) {
         newVal = oldVal;
@@ -328,7 +314,7 @@ function changeFilterHandler() {
     // Save new state of filters in user settings
     // Initialize request filters as per user settings:
     // https://github.com/gorhill/httpswitchboard/issues/49
-    var statsFilters = gethttpsb().userSettings.statsFilters;
+    var statsFilters = cachedUserSettings.statsFilters;
     $('input[id^="show-"][type="checkbox"]').each(function() {
         var input = $(this);
         statsFilters[input.attr('id')] = !!input.prop('checked');
@@ -390,23 +376,7 @@ function prepareToDie() {
 
 /******************************************************************************/
 
-// Handle user interaction
-
-$(function(){
-    var httpsb = gethttpsb();
-    var userSettings = httpsb.userSettings;
-
-    $('#max-logged-requests').val(userSettings.maxLoggedRequests);
-    // Initialize request filters as per user settings:
-    // https://github.com/gorhill/httpswitchboard/issues/49
-    $('input[id^="show-"][type="checkbox"]').each(function() {
-        var statsFilters = gethttpsb().userSettings.statsFilters;
-        var input = $(this);
-        var filter = statsFilters[input.attr('id')];
-        input.prop('checked', filter === undefined || filter === true);
-    });
-
-    // Event handlers
+var installEventHandlers = function() {
     $('#refresh-requests').on('click', renderRequests);
     $('input[id^="show-"][type="checkbox"]').on('change', changeFilterHandler);
     $('#selectPageUrls').on('change', targetUrlChangeHandler);
@@ -414,6 +384,28 @@ $(function(){
 
     // https://github.com/gorhill/httpswitchboard/issues/197
     $(window).one('beforeunload', prepareToDie);
+};
+
+/******************************************************************************/
+
+$(function(){
+    // Initialize request filters as per user settings:
+    // https://github.com/gorhill/httpswitchboard/issues/49
+    var onResponseReceived = function(userSettings) {
+        // cache a copy
+        cachedUserSettings = userSettings;
+        // init ui as per user settings
+        $('#max-logged-requests').val(userSettings.maxLoggedRequests);
+        var statsFilters = userSettings.statsFilters;
+        $('input[id^="show-"][type="checkbox"]').each(function() {
+            var input = $(this);
+            var filter = statsFilters[input.attr('id')];
+            input.prop('checked', filter === undefined || filter === true);
+        });
+
+        installEventHandlers();
+    };
+    messaging.ask({ what: 'getUserSettings' }, onResponseReceived);
 
     renderTransientData(true);
     renderRequests();

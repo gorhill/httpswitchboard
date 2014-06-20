@@ -69,10 +69,7 @@ var onCommand = function(command) {
         chrome.tabs.query({ active: true }, whitelistAll);
         break;
     case 'open-dashboard':
-        chrome.runtime.sendMessage({
-            what: 'gotoExtensionURL',
-            url: 'dashboard.html'
-        });
+        HTTPSB.utils.gotoExtensionURL('dashboard.html');
         break;
     default:
         break;

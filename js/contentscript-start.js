@@ -36,6 +36,100 @@
 /******************************************************************************/
 /******************************************************************************/
 
+// https://github.com/gorhill/httpswitchboard/issues/345
+
+var messaging = (function(name){
+    var port = null;
+    var dangling = false;
+    var requestId = 1;
+    var requestIdToCallbackMap = {};
+    var listenCallback = null;
+
+    var onPortMessage = function(details) {
+        if ( typeof details.id !== 'number' ) {
+            return;
+        }
+        // Announcement?
+        if ( details.id < 0 ) {
+            if ( listenCallback ) {
+                listenCallback(details.msg);
+            }
+            return;
+        }
+        var callback = requestIdToCallbackMap[details.id];
+        if ( !callback ) {
+            return;
+        }
+        callback(details.msg);
+        delete requestIdToCallbackMap[details.id];
+        checkDisconnect();
+    };
+
+    var start = function(name) {
+        port = chrome.runtime.connect({
+            name:   name +
+                    '/' +
+                    String.fromCharCode(
+                        Math.random() * 0x7FFF | 0, 
+                        Math.random() * 0x7FFF | 0,
+                        Math.random() * 0x7FFF | 0,
+                        Math.random() * 0x7FFF | 0
+                    )
+        });
+        port.onMessage.addListener(onPortMessage);
+    };
+
+    if ( typeof name === 'string' && name.length > 0 ) {
+        start(name);
+    }
+
+    var stop = function() {
+        listenCallback = null;
+        dangling = true;
+        checkDisconnect();
+    };
+
+    var ask = function(msg, callback) {
+        if ( !callback ) {
+            tell(msg);
+            return;
+        }
+        var id = requestId++;
+        port.postMessage({ id: id, msg: msg });
+        requestIdToCallbackMap[id] = callback;
+    };
+
+    var tell = function(msg) {
+        port.postMessage({ id: 0, msg: msg });
+    };
+
+    var listen = function(callback) {
+        listenCallback = callback;
+    };
+
+    var checkDisconnect = function() {
+        if ( !dangling ) {
+            return;
+        }
+        if ( Object.keys(requestIdToCallbackMap).length ) {
+            return;
+        }
+        port.disconnect();
+        port = null;
+    };
+
+    return {
+        start: start,
+        stop: stop,
+        ask: ask,
+        tell: tell,
+        listen: listen
+    };
+})('contentscript-start.js');
+
+/******************************************************************************/
+/******************************************************************************/
+
 // If you play with this code, mind:
 //   https://github.com/gorhill/httpswitchboard/issues/261
 //   https://github.com/gorhill/httpswitchboard/issues/252
@@ -102,7 +196,7 @@ var injectNavigatorSpoofer = function(spoofedUserAgent) {
     }
 };
 
-chrome.runtime.sendMessage({ what: 'getUserAgentReplaceStr' }, injectNavigatorSpoofer);
+messaging.ask({ what: 'getUserAgentReplaceStr' }, injectNavigatorSpoofer);
 
 /******************************************************************************/
 /******************************************************************************/
@@ -150,13 +244,22 @@ var domainCosmeticFilteringApplyCSS = function(selectors, prop, value) {
     }
 };
 
-chrome.runtime.sendMessage({
+messaging.ask(
+    {
         what: 'retrieveDomainCosmeticSelectors',
         pageURL: window.location.href,
         locationURL: window.location.href
     },
     domainCosmeticFilteringHandler
 );
+
+/******************************************************************************/
+/******************************************************************************/
+
+// The port will never be used again at this point, disconnecting allows
+// to browser to flush this script from memory.
+
+messaging.stop();
 
 /******************************************************************************/
 /******************************************************************************/

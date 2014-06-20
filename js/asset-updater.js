@@ -95,7 +95,7 @@ var getUpdateList = function(callback) {
             }
         }
 
-        HTTPSB.utils.reportBack(callback, { 'list': toUpdate });
+        callback({ 'list': toUpdate });
     };
 
     var validateChecksums = function(details) {
@@ -135,13 +135,13 @@ var update = function(list, callback) {
     var assetProcessedCount;
     var updatedAssetChecksums = [];
 
-    var reportBack = function() {
+    var onCompleted = function() {
         var details = {
             what: 'allLocalAssetsUpdated',
             changedCount: assetChangedCount
         };
-        HTTPSB.utils.reportBack(callback, details);
-        chrome.runtime.sendMessage(details);
+        callback(details);
+        HTTPSB.messaging.announce(details);
     };
 
     var doCountdown = function() {
@@ -152,7 +152,7 @@ var update = function(list, callback) {
         HTTPSB.assets.put(
             'assets/checksums.txt',
             updatedAssetChecksums.join('\n'),
-            reportBack
+            onCompleted
         );
         chrome.storage.local.set({ 'assetsUpdateTimestamp': Date.now() });
     };
@@ -172,7 +172,7 @@ var update = function(list, callback) {
     var processList = function() {
         assetProcessedCount = Object.keys(list).length;
         if ( assetProcessedCount === 0 ) {
-            reportBack();
+            onCompleted();
             return;
         }
         var entry;

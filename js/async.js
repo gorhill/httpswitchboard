@@ -157,78 +157,6 @@ HTTPSB.updateBadge = function(pageUrl) {
 
 /******************************************************************************/
 
-// Notify whoever care that whitelist/blacklist have changed (they need to
-// refresh their matrix).
-
-HTTPSB.permissionsChanged = function() {
-    var permissionChangedCallback = function() {
-        chrome.runtime.sendMessage({ 'what': 'permissionsChanged' });
-    };
-
-    this.asyncJobs.add('permissionsChanged', null, permissionChangedCallback, 250);
-};
-
-/******************************************************************************/
-
-function gotoExtensionURL(url) {
-
-    var hasFragment = function(url) {
-        return url.indexOf('#') >= 0;
-    };
-
-    var removeFragment = function(url) {
-        var pos = url.indexOf('#');
-        if ( pos < 0 ) {
-            return url;
-        }
-        return url.slice(0, pos);
-    };
-
-    var tabIndex = 9999;
-    var targetUrl = chrome.extension.getURL(url);
-    var urlToFind = removeFragment(targetUrl);
-
-    var currentWindow = function(tabs) {
-        var updateProperties = { active: true };
-        var i = tabs.length;
-        while ( i-- ) {
-            if ( removeFragment(tabs[i].url) !== urlToFind ) {
-                continue;
-            }
-            // If current tab in dashboard is different, force the new one, if
-            // there is one, to be activated.
-            if ( tabs[i].url !== targetUrl ) {
-                if ( hasFragment(targetUrl) ) {
-                    updateProperties.url = targetUrl;
-                }
-            }
-            // Activate found matching tab
-            // Commented out as per:
-            // https://github.com/gorhill/httpswitchboard/issues/150#issuecomment-32683726
-            // chrome.tabs.move(tabs[0].id, { index: index + 1 });
-            chrome.tabs.update(tabs[i].id, updateProperties);
-            return;
-        }
-        chrome.tabs.create({ 'url': targetUrl, index: tabIndex + 1 });
-    };
-
-    var currentTab = function(tabs) {
-        if ( tabs.length ) {
-            tabIndex = tabs[0].index;
-        }
-        chrome.tabs.query({ currentWindow: true }, currentWindow);
-    };
-
-    // https://github.com/gorhill/httpswitchboard/issues/150
-    // Logic:
-    // - If URL is already opened in a tab, just activate tab
-    // - Otherwise find the current active tab and open in a tab immediately
-    //   to the right of the active tab
-    chrome.tabs.query({ active: true }, currentTab);
-}
-
-/******************************************************************************/
-
 // Notify whoever care that url stats have changed (they need to
 // rebuild their matrix).
 
@@ -236,68 +164,12 @@ HTTPSB.urlStatsChanged = function(pageUrl) {
     // rhill 2013-11-17: No point in sending this message if the popup menu
     // does not exist. I suspect this could be related to
     // https://github.com/gorhill/httpswitchboard/issues/58
-    if ( !this.port ) {
-        return;
-    }
-
     var urlStatsChangedCallback = function(pageUrl) {
-        var httpsb = HTTPSB;
-        if ( httpsb.port ) {
-            httpsb.port.postMessage({
-                what: 'urlStatsChanged',
-                pageURL: pageUrl
-            });
-        }
+        HTTPSB.messaging.tell('popup.js', {
+            what: 'urlStatsChanged',
+            pageURL: pageUrl
+        });
     };
 
     this.asyncJobs.add('urlStatsChanged-' + pageUrl, pageUrl, urlStatsChangedCallback, 1000);
 };
-
-/******************************************************************************/
-
-// Handling stuff asynchronously simplifies code
-
-function onMessageHandler(request, sender, callback) {
-    var response;
-
-    if ( request && request.what ) {
-        switch ( request.what ) {
-
-        case 'forceReloadTab':
-            HTTPSB.forceReload(request.pageURL);
-            break;
-
-        case 'gotoExtensionURL':
-            gotoExtensionURL(request.url);
-            break;
-
-        case 'gotoURL':
-            if ( request.tabId ) {
-                chrome.tabs.update(request.tabId, { url: request.url });
-            } else {
-                chrome.tabs.create({ url: request.url });
-            }
-            break;
-
-        case 'reloadPresetBlacklists':
-            HTTPSB.reloadPresetBlacklists(request.switches);
-            break;
-
-        case 'userSettings':
-            if ( typeof request.name === 'string' && request.name !== '' ) {
-                response = changeUserSettings(request.name, request.value);
-            }
-            break;
-
-        default:
-             // console.error('HTTP Switchboard > onMessage > unknown request: %o', request);
-            break;
-        }
-    }
-
-    if ( response !== undefined && callback ) {
-        callback(response);
-    }
-}
-
-chrome.runtime.onMessage.addListener(onMessageHandler);

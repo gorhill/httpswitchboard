@@ -22,13 +22,14 @@
 // TODO: cleanup
 
 /******************************************************************************/
+/******************************************************************************/
 
 (function() {
 
 /******************************************************************************/
+/******************************************************************************/
 
 var HTTPSB = chrome.extension.getBackgroundPage().HTTPSB;
-var bgPagePort;
 var targetTabId;
 var targetPageURL;
 var targetPageHostname;
@@ -37,6 +38,24 @@ var targetPageDomain;
 var matrixCellHotspots = null;
 var matrixHasRows = false;
 
+/******************************************************************************/
+/******************************************************************************/
+
+// https://github.com/gorhill/httpswitchboard/issues/345
+
+messaging.start('popup.js');
+
+var onMessage = function(msg) {
+    if ( msg.what === 'urlStatsChanged' ) {
+        if ( targetPageURL === msg.pageURL ) {
+            makeMenu();
+        }
+    }
+};
+
+messaging.listen(onMessage);
+
+/******************************************************************************/
 /******************************************************************************/
 
 function getPageStats() {
@@ -50,7 +69,7 @@ function getUserSetting(setting) {
 }
 
 function setUserSetting(setting, value) {
-    chrome.runtime.sendMessage({
+    messaging.tell({
         what: 'userSettings',
         name: setting,
         value: value
@@ -1498,7 +1517,7 @@ function revertAll() {
 /******************************************************************************/
 
 function buttonReloadHandler() {
-    chrome.runtime.sendMessage({
+    messaging.tell({
         what: 'forceReloadTab',
         pageURL: targetPageURL
     });
@@ -1519,7 +1538,7 @@ function mouseleaveMatrixCellHandler() {
 function gotoExtensionURL() {
     var url = $(this).data('extensionUrl');
     if ( url ) {
-        chrome.runtime.sendMessage({ what: 'gotoExtensionURL', url: url });
+        messaging.tell({ what: 'gotoExtensionURL', url: url });
     }
 }
 
@@ -1528,7 +1547,7 @@ function gotoExtensionURL() {
 function gotoExternalURL() {
     var url = $(this).data('externalUrl');
     if ( url ) {
-        chrome.runtime.sendMessage({ what: 'gotoURL', url: url });
+        messaging.tell({ what: 'gotoURL', url: url });
     }
 }
 
@@ -1541,16 +1560,6 @@ function dropDownMenuShow() {
 function dropDownMenuHide() {
     $('.dropdown-menu').removeClass('show');
 }
-
-/******************************************************************************/
-
-var onMessageHandler = function(request) {
-    if ( request.what === 'urlStatsChanged' ) {
-        if ( targetPageURL === request.pageURL ) {
-            makeMenu();
-        }
-    }
-};
 
 /******************************************************************************/
 
@@ -1590,12 +1599,6 @@ var bindToTab = function(tabs) {
         // https://github.com/gorhill/httpswitchboard/issues/191
         $('#noNetTrafficPrompt').text(chrome.i18n.getMessage('matrixNoNetTrafficPrompt'));
         $('#noNetTrafficPrompt').css('display', '');
-    }
-
-    // To know when to rebuild the matrix
-    if ( !bgPagePort ) {
-        bgPagePort = chrome.runtime.connect({ name: 'httpsb-matrix-tabid-' + targetTabId });
-        bgPagePort.onMessage.addListener(onMessageHandler);
     }
 };
 
@@ -1662,11 +1665,7 @@ $(function() {
     $('#matList').on('click', '.g3Meta', function() {
         var separator = $(this);
         separator.toggleClass('g3Collapsed');
-        chrome.runtime.sendMessage({
-            what: 'userSettings',
-            name: 'popupHideBlacklisted',
-            value: separator.hasClass('g3Collapsed')
-        });
+        setUserSetting('popupHideBlacklisted', separator.hasClass('g3Collapsed'));
     });
 });
 

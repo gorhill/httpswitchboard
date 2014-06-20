@@ -121,10 +121,7 @@ HTTPSB.loadScopedRules = function() {
         httpsb.whitelistTemporarily('*', 'main_frame', '*');
         httpsb.commitPermissions(true);
 
-        chrome.runtime.sendMessage({
-            'what': 'startWebRequestHandler',
-            'from': 'listsLoaded'
-        });
+        HTTPSB.webRequest.checklist('listsLoaded');
     };
 
     var defaults = {
@@ -137,32 +134,20 @@ HTTPSB.loadScopedRules = function() {
 /******************************************************************************/
 
 HTTPSB.loadUbiquitousWhitelists = function() {
-    var onMessageHandler = function(request) {
-        if ( !request || !request.what ) {
-            return;
-        }
-        if ( request.what === 'userUbiquitousWhitelistLoaded' ) {
-            onLoadedHandler(request);
-        }
-    };
-
-    var onLoadedHandler = function(details) {
+    var onLoaded = function(details) {
         if ( !details.error ) {
             var httpsb = HTTPSB;
             httpsb.ubiquitousWhitelist.reset();
             httpsb.mergeUbiquitousWhitelist(details);
             httpsb.ubiquitousWhitelist.freeze();
         }
-        chrome.runtime.onMessage.removeListener(onMessageHandler);
     };
-
-    chrome.runtime.onMessage.addListener(onMessageHandler);
 
     // ONLY the user decides what to whitelist uniquitously, so no need
     // for code to handle 3rd-party lists.
     this.assets.get(
         'assets/user/ubiquitous-whitelisted-hosts.txt',
-        'userUbiquitousWhitelistLoaded'
+        onLoaded
     );
 };
 
@@ -265,7 +250,7 @@ HTTPSB.loadUbiquitousBlacklists = function() {
         HTTPSB.abpFilters.freeze();
         HTTPSB.abpHideFilters.freeze();
         removeObsoleteBlacklists();
-        chrome.runtime.sendMessage({ what: 'loadUbiquitousBlacklistCompleted' });
+        HTTPSB.messaging.announce({ what: 'loadUbiquitousBlacklistCompleted' });
     };
 
     var loadBlacklistsStart = function(store) {
