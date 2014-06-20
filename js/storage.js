@@ -135,20 +135,32 @@ HTTPSB.loadScopedRules = function() {
 
 HTTPSB.loadUbiquitousWhitelists = function() {
     var onLoaded = function(details) {
-        if ( !details.error ) {
-            var httpsb = HTTPSB;
-            httpsb.ubiquitousWhitelist.reset();
-            httpsb.mergeUbiquitousWhitelist(details);
-            httpsb.ubiquitousWhitelist.freeze();
+        if ( details.error ) {
+            return;
         }
+        var httpsb = HTTPSB;
+
+        // https://github.com/gorhill/httpswitchboard/issues/302
+        // Remove workaround rule, now that right-anchoring is supported, the
+        // workaround rule would prevent the good block rule in EasyPrivacy
+        // from working.
+        // TODO: remove this code when I am confident nobody has this
+        // workaround rule in their settings.
+        if ( details.content.indexOf('@@||docs.google.com/stat|$xmlhttprequest') >= 0 ) {
+            details.content = details.content
+                .replace('@@||docs.google.com/stat|$xmlhttprequest,domain=docs.google.com', '')
+                .replace('@@||docs.google.com/stat|$xmlhttprequest', '');
+            httpsb.assets.put(httpsb.userWhitelistPath, details.content, function(){});
+        }
+
+        httpsb.ubiquitousWhitelist.reset();
+        httpsb.mergeUbiquitousWhitelist(details);
+        httpsb.ubiquitousWhitelist.freeze();
     };
 
     // ONLY the user decides what to whitelist uniquitously, so no need
     // for code to handle 3rd-party lists.
-    this.assets.get(
-        'assets/user/ubiquitous-whitelisted-hosts.txt',
-        onLoaded
-    );
+    this.assets.get(HTTPSB.userWhitelistPath, onLoaded);
 };
 
 /******************************************************************************/
