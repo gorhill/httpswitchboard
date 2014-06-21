@@ -23,7 +23,25 @@
 
 /******************************************************************************/
 
-var HTTPSB = {
+var HTTPSB = (function() {
+
+/******************************************************************************/
+
+var defaultUserAgentStrings = [
+    '# http://www.useragentstring.com/pages/Chrome/',
+    'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.67 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.67 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1944.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
+];
+
+var getDefaultUserAgentStrings = function() {
+    return defaultUserAgentStrings.join('\n');
+};
+
+
+return {
     manifest: chrome.runtime.getManifest(),
 
     userSettings: {
@@ -51,17 +69,14 @@ var HTTPSB = {
         smartAutoReload: 'all',
         spoofUserAgent: false,
         spoofUserAgentEvery: 5,
-        spoofUserAgentWith: '# http://techblog.willshouse.com/2012/01/03/most-common-user-agents/\nMozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36\nMozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36\nMozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.76.4 (KHTML, like Gecko) Version/7.0.4 Safari/537.76.4\nMozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36\n',
+        spoofUserAgentWith: getDefaultUserAgentStrings(),
         statsFilters: {},
         strictBlocking: true,
         subframeColor: '#cc0000',
         subframeOpacity: 100
     },
 
-    runtimeId: 1,
     clearBrowserCacheCycle: 0,
-    inlineFieldSeparator: '#',
-
     updateAssetsEvery: 5 * 24 * 60 * 60 * 1000,
     projectServerRoot: 'https://raw2.github.com/gorhill/httpswitchboard/master/',
 
@@ -122,17 +137,11 @@ var HTTPSB = {
     userAgentReplaceStr: '',
     userAgentReplaceStrBirth: 0,
 
-    // internal state
-    webRequestHandler: false,
-
     // record what chromium is doing behind the scene
     behindTheSceneURL: 'http://chromium-behind-the-scene/',
     behindTheSceneTabId: 0x7FFFFFFF,
     behindTheSceneMaxReq: 250,
     behindTheSceneScopeKey: 'chromium-behind-the-scene',
-
-    // Popup menu
-    port: null,
 
     // Commonly encountered strings
     chromeExtensionURLPrefix: 'chrome-extension://',
@@ -142,6 +151,10 @@ var HTTPSB = {
     // so that I don't have to care for last comma
     dummy: 0
 };
+
+/******************************************************************************/
+
+})();
 
 /******************************************************************************/
 

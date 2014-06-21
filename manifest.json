@@ -70,7 +70,6 @@
     "permissions": [
         "browsingData",
         "contentSettings",
-        "contextMenus",
         "cookies",
         "downloads",
         "storage",
