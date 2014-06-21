@@ -926,7 +926,7 @@ FilterParser.prototype.parse = function(s) {
     s = s.replace(/\*\*+/g, '*');
 
     // remove leading and trailing wildcards
-    s = trimChar(s, '*');
+    this.f = trimChar(s, '*');
 
     if ( !this.fopts ) {
         return this;
