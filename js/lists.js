@@ -42,15 +42,15 @@
 // <https://github.com/gorhill/httpswitchboard/issues/66>, a higher granularity
 // is desirable:
 //
-// - self: `type|dmain`
+// - self: `type|domain`
 // - ancestor: inherit from `type|ancestor domain`
 // - domain: inherit from `*|domain` or `*|ancestor domain`
 // - type: inherit from `type|*`
 // - all: inherit from `*|*`
 //
 // So `pale` and `dark` stays (ie. `rDt`, `gPp`, etc.), but a new character
-// would be added in order to convey more details about how the
-// indirect (`pale`) status was inherited.
+// would be added in order to convey more details about how the status
+// was inherited.
 
 /******************************************************************************/
 /******************************************************************************/
