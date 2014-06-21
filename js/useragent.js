@@ -47,16 +47,19 @@ var userAgentRandomPicker = function() {
 
 /******************************************************************************/
 
-var userAgentSpoofer = function() {
+var userAgentSpoofer = function(force) {
     var httpsb = HTTPSB;
     var uaStr = httpsb.userAgentReplaceStr;
-    var now = Date.now() / 60000;
-    if ( (now - httpsb.userAgentReplaceStrBirth) >= httpsb.userSettings.spoofUserAgentEvery ) {
+    var obsolete = Date.now();
+    if ( !force ) {
+        obsolete -= httpsb.userSettings.spoofUserAgentEvery * 60 * 1000;
+    }
+    if ( httpsb.userAgentReplaceStrBirth < obsolete ) {
         uaStr = '';
     }
     if ( uaStr === '' ) {
         httpsb.userAgentReplaceStr = userAgentRandomPicker();
-        httpsb.userAgentReplaceStrBirth = now;
+        httpsb.userAgentReplaceStrBirth = Date.now();
     }
 };
 
@@ -70,7 +73,9 @@ HTTPSB.asyncJobs.add('userAgentSwitcher', null, userAgentSpoofer, 120 * 1000, tr
 /******************************************************************************/
 
 return {
-    shuffle: userAgentSpoofer
+    shuffle: function() {
+        userAgentSpoofer(true);
+    }
 };
 
 })();

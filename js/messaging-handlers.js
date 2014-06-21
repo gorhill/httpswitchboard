@@ -25,6 +25,8 @@
 
 (function() {
 
+// popup.js
+
 /******************************************************************************/
 
 var smartReload = function(tabs) {
@@ -36,8 +38,6 @@ var smartReload = function(tabs) {
 };
 
 /******************************************************************************/
-
-// popup.js
 
 var onMessage = function(request, sender, callback) {
     // Async
