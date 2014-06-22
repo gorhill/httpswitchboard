@@ -1,5 +1,5 @@
 f92fb201840fcb83afd1125791433229 assets/httpsb/preset-recipes-1st.yaml
-4b1a86b098feb822dff56fbc0f593a81 assets/httpsb/ubiquitous-block-lists.json
+c5c15a8f8ab54eb7d3307dbde033db72 assets/httpsb/ubiquitous-block-lists.json
 66c4469349db6c19f88df92540fd0840 assets/httpsb/setup/httpsb-noscript-like-setup.txt
 e9f66671bb58917577127e483f2187e7 assets/httpsb/setup/httpsb-requestpolicy-like-setup.txt
 cb1f8dc3b5aa5fabe113a0e4e7068893 assets/httpsb/setup/httpsb-block-all-narrowly-allow-all-setup.txt
@@ -9,7 +9,7 @@ b869255b8152f363dee21e8427e27c34 assets/httpsb/setup/httpsb-block-nothing-report
 ccd4abb2f8714009b147edd34e6a52d6 assets/httpsb/setup/httpsb-factory-setup.txt
 188ce926323d816ae9d7d5ebbb567862 assets/httpsb/blacklist.txt
 847b801091b64d0bfb1dcd2f7c6fe204 assets/httpsb/block-facebook.txt
-2befdb8385bd4ad0ecbc71afbba434f6 assets/httpsb/preset-recipes-3rd.yaml
+fb55d70ecc242116235092e9c21df24e assets/httpsb/preset-recipes-3rd.yaml
 36d8978c647291a4415dc02fe176e54e assets/thirdparties/download.wiltteri.net/wiltteri.txt
 132b3ecc9da8a68c3faf740c00af734b assets/thirdparties/adblock-plus-japanese-filter.googlecode.com/hg/abp_jp.txt
 3739b55487ff20f235c736601319f843 assets/thirdparties/adblock.gardar.net/is.abp.txt
