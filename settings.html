@@ -52,94 +52,56 @@ ul > li {
 
 <body>
 
-<h2 data-i18n="settingsMatrixHeader"></h2>
+<h2 data-i18n="settingsMatrixDisplayHeader"></h2>
+<ul style="list-style:none">
+    <li><span data-i18n="settingsMatrixDisplayTextSizePrompt"></span>&ensp;<input type="radio" name="displayTextSize" value="13px"><span data-i18n="settingsMatrixDisplayTextSizeNormal"></span>&ensp;<input type="radio" name="displayTextSize" value="16px"><span data-i18n="settingsMatrixDisplayTextSizeLarge"></span>
+    <li style="margin-top:0.5em;"><input id="color-blind-friendly" type="checkbox"><span data-i18n="settingsMatrixDisplayColorBlind"></span>
+    <li style="margin-top:0.5em;">
+        <span data-i18n="settingsSubframeColor"></span> <input id="subframe-color" type="color" value="#c00">
+        &ensp;<span data-i18n="settingsSubframeOpacity"></span> <input id="subframe-opacity" type="range" min="0" max="100" value="100">
+        &ensp;<span id="subframe-color-demo">&nbsp;</span>
+</ul>
+
+<h2 data-i18n="settingsMatrixMoreSecurityHeader"></h2>
 <ul>
-    <li><h3 data-i18n="settingsMatrixDisplayHeader"></h3>
-    <ul style="list-style:none">
-        <li><span data-i18n="settingsMatrixDisplayTextSizePrompt"></span>&ensp;<input type="radio" name="displayTextSize" value="13px"><span data-i18n="settingsMatrixDisplayTextSizeNormal"></span>&ensp;<input type="radio" name="displayTextSize" value="16px"><span data-i18n="settingsMatrixDisplayTextSizeLarge"></span>
-        <li style="margin-top:0.5em;"><input id="color-blind-friendly" type="checkbox"><span data-i18n="settingsMatrixDisplayColorBlind"></span>
+    <li>
+        <input id="strict-blocking" type="checkbox"><span data-i18n="settingsStrictBlockingPrompt"></span>
+        <button class="whatisthis"></button>
+        <div class="whatisthis-expandable para" data-i18n="settingsStrictBlockingInfo"></div>
+    <li>
+        <input id="auto-create-scope" type="checkbox"><span data-i18n="settingsAutoCreateScopePrompt1"></span>
+        <select id="auto-create-scope-level">
+            <option value="domain" data-i18n="settingsAutoCreateDomainScope">
+            <option value="site" data-i18n="settingsAutoCreateSiteScope">
+            </select>
+        <span data-i18n="settingsAutoCreateScopePrompt2"></span>
+        <button class="whatisthis"></button>
+        <div class="whatisthis-expandable para" data-i18n="settingsAutoCreateScopeInfo"></div>
+</ul>
+
+<h2 data-i18n="settingsMatrixLessSecurityHeader"></h2>
+<ul>
+    <li>
+        <input id="auto-whitelist-page-domain" type="checkbox"><span data-i18n="settingsAutoWhitelistPrompt"></span>
+        <button class="whatisthis"></button>
+        <div class="whatisthis-expandable para" data-i18n="settingsAutoWhitelistHelp"></div>
     </ul>
-    <li><h3 data-i18n="settingsMatrixMoreSecurityHeader"></h3>
-    <ul>
-        <li>
-            <input id="strict-blocking" type="checkbox"><span data-i18n="settingsStrictBlockingPrompt"></span>
-            <button class="whatisthis"></button>
-            <div class="whatisthis-expandable para" data-i18n="settingsStrictBlockingInfo"></div>
-        <li>
-            <input id="auto-create-scope" type="checkbox"><span data-i18n="settingsAutoCreateScopePrompt1"></span>
-            <select id="auto-create-scope-level">
-                <option value="domain" data-i18n="settingsAutoCreateDomainScope">
-                <option value="site" data-i18n="settingsAutoCreateSiteScope">
-                </select>
-            <span data-i18n="settingsAutoCreateScopePrompt2"></span>
-            <button class="whatisthis"></button>
-            <div class="whatisthis-expandable para" data-i18n="settingsAutoCreateScopeInfo"></div>
-        </ul>
-    <li><h3 data-i18n="settingsMatrixLessSecurityHeader"></h3>
-    <ul>
-        <li>
-            <input id="auto-whitelist-page-domain" type="checkbox"><span data-i18n="settingsAutoWhitelistPrompt"></span>
-            <button class="whatisthis"></button>
-            <div class="whatisthis-expandable para" data-i18n="settingsAutoWhitelistHelp"></div>
-        </ul>
-    <li><h3 data-i18n="settingsMatrixConvenienceHeader"></h3>
-    <ul>
-        <li>
-            <span data-i18n="settingsMatrixAutoReloadPrompt"></span> <select id="smart-auto-reload">
-                <option value="none" data-i18n="settingsMatrixAutoReloadNone">
-                <option value="current" data-i18n="settingsMatrixAutoReloadCurrent">
-                <option value="all" data-i18n="settingsMatrixAutoReloadAll">
-                </select> <button class="whatisthis"></button>
-            <div class="whatisthis-expandable para" data-i18n="settingsMatrixAutoReloadInfo"></div>
-        <li>
-            <input id="delete-unused-temporary-scopes" type="checkbox"><span data-i18n="settingsMatrixDeleteUnusedTemporaryScopesPrompt1"></span>
-            <!-- <button class="whatisthis"></button>
-            <div class="whatisthis-expandable para" data-i18n="settingsAutoDeleteTemporaryScopesHelp"></div> -->
-        <li style="margin-top:1em;">
-            <span data-i18n="settingsSubframeColor"></span> <input id="subframe-color" type="color" value="#c00">
-            &ensp;<span data-i18n="settingsSubframeOpacity"></span> <input id="subframe-opacity" type="range" min="0" max="100" value="100">
-            &ensp;<span id="subframe-color-demo">&nbsp;</span>
-        </ul>
-</ul>
-
-<h2 data-i18n="settingsPrivacyHeader"></h2>
+    
+<h2 data-i18n="settingsMatrixConvenienceHeader"></h2>
 <ul>
     <li>
-        <input id="delete-blacklisted-cookies" type="checkbox"><span data-i18n="settingsDeleteBlockedCookiesPrompt"></span>
-        <button class="whatisthis"></button>
-        <div class="whatisthis-expandable para" data-i18n="settingsDeleteBlockedCookiesHelp"></div>
+        <span data-i18n="settingsMatrixAutoReloadPrompt"></span> <select id="smart-auto-reload">
+            <option value="none" data-i18n="settingsMatrixAutoReloadNone">
+            <option value="current" data-i18n="settingsMatrixAutoReloadCurrent">
+            <option value="all" data-i18n="settingsMatrixAutoReloadAll">
+            </select> <button class="whatisthis"></button>
+        <div class="whatisthis-expandable para" data-i18n="settingsMatrixAutoReloadInfo"></div>
     <li>
-        <input id="delete-unused-session-cookies" type="checkbox"><span data-i18n="settingsDeleteNonBlockedSessionCookiesPrompt1"></span>
-        <input id="delete-unused-session-cookies-after" type="text" value="60" size="3"><span data-i18n="settingsDeleteNonBlockedSessionCookiesPrompt2"></span>
-        <button class="whatisthis"></button>
-        <div class="whatisthis-expandable para" data-i18n="settingsDeleteNonBlockedSessionCookiesHelp"></div>
-    <li>
-        <input id="delete-blacklisted-localstorage" type="checkbox"><span data-i18n="settingsDeleteBlockedLocalStoragePrompt"></span>
-    <li>
-        <input id="clear-browser-cache" type="checkbox"><span data-i18n="settingsClearCachePrompt1"></span> 
-        <input id="clear-browser-cache-after" type="text" value="60" size="3"> <span data-i18n="settingsClearCachePrompt2"></span>
-        <button class="whatisthis"></button>
-        <div class="whatisthis-expandable para" data-i18n="settingsClearCacheHelp"></div>
-    <li>
-        <input id="process-referer" type="checkbox"><span data-i18n="settingsProcessRefererPrompt"></span>
-        <button class="whatisthis"></button>
-        <div class="whatisthis-expandable para" data-i18n="settingsProcessRefererHelp"></div>
-    <li>
-        <input id="process-hyperlink-auditing" type="checkbox"><span data-i18n="settingsProcessHyperlinkAuditingPrompt"></span>
-        <button class="whatisthis"></button>
-        <div class="whatisthis-expandable para" data-i18n="settingsProcessHyperlinkAuditingHelp"></div>
-    <li>&nbsp;
-    <li>
-        <input id="spoof-user-agent" type="checkbox"><span data-i18n="settingsSpoofUserAgentPrompt1"></span> <input id="spoof-user-agent-every" type="text" value="5" size="3"> <span data-i18n="settingsSpoofUserAgentPrompt2"></span>
-        <button class="whatisthis"></button>
-        <div class="whatisthis-expandable para" data-i18n="settingsSpoofUserAgentHelp"></div>
-        <textarea id="spoof-user-agent-with"></textarea>
+        <input id="delete-unused-temporary-scopes" type="checkbox"><span data-i18n="settingsMatrixDeleteUnusedTemporaryScopesPrompt1"></span>
+        <!-- <button class="whatisthis"></button>
+        <div class="whatisthis-expandable para" data-i18n="settingsAutoDeleteTemporaryScopesHelp"></div> -->
 </ul>
 
-<h2 data-i18n="settingsBehindTheSceneHeader"></h2>
-<div>
-    <p class="para" data-i18n="settingsProcessBehindTheSceneHelp"></p>
-</div>
 
 <script src="lib/jquery-2.min.js"></script>
 <script src="js/i18n.js"></script>

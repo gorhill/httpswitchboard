@@ -11,6 +11,10 @@
         "message": "设置",
         "description": "appears as tab name in dashboard."
     },
+    "privacyPageName": {
+        "message": "隐私设置",
+        "description": "appears as tab name in dashboard."
+    },
     "statsPageName": {
         "message": "统计信息",
         "description": "appears as tab name in dashboard."
@@ -347,89 +351,91 @@
         "message": "不透明度",
         "description": "English: Opacity"
     },
-    "settingsPrivacyHeader" : {
+
+
+    "privacyHeader" : {
         "message": "隐私设置",
         "description": "header of Privacy section"
     },
-    "settingsDeleteBlockedCookiesPrompt" : {
+    "privacyDeleteBlockedCookiesPrompt" : {
         "message": "删除被屏蔽的cookie。",
         "description": "..."
     },
-    "settingsDeleteBlockedCookiesHelp" : {
+    "privacyDeleteBlockedCookiesHelp" : {
         "message": "<p>被添加到黑名单的cookie不会被<i>HTTP Switchboard</i>阻止进入您的浏览器。然而它们会被阻止离开您的浏览器，这是真正重要的。不在cookie进入浏览器之前屏蔽它们，将给您一个被告知一个网站正在试图使用cookie和进一步调查cookie内容的机会。</p><p>一旦这些被添加到黑名单中的cookie被<i>HTTP Switchboard</i>审计后，如果您愿意，它们就可以被清除出您的浏览器。</p><p><b>重要提示：</b>浏览器扩展能在它们的通常运作中发起HTTP请求。这些请求可能导致cookie的创建。如果这个选项被选中，而cookie起源的站点名没有在白名单里，这个cookie会被<i>HTTP Switchboard</i>从浏览器中清除。所以请确保浏览器扩展会与之通信的站点名在白名单中。</p>",
         "description": "..."
     },
-    "settingsDeleteNonBlockedSessionCookiesPrompt1" : {
+    "privacyDeleteNonBlockedSessionCookiesPrompt1" : {
         "message": "于非被屏蔽的会话cookie最后被使用的 ",
         "description": "English: Delete non-blocked session cookies"
     },
-    "settingsDeleteNonBlockedSessionCookiesPrompt2" : {
+    "privacyDeleteNonBlockedSessionCookiesPrompt2" : {
         "message": " 分钟后，删除它们。",
         "description": "English: minutes after the last time they have been used."
     },
-    "settingsDeleteNonBlockedSessionCookiesHelp" : {
+    "privacyDeleteNonBlockedSessionCookiesHelp" : {
         "message": "<p><a href='http://www.w3.org/2001/tag/2010/09/ClientSideStorage.html'>W3C</a>：“一个会话cookie……会被消除，当您终结浏览器的会话。会话cookie是存储在临时内存空间里的，并且在浏览器被关闭后不会被保持。”</p><p>但这<a href='https://code.google.com/p/chromium/issues/detail?id=128513'>可能不会发生</a>，当您使用一个基于Chromium的浏览器。而且对有些人来说，需要关闭浏览器来清除会话cookie可能不够及时。</p>",
         "description": "..."
     },
-    "settingsDeleteBlockedLocalStoragePrompt" : {
+    "privacyDeleteBlockedLocalStoragePrompt" : {
         "message": "删除被屏蔽站点名的<a href='https://zh.wikipedia.org/wiki/%E7%BD%91%E9%A1%B5%E5%AD%98%E5%82%A8'>本地网页存储</a>内容集。",
         "description": "English: Delete <a href='https://en.wikipedia.org/wiki/Web_storage'>local storage</a> content set by blocked hostnames"
     },
-    "settingsDeleteBlockedLocalStorageHelp" : {
+    "privacyDeleteBlockedLocalStorageHelp" : {
         "message": "TODO",
         "description": "..."
     },
-    "settingsClearCachePrompt1" : {
+    "privacyClearCachePrompt1" : {
         "message": "清除浏览器缓存每隔",
         "description": "English: Clear browser cache every"
     },
-    "settingsClearCachePrompt2" : {
+    "privacyClearCachePrompt2" : {
         "message": "分钟。",
         "description": "English: minutes."
     },
-    "settingsClearCacheHelp" : {
+    "privacyClearCacheHelp" : {
         "message": "<p>有些网站真的很热衷于追踪您，以至于它们会使用一些不那么友好的技巧来避开您用于不被追踪的任何措施。</p><p>一小部分这些技巧依赖<sup style='font-size:smaller'>[1, 2]</sup>于浏览器缓存。浏览器缓存中的内容通常会存在相当长的时间，因为极少会有用户花时间去定期清理它们。</p><p>清除浏览器缓存只有很少的不便（很可能当其发生时您都不会注意到），而它的好处是可以阻止这些追踪者们侵犯您的隐私。</p><p>勾选这个选项来让<i>HTTP Switchboard</i>为您自动清除浏览器缓存，用您设置的时间间隔。</p><p style='font-size:smaller'>[1] <a href='https://grepular.com/Preventing_Web_Tracking_via_the_Browser_Cache'>&ldquo;Preventing Web Tracking via the Browser Cache&rdquo;</a><br>[2] <a href='http://lucb1e.com/rp/cookielesscookies/'>&ldquo;Cookieless cookies&rdquo;</a></p>",
         "description": "..."
     },
-    "settingsProcessRefererPrompt" : {
+    "privacyProcessRefererPrompt" : {
         "message": "从向非白名单中站点名发起的HTTP请求中移除第三方<a href='https://zh.wikipedia.org/wiki/HTTP%E5%8F%82%E7%85%A7%E4%BD%8D%E5%9D%80'>引用地址</a>信息。",
         "description": "..."
     },
-    "settingsProcessRefererHelp" : {
+    "privacyProcessRefererHelp" : {
         "message": "<p>参照维基百科：“HTTP来源地址是一个HTTP表头字段，用于识别链接到正在被请求资源的网页的地址。…… <b>因为引用信息可能泄漏隐私，一些浏览器允许用户禁用发送引用信息的功能。</b>”</p><p>如果这个设置被选中，<i>HTTP Switchboard</i>会移除引用地址信息如果以下条件<b>同时</b>得到满足：<ul style='padding-left:1em;list-style-type:disc;'><li>引用地址的域名和HTTP请求地址的域名不吻合（即这是一个第三方引用）；<li>HTTP请求地址的站点名不在白名单中。</ul></p>",
         "description": "..."
     },
-    "settingsProcessHyperlinkAuditingPrompt" : {
+    "privacyProcessHyperlinkAuditingPrompt" : {
         "message": "屏蔽所有<a href='http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing'>超链接审计</a>尝试。",
         "description": "..."
     },
-    "settingsProcessHyperlinkAuditingHelp" : {
+    "privacyProcessHyperlinkAuditingHelp" : {
         "message": "<p>超链接审计是一种允许一个团体，<b>任何一个团体</b>，被告知一个用户在某个具体页面中点击了哪个链接的机制。它实质上是一个追踪用户的功能：它允许一个网站，或任何第三方，被告知您在该网站的哪个页面中点击了哪个链接。它唯一的目的就是追踪您的浏览活动。</p>",
         "description": "..."
     },
-    "settingsSpoofUserAgentPrompt1" : {
+    "privacySpoofUserAgentPrompt1" : {
         "message": "从下面列表中随机选取新的一条，来伪装<a href='https://zh.wikipedia.org/wiki/%E7%94%A8%E6%88%B7%E4%BB%A3%E7%90%86'>用户代理</a>字符串，每隔",
         "description": "Spoof <a href='https://en.wikipedia.org/wiki/User_agent'>User-Agent</a> string by randomly picking a new one below every"
     },
-    "settingsSpoofUserAgentPrompt2" : {
+    "privacySpoofUserAgentPrompt2" : {
         "message": "分钟。",
         "description": "minutes."
     },
-    "settingsSpoofUserAgentHelp" : {
+    "privacySpoofUserAgentHelp" : {
         "message": "<a href='https://www.eff.org/deeplinks/2010/01/tracking-by-user-agent'>根据<i>电子前哨基金会</i></a>：“……您的浏览器会发送一个‘用户代理’表头给访问的网站，精确地描述了您正在使用的操作系统及浏览器。这些信息可以帮助区分互联网用户，因为用户间操作系统和浏览器的版本会有所不同,甚至经常会在两人之间相差很大。……<b>用户代理字符串变成一个确实的隐私问题</b>。”<p>这个选项允许您解决这个被EFF指出的隐私问题。</p><p>您可以提供自己的用户代理字符串列表。每行一条。空行和以‘#’开头的行会被忽略。</p>",
         "description": "..."
     },
-    "settingsBehindTheSceneHeader" : {
+    "privacyBehindTheSceneHeader" : {
         "message": "Chrome浏览器后台请求",
         "description": "header of Chromium: behind-the-scene requests section"
     },
-    "settingsProcessBehindTheSceneHelp" : {
+    "privacyProcessBehindTheSceneHelp" : {
         "message": "<p>根据<a href='https://www.google.com/intl/zh-CN/chrome/browser/privacy/whitepaper.html'>Google Chrome 隐私权白皮书</a>，<i>Chromium</i>可能会发送HTTP请求到<i>Google</i>，即使在用户没有明确地访问一个网页的情况下。让我们称这种特殊的请求为<strong>后台</strong>请求。同时，用户安装的其它的浏览器扩展也有可能发送<strong>后台</strong>HTTP请求。</p><p><i>HTTP Switchboard</i>让您拦截这些请求，并能像对待别的请求一样对待这些请求：它们可以依照您的白名单/黑名单来被处理，从而实现对它们的允许/屏蔽。</p><p>如需启用这个功能，从浏览这个页面时点击此扩展的图标开始。请先阅读：<a href='https://github.com/gorhill/httpswitchboard/wiki/Behind-the-scene-requests'>后台请求</a>.</p><div class='warn'><p><span style='color:red; font-weight:bold'>注意！</span>屏蔽<strong>后台</strong>网络请求可能会导致<a href='https://github.com/gorhill/httpswitchboard/issues/27'>一个问题</a>，当用户想要从Chrome商店安装一个浏览器扩展的时候（包括可能会阻拦浏览器扩展的更新），因此添加了可以在此屏蔽此功能的设置。屏蔽也可能会导致用户安装的其它的浏览器扩展不能正常工作（那些需要查询远程数据的）。</p><p>即使这项功能没有被启用，<strong>后台</strong>HTTP请求仍然会被<i>HTTP Switchboard</i>记录下来。您可以在<a href='dashboard.html#statistics'>统计信息</a>页面检查这些请求。</p>",
         "description": "..."
     },
-    "settingsDoneButton" : {
+    "privacyDoneButton" : {
         "message": "完成",
-        "description": "Close the Settings page"
+        "description": "Close the Privacy page"
     },
 
 

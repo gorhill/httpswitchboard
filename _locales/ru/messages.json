@@ -11,6 +11,10 @@
         "message": "Настройки",
         "description": "appears as tab name in dashboard."
     },
+    "privacyPageName": {
+        "message": "Конфиденциальность",
+        "description": "appears as tab name in dashboard."
+    },
     "statsPageName": {
         "message": "Статистика",
         "description": "appears as tab name in dashboard."
@@ -347,89 +351,91 @@
         "message": "Прозрачность:",
         "description": "English: Opacity:"
     },
-    "settingsPrivacyHeader" : {
+
+
+    "privacyHeader" : {
         "message": "Конфиденциальность",
         "description": "header of Privacy section"
     },
-    "settingsDeleteBlockedCookiesPrompt" : {
+    "privacyDeleteBlockedCookiesPrompt" : {
         "message": "Удалять заблокированные куки.",
         "description": "..."
     },
-    "settingsDeleteBlockedCookiesHelp" : {
+    "privacyDeleteBlockedCookiesHelp" : {
         "message": "<p><i>HTTP Switchboard</i> не может помешать нежелательным кукам попасть в браузер, однако они могут остаться и храниться в браузере. Возможность попасть в бразуер позволит пользователю увидеть, что сайт попытался это сделать и проанализировать их содержимое.</p><p>После того, как <i>HTTP Switchboard</i> отнес куки к нежелательным, они могут быть удалены из браузера.</p><p><b>Важное дополнение:</b> Расширения могут делать web запросы, это вполне обычная для них операция. Эти запросы могут создать куки. Исли хост не из белого списка, то <i>HTTP Switchboard</i> удалит куки. Поэтому убедитесь, что хосты, с которыми работают расширения находятся в белом списке.</p>",
         "description": "..."
     },
-    "settingsDeleteNonBlockedSessionCookiesPrompt1" : {
+    "privacyDeleteNonBlockedSessionCookiesPrompt1" : {
         "message": "Удалить не блокированные сеансовые куки через",
         "description": "English: Delete non-blocked session cookies"
     },
-    "settingsDeleteNonBlockedSessionCookiesPrompt2" : {
+    "privacyDeleteNonBlockedSessionCookiesPrompt2" : {
         "message": " минут после того, как они были последний раз использованы",
         "description": "English: minutes after the last time they have been used."
     },
-    "settingsDeleteNonBlockedSessionCookiesHelp" : {
+    "privacyDeleteNonBlockedSessionCookiesHelp" : {
         "message": "<p><a href='http://www.w3.org/2001/tag/2010/09/ClientSideStorage.html'>W3C</a>: &ldquo;Куки(cookie) сессии удалятся при завершении сеанса браузера. Они находятся во временной памяти и не сохранятся после закрытия браузера.&rdquo;</p><p>Но существует проблема, когда <a href='https://code.google.com/p/chromium/issues/detail?id=128513'>это может не происходить</a> при использовании браузера на основе Chromium. Эта опция будет гарантией, что куки будут удалены, даже если этого не сделает браузер после закрытия.</p>",
         "description": "..."
     },
-    "settingsDeleteBlockedLocalStoragePrompt" : {
+    "privacyDeleteBlockedLocalStoragePrompt" : {
         "message": "Удалить <a href='http://en.wikipedia.org/wiki/Web_storage'>локальное хранилище</a> данных для заблокированных ресурсов",
         "description": "..."
     },
-    "settingsDeleteBlockedLocalStorageHelp" : {
+    "privacyDeleteBlockedLocalStorageHelp" : {
         "message": "TODO",
         "description": "..."
     },
-    "settingsClearCachePrompt1" : {
+    "privacyClearCachePrompt1" : {
         "message": "Очищать кеш браузера каждые",
         "description": "English: Clear browser cache every"
     },
-    "settingsClearCachePrompt2" : {
+    "privacyClearCachePrompt2" : {
         "message": "минут.",
         "description": "English: minutes."
     },
-    "settingsClearCacheHelp" : {
+    "privacyClearCacheHelp" : {
         "message": "<p>Некоторые веб-сайты могут предпринимать разные методы, что отследить личную информацию</p><p>Некоторые из приемов опираются <sup style='font-size:smaller'>[1, 2]</sup>на<a href='https://en.wikipedia.org/wiki/Web_cache'> использование кеша браузера</a>, который зачастую долго хранится, поэтому рекомендуется его переодически очищать.</p><p>Вручную очищать его не удобно.</p><p>Выбирете эту опцию и  <i>HTTP Switchboard</i> все сделает за вас.</p><p style='font-size:smaller'>[1] <a href='https://grepular.com/Preventing_Web_Tracking_via_the_Browser_Cache'>&ldquo;Предотвращение отслеживание с помощью кэша веб-браузера&rdquo;</a><br>[2] <a href='http://lucb1e.com/rp/cookielesscookies/'>&ldquo;Без куки&rdquo;</a></p>",
         "description": "..."
     },
-    "settingsProcessRefererPrompt" : {
+    "privacyProcessRefererPrompt" : {
         "message": "Удалить стороннюю информацию из <a href='https://en.wikipedia.org/wiki/HTTP_referer'>HTTP запросов</a> к хостам, которых нет в белом списке.",
         "описание": "..."
     },
-    "settingsProcessRefererHelp" : {
+    "privacyProcessRefererHelp" : {
         "message": "<p>Из Википедии: &ldquo;в протоколе HTTP один из заголовков запроса клиента. Содержит URL источника запроса. Если перейти с одной страницы на другую, referer будет содержать адрес первой страницы.  ... <b>Поскольку посылаемая информация может нарушить конфиденциальность, некоторые веб браузеры могут позволить пользователям отключить посылку этих данных.</b>&rdquo;</p><p>Если выбрана эта опция, <i>HTTP Switchboard</i> будет удалять HTTP запросы, при условии, что выполняются условия <b>ниже</b>:<ul style='padding-left:1em;list-style-type:disc;'><li>Доменное имя HTTP-referer не соответствует имени домена из URL запроса (referer сторонней веб-страницы);<li>Адрес хоста в запросе не из белого списка.</ul></p>",
         "описание": "..."
     },
-    "settingsProcessHyperlinkAuditingPrompt" : {
+    "privacyProcessHyperlinkAuditingPrompt" : {
         "message": "Block all <a href='http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing'>hyperlink auditing</a> attempts.",
         "description": "..."
     },
-    "settingsProcessHyperlinkAuditingHelp" : {
+    "privacyProcessHyperlinkAuditingHelp" : {
         "message": "<p>Hyperlink auditing is a mechanism which allow a party, <b>any party</b>, to be informed about which link a user clicked on a particular web page. It is essentially a tracking feature: it allows a web site, or any third-party to that web site, to be informed about which link you clicked on which one of its web pages. The sole purpose is to track your browsing activity.</p>",
         "description": "..."
     },
-    "settingsSpoofUserAgentPrompt1" : {
+    "privacySpoofUserAgentPrompt1" : {
         "message": "Подмена <a href='https://en.wikipedia.org/wiki/User_agent'>User-Agent</a> строки, выбирая случайную строку ниже каждые",
         "description": "Spoof <a href='https://en.wikipedia.org/wiki/User_agent'>User-Agent</a> string by picking one randomly below every"
     },
-    "settingsSpoofUserAgentPrompt2" : {
+    "privacySpoofUserAgentPrompt2" : {
         "message": "минут.",
         "description": "minutes."
     },
-    "settingsSpoofUserAgentHelp" : {
+    "privacySpoofUserAgentHelp" : {
         "message": "<a href='https://www.eff.org/deeplinks/2010/01/tracking-by-user-agent'>В соответствии с <i>Electronic Frontier Foundation</i></a>: &ldquo;[...] Ваш браузер отправляет &lsquo;User Agent&rsquo; заголовок сайту, сообщая каким браузером и ОС вы пользуетесь. Эта мнформация помогает различать пользователей в сети, often considerably, from person to person. [...] <b>Данные User Agent становятся конфиденциальной информацией</b>.&rdquo;<p>эта опция позволяет Вам решить проблемы конфиденциальности, поднятые EFF.</p><p>Вы можете указать свой собственный список User Agent пользователя. Одно слово на строку. Пустые строки и линии с префиксом &lsquo;#&rsquo; будут пропущены.</p>",
         "description": "..."
     },
-    "settingsBehindTheSceneHeader" : {
+    "privacyBehindTheSceneHeader" : {
         "message": "Chromium: Фоновые запросы",
         "description": "header of Chromium: behind-the-scene requests section"
     },
-    "settingsProcessBehindTheSceneHelp" : {
+    "privacyProcessBehindTheSceneHelp" : {
         "message": "<p>В соответствии с <a href='http://www.google.com/intl/en/chrome/browser/privacy/whitepaper.html'>Google Chrome Privacy Whitepaper</a>, <i>Chromium</i> может послать HTTP-запросы в <i>Google</i> даже, если пользователь не загружает веб страницы. Давайте назовем это - <strong>фоновые запросы</strong>. Кроме того, другие установленные расширения могут делать <strong>фоновые запросы</strong>.</p><p><i>HTTP Switchboard</i> позволяет контролировать доступ к этой информации: эти запросы могут быть обработаны, чтобы разрешить/запретить их в соответствии с настройками белого/черного списков.</p><p>Кликните на иконку расширения, для начала работы. Обязательно прочтите: <a href='https://github.com/gorhill/httpswitchboard/wiki/Behind-the-scene-requests'>Фоновые запросы</a>.</p><div class='warn'><p><span style='color:red; font-weight:bold'>Внимание!</span> Запрещение <strong>фоновых запросов</strong> может вызвать <a href='https://github.com/gorhill/httpswitchboard/issues/27'>проблему</a> когда пользовать хочет установить расширение из Chrome store (включая проблемы с обновлением расширений), возможно отключить эту функцию здесь. Блокирование этих запросов может вызывать разные проблемы с работой расширений.</p> <p>Даже если эта функция не включена, то <strong>фоновые запросы</strong> логироваться в <i>HTTP Switchboard</i>. Вы можете посмотреть эти запросы на (на странице <a href='dashboard.html#statistics'>Статистики</a>).</p>",
         "description": "..."
     },
-    "settingsDoneButton" : {
+    "privacyDoneButton" : {
         "message": "Применить",
-        "description": "Close the Settings page"
+        "description": "Close the Privacy page"
     },
 
 

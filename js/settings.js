@@ -64,21 +64,6 @@ var onSubframeColorChanged = function() {
 
 /******************************************************************************/
 
-function renderNumber(value) {
-    // TODO: localization
-    if ( +value > 1000 ) {
-        value = value.toString();
-        var i = value.length - 3;
-        while ( i > 0 ) {
-            value = value.slice(0, i) + ',' + value.slice(i);
-            i -= 3;
-        }
-    }
-    return value;
-}
-
-/******************************************************************************/
-
 function changeUserSettings(name, value) {
     messaging.tell({
         what: 'userSettings',
@@ -89,28 +74,8 @@ function changeUserSettings(name, value) {
 
 /******************************************************************************/
 
-function onChangeValueHandler(elem, setting, min, max) {
-    var oldVal = cachedUserSettings[setting];
-    var newVal = Math.round(parseFloat(elem.val()));
-    if ( typeof newVal !== 'number' ) {
-        newVal = oldVal;
-    } else {
-        newVal = Math.max(newVal, min);
-        newVal = Math.min(newVal, max);
-    }
-    elem.val(newVal);
-    if ( newVal !== oldVal ) {
-        changeUserSettings(setting, newVal);
-    }
-}
-
-/******************************************************************************/
-
 function prepareToDie() {
     onSubframeColorChanged();
-    onChangeValueHandler($('#delete-unused-session-cookies-after'), 'deleteUnusedSessionCookiesAfter', 15, 1440);
-    onChangeValueHandler($('#clear-browser-cache-after'), 'clearBrowserCacheAfter', 15, 1440);
-    onChangeValueHandler($('#spoof-user-agent-every'), 'spoofUserAgentEvery', 2, 999);
 }
 
 /******************************************************************************/
@@ -148,39 +113,6 @@ var installEventHandlers = function() {
     });
     $('#subframe-color').on('change', function(){ onSubframeColorChanged(); });
     $('#subframe-opacity').on('change', function(){ onSubframeColorChanged(); });
-    $('#delete-unused-session-cookies').on('change', function(){
-        changeUserSettings('deleteUnusedSessionCookies', $(this).is(':checked'));
-    });
-    $('#delete-unused-session-cookies-after').on('change', function(){
-        onChangeValueHandler($(this), 'deleteUnusedSessionCookiesAfter', 15, 1440);
-    });
-    $('#delete-blacklisted-cookies').on('change', function(){
-        changeUserSettings('deleteCookies', $(this).is(':checked'));
-    });
-    $('#delete-blacklisted-localstorage').on('change', function(){
-        changeUserSettings('deleteLocalStorage', $(this).is(':checked'));
-    });
-    $('#clear-browser-cache').on('change', function(){
-        changeUserSettings('clearBrowserCache', $(this).is(':checked'));
-    });
-    $('#clear-browser-cache-after').on('change', function(){
-        onChangeValueHandler($(this), 'clearBrowserCacheAfter', 15, 1440);
-    });
-    $('#process-referer').on('change', function(){
-        changeUserSettings('processReferer', $(this).is(':checked'));
-    });
-    $('#process-hyperlink-auditing').on('change', function(){
-        changeUserSettings('processHyperlinkAuditing', $(this).is(':checked'));
-    });
-    $('#spoof-user-agent').on('change', function(){
-        changeUserSettings('spoofUserAgent', $(this).is(':checked'));
-    });
-    $('#spoof-user-agent-every').on('change', function(){
-        onChangeValueHandler($(this), 'spoofUserAgentEvery', 2, 999);
-    });
-    $('#spoof-user-agent-with').on('change', function(){
-        changeUserSettings('spoofUserAgentWith', $(this).val());
-    });
 
     // https://github.com/gorhill/httpswitchboard/issues/197
     $(window).one('beforeunload', prepareToDie);
@@ -206,17 +138,6 @@ $(function() {
         $('#subframe-color').val(userSettings.subframeColor);
         $('#subframe-opacity').val(userSettings.subframeOpacity);
         updateSubframeDemo();
-        $('#delete-unused-session-cookies').attr('checked', userSettings.deleteUnusedSessionCookies === true);
-        $('#delete-unused-session-cookies-after').val(userSettings.deleteUnusedSessionCookiesAfter);
-        $('#delete-blacklisted-cookies').attr('checked', userSettings.deleteCookies === true);
-        $('#delete-blacklisted-localstorage').attr('checked', userSettings.deleteLocalStorage);
-        $('#clear-browser-cache').attr('checked', userSettings.clearBrowserCache === true);
-        $('#clear-browser-cache-after').val(userSettings.clearBrowserCacheAfter);
-        $('#process-referer').attr('checked', userSettings.processReferer);
-        $('#process-hyperlink-auditing').attr('checked', userSettings.processHyperlinkAuditing);
-        $('#spoof-user-agent').attr('checked', userSettings.spoofUserAgent);
-        $('#spoof-user-agent-every').val(userSettings.spoofUserAgentEvery);
-        $('#spoof-user-agent-with').val(userSettings.spoofUserAgentWith);
 
         installEventHandlers();
     };

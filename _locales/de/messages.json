@@ -11,6 +11,10 @@
         "message": "Einstellungen",
         "description": "appears as tab name in dashboard"
     },
+    "privacyPageName": {
+        "message": "Privatsphäre",
+        "description": "appears as tab name in dashboard."
+    },
     "statsPageName": {
         "message": "Statistik",
         "description": "appears as tab name in dashboard"
@@ -347,89 +351,91 @@
         "message": "Undurchsichtigkeit:",
         "description": "English: Opacity:"
     },
-    "settingsPrivacyHeader" : {
+
+
+    "privacyHeader" : {
         "message": "Privatsphäre",
         "description": "header of Privacy section"
     },
-    "settingsDeleteBlockedCookiesPrompt" : {
+    "privacyDeleteBlockedCookiesPrompt" : {
         "message": "Entferne blockierte Cookies",
         "description": "..."
     },
-    "settingsDeleteBlockedCookiesHelp" : {
+    "privacyDeleteBlockedCookiesHelp" : {
         "message": "<p>Cookies auf der Blacklist werden von <i>HTTP Switchboard</i> nicht daran gehindert, vom Browser empfangen zu werden. Vielmehr werden sie daran gehindert, den Browser wieder zu verlassen - das ist es, worauf es wirklich ankommt. Dass Cookies nicht blockiert werden, bevor sie vom Browser empfangen werden, gibt dir die Gelegenheit, dich zu informieren, welche Seiten Cookies zu verwenden versuchen, und dir den Inhalt der Cookies anzuschauen, wenn du möchtest.</p><p>Sobald diese sich auf der Blacklist befindlichen Cookies von <i>HTTP Switchboard</i> erfasst sind, können sie aus deinem Browser gelöscht werden, falls du möchtest.</p><p><b>Wichtiger Hinweis:</b> Erweiterungen können während ihrer Benutzung Webanfragen tätigen. Diese Anfragen können dazu führen, dass Cookies im Browser erzeugt werden. Falls der Hostname, von dem das Cookie stammt, nicht auf der Whitelist ist, wird das Cookie von <i>HTTP Switchboard</i> aus dem Browser entfernt, sofern dieser Schalter aktiviert ist. Stelle daher sicher, dass Hostnamen, mit denen eine Erweiterung kommuniziert, auf der Whitelist stehen.</p>",
         "description": "..."
     },
-    "settingsDeleteNonBlockedSessionCookiesPrompt1" : {
+    "privacyDeleteNonBlockedSessionCookiesPrompt1" : {
         "message": "Entferne nicht-blockierte Sitzungscookies ",
         "description": "English: Delete non-blocked session cookies"
     },
-    "settingsDeleteNonBlockedSessionCookiesPrompt2" : {
+    "privacyDeleteNonBlockedSessionCookiesPrompt2" : {
         "message": " Minuten nach ihrer letzten Benutzung.",
         "description": "English: minutes after the last time they have been used."
     },
-    "settingsDeleteNonBlockedSessionCookiesHelp" : {
+    "privacyDeleteNonBlockedSessionCookiesHelp" : {
         "message": "<p><a href='http://www.w3.org/2001/tag/2010/09/ClientSideStorage.html'>W3C</a>: &ldquo;Ein Sitzungscookie ... wird gelöscht, wenn die Browsersitzung beendet wird. Das Sitzungscookie wird temporär gespeichert und nicht behalten, wenn der Browser geschlossen ist.&rdquo;</p><p>Nur dass das möglicherweise <a href='https://code.google.com/p/chromium/issues/detail?id=128513'>nicht passiert</a>, wenn man einen Chromium-basierten Browser verwendet. Außerdem bevorzugen es manche Benutzer, Sitzungscookies loszuwerden, bevor sie den Browser schließen.</p>",
         "description": "..."
     },
-    "settingsDeleteBlockedLocalStoragePrompt" : {
+    "privacyDeleteBlockedLocalStoragePrompt" : {
         "message": "Lösche den Inhalt des <a href='http://de.wikipedia.org/wiki/Web_Storage'>Local Storage</a> von blockierten Hostnamen",
         "description": "..."
     },
-    "settingsDeleteBlockedLocalStorageHelp" : {
+    "privacyDeleteBlockedLocalStorageHelp" : {
         "message": "TODO",
         "description": "..."
     },
-    "settingsClearCachePrompt1" : {
+    "privacyClearCachePrompt1" : {
         "message": "Lösche den Browser-Cache alle",
         "description": "English: Clear browser cache every"
     },
-    "settingsClearCachePrompt2" : {
+    "privacyClearCachePrompt2" : {
         "message": "Minuten.",
         "description": "English: minutes."
     },
-    "settingsClearCacheHelp" : {
+    "privacyClearCacheHelp" : {
         "message": "<p>Einige Webseiten sind wirklich darauf aus, dich zu verfolgen bzw. zu tracken, und scheuen nicht davor zurück, unfeine Tricks zu verwenden, um Maßnahmen, die dieses Tracking verhindern sollen, zu unterlaufen.</p><p>Einige dieser Tricks benutzen dazu den <sup style='font-size:smaller'>[1, 2]</sup> on the <a href='https://de.wikipedia.org/wiki/Browser-Cache'>Browser Cache</a>, dessen Inhalt häufig für lange Zeit auslesbar ist, da viele Benutzer ihn nicht regelmäßig löschen.</p><p>Das regelmäßige Löschen des Browser Caches bringt kaum Nachteile mit sich (wahrscheinlich wirst du gar keine bemerken), während die Vorteile darin bestehen, dass diese fiesen Tracker davon abgehalten werden, in deine Privatsphäre einzudringen.</p><p>Aktiviere diesen Schalter, damit  <i>HTTP Switchboard</i> diese Aufgabe in dem von dir gewünschten Intervall übernimmt.</p><p style='font-size:smaller'>[1] <a href='https://grepular.com/Preventing_Web_Tracking_via_the_Browser_Cache'>&ldquo;Preventing Web Tracking via the Browser Cache&rdquo;</a><br>[2] <a href='http://lucb1e.com/rp/cookielesscookies/'>&ldquo;Cookieless cookies&rdquo;</a></p>",
         "description": "..."
     },
-    "settingsProcessRefererPrompt" : {
+    "privacyProcessRefererPrompt" : {
         "message": "Entferne den <a href='https://de.wikipedia.org/wiki/Referrer'>HTTP Referrer</a> für Drittseiten, wenn der Hostname nicht auf der Whitelist steht.",
         "description": "..."
     },
-    "settingsProcessRefererHelp" : {
+    "privacyProcessRefererHelp" : {
         "message": "<p>Aus Wikipedia: &ldquo;Ein Referrer ist die Internetadresse der Webseite, von der der Benutzer durch Anklicken eines Links zu der aktuellen Seite gekommen ist. ... <b>(Die Übertragung eines Referrers zu verhindern) ...ist unter anderem aus Datenschutzerwägungen interessant, da andernfalls die Möglichkeit besteht, die Referrer mit den Nutzer-IP-Adressen in Verbindung zu bringen.</b>&rdquo;</p><p>Wenn dieser Schalter aktiviert ist, wird <i>HTTP Switchboard</i> den HTTP Referrer entfernen, wenn <b>beide</b> folgenden Bedingungen erfüllt sind:<ul style='padding-left:1em;list-style-type:disc;'><li>Der Domänenname des HTTP Referrer stimmt nicht mit dem Domänenname der anfragenden URL überein (das heißt, der Referrer stammt von einer Drittseite);<li>Der anfragende Hostname ist nicht auf der Whitelist.</ul></p>",
         "description": "..."
     },
-    "settingsProcessHyperlinkAuditingPrompt" : {
+    "privacyProcessHyperlinkAuditingPrompt" : {
         "message": "Blockiere alle <a href='http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#hyperlink-auditing'>Hyperlink Auditing</a> Versuche.",
         "description": "..."
     },
-    "settingsProcessHyperlinkAuditingHelp" : {
+    "privacyProcessHyperlinkAuditingHelp" : {
         "message": "<p>Hyperlink Auditing ist ein Mechanismus, der es <b>allen</b> beteiligten Parteien erlaubt herauszufinden, auf welchen Link ein Benutzer auf einer bestimmten Webseite klickt. Im Grunde ist es eine Tracking-Funktion: Es erlaubt einer Webseite oder auch Drittparteien auf dieser Webseite, sich darüber zu informieren, auf welche Links du auf eine dieser Seiten geklickt hast. Der einzige Zweck besteht darin, deine Browsing-Aktivitätten zu verfolgen.</p>",
         "description": "..."
     },
-    "settingsSpoofUserAgentPrompt1" : {
+    "privacySpoofUserAgentPrompt1" : {
         "message": "Verschleiere den <a href='https://de.wikipedia.org/wiki/User_Agent'>User-Agent</a> durch die zufällige Wahl eines neuen aus der Liste alle",
         "description": "Spoof <a href='https://en.wikipedia.org/wiki/User_agent'>User-Agent</a> string by picking one randomly below every"
     },
-    "settingsSpoofUserAgentPrompt2" : {
+    "privacySpoofUserAgentPrompt2" : {
         "message": "Minuten.",
         "description": "minutes."
     },
-    "settingsSpoofUserAgentHelp" : {
+    "privacySpoofUserAgentHelp" : {
         "message": "<a href='https://www.eff.org/deeplinks/2010/01/tracking-by-user-agent'>Laut der <i>Electronic Frontier Foundation</i></a>: &ldquo;[...] sendet dein Browser einen &lsquo;User Agent&rsquo; Header an die Webseite und sagt damit präzise, welches Betriebssystem und welchen Webbrowser du benutzt. Diese Informationen tragen dazu bei, Internet-Nutzer von anderen zu unterscheiden, da diese Versionen häufig beträchtlich von Person zu Person unterschiedlich sind. [...] <b>der User Agent wird damit zu einer reellen Gefahr für die Privatsphäre</b>.&rdquo;<p>Diese Option ermöglicht dir, auf diese Bedrohung zu reagieren.</p><p>Du kannst deine eigene Liste von User Agents einstellen, und zwar eine Variante pro Zeile. Leere Zeilen und Zeilen mit einem vorangestellten &lsquo;#&rsquo; werden ignoriert.</p>",
         "description": "..."
     },
-    "settingsBehindTheSceneHeader" : {
+    "privacyBehindTheSceneHeader" : {
         "message": "Chromium: Hintergrundanfragen",
         "description": "header of Chromium: behind-the-scene requests section"
     },
-    "settingsProcessBehindTheSceneHelp" : {
+    "privacyProcessBehindTheSceneHelp" : {
         "message": "<p>Gemäß dem <a href='http://www.google.com/intl/de/chrome/browser/privacy/whitepaper.html'>Google Chrome - Whitepaper zum Datenschutz</a>, kann <i>Chromium</i>  HTTP Anfragen zu <i>Google</i> senden, ohne dass der Benutzer eine Webseite ausdrücklich besucht. Lasst uns diese speziellen Anfragen <strong>Hintergrund</strong>-Anfragen nennen. Auch andere installierte  Browser-Erweiterungen können <strong>Hintergrund</strong>- HTTP Anfragen senden.</p><p><i>HTTP Switchboard</i> kann diese Anfragen abfangen und verarbeiten wie jede andere Anfrage: sie können entsprechend deiner Whitelist/Blacklist erlaubt/blockiert werden.</p><p>Um Hintergrund-Anfragen insgesamt oder teilweise zu erlauben/blockieren, musst du jetzt die Matrix benutzen, die sich beim Klicken auf das Symbol dieser Erweiterung öffnet, während du dich auf dieser Seite befindest. Pflichtlektüre: <a href='https://github.com/gorhill/httpswitchboard/wiki/Behind-the-scene-requests'>Behind-the-scene requests</a>.</p><div class='warn'><p><span style='color:red; font-weight:bold'>Achtung!</span> Das Blockieren von <strong>Hintergrund</strong>-Anfragen kann z.Z. einen <a href='https://github.com/gorhill/httpswitchboard/issues/27'>Fehler</a> verursachen, wenn der Benutzer eine Erweiterung aus dem Chrome Store installieren möchte (außerdem kann es beim Update von Erweiterungen Probleme geben) - daher die Möglichkeit, dieses Feature zu deaktivieren. Zudem kann das Blockieren dieser Anfragen dazu führen, dass andere installierte Erweiterungen nicht richtig funktionieren (sofern sie Daten aus dem Internet abfragen).</p> <p>Aber selbst wenn diese Funktion nicht aktiviert ist, werden <strong>Hintergrund</strong>-Anfragen dennoch durch <i>HTTP Switchboard</i> aufgezeichnet, so dass du sie zumindest auf der  <a href='dashboard.html#statistics'>Statistik</a>-Seite inspizieren kannst.</p>",
         "description": "..."
     },
-    "settingsDoneButton" : {
+    "privacyDoneButton" : {
         "message": "Fertig",
-        "description": "Close the Settings page"
+        "description": "Close the Privacy page"
     },
 
 
