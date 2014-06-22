@@ -176,6 +176,16 @@ Reddit:
         script buttons.reddit.com
         script ajax.googleapis.com
 
+Soundcloud:
+    facode: f1be
+    keys: soundcloud.com
+    whitelist: |
+        script w.soundcloud.com
+        xhr soundcloud.com
+        frame w.soundcloud.com
+        other ec-media.soundcloud.com
+        other w.soundcloud.com
+
 Tumblr:
     facode: f173
     keys: www.tumblr.com
