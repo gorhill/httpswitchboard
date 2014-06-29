@@ -500,12 +500,12 @@
         "description": "English: Apply changes"
     },
     "ubiquitousFormatHint" : {
-        "message": "每行一条规则。一条规则可以是一个平凡的站点名或者是一条Adblock Plus的兼容过滤规则。以“#”开头的行将被忽略。",
+        "message": "每行一条规则。一条规则可以是一个平凡的站点名或者是一条<a href='https://adblockplus.org/zh_CN/filters'>Adblock Plus的兼容过滤规则</a>。以“#”开头的行将被忽略。",
         "description": "English: One rule per line. A rule can be a plain hostname, or an Adblock Plus-compatible filter. Lines prefixed with &lsquo;#&rsquo; will be ignored."
     },
     "ubiquitousAllowFormatHint" : {
         "message": "每行一条规则。一条规则可以是一个平凡的站点名或者是一条Adblock Plus的兼容过滤规则。以“#”开头的行将被忽略。",
-        "description": "English: One rule per line. A rule can be a plain hostname, or an Adblock Plus-compatible exception filter. Lines prefixed with &lsquo;#&rsquo; will be ignored."
+        "description": "English: One rule per line. A rule can be a plain hostname, or an Adblock Plus-compatible exception filter (prefixed with &lsquo;@@&rsquo;). Lines prefixed with &lsquo;#&rsquo; will be ignored."
     },
     "ubiquitousImport" : {
         "message": "导入并附加规则",
