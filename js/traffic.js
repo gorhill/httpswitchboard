@@ -19,7 +19,6 @@
     Home: https://github.com/gorhill/httpswitchboard
 */
 
-/*jshint multistr: true */
 /* global chrome, HTTPSB */
 
 /******************************************************************************/
@@ -33,119 +32,124 @@ HTTPSB.webRequest = (function() {
 // The `id='httpsb'` is important, it allows HTTPSB to detect whether a
 // specific data URI originates from itself.
 
-var rootFrameReplacement = "<!DOCTYPE html><html id='httpsb'> \
-<head> \
-<style> \
-@font-face { \
-font-family: 'httpsb'; \
-font-style: normal; \
-font-weight: 400; \
-src: local('httpsb'), url('{{fontUrl}}') format('truetype'); \
-} \
-body { \
-margin: 0; \
-border: 0; \
-padding: 0; \
-font: 15px httpsb,sans-serif; \
-width: 100%; \
-height: 100%; \
-background-color:transparent;\
-background-size:10px 10px;\
-background-image:\
-repeating-linear-gradient(\
--45deg,\
-rgba(204,0,0,0.5),rgba(204,0,0,0.5) 24%,\
-transparent 26%,transparent 49%,\
-rgba(204,0,0,0.5) 51%,rgba(204,0,0,0.5) 74%,\
-transparent 76%,transparent\
-);\
-text-align: center; \
-} \
-#p { \
-margin: 8px; \
-padding: 4px; \
-display: inline-block; \
-background-color: white; \
-} \
-#t { \
-margin: 2px; \
-border: 0; \
-padding: 0 2px; \
-display: inline-block; \
-} \
-#t b { \
-padding: 0 4px; \
-background-color: #eee; \
-font-weight: normal; \
-} \
-</style> \
-<link href='{{cssURL}}?url={{originalURL}}&hostname={{hostname}}&t={{now}}' rel='stylesheet' type='text/css'> \
-<title>Blocked by HTTPSB</title> \
-</head> \
-<body> \
-<div id='p'> \
-<div id='t'><b>{{hostname}}</b> blocked by HTTP Switchboard</div> \
-<div> \
-hpHosts: <a href='http://hosts-file.net/?s={{hostname}}' target='_blank'>{{hostname}}</a><br> \
-WOT: <a href='https://www.mywot.com/en/scorecard/{{hostname}}' target='_blank'>{{hostname}}</a> \
-</div> \
-</div> \
-</body> \
-</html>";
+var rootFrameReplacement = [
+    '<!DOCTYPE html><html id="httpsb">',
+    '<head>',
+    '<style>',
+    '@font-face {',
+    'font-family:httpsb;',
+    'font-style:normal;',
+    'font-weight:400;',
+    'src: local("httpsb"),url("{{fontUrl}}") format("truetype");',
+    '}',
+    'body {',
+    'margin:0;',
+    'border:0;',
+    'padding:0;',
+    'font:15px httpsb,sans-serif;',
+    'width:100%;',
+    'height:100%;',
+    'background-color:transparent;',
+    'background-size:10px 10px;',
+    'background-image:',
+    'repeating-linear-gradient(',
+    '-45deg,',
+    'rgba(204,0,0,0.5),rgba(204,0,0,0.5) 24%,',
+    'transparent 26%,transparent 49%,',
+    'rgba(204,0,0,0.5) 51%,rgba(204,0,0,0.5) 74%,',
+    'transparent 76%,transparent',
+    ');',
+    'text-align: center;',
+    '}',
+    '#p {',
+    'margin:8px;',
+    'padding:4px;',
+    'display:inline-block;',
+    'background-color:white;',
+    '}',
+    '#t {',
+    'margin:2px;',
+    'border:0;',
+    'padding:0 2px;',
+    'display:inline-block;',
+    '}',
+    '#t b {',
+    'padding:0 4px;',
+    'background-color:#eee;',
+    'font-weight:normal;',
+    '}',
+    '</style>',
+    '<link href="{{cssURL}}?url={{originalURL}}&hostname={{hostname}}&t={{now}}" rel="stylesheet" type="text/css">',
+    '<title>Blocked by HTTPSB</title>',
+    '</head>',
+    '<body>',
+    '<div id="p">',
+    '<div id="t"><b>{{hostname}}</b> blocked by HTTP Switchboard</div>',
+    '<div>',
+    'hpHosts: <a href="http://hosts-file.net/?s={{hostname}}" target="_blank">{{hostname}}</a><br>',
+    'WOT: <a href="https://www.mywot.com/en/scorecard/{{hostname}}" target="_blank">{{hostname}}</a>',
+    '</div>',
+    '</div>',
+    '</body>',
+    '</html>'
+].join('');
 
-var subFrameReplacement = "<!DOCTYPE html>\
-<html>\
-<head>\
-<style>\
-@font-face{\
-font-family:'httpsb';\
-font-style:normal;\
-font-weight:400;\
-src:local('httpsb'), url('{{fontUrl}}') format('truetype');\
-}\
-body{\
-margin:0;\
-border:0;\
-padding:0;\
-font:13px httpsb,sans-serif;\
-}\
-#bg{\
-border:1px dotted {{subframeColor}};\
-position:absolute;\
-top:0;\
-right:0;\
-bottom:0;\
-left:0;\
-background-color:transparent;\
-background-size:10px 10px;\
-background-image:\
-repeating-linear-gradient(\
--45deg,\
-{{subframeColor}},{{subframeColor}} 24%,\
-transparent 25%,transparent 49%,\
-{{subframeColor}} 50%,{{subframeColor}} 74%,\
-transparent 75%,transparent\
-);\
-opacity:{{subframeOpacity}};\
-text-align:center;\
-}\
-#bg > div{\
-display:inline-block;\
-background-color:rgba(255,255,255,1);\
-}\
-#bg > div > div {\
-padding:0 2px;\
-display:inline-block;\
-color:white;\
-background-color:{{subframeColor}};\
-}\
-</style>\
-<title>Blocked by HTTPSB</title>\
-</head>\
-<body title='&ldquo;{{hostname}}&rdquo; frame\nblocked by HTTP Switchboard'>\
-<div id='bg'><div><div>{{hostname}}</div></div></div>\
-</body>\
-</html>";
+var subFrameReplacement = [
+    '<!DOCTYPE html>',
+    '<html>',
+    '<head>',
+    '<style>',
+    '@font-face{',
+    'font-family:httpsb;',
+    'font-style:normal;',
+    'font-weight:400;',
+    'src:local("httpsb"),url("{{fontUrl}}") format("truetype");',
+    '}',
+    'body{',
+    'margin:0;',
+    'border:0;',
+    'padding:0;',
+    'font:13px httpsb,sans-serif;',
+    '}',
+    '#bg{',
+    'border:1px dotted {{subframeColor}};',
+    'position:absolute;',
+    'top:0;',
+    'right:0;',
+    'bottom:0;',
+    'left:0;',
+    'background-color:transparent;',
+    'background-size:10px 10px;',
+    'background-image:',
+    'repeating-linear-gradient(',
+    '-45deg,',
+    '{{subframeColor}},{{subframeColor}} 24%,',
+    'transparent 25%,transparent 49%,',
+    '{{subframeColor}} 50%,{{subframeColor}} 74%,',
+    'transparent 75%,transparent',
+    ');',
+    'opacity:{{subframeOpacity}};',
+    'text-align:center;',
+    '}',
+    '#bg > div{',
+    'display:inline-block;',
+    'background-color:rgba(255,255,255,1);',
+    '}',
+    '#bg > div > a {',
+    'padding:0 2px;',
+    'display:inline-block;',
+    'color:white;',
+    'background-color:{{subframeColor}};',
+    'text-decoration:none;',
+    '}',
+    '</style>',
+    '<title>Blocked by HTTPSB</title>',
+    '</head>',
+    '<body title="&ldquo;{{hostname}}&rdquo; frame\nblocked by HTTP Switchboard">',
+    '<div id="bg"><div><a href="{{frameSrc}}" target="_blank">{{hostname}}</a></div></div>',
+    '</body>',
+    '</html>'
+].join('');
 
 /******************************************************************************/
 
@@ -236,11 +240,11 @@ var onBeforeRootFrameRequestHandler = function(details) {
     // allows to later check whether the root frame has been unblocked by the
     // user, in which case we are able to force a reload using a redirect.
     var html = rootFrameReplacement;
-    html = html.replace(/{{fontUrl}}/g, httpsb.fontCSSURL);
-    html = html.replace(/{{cssURL}}/g, httpsb.noopCSSURL);
+    html = html.replace('{{fontUrl}}', httpsb.fontCSSURL);
+    html = html.replace('{{cssURL}}', httpsb.noopCSSURL);
     html = html.replace(/{{hostname}}/g, encodeURIComponent(requestHostname));
-    html = html.replace(/{{originalURL}}/g, encodeURIComponent(requestURL));
-    html = html.replace(/{{now}}/g, String(Date.now()));
+    html = html.replace('{{originalURL}}', encodeURIComponent(requestURL));
+    html = html.replace('{{now}}', String(Date.now()));
     var dataURI = 'data:text/html;base64,' + btoa(html);
 
     // quickProfiler.stop();
@@ -323,10 +327,11 @@ var processRequest = function(httpsb, details) {
     // user, in which case we are able to force a reload using a redirect.
     if ( requestType === 'sub_frame' ) {
         var html = subFrameReplacement
-            .replace(/{{fontUrl}}/g, httpsb.fontCSSURL)
+            .replace('{{fontUrl}}', httpsb.fontCSSURL)
             .replace(/{{hostname}}/g, requestHostname)
+            .replace('{{frameSrc}}', requestURL)
             .replace(/{{subframeColor}}/g, httpsb.userSettings.subframeColor)
-            .replace(/{{subframeOpacity}}/g, (httpsb.userSettings.subframeOpacity / 100).toFixed(1));
+            .replace('{{subframeOpacity}}', (httpsb.userSettings.subframeOpacity / 100).toFixed(1));
         return { 'redirectUrl': 'data:text/html,' + encodeURIComponent(html) };
     }
 
