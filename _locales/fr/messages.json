@@ -335,6 +335,14 @@
         "message": "Lorsque vous avez modifié des permissions susceptibles d'affecter l'apparence et/ou le comportement d'une page Web, cette dernière sera automatiquement rechargée par l'extension en fermant la matrice. Si l'option Aucune page est sélectionnée, vous devrez actualiser la page vous-même pour appliquer les modifications",
         "description": "..."
     },
+    "settingsMatrixCopyGlobalRulesIntoNewScopePrompt" : {
+        "message": "Copy all rules from global scope into newly created local scopes.",
+        "description": "English: Auto delete unused temporary scopes."
+    },
+    "settingsMatrixCopyGlobalRulesIntoNewScopeHelp" : {
+        "message": "<p>Scopes are sandboxed, i.e. they do not share rules, and this also applies to the global scope: narrower scopes do not see rules in the global scope.</p> <p>Some users see this as an impediment, as they wish their global rules were seen by narrower scopes. This option allows to mitigate this &ldquo;shortcoming&rdquo; by forcing a copy of all global rules into a newly created narrower scope.</p> <p>Be mindful that <b>all</b> rules from the global scope are copied, including rules which could be irrelevant to the web site for which the scope was created. This could lead to &ldquo;rules bloat&rdquo; when there are many rules in the global scope.</p>",
+        "description": "English: ..."
+    },
     "settingsMatrixDeleteUnusedTemporaryScopesPrompt1" : {
         "message": "Effacer automatiquement les règles à portée restreinte inutilisées",
         "description": "English: Auto delete unused temporary scopes."

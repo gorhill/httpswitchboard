@@ -49,6 +49,7 @@ return {
         autoCreateScope: '',
         clearBrowserCache: true,
         clearBrowserCacheAfter: 60,
+        copyGlobalScopeIntoNewScope: false,
         colorBlindFriendly: false,
         deleteCookies: false,
         deleteUnusedTemporaryScopes: false,

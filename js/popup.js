@@ -458,7 +458,7 @@ function getPermanentColor(hostname, type) {
 function getCellClass(hostname, type) {
     var temporaryColor = getTemporaryColor(hostname, type);
     var permanentColor = getPermanentColor(hostname, type);
-    if ( permanentColor === 'xxx' ) {
+    if ( permanentColor === 'xxxx' ) {
         return temporaryColor;
     }
     return temporaryColor + ' ' + permanentColor;
@@ -474,13 +474,13 @@ function getNextAction(hostname, type, leaning) {
     }
     // Lean toward whitelisting?
     if ( leaning === 'whitelisting' ) {
-        if ( temporaryColor.charAt(1) === 'p' ) {
+        if ( temporaryColor.charAt(1) !== 'd' ) {
             return 'whitelist';
         }
         return 'graylist';
     }
     // Lean toward blacklisting
-    if ( temporaryColor.charAt(1) === 'p' ) {
+    if ( temporaryColor.charAt(1) !== 'd' ) {
         return 'blacklist';
     }
     return 'graylist';
@@ -878,7 +878,7 @@ function makeMatrixMetaRowDomain(domain, stats) {
 
 function renderMatrixMetaCellType(cell, count) {
     cell = $(cell);
-    cell.addClass('rpt');
+    cell.addClass('rit');
     if ( count ) {
         cell.text(count);
     }
@@ -1221,7 +1221,7 @@ function createGlobalScope() {
 
 function createDomainScope() {
     var httpsb = HTTPSB;
-    httpsb.createTemporaryDomainScope(targetPageURL);
+    httpsb.createTemporaryDomainScope(targetPageURL, true);
     updateMatrixStats();
     updateMatrixColors();
     updateMatrixBehavior();
@@ -1231,7 +1231,7 @@ function createDomainScope() {
 
 function createSiteScope() {
     var httpsb = HTTPSB;
-    httpsb.createTemporarySiteScope(targetPageURL);
+    httpsb.createTemporarySiteScope(targetPageURL, true);
     updateMatrixStats();
     updateMatrixColors();
     updateMatrixBehavior();

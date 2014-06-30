@@ -335,6 +335,14 @@
         "message": "当您对过滤矩阵作出任何会影响一个或多个页面的显示或行为的变更时，<i>HTTP Switchboard</i> 会在您关闭过滤矩阵的显示后，自动重载受影响的页面。",
         "description": "..."
     },
+    "settingsMatrixCopyGlobalRulesIntoNewScopePrompt" : {
+        "message": "Copy all rules from global scope into newly created local scopes.",
+        "description": "English: Auto delete unused temporary scopes."
+    },
+    "settingsMatrixCopyGlobalRulesIntoNewScopeHelp" : {
+        "message": "<p>Scopes are sandboxed, i.e. they do not share rules, and this also applies to the global scope: narrower scopes do not see rules in the global scope.</p> <p>Some users see this as an impediment, as they wish their global rules were seen by narrower scopes. This option allows to mitigate this &ldquo;shortcoming&rdquo; by forcing a copy of all global rules into a newly created narrower scope.</p> <p>Be mindful that <b>all</b> rules from the global scope are copied, including rules which could be irrelevant to the web site for which the scope was created. This could lead to &ldquo;rules bloat&rdquo; when there are many rules in the global scope.</p>",
+        "description": "English: ..."
+    },
     "settingsMatrixDeleteUnusedTemporaryScopesPrompt1" : {
         "message": "自动删除未使用的临时作用域。",
         "description": "English: Auto delete unused temporary scopes."

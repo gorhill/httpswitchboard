@@ -335,6 +335,14 @@
         "message": "Whenever you make changes in the matrix which can affect the display and/or behavior of one or more pages, <i>HTTP Switchboard</i> will reload affected pages automatically when you close the matrix.",
         "description": "..."
     },
+    "settingsMatrixCopyGlobalRulesIntoNewScopePrompt" : {
+        "message": "Copy all rules from global scope into newly created local scopes.",
+        "description": "English: Auto delete unused temporary scopes."
+    },
+    "settingsMatrixCopyGlobalRulesIntoNewScopeHelp" : {
+        "message": "<p>Scopes are sandboxed, i.e. they do not share rules, and this also applies to the global scope: narrower scopes do not see rules in the global scope.</p> <p>Some users see this as an impediment, as they wish their global rules were seen by narrower scopes. This option allows to mitigate this &ldquo;shortcoming&rdquo; by forcing a copy of all global rules into a newly created narrower scope.</p> <p>Be mindful that <b>all</b> rules from the global scope are copied, including rules which could be irrelevant to the web site for which the scope was created. This could lead to &ldquo;rules bloat&rdquo; when there are many rules in the global scope.</p>",
+        "description": "English: ..."
+    },
     "settingsMatrixDeleteUnusedTemporaryScopesPrompt1" : {
         "message": "Auto delete unused temporary scopes.",
         "description": "English: Auto delete unused temporary scopes."

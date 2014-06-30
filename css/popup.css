@@ -419,11 +419,11 @@ body.powerOff .matrix .g3Meta.g3Collapsed ~ .matRow.ro {
     color: white;
     background-color: #080;
     }
-.rpt {
+.rit,.rgt {
     color: black;
     background-color: #f8d0d0;
     }
-.gpt {
+.git,.ggt {
     color: black;
     background-color: #d0f0d0;
     }
@@ -433,16 +433,6 @@ body.powerOff .matrix .g3Meta.g3Collapsed ~ .matRow.ro {
     background-position: -1px -1px;
     }
 .matCell.gdp {
-    background-image: url('/img/permanent-white-small.png');
-    background-repeat: no-repeat;
-    background-position: -1px -1px;
-    }
-.matCell.rpp {
-    background-image: url('/img/permanent-black-small.png');
-    background-repeat: no-repeat;
-    background-position: -1px -1px;
-    }
-.matCell.gpp {
     background-image: url('/img/permanent-white-small.png');
     background-repeat: no-repeat;
     background-position: -1px -1px;
@@ -457,11 +447,13 @@ body.colorblind .gdt {
     color: black;
     background-color: #fff;
     }
-body.colorblind .rpt {
+body.colorblind .rit,
+body.colorblind .rgt {
     color: white;
     background-color: #555;
     }
-body.colorblind .gpt {
+body.colorblind .git,
+body.colorblind .ggt {
     color: black;
     background-color: #ddd;
     }
@@ -471,13 +463,7 @@ body.colorblind .matCell.rdp {
 body.colorblind .matCell.gdp {
     background-image: url('/img/permanent-white-small-cb.png');
     }
-body.colorblind .matCell.rpp {
-    background-image: url('/img/permanent-black-small-cb.png');
-    }
-body.colorblind .matCell.gpp {
-    background-image: url('/img/permanent-white-small-cb.png');
-    }
-
+    
 
 .matRow.rw .matCell {
     cursor: pointer;
@@ -521,19 +507,23 @@ body.powerOff .matRow.rw .matCell {
 body.powerOff #whitelist, body.powerOff #blacklist {
     display: none;
     }
-.rw .matCell.rpt #whitelist:hover {
+.rw .matCell.rit #whitelist:hover,
+.rw .matCell.rgt #whitelist:hover {
     background-color: #080;
     opacity: 0.25;
     }
-body.colorblind .rw .matCell.rpt #whitelist:hover {
+body.colorblind .rw .matCell.rit #whitelist:hover,
+body.colorblind .rw .matCell.rgt #whitelist:hover {
     background-color: #fff;
     opacity: 0.6;
     }
-.rw .matCell.gpt #whitelist:hover {
+.rw .matCell.git #whitelist:hover,
+.rw .matCell.ggt #whitelist:hover {
     background-color: #080;
     opacity: 0.25;
     }
-body.colorblind .rw .matCell.gpt #whitelist:hover {
+body.colorblind .rw .matCell.git #whitelist:hover,
+body.colorblind .rw .matCell.ggt #whitelist:hover {
     background-color: #fff;
     opacity: 0.6;
     }
@@ -543,19 +533,23 @@ body.colorblind .rw .matCell.gpt #whitelist:hover {
 .matCell.gdt #whitelist:hover {
     background-color: transparent;
     }
-.rw .matCell.rpt #blacklist:hover {
+.rw .matCell.rit #blacklist:hover,
+.rw .matCell.rgt #blacklist:hover {
     background-color: #c00;
     opacity: 0.25;
     }
-body.colorblind .rw .matCell.rpt #blacklist:hover {
+body.colorblind .rw .matCell.rit #blacklist:hover,
+body.colorblind .rw .matCell.rgt #blacklist:hover {
     background-color: #000;
     opacity: 0.4;
     }
-.rw .matCell.gpt #blacklist:hover {
+.rw .matCell.git #blacklist:hover,
+.rw .matCell.ggt #blacklist:hover {
     background-color: #c00;
     opacity: 0.25;
     }
-body.colorblind .rw .matCell.gpt #blacklist:hover {
+body.colorblind .rw .matCell.git #blacklist:hover,
+body.colorblind .rw .matCell.ggt #blacklist:hover {
     background-color: #000;
     opacity: 0.4;
     }

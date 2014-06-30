@@ -55,7 +55,7 @@ ul > li {
 <h2 data-i18n="settingsMatrixDisplayHeader"></h2>
 <ul style="list-style:none">
     <li><span data-i18n="settingsMatrixDisplayTextSizePrompt"></span>&ensp;<input type="radio" name="displayTextSize" value="13px"><span data-i18n="settingsMatrixDisplayTextSizeNormal"></span>&ensp;<input type="radio" name="displayTextSize" value="16px"><span data-i18n="settingsMatrixDisplayTextSizeLarge"></span>
-    <li style="margin-top:0.5em;"><input id="color-blind-friendly" type="checkbox"><span data-i18n="settingsMatrixDisplayColorBlind"></span>
+    <li style="margin-top:0.5em;"><input id="colorBlindFriendly" type="checkbox" data-range="bool"><span data-i18n="settingsMatrixDisplayColorBlind"></span>
     <li style="margin-top:0.5em;">
         <span data-i18n="settingsSubframeColor"></span> <input id="subframe-color" type="color" value="#c00">
         &ensp;<span data-i18n="settingsSubframeOpacity"></span> <input id="subframe-opacity" type="range" min="0" max="100" value="100">
@@ -65,7 +65,7 @@ ul > li {
 <h2 data-i18n="settingsMatrixMoreSecurityHeader"></h2>
 <ul>
     <li>
-        <input id="strict-blocking" type="checkbox"><span data-i18n="settingsStrictBlockingPrompt"></span>
+        <input id="strictBlocking" type="checkbox" data-range="bool"><span data-i18n="settingsStrictBlockingPrompt"></span>
         <button class="whatisthis"></button>
         <div class="whatisthis-expandable para" data-i18n="settingsStrictBlockingInfo"></div>
     <li>
@@ -82,7 +82,7 @@ ul > li {
 <h2 data-i18n="settingsMatrixLessSecurityHeader"></h2>
 <ul>
     <li>
-        <input id="auto-whitelist-page-domain" type="checkbox"><span data-i18n="settingsAutoWhitelistPrompt"></span>
+        <input id="autoWhitelistPageDomain" type="checkbox" data-range="bool"><span data-i18n="settingsAutoWhitelistPrompt"></span>
         <button class="whatisthis"></button>
         <div class="whatisthis-expandable para" data-i18n="settingsAutoWhitelistHelp"></div>
     </ul>
@@ -90,16 +90,21 @@ ul > li {
 <h2 data-i18n="settingsMatrixConvenienceHeader"></h2>
 <ul>
     <li>
+        <input id="copyGlobalScopeIntoNewScope" type="checkbox" data-range="bool"><span data-i18n="settingsMatrixCopyGlobalRulesIntoNewScopePrompt"></span>
+        <button class="whatisthis"></button>
+        <div class="whatisthis-expandable para" data-i18n="settingsMatrixCopyGlobalRulesIntoNewScopeHelp"></div>
+    <li>
+        <input id="deleteUnusedTemporaryScopes" type="checkbox" data-range="bool"><span data-i18n="settingsMatrixDeleteUnusedTemporaryScopesPrompt1"></span>
+        <!-- <button class="whatisthis"></button>
+        <div class="whatisthis-expandable para" data-i18n="settingsMatrixDeleteUnusedTemporaryScopesHelp"></div> -->
+    <li>&nbsp;
+    <li>
         <span data-i18n="settingsMatrixAutoReloadPrompt"></span> <select id="smart-auto-reload">
             <option value="none" data-i18n="settingsMatrixAutoReloadNone">
             <option value="current" data-i18n="settingsMatrixAutoReloadCurrent">
             <option value="all" data-i18n="settingsMatrixAutoReloadAll">
             </select> <button class="whatisthis"></button>
         <div class="whatisthis-expandable para" data-i18n="settingsMatrixAutoReloadInfo"></div>
-    <li>
-        <input id="delete-unused-temporary-scopes" type="checkbox"><span data-i18n="settingsMatrixDeleteUnusedTemporaryScopesPrompt1"></span>
-        <!-- <button class="whatisthis"></button>
-        <div class="whatisthis-expandable para" data-i18n="settingsAutoDeleteTemporaryScopesHelp"></div> -->
 </ul>
 
 

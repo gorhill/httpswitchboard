@@ -81,14 +81,14 @@ function prepareToDie() {
 /******************************************************************************/
 
 var installEventHandlers = function() {
+    // `data-range` allows to add/remove bool properties without 
+    // changing code.
+    $('input[data-range="bool"]').on('change', function() {
+        changeUserSettings(this.id, this.checked);
+    });
+
     $('input[name="displayTextSize"]').on('change', function(){
         changeUserSettings('displayTextSize', $(this).attr('value'));
-    });
-    $('#color-blind-friendly').on('change', function(){
-        changeUserSettings('colorBlindFriendly', $(this).is(':checked'));
-    });
-    $('#strict-blocking').on('change', function(){
-        changeUserSettings('strictBlocking', $(this).is(':checked'));
     });
     $('#auto-create-scope').on('change', function(){
         if ( $(this).is(':checked') === false ) {
@@ -102,14 +102,8 @@ var installEventHandlers = function() {
             changeUserSettings('autoCreateScope', this.value);
         }
     });
-    $('#auto-whitelist-page-domain').on('change', function(){
-        changeUserSettings('autoWhitelistPageDomain', $(this).is(':checked'));
-    });
     $('#smart-auto-reload').on('change', function(){
         changeUserSettings('smartAutoReload', this.value);
-    });
-    $('#delete-unused-temporary-scopes').on('change', function(){
-        changeUserSettings('deleteUnusedTemporaryScopes', $(this).is(':checked'));
     });
     $('#subframe-color').on('change', function(){ onSubframeColorChanged(); });
     $('#subframe-opacity').on('change', function(){ onSubframeColorChanged(); });
@@ -125,16 +119,18 @@ $(function() {
         // Cache copy
         cachedUserSettings = userSettings;
 
+        // `data-range` allows to add/remove bool properties without 
+        // changing code.
+        $('input[data-range="bool"]').each(function() {
+            this.checked = userSettings[this.id] === true;
+        });
+
         $('input[name="displayTextSize"]').attr('checked', function(){
             return $(this).attr('value') === userSettings.displayTextSize;
             });
-        $('#color-blind-friendly').attr('checked', userSettings.colorBlindFriendly === true);
-        $('#strict-blocking').attr('checked', userSettings.strictBlocking === true);
         $('#auto-create-scope').attr('checked', userSettings.autoCreateScope !== '');
         $('#auto-create-scope-level').val(userSettings.autoCreateScope !== '' ? userSettings.autoCreateScope : 'domain');
-        $('#auto-whitelist-page-domain').attr('checked', userSettings.autoWhitelistPageDomain === true);
         $('#smart-auto-reload').val(userSettings.smartAutoReload);
-        $('#delete-unused-temporary-scopes').attr('checked', userSettings.deleteUnusedTemporaryScopes === true);
         $('#subframe-color').val(userSettings.subframeColor);
         $('#subframe-opacity').val(userSettings.subframeOpacity);
         updateSubframeDemo();

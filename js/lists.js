@@ -24,33 +24,15 @@
 /******************************************************************************/
 
 // Re. "color":
-//   'rdt' = red dark temporary
-//   'rpt' = red pale temporary
-//   'gdt' = green dark temporary
-//   'gpt' = green pale temporary
-//   'rdp' = red dark permanent
-//   'rpp' = red pale permanent
-//   'gdp' = green dark permanent
-//   'gpp' = green pale permanent
-//   'xxx' used at position without valid state
-
-
-// rhill 2014-06-21: re-factoring idea:
-//
-// Currently `pale` and `dark` refer to whether the request is directly or
-// indirectly blocked/allowed. Because of
-// <https://github.com/gorhill/httpswitchboard/issues/66>, a higher granularity
-// is desirable:
-//
-// - self: `type|domain`
-// - ancestor: inherit from `type|ancestor domain`
-// - domain: inherit from `*|domain` or `*|ancestor domain`
-// - type: inherit from `type|*`
-// - all: inherit from `*|*`
-//
-// So `pale` and `dark` stays (ie. `rDt`, `gPp`, etc.), but a new character
-// would be added in order to convey more details about how the status
-// was inherited.
+//   'rdt' = red dark temporary: directly blocked
+//   'rit' = red pale temporary: indirectly blocked
+//   'rgt' = red pale temporary: generically blocked
+//   'gdt' = green dark temporary: directly allowed
+//   'git' = green pale temporary: indirectly allowed
+//   'ggt' = green pale temporary: generically allowed
+//   'rdp' = red dark permanent: directly blocked
+//   'gdp' = green dark permanent: directly allowed
+//   'xxx' used at position with an unknown state
 
 /******************************************************************************/
 /******************************************************************************/
@@ -196,6 +178,7 @@ PermissionList.prototype.typeFromRuleKey = function(ruleKey) {
     var pos = ruleKey.indexOf('|');
     return pos < 0 ? '' : ruleKey.slice(0, pos);
 };
+
 PermissionList.prototype.hostnameFromRuleKey = function(ruleKey) {
     var pos = ruleKey.indexOf('|');
     return pos < 0 ? '' : ruleKey.slice(pos + 1);
@@ -300,7 +283,7 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
     // rhill 2013-12-03: When matrix filtering is turned off, all requests are
     // considered being "allowed temporarily".
     if ( this.mtxFiltering === false ) {
-        return 'gpt';
+        return 'ggt';
     }
 
     // cell's own rules
@@ -324,8 +307,8 @@ PermissionScope.prototype.evaluate = function(type, hostname) {
 
     // [any hostname, specific type]: inherits from [any hostname, any type]
     if ( type !== '*' ) {
-        if ( this.white.list['*|*'] ) { return 'gpt'; }
-        return 'rpt';
+        if ( this.white.list['*|*'] ) { return 'ggt'; }
+        return 'rgt';
     }
 
     // [any hostname, any type]: inherits from hard-coded block
@@ -350,14 +333,14 @@ PermissionScope.prototype.evaluateTypeHostnameCellStrict = function(type, hostna
         // Strict blocking: the type column must not be blacklisted
         while ( parent = parents[i++] ) {
             cellKey = type + '|' + parent;
-            if ( whitelist[cellKey] ) { return 'gpt'; }
-            if ( blacklist[cellKey] ) { return 'rpt'; }
+            if ( whitelist[cellKey] ) { return 'git'; }
+            if ( blacklist[cellKey] ) { return 'rit'; }
         }
-        if ( whitelist[typeKey] ) { return 'gpt'; }
-        if ( blacklist[typeKey] ) { return 'rpt'; }
-        return 'gpt';
+        if ( whitelist[typeKey] ) { return 'ggt'; }
+        if ( blacklist[typeKey] ) { return 'rgt'; }
+        return 'git';
     }
-    if ( blacklist[cellKey] ) { return 'rpt'; }
+    if ( blacklist[cellKey] ) { return 'rit'; }
 
     var graylist = this.gray.list;
     var ubiquitousWhitelist = this.httpsb.ubiquitousWhitelist;
@@ -368,15 +351,15 @@ PermissionScope.prototype.evaluateTypeHostnameCellStrict = function(type, hostna
             // Strict blocking: the type column must not be blacklisted
             while ( parent = parents[i++] ) {
                 cellKey = type + '|' + parent;
-                if ( whitelist[cellKey] ) { return 'gpt'; }
-                if ( blacklist[cellKey] ) { return 'rpt'; }
+                if ( whitelist[cellKey] ) { return 'git'; }
+                if ( blacklist[cellKey] ) { return 'rit'; }
             }
-            if ( whitelist[typeKey] ) { return 'gpt'; }
-            if ( blacklist[typeKey] ) { return 'rpt'; }
-            return 'gpt';
+            if ( whitelist[typeKey] ) { return 'ggt'; }
+            if ( blacklist[typeKey] ) { return 'rgt'; }
+            return 'git';
         }
         if ( ubiquitousBlacklist.test(hostname) ) {
-            return 'rpt';
+            return 'rit';
         }
     }
     // rhill 2013-12-18:
@@ -385,41 +368,41 @@ PermissionScope.prototype.evaluateTypeHostnameCellStrict = function(type, hostna
     // by having an ancestor explicitly whitelisted
     while ( parent = parents[i++] ) {
         cellKey = type + '|' + parent;
-        if ( whitelist[cellKey] ) { return 'gpt'; }
-        if ( blacklist[cellKey] ) { return 'rpt'; }
+        if ( whitelist[cellKey] ) { return 'git'; }
+        if ( blacklist[cellKey] ) { return 'rit'; }
         cellKey = '*|' + parent;
         if ( whitelist[cellKey] ) {
             while ( parent = parents[i++] ) {
                 cellKey = type + '|' + parent;
-                if ( whitelist[cellKey] ) { return 'gpt'; }
-                if ( blacklist[cellKey] ) { return 'rpt'; }
+                if ( whitelist[cellKey] ) { return 'git'; }
+                if ( blacklist[cellKey] ) { return 'rit'; }
             }
-            if ( whitelist[typeKey] ) { return 'gpt'; }
-            if ( blacklist[typeKey] ) { return 'rpt'; }
-            return 'gpt';
+            if ( whitelist[typeKey] ) { return 'ggt'; }
+            if ( blacklist[typeKey] ) { return 'rgt'; }
+            return 'git';
         }
-        if ( blacklist[cellKey] ) { return 'rpt'; }
+        if ( blacklist[cellKey] ) { return 'rit'; }
         if ( !graylist[cellKey] ) {
             if ( ubiquitousWhitelist.test(parent) ) {
                 // Strict blocking: the type column must not be blacklisted
                 while ( parent = parents[i++] ) {
                     cellKey = type + '|' + parent;
-                    if ( whitelist[cellKey] ) { return 'gpt'; }
-                    if ( blacklist[cellKey] ) { return 'rpt'; }
+                    if ( whitelist[cellKey] ) { return 'git'; }
+                    if ( blacklist[cellKey] ) { return 'rit'; }
                 }
-                if ( whitelist[typeKey] ) { return 'gpt'; }
-                if ( blacklist[typeKey] ) { return 'rpt'; }
-                return 'gpt';
+                if ( whitelist[typeKey] ) { return 'ggt'; }
+                if ( blacklist[typeKey] ) { return 'rgt'; }
+                return 'git';
             }
-            if ( ubiquitousBlacklist.test(parent) ) { return 'rpt'; }
+            if ( ubiquitousBlacklist.test(parent) ) { return 'rit'; }
         }
     }
     // specific type, any hostname
-    if ( whitelist[typeKey] ) { return 'gpt'; }
-    if ( blacklist[typeKey] ) { return 'rpt'; }
+    if ( whitelist[typeKey] ) { return 'ggt'; }
+    if ( blacklist[typeKey] ) { return 'rgt'; }
     // any type, any hostname
-    if ( whitelist['*|*'] ) { return 'gpt'; }
-    return 'rpt';
+    if ( whitelist['*|*'] ) { return 'ggt'; }
+    return 'rgt';
 };
 
 /******************************************************************************/
@@ -439,11 +422,11 @@ PermissionScope.prototype.evaluateTypeHostnameCellRelax = function(type, hostnam
 
     var parents = httpsb.URI.parentHostnamesFromHostname(hostname);
 
-    if ( whitelist[cellKey] ) { return 'gpt'; }
-    if ( blacklist[cellKey] ) { return 'rpt'; }
+    if ( whitelist[cellKey] ) { return 'git'; }
+    if ( blacklist[cellKey] ) { return 'rit'; }
     if ( !graylist[cellKey] ) {
-        if ( ubiquitousWhitelist.test(hostname) ) { return 'gpt'; }
-        if ( ubiquitousBlacklist.test(hostname) ) { return 'rpt'; }
+        if ( ubiquitousWhitelist.test(hostname) ) { return 'git'; }
+        if ( ubiquitousBlacklist.test(hostname) ) { return 'rit'; }
     }
     // rhill 2013-12-18:
     // If the type is blocked and strict blocking is on,
@@ -452,22 +435,22 @@ PermissionScope.prototype.evaluateTypeHostnameCellRelax = function(type, hostnam
     var i = 0, parent;
     while ( parent = parents[i++] ) {
         cellKey = type + '|' + parent;
-        if ( whitelist[cellKey] ) { return 'gpt'; }
-        if ( blacklist[cellKey] ) { return 'rpt'; }
+        if ( whitelist[cellKey] ) { return 'git'; }
+        if ( blacklist[cellKey] ) { return 'rit'; }
         cellKey = '*|' + parent;
-        if ( whitelist[cellKey] ) { return 'gpt'; }
-        if ( blacklist[cellKey] ) { return 'rpt'; }
+        if ( whitelist[cellKey] ) { return 'git'; }
+        if ( blacklist[cellKey] ) { return 'rit'; }
         if ( !graylist[cellKey] ) {
-            if ( ubiquitousWhitelist.test(parent) ) { return 'gpt'; }
-            if ( ubiquitousBlacklist.test(parent) ) { return 'rpt'; }
+            if ( ubiquitousWhitelist.test(parent) ) { return 'git'; }
+            if ( ubiquitousBlacklist.test(parent) ) { return 'rit'; }
         }
     }
     // indirect: specific type, any hostname
-    if ( whitelist[typeKey] ) { return 'gpt'; }
-    if ( blacklist[typeKey] ) { return 'rpt'; }
+    if ( whitelist[typeKey] ) { return 'ggt'; }
+    if ( blacklist[typeKey] ) { return 'rgt'; }
     // indirect: any type, any hostname
-    if ( whitelist['*|*'] ) { return 'gpt'; }
-    return 'rpt';
+    if ( whitelist['*|*'] ) { return 'ggt'; }
+    return 'rgt';
 };
 
 /******************************************************************************/
@@ -487,15 +470,15 @@ PermissionScope.prototype.evaluateHostnameCell = function(hostname) {
     var i = 0, parent, cellKey;
     while ( parent = parents[i++] ) {
         cellKey = '*|' + parent;
-        if ( whitelist[cellKey] ) { return 'gpt'; }
-        if ( blacklist[cellKey] ) { return 'rpt'; }
+        if ( whitelist[cellKey] ) { return 'git'; }
+        if ( blacklist[cellKey] ) { return 'rit'; }
         if ( !graylist[cellKey] ) {
-            if ( ubiquitousWhitelist.test(parent) ) { return 'gpt'; }
-            if ( ubiquitousBlacklist.test(parent) ) { return 'rpt'; }
+            if ( ubiquitousWhitelist.test(parent) ) { return 'git'; }
+            if ( ubiquitousBlacklist.test(parent) ) { return 'rit'; }
         }
     }
-    if ( whitelist['*|*'] ) { return 'gpt'; }
-    return 'rpt';
+    if ( whitelist['*|*'] ) { return 'ggt'; }
+    return 'rgt';
 };
 
 /******************************************************************************/

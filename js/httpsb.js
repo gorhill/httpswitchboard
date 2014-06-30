@@ -238,17 +238,24 @@ HTTPSB.createPermanentGlobalScope = function(url) {
 
 /******************************************************************************/
 
-HTTPSB.createTemporaryDomainScope = function(url) {
+HTTPSB.createTemporaryDomainScope = function(url, preserveRules) {
     // Already created?
     var scopeKey = this.domainScopeKeyFromURL(url);
     var scope = this.temporaryScopes.scopes[scopeKey];
+    var copyRules = !scope || scope.off;
     if ( !scope ) {
         scope = new PermissionScope();
         scope.whitelist('main_frame', '*');
         this.temporaryScopes.scopes[scopeKey] = scope;
-        this.copyTemporaryRules(scopeKey, this.globalScopeKey(), url);
     } else if ( scope.off ) {
+        if ( !preserveRules ) {
+            scope.removeAllRules();
+        }
         scope.off = false;
+    }
+
+    if ( copyRules ) {
+        this.copyTemporaryRules(scopeKey, this.globalScopeKey());
     }
 
     // Remove potentially occulting site scope.
@@ -276,18 +283,23 @@ HTTPSB.createPermanentDomainScope = function(url) {
 
 /******************************************************************************/
 
-HTTPSB.createTemporarySiteScope = function(url) {
-    // Already created?
+HTTPSB.createTemporarySiteScope = function(url, preserveRules) {
     var scopeKey = this.siteScopeKeyFromURL(url);
     var scope = this.temporaryScopes.scopes[scopeKey];
+    var copyRules = !scope || scope.off;
     if ( !scope ) {
         scope = new PermissionScope();
         scope.whitelist('main_frame', '*');
         this.temporaryScopes.scopes[scopeKey] = scope;
-        this.copyTemporaryRules(scopeKey, this.globalScopeKey(), url);
-        this.copyTemporaryRules(scopeKey, this.domainScopeKeyFromURL(url), url);
-    } else {
+    } else if ( scope.off ) {
+        if ( !preserveRules ) {
+            scope.removeAllRules();
+        }
         scope.off = false;
+    }
+    if ( copyRules ) {
+        this.copyTemporaryRules(scopeKey, this.globalScopeKey());
+        this.copyTemporaryRules(scopeKey, this.domainScopeKeyFromURL(url));
     }
 };
 
@@ -480,37 +492,32 @@ HTTPSB.autoCreateTemporaryScope = function(pageURL) {
 // Copy rules from another scope. If a pageURL is provided,
 // it will be used to filter the rules according to the hostname.
 
-HTTPSB.copyTemporaryRules = function(toScopeKey, fromScopeKey, pageURL) {
+HTTPSB.copyTemporaryRules = function(toScopeKey, fromScopeKey) {
     var toScope = this.temporaryScopeFromScopeKey(toScopeKey);
     var fromScope = this.temporaryScopeFromScopeKey(fromScopeKey);
     if ( !toScope || !fromScope ) {
         return;
     }
-    var httpsburi = this.URI;
-    var pageStats = this.pageStatsFromPageUrl(pageURL);
-    var hostnames = pageStats ? pageStats.domains : {};
-    var domains = {};
-    for ( var hostname in hostnames ) {
-        if ( !hostnames.hasOwnProperty(hostname) ) {
-            continue;
-        }
-        domains[httpsburi.domainFromHostname(hostname)] = true;
+    // Copy all rules
+    if ( this.userSettings.copyGlobalScopeIntoNewScope ) {
+        toScope.white.add(fromScope.white);
+        toScope.black.add(fromScope.black);
+        toScope.gray.add(fromScope.gray);
+        return;
     }
-    var listKeys = [ 'white', 'black', 'gray' ];
-    var listKey, list;
-    var pos, ruleHostname;
+    // Copy generic rules only
+    var listKeys = [ 'white', 'black' ];
+    var listKey, fromList, rules;
     while ( listKey = listKeys.pop() ) {
-        list = fromScope[listKey].list;
-        for ( var ruleKey in list ) {
-            if ( list.hasOwnProperty(ruleKey) === false ) {
+        fromList = fromScope[listKey];
+        rules = fromList.list;
+        for ( var ruleKey in rules ) {
+            if ( rules.hasOwnProperty(ruleKey) === false ) {
                 continue;
             }
-            pos = ruleKey.indexOf('|');
-            ruleHostname = ruleKey.slice(pos + 1);
-            if ( ruleHostname !== '*' && domains.hasOwnProperty(httpsburi.domainFromHostname(ruleHostname)) === false ) {
-                continue;
+            if ( fromList.hostnameFromRuleKey(ruleKey) === '*' ) {
+                toScope[listKey].addOne(ruleKey);
             }
-            toScope[listKey].addOne(ruleKey);
         }
     }
 };
@@ -539,7 +546,8 @@ HTTPSB.autoWhitelistTemporarilyPageDomain = function(pageURL) {
     var domain = this.URI.domainFromURI(pageURL);
     // 'rp' as in 'red pale', i.e. graylisted-blocked:
     // Autowhitelist only if the domain is graylisted and blocked.
-    if ( this.evaluateFromScopeKey(scopeKey, '*', domain).slice(0, 2) === 'rp' ) {
+    var status = this.evaluateFromScopeKey(scopeKey, '*', domain).slice(0, 2);
+    if ( status === 'ri' || status === 'rg' ) {
         // console.log('HTTPSB> autoWhitelistTemporarilyPageDomain("%s")', pageURL);
         this.whitelistTemporarily(scopeKey, '*', domain);
         return true;

@@ -48,6 +48,24 @@ ul > li {
         <input id="delete-unused-session-cookies-after" type="text" value="60" size="3"><span data-i18n="privacyDeleteNonBlockedSessionCookiesPrompt2"></span>
         <button class="whatisthis"></button>
         <div class="whatisthis-expandable para" data-i18n="privacyDeleteNonBlockedSessionCookiesHelp"></div>
+    <!--
+        Delete non-blocked session cookies x minutes after the last time they have been used.
+
+        Allow generically blocked cookies but deleted them x minutes after they have been first created.
+
+        A "generically blocked" cookie is a cookie which inherits its block status in 
+        the matrix from the `cookie` cell or the `all` cell in the top row of the 
+        matrix.
+
+        When a cookie inherits its block status from a cell in the top row of the 
+        matrix (the "header" row), this means it is not specifically distrusted, but 
+        rather that the default stance is to distrust cookies in general.
+
+        However some sites do require cookies to minimally work properly. This options 
+        allow to "unbreak" these sites by allowing not specifically distrusted cookies 
+        to travel back and forth between you and the server, but to limit the lifetime 
+        of these cookies so that they cannot be used to track you.
+    -->
     <li>
         <input id="delete-blacklisted-localstorage" type="checkbox"><span data-i18n="privacyDeleteBlockedLocalStoragePrompt"></span>
     <li>
