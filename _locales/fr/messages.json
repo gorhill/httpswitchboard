@@ -590,11 +590,11 @@
         "description": "English: Behind-the-scene scope"
     },
     "scopedDomainScopeHeader": {
-        "message": "Contexte des règles à portée domaine",
+        "message": "Contexte(s) des règles à portée domaine",
         "description": "English: Domain-level scope"
     },
     "scopedSiteScopeHeader": {
-        "message": "Contexte des règles à portée site",
+        "message": "Contexte(s) des règles à portée site",
         "description": "English: Site-level scope"
     },
     "scopedDeletionPrompt": {
