@@ -336,11 +336,11 @@
         "description": "..."
     },
     "settingsMatrixCopyGlobalRulesIntoNewScopePrompt" : {
-        "message": "Copy all rules from global scope into newly created local scopes.",
+        "message": "拷贝所有全局作用域中的规则到新创建的局部作用域中。",
         "description": "English: Auto delete unused temporary scopes."
     },
     "settingsMatrixCopyGlobalRulesIntoNewScopeHelp" : {
-        "message": "<p>Scopes are sandboxed, i.e. they do not share rules, and this also applies to the global scope: narrower scopes do not see rules in the global scope.</p> <p>Some users see this as an impediment, as they wish their global rules were seen by narrower scopes. This option allows to mitigate this &ldquo;shortcoming&rdquo; by forcing a copy of all global rules into a newly created narrower scope.</p> <p>Be mindful that <b>all</b> rules from the global scope are copied, including rules which could be irrelevant to the web site for which the scope was created. This could lead to &ldquo;rules bloat&rdquo; when there are many rules in the global scope.</p>",
+        "message": "<p>作用域是沙盒化相互隔离的，即它们不共享规则，这对全局作用域来说也是适用的：局部作用域无法看到全局作用域中的规则。</p> <p>有些用户把这视为一种阻碍，因为他们希望他们的全局作用规则能被局部作用域所看到。这个选项使这个“短处”能得以缓和，通过强制把所以全局作用规则拷贝到一个新创建的局部作用域中来实现。</p> <p>请特别注意：<b>所有</b>来自全局作用域的规则都会被拷贝，包括那些可能和新创建作用域对应网站无关的规则。当全局作用域中有非常多的规则时，这可能会导致“规则膨胀”。</p>",
         "description": "English: ..."
     },
     "settingsMatrixDeleteUnusedTemporaryScopesPrompt1" : {
@@ -508,11 +508,11 @@
         "description": "English: Apply changes"
     },
     "ubiquitousFormatHint" : {
-        "message": "每行一条规则。一条规则可以是一个平凡的站点名或者是一条<a href='https://adblockplus.org/zh_CN/filters'>Adblock Plus的兼容过滤规则</a>。以“#”开头的行将被忽略。",
+        "message": "每行一条规则。一条规则可以是单纯的一个站点名或者是一条<a href='https://adblockplus.org/zh_CN/filters'>与Adblock Plus相容的过滤规则</a>。以“#”开头的行将被忽略。",
         "description": "English: One rule per line. A rule can be a plain hostname, or an Adblock Plus-compatible filter. Lines prefixed with &lsquo;#&rsquo; will be ignored."
     },
     "ubiquitousAllowFormatHint" : {
-        "message": "每行一条规则。一条规则可以是一个平凡的站点名或者是一条Adblock Plus的兼容过滤规则。以“#”开头的行将被忽略。",
+        "message": "每行一条规则。一条规则可以是单纯的一个站点名或者是一条与Adblock Plus相容的例外规则（以“@@”开头）。以“#”开头的行将被忽略。",
         "description": "English: One rule per line. A rule can be a plain hostname, or an Adblock Plus-compatible exception filter (prefixed with &lsquo;@@&rsquo;). Lines prefixed with &lsquo;#&rsquo; will be ignored."
     },
     "ubiquitousImport" : {
