@@ -336,11 +336,11 @@
         "description": "..."
     },
     "settingsMatrixCopyGlobalRulesIntoNewScopePrompt" : {
-        "message": "Copy all rules from global scope into newly created local scopes.",
+        "message": "Kopiere alle Regeln aus dem Globalen Geltungsbereich in neu erstellte lokale Geltungsbereiche (d. h. auf Domain- oder Webseiten-Ebene).",
         "description": "English: Auto delete unused temporary scopes."
     },
     "settingsMatrixCopyGlobalRulesIntoNewScopeHelp" : {
-        "message": "<p>Scopes are sandboxed, i.e. they do not share rules, and this also applies to the global scope: narrower scopes do not see rules in the global scope.</p> <p>Some users see this as an impediment, as they wish their global rules were seen by narrower scopes. This option allows to mitigate this &ldquo;shortcoming&rdquo; by forcing a copy of all global rules into a newly created narrower scope.</p> <p>Be mindful that <b>all</b> rules from the global scope are copied, including rules which could be irrelevant to the web site for which the scope was created. This could lead to &ldquo;rules bloat&rdquo; when there are many rules in the global scope.</p>",
+        "message": "<p>Geltungsbereiche existieren in einer Art Sandbox, d. h. sie teilen keine Regeln untereinander, und das gilt auch für den Globalen Geltungsbereich: enger gefasste Geltungsbereiche sehen <b>nicht</b> die Regeln im Globalen Geltungsbereich.</p> <p>Von einigen Benutzern wird dies aber als Hindernis angesehen, da sie möchten, dass ihre globalen Regeln auch von enger gefassten Geltungsbereichen erkannt werden. Diese Option behebt dieses &ldquo;Manko&rdquo; indem sie erzwingt, dass alle globalen Regeln in neu erstellte enger gefasste Geltungsbereiche hineinkopiert werden.</p> <p>Bedenke aber, dass <b>alle</b> Regeln aus dem Globalen Geltungsbereich kopiert werden, einschließlich der Regeln, die möglicherweise irrelevant sind für die Webseite, für die der enger gefasste Geltungsbereich erstellt wurde. Dies kann daher zu &ldquo;aufgeblähten Regelwerken&rdquo; führen, falls im Globalen Geltungsbereich viele Regeln angelegt wurden.</p>",
         "description": "English: ..."
     },
     "settingsMatrixDeleteUnusedTemporaryScopesPrompt1" : {
@@ -476,7 +476,7 @@
         "description": "English: {{abpFilterCount}} complex filters used."
     },
     "ubiquitousParseAllABPFiltersInfo" : {
-        "message": "<p>Normalerweise wird <i>HTTP Switchboard</i> aus den <i>Adblock Plus</i>-kompatiblen Filterlisten <b>nur</b> diejenigen Filter extrahieren, die für das Blockieren einer gesamten Domain benutzt werden (Beispiel: &ldquo;<b>||a.ucoz.net^</b>&rdquo;).</p><p>Diese Option ermöglicht die Analyse und Anwendung feinkörnigerer <i>Adblock Plus</i>-Filter (Beispiel: &ldquo;<b>/adwords-conversion-tracking.</b>&rdquo;). Diese komplexen Filetr sind inkompatibel mit der Matrix und werden daher nur intern benutzt, um zu beurteilen, ob eine Netzanfrage geblockt werden soll: für sie gibt es keine Benutzeroberfläche.</p><p>Selbst wenn diese Option aktiviert ist, werden <i>Adblock Plus</i> Filter zum <a href=\"https://adblockplus.org/de/filters#elemhide\">Verstecken von Elementen</a> komplett ignoriert.</p><p>Die Speicherbelegung ist höher, wenn diese Option aktiviert ist.</p>",
+        "message": "<p>Normalerweise wird <i>HTTP Switchboard</i> aus den <i>Adblock Plus</i>-kompatiblen Filterlisten <b>nur</b> diejenigen Filter extrahieren, die für das Blockieren einer gesamten Domain benutzt werden (Beispiel: &ldquo;<b>||a.ucoz.net^</b>&rdquo;).</p><p>Diese Option ermöglicht die Analyse und Anwendung feinkörnigerer <i>Adblock Plus</i>-Filter (Beispiel: &ldquo;<b>/adwords-conversion-tracking.</b>&rdquo;). Diese komplexen Filter sind inkompatibel mit der Matrix und werden daher nur intern benutzt, um zu beurteilen, ob eine Netzanfrage geblockt werden soll: für sie gibt es keine Benutzeroberfläche.</p><p>Selbst wenn diese Option aktiviert ist, werden <i>Adblock Plus</i> Filter zum <a href=\"https://adblockplus.org/de/filters#elemhide\">Verstecken von Elementen</a> komplett ignoriert.</p><p>Die Speicherbelegung ist höher, wenn diese Option aktiviert ist.</p>",
         "description": "English: ..."
     },
     "ubiquitousParseAllABPHideFiltersPrompt1" : {
@@ -742,7 +742,7 @@
         "description": "English: high"
     },
     "setupMediumHigh" : {
-        "message": "mittel-hoch",
+        "message": "mittel - hoch",
         "description": "English: medium high"
     },
     "setupMedium" : {
@@ -750,7 +750,7 @@
         "description": "English: medium"
     },
     "setupMediumLow" : {
-        "message": "mittel-niedrig",
+        "message": "mittel - niedrig",
         "description": "English: medium low"
     },
     "setupLow" : {
