@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: I/+Czw+xCLfa3k4uUI3QSw
+! Checksum: iCnygwW7j4YFoGzZ48j2jA
 ! Title: EasyList Hebrew
-! Last modified: 24/06/14  18:03 Jerusalem Daylight Time
+! Last modified: 02/07/14  08:44 Jerusalem Daylight Time
 ! Expires: 4 days (update frequency)
 ! Homepage: https://github.com/AdBlockPlusIsrael/EasyListHebrew/
 ! Forums: https://github.com/AdBlockPlusIsrael/EasyListHebrew/issues
@@ -222,7 +222,7 @@
 @@||forbes.co.il/download/banners/
 @@||go.ynet.co.il/short/commerce/2012/weathernew/
 @@||i.total-media.net/yc/dc.$script,domain=winwin.co.il
-@@||info.a7.org/info/$script,domain=inn.co.il
+@@||info.a7.org/info/$script
 @@||internet-bee.com/Feats/
 @@||net-games.co.il/flvPlayer/dist/flowplayer-$script
 @@||themarker.com/css/advertisement_article.css
@@ -234,9 +234,11 @@
 !
 !--------------Whitelists Rules (caused by EasyList / EasyPrivacy )-----------!
 !
+@@||adnxs.com^$object-subrequest,domain=mako.co.il
 @@||ads.one.co.il/images/Ads/2014/05/22/1500/51x20.gif
 @@||ads.one.co.il/images/MSites/2014/05/22/1530/cremahadash.png
 @@||ads.one.co.il/images/ads/2014/01/21/1400/home.png
+@@||ads.one.co.il/images/ads/2014/06/02/1415/*
 @@||ads.one.co.il/images/ads/2014/06/02/1430/444.png
 @@||adserver.adtech.de/?advideo/$object-subrequest,domain=mako.co.il
 @@||adserver.adtech.de/rmevent/$object-subrequest,domain=mako.co.il,media

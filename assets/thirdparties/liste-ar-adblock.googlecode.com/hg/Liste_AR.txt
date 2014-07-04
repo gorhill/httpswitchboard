@@ -26,6 +26,7 @@
 ##.ban-728
 ##.inside_adv_section
 ##.pub-730x90
+##.sidbar-ad1
 ##[href*="ad2games.com/"]
 ##a[href*="/ads/ad_link.php?"]
 ##a[href*="adintop.com/outgoing/click.php?"]
@@ -599,6 +600,7 @@
 ||fatafeeet.com^$popup,domain=egyptladies.net
 ||fbrka.net/open*.js
 ||fbrka.net/style/banner72890.gif
+||felmedan.com/images/banners/
 ||fennec-dz.com/img/atlas.jpg
 ||fennec-dz.com/img/ayrade.jpg
 ||fennec-dz.com/img/bann_sweet.jpg
@@ -1011,7 +1013,7 @@ aljazeerasport.tv##.banner-leaderboard
 alhayat.com##.banner2
 egyup.com,imanschool.com,mwadah.com##.bannerBox
 m5zn.com##.banner_120_black
-elmihwar.com##.banneritem
+elmihwar.com,felmedan.com##.banneritem
 arabsharing.com,mediamasr.tv,panorama-istanbul.org##.banners
 marocemploi.net##.bg_link
 bokra.net##.bigStrip
@@ -1116,6 +1118,7 @@ fivesat.net,k1g3.com##a[href="http://www.sharing-sat.com"]
 700bk.com##a[href="http://www.wasety.com/"]
 uiraqi.com##a[href^="/ads.php?"]
 nadorcity.com##a[href^="/ads/"]
+felmedan.com##a[href^="/banners/"]
 jordanzad.com##a[href^="ad.php?"]
 saidaonline.com##a[href^="advertising.php?"]
 ghnoh.com,l7en.com##a[href^="banner.php?id="]

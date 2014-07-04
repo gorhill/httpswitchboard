@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: XLSQ0Ca0KqWbHKwNcyPn2w
-! Version: 201406260531
+! Checksum: PoV17dqCTgwQPraVOpb5KA
+! Version: 201407042141
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 26 Jun 2014 05:31 UTC
+! Ultima modifica: 04 Jul 2014 21:41 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -188,8 +188,6 @@ corrierecomo.it,corrieredicomo.it#@#.module-ad
 latinomagazine.it#@#.moduletable-advert
 camperonline.it,italiasw.com#@#.pubblicita
 beppegrillo.it,lafucina.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
-! Anti-Adblock
-rai.it,rai.tv#@##sponsored-ad
 !---------------------Server pubblicitari di terze parti----------------------!
 ! *** easylistitaly:easylistitaly/easylistitaly_adservers.txt ***
 ||178.32.140.64^$third-party,domain=~pirchio.ip
@@ -338,6 +336,7 @@ rai.it,rai.tv#@##sponsored-ad
 ||connect24.it/fot468.gif
 ||contactlab.it^*/Banner/
 ||d1n2y2eq1wbato.cloudfront.net^*/sponsor-$domain=atalanta.it
+||d1oaxhr280l1ho.cloudfront.net^
 ||datingfactory.com/promotools/
 ||delosstore.it/banner/
 ||digisesso.com/img/incesti.gif
@@ -709,6 +708,7 @@ rai.it,rai.tv#@##sponsored-ad
 ||corriere.it^*/adv/
 ||corriere.it^*/icon_csnai.gif
 ||corriere.it^*/icon_csnai_shared.gif
+||corriere.it^*_pringooals.png
 ||corriereadriatico.it/300x200Banner.php
 ||corriereadriatico.it/box_tuttomercato052011/
 ||corrierecomo.it/images/banners/
@@ -2020,7 +2020,7 @@ dizionariosinonimi.com##.Sponsor300x250Dx
 ricettepercucinare.com##.UAP_3to1_Rectangle
 ricettepercucinare.com##.UAP_Medium_Rectangle
 ricettepercucinare.com##.UAP_Wide_Skyscraper
-4risate.com,7per24.it,ilsole24ore.com,jugo.it,mesagne.me,milanlive.it,tripadvisor.it##.ad
+4risate.com,7per24.it,allrecipes.it,ilsole24ore.com,jugo.it,mesagne.me,milanlive.it,tripadvisor.it##.ad
 trustpilot.it##.adblock
 america24.com,gianlucadimarzio.com##.adbox
 loradellacalabria.it##.add768int
@@ -2340,7 +2340,7 @@ gazzettadasti.it##.top-right-ban
 lastampa.it##.top-right-banner
 radiosei.it,retesport.it##.top_banner
 mrstiff.it##.topad
-mesagne.me,neveitalia.it##.topbanner
+mesagne.me,neveitalia.it,terzobinario.it##.topbanner
 agichina24.it##.topbanner1
 vistointv.net##.topbanner2
 turistipercaso.it##.trovaviaggi

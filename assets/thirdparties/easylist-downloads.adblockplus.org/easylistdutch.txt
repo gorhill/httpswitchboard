@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: XSrXBxHzqEv+AGCnqZJZJw
-! Version: 201406260531
+! Checksum: hdnjVL9QspZ6Zqp4H5vzAw
+! Version: 201407042141
 ! Title: EasyList Dutch
 ! Description: Dutch supplement for the Easylist filters
-! Last modified: 26 Jun 2014 05:31 UTC
+! Last modified: 04 Jul 2014 21:41 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -26,6 +26,8 @@
 /advertentie1.
 /advertentie2/*
 /advertentie_head.
+/advertentieblokje120x20.
+/advertentieblokje300x20.
 /advertenties.
 /advertenties/*
 /bannerlookup.
@@ -42,6 +44,8 @@
 /small_reclames/*
 /topadvertentie.
 ://promotie.$third-party
+_advertentie300x250_
+_advertentieleaderboardhome.
 !--------Advertentiedomeinen (derden)--------!
 ! *** easylistdutch/block_third_party_server.txt ***
 ||2mdn.net^$domain=autoweek.nl|eredivisielive.nl|focus-wtv.tv|garagetv.be|l1.nl
@@ -56,6 +60,7 @@
 ||banners.vip.nl^$third-party
 ||bannerwerving.nl^$third-party
 ||bingocamspartners.com^$third-party
+||bluemango.nl^$third-party
 ||bva-auctions.com^$domain=telegraaf.nl|z24.nl
 ||cambonus.com^$third-party
 ||camsholland.eu^$third-party
@@ -263,6 +268,7 @@
 ||wegenerweb.nl/banners/
 ||wegenerweb.nl/sponsors/
 ||x0.nl/banners/
+||xingo.nl/bannermanagement/
 ||xlshosting.net/wp-content/uploads/idwbanner.png
 ||xxxsmsjes.nl/banners/
 ||zideo.nl/player/plugins/ova/ova.swf
@@ -522,6 +528,7 @@
 ||ru.nl/web/upload/banner/bannerbanner
 ||satellitemagazine.com/revda.php?
 ||scholieren.com/assets/images/*.jpg
+||scholieren.net/public/i/Wallpaper
 ||sexdumpert.nl/banner/
 ||sexdumpert.nl/banners/
 ||sexgamer.nl/banners/
@@ -556,6 +563,7 @@
 ||statisch.detelefoongids.nl^*/1888_logo-met-payoff*.jpg
 ||statisch.marktplaats.com/images/bg_ad_list.jpg
 ||stemwijzer.nl^*/images/*/islabanner.swf
+||studeersnel.nl/admin/upload_ban/
 ||studenten.nl/upload/banners/
 ||studenten.nl/upload/flash/banner
 ||studentenwoningweb.nl^*/banner/
@@ -581,6 +589,7 @@
 ||tvgids.nl/banner/
 ||tvgids.nl/lightview/interstitial/
 ||twentefans.nl/banner/
+||uitdagingonline.nl/images/banners/random-
 ||uitnodiging.nl/site/images/framework/postkaarten/promo_footer_
 ||unimaas.nl/mkbportal/images/*anner
 ||unimaas.nl/mkbportal/images/student_nl.gif
@@ -716,6 +725,7 @@
 @@||cinema.nl/ads/mediaplayer.jsp?$subdocument
 @@||doopsgezind.nl/templates/ads/$domain=doopsgezind.nl
 @@||earnieland.be/images/photolib/*_120_60.
+@@||emarketingexperts.nl/images/stories/adwords/
 @@||facebook.com/AD.NL?$subdocument,~third-party
 @@||fakkert-electronica.nl/images/adds/
 @@||forum.scholieren.com/banman/$domain=forum.scholieren.com
@@ -724,6 +734,7 @@
 @@||kapaza.be^*/ad_view_$script,stylesheet
 @@||leukespellen.be/ads_loader.$script,stylesheet
 @@||leukespellen.be/n/js/ads_hider.js
+@@||marktplaats.com/gzip_*/aurora/bundles/adsense-common.js
 @@||marktplaats.com/gzip_*/aurora/res/js/common/AdSense.js
 @@||media.shopvip.com/banners/$image,domain=shopvip.com
 @@||metdehand.nl/var/ads/$~third-party
@@ -769,6 +780,7 @@
 ###prog-sponsorlinks
 ###reclame2
 ###reclame_rechts
+###reclamebanner
 ###reclamediv
 ###rightbanner_adbest
 ###semilo-lrectangle
@@ -873,6 +885,7 @@ landbouwagenda.nl###leftBottom > div > a[target="_blank"]
 dezundertsebode.nl###left_banners
 zdnet.be###leftwallpaper
 hetkanwel.net###mc1 > .secondPad > .ssc:nth-child(n+3) > .textwidget
+rtvnoord.nl###middenbanner
 eindexamen.nu,eindexamens.nu###mrectangle
 humo.be###notify
 humo.be###notify_overlay
@@ -1057,7 +1070,7 @@ techzine.nl##.small_banner
 weeronline.nl##.specialBlockAboveActivities
 weeronline.nl##.specialBlockSmall
 engineeringnet.be##.sponslinks
-vcmw-sigma.nl##.sponsor
+utopiatv.nl,vcmw-sigma.nl##.sponsor
 afspraakjes.be,boekmeter.nl,gamesmeter.nl,moviemeter.nl,musicmeter.nl,tvgids.nl##.sponsored
 voetbalkrant.com##.take-banner
 z24.nl##.teaser
@@ -1082,7 +1095,7 @@ smulweb.nl##.winestein
 haarlemsdagblad.nl,leidschdagblad.nl,noordhollandsdagblad.nl##.x728x222.headerRow
 nsmbl.nl##A[rel^="ADVERTORIAL:"]
 hababam.nl##[id^="yui-gen"].postcontainer
-viva.nl##a[href*="&utm_medium=banner&"]
+cartweet.com,viva.nl##a[href*="&utm_medium=banner&"]
 techzine.nl##a[href*="/adv-"]
 techzine.nl##a[href*="/adv-"] ~ *
 techzine.nl##a[href*="/advertorial"]
@@ -1207,9 +1220,11 @@ digitekst.com#@#.adtitle
 autotekoop.nl#@#.advert-title
 schaatsen.nl#@#.advertisement-header
 zuka.nl#@#.advtitle
+emarketingexperts.nl#@#.adwords
 z24.nl#@#.category-ad
 telegraaf.nl#@#.imgad
 ad.nl#@#.nav_ad
+bokt.nl#@#.node-ad
 landleven.nl#@#.post-ad
 amonis.be#@#.text-ad
 kamernet.nl#@#.topAdd
