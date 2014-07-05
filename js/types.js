@@ -61,4 +61,6 @@ function PermissionScope() {
 function PermissionScopes() {
     this.scopes = {};
     this.scopes['*'] = new PermissionScope();
+    this.scopes['chrome-scheme'] = new PermissionScope();
+    this.scopes['chrome-scheme'].whitelist('*', '*');
 }
