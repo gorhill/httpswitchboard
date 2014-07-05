@@ -80,7 +80,7 @@ HTTPSB.normalizePageURL = function(pageURL) {
 HTTPSB.bindTabToPageStats = function(tabId, pageURL) {
     // https://github.com/gorhill/httpswitchboard/issues/303
     // Don't rebind pages blocked by HTTPSB.
-    var blockedRootFramePrefix = 'data:text/html;base64,PCFET0NUWVBFIGh0bWw+PGh0bWwgaWQ9J2h0dHBzYic+';
+    var blockedRootFramePrefix = this.webRequest.blockedRootFramePrefix;
     if ( pageURL.slice(0, blockedRootFramePrefix.length) === blockedRootFramePrefix ) {
         return null;
     }

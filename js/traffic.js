@@ -40,7 +40,9 @@ var rootFrameReplacement = [
     'font-family:httpsb;',
     'font-style:normal;',
     'font-weight:400;',
-    'src: local("httpsb"),url("{{fontUrl}}") format("truetype");',
+    'src: local("httpsb"),url("',
+    HTTPSB.fontCSSURL,
+    '") format("truetype");',
     '}',
     'body {',
     'margin:0;',
@@ -103,7 +105,9 @@ var subFrameReplacement = [
     'font-family:httpsb;',
     'font-style:normal;',
     'font-weight:400;',
-    'src:local("httpsb"),url("{{fontUrl}}") format("truetype");',
+    'src:local("httpsb"),url("',
+    HTTPSB.fontCSSURL,
+    '") format("truetype");',
     '}',
     'body{',
     'margin:0;',
@@ -240,7 +244,6 @@ var onBeforeRootFrameRequestHandler = function(details) {
     // allows to later check whether the root frame has been unblocked by the
     // user, in which case we are able to force a reload using a redirect.
     var html = rootFrameReplacement;
-    html = html.replace('{{fontUrl}}', httpsb.fontCSSURL);
     html = html.replace('{{cssURL}}', httpsb.noopCSSURL);
     html = html.replace(/{{hostname}}/g, encodeURIComponent(requestHostname));
     html = html.replace('{{originalURL}}', encodeURIComponent(requestURL));
@@ -327,7 +330,6 @@ var processRequest = function(httpsb, details) {
     // user, in which case we are able to force a reload using a redirect.
     if ( requestType === 'sub_frame' ) {
         var html = subFrameReplacement
-            .replace('{{fontUrl}}', httpsb.fontCSSURL)
             .replace(/{{hostname}}/g, requestHostname)
             .replace('{{frameSrc}}', requestURL)
             .replace(/{{subframeColor}}/g, httpsb.userSettings.subframeColor)
@@ -945,7 +947,8 @@ var startWebRequestHandler = function(from) {
 /******************************************************************************/
 
 return {
-    checklist: startWebRequestHandler
+    checklist: startWebRequestHandler,
+    blockedRootFramePrefix: 'data:text/html;base64,' + btoa(rootFrameReplacement).slice(0, 80)
 };
 
 /******************************************************************************/
