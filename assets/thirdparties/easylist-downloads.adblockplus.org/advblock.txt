@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: DYddtj594p1xyaRzvGVwag
-! Version: 201407042140
-! Last modified: 04 Jul 2014 21:40 UTC
+! Checksum: iOpimLYzYZZ/Q+crVRdQ4A
+! Version: 201407051310
+! Last modified: 05 Jul 2014 13:10 UTC
 ! Homepage: http://ruadlist.googlecode.com/
 !
 ! Дополнительная региональная подписка RU AdList к подписке EasyList

@@ -41,6 +41,10 @@
         "off": true,
         "title": "Fanboy’s Enhanced Tracking List"
         },
+    "www.fanboy.co.nz/fanboy-antifacebook.txt": {
+        "off": true,
+        "title": "Fanboy’s Anti-Facebook (see warning inside list)"
+        },
     "easylist-downloads.adblockplus.org/easylistgermany.txt": {
         "off": true,
         "title": "EasyList Germany"
@@ -64,6 +68,10 @@
     "easylist-downloads.adblockplus.org/easylistchina.txt": {
         "off": true,
         "title": "EasyList China (中文)"
+        },
+    "cjxlist1.googlecode.com/svn/cjxlist.txt": {
+        "off": true,
+        "title": "cjxlist (main focus on Chinese sites)"
         },
     "adblock-chinalist.googlecode.com/svn/trunk/adblock.txt": {
         "off": true,
@@ -89,7 +97,7 @@
         "off": true,
         "title": "Liste AR"
         },
-    "adblock-czechoslovaklist.googlecode.com/svn/filters.txt": {
+    "raw.githubusercontent.com/tomasko126/easylistczechandslovak/master": {
         "off": true,
         "title": "EasyList Czech and Slovak"
         },

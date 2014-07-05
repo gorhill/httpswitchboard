@@ -1,6 +1,6 @@
 [Adblock Plus 2.0]
-! Checksum: ZYg+jVyq/I71lnZV+8I8qw
-! Version: 201407042141
+! Checksum: J0GE+z8R1ZZ7tJAfSCsUUg
+! Version: 201407051311
 ! Liste FR ~ Filtres francophones complémentaires à EasyList
 ! Title: Liste FR
 ! Licence : http://www.adblock-listefr.com/A_propos
@@ -109,6 +109,7 @@ _regiepub/
 ||box.shopoon.fr^$third-party
 ||camsympa.com^$third-party,domain=~camsympa.fr
 ||carpediem.fr^$third-party
+||cbjoc9a9xt.pw^$image,third-party
 ||cdn.nextperf.net^$third-party
 ||cercle-trafic.com$third-party
 ||clic-diffusion.com^$third-party
@@ -362,6 +363,7 @@ _regiepub/
 ||coupling.fr/widget_$third-party
 ||crm-pour-pme.fr/images/copie%20de%20728-90.png
 ||crocastuce.fr/images/Boutons/
+||d34eoj4l97gwgh.cloudfront.net/img/geoloc/$domain=france-examen.com
 ||dhtml.pornravage.com^
 ||diagnostic-expertise.com^*-popunder.php?$popup
 ||dir-fr.com/banners/$domain=la-musique-rai.com
@@ -430,6 +432,7 @@ _regiepub/
 ||hostingpics.net/pics/*ban.png$domain=tonchat.fr
 ||hotel-intime.com/banieres/
 ||hotpix.fr/widget_js.php?
+||i.imgur.com/X70wDAr.jpg$domain=lesjoiesducode.fr
 ||icpc.tv/banners/$domain=europeplusnet.info
 ||ilbanat.com/images/pubilbanat.gif
 ||ilkoora.com/images/ilkoorapub.png
@@ -2256,6 +2259,7 @@ gameblog.fr###gba300
 viamichelin.be###gdhMegaBan
 viamichelin.be###gdhMegaBanBottom
 numerama.com###general_dec
+wikistrike.com###global > div[style="text-align:center;margin:auto;"]:first-child
 mediamass.net###google
 zero-complexe.com###google.post.bg1.online
 kijiji.ca###gpt-leaderboard-top
@@ -2922,6 +2926,7 @@ journaldugeek.com,journalgraphic.com##.widget-current-offers1
 clubic.com##.widget-gamer
 clubic.com##.widget-serious-gamer
 clubic.com##.widget-shopper
+wikistrike.com##.widget.ads.ads-300 + div > a > img[width="300"][height="600"][border="0"]
 blog2mature.com##.widget.widget_links
 frandroid.com##.widget.widget_text
 joueurdugrenier.fr##.widgetAmis
@@ -3431,6 +3436,7 @@ viedemerde.fr##.droite > .part + .part.second > div[style="position: relative;"]
 @@||freebsd.md/*.js|$script,third-party
 @@||ftp.sh/*.js|$script,third-party
 @@||ghaman.com/*.js|$script,third-party
+@@||ghostnation.org/*.js|$script,third-party
 @@||hmlbz.ez.lv/*.js|$script,third-party
 @@||home.kg/*.js|$script,third-party
 @@||hpc.tw/*.js|$script,third-party
@@ -3481,6 +3487,7 @@ viedemerde.fr##.droite > .part + .part.second > div[style="position: relative;"]
 |http://*.freebsd.md/$third-party,xmlhttprequest
 |http://*.ftp.sh/$third-party,xmlhttprequest
 |http://*.ghaman.com/$third-party,xmlhttprequest
+|http://*.ghostnation.org/$third-party,xmlhttprequest
 |http://*.home.kg/$third-party,xmlhttprequest
 |http://*.hpc.tw/$third-party,xmlhttprequest
 |http://*.icello.in/$third-party,xmlhttprequest
@@ -3536,7 +3543,7 @@ viedemerde.fr##.droite > .part + .part.second > div[style="position: relative;"]
 #@##bannerGoogle
 #@##block-ad_cube-0
 #@##blox-big-ad-bottom
-@@||pagead2.googlesyndication.com/simgad/$image,third-party,domain=5nodes.fr|actu95.net|actuping.com|addons-wow.fr|adunblock.com|aeropassion.net|allo-news.com|annuaire-bleu.net|annuaire-email.net|anthonix.fr|applebigmac.fr|applicationsandroidfrance.com|arnaques-internet.info|bdcraft.net|br1team.fr|breizhptc.com|buzzer-manager.com|buzzwebzine.fr|byothe.fr|cle-usb.info|cnetfrance.fr|consoledejeux.info|coolradio.be|culture-communication.fr|degroupnews.com|degrouptest.com|dofusmotion.com|donnemoilinfo.com|e-puzzles.fr|evoliofly.com|femmes-de-footballeurs.fr|festivalboujdour.com|fight4craft.fr|gamekult.com|gamewinner.fr|geek-area.fr|geneanum.com|geoforum.fr|geowiki.fr|go-streaming-gratuit.com|gogo-films.com|gridam.com|hitek.fr|imagesia.com|jackieetmicheltv.fr|kboard.fr|kerbalspaceprogram.fr|lebouletdunet.com|leetgamerz.net|lesarbres.fr|livrespourtous.com|loractu.fr|macworld.fr|maviesurleweb.fr|minecraft-france.fr|minecraftmod.fr|monlinker3ds.com|monlinkerds.com|monlinkerdsi.com|moto85.com|muslimette-magazine.com|nas-forum.com|nifoune.com|ocre-annuaire.net|ogame-winner.com|okawan.com|oobby.com|opalenews.com|pcworld.fr|phonandroid.com|physagreg.fr|pix-geeks.com|pyrros.fr|quedesbonsplans.com|radar-feu-rouge.fr|reef-guardian.com|rue89strasbourg.com|sanditrad.com|scoopmosaique.be|sen.flam.me|seomaker.estsurle.net|simonfr.org|sous-la-mer.com|space-blogs.com|space-blogs.net|space-forums.com|space-forums.net|styled-gaming.eu|sucha.net|suchablog.com|syskb.com|toolzzz.fr|tout-gratuit.be|toutes-les-solutions.fr|trackr.fr|tryandplay.com|untourenchine.fr|visiban.com|vonox.fr|wiilogic.com|xavbox.com|xavbox.info|xavbox.org|xavbox360.com|xavboxcube.com|xavboxds.com|xavboxforum.com|xavboxnews.com|xavboxone.com|xavboxphone.com|xavboxps2.com|xavboxps3.com|xavboxpsp.com|xavboxtuning.com|xavboxwii.com|xavboxwiiu.com|xavdrone.com|xavfun.com|zdnet.fr|zevpn.net
+@@||pagead2.googlesyndication.com/simgad/$image,third-party,domain=123coupedumonde2014.com|5nodes.fr|actu95.net|actuping.com|addons-wow.fr|adunblock.com|aeropassion.net|allo-news.com|annuaire-bleu.net|annuaire-email.net|anthonix.fr|applebigmac.fr|applicationsandroidfrance.com|arnaques-internet.info|bdcraft.net|br1team.fr|breizhptc.com|buzzer-manager.com|buzzwebzine.fr|byothe.fr|cle-usb.info|cnetfrance.fr|consoledejeux.info|coolradio.be|culture-communication.fr|degroupnews.com|degrouptest.com|dofusmotion.com|donnemoilinfo.com|e-puzzles.fr|evoliofly.com|femmes-de-footballeurs.fr|festivalboujdour.com|fight4craft.fr|gamekult.com|gamewinner.fr|geek-area.fr|geneanum.com|geoforum.fr|geowiki.fr|go-streaming-gratuit.com|gogo-films.com|gridam.com|hitek.fr|imagesia.com|jackieetmicheltv.fr|kboard.fr|kerbalspaceprogram.fr|lebouletdunet.com|leetgamerz.net|lesarbres.fr|livrespourtous.com|loractu.fr|macworld.fr|maviesurleweb.fr|minecraft-france.fr|minecraftmod.fr|monlinker3ds.com|monlinkerds.com|monlinkerdsi.com|moto85.com|muslimette-magazine.com|nas-forum.com|nifoune.com|ocre-annuaire.net|ogame-winner.com|okawan.com|oobby.com|opalenews.com|pcworld.fr|phonandroid.com|physagreg.fr|pix-geeks.com|pyrros.fr|quedesbonsplans.com|radar-feu-rouge.fr|reef-guardian.com|rue89strasbourg.com|sanditrad.com|scoopmosaique.be|sen.flam.me|seomaker.estsurle.net|simonfr.org|sous-la-mer.com|space-blogs.com|space-blogs.net|space-forums.com|space-forums.net|styled-gaming.eu|sucha.net|suchablog.com|syskb.com|toolzzz.fr|tout-gratuit.be|toutes-les-solutions.fr|trackr.fr|tryandplay.com|untourenchine.fr|visiban.com|vonox.fr|wawa-mania.biz|wiilogic.com|xavbox.com|xavbox.info|xavbox.org|xavbox360.com|xavboxcube.com|xavboxds.com|xavboxforum.com|xavboxnews.com|xavboxone.com|xavboxphone.com|xavboxps2.com|xavboxps3.com|xavboxpsp.com|xavboxtuning.com|xavboxwii.com|xavboxwiiu.com|xavdrone.com|xavfun.com|zdnet.fr|zevpn.net
 !
 @@/http://(?!ad\.zanox\.com/ppv/|pubads\.g\.doubleclick\.net/gampad/ads\?g)/$script,third-party,domain=degrouptest.com
 @@/http://(?!adhitzads.com/|ads.clicmanager.fr/|tag.regieci.com/|www.cpmaffiliation.com/|www.cpmleader.com/|www.pubovore.com/|img.20dollars2surf.com/)/$script,third-party,domain=degrouptest.com
@@ -3547,10 +3554,12 @@ viedemerde.fr##.droite > .part + .part.second > div[style="position: relative;"]
 @@/http://(?!c\.ad6media\.fr/l\.js|c\.ad6media\.fr/fo\.js|pubads\.g\.doubleclick\.net/gampad/ads\?g|pagead2\.googlesyndication\.com/pagead/js/adsbygoogle)/$script,third-party,domain=leetgamerz.net
 @@/http://(?!cdn\.adikteev\.com/lib/v|pagead2\.googlesyndication\.com/pagead/show_ads|pubads\.g\.doubleclick\.net/gampad/ads\?|c\.ad6media\.fr/l\.js|publicite\.fhsarl\.com/delivery/)/$script,third-party,domain=degroupnews.com
 @@/http://(?!cdn\.cupinteractive\.com/|www3\.smartadserver\.com/|cdn\.cbsinteractive\.fr/)/$script,third-party,domain=zdnet.fr
+@@/http://(?!clic\.illyx\.com/)/$script,third-party,domain=123coupedumonde2014.com
 @@/http://(?!clients\.roxservers\.com/images/banners/)/$script,third-party,domain=fight4craft.fr
 @@/http://(?!comandclick\.com/accounts/|pagead2\.googlesyndication\.com/pagead/show_ads|pagead2\.googlesyndication\.com/pagead/js/adsbygoogle|ad\.leaderpub\.fr/)/$script,third-party,domain=styled-gaming.eu
 @@/http://(?!dhtml\.pornravage\.com/|www\.lafranceapoil\.com/bans/|tool\.acces-vod\.com/|x\.porn\.fr)/$script,third-party,domain=jackieetmicheltv.fr
 @@/http://(?!eulerian\.motoblouz\.com/adview/|pagead2\.googlesyndication\.com/pagead/show_ads)/$script,third-party,domain=moto85.com
+@@/http://(?!fr\.charityad\.org/)/$script,third-party,domain=wawa-mania.biz
 @@/http://(?!fr\.classic\.clickintext\.net/|fr\.slidein\.clickintext\.net/|pagead2\.googlesyndication\.com/|syskb\.com/wp-content/|ws\.amazon\.fr/)/$script,third-party,domain=syskb.com
 @@/http://(?!fr\.slidein\.clickintext\.net/\?|fr\.92\.clickintext.net/|impfr\.tradedoubler\.com/imp\?type|tracking\.veoxa\.com/|ad\.zanox\.com/ppv/)/$script,third-party,domain=space-forums.com|space-forums.net
 @@/http://(?!fr\.slidein\.clickintext\.net/\?|fr\.92\.clickintext.net/|impfr\.tradedoubler\.com/imp\?type|tracking\.veoxa\.com/|ad\.zanox\.com/ppv/|pagead2\.googlesyndication\.com/pagead/show_ads|hst\.tradedoubler\.com/file/|www\.space-blogs\.com/openx/|rcm-fr\.amazon\.fr/)/$script,third-party,domain=reef-guardian.com
@@ -3605,6 +3614,7 @@ viedemerde.fr##.droite > .part + .part.second > div[style="position: relative;"]
 @@/http://(?!www\.xavboxnews\.com/files/|www\.aircig.com/media/affiliation/banner/|pagead2\.googlesyndication\.com/pagead/show_ads|www\.arcalide\.com/affiliate_show_banner|rcm-eu\.amazon-adsystem\.com/)/$script,third-party,domain=nifoune.com|xavboxwii.com
 @@|http:$script,third-party,domain=actu95.net|applebigmac.fr|buzzer-manager.com|consoledejeux.info|evoliofly.com|mangacity.org|muslimette-magazine.com|opalenews.com|seomaker.estsurle.net|simonfr.org|sucha.net|xavbox.com|xavbox.info|xavbox360.com|xavboxcube.com|xavboxps2.com|xavboxps3.com|xavboxpsp.com|xavfun.com
 !
+@@||123coupedumonde2014.com^$elemhide
 @@||5nodes.fr^$elemhide
 @@||actu95.net^$elemhide
 @@||actuping.com^$elemhide
@@ -3704,6 +3714,7 @@ viedemerde.fr##.droite > .part + .part.second > div[style="position: relative;"]
 @@||untourenchine.fr^$elemhide
 @@||visiban.com^$elemhide
 @@||vonox.fr^$elemhide
+@@||wawa-mania.biz^$elemhide
 @@||wiilogic.com^$elemhide
 @@||xavbox.com^$elemhide
 @@||xavbox.info^$elemhide

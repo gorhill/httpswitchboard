@@ -1,8 +1,8 @@
 [Adblock Plus 2.0]
-! Checksum: klnTW6H+1SXcf0gbjh6zvw
-! Version: 201407042140
+! Checksum: gGDMcJvtZT8Pl5i8+jK3RA
+! Version: 201407051310
 ! Title: EasyList without element hiding rules
-! Last modified: 04 Jul 2014 21:40 UTC
+! Last modified: 05 Jul 2014 13:10 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -5100,6 +5100,7 @@
 /wp-content/plugins/wp-bannerize/*
 /wp-content/plugins/wp-super-popup-pro/*
 /wp-content/plugins/wp-super-popup/*$~stylesheet
+/wp-content/uploads/useful_banner_manager_banners/*
 /wp-popup-scheduler/*
 /wp-srv/ad/*
 /wpads/iframe.
@@ -5204,6 +5205,8 @@
 =adspremiumplacement&
 =adtech_
 =advert/
+=advertiser.
+=advertiser/
 =advertorial&
 =adView&
 =akiba_ads_
@@ -6598,7 +6601,7 @@ _popunder+$popup
 ||adlure.biz^$third-party
 ||adlux.com^$third-party
 ||adm.fwmrm.net/crossdomain.xml$domain=cc.com|mtv.com
-||adm.fwmrm.net/p/msnbc_live/$object-subrequest,third-party,domain=~msnbc.msn.com,~www.nbcnews.com
+||adm.fwmrm.net/p/msnbc_live/$object-subrequest,third-party,domain=~msnbc.msn.com|~www.nbcnews.com
 ||adm.fwmrm.net/p/mtvn_live/$object-subrequest,third-party
 ||admagnet.net^$third-party
 ||admailtiser.com^$third-party
@@ -7436,7 +7439,7 @@ _popunder+$popup
 ||doubleclick.net/pfadx/video.marketwatch.com/$third-party
 ||doubleclick.net/pfadx/video.wsj.com/$third-party
 ||doubleclick.net/pfadx/www.tv3.co.nz$third-party
-||doubleclick.net^$third-party,domain=abc-7.com|addictinggames.com|allbusiness.com|allthingsd.com|bizjournals.com|bloomberg.com|bnn.ca|break.com|cbc.ca|cbs19.tv|cbs3springfield.com|cbsatlanta.com|cbslocal.com|complex.com|dailymail.co.uk|darkhorizons.com|deluxemusic.tv|doubleviking.com|euronews.com|extratv.com|fandango.com|fox19.com|fox5vegas.com|gorillanation.com|grooveshark.com|hawaiinewsnow.com|hulu.com|imdb.com|joblo.com|kcra.com|kctv5.com|ketv.com|koat.com|koco.com|kolotv.com|kpho.com|kptv.com|ksat.com|ksbw.com|ksfy.com|kypost.com|live5news.com|livestation.com|livestream.com|metro.us|metronews.ca|miamiherald.com|my9nj.com|myfoxdetroit.com|myfoxorlando.com|myfoxphilly.com|myfoxphoenix.com|myfoxtampabay.com|nbcrightnow.com|neatorama.com|necn.com|neopets.com|news.com.au|news4jax.com|nintendoeverything.com|own3d.tv|pagesuite-professional.co.uk|pandora.com|player.theplatform.com|ps3news.com|radio.com|rottentomatoes.com|sbsun.com|shacknews.com|sk-gaming.com|ted.com|tv2.no|universalsports.com|ustream.tv|wapt.com|washingtonpost.com|wate.com|wbaltv.com|wcvb.com|wdrb.com|wdsu.com|wflx.com|wfmz.com|wfsb.com|wgal.com|whdh.com|wired.com|wisn.com|wlky.com|wlns.com|wlwt.com|wmur.com|wnem.com|wowt.com|wral.com|wsj.com|wsmv.com|wsvn.com|wtae.com|wthr.com|wxii12.com|wyff4.com|yahoo.com|youtube.com
+||doubleclick.net^$third-party,domain=abc-7.com|addictinggames.com|allbusiness.com|allthingsd.com|bizjournals.com|bloomberg.com|bnn.ca|break.com|cbc.ca|cbs19.tv|cbs3springfield.com|cbsatlanta.com|cbslocal.com|complex.com|dailymail.co.uk|darkhorizons.com|deluxemusic.tv|doubleviking.com|euronews.com|extratv.com|fandango.com|fox19.com|fox5vegas.com|gorillanation.com|grooveshark.com|hawaiinewsnow.com|hulu.com|imdb.com|joblo.com|kcra.com|kctv5.com|ketv.com|koat.com|koco.com|kolotv.com|kpho.com|kptv.com|ksat.com|ksbw.com|ksfy.com|ksl.com|kypost.com|live5news.com|livestation.com|livestream.com|metro.us|metronews.ca|miamiherald.com|my9nj.com|myfoxdetroit.com|myfoxorlando.com|myfoxphilly.com|myfoxphoenix.com|myfoxtampabay.com|nbcrightnow.com|neatorama.com|necn.com|neopets.com|news.com.au|news4jax.com|nintendoeverything.com|own3d.tv|pagesuite-professional.co.uk|pandora.com|player.theplatform.com|ps3news.com|radio.com|rottentomatoes.com|sbsun.com|shacknews.com|sk-gaming.com|ted.com|tv2.no|universalsports.com|ustream.tv|wapt.com|washingtonpost.com|wate.com|wbaltv.com|wcvb.com|wdrb.com|wdsu.com|wflx.com|wfmz.com|wfsb.com|wgal.com|whdh.com|wired.com|wisn.com|wlky.com|wlns.com|wlwt.com|wmur.com|wnem.com|wowt.com|wral.com|wsj.com|wsmv.com|wsvn.com|wtae.com|wthr.com|wxii12.com|wyff4.com|yahoo.com|youtube.com
 ||doubleclick.net^*/ad/$~object-subrequest,third-party
 ||doubleclick.net^*/adi/$~object-subrequest,third-party
 ||doubleclick.net^*/adj/$~object-subrequest,third-party
@@ -7843,6 +7846,7 @@ _popunder+$popup
 ||jobsyndicate.com^$third-party
 ||jobtarget.com^$third-party
 ||joytocash.com^$third-party
+||jque.net^$third-party
 ||js.cdn.ac^$third-party
 ||jscount.com^$third-party
 ||jsfeedadsget.com^$third-party
@@ -8136,6 +8140,7 @@ _popunder+$popup
 ||networldmedia.net^$third-party
 ||neudesicmediagroup.com^$third-party
 ||newgentraffic.com^$third-party
+||newideasdaily.com^$third-party
 ||newsadstream.com^$third-party
 ||newsnet.in.ua^$third-party
 ||newstogram.com^$third-party
@@ -9329,6 +9334,7 @@ _popunder+$popup
 ||adultdatingtraffic.com^$third-party
 ||adultlinkexchange.com^$third-party
 ||adultmoviegroup.com^$third-party
+||adultoafiliados.com.br^$third-party
 ||adultpopunders.com^$third-party
 ||adultsense.com^$third-party
 ||adulttiz.com^$third-party
@@ -11662,7 +11668,7 @@ _popunder+$popup
 ||gfrevenge.com/vbanners/
 ||girls-home-alone.com/dating/
 ||go2cdn.org/brand/$third-party
-||graphics.pop6.com/javascript/$script,third-party,domain=~adultfriendfinder.com,~adultfriendfinder.co.uk
+||graphics.pop6.com/javascript/$script,third-party,domain=~adultfriendfinder.co.uk|~adultfriendfinder.com
 ||graphics.streamray.com^*/cams_live.swf$third-party
 ||hardcoresexnow.com^$subdocument,third-party
 ||hdpornphotos.com/images/728x180_
@@ -11752,11 +11758,6 @@ _popunder+$popup
 ||partners.yobt.tv^$third-party
 ||paydir.com/images/bnr
 ||pcash.globalmailer5.com^$third-party
-||phncdn.com/iframe-
-||phncdn.com/iframe.
-||phncdn.com/images/banners/
-||phncdn.com/images/premium/
-||phncdn.com/images/premium_
 ||pinkvisualgames.com/?revid=$third-party
 ||plugin-x.com/rotaban/
 ||pod.manplay.com^$third-party
@@ -13320,6 +13321,7 @@ _popunder+$popup
 ||howtogeek.com/go/
 ||howtogermany.com/banner/
 ||howwemadeitinafrica.com^*/dhl-hdr.gif
+||hpfanficarchive.com/freecoins2.jpg
 ||hqfooty.tv/ad
 ||htmldog.com/r10/flowers/
 ||htmlgoodies.com/sl/assetlisting/
@@ -13702,6 +13704,7 @@ _popunder+$popup
 ||libertyblitzkrieg.com/wp-content/uploads/2012/09/cc200x300.gif?
 ||licensing.biz/media/banners/
 ||life.imagepix.org^
+||lifeinqueensland.com/images/156x183a_
 ||lifetips.com/sponsors/
 ||limesurvey.org/images/banners/
 ||linguee.com/banner/
@@ -15682,7 +15685,7 @@ _popunder+$popup
 ||zmovie.tv^$popup,domain=deditv.com|vidbox.net|vidreel.com
 ! *** easylist:easylist_adult/adult_specific_block.txt ***
 .info^$script,domain=pornhub.com
-|http://*.com^$script,third-party,domain=extremetube.com|gaytube.com|keezmovies.com|pornhub.com|redtube.com|spankwire.com|tube8.com|youporn.com|youporngay.com
+|http://*.com^$script,subdocument,third-party,domain=extremetube.com|gaytube.com|keezmovies.com|pornhub.com|redtube.com|spankwire.com|tube8.com|youporn.com|youporngay.com
 ||109.201.146.142^$domain=xxxbunker.com
 ||213.174.140.38/bftv/js/msn-
 ||213.174.140.38^*/msn-*.js$domain=boyfriendtv.com|pornoxo.com
@@ -16075,8 +16078,11 @@ _popunder+$popup
 ||phncdn.com/cb/youpornwebfront/css/babes.css$domain=youporn.com
 ||phncdn.com/cb/youpornwebfront/css/skin.css$domain=youporn.com
 ||phncdn.com/css/campaign.css?$domain=pornhub.com
-||phncdn.com/images/*_skin.jpg
+||phncdn.com/images/*_skin.
 ||phncdn.com/images/*_skin_
+||phncdn.com/images/banners/
+||phncdn.com/images/premium/
+||phncdn.com/images/premium_
 ||phncdn.com/images/skin/
 ||phoenixmarieonline.com/wp-content/images/bangbros_*.jpg
 ||phoenixmarieonline.com/wp-content/images/big_tits_boss-*.jpg
@@ -16204,13 +16210,6 @@ _popunder+$popup
 ||realhomesex.net/ae/$subdocument
 ||realhomesex.net/floater.js
 ||realhomesex.net/pop/
-||redtube.com/*/*?picurl=$subdocument
-||redtube.com/bid/
-||redtube.com/dib/
-||redtube.com/iframe/
-||redtube.com/show.php
-||redtube.com^*&asid=$subdocument
-||redtube.com^*&query=$subdocument
 ||redtube.com^*/banner/
 ||redtubefiles.com^*/banner/
 ||redtubefiles.com^*/skins/
@@ -18274,6 +18273,7 @@ _popunder+$popup
 @@||hardware.no^$script
 @@||hcpc.co.uk/*ad$script,domain=avforums.com
 @@||hexawebhosting.com/adcode.js
+@@||hpfanficarchive.com^*/advertisement.js
 @@||hqpdb.com/ads/banner.jpg?
 @@||i-stream.pl^*/advertisement.js
 @@||i.imgur.com^*#.$image,domain=newmusicforpeople.org

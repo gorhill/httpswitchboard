@@ -1,9 +1,9 @@
 [Adblock Plus 2.1]
-! Checksum: pWqM5dhB3Z2HD18DjA0TOQ
-! Version: 201407042141
+! Checksum: bVRtQtI9arNq4qxRPv1tig
+! Version: 201407051311
 ! Title: EasyList China
 ! Chinese supplement for the EasyList filters
-! Last Modified: 04 Jul 2014 21:41 UTC
+! Last Modified: 05 Jul 2014 13:11 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: http://abpchina.org/forum/
 ! License: https://easylist-downloads.adblockplus.org/COPYING
@@ -2426,10 +2426,6 @@ weather.com.cn##div[class^="adpos"]
 ||ithome.com/images/lagou/
 ||ithome.com/images/partner/
 ||ithome.com/js/recommend.js
-||itiexue.net/1822/18221516.gif
-||itiexue.net/1823/18231982.gif
-||itiexue.net/1824/18244627.gif
-||itiexue.net/1825/18250220.gif
 ||itiexue.net/ad3w?
 ||itmxc.com/mxc-news/960x
 ||itocp.com/html/gk/*/*x50.
@@ -3681,12 +3677,18 @@ weather.com.cn##div[class^="adpos"]
 ||zymao.net/img/taolink.jpg
 ||zyzczs.com/js/tj.txt
 ||pcstore.com.tw/css/myacc_init.js
+||duowan.com/index.php?r=anuncio/getanuncio
+||img*.itiexue.net^*.gif$domain=www.tiexue.net
+||educity.cn/self_text/text_disp.aspx?id=
 ||zzqhy.com^*/page/
 ||zzsky.cn/images/zzskycom_
 !------------------------Specific element hiding rules------------------------!
 gpcxw.com###AA2
 yaolan.com###AD
+39yss.com##.ttAds
+www.tiexue.net##SCRIPT + .main > DIV[class]:first-child
 21yq.com###AD1
+qqxs.cc##DIV[style="margin:0 auto;padding:0;width:600px;height:345px;overflow:hidden;background-color:#fff;text-align: center;"]
 gdtv.cn###ADVbuttom
 gdtv.cn###ADVbuttom1
 sina.com.cn###AD_Background_Wall_BG
