@@ -336,11 +336,11 @@
         "description": "..."
     },
     "settingsMatrixCopyGlobalRulesIntoNewScopePrompt" : {
-        "message": "Copy all rules from global scope into newly created local scopes.",
+        "message": "Копировать все правила из глобальной области во вновь создаваемые локальные области.",
         "description": "English: Auto delete unused temporary scopes."
     },
     "settingsMatrixCopyGlobalRulesIntoNewScopeHelp" : {
-        "message": "<p>Scopes are sandboxed, i.e. they do not share rules, and this also applies to the global scope: narrower scopes do not see rules in the global scope.</p> <p>Some users see this as an impediment, as they wish their global rules were seen by narrower scopes. This option allows to mitigate this &ldquo;shortcoming&rdquo; by forcing a copy of all global rules into a newly created narrower scope.</p> <p>Be mindful that <b>all</b> rules from the global scope are copied, including rules which could be irrelevant to the web site for which the scope was created. This could lead to &ldquo;rules bloat&rdquo; when there are many rules in the global scope.</p>",
+        "message": "<p>Области являются изолированными, т.е. они не придерживаются правил, и это также относится и к глобальной области видимости: более узкие области "не видят" правил в глобальной области.</p> <p>Некоторые пользователи видят в этом препятствие, как они хотят, чтобы их глобальные правила были замечены более узкие области. Эта опция позволяет смягчить этот “недостаток”, позволяя копировать правила глобальных областей, в новую созданную узкую область.</p> <p>Помните, что <b>все</b> правила, копируемые из глобальной области видимости могут иметь предназначение для веб-сайта, для которых область была создана. Это может привести к “Правилам наворотов”, когда есть много правил в глобальной области видимости.</p>",
         "description": "English: ..."
     },
     "settingsMatrixDeleteUnusedTemporaryScopesPrompt1" : {
