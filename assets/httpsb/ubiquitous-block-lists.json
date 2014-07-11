@@ -65,6 +65,10 @@
         "off": true,
         "title": "EasyList RU AdList (дополнение к EasyList)"
         },
+    "easylist-downloads.adblockplus.org/bitblock.txt": {
+        "off": true,
+        "title": "RU BitBlock List"
+        },
     "easylist-downloads.adblockplus.org/easylistchina.txt": {
         "off": true,
         "title": "EasyList China (中文)"

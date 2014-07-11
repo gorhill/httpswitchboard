@@ -1,5 +1,5 @@
 f92fb201840fcb83afd1125791433229 assets/httpsb/preset-recipes-1st.yaml
-8dac12a61e782fbb32353faf05817ccf assets/httpsb/ubiquitous-block-lists.json
+781adb0263c10a38ac6d41f3dd772d4e assets/httpsb/ubiquitous-block-lists.json
 66c4469349db6c19f88df92540fd0840 assets/httpsb/setup/httpsb-noscript-like-setup.txt
 e9f66671bb58917577127e483f2187e7 assets/httpsb/setup/httpsb-requestpolicy-like-setup.txt
 cb1f8dc3b5aa5fabe113a0e4e7068893 assets/httpsb/setup/httpsb-block-all-narrowly-allow-all-setup.txt
@@ -20,6 +20,7 @@ fb55d70ecc242116235092e9c21df24e assets/httpsb/preset-recipes-3rd.yaml
 b4a1f4a8d15b01d7e2346d8f38c18ccf assets/thirdparties/spam404bl.com/spam404scamlist.txt
 8af1fa10949afdb040703dc93e962496 assets/thirdparties/easylist-downloads.adblockplus.org/easylistchina.txt
 6d0137984aeca5851e75110a6ffe01c3 assets/thirdparties/easylist-downloads.adblockplus.org/fanboy-annoyance.txt
+ec6a55f8b0bac6677747e8b6e56818d3 assets/thirdparties/easylist-downloads.adblockplus.org/bitblock.txt
 28b0cf02e8055696612df80a046a4219 assets/thirdparties/easylist-downloads.adblockplus.org/easylistdutch.txt
 da5e597d731c0feed8a72a0eadb4eaca assets/thirdparties/easylist-downloads.adblockplus.org/easyprivacy.txt
 464eda8443c4d481c726b73c31000d5b assets/thirdparties/easylist-downloads.adblockplus.org/easylist_noelemhide.txt
