@@ -162,11 +162,11 @@
         "description": "English: Generic statistics"
     },
     "statsPageCookieHeadersFoiled" : {
-        "message": "<a href='https://en.wikipedia.org/wiki/HTTP_cookie'>HTTP куки</a> блокировано: {{count}}",
+        "message": "<a href='https://ru.wikipedia.org/wiki/HTTP_cookie'>HTTP куки</a> блокировано: {{count}}",
         "description": "English: HTTP cookie headers foiled: {{count}}"
     },
     "statsPageRefererHeadersFoiled" : {
-        "message": "<a href='https://en.wikipedia.org/wiki/HTTP_referer'>HTTP ссылок</a> блокировано: {{count}}",
+        "message": "<a href='https://ru.wikipedia.org/wiki/HTTP_referer'>HTTP ссылок</a> блокировано: {{count}}",
         "description": "English: HTTP referer headers foiled: {{count}}"
     },
     "statsPageHyperlinkAuditingFoiled" : {
@@ -276,7 +276,7 @@
         "description": ""
     },
     "settingsStrictBlockingInfo": {
-        "message": "<p><strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Строгое\nблокирование</a></strong>,\nознокомиться на <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log-0.0-to-0.5#036\">версии 0.3.6</a>,\nозначает, что\nесли вы внесли сайт в белый список, заблокированые запросы:  (<i>плагинов</i>,\n<i>фреймов</i>, и т.д.) будет в черном списке. Для некоторых пользователей это может быть\nнадоедливым, следовательно, нужен этот переключатель.</p>\n<p><strong>Строгие блокировки ВКЛ.</strong>: в черный список типов запросов (если любой)\nдля сайтов из белого списка будет блокированы (если явно не белый список\nспециально эти запросы для сайтов из белого списка.)</p>\n<p><strong>Строгие блокировки ВЫКЛ.</strong>: попавшие в черный список запросы (если любой)\nдля сайтов из белого списка разрешены (если вы явно не внесли эти запросы в ченый список для сайтов из белого списка.)</p>",
+        "message": "<p><strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Строгое\nблокирование</a></strong>,\nознокомиться на <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log-0.0-to-0.5#036\">версии 0.3.6</a>,\nозначает, что\nесли вы внесли сайт в белый список, заблокированые запросы:  (<i>плагинов</i>,\n<i>фреймов</i>, и т.д.) будут в черном списке. Для некоторых пользователей это может быть\nнадоедливым, следовательно, нужен этот переключатель.</p>\n<p><strong>Строгие блокировки ВКЛ.</strong>: в черный список типов запросов (если любой)\nдля сайтов из белого списка будет блокированы (если явно не белый список\nспециально эти запросы для сайтов из белого списка.)</p>\n<p><strong>Строгие блокировки ВЫКЛ.</strong>: попавшие в черный список запросы (если любой)\nдля сайтов из белого списка разрешены (если вы явно не внесли эти запросы в ченый список для сайтов из белого списка.)</p>",
         "description": "To help user understand the purpose of strict blocking"
     },
     "settingsAutoCreateScopePrompt1": {
@@ -308,7 +308,7 @@
         "description": ""
     },
     "settingsAutoWhitelistHelp": {
-        "message": "<p>Некоторые пользователи не любят добавлять домен текущей страницы в белый список по-умолчанию. Эта функция позволяет автоматически создавать временные белые списки из всей области страницы, когда она впервые загружается в браузере. The temporary auto-whitelisting will occur <b>only</b> если страница домена в серых списках.</p><p>Although it is not a recommended feature from a security perspective, it has been included due to popular demand -- I would rather give users this feature than see them give up completely on a blocker.</p><p>If you use this feature, I advise that you at least blacklist <b>frame</b> requests and turn on <b>strict blocking</b>.</p>",
+        "message": "<p>Некоторые пользователи не любят добавлять домен текущей страницы в белый список по-умолчанию. Эта функция позволяет автоматически создавать временные белые списки из всей области страницы, когда она впервые загружается в браузере. The temporary auto-whitelisting will occur <b>only</b> если страница домена в серых списках.</p><p>Хотя включать эту опцию не рекомендуется, она была включена из-за удобства — я лучше включу её, нежели потеряю пользователей.</p><p>Если опция включена, рекомендуется включить блокировку <b>frame</b> запросов и <b>строгую блокировку</b>.</p>",
         "description": "To help user understand the purpose of auto-whitelist"
     },
     "settingsMatrixConvenienceHeader" : {
@@ -386,7 +386,7 @@
         "description": "..."
     },
     "privacyDeleteBlockedLocalStoragePrompt" : {
-        "message": "Удалить <a href='http://en.wikipedia.org/wiki/Web_storage'>локальное хранилище</a> данных для заблокированных ресурсов",
+        "message": "Удалить <a href='http://ru.wikipedia.org/wiki/Web_storage'>локальное хранилище</a> данных для заблокированных ресурсов",
         "description": "..."
     },
     "privacyDeleteBlockedLocalStorageHelp" : {
@@ -406,7 +406,7 @@
         "description": "..."
     },
     "privacyProcessRefererPrompt" : {
-        "message": "Удалить стороннюю информацию из <a href='https://en.wikipedia.org/wiki/HTTP_referer'>HTTP запросов</a> к хостам, которых нет в белом списке.",
+        "message": "Удалить стороннюю информацию из <a href='https://ru.wikipedia.org/wiki/HTTP_referer'>HTTP запросов</a> к хостам, которых нет в белом списке.",
         "описание": "..."
     },
     "privacyProcessRefererHelp" : {
@@ -422,8 +422,8 @@
         "description": "..."
     },
     "privacySpoofUserAgentPrompt1" : {
-        "message": "Подмена <a href='https://en.wikipedia.org/wiki/User_agent'>User-Agent</a> строки, выбирая случайную строку ниже каждые",
-        "description": "Spoof <a href='https://en.wikipedia.org/wiki/User_agent'>User-Agent</a> string by picking one randomly below every"
+        "message": "Подмена <a href='https://ru.wikipedia.org/wiki/User_agent'>User-Agent</a> строки, выбирая случайную строку ниже каждые",
+        "description": "Spoof <a href='https://ru.wikipedia.org/wiki/User_agent'>User-Agent</a> string by picking one randomly below every"
     },
     "privacySpoofUserAgentPrompt2" : {
         "message": "минут.",
@@ -438,7 +438,7 @@
         "description": "header of Chromium: behind-the-scene requests section"
     },
     "privacyProcessBehindTheSceneHelp" : {
-        "message": "<p>В соответствии с <a href='http://www.google.com/intl/en/chrome/browser/privacy/whitepaper.html'>Google Chrome Privacy Whitepaper</a>, <i>Chromium</i> может послать HTTP-запросы в <i>Google</i> даже, если пользователь не загружает веб страницы. Давайте назовем это - <strong>фоновые запросы</strong>. Кроме того, другие установленные расширения могут делать <strong>фоновые запросы</strong>.</p><p><i>HTTP Switchboard</i> позволяет контролировать доступ к этой информации: эти запросы могут быть обработаны, чтобы разрешить/запретить их в соответствии с настройками белого/черного списков.</p><p>Кликните на иконку расширения, для начала работы. Обязательно прочтите: <a href='https://github.com/gorhill/httpswitchboard/wiki/Behind-the-scene-requests'>Фоновые запросы</a>.</p><div class='warn'><p><span style='color:red; font-weight:bold'>Внимание!</span> Запрещение <strong>фоновых запросов</strong> может вызвать <a href='https://github.com/gorhill/httpswitchboard/issues/27'>проблему</a> когда пользовать хочет установить расширение из Chrome store (включая проблемы с обновлением расширений), возможно отключить эту функцию здесь. Блокирование этих запросов может вызывать разные проблемы с работой расширений.</p> <p>Даже если эта функция не включена, то <strong>фоновые запросы</strong> логироваться в <i>HTTP Switchboard</i>. Вы можете посмотреть эти запросы на (на странице <a href='dashboard.html#statistics'>Статистики</a>).</p>",
+        "message": "<p>В соответствии с <a href='https://www.google.ru/intl/ru/chrome/browser/privacy/whitepaper.html'>Google Chrome Privacy Whitepaper</a>, <i>Chromium</i> может послать HTTP-запросы в <i>Google</i> даже, если пользователь не загружает веб страницы. Давайте назовем это - <strong>фоновые запросы</strong>. Кроме того, другие установленные расширения могут делать <strong>фоновые запросы</strong>.</p><p><i>HTTP Switchboard</i> позволяет контролировать доступ к этой информации: эти запросы могут быть обработаны, чтобы разрешить/запретить их в соответствии с настройками белого/черного списков.</p><p>Кликните на иконку расширения, для начала работы. Обязательно прочтите: <a href='https://github.com/gorhill/httpswitchboard/wiki/Behind-the-scene-requests'>Фоновые запросы</a>.</p><div class='warn'><p><span style='color:red; font-weight:bold'>Внимание!</span> Запрещение <strong>фоновых запросов</strong> может вызвать <a href='https://github.com/gorhill/httpswitchboard/issues/27'>проблему</a> когда пользовать хочет установить расширение из Chrome store (включая проблемы с обновлением расширений), возможно отключить эту функцию здесь. Блокирование этих запросов может вызывать разные проблемы с работой расширений.</p> <p>Даже если эта функция не включена, то <strong>фоновые запросы</strong> логируются в <i>HTTP Switchboard</i>. Вы можете посмотреть эти запросы на (на странице <a href='dashboard.html#statistics'>Статистики</a>).</p>",
         "description": "..."
     },
     "privacyDoneButton" : {
