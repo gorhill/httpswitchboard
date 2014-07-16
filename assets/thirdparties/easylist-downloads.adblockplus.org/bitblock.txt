@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: CmcTKrEHORZ0kV6PgttSyw
-! Version: 201407112230
-! Last modified: 11 Jul 2014 22:30 UTC
+! Checksum: kfJFCtLNi6sTZZZEuazLFQ
+! Version: 201407162210
+! Last modified: 16 Jul 2014 22:10 UTC
 ! Expires: 5 days (подписка обновляется автоматически каждые 5 дней)
 ! Homepage: http://ruadlist.googlecode.com/
 !
@@ -306,9 +306,11 @@ _vkontakte.png
 /facebook-share.
 /facebook-small.
 /facebook-space.
+/facebook-top.
 /facebook-v2.
 /facebook-vertical.
 /facebook.gif|$domain=~facebook.com
+/facebook.svg
 /facebook1.png|$domain=~facebook.com
 /facebook16x16.
 /facebook2.png|$domain=~facebook.com
@@ -980,6 +982,7 @@ _vkontakte.png
 /PinterestIcon.
 /pintrest-button.
 /pintrest-icon.
+/pintrest.
 /pintrest_
 /pix/Share-
 /plugins/2-click-socialmedia-buttons/*$~stylesheet
@@ -1354,6 +1357,7 @@ _vkontakte.png
 /social_print.
 /social_reddit_
 /social_small/*
+/social_sprite-
 /social_sprite.
 /social_sprite_
 /social_strip.
@@ -1438,6 +1442,7 @@ _vkontakte.png
 /sprites-social-
 /sprites-social.
 /sprites-social2.
+/sprites/follow-
 /sprites/share-
 /sprites/social-
 /sprites_social.
@@ -1639,6 +1644,7 @@ _vkontakte.png
 /uploads/*pinterest.jpg
 /uploads/*rss.png
 /uploads/*twitter.png
+/uploads/facebook-
 /uploads/facebook.
 /uploads/twitter-
 /uploads/youtube2.
@@ -1655,7 +1661,7 @@ _vkontakte.png
 /widgets/twitter/*
 /wordpress-popup/*$domain=ahchealthenews.com
 /wp-content/*/google.png
-/wp-content/*/social_
+/wp-content/*/social_$~stylesheet
 /wp-content/*facebook.png
 /wp-content/*Google+.png
 /wp-content/*googleplus.gif
@@ -2257,6 +2263,7 @@ _youtube_small.
 ###footer-twttr
 ###footer-youtube
 ###footerFacebookLike
+###footerShare
 ###footerSocialBox
 ###footerSocialButtons
 ###footerSocialIcons
@@ -2293,6 +2300,7 @@ _youtube_small.
 ###h-social
 ###hdrSocialPromo
 ###hdr_social_row
+###header-bebo
 ###header-follow
 ###header-share
 ###header-social
@@ -3104,6 +3112,7 @@ _youtube_small.
 ###top-social-links
 ###top-social-share-buttons-container
 ###topSocial
+###top_nav_share_tools
 ###top_share
 ###top_share_widget
 ###top_social_networks_container
@@ -3244,6 +3253,7 @@ _youtube_small.
 ##.ShareTools
 ##.Share_Buttons
 ##.SidebarSocialLinks
+##.Sidebar_followus
 ##.SingleArticleSocialContainer
 ##.SocialAccordion
 ##.SocialArticleHeader
@@ -3565,6 +3575,10 @@ _youtube_small.
 ##.drop_facebook
 ##.dv-social-media
 ##.dzone-social-buttons
+##.e-pinterest-link
+##.e-shares_count
+##.e-social_links
+##.e-subpost_share
 ##.easylikeandshare
 ##.element-share
 ##.element-share-ftr
@@ -3882,6 +3896,7 @@ _youtube_small.
 ##.follow_us_heading
 ##.followandshare
 ##.followbox
+##.followscreen
 ##.followus
 ##.fondo_social
 ##.foot_Facebook
@@ -4025,6 +4040,7 @@ _youtube_small.
 ##.header-socials
 ##.header-twitter
 ##.headerCookie
+##.headerFacebook
 ##.headerGPlusIcon
 ##.headerSocialLinks
 ##.header_fb_icon
@@ -4122,6 +4138,7 @@ _youtube_small.
 ##.icon-circle-facebook
 ##.icon-circle-twitter
 ##.icon-circle-youtube
+##.icon-delicious
 ##.icon-digg
 ##.icon-facebook
 ##.icon-facebook-circle
@@ -4132,6 +4149,7 @@ _youtube_small.
 ##.icon-fark
 ##.icon-fb
 ##.icon-fb-footer
+##.icon-fb-small
 ##.icon-flickr
 ##.icon-google
 ##.icon-google-plus
@@ -4184,6 +4202,7 @@ _youtube_small.
 ##.icon-twitter-encircled
 ##.icon-twitter-sharing
 ##.icon-twitter-sign
+##.icon-twitter-small
 ##.icon-youtube
 ##.icon-youtube-sign
 ##.iconFacebook
@@ -4246,6 +4265,7 @@ _youtube_small.
 ##.ione-widget-facebook-activity
 ##.ishare
 ##.isocial
+##.it-social-tabs
 ##.item-share-tools
 ##.itemSocialLink
 ##.itemSocialLinks
@@ -5198,6 +5218,7 @@ _youtube_small.
 ##.socialLinkBar
 ##.socialLinks
 ##.socialLinks-alt
+##.socialLinksContainer
 ##.socialLinksNew
 ##.socialList
 ##.socialLogo
@@ -5259,6 +5280,7 @@ _youtube_small.
 ##.social_btn_single
 ##.social_btns
 ##.social_button
+##.social_buttons_bar
 ##.social_buttons_new
 ##.social_buttons_top
 ##.social_butts
@@ -5498,6 +5520,9 @@ _youtube_small.
 ##.text-m-join-us-on-facebook
 ##.text_list_inline
 ##.th-sharecounts
+##.theme-icon-facebook
+##.theme-icon-pinterest
+##.theme-icon-twitter
 ##.ticker-tweet
 ##.tipsy-social-icon-container
 ##.titleSocial
@@ -6140,6 +6165,7 @@ _youtube_small.
 ||fanconverter.wetpaint.me^$third-party
 ||filamentapp-assets.s3.amazonaws.com^$third-party
 ||flickr.com/badge_code_$third-party
+||followistic.com^$third-party
 ||getpocket.com/button?$third-party
 ||google.com/_/+1/$third-party
 ||google.com^*/fastbutton?$third-party
@@ -6379,6 +6405,7 @@ salon24.pl##.fsocBody
 !
 !---------- Dutch Site Specific Hiding Rules ----------
 !
+@@||pollland.nl^*/share/js/jquery
 @@||s7.addthis.com^*/addthis_widget.js$domain=carsom.nl|ticketmaster.nl
 @@||static.autojunk.nl/javascript/SocialMedia.js
 nu.nl#@#.socialshare
@@ -6567,6 +6594,7 @@ google.com##.entry-actions > .broadcast-with-note
 google.com##.entry-actions > .email
 google.com##.entry-actions > .like
 google.com##.entry-author > .entry-likers
+macradar.ru##.essb_links
 navitel.su##.extra_append:last-child
 evtifeev.com##.fones
 mobiledevice.ru##.icons_bar_placeholder
@@ -7172,6 +7200,7 @@ _social_rss.
 ###flyout_outer_wrapper
 ###foCookieNotice
 ###follow-rss
+###followistic-root
 ###footer_rss_image
 ###formNewsLetters
 ###formNewsLetters-block
@@ -7303,6 +7332,7 @@ _social_rss.
 ###rss_widget
 ###rsslisting
 ###savicom_signup
+###scroll-top-link
 ###sdac_feedburner_widget-3
 ###sendtofriend
 ###share-newsletter
@@ -7425,6 +7455,7 @@ _social_rss.
 ##.cookieBanner
 ##.cookieBar
 ##.cookieBox
+##.cookieDisclaimer
 ##.cookieLaw
 ##.cookieNotice
 ##.cookieOptIn
@@ -8558,7 +8589,7 @@ mail.ru##a[id^="internet-offer"]
 ! = Исключения ================================================================
 ! *** easylist:fanboy-addon/fanboy_annoyance_whitelist_general_hide.txt ***
 libcom.org#@##main-share
-cookiechecker.nl#@##mc_embed_signup
+cookiechecker.nl,monkeegenes.co.uk#@##mc_embed_signup
 ~zippyshare.com###share_button
 ~facebook.com###share_feed
 mediafire.com,microcosmgames.com#@##sharebox

@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: 468fREmW+Ba6I1w8Nl4hmg
-! Version: 201407112121
+! Checksum: XECOuRdTOKA862T9QUxXKg
+! Version: 201407162211
 ! Title: EasyList Germany
 ! EasyList Germany - Deutsche Ergänzung zu EasyList
-! Last modified: 11 Jul 2014 21:20 UTC
+! Last modified: 16 Jul 2014 22:11 UTC
 ! Expires: 1 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -4350,7 +4350,6 @@ orf.at###monsterdiv
 berlin-nutten.com,deutsche-erotikfilme.com###more-sex
 radio-teddy.de###mpl
 gamigo.de###mrbox
-androidnext.de###mrec_sidebar
 visions.de###mrect
 morgenpost.de###mrect01
 morgenpost.de###mrect02
@@ -4531,6 +4530,7 @@ laola1.at###presenting_horizontal_container
 laola1.at###presenting_left
 laola1.at###presenting_right
 schoener-fernsehen.com###previewtxt + div[id][style="display: block;"]
+androidnext.de###productliste
 okitalk.com###promo_foot
 okitalk.com###promo_left
 okitalk.com###promo_page
