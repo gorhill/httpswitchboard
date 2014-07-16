@@ -449,7 +449,7 @@ var onBeforeSendHeadersHandler = function(details) {
     // If the request was not cancelled above, check whether hyperlink auditing
     // is globally forbidden.
     if ( !r ) {
-        if ( linkAuditor && httpsb.foilHyperlinkAuditing ) {
+        if ( linkAuditor && httpsb.userSettings.processHyperlinkAuditing ) {
             r = { 'cancel': true };
         }
     }
