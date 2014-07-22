@@ -55,6 +55,12 @@ scdn.gr/images/helmet/promo_material/*
 ||thepressproject.gr/ad/*
 ||dealin.gr/iframes/5/*
 ||sport24.gr/genika/article1951216.ece/BINARY/original/mc_tab.png
+||cheapis.gr/widget/*
+||widgets.nova.gr/nownext_compact/el/*
+||airfasttickets.gr/affiliate/*
+||newsbeast.gr/files/1/top100europe/airfasttickets.png
+||megatv.com/webtv/newsbeast.asp?*
+||insurer.gr/widgets/calc/insuCalc.html?*
 ant1online.gr/SiteCollectionImages/SiteImages/betonet.gif
 zougla.gr/news/data/upimages/image.php?image=ororotot9018231.jpg
 cosmopolitan.gr/images/vod_logo_100x70.jpg
@@ -518,6 +524,7 @@ ad.gr.doubleclick.net
 ||contra.gr/*/BINARY/original/bc_background_alt.jpg
 ||contra.gr/*/BINARY/original/adidas*.js
 ||koutipandoras.gr/sites/default/files/*banner*.swf
+||enikos.gr/data/photos/e28a0cdc2d54f49d2a697d9fe83066d7.gif
 !Element-Hiding Rules
 antenna.gr###afdiv
 sportdog.gr###block-views-promoted_companies-block_1
@@ -852,6 +859,8 @@ thepressproject.gr###kalogritsas300
 news247.gr###link-deliveras
 contra.gr##A[href="http://goo.gl/3vrB4h"]
 koutipandoras.gr##.banner
+popaganda.gr##.big-banner-top
+popaganda.gr##.banner
 ! Exception Rules
 @@sport-fm.gr/newspapers/$elemhide
 @@resources.sport-fm.gr/sportfm/newspapers/

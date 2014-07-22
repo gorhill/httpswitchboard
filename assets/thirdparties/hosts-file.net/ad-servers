@@ -15753,7 +15753,6 @@
 127.0.0.1	router01.ixn.local.vmsn.de
 127.0.0.1	router02.ixn.local.vmsn.de
 127.0.0.1	router03.ixn.local.vmsn.de
-127.0.0.1	rover.ebay.com
 127.0.0.1	rovio.appads.com
 127.0.0.1	rovio2.appads.com
 127.0.0.1	rovio3.appads.com
@@ -17439,6 +17438,7 @@
 127.0.0.1	tcr.tynt.com
 127.0.0.1	tcr111.tynt.com
 127.0.0.1	tcy.smartadserver.com
+127.0.0.1	td.demdex.net
 127.0.0.1	tdkads.ads.dk
 127.0.0.1	tdkads1.ads.dk
 127.0.0.1	tds.xlivevideo.ru
@@ -17658,7 +17658,6 @@
 127.0.0.1	tools.runetki.com
 127.0.0.1	tools2.hitbox.com
 127.0.0.1	toolsa.hitbox.com
-127.0.0.1	toolshack.com
 127.0.0.1	top-ro.ro
 127.0.0.1	top.addfreestats.com
 127.0.0.1	top.chebra.lt
@@ -21616,7 +21615,6 @@
 127.0.0.1	www.tojoh.info
 127.0.0.1	www.tonya-chabot.us
 127.0.0.1	www.toolbarcounter.com
-127.0.0.1	www.toolshack.com
 127.0.0.1	www.top-ro.ro
 127.0.0.1	www.top100search.com
 127.0.0.1	www.toplisthyip.com
@@ -22274,4 +22272,4 @@
 127.0.0.1	zxypenguin.people-group.su
 127.0.0.1	zz.cqcounter.com
 127.0.0.1	_thums.ero-advertising.com
-# Hosts: 22269
+# Hosts: 22267

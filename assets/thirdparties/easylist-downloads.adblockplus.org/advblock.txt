@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: VGnaw/YU9wvpt6NGECHqqA
-! Version: 201407190450
-! Last modified: 19 Jul 2014 04:50 UTC
+! Checksum: 4ND53TUn94kav4BvtH3uHw
+! Version: 201407221810
+! Last modified: 22 Jul 2014 18:10 UTC
 ! Homepage: http://ruadlist.googlecode.com/
 !
 ! Дополнительная региональная подписка RU AdList к подписке EasyList
@@ -1347,6 +1347,7 @@ _tizers.
 ||radeant.com^$third-party
 ||radikal.ru/bh.ashx?
 ||radio-tech.ru/pic/pages/
+||rambler.ru/xpromo_
 ||raptop.ru/images/img*.gif
 ||rarenok.biz^
 ||rate.7surf.ru/img.php?
@@ -3027,7 +3028,7 @@ game-10.ru##a[href^="http://game-10.ru/i.php?url=http://www.adcash.com/"]
 cwer.ws##a[href^="http://orbitum."][rel="nofollow"]
 futurevideo.su##a[href^="http://www.futurevideo.su/rtr/"]
 porno-monster.ru##a[href^="http://www.mirorgazma.ru/?partner="]
-tapochek.net##a[href^="https://joycasino.com/?partner="]
+riper.am,tapochek.net##a[href^="https://joycasino.com/?partner="]
 goodgame.ru##a[id^="banner-"]
 chesalka.com##a[rel="nofollow"] > img[src^="/"]
 allesuper.ru##a[target="_blank"][href^="/go?"] > img[src^="/uploads/"]
@@ -3266,7 +3267,6 @@ crazys.info,ucrazy.ru###online_games
 hl-inside.ru###orphus
 wikireality.ru###p-sidebar-extlinks
 nnm.me###page > div[style*="height: 300px;"]
-free-torrents.org###page_header + center
 rf-cheats.ru###pagenav_menu + center ~ center
 ekabu.ru###paradslider
 i-pic.ru,joomlatown.net,klanwin.ru###parent_popup
@@ -4292,6 +4292,7 @@ rutracker.org###bn-tio-1
 rutracker.org###crn-1
 novosti.dn.ua###infobar_2
 seonews.ru###main_tags_block + div[style^="width: 200px;"]
+free-torrents.org###page_header + center
 pirat.ca###sidebar2
 rebill.me###space
 meteonovosti.ru###top_ban
@@ -4314,7 +4315,6 @@ i.ua##.clear.logo_container
 goldroyal.net##.floating
 inosmi.ru##.floatright.rightbox br
 tvnet.lv##.fp_horiz_ads_150x150
-free-torrents.org##.hlow ~ br
 101.ru##.ind-adv-carousel
 comss.ru##.links ~ .box
 3mv.ru##.logo
@@ -4326,7 +4326,6 @@ delfi.lv##.top-banner
 foto.ua##.top-banner-container
 adultmanga.ru,doramatv.ru,findanime.ru,grouple.ru,readmanga.me,selfmanga.ru##.top_ba
 mmorpg.ua##.top_banner
-free-torrents.org##.topmenu ~ br
 comss.info,comss.ru##.toppage
 factroom.ru##.widget-area div[class*="-banner"]
 rusdtp.ru##.ya-direct
@@ -5476,19 +5475,10 @@ mail.ru##.shMenu2 > span > a[target="_blank"][href^="http://r.mail.ru/"]
 ||mradx.net/img/$object,subdocument
 ||tv.mail.ru/popup_banner/
 ! Одноклассники
-odnoklassniki.ru###bannerLoaderId
-odnoklassniki.ru###hook_Block_ForthColumnTopBanner
-odnoklassniki.ru###hook_Block_LeftColumnAdCustom
-odnoklassniki.ru###hook_Block_StickyBannerContainer
-odnoklassniki.ru###hook_SideBottomBaner_SideBottomBaner
-odnoklassniki.ru###hook_ViewportHeightAwareBanner_ViewportHeightAwareBannerInner
-odnoklassniki.ru##.sideadv
-odnoklassniki.ru##.topadv
-odnoklassniki.ru##div[id$="Adv"]
-||odnoklassniki.ru/res/*/promo/*/
-! Скрытие на сайте самих одноклассников предложения обновить браузер
+odnoklassniki.ru,ok.ru###hook_Block_ForthColumnTopBanner
+odnoklassniki.ru,ok.ru###hook_Block_StickyBannerContainer
 ! Очень однобокая реклама Хрома + очень часто просят удалить
-odnoklassniki.ru##.update-browser_container
+odnoklassniki.ru,ok.ru##.update-browser_container
 ! Блокировка ресурсов за пределами mail.ru
 //rs.mail.ru/b$third-party,domain=~km.ru
 ||banners.mail.ru^$third-party
@@ -5496,8 +5486,8 @@ odnoklassniki.ru##.update-browser_container
 ||torg.mail.ru/prtnr/$third-party
 ! Исключения
 ! Потенциальное решение проблемы с играми в Одноклассниках
-@@||mail.ru/adi/2174?$domain=odnoklassniki.ru
-@@||mail.ru/adi/2247?$domain=odnoklassniki.ru
+@@||mail.ru/adi/2174?$domain=odnoklassniki.ru|ok.ru
+@@||mail.ru/adi/2247?$domain=odnoklassniki.ru|ok.ru
 !
 ! ru.MSN.com
 ru.msn.com###bdp_ad_bgr
@@ -5908,6 +5898,7 @@ izvestia.ru##div[style*="/popup-banner/"]
 @@||pgpru.com^$elemhide
 @@||pgpru.com^*/files?get=$domain=pgpru.com
 @@||photodoska.ru/content/dynamic/ads/$domain=photodoska.ru
+@@||plan.ru/adserver/adframe.php?$subdocument,domain=plan.ru
 @@||plektan.com/ad/$image
 @@||porsche.com^*/teaser.js$domain=porsche.com
 @@||praca.by/files/adv/index-logos/$domain=praca.by
