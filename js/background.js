@@ -79,7 +79,7 @@ return {
 
     clearBrowserCacheCycle: 0,
     updateAssetsEvery: 5 * 24 * 60 * 60 * 1000,
-    projectServerRoot: 'https://raw2.github.com/gorhill/httpswitchboard/master/',
+    projectServerRoot: 'https://raw.githubusercontent.com/gorhill/httpswitchboard/master/',
 
     // list of remote blacklist locations
     remoteBlacklists: {
