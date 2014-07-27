@@ -276,7 +276,7 @@
         "description": ""
     },
     "settingsStrictBlockingInfo": {
-        "message": "Introduit dans la <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log-0.0-to-0.5#036\">version 0.3.6</a>, le <strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Blocage strict</a></strong> signifie que même si vous allouez un nom d'hôte spécifique, une requête restera bloquée si le type d'objet en question (plugins, iframes, etc) est lui-même bloqué; en d'autres termes, le blocage d'éléments de colonnes prime sur l'autorisation d'éléments de lignes. Le choix vous est proposé de l'activer ou non, car cela peut se montrer trop restrictif aux yeux de certains utilisateurs. Si l'option est activée, la requête est autorisée à condition que les nom d'hôte ET le type de requête soient autorisés. Si l'option n'est pas cochée, le nom d'hôte alloué suffit à autoriser la requête.",
+        "message": "Introduit dans la <a href=\"https://github.com/gorhill/httpswitchboard/wiki/Change-log-0.0-to-0.5#036\">version 0.3.6</a>, le <strong><a href=\"https://github.com/gorhill/httpswitchboard/wiki/%22Strict-blocking%22-illustrated\">Blocage strict</a></strong> signifie que même si vous allouez un nom d'hôte spécifique, une requête restera bloquée si le type d'objet en question (plugins, iframes, etc) est lui-même bloqué; en d'autres termes, le blocage d'éléments de colonnes prime sur l'autorisation d'éléments de lignes. Le choix vous est proposé de l'activer ou non, car cela peut se montrer trop restrictif aux yeux de certains utilisateurs. Si l'option est activée, la requête est autorisée à condition que le nom d'hôte ET le type de requête soient autorisés. Si l'option n'est pas cochée, le nom d'hôte alloué suffit à autoriser la requête.",
         "description": "To help user understand the purpose of strict blocking"
     },
     "settingsAutoCreateScopePrompt1": {
@@ -488,7 +488,7 @@
         "description": "English: {{abpHideFilterCount}} element hiding filters used."
     },
     "ubiquitousParseAllABPHideFiltersInfo" : {
-        "message": "<p>Cette option permet de prendre en charge les filtres AdblockPlus de type <a href=\"https://adblockplus.org/en/faq_internal#elemhide\">&ldquo;element hiding&rdquo;</a>. Ces filtres ont principalement un impact visuel, servant à dissimuler des éléments nuisibles d'une page Web et qui ne sont blocables ni par le moteur de filtrage matriciel, ni par le moteur de filtrage type Adblock Plus.</p><p>L'activation de cette fonctionnalité augmente l'empreinte mémoire de <i>HTTP Switchboard</i></p>",
+        "message": "<p>Cette option permet de prendre en charge les filtres AdblockPlus de type <a href=\"https://adblockplus.org/en/faq_internal#elemhide\">&ldquo;element hiding&rdquo;</a>. Ces filtres ont principalement un impact visuel, servant à dissimuler des éléments nuisibles d'une page Web et qui ne sont bloquables ni par le moteur de filtrage matriciel, ni par le moteur de filtrage type Adblock Plus.</p><p>L'activation de cette fonctionnalité augmente l'empreinte mémoire de <i>HTTP Switchboard</i></p>",
         "description": "English: see English messages.json"
     },
     "ubiquitousListsOfBlockedHostsHeader" : {
