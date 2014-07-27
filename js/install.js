@@ -31,7 +31,7 @@ var onInstalledHandler = function(details) {
     if ( details.reason !== 'install' ) {
         return;
     }
-    HTTPSB.utils.gotoExtensionURL('setup.html');
+    // HTTPSB.utils.gotoExtensionURL('setup.html');
 };
 
 chrome.runtime.onInstalled.addListener(onInstalledHandler);

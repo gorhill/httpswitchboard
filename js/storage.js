@@ -103,9 +103,7 @@ HTTPSB.loadScopedRules = function() {
             }
         } else {
             // Sensible defaults
-            httpsb.whitelistTemporarily('*', 'stylesheet', '*');
-            httpsb.whitelistTemporarily('*', 'image', '*');
-            httpsb.blacklistTemporarily('*', 'sub_frame', '*');
+            httpsb.whitelistTemporarily('*', '*', '*');
             httpsb.createTemporaryScopeFromScopeKey(httpsb.behindTheSceneScopeKey);
             httpsb.whitelistTemporarily(httpsb.behindTheSceneScopeKey, '*', '*');
             httpsb.toggleTemporaryMtxFiltering(httpsb.behindTheSceneScopeKey, false);
