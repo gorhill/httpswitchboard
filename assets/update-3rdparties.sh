@@ -39,7 +39,7 @@ THIRDPARTY_REMOTEURLS=(
     'https://raw.githubusercontent.com/tomasko126/easylistczechandslovak/master/filters.txt'
     'https://raw.githubusercontent.com/adblockpolska/Adblock_PL_List/master/adblock_polska.txt'
     'https://raw.githubusercontent.com/AdBlockPlusIsrael/EasyListHebrew/master/EasyListHebrew.txt'
-    'http://download.wiltteri.net/wiltteri.txt'
+    'https://raw.githubusercontent.com/wiltteri/wiltteri.txt/master/wiltteri.txt'
     'http://adblock.gardar.net/is.abp.txt'
     'http://www.void.gr/kargig/void-gr-filters.txt'
     'http://abp.mozilla-hispano.org/nauscopio/filtros.txt'

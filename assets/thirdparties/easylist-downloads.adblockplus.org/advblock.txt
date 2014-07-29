@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: VroU4U5p2dhav7MwDlY+Bg
-! Version: 201407241650
-! Last modified: 24 Jul 2014 16:50 UTC
+! Checksum: aP9R/Ciym/4L7AmqYnICEA
+! Version: 201407291810
+! Last modified: 29 Jul 2014 18:10 UTC
 ! Homepage: http://ruadlist.googlecode.com/
 !
 ! Дополнительная региональная подписка RU AdList к подписке EasyList
@@ -2623,6 +2623,7 @@ _tizers.
 ||terapou.com^
 ||teromil.com^
 ||textun.ru^$third-party
+||tgearheads.com^
 ||thegrap.ru^
 ||thumpac.com^
 ||ticlon.ru^
@@ -2887,7 +2888,7 @@ _vodkov.net
 !
 ! TeaserNET.com
 !#teasernet.generic
-||com/s/$script,subdocument,domain=24warez.ru|artero.ru|babestar.ru|bestcamsxxx.com|bestrepack.net|bookitut.ru|demotivators.to|drochunov.net|eroox.ru|exoticvideo.net|freebie.net.ua|huyandex.com|i-pic.ru|iarex.ru|kino-zal.kz|kinohost.nov.ru|kinoonlain.org|kritka.net|leporno.org|leporno.ws|mnogohlama.ru|ontracker.ru|palevo.com|pic4you.ru|pic5you.ru|porno-gid.info|porno-torrent.biz|porno-torrents.ru|pornoboss.tv|pornoero.com|pornomage.net|pornovizion.com|prisnilos.su|privsex.ru|promotevid.ru|raketa-tv.com|rosporn.com|ru-admin.net|suero.tv|uptube.su|uvideos.ru|vodkov.net|vodvore.net|vserisunki.ru|vzale.tv|x-zona.org|xxlbunny.com|xyu.tv
+||com/s/$script,subdocument,domain=24warez.ru|artero.ru|babestar.ru|bestcamsxxx.com|bestrepack.net|bookitut.ru|demotivators.to|drochunov.net|eroox.ru|exoticvideo.net|freebie.net.ua|huyandex.com|i-pic.ru|iarex.ru|kino-zal.kz|kinohost.nov.ru|kinoonlain.org|kritka.net|leporno.org|leporno.ws|mnogohlama.ru|ontracker.ru|palevo.com|pic4you.ru|pic5you.ru|porno-gid.info|porno-torrent.biz|porno-torrents.ru|pornoboss.tv|pornoero.com|pornomage.net|pornovizion.com|prisnilos.su|privsex.ru|promotevid.ru|raketa-tv.com|rosporn.com|ru-admin.net|suero.tv|uptube.su|uvideos.ru|v-chulkahh.ru|vodkov.net|vodvore.net|vserisunki.ru|vzale.tv|x-zona.org|xxlbunny.com|xyu.tv
 !#teasernet.other
 ||a.suero.tv^
 ||a.xyu.tv^
@@ -4307,7 +4308,10 @@ forbes.ua##.adver_top
 9111.ru##.advzone
 europaplus.ru##.adwolf-holder
 brb.to,cxz.to,fs.to##.b-adsuniversal-wrap
+siliconrus.com##.b-adv
+siliconrus.com##.b-adv-micro
 redtram.com##.b-informers
+siliconrus.com##.b-top-adv
 news.pn##.banner
 online.ua##.banner-top
 mmorpg.ua##.banner_left_col
@@ -4319,6 +4323,7 @@ i.ua##.clear.logo_container
 goldroyal.net##.floating
 inosmi.ru##.floatright.rightbox br
 tvnet.lv##.fp_horiz_ads_150x150
+softobase.com##.gc-question-ads-2
 popmech.ru##.grid-cell[class*="article-banner-"]
 popmech.ru##.grid-cell__4.grid-cell__no-hover
 popmech.ru##.grid-cell__tgb
@@ -4329,6 +4334,7 @@ comss.ru##.links ~ .box
 forum.soft4dle.com##.navbar > br
 rentv-smolensk.ru##.promo
 medikforum.ru##.r_banner
+softobase.com##.rkl-horizontal
 delfi.lv##.top-banner
 foto.ua##.top-banner-container
 adultmanga.ru,doramatv.ru,findanime.ru,grouple.ru,readmanga.me,selfmanga.ru##.top_ba
@@ -4349,6 +4355,7 @@ multik-online.net##div[style*=".am15."]
 brb.to,cxz.to,fs.to##div[style*="min-height: 274px;"]
 forum.watch.ru##div[style="display:block; width:100%; min-width:800px; height:100px; overflow:hidden;"]
 tfilm.tv##div[style="height: 300px;"]
+softobase.com##div[style="width:336px; height:280px;"]
 pise4ka.com##iframe[src="/site/in"]
 auto.e1.ru##noindex > .au-content-section
 comss.ru##td[style="width:180px"]
@@ -5288,6 +5295,7 @@ _advideo/$object-subrequest,domain=megogo.net
 ||upweek.ru/wp-content/banners/
 ||uzum.tv/120/
 ||uzumaki.kz/go?$script
+||v-chulkahh.ru/js/06ea7c.js
 ||v-info.ru/i_bann/
 ||v-info.ru^*.swf?data=
 ||vashgorod.ru/images/banner/

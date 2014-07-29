@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: OZngG6zM11qPN18ZzN55ug
-! Version: 201407241651
+! Checksum: J1Pj0wLtxVeChHMxRIHKug
+! Version: 201407291811
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 24 Jul 2014 16:51 UTC
+! Ultima modifica: 29 Jul 2014 18:11 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -203,6 +203,7 @@ beppegrillo.it,lafucina.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||adultsadv.com^$third-party
 ||adv-italiana.net^$third-party
 ||adventertainment.it^$third-party
+||advhits.com^$third-party
 ||advit.it^$third-party
 ||advplace.com^$third-party
 ||adwebster.com^$third-party
@@ -475,6 +476,7 @@ beppegrillo.it,lafucina.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||viagogo.it/feeds/widget.ashx?*&affiliateid=$subdocument
 ||virginpoker.it/pub/
 ||webalice.it/blackberry_09/trovadeal/
+||webalice.it/ivo.gervasoni/$third-party
 ||wecoclub.it^*_banner_
 ||widget.promoqui.it^
 ||ws.shoppydoo.com^$third-party
@@ -504,6 +506,7 @@ beppegrillo.it,lafucina.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ! *** easylistitaly:easylistitaly/easylistitaly_specific_block.txt ***
 ||0781.info^*/banners/
 ||312.it/img/banner/
+||607080.it^*/banners/
 ||7per24.it^*/banner-
 ||892000.it/img/bannerino_
 ||abruzzoweb.it/cache/banners/
@@ -2154,6 +2157,7 @@ ipadevice.com,ispazio.net##.banner_right_sidebar_small
 orgoglionerd.it##.banner_rotation
 ilgiornaleditalia.org##.banner_slide_300x250_slide
 rsvn.it##.banner_spalla
+romanews.eu##.banner_top
 ipoditalia.it##.banner_topright
 galileonet.it##.banner_vert
 techarena.it##.bannercentro
@@ -2208,6 +2212,7 @@ giornaledibrescia.it##.dealboxTop
 immobiliare.it##.det_pub_box_content
 nokioteca.net##.dex_box
 supermoney.eu##.dfp-leaderbord
+blastingnews.com##.dfp-mobile-leadeboard
 ansa.it##.diretta-sponsor
 lavoratorio.it##.divBoxbanner300x250
 gossipetv.com##.ebuzzing_box
@@ -2224,6 +2229,7 @@ netweek.it##.flexslider-header
 cazzofiga.com##.footer-banner-wrapper
 gazzettadasti.it##.footer-rotate-banner
 chievocalcio.tv##.footer-sponsor-container
+socialchannel.it##.footer2-wrapper
 violachannel.tv##.footer_home
 liberatv.ch##.front_orrizzontale
 quattroruote.it##.fullBanner
@@ -2256,6 +2262,7 @@ corrieredellosport.it##.label_sponsor_sp
 alessandrianews.it##.leader-board-225x90
 alessandrianews.it##.leader-board-728x90
 close-up.it,foxtv.it,guidasicilia.it,la7.it,radiospeaker.it,today.it##.leaderboard
+blastingnews.com##.leaderboard-article
 erbanotizie.com,lecconotizie.com##.leaderboard-bottom
 ilsole24ore.com##.link_expand
 mymovies.it##.linkblu[style="width:290px; cursor:pointer; margin-top:5px;"]
@@ -2601,13 +2608,20 @@ elaborare.info##img[style="height: 960px;\a             margin-left: -165px;\a  
 elaborare.info##img[style="height: 960px;\a             margin-left: 970px;\a             margin-top: 0px;\a             position: fixed;\a             top: 0;\a             width: 145px;"]
 rietilife.it##img[style="width: 205px; height: 82px;"]
 frosinoneweb.net##img[style="width: 930px; height: 115px;"]
+ilsalvagente.it##img[width="120"][height="60"]
 melamorsicata.it##img[width="160"][height="300"]
+romanews.eu##img[width="180"][height="240"]
+romanews.eu##img[width="180"][height="280"]
 hbritalia.it##img[width="180"][height="90"]
+romanews.eu##img[width="250"][height="90"]
 automobili.it##img[width="256"][height="170"]
 parmaquotidiano.info##img[width="290"][height="90"]
+romanews.eu##img[width="300"][height="150"]
 radiolombardia.it,siciliainrosa.it##img[width="300"][height="250"]
+romanews.eu##img[width="300"][height="300"]
 mmorpgitalia.it##img[width="500"][height="122"]
 tuttoshoppingmotori.com##img[width="610px;"]
+romanews.eu##img[width="630"][height="80"]
 hbritalia.it##img[width="728"][height="90"]
 corrieredelgiorno.com##ins[style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent"]
 algheroeco.com##object[width="960"][height="30"]
@@ -2641,8 +2655,8 @@ termometropolitico.it##[id^="bsa"]
 @@||151.1.68.170/index.php?zoneid=$object-subrequest,domain=la7.it
 @@||ad.smartclip.net/crossdomain.xml$object-subrequest,domain=serviziopubblico.it
 @@||ad.smartclip.net/delivery/tag?$object-subrequest,domain=serviziopubblico.it
-@@||ad2.neodatagroup.com/uploads/js/sid49jq.js$domain=rai.it|rai.tv
-@@||ad49.neodatagroup.com/ad/sipra.jsp?*&player=html5$script,domain=rai.it|rai.tv
+@@||ad2.neodatagroup.com/uploads/js/sid49jq.js$domain=rai.it|rai.tv|rainews.it
+@@||ad49.neodatagroup.com/ad/sipra.jsp?$script,domain=rai.it|rai.tv|rainews.it
 @@||adimg.matrixspa.it/cookie_script/read_crt.html$domain=webmail.virgilio.it
 @@||adimg.matrixspa.it/jsc/advManage.js$domain=webmail.virgilio.it
 @@||adnkronos.com/ign/mediacenter/fotogallery/data_01/img/ad_
@@ -2692,7 +2706,7 @@ termometropolitico.it##[id^="bsa"]
 @@||ilfattoquotidiano.it/wp-content/themes/ilfatto/thumb/*_pubblicita_*.jpg
 @@||impit.tradedoubler.com/imp?$subdocument,domain=iphoneitalia.com
 @@||js.neodatagroup.com/uploads/js/rds.js$domain=rds.it
-@@||js49.adagionet.com/uploads/js/sipra.js$domain=rai.it|rai.tv
+@@||js49.adagionet.com/uploads/js/sipra.js$domain=rai.it|rai.tv|rainews.it
 @@||labs.ebuzzing.it/blogs/top/getrank?$image
 @@||labs.ebuzzing.it/shared/images/wikiothis/buttons/
 @@||laprovinciadibiella.it/upload/webpublic/facebook.jpg
@@ -2749,8 +2763,9 @@ termometropolitico.it##[id^="bsa"]
 @@||youreporter.it/adv/ova-matrix-yrn.xml.php?$object-subrequest,domain=youreporternews.it
 @@||youreporter.it/adv/ova-matrix.xml.php?$object-subrequest
 ! Anti-Adblock
-@@.png#$domain=italiatv.org
+@@.png#$domain=codeclan.altervista.org|italiatv.org
 @@||blogspot.com^*#$image,domain=dataok.altervista.org
+@@||codeclan.altervista.org^$elemhide
 @@||dataok.altervista.org^$elemhide
 @@||italiatv.org^$elemhide
 @@||tvgratis.altervista.org^$elemhide
