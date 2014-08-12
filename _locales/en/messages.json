@@ -418,7 +418,7 @@
         "description": "..."
     },
     "privacyProcessHyperlinkAuditingHelp" : {
-        "message": "<p>Hyperlink auditing is a mechanism which allow a party, <b>any party</b>, to be informed about which link a user clicked on a particular web page. It is essentially a tracking feature: it allows a web site, or any third-party to that web site, to be informed about which link you clicked on which one of its web pages. The sole purpose is to track your browsing activity.</p>",
+        "message": "<p>Hyperlink auditing is a mechanism which allows a party, <b>any party</b>, to be informed about which link a user clicked on a particular web page. It is essentially a tracking feature: it allows a web site, or any third-party to that web site, to be informed about which link you clicked on which one of its web pages. The sole purpose is to track your browsing activity.</p>",
         "description": "..."
     },
     "privacySpoofUserAgentPrompt1" : {
