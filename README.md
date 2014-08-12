@@ -10,6 +10,8 @@ as per domain name. As of May 2014, the extension comes with preset blacklists
 totaling over 60,000 distinct hostnames out of the box (these lists can be
 disabled, or more can be enabled).
 
+A overview made by a fan: <https://www.youtube.com/watch?v=S5kIO4hbkzE> (Thanks!)
+
 ## Installation
 
 Available from [Chrome web store](https://chrome.google.com/webstore/detail/httpswitchboard/mghdpehejfekicfjcdbfofhcmnjhgaag), 
