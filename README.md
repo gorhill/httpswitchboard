@@ -1,6 +1,6 @@
 # HTTP Switchboard for Chromium
 
-**Important:** [The road ahead](https://github.com/gorhill/httpswitchboard/issues/378)
+**Important:** [The road ahead](https://github.com/gorhill/httpswitchboard/issues/378) <sub>(TL;DR: Stop using ABP filtering in HTTP Switchboard, and install µBlock to take care of pattern-based filtering. µBlock's pattern-based filtering engine benefits from a lots of enhancement/fixes since the code was taken out of HTTPSB, and these enhancements/fixes won't make it to HTTPSB).</sub>
 
 See [releases](https://github.com/gorhill/httpswitchboard/releases) for latest changes.
 
