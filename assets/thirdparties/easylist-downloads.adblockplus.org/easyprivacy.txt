@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: vwkr+bf56vlgvSp3FtsUlA
-! Version: 201408031621
+! Checksum: 0oUrt5gSwBvcX4Gh4+/yqw
+! Version: 201408130531
 ! Title: EasyPrivacy
-! Last modified: 03 Aug 2014 16:21 UTC
+! Last modified: 13 Aug 2014 05:31 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -229,6 +229,7 @@
 /AkamaiTrackingPixel.
 /alllinksclicktracker.js
 /alvenda_remarketing_
+/amazon-affiliate-
 /amdhfp/a.do?param$image
 /amdhfp/t.do?id$image
 /analiz.php3?
@@ -2032,6 +2033,7 @@
 /woopra.js
 /wp-click-track/*
 /wp-clickmap/*
+/wp-content/plugins/amazon-affiliate-link-localizer/*
 /wp-content/plugins/stats/count.php?
 /wp-counter.php
 /wp-js/analytics.js?
@@ -2164,6 +2166,7 @@ _imp_logging?
 _impressions.gif?
 _landingLog/
 _logimpressions.
+_metricsTagging.
 _nedstat.js
 _nielsen.js
 _NielsenNetRatings.
@@ -2211,6 +2214,7 @@ http://utm.
 ||149.13.65.144^$third-party
 ||195.10.245.55^$third-party
 ||1freecounter.com^$third-party
+||1pel.com^$third-party
 ||200summit.com^$third-party
 ||204st.us^$third-party
 ||206solutions.com^$third-party
@@ -2257,6 +2261,7 @@ http://utm.
 ||acestats.net^$third-party
 ||acetrk.com^$third-party
 ||acint.net^$third-party
+||active-trk7.com^$third-party
 ||activeconversion.com^$third-party
 ||activemeter.com^$third-party
 ||activeprospects.com^$third-party
@@ -2314,6 +2319,7 @@ http://utm.
 ||analytics-engine.net^$third-party
 ||analyticswizard.com^$third-party
 ||analytk.com^$third-party
+||anametrix.com^$third-party
 ||anametrix.net^$third-party
 ||anatid3.com^$third-party
 ||angelfishstats.com^$third-party
@@ -3152,6 +3158,7 @@ http://utm.
 ||opentracker.net^$third-party
 ||openvenue.com^$third-party
 ||openxtracker.com^$third-party
+||oproi.com^$third-party
 ||optify.net^$third-party
 ||optimix.asia^$third-party
 ||optimizely.com^$third-party
@@ -3365,7 +3372,6 @@ http://utm.
 ||seoparts.net^$third-party
 ||seoradar.ro^$third-party
 ||serious-partners.com^$third-party
-||servedbyopenx.com^$third-party
 ||servestats.com^$third-party
 ||servustats.com^$third-party
 ||sessioncam.com^$third-party
@@ -3376,6 +3382,7 @@ http://utm.
 ||shrinktheweb.com^$third-party
 ||siftscience.com^$third-party
 ||signup-way.com^$third-party
+||silverpop.com^$third-party
 ||simplehitcounter.com^$third-party
 ||simplereach.com^$third-party
 ||simpli.fi^$third-party
@@ -3573,7 +3580,6 @@ http://utm.
 ||tstlabs.co.uk^$third-party
 ||tsw0.com^$third-party
 ||tubetrafficcash.com^$third-party
-||turn.com^$third-party
 ||twcount.com^$third-party
 ||tylere.net^$third-party
 ||tynt.com^$third-party
@@ -3614,6 +3620,7 @@ http://utm.
 ||videostat.com^$third-party
 ||vinlens.com^$third-party
 ||viralninjas.com^$third-party
+||virool.com^$third-party
 ||virtualnet.co.uk^$third-party
 ||visibility-stats.com^$third-party
 ||visiblemeasures.com/log?$object-subrequest,third-party
@@ -4580,6 +4587,7 @@ http://utm.
 ||bazaarvoice.com^*/magpie.js
 ||bc.geocities.
 ||beacon.errorception.com^
+||beacon.guim.co.uk^
 ||beacon.heliumnetwork.com^
 ||beacon.indieclick.com^
 ||beacon.richrelevance.com^
@@ -4628,6 +4636,7 @@ http://utm.
 ||c.homestore.com^
 ||c.ypcdn.com^*&ptid
 ||c.ypcdn.com^*?ptid
+||c2s-openrtb.liverail.com^
 ||c3metrics.medifast1.com^
 ||cache2.delvenetworks.com^
 ||cadreon.s3.amazonaws.com^
@@ -5116,6 +5125,8 @@ http://utm.
 ||metrics.sonymusicd2c.com^
 ||metrics.wikinvest.com^
 ||metrixlablw.customers.luna.net^
+||metro-trending-*.amazonaws.com^$third-party
+||mezzobit.com/tag-log?$third-party
 ||mint.good.is^
 ||mitel.marketbright.com^
 ||mkcms.com/stats.js
@@ -6513,6 +6524,7 @@ http://utm.
 ||chkpt.zdnet.com^
 ||christianpost.com/count.php?
 ||christianpost.com/counter/
+||christiantoday.com/counter/
 ||chron.com/javascript/cider/
 ||chud.com/community/p/
 ||ciao.co.uk/flextag/
@@ -7011,7 +7023,6 @@ http://utm.
 ||juno.com/start/javascript.do?message=$image
 ||justanswer.com/browsercheck/
 ||justanswer.com/ja_services/processes/log.asmx/
-||justin.tv/track/?
 ||kalahari.net/includes/swatag.js
 ||kelkoo.co.uk/kk_track?
 ||kelkoo.co.uk^*/tracker/
@@ -7602,7 +7613,6 @@ http://utm.
 ||stats.harpercollins.com^
 ||stats.irishmirror.ie^
 ||stats.jtvnw.net^
-||stats.justin.tv^
 ||stats.macmillanusa.com^
 ||stats.mehrnews.com^
 ||stats.mirror.co.uk^
@@ -7683,6 +7693,7 @@ http://utm.
 ||tdwaterhouse.ca/includes/javascript/rtesurvey.js
 ||tdwaterhouse.co.uk^*/track.js
 ||ted.dailymail.co.uk^
+||ted1.metro.co.uk^
 ||telegraph.co.uk^*/tmglmultitrackselector.js
 ||tesco.com/cgi-bin3/buyrate?type=
 ||texaco.co.uk/trackingcode.js
@@ -7738,7 +7749,6 @@ http://utm.
 ||total.shanghaidaily.com^
 ||totalporn.com/videos/tracking/?url=
 ||tottenhamhotspur.com/media/javascript/google/
-||townnews.com/*/tracker.js
 ||toyota.com/analytics/
 ||tqn.com/px/?
 ||tracelog.www.alibaba.com^
@@ -7754,6 +7764,7 @@ http://utm.
 ||track.hubspot.com^
 ||track.netzero.net^
 ||track.ning.com^
+||track.slideshare.net^
 ||track.websiteceo.com^
 ||track.wildblue.com^
 ||track.zomato.com^
@@ -7881,7 +7892,6 @@ http://utm.
 ||vcstar.com/metrics/
 ||velaro.com/lf/monitor2.aspx?
 ||venere.com/common/js/track.js
-||verizon.com/includes/javascript/omnicode.js
 ||vertical-stats.huffingtonpost.com^
 ||vevo.com/audit.ashx?
 ||viamichelin.co.uk^*/stats.js
@@ -7902,6 +7912,7 @@ http://utm.
 ||vidxden.com^*/tracker.js
 ||vietnamnet.vn^*/tracking.js
 ||villarenters.com/inttrack.aspx
+||vimeo.com/log/
 ||viralogy.com/javascript/viralogy_tracker.js
 ||virginholidays.co.uk/_assets/js/dc_storm/track.js
 ||virtualearth.net/mapcontrol/*/veapiAnalytics.js
@@ -8323,6 +8334,7 @@ http://utm.
 ||trackerstatistik.init-ag.de^
 ||tracking.autoscout24.com^
 ||tracking.hrs.de^
+||tracking.kurier.at^
 ||tracking.mobile.de^
 ||tracking.netbank.de^
 ||tracking.oe24.at^
@@ -8885,7 +8897,7 @@ http://utm.
 @@||go.com/stat/flash/analyticreportingas3.swf
 @@||goldbet.com/Scripts/googleAnalytics.js
 @@||goldmansachs.com/a/pg/js/prod/gs-analytics-init.js
-@@||google-analytics.com/analytics.js$domain=afternic.com|ch10.co.il|deviantart.com|infogr.am|tv3play.se|westernunion.at|westernunion.be|westernunion.ca|westernunion.ch|westernunion.cl|westernunion.co.jp|westernunion.co.nz|westernunion.co.uk|westernunion.co.za|westernunion.com|westernunion.com.au|westernunion.com.co|westernunion.com.hk|westernunion.com.my|westernunion.com.pe|westernunion.de|westernunion.fr|westernunion.ie|westernunion.it|westernunion.nl|westernunion.ph|westernunion.pl|westernunion.se|westernunion.sg|www.google.com
+@@||google-analytics.com/analytics.js$domain=afternic.com|ch10.co.il|deviantart.com|infogr.am|tv3play.se|weather.gov|westernunion.at|westernunion.be|westernunion.ca|westernunion.ch|westernunion.cl|westernunion.co.jp|westernunion.co.nz|westernunion.co.uk|westernunion.co.za|westernunion.com|westernunion.com.au|westernunion.com.co|westernunion.com.hk|westernunion.com.my|westernunion.com.pe|westernunion.de|westernunion.fr|westernunion.ie|westernunion.it|westernunion.nl|westernunion.ph|westernunion.pl|westernunion.se|westernunion.sg|www.google.com
 @@||google-analytics.com/plugins/ga/inpage_linkid.js$domain=lovehoney.co.uk|opendns.com|openshift.com|vimeo.com|westernunion.at|westernunion.be|westernunion.ca|westernunion.ch|westernunion.cl|westernunion.co.jp|westernunion.co.nz|westernunion.co.uk|westernunion.co.za|westernunion.com|westernunion.com.au|westernunion.com.co|westernunion.com.hk|westernunion.com.my|westernunion.com.pe|westernunion.de|westernunion.fr|westernunion.ie|westernunion.it|westernunion.nl|westernunion.ph|westernunion.pl|westernunion.se|westernunion.sg
 @@||google-analytics.com/urchin.js$domain=denverbroncos.com|muselive.com|streetfire.net|wickedthemusical.com
 @@||google.*/mapmaker/gen_204?$subdocument,xmlhttprequest
@@ -8926,6 +8938,7 @@ http://utm.
 @@||l.yimg.com/g/combo/*/comscore.$script
 @@||latimes.com/hive/javascripts/loggingService.js
 @@||lenovo.com^*/GoogleAnalytics.js
+@@||leretourdelautruche.com/map/nuke/heatmap.js
 @@||lesacasino.com^*/EMERPEventCollector.$script,subdocument
 @@||lininteractive.com/chartbeat/$~third-party
 @@||link.theplatform.com/*/tracker.log?
@@ -8940,10 +8953,11 @@ http://utm.
 @@||mail-www.baynote.net^$domain=mail.com
 @@||mail.biz.rr.com/images/portal/blank.gif$domain=mail.biz.rr.com
 @@||mail.yahoo.com/neo/ymstat$xmlhttprequest
+@@||makerstudios.com/js/mixpanel.js?$script
 @@||maps.google.*/gen_204?$xmlhttprequest
 @@||maxmind.com/app/country.js$domain=lenovo.com|nationalgeographic.com|paypal.fr
 @@||maxmind.com/app/geoip.js$domain=fab.com
-@@||maxmind.com^*/geoip.js$domain=aljazeera.com|ballerstatus.com|bikemap.net|carltonjordan.com|coolsport.tv|dereon.com|dr.dk|everydaysource.com|girlgames4u.com|incgamers.com|ip-address.cc|justin.tv|maaduu.com|qatarairways.com|sat-direction.com|sotctours.com|stoli.com|vibe.com
+@@||maxmind.com^*/geoip.js$domain=aljazeera.com|ballerstatus.com|bikemap.net|carltonjordan.com|coolsport.tv|dereon.com|dr.dk|everydaysource.com|girlgames4u.com|incgamers.com|ip-address.cc|maaduu.com|qatarairways.com|sat-direction.com|sotctours.com|stoli.com|vibe.com
 @@||mec.ca/media/javascript/resxclsx.js
 @@||media-imdb.com^*/clickstream.js
 @@||media.ft.com/j/optimost-$domain=ft.com
@@ -9004,6 +9018,7 @@ http://utm.
 @@||optimost.com^*/FT_live.js$domain=ft.com
 @@||pastebin.com/etc/geo.php?
 @@||patrick-wied.at/static/heatmapjs/src/heatmap.js
+@@||paypalobjects.com^*/opinionLab.js$domain=paypal.com
 @@||pillsbury.com/Shared/StarterKit/Javascript/ntpagetag.js
 @@||pillsbury.com/Shared/StarterKit/Javascript/UnicaTag.js
 @@||ping.hellobar.com/?*&_e=click&$image

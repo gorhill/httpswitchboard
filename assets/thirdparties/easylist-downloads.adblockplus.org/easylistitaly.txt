@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: AbZQpq7CXIzGDgQBDc8QHA
-! Version: 201408031621
+! Checksum: o0jj9AK7pw5AsKSofbMAPA
+! Version: 201408130531
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 03 Aug 2014 16:21 UTC
+! Ultima modifica: 13 Aug 2014 05:31 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -1120,6 +1120,7 @@ beppegrillo.it,lafucina.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||libero.it/static/generated_external/shopping/
 ||libero.it/static/upll/234x/
 ||liberoinformato.it/banner-
+||liberoquotidiano.it/upload/1405595303061.swf
 ||liberoreporter.it/public/upload/banner*.gif
 ||libertas.sm^*/banner/
 ||libertiamo.it^*468x60.
@@ -1398,15 +1399,12 @@ beppegrillo.it,lafucina.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||romanews.eu/upload/assets/files/*.swf?linkto=/php/redirect.php?
 ||romatoday.it/images/skin/
 ||rosalio.it^*/adv/
+||rovigooggi.it/files/miele/
 ||rtl.it^*/ico_iTunes-Download-
 ||rtl.it^*/itunes_btn_
 ||rtl.it^*_ban_
-||salernonotizie.it/images/bannerinternetfree.gif
-||salernonotizie.it/images/ikea_
-||salernonotizie.it^*/banner-
-||salernonotizie.it^*/banner_
-||salernonotizie.it^*_banner_
-||salernonotizie.it^*_bnr120x180.
+||salernonotizie.it/wp-content/banner/
+||salernonotizie.it/wp-content/skin/
 ||salernonotizie.net^*_banner_
 ||sampdoria.it/images/banners/
 ||samspot.softairmania.it^
@@ -1761,6 +1759,8 @@ tuttosport.com###banner_leaderboard
 lastampa.it###banner_maxticker
 html.it###banner_piede_articolo
 paginegialle.it###banner_pushbar
+rovigooggi.it###banner_righttop
+rovigooggi.it###banner_righttop_inner
 firenzespettacolo.it###banner_side
 livesicilia.it###banner_skin
 tuttosport.com###banner_square
@@ -1773,6 +1773,7 @@ liberoquotidiano.it###bannerbox1
 freemodding.it###bannerini
 quattroruote.it###bannerrcl
 cwi.it###banners
+siracusanews.it###banners-top
 si24.it###banners_middle
 telefonino.net###bannerstrip
 senigallianotizie.it###bbitalia_banner
@@ -1958,7 +1959,7 @@ iovivoaroma.it###skin_link_dx
 iovivoaroma.it###skin_link_sx
 cronachemaceratesi.it###skinabove
 rockit.it###skinbanner
-catanzaroinforma.it,filmtv.it,ilcorrieredabruzzo.it,lazionews24.com###skinlink
+catanzaroinforma.it,filmtv.it,ilcorrieredabruzzo.it,lazionews24.com,salernonotizie.it###skinlink
 ebay.it###skyscrape
 eurogamer.it###skyscraper
 casateonline.it,merateonline.it###sottotestata
@@ -2136,6 +2137,7 @@ ilquotidianodellacalabria.it##.banner_186x290
 ilquotidianodellacalabria.it##.banner_234x90
 spaziofilm.it##.banner_300
 ilmattinodifoggia.it##.banner_300x250_3
+liberoquotidiano.it##.banner_300x250_colonna_6
 everyeye.it##.banner_600_new
 ottopagine.net##.banner_990_90
 ottopagine.net##.banner_990_90_mid
@@ -2293,6 +2295,7 @@ melamorsicata.it##.mela_ban_1
 melamorsicata.it##.mela_ban_2
 melamorsicata.it##.mela_ban_3
 sportivissimo.com##.menu4
+rovigooggi.it##.miele
 bastardidentro.it##.minibox
 ilturista.info##.more-holder
 secondamano.it##.moreblock
@@ -2353,7 +2356,7 @@ agrigentonotizie.it,anconatoday.it,baritoday.it,bolognatoday.it,bresciatoday.it,
 soldionline.it##.sm_widget_contenitore
 tgcom24.mediaset.it##.spaceBanner
 ciao.it##.specialOfferMod
-gazzetta.it,ilgiornale.it,pubblicitaitalia.it,repubblica.it,stickmangames.altervista.org,violanews.com##.sponsor
+europages.it,gazzetta.it,ilgiornale.it,pubblicitaitalia.it,repubblica.it,stickmangames.altervista.org,violanews.com##.sponsor
 fcparma.com##.sponsor-group
 erbanotizie.com,lecconotizie.com##.sponsor-rubrica
 treccani.it##.sponsorLogo
@@ -2398,7 +2401,7 @@ mrwebmaster.it##.txt
 ilsoftware.it##.txtboxleft[style="width:280px; height:200px;"]
 turistipercaso.it##.utilink
 bresciaoggi.it,larena.it##.v2_banner-wrapper
-larena.it##.v3_horz-banner
+ilgiornaledivicenza.it,larena.it##.v3_horz-banner
 ilsalvagente.it##.video
 giallozafferano.it##.vini-sp
 filmtv.it##.visione
@@ -2590,8 +2593,11 @@ beppegrillo.it##div[style="width:475px; height:60px; display:none;"]
 asroma24.com,ilmilanista.it,interistaweb.it##div[style="width:480px; height:72px; padding: 6px; margin-left:auto; margin-right:auto;"]
 igossip.it##div[style="width:600px; height:360px;float:left;"]
 asca.it##div[style="width:659px; height:60px; float:left; margin-top:10px;margin-bottom:5px;"]
+salernonotizie.it##div[style="width:660px; height:90px; display:block;"]
 fantagazzetta.com##div[style="width:663px;height:275px;float:left;margin:5px 0"]
 beppegrillo.it##div[style="width:728px; height:45px;"]
+salernonotizie.it##div[style="width:728px; height:90px; display:block; margin-top:2px; margin-bottom:2px;"]
+salernonotizie.it##div[style="width:728px; height:90px; display:block; margin-top:4px; margin-bottom:4px;"]
 strettoweb.com##div[style="width:728px; height:90px; margin:9px auto; display:block; float:right !important;"]
 beppegrillo.it,mymovies.it##div[style="width:728px; height:90px;"]
 beppegrillo.it##div[style="width:728px; height:90px;float:left;\""]
@@ -2669,7 +2675,6 @@ tomshw.it###notifica_adcont
 termometropolitico.it##[id^="bsa"]
 !----------------Regole di esclusione per risolvere i problemi----------------!
 ! *** easylistitaly:easylistitaly/easylistitaly_whitelist.txt ***
-@@||151.1.68.170/index.php?zoneid=$object-subrequest,domain=la7.it
 @@||ad.smartclip.net/crossdomain.xml$object-subrequest,domain=serviziopubblico.it
 @@||ad.smartclip.net/delivery/tag?$object-subrequest,domain=serviziopubblico.it
 @@||ad2.neodatagroup.com/uploads/js/sid49jq.js$domain=rai.it|rai.tv|rainews.it
@@ -2683,9 +2688,9 @@ termometropolitico.it##[id^="bsa"]
 @@||adserver.adtech.de/addyn/3.0/1183/3769607/0/170/ADTECH;$script,domain=gioco.it
 @@||adv.alice.it/crossdomain.xml$object-subrequest,domain=webtv.cubovision.it
 @@||adv.alice.it/html.ng/site=cubow$object-subrequest,domain=webtv.cubovision.it
-@@||adv.ilsole24ore.it/crossdomain.xml$object-subrequest,domain=la7.it|la7.tv|sky.it
+@@||adv.ilsole24ore.it/crossdomain.xml$object-subrequest,domain=sky.it
 @@||adv.ilsole24ore.it^*/empty.flv$object-subrequest,domain=sky.it
-@@||adv.ilsole24ore.it^*@preroll|$object-subrequest,domain=la7.tv|sky.it
+@@||adv.ilsole24ore.it^*@preroll|$object-subrequest,domain=sky.it
 @@||adv.rtl.it/crossdomain.xml$object-subrequest
 @@||adv.rtl.it/www/delivery/fc.php?*&zones=pre-roll$object-subrequest
 @@||adv.tre.it/www/$image,script,$~third-party
@@ -2708,7 +2713,7 @@ termometropolitico.it##[id^="bsa"]
 @@||doubleclick.net/adj/tuttosport.home/home;sz=336x600,300x250,300x600;=$script,domain=tuttosport.com
 @@||download.deejay.it/adv/podcast/$object-subrequest
 @@||eyewonder.com^*/video/$object-subrequest,domain=serviziopubblico.it
-@@||files.adform.net/banners/stream/$object-subrequest,domain=la7.tv|liberoquotidiano.it|sky.it
+@@||files.adform.net/banners/stream/$object-subrequest,domain=liberoquotidiano.it|sky.it
 @@||foolbite.com/foolbite/*_pubblicita_$~third-party
 @@||forebase.com/plugin/*/images/ads/$image
 @@||forebase.com/plugin/ads.htm?$subdocument
@@ -2716,9 +2721,6 @@ termometropolitico.it##[id^="bsa"]
 @@||google.com/ads/search/module/ads/*/search.js$domain=zoover.ch|zoover.it
 @@||google.com/adsense/$subdocument,domain=sedo.ch|sedo.it
 @@||google.com/adsense/search/ads.js$domain=zoover.ch|zoover.it
-@@||iads.iltrovatore.it/clientaccesspolicy.xml$object-subrequest,domain=la7.it
-@@||iads.iltrovatore.it/crossdomain.xml$object-subrequest,domain=la7.it
-@@||iads.iltrovatore.it/www/delivery/xmladv.php?$object-subrequest,domain=la7.it
 @@||ilfattoquotidiano.it/wp-content/themes/ilfatto/thumb/*_pubblicita_*.jpg
 @@||impit.tradedoubler.com/imp?$subdocument,domain=iphoneitalia.com
 @@||js.neodatagroup.com/uploads/js/rds.js$domain=rds.it

@@ -1,9 +1,9 @@
 [Adblock Plus 2.0]
-! Checksum: dyxRh1pihrmh0xW35gU3lA
-! Version: 201408031621
+! Checksum: 9wNOyQ+Seit5ps6DA0nQRw
+! Version: 201408130531
 ! Title: EasyList Dutch
 ! Description: Dutch supplement for the Easylist filters
-! Last modified: 03 Aug 2014 16:21 UTC
+! Last modified: 13 Aug 2014 05:31 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -508,6 +508,7 @@ _advertentieleaderboardhome.
 ||optimaalfm.nl/upload/files/banner-left/
 ||optimalegezondheid.com/wp-content/plugins/mowpop/
 ||opwindend.net/*.php?$subdocument
+||p2000.nl/image/Webbanner_
 ||partyflock.nl/images/*=http://partyflock.nl/jlnk/$object
 ||partyzone.be/rotatingbanner.php?
 ||pd5hw.nl/images/banner_*.jpg
@@ -1093,7 +1094,7 @@ studenten.net##.snet-auto-banner
 weeronline.nl##.specialBlockAboveActivities
 weeronline.nl##.specialBlockSmall
 engineeringnet.be##.sponslinks
-utopiatv.nl,vcmw-sigma.nl##.sponsor
+europages.nl,utopiatv.nl,vcmw-sigma.nl##.sponsor
 afspraakjes.be,boekmeter.nl,gamesmeter.nl,moviemeter.nl,musicmeter.nl,tvgids.nl##.sponsored
 voetbalkrant.com##.take-banner
 z24.nl##.teaser
