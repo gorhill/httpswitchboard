@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: rNM2iqq2vPywkgUJm+ZdcA
-! Version: 201408130530
-! Last modified: 13 Aug 2014 05:30 UTC
+! Checksum: v2v8RAJQKAzzV8XuMdR8IQ
+! Version: 201408141820
+! Last modified: 14 Aug 2014 18:20 UTC
 ! Expires: 5 days (подписка обновляется автоматически каждые 5 дней)
 ! Homepage: http://ruadlist.googlecode.com/
 !
@@ -1931,6 +1931,7 @@ _youtube_small.
 ##.vkontakte
 ##.yashare-auto-init
 ##button[class="gbil esw eswd"]
+##div[style*="url(\"http://vk.com/images/upload.gif\")"]
 ! *** easylist:fanboy-addon/fanboy_social_general_hide.txt ***
 ###AKDSocialBottom
 ###BF_BUZZBOX
@@ -5550,6 +5551,7 @@ _youtube_small.
 ##.socialMediaFollowLinks
 ##.socialMediaIcon
 ##.socialMediaIconsSection
+##.socialMediaLinks
 ##.socialMediaList
 ##.socialMediaMod
 ##.socialMediaModule
@@ -6113,6 +6115,7 @@ _youtube_small.
 ##.widget_socialcountplus
 ##.widget_socialmenu
 ##.widget_socialnetworklinks_widget
+##.widget_socials
 ##.widget_strx-simple-sharing-sidebar-widget
 ##.widget_subscribeHere
 ##.widget_synved_social_follow
@@ -6271,7 +6274,6 @@ _youtube_small.
 ##a[href^="http://www.digg.com/submit?"]
 ##a[href^="http://www.facebook.com/sharer.php?"]
 ##a[href^="http://www.facebook.com/sharer/sharer.php?u="]
-##a[href^="http://www.feedburner.com/fb/a/emailverifySubmit?"]
 ##a[href^="http://www.linkedin.com/shareArticle?"]
 ##a[href^="http://www.sharethis.com/share/?publisher="]
 ##a[href^="http://www.tumblr.com/share/"]
@@ -7449,6 +7451,7 @@ _social_rss.
 ###floaty-rss
 ###flwUsMod
 ###flyout-recirc
+###flyoutPromo
 ###flyoutWidget
 ###flyout_outer_wrapper
 ###foCookieNotice
@@ -8891,12 +8894,14 @@ nytimes.com#@#.sharetools
 golem.de#@#.social-bar
 golem.de#@#.social-bottom
 bitbucket.org,paypal.com,tvspielfilm.de#@#.social-box
+udemy.com#@#.social-btn
 golem.de#@#.social-button
 cheezburger.com#@#.social-buttons
 github.com#@#.social-count
 golem.de#@#.social-counter
 4players.de#@#.social-facebook
 4players.de#@#.social-gplus
+udemy.com#@#.social-icon
 deathfromabove1979.com,time.com#@#.social-links
 technorati.com#@#.social-media
 last.fm,lastfm.com.br,lastfm.com.tr,lastfm.de,lastfm.es,lastfm.fr,lastfm.it,lastfm.jp,lastfm.pl,lastfm.ru,lastfm.se#@#.social-sharing
@@ -8940,6 +8945,7 @@ digg.com#@#a[href^="http://www.digg.com/submit?"]
 tumblr.com#@#a[href^="http://www.tumblr.com/share/"]
 facebook.com#@#a[href^="https://facebook.com/sharer.php?"]
 twitter.com#@#a[href^="https://twitter.com/intent/follow?"]
+yellosoft.us#@#a[href^="https://twitter.com/intent/tweet?"]
 facebook.com#@#a[href^="https://www.facebook.com/sharer.php?"]
 ~digg.com##div[id^="digg-widget-"]
 acceptableads.org,easyicon.net#@#img[alt="Reddit"]
