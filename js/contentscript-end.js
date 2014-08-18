@@ -347,7 +347,14 @@ var cosmeticFiltering = (function() {
                 continue;
             }
             // id
-            v = nodes[i].id.trim();
+            v = nodes[i].id;
+            // https://github.com/gorhill/httpswitchboard/issues/397
+            // `id` can be something else than a string
+            if ( typeof v !== 'string' ) {
+                v = '';
+            } else {
+                v = v.trim();
+            }
             if ( v !== '' ) {
                 v = '#' + v;
                 if ( !qq[v] ) {
