@@ -303,7 +303,7 @@ body.pScopeSite #scopeCell {
     }
 .matCell {
     margin: 1px 1px 0 0;
-    border: 1px dotted rgba(0,0,0,0.2);
+    border: 1px dotted transparent;
     padding: 6px 1px 3px 1px;
     display: inline-block;
     box-sizing: content-box;
@@ -420,10 +420,12 @@ body.powerOff .matrix .g3Meta.g3Collapsed ~ .matRow.ro {
     background-color: #080;
     }
 .rit,.rgt {
+    border-color: #debaba;
     color: black;
     background-color: #f8d0d0;
     }
 .git,.ggt {
+    border-color: #bad6ba;
     color: black;
     background-color: #d0f0d0;
     }
@@ -444,16 +446,19 @@ body.colorblind .rdt {
     background-color: #000;
     }
 body.colorblind .gdt {
+    border-color: #aaa;
     color: black;
     background-color: #fff;
     }
 body.colorblind .rit,
 body.colorblind .rgt {
+    border-color: #333;
     color: white;
     background-color: #555;
     }
 body.colorblind .git,
 body.colorblind .ggt {
+    border-color: #aaa;
     color: black;
     background-color: #ddd;
     }
