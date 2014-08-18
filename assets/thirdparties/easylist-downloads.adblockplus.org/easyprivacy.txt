@@ -1,8 +1,8 @@
 [Adblock Plus 1.1]
-! Checksum: Xl91q5AWheLB8mNAayr73g
-! Version: 201408141821
+! Checksum: y3gfgLOvaZvjFz2vWsgXwg
+! Version: 201408181801
 ! Title: EasyPrivacy
-! Last modified: 14 Aug 2014 18:21 UTC
+! Last modified: 18 Aug 2014 18:01 UTC
 ! Expires: 4 days (update frequency)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licence: https://easylist-downloads.adblockplus.org/COPYING
@@ -3470,6 +3470,7 @@ http://utm.
 ||statuscake.com^$third-party
 ||stcllctrs.com^$third-party
 ||stcounter.com^$third-party
+||steelhousemedia.com^$third-party
 ||stippleit.com^$third-party
 ||stormcontainertag.com^$third-party
 ||stormiq.com^$third-party
@@ -5268,7 +5269,6 @@ http://utm.
 ||px.dynamicyield.com^$third-party
 ||px.excitedigitalmedia.com^
 ||px.owneriq.net^
-||px.steelhousemedia.com^
 ||px.topspin.net^
 ||qlog.adap.tv^$object-subrequest
 ||qos.video.yimg.com^
@@ -7913,7 +7913,7 @@ http://utm.
 ||vidxden.com^*/tracker.js
 ||vietnamnet.vn^*/tracking.js
 ||villarenters.com/inttrack.aspx
-||vimeo.com/log/
+||vimeo.com/log/outro_displayed
 ||viralogy.com/javascript/viralogy_tracker.js
 ||virginholidays.co.uk/_assets/js/dc_storm/track.js
 ||virtualearth.net/mapcontrol/*/veapiAnalytics.js
@@ -8769,6 +8769,7 @@ http://utm.
 @@||akamai.net^*/omniture.jsp$script,domain=walmart.com
 @@||aliunicorn.com^*/click_stat/
 @@||analytics.atomiconline.com/services/jquery.js
+@@||analytics.edgesuite.net/html5/akamai*.js$domain=resignationbrewery.com
 @@||analytics.rogersmedia.com/js/rdm_dil_code.full.js$domain=rogersradio.ca
 @@||analytics.rogersmedia.com/js/rdm_s_code.min.js$domain=rogersradio.ca
 @@||anthem.com/includes/foresee/foresee-trigger.js
@@ -8816,6 +8817,7 @@ http://utm.
 @@||cdn-redfin.com^*/clicktracker.js$domain=redfin.com
 @@||cdn-redfin.com^*/page_analytics.js$domain=redfin.com
 @@||cdn-redfin.com^*/page_analytics.xd.js
+@@||cdn.clicktale.net^$script,domain=cbc.ca
 @@||cdn.optimizely.com/js/*.js$domain=forbes.com|freeshipping.com|heroku.com|hotukdeals.com|imageshack.com|policymic.com|ricardo.ch
 @@||centurylink.net/images/track/track.gif?track=$xmlhttprequest
 @@||chanel.com/js/chanel-tracking.js$script
@@ -8852,6 +8854,7 @@ http://utm.
 @@||dailymail.co.uk/brightcove/tracking/ted3.js
 @@||deals.nextag.com^*/ClickTracker.jsp
 @@||debenhams.com/foresee/foresee-trigger.js
+@@||demandbase.com^*/ip.json?$xmlhttprequest,domain=vmware.com
 @@||demdex.net/dest4.html?d_nsid=$subdocument,domain=multipack.com.mx
 @@||descopera.ro/js/addLinkerEvents-ga.js
 @@||diablo3.com/assets/js/jquery.google-analytics.js
