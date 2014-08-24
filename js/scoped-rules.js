@@ -241,15 +241,18 @@ function renderScopeKeyToHTML(scopeKey) {
 
 /******************************************************************************/
 
+// https://github.com/gorhill/httpswitchboard/issues/400
+// Remember to also escape brackets (IPv6)
+
 function strToId(s) {
-    return s.replace(/[ 0123456789*./:|-]/g, function(c) {
-        return 'GHIJKLMNOPQRSTUVWXYZ'.charAt(' 0123456789*./:|-'.indexOf(c));
+    return s.replace(/[ 0123456789*.\/:|\[\]-]/g, function(c) {
+        return 'GHIJKLMNOPQRSTUVWXYZ'.charAt(' 0123456789*./:|-[]'.indexOf(c));
     });
 }
 
 function IdToStr(id) {
     return id.replace(/[G-Z]/g, function(c) {
-        return ' 0123456789*./:|-'.charAt('GHIJKLMNOPQRSTUVWXYZ'.indexOf(c));
+        return ' 0123456789*./:|-[]'.charAt('GHIJKLMNOPQRSTUVWXYZ'.indexOf(c));
     });
 }
 
