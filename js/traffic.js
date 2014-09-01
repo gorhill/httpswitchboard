@@ -749,6 +749,17 @@ var onMainDocHeadersReceived = function(details) {
         return;
     }
 
+    // https://github.com/gorhill/httpswitchboard/issues/404
+    // Do not inject CSP for XML documents.
+    // Since the previous behavior is to always inject CSP at this point, 
+    // I am being very conservative with the fix: I chose to specifically not 
+    // inject CSP for XML documents, rather then not inject CSP if not a 
+    // HTML document in order to limit to a minimum the change in behavior.
+    i = headerIndexFromName('content-type', headers);
+    if ( i === -1 || headers[i].value.search('text/xml') !== -1 ) {
+        return;
+    }
+
     // https://github.com/gorhill/httpswitchboard/issues/181
     pageStats.pageScriptBlocked = true;
 
