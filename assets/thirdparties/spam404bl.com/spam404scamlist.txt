@@ -2,8 +2,8 @@
 ! Homepage: http://www.spam404.com/
 ! Title: Spam404
 ! Expires: 2 days
-! Version: 4500
-! Last modified: 18 Aug 2014
+! Version: 4553
+! Last modified: 31 Aug 2014
 ! Description: This filter protects you from online scams. This filter is regularly updated with data collected by Spam404.com.
 !
 ! You can report unblocked content and direct general queries to us
@@ -14,6 +14,7 @@
 !
 !-_-_-_-_-_-_-_-External Link Survey Scams-_-_-_-_-_-_-_-!
 ##[href^="http://cleanfiles.net/"]
+##[href^="https://cleanfiles.net/"]
 ##[href^="http://downloadity.net/"]
 ##[href^="http://dream-file.com/"]
 ##[href^="http://fileice.net/"]
@@ -135,6 +136,7 @@
 ##[onclick="fileice();"]
 dream-file.com##[alt="Regular Download"]
 ##[onclick="$(this).hide(); $('#offerlst').show('slow');"]
+shortz.so##[onclick="awaiting();"]
 !
 !
 !
@@ -4495,6 +4497,57 @@ dream-file.com##[alt="Regular Download"]
 ||eprograms.eu^
 ||msihacks.com^
 ||gameraidz.org^
+||freeskypecreditvoucher.com^
+||cpadoom.com^
+||hacksandcheatsandroid.com^
+||deezerpremiumplusfree.com^
+||cf-getfile.com^
+||hackphat.com^
+||e-iphoneunlock.com^
+||iphonegeeks.us^
+||watchitallnow.com^
+||newhacktools.net^
+||newwhatsapp.net^
+||takehacks.com^
+||gameshacktool.com^
+||hackingcity.com^
+||gamespothacks.com^
+||clashhacktool.com^
+||addcocgems.com^
+||worldonhacking.com^
+||livestreamfilms.com^
+||piraterlesjeuxgratuit.com^
+||hackinstall.net^
+||dragoncitycheatsforgems.com^
+||bhosadwa.com^
+||clashofclanshackunlimitedgems.com^
+||crackingbuzz.com^
+||faboshine.com^
+||tintubright.com^
+||baltihen.com^
+||bonypin.com^
+||jibonerareknamtaka.com^
+||moneyisecondgod.com^
+||onlygadgets.net^
+||elitehackz.com^
+||onlinehack24.com^
+||freehackstory.com^
+||mixedhacks.com^
+||codegeneratorfree.net^
+||free-facebook-hack-account.com^
+||clashofclanhacks.com^
+||mgcheats.com^
+||thronerushcheats.net^
+||gamecrackproi.com^
+||hackspix.com^
+||skidrow-apps.com^
+||e-gamespot.com^
+||arboxyl.com^
+||steamcormuniity.com^
+||steamconnmunitly.com^
+||steannconnmunity.com^
+||steamcommunnitly.com^
+||stearncormmunity.com^
 !
 !
 !

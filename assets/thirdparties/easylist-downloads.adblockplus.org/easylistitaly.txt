@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: 0iQEYcTU7iX8ZC76T7RWqA
-! Version: 201408181801
+! Checksum: 1YzfVAS7zl/igO5UXLKB+A
+! Version: 201409011601
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 18 Aug 2014 18:01 UTC
+! Ultima modifica: 01 Sep 2014 16:01 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -110,6 +110,7 @@ _sito/adv/
 ###mmAdDivSkLb
 ###mmAdDivSkSx
 ###ppn_ad_div
+###pubbli-alto
 ###pubbli_top
 ###pubblicita
 ###pubblicita-menu
@@ -511,11 +512,7 @@ beppegrillo.it,lafucina.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||607080.it^*/banners/
 ||7per24.it^*/banner-
 ||892000.it/img/bannerino_
-||abruzzoweb.it/cache/banners/
-||abruzzoweb.it/images/banner/
-||abruzzoweb.it/images/banners/
-||abruzzoweb.it/images/capannoni/banner.jpg
-||abruzzoweb.it/images/grey.gif
+||abruzzolive.it^*banner
 ||accordiespartiti.it/propalco*.png
 ||accordiespartiti.it/suonarechitarra.jpg
 ||acmilan.com^*/sponsor/
@@ -773,6 +770,7 @@ beppegrillo.it,lafucina.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||eventiesagre.it/images/banner/
 ||everyeye.it/topskin/
 ||everyeye.it/topskin_2012/
+||exxun.com/adi/
 ||f052.it/archivefile/*/banner-
 ||f1passion.it^*/banner.
 ||factotum.ra.it/attachments/banner_
@@ -1144,6 +1142,7 @@ beppegrillo.it,lafucina.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||mammedomani.it/images/banners/
 ||manduriaoggi.it/layout_nuovo/banner.asp
 ||marigliano.net/_upload/banner/
+||marsicalive.it^*banner
 ||masterviaggi.it/banner/
 ||mattinonline.ch^*/banner_
 ||maxleggeri.it^*/uni2.png
@@ -1620,6 +1619,7 @@ beppegrillo.it,lafucina.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||videohifi.com^*/AcusticaApplicata690x90.jpg
 ||videohifi.com^*/MONITORAUDIO.JPG
 ||videohifi.com^*/SICK4MILK.png
+||videomakers.net//wp-content/banners/
 ||videopornoitaliani.com/banner/random/
 ||videopornoitaliani.com/banner/top/
 ||videopornoitaliani.com/images/banner_
@@ -2112,7 +2112,7 @@ genova24.it,ivg.it##.banner-middle-board
 milanofinanza.it##.banner-sfondo
 telesud3.com##.banner-sidebar
 panorama.it##.banner-spalla-dx
-farevela.net,milanofinanza.it##.banner-top
+farevela.net,forum-macchine.it,milanofinanza.it##.banner-top
 ilcapoluogo.com,latinaoggi.net##.banner1
 ilcapoluogo.com,latinaoggi.net,pianetacellulare.it##.banner2
 erbanotizie.com,lecconotizie.com##.banner234x60-right
@@ -2179,7 +2179,7 @@ messinaweb.tv##.bannerpostsingle
 nonsolocinema.com##.banners
 ilquotidianofvg.it##.banners-125
 cremonaoggi.it##.bannersx
-musictory.it##.bannertop
+album-mmt.it,musictory.it##.bannertop
 ticinolive.ch##.bannerwrap
 romagiornoenotte.it##.basebannerBox
 wallstreetitalia.com##.bestbuybiz
@@ -2662,6 +2662,7 @@ acquaportal.it##table[width="284px"][style="border:1px solid #A5C9ED"]
 tio.ch##table[width="302"][style="border:1px solid #A7A9AC;border-top:none;"]
 mnews.it##table[width="728"][height="280"]
 312.it##table[width="728"][height="90"]
+edixxon.com##table[width="764"][cellpadding="4"]
 cinemadelsilenzio.it##table[width="956"][height="306"]
 cinemadelsilenzio.it##table[width="956"][height="72"]
 tgmonline.it##td[align="right"][width="305"][valign="top"]

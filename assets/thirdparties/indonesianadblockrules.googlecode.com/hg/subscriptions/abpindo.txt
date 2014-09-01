@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: 0Pvg2U3AAqJPNXWol3bmkg
+! Checksum: Vj441g+oKXSO2ZsJYDn8Bw
 ! Title: ABPindo
-! Last modified: 30 Juli 2014, 22:09:11 WIB
+! Last modified: 01 September 2014, 15:10:36 WIB
 ! Expires: 4 days (update frequency)
 ! Homepage: http://abpindo.blogspot.com/
 ! Licence: http://indonesianadblockrules.googlecode.com/hg/subscriptions/COPYING
@@ -15,7 +15,6 @@
 ||abadiklan.com^$third-party
 ||ad.adflazz.com^$third-party
 ||adbusinessfree.com^$third-party
-||adcenter2u.com^$third-party
 ||addesigner.com^$third-party
 ||admitra.com^$third-party
 ||adplus.co.id^$third-party
@@ -23,17 +22,13 @@
 ||adsbingo.com^$third-party
 ||adsense-id.com^$third-party
 ||adsensemu.com^$third-party
-||adspeedy.com^$third-party
 ||adsrelease.com^$third-party
-||agenpromosi.com^$third-party
 ||ajangiklangratis.com^$third-party
 ||anadvertorial.com^$third-party
 ||anekaiklan.com^$third-party
 ||baliadv.com^$third-party
 ||clickmedia.co.id^$third-party
 ||clicks4cents.com^$third-party
-||clicksia.com^$third-party
-||entryad.com^$third-party
 ||forumiklan.com^$third-party
 ||gadget-ads.com^$third-party
 ||gratisiklanpasang.com^$third-party
@@ -55,7 +50,6 @@
 ||iklanbarisgratispasang.net^$third-party
 ||iklanbariskusuma.com^$third-party
 ||iklanbarislaris.com^$third-party
-||iklanbarismandiri.com^$third-party
 ||iklanbarismu.com^$third-party
 ||iklanbarispro.com^$third-party
 ||iklanbisnisbali.com^$third-party
@@ -91,11 +85,9 @@
 ||iklanoke.com^$third-party
 ||iklanonlinemu.com^$third-party
 ||iklanpasanggratis.com^$third-party
-||iklanpedia.com^$third-party
 ||iklanplaza.com^$third-party
 ||iklanprimaku.com^$third-party
 ||iklanpromo.com^$third-party
-||iklansilver.com^$third-party
 ||iklantanpadaftar.com^$third-party
 ||iklanteks.com^$third-party
 ||iklantelevisi.com^$third-party
@@ -117,7 +109,6 @@
 ||klikabadi.com^$third-party
 ||klikabadi.net^$third-party
 ||klikajadeh.com^$third-party
-||ladangiklan.com^$third-party
 ||ladanguang.com^$third-party
 ||lokeriklan.com^$third-party
 ||masteriklan.net^$third-party
@@ -149,8 +140,6 @@
 ||paypopup.com^$third-party
 ||pondokiklan.com^$third-party
 ||popupmoney.com^$third-party
-||portaliklan.com^$third-party
-||ppcinbox.com^$third-party
 ||promobagus.com^$third-party
 ||promosiiklan.com^$third-party
 ||promotioncamp.com^$third-party
@@ -173,7 +162,6 @@
 ||theclickers.net^$third-party
 ||tinggalklik.com^$third-party
 ||topklik.com^$third-party
-||unobux.com^$third-party
 ||useads.com^$third-party
 ||webiklan.com^$third-party
 ||weblogiklan.com^$third-party
@@ -439,6 +427,7 @@ blogspot.com##img[alt="ads"]
 ||mractionclub.com/banner/
 ||musisi.com/musifile/images_banner/
 ||my.postsgenius.com/style/banners/
+||mylogin.co^$domain=hentai2read.com
 ||newopenx.detik.com/images/
 ||pancet.com/kbads/
 ||resep.web.id/banner/
@@ -480,7 +469,7 @@ detik.com###bottom_banner
 indogamers.com###bottombanner
 bioskop21.us###box-message
 tribunnews.com###boxright [style="width:300px; height:250px;"]
-adipedia.com,bokepgratiz.info,downloadfilmbaru.com,movie76.com,nusareborn.in###btm_banner
+adipedia.com,bokepgratiz.info,downloadfilmbaru.com,mangaku.web.id,movie76.com,nusareborn.in###btm_banner
 cinema81.com###btm_banner_kanan
 cinema81.com###btm_banner_kiri
 movie76.com###close-teaser
@@ -493,6 +482,7 @@ teknoup.com###fancybox-wrap
 teknoup.com###fancybox_ajax
 forumbokep.com,krucil.net,vocland.com###floating_banner_bottom
 ganool.com###floating_banner_top2
+populerkan.com###flowads
 untukku.com###footer-adcont
 resep.web.id###googlebox
 indosiar.com###headerbanner
@@ -510,6 +500,7 @@ harakahdaily.net###jsemrp_373_873
 harakahdaily.net###jsemrp_374_469
 harakahdaily.net###jsemrp_380_290
 zonabola.com###lAds
+pkspiyungan.org###largebanner
 komikbaru.com,mangafox.me###left-skyscraper
 duniasex.ws###main_content_section > div[align="center"]
 dapurpacu.com###mid-banner
@@ -572,6 +563,7 @@ kompas.com##.adsMR1Lipsus1
 antaranews.com##.ads_top_728
 utusan.com.my##.adspace_300
 m.iklanbaris.detik.com##.adtext01
+mangaku.web.id##.adv
 teknoup.com##.advertisement_box1
 teknoup.com##.advertisement_box2
 palingseru.com##.alignnone.size-large.wp-image-458
@@ -637,14 +629,17 @@ okezone.com##.rc-ad-300x250
 filmindonesia.or.id##.row.block.ad-unit-medium-retangle.center
 semprot.com##.semprot_ads
 republika.co.id##.set-ads-468
+kabar24.com##.skycapper
 okezone.com##.skyscrapper
 bokepgratiz.info##.textwidget
+icinema3satu.com##.textwidget img
 bioskop21.us##.textwidget img[width="160"][height="600"]
 lapar.com##.top-banner
 galaxymaya.com##.widget-content
 movie76.com##.widget-content img[alt="ads"]
 lintas.me##.xad-160x600
 lintas.me##.xad-300x250
+iberita.com##[style="float:right; margin:7px 0 10px 10px;"] > small
 kaskus.co.id##a[href^="http://kad.kaskus."]
 m.inilah.com##a[href^="http://mkhoj.com"]
 downloadfilem.com##a[href^="http://promosipraktis.com/"]
@@ -715,9 +710,9 @@ zonamuda.com##td[valign="top"][height="56px"][align="center"]
 ||idblognetwork.com/images/banner468x60/$third-party
 ||idblognetwork.com/images/banner728x90/$third-party
 ||imgur.com/*.gif$domain=animekompi.web.id|downloadfilmbaru.com|movie76.com|sodasusu.com|unduhfilm21.net
-||incentria.com^$third-party
 ||incrasebux.com^$third-party
 ||indoagenbola.com^$popup,third-party
+||infoskorbola.com^$third-party
 ||investasiceria.net^$third-party
 ||javapic.com^$third-party
 ||jingkrak.com^$third-party
@@ -731,9 +726,9 @@ zonamuda.com##td[valign="top"][height="56px"][align="center"]
 ||mpnrs.com^$third-party
 ||mybannermaker.com^$third-party
 ||numpanglewat.com^$third-party
+||octafx.com^$popup,third-party
 ||onclinic24.com^$third-party
 ||paypalbisnis.com^$third-party
-||perawan.pro/$popup,third-party
 ||perawan3gp.com^$popup,third-party
 ||postimg.org/*.gif$domain=21sinema.com
 ||poweredprofits.com^$third-party
@@ -746,16 +741,14 @@ zonamuda.com##td[valign="top"][height="56px"][align="center"]
 ||sbbanner.com^$third-party
 ||sebar.idblognetwork.com^$third-party
 ||serbiansoftware.com^$popup,domain=bioskop21.us
-||suarabola.com/banners/$third-party
 ||textspace.net^$third-party
+||tinypic.com/*.gif$domain=icinema3satu.com
 ||tinypic.com^$image,domain=bioskopkita.com
-||topskor.us^$third-party
 ||topsurfer.com^$third-party
 ||trafficfactory.biz^$popup,third-party
 ||tri7bet.com^$third-party
 ||twap.eu^$third-party
 ||u-on.eu/c.php?$third-party
-||u1win.com^$third-party
 ||usahaberhasil.com^$third-party
 ||webtrackerplus.com^$third-party
 ! *** abpindo_whitelist.txt ***
