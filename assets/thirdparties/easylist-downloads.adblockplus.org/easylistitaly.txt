@@ -1,9 +1,9 @@
 [Adblock Plus 1.1]
-! Checksum: 1YzfVAS7zl/igO5UXLKB+A
-! Version: 201409011601
+! Checksum: fWIsBg0BjCR0JCUOeMDzlw
+! Version: 201409151331
 ! Title: EasyList Italy
 ! EasyList Italy - Complemento italiano per EasyList
-! Ultima modifica: 01 Sep 2014 16:01 UTC
+! Ultima modifica: 15 Sep 2014 13:31 UTC
 ! Expires: 4 days (frequenza di aggiornamento)
 ! Homepage: https://easylist.adblockplus.org/
 ! Licenza: https://easylist-downloads.adblockplus.org/COPYING
@@ -495,6 +495,7 @@ beppegrillo.it,lafucina.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||98.130.248.39^$popup,third-party
 ||bet365-scommesse.com/?affiliate=$popup,third-party
 ||betclic.it/partner.aspx?$popup
+||edreams.it/?affiliate=$popup
 ||funpage.it^$popup,third-party
 ||goo.gl^$popup,domain=ispazio.net
 ||gooble.info^$popup
@@ -1159,6 +1160,7 @@ beppegrillo.it,lafucina.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||metalgermania.it/images/seatwave.jpg
 ||metallized.it/banner/
 ||meteo.it/images/banner/
+||meteoweb.eu/bannerMW/
 ||metronews.it^*/banner_
 ||metropolisweb.it/public/banner/
 ||milaninterradio.tv/images/180x150.gif
@@ -1535,6 +1537,7 @@ beppegrillo.it,lafucina.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||therockblog.net^*/banner-
 ||ticinofinanza.ch/banner/
 ||ticinolive.ch/files/banners/
+||ticketcrociere.lagazzettadelmezzogiorno.it^
 ||ticketcrociere.lasicilia.it^
 ||tio.ch/img/2013/iframe/postfinance.jpg
 ||tio.ch^*/banner/
@@ -1634,6 +1637,7 @@ beppegrillo.it,lafucina.it,mmorpgitalia.it#@#div[id^="div-gpt-ad-"]
 ||virgilio.it/src_tag_sponsor_
 ||vivafm.it^*/banners/
 ||vivereancona.it/images/banners_
+||viverejesi.it/images/banners_
 ||voceditalia.it/banner.js
 ||voceditalia.it/banner/
 ||voceditalia.it/banner_ev.js
@@ -2102,7 +2106,7 @@ piacenzanight.com##.back_style
 avmagazine.it,corrierediragusa.it,ilcrotonese.it,tomshw.it##.background-link
 lavorincasa.it##.bak
 milanofinanza.it,oggitreviso.it##.ban
-advertiser.it,agi.it,agichina24.it,airdave.it,alessandrianews.it,america24.com,casateonline.it,corrieredelgiorno.com,corrieremercantile.it,finanzaonline.com,gazzettahockey.it,giochidicalcio.com,html.it,ilcambiamento.it,ilfriuli.it,ilgiornale.it,insegreto.it,lindro.it,lipari.biz,macitynet.it,merateonline.it,oggitreviso.it,orangedropdesign.com,orvietosi.it,pmi.it,programmitv.com,pubblicitaitalia.it,r101.it,rcdc.it,rockit.it,softonic.it,strettoweb.com,tenews.it,ticinolibero.ch,ultimouomo.com,vocenuova.tv##.banner
+advertiser.it,agi.it,agichina24.it,airdave.it,alessandrianews.it,america24.com,casateonline.it,corrieredelgiorno.com,corrieremercantile.it,dagospia.com,finanzaonline.com,gazzettahockey.it,giochidicalcio.com,html.it,ilcambiamento.it,ilfriuli.it,ilgiornale.it,insegreto.it,lindro.it,lipari.biz,macitynet.it,merateonline.it,meteoweb.eu,oggitreviso.it,orangedropdesign.com,orvietosi.it,pmi.it,programmitv.com,pubblicitaitalia.it,r101.it,rcdc.it,rockit.it,softonic.it,strettoweb.com,tenews.it,ticinolibero.ch,ultimouomo.com,vocenuova.tv##.banner
 rollingstonemagazine.it##.banner-abbonamenti
 telesud3.com##.banner-destra
 telesud3.com##.banner-destra-tyf
@@ -2200,6 +2204,8 @@ ilsoftware.it##.boxDXa.txt3
 chip.it##.boxHardware
 liberoquotidiano.it##.box_12
 milaninterradio.tv##.box_300_250
+tuttosport.com##.box_Banner
+tuttosport.com##.box_LeaderBoard
 calcioblog.it##.box_highlight
 omniauto.it##.box_listinousato
 35mm.it##.box_rightcol_banner1
@@ -2493,6 +2499,7 @@ ultimissime.net##div[style="margin:auto; background-image:url('/images/stories/p
 serviziopubblico.it##div[style="min-height:90px;"]
 agichina24.it##div[style="overflow: hidden; width: 459px; height: 27px;"]
 liguriawebcam.com##div[style="overflow:hidden;height:90px;margin:4px 0;"]
+freeones.it##div[style="padding: 0px; margin: 10px 0px; height: 100px; width: 898px; background-color: #4C89F9; border: 1px solid #4C89F9"]
 puntosicuro.it##div[style="padding: 5px; font-family: Verdana, Arial; font-size: 10px;"]
 giornaledicomo.it,tempi.it##div[style="position: relative; height: 250px; width: 300px;"]
 telefonino.net##div[style="position: relative;width: 310px;height: 110px;margin: 0px -5px 5px -5px;"]
