@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "__MSG_extName__",
     "short_name": "HTTPSB",
-    "version": "1.0.1.4",
+    "version": "1.0.1.5",
     "description": "__MSG_extShortDesc__",
     "icons": {
         "16": "icon_16.png",
