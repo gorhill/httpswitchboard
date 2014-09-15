@@ -33,16 +33,11 @@ var friendlyTypeNames = {
     '*': '\u2217',
     'cookie': 'cookie',
     'stylesheet': 'css',
-    'css': 'css',
     'image': 'img',
     'object': 'plugin',
-    'plugin': 'plugin',
     'script': 'script',
     'xmlhttprequest': 'XHR',
-    'xhr': 'XHR',
-    'XHR': 'XHR',
     'sub_frame': 'frame',
-    'frame': 'frame',
     'other': 'other'
 };
 
