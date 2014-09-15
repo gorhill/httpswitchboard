@@ -33,11 +33,35 @@ var friendlyTypeNames = {
     '*': '\u2217',
     'cookie': 'cookie',
     'stylesheet': 'css',
+    'css': 'css',
     'image': 'img',
     'object': 'plugin',
+    'plugin': 'plugin',
     'script': 'script',
     'xmlhttprequest': 'XHR',
+    'xhr': 'XHR',
+    'XHR': 'XHR',
     'sub_frame': 'frame',
+    'frame': 'frame',
+    'other': 'other'
+};
+
+var machineTypeNames = {
+    '*': '*',
+    '\u2217': '*',
+    'cookie': 'cookie',
+    'stylesheet': 'stylesheet',
+    'css': 'stylesheet',
+    'image': 'image',
+    'img': 'image',
+    'object': 'object',
+    'plugin': 'object',
+    'script': 'script',
+    'xmlhttprequest': 'xmlhttprequest',
+    'xhr': 'xmlhttprequest',
+    'XHR': 'xmlhttprequest',
+    'sub_frame': 'sub_frame',
+    'frame': 'sub_frame',
     'other': 'other'
 };
 
@@ -66,7 +90,7 @@ function renderRuleToRecipeString(rule) {
 }
 
 function renderRecipeStringToRule(recipe) {
-    var parts = recipe.match(/^        ([a-z*_]+) +([-.:a-z0-9*]+)$/);
+    var parts = recipe.match(/^        ([a-z*_]+) +([-.:a-z0-9*]+)$/i);
     if ( !parts ) {
         return false;
     }
@@ -76,11 +100,10 @@ function renderRecipeStringToRule(recipe) {
         return false;
     }
     // Validate type
-    var type = parts[1];
-    if ( !friendlyTypeNames[parts[1]] ) {
+    if ( machineTypeNames.hasOwnProperty(parts[1]) === false ) {
         return false;
     }
-    return type + '|' + hostname;
+    return machineTypeNames[parts[1]] + '|' + hostname;
 }
 
 /******************************************************************************/
