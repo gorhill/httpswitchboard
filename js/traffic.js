@@ -756,7 +756,7 @@ var onMainDocHeadersReceived = function(details) {
     // inject CSP for XML documents, rather then not inject CSP if not a 
     // HTML document in order to limit to a minimum the change in behavior.
     i = headerIndexFromName('content-type', headers);
-    if ( i === -1 || headers[i].value.search('text/xml') !== -1 ) {
+    if ( i !== -1 && headers[i].value.indexOf('text/xml') !== -1 ) {
         return;
     }
 
