@@ -7,7 +7,7 @@ cb1f8dc3b5aa5fabe113a0e4e7068893 assets/httpsb/setup/httpsb-block-all-narrowly-a
 b869255b8152f363dee21e8427e27c34 assets/httpsb/setup/httpsb-block-nothing-report-everything-setup.txt
 229b68f9695fb1a597b29f344a185939 assets/httpsb/setup/httpsb-allow-all-block-exceptionally-setup.txt
 ccd4abb2f8714009b147edd34e6a52d6 assets/httpsb/setup/httpsb-factory-setup.txt
-188ce926323d816ae9d7d5ebbb567862 assets/httpsb/blacklist.txt
+6259d4c0c7314b4047d3ab6216dba24f assets/httpsb/blacklist.txt
 847b801091b64d0bfb1dcd2f7c6fe204 assets/httpsb/block-facebook.txt
 fb55d70ecc242116235092e9c21df24e assets/httpsb/preset-recipes-3rd.yaml
 54f7032c0e7ef73feb32d3c5437b8694 assets/thirdparties/download.wiltteri.net/wiltteri.txt
