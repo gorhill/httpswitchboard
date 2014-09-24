@@ -1,7 +1,7 @@
 [Adblock Plus 2.0]
-! Checksum: i2zzo+Nc+shhQVP+0881aA
-! Version: 201409151330
-! Last modified: 15 Sep 2014 13:30 UTC
+! Checksum: K5V8iMjQHgMriA+1haHdFg
+! Version: 201409242110
+! Last modified: 24 Sep 2014 21:10 UTC
 ! Homepage: http://ruadlist.googlecode.com/
 !
 ! Дополнительная региональная подписка RU AdList к подписке EasyList
@@ -130,6 +130,7 @@
 ||fileplaneta.com/?op=redirect_to&url=$popup
 ||fotostrana.ru/start/*/?$popup
 ||funtest-ru.com^$popup
+||gamebomb.ru/gaming.$popup
 ||garmin.ru/virb/?$popup,domain=pikabu.ru
 ||goodsbrowser.com^$popup
 ||image2you.ru^$popup
@@ -1797,6 +1798,7 @@ _tizers.
 //95.211.125.226^
 ||0ux.ru^
 ||12-dd-2.net^
+||123retr312.ru^
 ||1traff.ru^
 ||1under.ru^
 ||2-tr-45.net^
@@ -2193,6 +2195,7 @@ _tizers.
 ||houmekredit.ru^
 ||hugedi.com^
 ||i-adv.biz^
+||iadv.biz^
 ||iberacon.com^
 ||icqad001.net^
 ||icqad002.net^
@@ -2324,6 +2327,7 @@ _tizers.
 ||live-advert.net^
 ||livea.ru^
 ||livingy.com^
+||lmcuba.us^
 ||locandito.com^
 ||locoday.com^
 ||loneday.com^
@@ -2961,12 +2965,14 @@ goha.ru###branding
 pikabu.ru###branding_ad_comment
 pikabu.ru###branding_ad_footer
 pikabu.ru###branding_ad_header
+hdfilms.tv###branding_link
 world-mmo.com###brend
 hentai-imperia.com,imperia-of-hentai.biz,imperia-of-hentai.net###cc_fm_prem
 xxx-base.org###center2 > .block
 dota2.ru###click
 dota2.ru###click2
 last.by###dbtn2
+krasview.ru###dynamic-content > noindex
 afisha.ru,zdsimulator.com.ua###flashContent
 tvnet.lv###footer_banner
 gameround.ru###global_back_link
@@ -2980,6 +2986,7 @@ now.ru###lightbox
 now.ru###lightboxOverlay
 rupier.com###logo > noindex
 mediachat.ru###ma > .obl
+gamebomb.ru###main--background
 mega-tracker.net###mb_top_space
 tapochek.net###page_header td[width="230"] + td
 programmersforum.ru###pagenav_menu + center
@@ -3019,17 +3026,20 @@ sexytales.org##.contentBox > noindex
 sivator.com##.edina > a[href="http://monstro-beats.com/"]
 vgtimes.ru##.fixed_panel > a[style^="display"]
 bountyporn.com,pornoneverdie.com##.fly_player
+unionpeer.org##.genmed
 dota2.ru##.hadv-block
 dota2.ru##.headshop:not([href^="/shop/"])
 iccup.com##.imageBgLeft
 iccup.com##.imageBgRight
 sinoptik.ua##.informerTop
+promodj.com##.js-core_branding
 brb.to,cxz.to,fs.to##.l-body-branding-link
 my-cinema.net##.left-a
 adultmanga.ru,doramatv.ru,findanime.ru,grouple.ru,readmanga.me,selfmanga.ru##.left-branding
 onedivision.ru##.left-branding-container
 allmoldova.com##.left_banner > a[target="_blank"]
 winzoro.net##.left_block_e img:not([src^="/uploads/posts/"])
+anistar.ru##.link_brend
 tvnet.lv##.list.customer
 torrent-pirat.com##.logo + div
 glav.su##.ma_block
@@ -3068,6 +3078,7 @@ nur.kz##.travel-slider__holder
 dota2.ru##.vadv-block
 nur.kz##.wallpaper
 5peciali5t.tk##.widget-content > a > img[width="200"]
+fast-torrent.ru##.wrap > .block ~ div:not(.block)
 opensharing.org##:not(#index) > table > tbody > .backgr
 opensharing.org##:not(#index) > table > tbody > .backgr ~ tr
 gamer-info.com##[class^="br-"]
@@ -3078,15 +3089,14 @@ zaycev.net##a[href="http://www.admiralmarkets.ru/webinars"]
 pornoboss.tv##a[href^="/go.php?id="]
 alogvinov.com,compulenta.ru,computerra.ru,f1news.ru,fishki.net,gamemag.ru,gismeteo.ru,gotps3.ru,sovsport.ru,sportbox.ru,thg.ru##a[href^="http://ad.adriver."]
 drochunov.net##a[href^="http://chtoumenja.biz/in.htm?wm="]
-tapochek.net##a[href^="http://download.mediaplay.ru/"]
+tapochek.net,unionpeer.org##a[href^="http://download.mediaplay.ru/"]
+unionpeer.org##a[href^="http://filesboom.ru/download?"],a[href^="http://forces.loading-master.ru/"]
 tapochek.net##a[href^="http://firstvds.ru/products/"]
-unionpeer.org##a[href^="http://forces.loading-master.ru/"]
 game-10.ru##a[href^="http://game-10.ru/i.php?url=http://www.adcash.com/"]
 cwer.ws##a[href^="http://orbitum."][rel="nofollow"]
 epravda.com.ua##a[href^="http://ua.hit.gemius.pl/hitredir/id="]
 futurevideo.su##a[href^="http://www.futurevideo.su/rtr/"]
 porno-monster.ru##a[href^="http://www.mirorgazma.ru/?partner="]
-goodgame.ru##a[id^="banner-"]
 chesalka.com##a[rel="nofollow"] > img[src^="/"]
 allesuper.ru##a[target="_blank"][href^="/go?"] > img[src^="/uploads/"]
 magtimes.info##aside img[src^="http://magtimes.info/wp-content/uploads/"]
@@ -4064,7 +4074,6 @@ kanobu.ru##a[href^="http://brandings.kanobu.ru/click/"]
 tapochek.net##a[href^="http://casino-x.com/?partner="]
 adultmult.tv##a[href^="http://cityadspix.com/click-"]
 topwar.ru##a[href^="http://cpm.worldoftanks.com?code="]
-unionpeer.org##a[href^="http://download.mediaplay.ru/"]
 torrentino.com##a[href^="http://go.admulti.com/clicks/"]
 z-music.org##a[href^="http://i100.ru"]
 mainspy.ru##a[href^="http://mainspy.ru/banner/"]
@@ -4373,6 +4382,7 @@ softobase.com##.gc-question-ads-2
 popmech.ru##.grid-cell[class*="article-banner-"]
 popmech.ru##.grid-cell__4.grid-cell__no-hover
 popmech.ru##.grid-cell__tgb
+i.ua##.header_adv
 101.ru##.ind-adv-carousel
 comss.ru##.links ~ .box
 3mv.ru##.logo
@@ -4515,6 +4525,7 @@ _advideo/$object-subrequest,domain=megogo.net
 ||animemaga.ru^*/blog/layers/
 ||animenfo.com/*/ads/
 ||animeonline.su^*/images/da/
+||anistar.ru/uploads/fon
 ||ankontr.if.ua/images/mod_banners/
 ||ankontr.if.ua/swf/
 ||antec.com/*/web_banner/$domain=hw-lab.com
@@ -4770,6 +4781,7 @@ _advideo/$object-subrequest,domain=megogo.net
 ||goldenshara.com/misc/js/golde_link.js
 ||golosua.com/img/banners/
 ||good73.net^$object
+||goodgame.ru^*/www/
 ||gorod.cn.ua/*/banners/
 ||gorod.cn.ua/*/brending/
 ||gorodkirov.ru/kaFile?b_id=
@@ -4790,6 +4802,7 @@ _advideo/$object-subrequest,domain=megogo.net
 ||gzt.ru/upload/*.rklite/
 ||hacker-pro.net/banner/
 ||hdclub.org/mg/
+||hdfilms.tv/images/bg/
 ||hdserials.tv^$object
 ||hdtrailer.ru/images/bg/
 ||hdtv.ru/resources/$object
@@ -4903,7 +4916,7 @@ _advideo/$object-subrequest,domain=megogo.net
 ||koob.ru/cache/
 ||kozhuhovo.com/!images/banners/
 ||kpcdn.net^*/banner_img/
-||krasview.ru/branding/
+||krasview.ru/content/stargate/
 ||krisha.kz^*/br/
 ||kronverkcinema.ru/sadm_files/banners/
 ||kset.kz/vda.
@@ -5166,6 +5179,7 @@ _advideo/$object-subrequest,domain=megogo.net
 ||prom.x-lime.net^
 ||promodeejay.net/branding/
 ||promodj.com/brandings/
+||promodj.com/legacy/i/branding/
 ||prostopleer.com/t.php?
 ||prostoporno.net/br_
 ||proxyweb.net/js/dhtmlwindow.js
@@ -5408,11 +5422,12 @@ _advideo/$object-subrequest,domain=megogo.net
 ||xakep.ru/post/*_final.jpg
 ||xenforo.info/728.swf
 ||xf.xyu.tv^
+||xfont.ru^*/add_ref/
 ||xmages.net/*/banner/
 ||xxx-russian.ru/js/38fbf0.js
 ||xxx-tracker.com/pics/
 ||xxxmir.info/play.js
-||xyya.net/banner/
+||xyya.net/sha$script
 ||yapfiles.com^$third-party
 ||yaplakal.com/html/$subdocument
 ||yaplakal.com/html/bans/
@@ -5942,6 +5957,8 @@ izvestia.ru##div[style*="/popup-banner/"]
 @@||bash.im/webmaster|$elemhide
 @@||beeline.ru/ban/$domain=beeline.ru
 @@||beeline.ru/media/banners/$domain=beeline.ru
+@@||begun.ru/video.jsp?$domain=vidin.ru
+@@||begun.ru/vpaid_lib.swf|$domain=vidin.ru
 @@||changecopyright.ru/bannersout/
 @@||com/banners/$domain=akprior.com|eurobank-ua.com|maingear.com
 @@||content.videoclick.ru/crossdomain.xml|$object-subrequest,domain=~vefire.ru
@@ -5972,6 +5989,8 @@ izvestia.ru##div[style*="/popup-banner/"]
 @@||my.south.rt.ru^$document
 @@||myband.info/advert/$~third-party
 @@||myradio24.com/informer.php
+@@||ngads.com/crossdomain.xml|$object-subrequest,domain=kongregate.com
+@@||ngads.com/gateway_$object-subrequest,domain=kongregate.com
 @@||nic.ru/styles/advertising.css$domain=nic.ru
 @@||now.ru/minify/index.php?$script,domain=now.ru
 @@||now.ru/www/delivery/fc.php?
@@ -6132,6 +6151,7 @@ chatovod.ru#@#.withAds
 @@||luxup.ru^$script,domain=99px.ru
 @@||moonwalk.cc^$image,subdocument,domain=moonwalk.cc
 @@||olegon.ru^$elemhide
+@@||onclickads.net/adv/$image,domain=moonwalk.cc
 @@||online.ua/adsence.js|$domain=online.ua
 @@||paste.org/style/adframe.js$domain=paste.org
 @@||pesikot.org^*/advert.js|$domain=pesikot.org
@@ -6180,8 +6200,10 @@ all-episodes.com##div[class^="bn_"]
 @@||medialand.ru/code?*&oin=0&$script,domain=qip.ru|rbc.ru|smotri.com|utro.ru
 @@||medialand.ru/inline_redirect.$script,domain=smotri.com
 @@||medialand.ru/t/$script,domain=qip.ru
-@@||medialand.ru/test?$script,domain=qip.ru
+@@||medialand.ru/test?$script,domain=qip.ru|rbc.ru
 @@||medialand.ru/webtoolkit.$script,domain=smotri.com
+@@||medialand.ru^*/base.js?$script,domain=rbc.ru
+@@||medialand.ru^*/inline.js?$script,domain=rbc.ru
 @@||medialand.ru^*/magna.js$domain=glav.su
 @@||premium.mbn.com.ua^$script,domain=ura-inform.com
 @@||rbc.magna.ru/xml_out/?$domain=utro.ru
