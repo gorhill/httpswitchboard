@@ -1,6 +1,6 @@
 # HTTP Switchboard for Chromium
 
-**Important:** No longer developed. Project has been split into two distinct, more advanced extensions: [µBlock](https://github.com/gorhill/uBlock) and [µMatrix](https://github.com/gorhill/uMatrix).
+**Important:** No longer developed. Project has been split into two distinct, more advanced extensions: [uBlock Origin](https://github.com/gorhill/uBlock) and [uMatrix](https://github.com/gorhill/uMatrix).
 
 ***
 
