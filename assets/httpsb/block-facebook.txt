@@ -4,8 +4,4 @@
 # If there is more to add, ask for a pull request
 
 facebook-web-clients.appspot.com
-facebook.com
-facebook.net
-fbcdn.net
-fbstatic-a.akamaihd.net
 
